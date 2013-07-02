@@ -18,13 +18,6 @@
       <id>gedoplanPublic</id>
       <url>http://svn.involva-gruppe.de/nexus/content/groups/public</url>
     </repository>
-
-    <!--
-    <repository>
-      <id>gedoplanPrivate</id>
-      <url>${mvnRepoUrl.gedoplanPrivate}</url>
-    </repository>
-    -->
   </repositories>
 
   <pluginRepositories>
@@ -33,11 +26,6 @@
       <url>http://svn.involva-gruppe.de/nexus/content/groups/public</url>
     </pluginRepository>
   </pluginRepositories>
-
-  <scm>
-    <connection>scm:svn:https://svn.involva-gruppe.de/repos/v5t11/trunk</connection>
-    <developerConnection>scm:svn:https://svn.involva-gruppe.de/repos/v5t11/trunk</developerConnection>
-  </scm>
 
   <build>
     <pluginManagement>
