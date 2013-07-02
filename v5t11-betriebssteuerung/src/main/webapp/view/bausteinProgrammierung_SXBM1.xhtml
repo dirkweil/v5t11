@@ -1,0 +1,52 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:c="http://java.sun.com/jsp/jstl/core"
+  xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <title>V5T11: Baustein-Programmierung (SXBM1)</title>
+</h:head>
+
+<h:body>
+
+  <h2>Baustein-Programmierung</h2>
+
+  <h:panelGrid columns="2">
+    <h:outputText value="Typ: " />
+    <h:outputText value="#{bausteinProgrammierungModel.currentBaustein.class.simpleName}" />
+
+    <h:outputText value="Id: " />
+    <h:outputText value="#{bausteinProgrammierungModel.currentBaustein.id}" />
+
+    <h:outputText value="Einbauort: " />
+    <h:outputText value="#{bausteinProgrammierungModel.currentBaustein.einbauOrt}" />
+  </h:panelGrid>
+  
+  <hr/>
+
+  <h:form>
+    <h:panelGrid columns="5">
+      <h:panelGroup />
+      <h:outputText value="Soll" />
+      <h:panelGroup />
+      <h:outputText value="Ist" />
+      <h:panelGroup />
+
+      <h:outputText value="Adresse: " />
+      <p:inputText value="#{bausteinProgrammierungModel_SXBM1.configuration.adresseSoll}" readonly="true" />
+      <p:commandButton value=">" action="#{bausteinProgrammierungModel_SXBM1.configuration.adresseResetToSoll()}" ajax="false" />
+      <p:inputText value="#{bausteinProgrammierungModel_SXBM1.configuration.adresseIst}" id="istAdresse" />
+      <p:message for="istAdresse" />
+
+      <h:outputText value="Abfallverzögerung: " />
+      <p:inputText value="#{bausteinProgrammierungModel_SXBM1.configuration.abfallVerzoegerung.soll}" readonly="true" />
+      <p:commandButton value=">" action="#{bausteinProgrammierungModel_SXBM1.configuration.abfallVerzoegerung.resetToSoll()}" ajax="false" />
+      <p:inputText value="#{bausteinProgrammierungModel_SXBM1.configuration.abfallVerzoegerung.ist}" id="istAbfallVerzoegerung" />
+      <p:message for="istAbfallVerzoegerung" />
+    </h:panelGrid>
+
+    <p:commandButton value="programmieren" actionListener="#{bausteinProgrammierungModel_SXBM1.program()}" action="closeProgMode" ajax="false"/>
+    <p:commandButton value="abbrechen" action="closeProgMode" immediate="true" ajax="false"/>
+  </h:form>
+
+</h:body>
+</html>

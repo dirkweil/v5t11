@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#ffffffff"
+    android:orientation="vertical" >
+
+   <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:background="#ffffffff"
+	android:layout_height="?android:attr/listPreferredItemHeight"
+	android:padding="6dip">
+
+	<ImageView android:id="@+id/iconSlidebar"
+		android:layout_alignParentLeft="true"
+		android:layout_alignParentTop="true"
+		android:layout_marginRight="6dip"
+		android:layout_width="wrap_content"
+		android:layout_height="fill_parent" />
+	
+	<TextView android:id="@+id/text1Slidebar"
+		android:textAppearance="?android:attr/textAppearanceMedium"
+		android:textColor="#ff000000"
+		android:layout_marginTop="4dip"
+		android:layout_toRightOf="@id/iconSlidebar"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content" />
+	
+	<TextView android:id="@+id/text2Slidebar"
+		android:textAppearance="?android:attr/textAppearanceSmall"  
+		android:layout_below="@id/text1Slidebar"
+		android:layout_alignLeft="@id/text1Slidebar"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content" />
+	
+</RelativeLayout>
+
+
+    <LinearLayout
+        android:id="@+id/LinearLayout01"
+        android:layout_width="match_parent"
+        android:layout_height="348dp"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="423dp" >
+
+            <de.gedoplan.v5t11.verticalslidebar.VerticalSeekBar
+                android:id="@+id/SeekBar02"
+                android:layout_width="100dp"
+                android:layout_height="300dp"
+                android:progressDrawable="@drawable/progress_vertical"
+                android:thumb="@drawable/seek_thumb_wide" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+                <Button
+                    android:id="@+id/richtung"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:text="@string/button_richtung_aendern_rueckwaerts"/>
+
+                <Button
+                    android:id="@+id/licht"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:text="@string/button_licht_ausschalten" />
+
+                <Button
+                    android:id="@+id/nothalt"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:text="@string/button_nothalt" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

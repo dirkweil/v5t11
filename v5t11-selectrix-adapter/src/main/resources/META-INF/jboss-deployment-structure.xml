@@ -1,0 +1,8 @@
+<jboss-deployment-structure>
+  <deployment>
+    <dependencies>
+      <!-- RXTX als Modul referenzieren; s. additional/jboss/modules -->
+      <module name="org.rxtx.rxtx" />
+    </dependencies>
+  </deployment>
+</jboss-deployment-structure>
