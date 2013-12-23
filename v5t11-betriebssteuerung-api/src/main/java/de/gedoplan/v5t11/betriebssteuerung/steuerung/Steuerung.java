@@ -8,6 +8,7 @@ import de.gedoplan.v5t11.betriebssteuerung.steuerung.baustein.LokController;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.baustein.Zentrale;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.baustein.besetztmelder.BMMiba3;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.baustein.besetztmelder.SXBM1;
+import de.gedoplan.v5t11.betriebssteuerung.steuerung.baustein.funktionsdecoder.SD8;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.baustein.funktionsdecoder.STRFD1;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.baustein.funktionsdecoder.SXSD1;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.baustein.funktionsdecoder.WDMiba;
@@ -79,7 +80,7 @@ public class Steuerung implements SelectrixMessageListener, Serializable
   SortedSet<Besetztmelder>                 besetztmelder                   = new TreeSet<>();
 
   @XmlElementWrapper(name = "Funktionsdecoder")
-  @XmlElements({ @XmlElement(name = "STRFD1", type = STRFD1.class), @XmlElement(name = "SXSD1", type = SXSD1.class), @XmlElement(name = "WDMiba", type = WDMiba.class),
+  @XmlElements({ @XmlElement(name = "SD8", type = SD8.class), @XmlElement(name = "STRFD1", type = STRFD1.class), @XmlElement(name = "SXSD1", type = SXSD1.class), @XmlElement(name = "WDMiba", type = WDMiba.class),
       @XmlElement(name = "WDMiba3", type = WDMiba3.class) })
   private SortedSet<Funktionsdecoder>      funktionsdecoder                = new TreeSet<>();
 
