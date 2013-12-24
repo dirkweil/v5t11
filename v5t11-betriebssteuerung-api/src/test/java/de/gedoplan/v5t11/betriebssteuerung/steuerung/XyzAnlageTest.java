@@ -20,7 +20,7 @@ public abstract class XyzAnlageTest
   protected Steuerung steuerung;
 
   @Test
-  // @Ignore
+  @Ignore
   public void showSteuerung()
   {
     System.out.println(this.steuerung.toDebugString(false));
@@ -48,7 +48,7 @@ public abstract class XyzAnlageTest
   }
 
   @Test
-  @Ignore
+  //  @Ignore
   public void showFreieBesetztmelder()
   {
     for (Besetztmelder besetztmelder : this.steuerung.getBesetztmelder())
