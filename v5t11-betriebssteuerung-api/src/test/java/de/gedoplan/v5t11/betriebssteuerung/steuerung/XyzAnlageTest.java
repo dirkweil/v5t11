@@ -48,7 +48,7 @@ public abstract class XyzAnlageTest
   }
 
   @Test
-  //  @Ignore
+  @Ignore
   public void showFreieBesetztmelder()
   {
     for (Besetztmelder besetztmelder : this.steuerung.getBesetztmelder())

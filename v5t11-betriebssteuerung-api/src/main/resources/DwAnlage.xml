@@ -295,7 +295,7 @@
     <STRFD1 id="FD-05" adr="74">
       <Weiche idx="1" bereich="Fensterhausen" name="15" />
     </STRFD1>
-    <SD8 id="FD-06" adr="75">
+    <SD8 id="FD-06" adr="75" einbauort="Ebene 0, unter BHf Fensterhausen, rechts, Nähe Weichen 20, 21 etc.">
       <Weiche idx="0" bereich="Fensterhausen" name="22" />
       <Weiche idx="1" bereich="Fensterhausen" name="20" />
       <Weiche idx="2" bereich="Fensterhausen" name="21" />
