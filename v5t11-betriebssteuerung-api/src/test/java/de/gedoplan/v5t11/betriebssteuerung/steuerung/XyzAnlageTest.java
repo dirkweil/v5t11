@@ -100,6 +100,19 @@ public abstract class XyzAnlageTest
 
   @Test
   @Ignore
+  public void showFunktionsdekoder()
+  {
+    for (Funktionsdecoder funktionsdecoder : this.steuerung.getFunktionsdecoder())
+    {
+      if (funktionsdecoder.getAdresse() >= 70)
+      {
+            System.out.println(funktionsdecoder + ": " + funktionsdecoder.getEinbauOrt());
+      }
+    }
+  }
+
+  @Test
+  @Ignore
   public void showBlockstellen()
   {
     for (BlockstellenKonfiguration blockstellenKonfiguration : this.steuerung.getBlockstellenKonfigurationen())
