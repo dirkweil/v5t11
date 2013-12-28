@@ -37,23 +37,30 @@
   <LokController id="Zentrale 9" adr="9" />
 
   <Besetztmelder>
-    <SXBM1 id="BM-01" adr="90">
-      <Gleisabschnitt idx="0" bereich="Fensterhausen" name="W18" />
-      <Gleisabschnitt idx="1" bereich="Fensterhausen" name="W26" />
-      <Gleisabschnitt idx="2" bereich="Fensterhausen" name="W24" />
-      <Gleisabschnitt idx="3" bereich="Fensterhausen" name="W21" />
-      <Gleisabschnitt idx="3" bereich="Fensterhausen" name="W23" />
-      <Gleisabschnitt idx="4" bereich="Fensterhausen" name="W22" />
-      <Gleisabschnitt idx="4" bereich="Fensterhausen" name="W25" />
+    <SXBM1 id="BM-2003-1" adr="90" einbauOrt="Ebene 0, unter Bhf. Fensterhausen, hinterer Rand, rechts">
+      <Gleisabschnitt idx="3" bereich="Fensterhausen" name="17-20" />
       <Gleisabschnitt idx="5" bereich="Fensterhausen" name="W15" />
-      <Gleisabschnitt idx="5" bereich="Fensterhausen" name="W17" />
-      <Gleisabschnitt idx="6" bereich="Fensterhausen" name="W19" />
       <Gleisabschnitt idx="7" bereich="Fensterhausen" name="9" />
       <properties>
         <property name="abfallVerzoegerung" value="2000" />
       </properties>
     </SXBM1>
-    <SXBM1 id="BM-02" adr="92">
+    <SXBM1 id="BM-2013-1" adr="91" einbauOrt="Ebene 0, unter Bhf. Fensterhausen, hinterer Rand, rechts">
+      <Gleisabschnitt idx="0" bereich="Fensterhausen" name="W18" />
+      <Gleisabschnitt idx="1" bereich="Fensterhausen" name="W20" />
+      <Gleisabschnitt idx="2" bereich="Fensterhausen" name="W19" />
+      <Gleisabschnitt idx="3" bereich="Fensterhausen" name="W26" />
+      <Gleisabschnitt idx="4" bereich="Fensterhausen" name="W21" />
+      <Gleisabschnitt idx="4" bereich="Fensterhausen" name="W23" />
+      <Gleisabschnitt idx="5" bereich="Fensterhausen" name="W22" />
+      <Gleisabschnitt idx="5" bereich="Fensterhausen" name="W25" />
+      <Gleisabschnitt idx="6" bereich="Fensterhausen" name="W24" />
+      <Gleisabschnitt idx="7" bereich="Fensterhausen" name="W17" />
+      <properties>
+        <property name="abfallVerzoegerung" value="2000" />
+      </properties>
+    </SXBM1>
+    <SXBM1 id="BM-2003-2" adr="92" einbauOrt="Ebene 0, unter Bhf. Fensterhausen, hinterer Rand, rechts">
       <Gleisabschnitt idx="0" bereich="Fensterhausen" name="46" />
       <Gleisabschnitt idx="1" bereich="Fensterhausen" name="29" />
       <Gleisabschnitt idx="2" bereich="Fensterhausen" name="5" />
@@ -66,7 +73,7 @@
         <property name="abfallVerzoegerung" value="2000" />
       </properties>
     </SXBM1>
-    <SXBM1 id="BM-03" adr="93">
+    <SXBM1 id="BM-2003-3" adr="93">
       <Gleisabschnitt idx="0" bereich="Niederbach" name="25" />
       <Gleisabschnitt idx="1" bereich="Niederbach" name="3" />
       <Gleisabschnitt idx="2" bereich="Schattenbahnhof2" name="E" />
@@ -79,7 +86,7 @@
         <property name="abfallVerzoegerung" value="2000" />
       </properties>
     </SXBM1>
-    <SXBM1 id="BM-04" adr="94">
+    <SXBM1 id="BM-2003-4" adr="94">
       <Gleisabschnitt idx="1" bereich="Fensterhausen" name="N" />
       <Gleisabschnitt idx="3" bereich="Niederbach" name="H" />
       <Gleisabschnitt idx="4" bereich="Niederbach" name="13" />
@@ -90,7 +97,7 @@
         <property name="abfallVerzoegerung" value="2000" />
       </properties>
     </SXBM1>
-    <SXBM1 id="BM-05" adr="95">
+    <SXBM1 id="BM-2003-5" adr="95">
       <Gleisabschnitt idx="0" bereich="Fensterhausen" name="3" />
       <Gleisabschnitt idx="1" bereich="Fensterhausen" name="19" />
       <Gleisabschnitt idx="2" bereich="Fensterhausen" name="18" />
@@ -103,7 +110,7 @@
         <property name="abfallVerzoegerung" value="2000" />
       </properties>
     </SXBM1>
-    <SXBM1 id="BM-06" adr="100">
+    <SXBM1 id="BM-2003-6" adr="100">
       <Gleisabschnitt idx="0" bereich="Schattenbahnhof1" name="5" />
       <Gleisabschnitt idx="1" bereich="Schattenbahnhof1" name="4" />
       <Gleisabschnitt idx="2" bereich="Schattenbahnhof1" name="3" />
@@ -115,7 +122,7 @@
         <property name="abfallVerzoegerung" value="2000" />
       </properties>
     </SXBM1>
-    <SXBM1 id="BM-07" adr="101">
+    <SXBM1 id="BM-2003-7" adr="101">
       <Gleisabschnitt idx="0" bereich="Schattenbahnhof2" name="K" />
       <Gleisabschnitt idx="1" bereich="Schattenbahnhof2" name="A" />
       <Gleisabschnitt idx="2" bereich="Schattenbahnhof2" name="1" />
@@ -128,7 +135,7 @@
         <property name="abfallVerzoegerung" value="2000" />
       </properties>
     </SXBM1>
-    <SXBM1 id="BM-08" adr="102">
+    <SXBM1 id="BM-2003-8" adr="102">
       <Gleisabschnitt idx="0" bereich="Schattenbahnhof2" name="13" />
       <Gleisabschnitt idx="1" bereich="Schattenbahnhof2" name="11" />
       <Gleisabschnitt idx="2" bereich="Schattenbahnhof2" name="14" />
@@ -141,7 +148,7 @@
         <property name="abfallVerzoegerung" value="2000" />
       </properties>
     </SXBM1>
-    <SXBM1 id="BM-09" adr="103">
+    <SXBM1 id="BM-2003-9" adr="103">
       <Gleisabschnitt idx="0" bereich="Fensterhausen" name="LA" />
       <Gleisabschnitt idx="1" bereich="Fensterhausen" name="LE" />
       <Gleisabschnitt idx="2" bereich="Schattenbahnhof1" name="A" />
@@ -159,12 +166,12 @@
       Ab hier folgen Pseudo-Besetztmelder mit Adressen 5x, die nicht wirklich vorhanden sind, sondern nur die bislang nicht
       verdrahteten Gleisabschnitte erfassen. Ziel ist es, dies auf echte Melder umzuhängen. 
      -->
-    <SXBM1 id="BM-d1" adr="50">
+    <SXBM1 id="BM-dummy-1" adr="50">
       <Gleisabschnitt idx="0" bereich="Fensterhausen" name="L4" />
       <Gleisabschnitt idx="1" bereich="Fensterhausen" name="L2" />
     </SXBM1>
 
-    <SXBM1 id="BM-d2" adr="51">
+    <SXBM1 id="BM-dummy-2" adr="51">
       <Gleisabschnitt idx="0" bereich="Fensterhausen" name="W1" />
       <Gleisabschnitt idx="1" bereich="Fensterhausen" name="W2" />
       <Gleisabschnitt idx="2" bereich="Fensterhausen" name="W3" />
@@ -175,7 +182,7 @@
       <Gleisabschnitt idx="7" bereich="Fensterhausen" name="W8" />
     </SXBM1>
 
-    <SXBM1 id="BM-d3" adr="52">
+    <SXBM1 id="BM-dummy-3" adr="52">
       <Gleisabschnitt idx="0" bereich="Fensterhausen" name="W9" />
       <Gleisabschnitt idx="1" bereich="Fensterhausen" name="W10" />
       <Gleisabschnitt idx="2" bereich="Fensterhausen" name="W11" />
@@ -185,20 +192,15 @@
       <Gleisabschnitt idx="7" bereich="Fensterhausen" name="W16" />
     </SXBM1>
 
-    <SXBM1 id="BM-d4" adr="53">
-      <Gleisabschnitt idx="3" bereich="Fensterhausen" name="W20" />
-    </SXBM1>
-
-    <SXBM1 id="BM-d5" adr="54">
+    <SXBM1 id="BM-dummy-5" adr="54">
       <Gleisabschnitt idx="2" bereich="Fensterhausen" name="W101" />
       <Gleisabschnitt idx="3" bereich="Fensterhausen" name="W102" />
       <Gleisabschnitt idx="4" bereich="Fensterhausen" name="W103" />
       <Gleisabschnitt idx="5" bereich="Fensterhausen" name="13-16" />
-      <Gleisabschnitt idx="6" bereich="Fensterhausen" name="17-20" />
       <Gleisabschnitt idx="7" bereich="Fensterhausen" name="38-39" />
     </SXBM1>
 
-    <SXBM1 id="BM-d6" adr="55">
+    <SXBM1 id="BM-dummy-6" adr="55">
       <Gleisabschnitt idx="0" bereich="Schattenbahnhof1" name="W1" />
       <Gleisabschnitt idx="1" bereich="Schattenbahnhof1" name="W2" />
       <Gleisabschnitt idx="2" bereich="Schattenbahnhof1" name="W3" />
@@ -209,7 +211,7 @@
       <Gleisabschnitt idx="7" bereich="Schattenbahnhof1" name="W8" />
     </SXBM1>
 
-    <SXBM1 id="BM-d7" adr="56">
+    <SXBM1 id="BM-dummy-7" adr="56">
       <Gleisabschnitt idx="0" bereich="Schattenbahnhof2" name="W1" />
       <Gleisabschnitt idx="1" bereich="Schattenbahnhof2" name="W2" />
       <Gleisabschnitt idx="2" bereich="Schattenbahnhof2" name="W3" />
@@ -220,14 +222,14 @@
       <Gleisabschnitt idx="7" bereich="Schattenbahnhof2" name="W8" />
     </SXBM1>
 
-    <SXBM1 id="BM-d8" adr="57">
+    <SXBM1 id="BM-dummy-8" adr="57">
       <Gleisabschnitt idx="0" bereich="Schattenbahnhof1" name="W9" />
       <Gleisabschnitt idx="1" bereich="Schattenbahnhof1" name="W10" />
       <Gleisabschnitt idx="4" bereich="Schattenbahnhof2" name="W9" />
       <Gleisabschnitt idx="5" bereich="Schattenbahnhof2" name="W10" />
     </SXBM1>
 
-    <SXBM1 id="BM-d9" adr="58">
+    <SXBM1 id="BM-dummy-9" adr="58">
       <Gleisabschnitt idx="0" bereich="Niederbach" name="F" />
       <Gleisabschnitt idx="1" bereich="Niederbach" name="W1" />
       <Gleisabschnitt idx="2" bereich="Niederbach" name="W2" />
@@ -238,14 +240,14 @@
       <Gleisabschnitt idx="7" bereich="Niederbach" name="W7" />
     </SXBM1>
 
-    <SXBM1 id="BM-dx" adr="59">
+    <SXBM1 id="BM-dummy-x" adr="59">
       <Gleisabschnitt idx="1" bereich="Niederbach" name="W8" />
       <Gleisabschnitt idx="2" bereich="Niederbach" name="W9" />
     </SXBM1>
   </Besetztmelder>
 
   <Funktionsdecoder>
-    <WDMiba id="FD-01" adr="70">
+    <WDMiba id="FD-2003-1" adr="70">
       <Weiche idx="0" bereich="Schattenbahnhof2" name="3" />
       <Weiche idx="1" bereich="Schattenbahnhof2" name="4" />
       <Weiche idx="2" bereich="Schattenbahnhof2" name="5" />
@@ -256,17 +258,16 @@
       <HauptsignalRtGn idx="6" bereich="Niederbach" name="I" />
       <Weiche idx="7" bereich="Niederbach" name="9" />
     </WDMiba>
-    <WDMiba id="FD-02" adr="71">
+    <WDMiba id="FD-2003-2" adr="71">
       <Weiche idx="0" bereich="Schattenbahnhof1" name="3" />
       <Weiche idx="1" bereich="Schattenbahnhof1" name="4" />
       <Weiche idx="2" bereich="Schattenbahnhof1" name="6" />
       <Weiche idx="3" bereich="Schattenbahnhof1" name="5" />
       <Weiche idx="4" bereich="Fensterhausen" name="3" dauer="true" />
       <Weiche idx="5" bereich="Fensterhausen" name="4" dauer="true" />
-      <Bahnuebergang idx="6" bereich="Fensterhausen" name="B1" dauer="true" />
       <Weiche idx="7" bereich="Fensterhausen" name="8" />
     </WDMiba>
-    <WDMiba id="FD-03" adr="72">
+    <WDMiba id="FD-2003-3" adr="72">
       <Weiche idx="0" bereich="Niederbach" name="8" />
       <Weiche idx="1" bereich="Niederbach" name="7" />
       <Weiche idx="2" bereich="Niederbach" name="6" />
@@ -276,7 +277,7 @@
       <Weiche idx="6" bereich="Niederbach" name="2" />
       <Weiche idx="7" bereich="Niederbach" name="1" />
     </WDMiba>
-    <STRFD1 id="FD-04" adr="73">
+    <STRFD1 id="FD-2003-4" adr="73">
       <Weiche idx="0" bereich="Fensterhausen" name="5" />
       <Weiche idx="0" bereich="Fensterhausen" name="6" />
       <Weiche idx="1" bereich="Fensterhausen" name="9" />
@@ -292,10 +293,10 @@
       <Weiche idx="6" bereich="Fensterhausen" name="13a" />
       <Weiche idx="7" bereich="Fensterhausen" name="10b" />
     </STRFD1>
-    <STRFD1 id="FD-05" adr="74">
+    <STRFD1 id="FD-2003-5" adr="74">
       <Weiche idx="1" bereich="Fensterhausen" name="15" />
     </STRFD1>
-    <SD8 id="FD-06" adr="75" einbauort="Ebene 0, unter BHf Fensterhausen, rechts, Nähe Weichen 20, 21 etc.">
+    <SD8 id="FD-2013-1" adr="75" einbauOrt="Ebene 0, unter BHf Fensterhausen, rechts, Nähe Weichen 20, 21 etc.">
       <Weiche idx="0" bereich="Fensterhausen" name="22" />
       <Weiche idx="1" bereich="Fensterhausen" name="20" />
       <Weiche idx="2" bereich="Fensterhausen" name="21" />
@@ -306,8 +307,9 @@
       <Weiche idx="5" bereich="Fensterhausen" name="24" />
       <Weiche idx="6" bereich="Fensterhausen" name="17" />
       <Weiche idx="6" bereich="Fensterhausen" name="18" />
+      <Bahnuebergang idx="7" bereich="Fensterhausen" name="B1" />
     </SD8>
-    <SXSD1 id="FD-10" adr="80">
+    <SXSD1 id="FD-2010-1" adr="80">
       <HauptsignalRtGn idx="0" bereich="Fensterhausen" name="2B" />
       <HauptsignalRtGn idx="1" bereich="Fensterhausen" name="1B" />
       <Vorsignal idx="2" bereich="Fensterhausen" name="p" />
@@ -319,7 +321,7 @@
       <Vorsignal idx="10" bereich="Fensterhausen" name="f" />
       <HauptsignalRtGnGe idx="14" bereich="Fensterhausen" name="1A" />
     </SXSD1>
-    <SXSD1 id="FD-11" adr="82">
+    <SXSD1 id="FD-2010-2" adr="82">
       <Hauptsperrsignal idx="0" bereich="Fensterhausen" name="P2" />
       <Hauptsperrsignal idx="2" bereich="Fensterhausen" name="P3" />
       <Hauptsperrsignal idx="4" bereich="Fensterhausen" name="P4" />
@@ -333,7 +335,7 @@
       <HauptsignalRtGnGe idx="12" bereich="Fensterhausen" name="A" />
       <Hauptsperrsignal idx="14" bereich="Fensterhausen" name="P7-10" />
     </SXSD1>
-    <SXSD1 id="FD-12" adr="84">
+    <SXSD1 id="FD-2010-3" adr="84">
       <Sperrsignal idx="0" bereich="Fensterhausen" name="7'" />
       <Sperrsignal idx="1" bereich="Fensterhausen" name="29&quot;" />
       <Sperrsignal idx="2" bereich="Fensterhausen" name="11" />
@@ -354,14 +356,14 @@
       Ab hier folgen Pseudo-Funktionsdecoder mit Adressen 6x, die nicht wirklich vorhanden sind, sondern nur die funktionslosen
       Weichen und Signale erfassen. Hier sollte ggf. ein neuer Typ Funktionsdecoder genutzt werden, der keine Adresse verbraucht. 
      -->
-    <SXSD1 id="FD-d1" adr="60">
+    <SXSD1 id="FD-dummy-1" adr="60">
       <Hauptsperrsignal idx="0" bereich="Fensterhausen" name="N1" />
       <Hauptsperrsignal idx="2" bereich="Fensterhausen" name="N2" />
       <Hauptsperrsignal idx="4" bereich="Fensterhausen" name="N3" />
       <Hauptsperrsignal idx="6" bereich="Fensterhausen" name="N4" />
       <Hauptsperrsignal idx="8" bereich="Fensterhausen" name="N5" />
     </SXSD1>
-    <SXSD1 id="FD-d2" adr="62">
+    <SXSD1 id="FD-dummy-2" adr="62">
       <Sperrsignal idx="0" bereich="Fensterhausen" name="36" />
       <Sperrsignal idx="1" bereich="Fensterhausen" name="38-39" />
       <Sperrsignal idx="2" bereich="Fensterhausen" name="18&quot;" />
@@ -370,7 +372,7 @@
       <Sperrsignal idx="5" bereich="Fensterhausen" name="8&quot;" />
       <Sperrsignal idx="6" bereich="Fensterhausen" name="9&quot;" />
     </SXSD1>
-    <STRFD1 id="FD-d3" adr="64">
+    <STRFD1 id="FD-dummy-3" adr="64">
       <Weiche idx="0" bereich="Schattenbahnhof1" name="1" />
       <Weiche idx="0" bereich="Schattenbahnhof1" name="2" />
       <Weiche idx="2" bereich="Schattenbahnhof1" name="7" />
@@ -378,7 +380,7 @@
       <Weiche idx="4" bereich="Schattenbahnhof1" name="9" />
       <Weiche idx="5" bereich="Schattenbahnhof1" name="10" />
     </STRFD1>
-    <STRFD1 id="FD-d4" adr="65">
+    <STRFD1 id="FD-dummy-4" adr="65">
       <Weiche idx="0" bereich="Schattenbahnhof2" name="1" />
       <Weiche idx="0" bereich="Schattenbahnhof2" name="2" />
       <Weiche idx="2" bereich="Schattenbahnhof2" name="7" />
