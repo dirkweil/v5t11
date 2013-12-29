@@ -294,7 +294,6 @@
       <Weiche idx="7" bereich="Fensterhausen" name="10b" />
     </STRFD1>
     <STRFD1 id="FD-2003-5" adr="74">
-      <Weiche idx="1" bereich="Fensterhausen" name="15" />
     </STRFD1>
     <SD8 id="FD-2013-1" adr="75" einbauOrt="Ebene 0, unter BHf Fensterhausen, rechts, Nähe Weichen 20, 21 etc.">
       <Weiche idx="0" bereich="Fensterhausen" name="22" />
@@ -308,6 +307,11 @@
       <Weiche idx="6" bereich="Fensterhausen" name="17" />
       <Weiche idx="6" bereich="Fensterhausen" name="18" />
       <Bahnuebergang idx="7" bereich="Fensterhausen" name="B1" />
+    </SD8>
+    <SD8 id="FD-2013-2" adr="76" einbauOrt="Ebene 0, unter BHf Fensterhausen, mitte/rechts, unter Gleis 4 und 5">
+      <Weiche idx="0" bereich="Fensterhausen" name="15" />
+    </SD8>
+    <SD8 id="FD-2013-3" adr="77" einbauOrt="Ebene 0, unter BHf Fensterhausen, mitte/links, unter Gleis 4 und 5">
     </SD8>
     <SXSD1 id="FD-2010-1" adr="80">
       <HauptsignalRtGn idx="0" bereich="Fensterhausen" name="2B" />
