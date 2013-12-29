@@ -39,7 +39,6 @@
   <Besetztmelder>
     <SXBM1 id="BM-2003-1" adr="90" einbauOrt="Ebene 0, unter Bhf. Fensterhausen, hinterer Rand, rechts">
       <Gleisabschnitt idx="3" bereich="Fensterhausen" name="17-20" />
-      <Gleisabschnitt idx="5" bereich="Fensterhausen" name="W15" />
       <Gleisabschnitt idx="7" bereich="Fensterhausen" name="9" />
       <properties>
         <property name="abfallVerzoegerung" value="2000" />
@@ -56,6 +55,7 @@
       <Gleisabschnitt idx="5" bereich="Fensterhausen" name="W25" />
       <Gleisabschnitt idx="6" bereich="Fensterhausen" name="W24" />
       <Gleisabschnitt idx="7" bereich="Fensterhausen" name="W17" />
+      <Gleisabschnitt idx="7" bereich="Fensterhausen" name="W15" />
       <properties>
         <property name="abfallVerzoegerung" value="2000" />
       </properties>
@@ -352,8 +352,8 @@
       <Sperrsignal idx="9" bereich="Fensterhausen" name="9'" />
       <Sperrsignal idx="10" bereich="Fensterhausen" name="10&quot;" />
       <Sperrsignal idx="11" bereich="Fensterhausen" name="W1" />
-      <Vorsignal idx="12" bereich="Fensterhausen" name="1a/1b(7-10)" />
-      <Hauptsperrsignal idx="14" bereich="Fensterhausen" name="N7-10" />
+      <Hauptsperrsignal idx="12" bereich="Fensterhausen" name="N7-10" />
+      <Vorsignal idx="14" bereich="Fensterhausen" name="1a/1b(7-10)" />
     </SXSD1>
 
     <!--
