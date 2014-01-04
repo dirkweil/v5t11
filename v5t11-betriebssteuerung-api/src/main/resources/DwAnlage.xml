@@ -38,7 +38,12 @@
 
   <Besetztmelder>
     <SXBM1 id="BM-2003-1" adr="90" einbauOrt="Ebene 0, unter Bhf. Fensterhausen, hinterer Rand, rechts">
+      <Gleisabschnitt idx="0" bereich="Fensterhausen" name="W10" />
+      <Gleisabschnitt idx="2" bereich="Fensterhausen" name="W16" />
       <Gleisabschnitt idx="3" bereich="Fensterhausen" name="17-20" />
+      <Gleisabschnitt idx="4" bereich="Fensterhausen" name="46" />
+      <Gleisabschnitt idx="5" bereich="Fensterhausen" name="29" />
+      <Gleisabschnitt idx="6" bereich="Fensterhausen" name="13-16" />
       <Gleisabschnitt idx="7" bereich="Fensterhausen" name="9" />
       <properties>
         <property name="abfallVerzoegerung" value="2000" />
@@ -61,8 +66,8 @@
       </properties>
     </SXBM1>
     <SXBM1 id="BM-2003-2" adr="92" einbauOrt="Ebene 0, unter Bhf. Fensterhausen, hinterer Rand, rechts">
-      <Gleisabschnitt idx="0" bereich="Fensterhausen" name="46" />
-      <Gleisabschnitt idx="1" bereich="Fensterhausen" name="29" />
+      <Gleisabschnitt idx="0" bereich="Fensterhausen" name="W8" />
+      <Gleisabschnitt idx="0" bereich="Fensterhausen" name="38-39" />
       <Gleisabschnitt idx="2" bereich="Fensterhausen" name="5" />
       <Gleisabschnitt idx="3" bereich="Fensterhausen" name="4" />
       <Gleisabschnitt idx="4" bereich="Fensterhausen" name="11" />
@@ -102,10 +107,21 @@
       <Gleisabschnitt idx="1" bereich="Fensterhausen" name="19" />
       <Gleisabschnitt idx="2" bereich="Fensterhausen" name="18" />
       <Gleisabschnitt idx="3" bereich="Fensterhausen" name="2" />
-      <Gleisabschnitt idx="4" bereich="Fensterhausen" name="7" />
       <Gleisabschnitt idx="5" bereich="Fensterhausen" name="39" />
       <Gleisabschnitt idx="6" bereich="Fensterhausen" name="38" />
       <Gleisabschnitt idx="7" bereich="Fensterhausen" name="36" />
+      <properties>
+        <property name="abfallVerzoegerung" value="2000" />
+      </properties>
+    </SXBM1>
+    <SXBM1 id="BM-2013-2" adr="96" einbauOrt="Ebene 0, unter Bhf. Fensterhausen, hinterer Rand, mitte">
+      <Gleisabschnitt idx="2" bereich="Fensterhausen" name="W14" />
+      <Gleisabschnitt idx="3" bereich="Fensterhausen" name="W13" />
+      <Gleisabschnitt idx="4" bereich="Fensterhausen" name="7" />
+      <Gleisabschnitt idx="5" bereich="Fensterhausen" name="W11" />
+      <Gleisabschnitt idx="6" bereich="Fensterhausen" name="W12" />
+      <Gleisabschnitt idx="7" bereich="Fensterhausen" name="W9" />
+
       <properties>
         <property name="abfallVerzoegerung" value="2000" />
       </properties>
@@ -179,25 +195,12 @@
       <Gleisabschnitt idx="4" bereich="Fensterhausen" name="W5" />
       <Gleisabschnitt idx="5" bereich="Fensterhausen" name="W6" />
       <Gleisabschnitt idx="6" bereich="Fensterhausen" name="W7" />
-      <Gleisabschnitt idx="7" bereich="Fensterhausen" name="W8" />
-    </SXBM1>
-
-    <SXBM1 id="BM-dummy-3" adr="52">
-      <Gleisabschnitt idx="0" bereich="Fensterhausen" name="W9" />
-      <Gleisabschnitt idx="1" bereich="Fensterhausen" name="W10" />
-      <Gleisabschnitt idx="2" bereich="Fensterhausen" name="W11" />
-      <Gleisabschnitt idx="3" bereich="Fensterhausen" name="W12" />
-      <Gleisabschnitt idx="4" bereich="Fensterhausen" name="W13" />
-      <Gleisabschnitt idx="5" bereich="Fensterhausen" name="W14" />
-      <Gleisabschnitt idx="7" bereich="Fensterhausen" name="W16" />
     </SXBM1>
 
     <SXBM1 id="BM-dummy-5" adr="54">
       <Gleisabschnitt idx="2" bereich="Fensterhausen" name="W101" />
       <Gleisabschnitt idx="3" bereich="Fensterhausen" name="W102" />
       <Gleisabschnitt idx="4" bereich="Fensterhausen" name="W103" />
-      <Gleisabschnitt idx="5" bereich="Fensterhausen" name="13-16" />
-      <Gleisabschnitt idx="7" bereich="Fensterhausen" name="38-39" />
     </SXBM1>
 
     <SXBM1 id="BM-dummy-6" adr="55">
