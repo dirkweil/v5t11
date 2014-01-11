@@ -286,7 +286,6 @@
       <Weiche idx="2" bereich="Fensterhausen" name="1" />
       <Weiche idx="2" bereich="Fensterhausen" name="2" />
       <Weiche idx="3" bereich="Fensterhausen" name="7" />
-      <Weiche idx="7" bereich="Fensterhausen" name="10b" />
     </STRFD1>
     <STRFD1 id="FD-2003-5" adr="74">
     </STRFD1>
@@ -309,6 +308,7 @@
       <Weiche idx="1" bereich="Fensterhausen" name="12" />
       <Weiche idx="2" bereich="Fensterhausen" name="9" />
       <Weiche idx="2" bereich="Fensterhausen" name="10a" />
+      <Weiche idx="3" bereich="Fensterhausen" name="10b" />
       <Weiche idx="4" bereich="Fensterhausen" name="16" />
       <Weiche idx="5" bereich="Fensterhausen" name="13b" />
       <Weiche idx="5" bereich="Fensterhausen" name="14" />
