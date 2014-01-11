@@ -288,12 +288,8 @@
       <Weiche idx="2" bereich="Fensterhausen" name="1" />
       <Weiche idx="2" bereich="Fensterhausen" name="2" />
       <Weiche idx="3" bereich="Fensterhausen" name="7" />
-      <Weiche idx="4" bereich="Fensterhausen" name="13b" />
-      <Weiche idx="4" bereich="Fensterhausen" name="14" />
-      <Weiche idx="4" bereich="Fensterhausen" name="16" />
       <Weiche idx="5" bereich="Fensterhausen" name="11" />
       <Weiche idx="5" bereich="Fensterhausen" name="12" />
-      <Weiche idx="6" bereich="Fensterhausen" name="13a" />
       <Weiche idx="7" bereich="Fensterhausen" name="10b" />
     </STRFD1>
     <STRFD1 id="FD-2003-5" adr="74">
@@ -313,6 +309,10 @@
     </SD8>
     <SD8 id="FD-2013-2" adr="76" einbauOrt="Ebene 0, unter BHf Fensterhausen, mitte/rechts, unter Gleis 4 und 5">
       <Weiche idx="0" bereich="Fensterhausen" name="15" />
+      <Weiche idx="4" bereich="Fensterhausen" name="16" />
+      <Weiche idx="5" bereich="Fensterhausen" name="13b" />
+      <Weiche idx="5" bereich="Fensterhausen" name="14" />
+      <Weiche idx="6" bereich="Fensterhausen" name="13a" />
     </SD8>
     <SD8 id="FD-2013-3" adr="77" einbauOrt="Ebene 0, unter BHf Fensterhausen, mitte/links, unter Gleis 4 und 5">
     </SD8>
