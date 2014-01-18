@@ -277,12 +277,6 @@
       <Weiche idx="6" bereich="Niederbach" name="2" />
       <Weiche idx="7" bereich="Niederbach" name="1" />
     </WDMiba>
-    <STRFD1 id="FD-2003-4" adr="73">
-      <Weiche idx="2" bereich="Fensterhausen" name="1" />
-      <Weiche idx="2" bereich="Fensterhausen" name="2" />
-    </STRFD1>
-    <STRFD1 id="FD-2003-5" adr="74">
-    </STRFD1>
     <SD8 id="FD-2013-1" adr="75" einbauOrt="Ebene 0, unter BHf Fensterhausen, rechts, Nähe Weichen 20, 21 etc.">
       <Weiche idx="0" bereich="Fensterhausen" name="22" />
       <Weiche idx="1" bereich="Fensterhausen" name="20" />
@@ -310,12 +304,14 @@
     </SD8>
     <SD8 id="FD-2013-3" adr="77" einbauOrt="Ebene 0, unter BHf Fensterhausen, mitte/links, unter Gleis 4 und 5">
       <Weiche idx="0" bereich="Fensterhausen" name="7" />
+      <Weiche idx="3" bereich="Fensterhausen" name="1" />
       <Weiche idx="4" bereich="Fensterhausen" name="5" />
       <Weiche idx="4" bereich="Fensterhausen" name="6" />
       <Weiche idx="5" bereich="Fensterhausen" name="4" />
+      <Weiche idx="6" bereich="Fensterhausen" name="3" />
+      <Weiche idx="7" bereich="Fensterhausen" name="2" />
 
       <Weiche idx="1" bereich="Fensterhausen" name="8" />
-      <Weiche idx="6" bereich="Fensterhausen" name="3" dauer="true" />
     </SD8>
     <SXSD1 id="FD-2010-1" adr="80">
       <HauptsignalRtGn idx="0" bereich="Fensterhausen" name="2B" />
