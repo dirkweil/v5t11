@@ -135,7 +135,7 @@
         <property name="abfallVerzoegerung" value="2000" />
       </properties>
     </SXBM1>
-    <SXBM1 id="BM-2003-6" adr="100" adr="103" einbauOrt="Ebene -1, unter Schattenbahnhof1, rechts">
+    <SXBM1 id="BM-2003-6" adr="100" einbauOrt="Ebene -1, unter Schattenbahnhof1, rechts">
       <Gleisabschnitt idx="0" bereich="Schattenbahnhof1" name="5" />
       <Gleisabschnitt idx="1" bereich="Schattenbahnhof1" name="4" />
       <Gleisabschnitt idx="2" bereich="Schattenbahnhof1" name="3" />
@@ -296,12 +296,12 @@
       <Weiche idx="7" bereich="Fensterhausen" name="11" />
       <Weiche idx="7" bereich="Fensterhausen" name="12" />
     </SD8>
-    <SD8 id="FD-2013-3" adr="77" einbauOrt="Ebene 0, unter BHf Fensterhausen, mitte/links, unter Gleis 4 und 5">
-      <Weiche idx="0" bereich="Fensterhausen" name="7" />
+    <SD8 id="FD-2013-3" adr="77" einbauOrt="Ebene 0, unter BHf Fensterhausen, mitte/links, vor Gleis 36">
+      <Weiche idx="0" bereich="Fensterhausen" name="4" />
       <Weiche idx="3" bereich="Fensterhausen" name="1" />
       <Weiche idx="4" bereich="Fensterhausen" name="5" />
       <Weiche idx="4" bereich="Fensterhausen" name="6" />
-      <Weiche idx="5" bereich="Fensterhausen" name="4" />
+      <Weiche idx="5" bereich="Fensterhausen" name="7" />
       <Weiche idx="6" bereich="Fensterhausen" name="3" />
       <Weiche idx="7" bereich="Fensterhausen" name="2" />
 
