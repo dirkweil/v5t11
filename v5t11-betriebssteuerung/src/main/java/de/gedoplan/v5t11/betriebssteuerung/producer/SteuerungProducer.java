@@ -10,15 +10,15 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.Dependent;
+import javax.enterprise.inject.CreationException;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 
 /**
  * Producer für Steuerung.
- * 
+ *
  * @author dw
  */
-@SuppressWarnings("unused")
 @ApplicationScoped
 public class SteuerungProducer
 {
@@ -31,10 +31,17 @@ public class SteuerungProducer
   SelectrixGateway  selectrixGateway;
 
   @PostConstruct
-  private void init() throws Exception
+  private void init()
   {
     String xmlResourceName = System.getProperty("v5t11.anlage", "DemoAnlage") + ".xml";
-    this.steuerung = XmlConverter.fromXml(Steuerung.class, xmlResourceName);
+    try
+    {
+      this.steuerung = XmlConverter.fromXml(Steuerung.class, xmlResourceName);
+    }
+    catch (Exception e)
+    {
+      throw new CreationException("Cannot read " + xmlResourceName, e);
+    }
 
     List<Integer> adressen = this.steuerung.getAdressen();
     this.selectrixGateway.addAddressen(adressen);

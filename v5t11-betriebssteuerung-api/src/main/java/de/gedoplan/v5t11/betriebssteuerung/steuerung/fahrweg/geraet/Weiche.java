@@ -13,16 +13,16 @@ import javax.xml.bind.annotation.XmlAccessorType;
 
 /**
  * Weiche.
- * 
+ *
  * @author dw
- * 
+ *
  */
 @XmlAccessorType(XmlAccessType.NONE)
 public class Weiche extends Geraet
 {
   /**
    * Weichenstellung.
-   * 
+   *
    * @author dw
    */
   public static enum Stellung
@@ -60,7 +60,7 @@ public class Weiche extends Geraet
 
     /**
      * Numerischen Wert der Stellung liefern.
-     * 
+     *
      * @return Wert
      */
     public int getValue()
@@ -70,7 +70,7 @@ public class Weiche extends Geraet
 
     /**
      * Stellung zu numerischem Wert erstellen.
-     * 
+     *
      * @param stellungsWert numerischer Wert
      * @return zugehörige Stellung
      */
@@ -81,7 +81,7 @@ public class Weiche extends Geraet
 
     /**
      * Icon zur Stellung liefern.
-     * 
+     *
      * @return Icon
      */
     public abstract Icon getIcon();
@@ -100,7 +100,7 @@ public class Weiche extends Geraet
 
   /**
    * Attribut liefern: {@link #stellung}.
-   * 
+   *
    * @return Wert
    */
   public Stellung getStellung()
@@ -110,7 +110,7 @@ public class Weiche extends Geraet
 
   /**
    * Wert setzen: {@link #stellung}.
-   * 
+   *
    * @param stellung Wert
    */
   public void setStellung(Stellung stellung)
@@ -120,7 +120,7 @@ public class Weiche extends Geraet
 
   /**
    * Wert setzen: {@link #stellung}.
-   * 
+   *
    * @param stellung Wert
    * @param updateInterface wenn <code>true</code>, veränderten Wert an Interface schicken
    */
@@ -128,11 +128,6 @@ public class Weiche extends Geraet
   {
     if (!stellung.equals(this.stellung))
     {
-      if (this.logger.isTraceEnabled())
-      {
-        this.logger.trace(this + ": setStellung(" + stellung + ", " + updateInterface + ")");
-      }
-
       this.stellung = stellung;
 
       if (updateInterface)
@@ -143,7 +138,10 @@ public class Weiche extends Geraet
         this.funktionsdecoder.setWert(fdWert);
       }
 
-      this.valueChangedListenerRegistry.sendEvent(new ValueChangedEvent(this));
+      if (this.valueChangedListenerRegistry != null)
+      {
+        this.valueChangedListenerRegistry.sendEvent(new ValueChangedEvent(this));
+      }
     }
   }
 
@@ -164,7 +162,7 @@ public class Weiche extends Geraet
 
   /**
    * Wert liefern: {@link #stellungFuerFahrstrassenvorschlag}.
-   * 
+   *
    * @return Wert
    */
   public Stellung getStellungFuerFahrstrassenvorschlag()
@@ -174,7 +172,7 @@ public class Weiche extends Geraet
 
   /**
    * Wert setzen: {@link #stellungFuerFahrstrassenvorschlag}.
-   * 
+   *
    * @param stellung Wert
    */
   public void setStellungFuerFahrstrassenvorschlag(Stellung stellung)
@@ -182,7 +180,11 @@ public class Weiche extends Geraet
     if (this.stellungFuerFahrstrassenvorschlag != stellung)
     {
       this.stellungFuerFahrstrassenvorschlag = stellung;
-      this.valueChangedListenerRegistry.sendEvent(new ValueChangedEvent(this));
+
+      if (this.valueChangedListenerRegistry != null)
+      {
+        this.valueChangedListenerRegistry.sendEvent(new ValueChangedEvent(this));
+      }
     }
   }
 }

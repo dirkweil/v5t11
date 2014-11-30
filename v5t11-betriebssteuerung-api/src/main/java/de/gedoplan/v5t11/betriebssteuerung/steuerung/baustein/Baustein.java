@@ -26,15 +26,13 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jackson.annotate.JsonMethod;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * Baustein am SX-Bus.
- * 
+ *
  * @author dw
  */
 @XmlAccessorType(XmlAccessType.NONE)
@@ -86,22 +84,17 @@ public abstract class Baustein extends SingleIdEntity<String> implements Compara
   @JsonProperty
   private long                                   wert;
 
-  private transient ValueChangedListenerRegistry valueChangedListenerRegistry = new ValueChangedListenerRegistry();
+  private transient ValueChangedListenerRegistry valueChangedListenerRegistry;
 
   private Steuerung                              steuerung;
 
-  protected AtomicReference<List<Integer>>       adressCache                  = new AtomicReference<>();
-
-  /**
-   * Logger.
-   */
-  protected transient Log                        logger                       = LogFactory.getLog(this.getClass());
+  protected AtomicReference<List<Integer>>       adressCache = new AtomicReference<>();
 
   /**
    * Konstruktor.
-   * 
+   *
    * Wird nur während des JAXB-Unmarshalling aufgerufen.
-   * 
+   *
    * @param byteAnzahl Anzahl belegter Bytes (Adressen)
    */
   protected Baustein(int byteAnzahl)
@@ -116,7 +109,7 @@ public abstract class Baustein extends SingleIdEntity<String> implements Compara
 
   /**
    * Konstruktor für JPA.
-   * 
+   *
    * Dieser Konstruktor ist auch für JAXB nötig, sollte hierdurch aber nie aufgerufen werden.
    */
   protected Baustein()
@@ -126,7 +119,7 @@ public abstract class Baustein extends SingleIdEntity<String> implements Compara
 
   /**
    * {@inheritDoc}
-   * 
+   *
    * @see de.gedoplan.baselibs.persistence.entity.SingleIdEntity#getId()
    */
   @Override
@@ -137,7 +130,7 @@ public abstract class Baustein extends SingleIdEntity<String> implements Compara
 
   /**
    * Wert liefern: {@link #adresse}.
-   * 
+   *
    * @return Wert
    */
   public int getAdresse()
@@ -147,10 +140,10 @@ public abstract class Baustein extends SingleIdEntity<String> implements Compara
 
   /**
    * Alle belegten Adressen liefern.
-   * 
+   *
    * Die Ermittlung der Adressen geschieht 'LAZY', da zum Zeitpunkt der Erzeugung des Objektes die Hauptadresse ggf. noch nicht
    * gesetzt ist.
-   * 
+   *
    * @return Adressen dieses Bausteins
    */
   public List<Integer> getAdressen()
@@ -169,7 +162,7 @@ public abstract class Baustein extends SingleIdEntity<String> implements Compara
 
   /**
    * Wert liefern: {@link #byteAnzahl}.
-   * 
+   *
    * @return Wert
    */
   public int getByteAnzahl()
@@ -179,7 +172,7 @@ public abstract class Baustein extends SingleIdEntity<String> implements Compara
 
   /**
    * Wert liefern: {@link #einbauOrt}.
-   * 
+   *
    * @return Wert
    */
   public String getEinbauOrt()
@@ -189,7 +182,7 @@ public abstract class Baustein extends SingleIdEntity<String> implements Compara
 
   /**
    * Wert setzen: {@link #einbauOrt}.
-   * 
+   *
    * @param einbauOrt Wert
    */
   public void setEinbauOrt(String einbauOrt)
@@ -199,7 +192,7 @@ public abstract class Baustein extends SingleIdEntity<String> implements Compara
 
   /**
    * Wert liefern: {@link #properties}.
-   * 
+   *
    * @return Wert
    */
   public Map<String, String> getProperties()
@@ -209,7 +202,7 @@ public abstract class Baustein extends SingleIdEntity<String> implements Compara
 
   /**
    * Wert liefern: {@link #wert}.
-   * 
+   *
    * @return Wert
    */
   public long getWert()
@@ -219,7 +212,7 @@ public abstract class Baustein extends SingleIdEntity<String> implements Compara
 
   /**
    * Wert setzen: {@link #wert}.
-   * 
+   *
    * @param wert Wert
    */
   public void setWert(long wert)
@@ -229,7 +222,7 @@ public abstract class Baustein extends SingleIdEntity<String> implements Compara
 
   /**
    * Wert setzen: {@link #wert}.
-   * 
+   *
    * @param wert Wert
    * @param updateInterface Änderung an Selectrix-Interface propagieren?
    */
@@ -239,11 +232,6 @@ public abstract class Baustein extends SingleIdEntity<String> implements Compara
     this.wert = wert;
     if (old != this.wert)
     {
-      if (this.logger.isTraceEnabled())
-      {
-        this.logger.trace(String.format("%s: setWert(0x%04x, %b)", this, wert, updateInterface));
-      }
-
       if (updateInterface && this.steuerung != null)
       {
         List<Integer> adressen = getAdressen();
@@ -254,24 +242,31 @@ public abstract class Baustein extends SingleIdEntity<String> implements Compara
         }
       }
 
-      this.valueChangedListenerRegistry.sendEvent(new ValueChangedEvent(this));
+      if (this.valueChangedListenerRegistry != null)
+      {
+        this.valueChangedListenerRegistry.sendEvent(new ValueChangedEvent(this));
+      }
     }
   }
 
   /**
    * Listener für Werteänderungen hinzufügen.
-   * 
+   *
    * @param valueChangedListener Listener
    * @see de.gedoplan.v5t11.betriebssteuerung.listener.ValueChangedListenerRegistry#addListener(de.gedoplan.v5t11.betriebssteuerung.listener.ValueChangedListener)
    */
   public void addValueChangedListener(ValueChangedListener valueChangedListener)
   {
+    if (this.valueChangedListenerRegistry == null)
+    {
+      this.valueChangedListenerRegistry = new ValueChangedListenerRegistry();
+    }
     this.valueChangedListenerRegistry.addListener(valueChangedListener);
   }
 
   /**
    * Wert liefern: {@link #steuerung}.
-   * 
+   *
    * @return Wert
    */
   public Steuerung getSteuerung()
@@ -281,7 +276,7 @@ public abstract class Baustein extends SingleIdEntity<String> implements Compara
 
   /**
    * {@inheritDoc}
-   * 
+   *
    * @see java.lang.Comparable#compareTo(java.lang.Object)
    */
   @Override
@@ -292,7 +287,7 @@ public abstract class Baustein extends SingleIdEntity<String> implements Compara
 
   /**
    * {@inheritDoc}
-   * 
+   *
    * @see de.gedoplan.v5t11.selectrix.SelectrixMessageListener#onMessage(de.gedoplan.v5t11.selectrix.SelectrixMessage)
    */
   @Override
@@ -312,7 +307,7 @@ public abstract class Baustein extends SingleIdEntity<String> implements Compara
 
   /**
    * Nachbearbeitung nach JAXB-Unmarshal.
-   * 
+   *
    * @param unmarshaller Unmarshaller
    * @param parent Parent
    */
@@ -340,7 +335,7 @@ public abstract class Baustein extends SingleIdEntity<String> implements Compara
 
   /**
    * {@inheritDoc}
-   * 
+   *
    * @see java.lang.Object#toString()
    */
   @Override

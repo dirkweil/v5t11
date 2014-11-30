@@ -15,7 +15,7 @@ import org.codehaus.jackson.annotate.JsonMethod;
 
 /**
  * Besetztmelder.
- * 
+ *
  * @author dw
  */
 @XmlRootElement
@@ -29,7 +29,7 @@ public class LokController extends Baustein implements Encoder
    */
   protected Lok                                   lok;
 
-  private transient ConfigChangedListenerRegistry configChangedListenerRegistry = new ConfigChangedListenerRegistry();
+  private transient ConfigChangedListenerRegistry configChangedListenerRegistry;
 
   private long                                    invertMask;
 
@@ -43,7 +43,7 @@ public class LokController extends Baustein implements Encoder
 
   /**
    * Wert liefern: {@link #lok}.
-   * 
+   *
    * @return Wert
    */
   public Lok getLok()
@@ -53,7 +53,7 @@ public class LokController extends Baustein implements Encoder
 
   /**
    * Wert setzen: {@link #lok}.
-   * 
+   *
    * @param lok Wert
    */
   public void setLok(Lok lok)
@@ -77,17 +77,15 @@ public class LokController extends Baustein implements Encoder
 
     this.lok = lok;
 
-    if (this.logger.isDebugEnabled())
+    if (this.configChangedListenerRegistry != null)
     {
-      this.logger.debug(this + ": Lokzuweisung " + lok);
+      this.configChangedListenerRegistry.sendEvent(new ConfigChangedEvent(this));
     }
-
-    this.configChangedListenerRegistry.sendEvent(new ConfigChangedEvent(this));
   }
 
   /**
    * {@inheritDoc}
-   * 
+   *
    * @see de.gedoplan.v5t11.betriebssteuerung.steuerung.baustein.Baustein#setWert(int, boolean)
    */
   @Override
@@ -103,12 +101,16 @@ public class LokController extends Baustein implements Encoder
 
   /**
    * Listener für Konfigurationsänderungen hinzufügen.
-   * 
+   *
    * @param configChangedListener Listener
    * @see de.gedoplan.v5t11.betriebssteuerung.listener.ConfigChangedListenerRegistry#addListener(de.gedoplan.v5t11.betriebssteuerung.listener.ConfigChangedListener)
    */
   public void addConfigChangedListener(ConfigChangedListener valueChangedListener)
   {
+    if (this.configChangedListenerRegistry == null)
+    {
+      this.configChangedListenerRegistry = new ConfigChangedListenerRegistry();
+    }
     this.configChangedListenerRegistry.addListener(valueChangedListener);
   }
 
