@@ -12,28 +12,20 @@ import javax.enterprise.util.AnnotationLiteral;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 /**
  * Element eines Fahrwegs.
- * 
+ *
  * Ein solches Element kann ein Gerät sein (Signal, Weiche etc.) oder ein Gleisabschnitt.
- * 
+ *
  * @author dw
  */
 @XmlAccessorType(XmlAccessType.NONE)
 public abstract class Fahrwegelement extends Bereichselement implements ValueChangedListener
 {
   /**
-   * Logger.
-   */
-  protected transient Log                          logger                       = LogFactory.getLog(this.getClass());
-
-  /**
    * Registry für Wertänderungs-Listener.
    */
-  protected transient ValueChangedListenerRegistry valueChangedListenerRegistry = new ValueChangedListenerRegistry();
+  protected transient ValueChangedListenerRegistry valueChangedListenerRegistry;
 
   /**
    * Falls dieses Element Teil einer reservierten Fahrstrasse ist, diese Fahrstrasse, sonst <code>null</code>
@@ -52,7 +44,7 @@ public abstract class Fahrwegelement extends Bereichselement implements ValueCha
 
   /**
    * Für Fahrstrasse als (un)reserviert markieren.
-   * 
+   *
    * @param fahrstrasse reservierte Fahrstrasse, zu der dieses Element gehört, oder <code>null</code>, wenn die Reservierung
    *        aufgehoben wird
    */
@@ -62,7 +54,11 @@ public abstract class Fahrwegelement extends Bereichselement implements ValueCha
     {
       this.reserviertefahrstrasse = fahrstrasse;
       this.zaehlrichtung = zaehlrichtung;
-      this.valueChangedListenerRegistry.sendEvent(new ValueChangedEvent(this));
+
+      if (this.valueChangedListenerRegistry != null)
+      {
+        this.valueChangedListenerRegistry.sendEvent(new ValueChangedEvent(this));
+      }
 
       fireFahrstrassenZuordnung();
     }
@@ -70,7 +66,7 @@ public abstract class Fahrwegelement extends Bereichselement implements ValueCha
 
   /**
    * Wert liefern: {@link #fahrstrassenReservierung}.
-   * 
+   *
    * @return Wert
    */
   public Fahrstrasse getReservierteFahrstrasse()
@@ -80,7 +76,7 @@ public abstract class Fahrwegelement extends Bereichselement implements ValueCha
 
   /**
    * Wert liefern: {@link #fahrstrasseVorgeschlagen}.
-   * 
+   *
    * @return Wert
    */
   public Fahrstrasse getVorgeschlageneneFahrstrasse()
@@ -90,7 +86,7 @@ public abstract class Fahrwegelement extends Bereichselement implements ValueCha
 
   /**
    * Für Fahrstrasse als vorgeschlagen markieren.
-   * 
+   *
    * @param fahrstrasse vorgeschlagene Fahrstrasse, zu der dieses Element gehört, oder <code>null</code>, wenn der Vorschlag
    *        aufgehoben wird
    */
@@ -100,13 +96,17 @@ public abstract class Fahrwegelement extends Bereichselement implements ValueCha
     {
       this.vorgeschlageneFahrstrasse = vorgeschlageneFahrstrasse;
       this.zaehlrichtung = zaehlrichtung;
-      this.valueChangedListenerRegistry.sendEvent(new ValueChangedEvent(this));
+
+      if (this.valueChangedListenerRegistry != null)
+      {
+        this.valueChangedListenerRegistry.sendEvent(new ValueChangedEvent(this));
+      }
     }
   }
 
   /**
    * Wert liefern: {@link #zaehlrichtung}.
-   * 
+   *
    * @return Wert
    */
   public boolean isZaehlrichtung()
@@ -116,24 +116,31 @@ public abstract class Fahrwegelement extends Bereichselement implements ValueCha
 
   /**
    * Listener für Wertänderungen hinzufügen.
-   * 
+   *
    * @param valueChangedListener Listener
    * @see de.gedoplan.v5t11.betriebssteuerung.listener.ValueChangedListenerRegistry#addListener(de.gedoplan.v5t11.betriebssteuerung.listener.ValueChangedListener)
    */
   public void addValueChangedListener(ValueChangedListener valueChangedListener)
   {
+    if (this.valueChangedListenerRegistry == null)
+    {
+      this.valueChangedListenerRegistry = new ValueChangedListenerRegistry();
+    }
     this.valueChangedListenerRegistry.addListener(valueChangedListener);
   }
 
   /**
    * Listener für Wertänderungen entfernen.
-   * 
+   *
    * @param valueChangedListener Listener
    * @see de.gedoplan.v5t11.betriebssteuerung.listener.ValueChangedListenerRegistry#addListener(de.gedoplan.v5t11.betriebssteuerung.listener.ValueChangedListener)
    */
   public void removeValueChangedListener(ValueChangedListener valueChangedListener)
   {
-    this.valueChangedListenerRegistry.removeListener(valueChangedListener);
+    if (this.valueChangedListenerRegistry != null)
+    {
+      this.valueChangedListenerRegistry.removeListener(valueChangedListener);
+    }
   }
 
   private void fireFahrstrassenZuordnung()

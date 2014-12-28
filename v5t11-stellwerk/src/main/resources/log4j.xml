@@ -33,6 +33,10 @@
 		<priority value="TRACE" />
 	</category>
 
+	<category name="de.gedoplan.v5t11.stellwerk.gui.Main">
+		<priority value="TRACE" />
+	</category>
+
 
 	<!-- Standardeinstellung fuer alle Logger -->
 	<root>

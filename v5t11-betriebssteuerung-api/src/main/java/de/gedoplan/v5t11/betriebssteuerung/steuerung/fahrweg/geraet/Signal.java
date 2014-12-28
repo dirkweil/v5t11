@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 
 /**
  * Signale.
- * 
+ *
  * @author dw
  */
 @XmlAccessorType(XmlAccessType.NONE)
@@ -30,7 +30,7 @@ public abstract class Signal extends Geraet
 {
   /**
    * Signalstellung.
-   * 
+   *
    * @author dw
    */
   public static enum Stellung
@@ -131,14 +131,14 @@ public abstract class Signal extends Geraet
 
     /**
      * Icon für selektiertes Signal liefern.
-     * 
+     *
      * @return Icon
      */
     public abstract Icon getSelectedIcon();
 
     /**
      * Icon für unselektiertes Signal liefern.
-     * 
+     *
      * @return Icon
      */
     public abstract Icon getUnselectedIcon();
@@ -166,7 +166,7 @@ public abstract class Signal extends Geraet
 
   /**
    * Konstruktor.
-   * 
+   *
    * @param bitCount Anzahl genutzter Bits
    */
   protected Signal(int bitCount)
@@ -176,7 +176,7 @@ public abstract class Signal extends Geraet
 
   /**
    * Erlaubte Stellung hinzufügen.
-   * 
+   *
    * @param stellung Stellung
    * @param stellungswert Stellungswert
    */
@@ -193,7 +193,7 @@ public abstract class Signal extends Geraet
 
   /**
    * Attribut liefern: {@link #stellung}.
-   * 
+   *
    * @return Wert
    */
   public Stellung getStellung()
@@ -203,7 +203,7 @@ public abstract class Signal extends Geraet
 
   /**
    * Wert setzen: {@link #stellung}.
-   * 
+   *
    * @param stellung Wert
    */
   public void setStellung(Stellung stellung)
@@ -213,7 +213,7 @@ public abstract class Signal extends Geraet
 
   /**
    * Stellung setzen, ggf. angepasst an eine Fahrstrasse.
-   * 
+   *
    * @param stellung Stellung
    * @param reservierungsTyp Fahrstrassentyp oder <code>null</code>
    */
@@ -225,7 +225,7 @@ public abstract class Signal extends Geraet
 
   /**
    * Wert setzen: {@link #stellung}.
-   * 
+   *
    * @param stellung Wert
    * @param updateInterface wenn <code>true</code>, veränderten Wert an Interface schicken
    */
@@ -233,11 +233,6 @@ public abstract class Signal extends Geraet
   {
     if (!stellung.equals(this.stellung))
     {
-      if (this.logger.isTraceEnabled())
-      {
-        this.logger.trace(this + ": setStellung(" + stellung + ", " + updateInterface + ")");
-      }
-
       this.stellung = stellung;
 
       if (updateInterface)
@@ -248,7 +243,10 @@ public abstract class Signal extends Geraet
         this.funktionsdecoder.setWert(fdWert);
       }
 
-      this.valueChangedListenerRegistry.sendEvent(new ValueChangedEvent(this));
+      if (this.valueChangedListenerRegistry != null)
+      {
+        this.valueChangedListenerRegistry.sendEvent(new ValueChangedEvent(this));
+      }
 
       EventFirer.fireEvent(this, new AnnotationLiteral<StellungsAenderung>()
       {
@@ -258,7 +256,7 @@ public abstract class Signal extends Geraet
 
   /**
    * Stellungswert für Stellung ermitteln.
-   * 
+   *
    * @param stellung Stellung
    * @return Stellungswert
    */
@@ -270,7 +268,7 @@ public abstract class Signal extends Geraet
 
   /**
    * Stellung passend zum Reservierungstyp liefern.
-   * 
+   *
    * @param stellung gewünschte Stellung
    * @param reservierungsTyp Reservierungstyp, falls Signal für eine Fahrstrasse gestellt wird, sonst <code>null</code>
    * @return angepasste Stellung
@@ -387,7 +385,7 @@ public abstract class Signal extends Geraet
 
   /**
    * Stellung für Stellungswert ermitteln.
-   * 
+   *
    * @param stellungsWert Stellungswert
    * @return Stellung
    */
@@ -398,14 +396,14 @@ public abstract class Signal extends Geraet
 
   /**
    * Farben für das GBS liefern.
-   * 
+   *
    * @return Farben
    */
   public abstract Color[] getGBSFarben();
 
   /**
    * Wert liefern: {@link #block}.
-   * 
+   *
    * @return Wert
    */
   public boolean isBlock()
@@ -415,7 +413,7 @@ public abstract class Signal extends Geraet
 
   /**
    * Wert setzen: {@link #block}.
-   * 
+   *
    * @param block Wert
    */
   public void setBlock(boolean block)
@@ -425,7 +423,7 @@ public abstract class Signal extends Geraet
 
   /**
    * Konstruktor für JAXB.
-   * 
+   *
    * Dieser Konstrktor ist für JAXB nötig, sollte aber dennoch nie aufgerufen werden.
    */
   protected Signal()

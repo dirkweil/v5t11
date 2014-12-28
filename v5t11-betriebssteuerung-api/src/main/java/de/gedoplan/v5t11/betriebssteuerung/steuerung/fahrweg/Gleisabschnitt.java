@@ -18,7 +18,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * Gleisabschnitt.
- * 
+ *
  * @author dw
  */
 @XmlRootElement
@@ -46,7 +46,7 @@ public class Gleisabschnitt extends Fahrwegelement
 
   /**
    * Attribut liefern: {@link #besetztmelder}.
-   * 
+   *
    * @return Wert
    */
   public Besetztmelder getBesetztmelder()
@@ -56,7 +56,7 @@ public class Gleisabschnitt extends Fahrwegelement
 
   /**
    * Wert setzen: {@link #besetztmelder}.
-   * 
+   *
    * @param besetztmelder Wert
    */
   public void setBesetztmelder(Besetztmelder besetztmelder)
@@ -66,7 +66,7 @@ public class Gleisabschnitt extends Fahrwegelement
 
   /**
    * Attribut liefern: {@link #anschluss}.
-   * 
+   *
    * @return Wert
    */
   public int getAnschluss()
@@ -76,7 +76,7 @@ public class Gleisabschnitt extends Fahrwegelement
 
   /**
    * Wert liefern: {@link #besetzt}.
-   * 
+   *
    * @return Wert
    */
   public boolean isBesetzt()
@@ -86,7 +86,7 @@ public class Gleisabschnitt extends Fahrwegelement
 
   /**
    * {@inheritDoc}
-   * 
+   *
    * @see de.gedoplan.v5t11.betriebssteuerung.listener.ValueChangedListener#valueChanged(de.gedoplan.v5t11.betriebssteuerung.listener.ValueChangedEvent)
    */
   @Override
@@ -96,12 +96,10 @@ public class Gleisabschnitt extends Fahrwegelement
     this.besetzt = (this.besetztmelder.getWert() & (1 << this.anschluss)) != 0;
     if (old != this.besetzt)
     {
-      if (this.logger.isTraceEnabled())
+      if (this.valueChangedListenerRegistry != null)
       {
-        this.logger.trace(this + ": setBesetzt(" + this.besetzt + ")");
+        this.valueChangedListenerRegistry.sendEvent(new ValueChangedEvent(this));
       }
-
-      this.valueChangedListenerRegistry.sendEvent(new ValueChangedEvent(this));
 
       fireGleisBelegung();
     }
@@ -116,7 +114,7 @@ public class Gleisabschnitt extends Fahrwegelement
 
   /**
    * {@inheritDoc}
-   * 
+   *
    * @see java.lang.Object#toString()
    */
   @Override
@@ -134,7 +132,7 @@ public class Gleisabschnitt extends Fahrwegelement
 
   /**
    * Nachbearbeitung nach JAXB-Unmarshal.
-   * 
+   *
    * @param unmarshaller Unmarshaller
    * @param parent Parent
    */

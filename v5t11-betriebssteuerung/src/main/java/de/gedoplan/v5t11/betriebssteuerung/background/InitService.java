@@ -27,9 +27,8 @@ public class InitService
   @Inject
   BeanManager                    beanManager;
 
-  @SuppressWarnings("unused")
   @PostConstruct
-  private void init() throws Exception
+  private void init()
   {
     for (InitializableService initializable : this.initializableServices)
     {

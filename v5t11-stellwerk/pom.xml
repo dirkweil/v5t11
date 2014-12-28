@@ -15,7 +15,7 @@
   <dependencies>
     <dependency>
       <groupId>de.gedoplan</groupId>
-      <artifactId>baselibs-jboss</artifactId>
+      <artifactId>baselibs-wildfly</artifactId>
     </dependency>
 
     <dependency>
