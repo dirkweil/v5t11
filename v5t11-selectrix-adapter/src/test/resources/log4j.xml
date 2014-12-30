@@ -12,7 +12,7 @@
    </appender>
 
    <category name="de.gedoplan">
-      <priority value="TRACE"/>
+      <priority value="INFO"/>
    </category>
 
 <!-- 
@@ -22,7 +22,7 @@
  -->
 
    <root>
-      <priority value="WARN"/>
+      <priority value="TRACE"/>
       <appender-ref ref="CONSOLE"/>
    </root>
 

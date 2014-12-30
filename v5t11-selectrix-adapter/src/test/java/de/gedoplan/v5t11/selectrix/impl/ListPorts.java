@@ -12,6 +12,8 @@ public class ListPorts
 
   public static void main(String[] args) throws Exception
   {
+//	System.setProperty("gnu.io.rxtx.SerialPorts", "/dev/ttyUSB0");
+//	System.out.println("java.library.path: " + System.getProperty("java.library.path"));
     showAll();
   }
 
