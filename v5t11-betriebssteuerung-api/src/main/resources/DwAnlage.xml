@@ -95,7 +95,7 @@
         <property name="abfallVerzoegerung" value="2000" />
       </properties>
     </SXBM1>
-    <SXBM1 id="BM-2003-4" adr="94">
+    <SXBM1 id="BM-2003-4" adr="94" einbauOrt="Ebene -1, unter Bhf. Niederbach, hinterer Rand, rechts">
       <Gleisabschnitt idx="1" bereich="Fensterhausen" name="N" />
       <Gleisabschnitt idx="3" bereich="Niederbach" name="H" />
       <Gleisabschnitt idx="4" bereich="Niederbach" name="13" />
