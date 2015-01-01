@@ -135,13 +135,21 @@
         <property name="abfallVerzoegerung" value="2000" />
       </properties>
     </SXBM1>
+    <SXBM1 id="BM-2014-1" adr="99" einbauOrt="Ebene -1, unter Schattenbahnhof1, ? (mit Kehrschleifenautomatik)">
+      <Gleisabschnitt idx="1" bereich="Schattenbahnhof1" name="K2" />
+      <Gleisabschnitt idx="2" bereich="Schattenbahnhof1" name="K3" />
+      <Gleisabschnitt idx="3" bereich="Schattenbahnhof1" name="K4" />
+      <properties>
+        <property name="abfallVerzoegerung" value="2000" />
+      </properties>
+    </SXBM1>
     <SXBM1 id="BM-2003-6" adr="100" einbauOrt="Ebene -1, unter Schattenbahnhof1, rechts">
       <Gleisabschnitt idx="0" bereich="Schattenbahnhof1" name="5" />
       <Gleisabschnitt idx="1" bereich="Schattenbahnhof1" name="4" />
       <Gleisabschnitt idx="2" bereich="Schattenbahnhof1" name="3" />
       <Gleisabschnitt idx="3" bereich="Schattenbahnhof1" name="2" />
       <Gleisabschnitt idx="4" bereich="Schattenbahnhof1" name="1" />
-      <Gleisabschnitt idx="5" bereich="Schattenbahnhof1" name="K" />
+      <Gleisabschnitt idx="5" bereich="Schattenbahnhof1" name="K1" />
       <Gleisabschnitt idx="7" bereich="Schattenbahnhof1" name="E" />
       <properties>
         <property name="abfallVerzoegerung" value="2000" />
@@ -2355,20 +2363,29 @@
     <Fahrstrasse bereich="Schattenbahnhof1" zaehlrichtung="true">
       <Gleisabschnitt name="1" />
       <Weiche name="10" stellung="GERADE" />
-      <Gleisabschnitt name="K" />
+      <Gleisabschnitt name="K1" />
+      <Gleisabschnitt name="K2" />
+      <Gleisabschnitt name="K3" />
+      <Gleisabschnitt name="K4" />
     </Fahrstrasse>
     <Fahrstrasse bereich="Schattenbahnhof1" zaehlrichtung="true">
       <Gleisabschnitt name="2" />
       <Weiche name="9" stellung="ABZWEIGEND" />
       <Weiche name="10" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="K" />
+      <Gleisabschnitt name="K1" />
+      <Gleisabschnitt name="K2" />
+      <Gleisabschnitt name="K3" />
+      <Gleisabschnitt name="K4" />
     </Fahrstrasse>
     <Fahrstrasse bereich="Schattenbahnhof1" zaehlrichtung="true">
       <Gleisabschnitt name="3" />
       <Weiche name="8" stellung="ABZWEIGEND" />
       <Weiche name="9" stellung="GERADE" />
       <Weiche name="10" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="K" />
+      <Gleisabschnitt name="K1" />
+      <Gleisabschnitt name="K2" />
+      <Gleisabschnitt name="K3" />
+      <Gleisabschnitt name="K4" />
     </Fahrstrasse>
     <Fahrstrasse bereich="Schattenbahnhof1" zaehlrichtung="true">
       <Gleisabschnitt name="4" />
@@ -2376,7 +2393,10 @@
       <Weiche name="8" stellung="GERADE" />
       <Weiche name="9" stellung="GERADE" />
       <Weiche name="10" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="K" />
+      <Gleisabschnitt name="K1" />
+      <Gleisabschnitt name="K2" />
+      <Gleisabschnitt name="K3" />
+      <Gleisabschnitt name="K4" />
     </Fahrstrasse>
     <Fahrstrasse bereich="Schattenbahnhof1" zaehlrichtung="true">
       <Gleisabschnitt name="5" />
@@ -2384,10 +2404,13 @@
       <Weiche name="8" stellung="GERADE" />
       <Weiche name="9" stellung="GERADE" />
       <Weiche name="10" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="K" />
+      <Gleisabschnitt name="K1" />
+      <Gleisabschnitt name="K2" />
+      <Gleisabschnitt name="K3" />
+      <Gleisabschnitt name="K4" />
     </Fahrstrasse>
     <Fahrstrasse bereich="Schattenbahnhof1" zaehlrichtung="true">
-      <Gleisabschnitt name="K" />
+      <Gleisabschnitt name="K4" />
       <Weiche name="1" stellung="GERADE" />
       <Weiche name="2" stellung="GERADE" schutz="true" />
       <Gleisabschnitt name="A" />
@@ -3122,13 +3145,14 @@
     <Stellwerk bereich="Schattenbahnhof1">
       <Zeile>
         <Element typ="Leer" />
-        <Element typ="GleisAbschnitt" lage="O,SW" name="K" />
-        <Element typ="GleisAbschnitt" lage="O,W" anzahl="11" name="K" />
-        <Element typ="GleisAbschnitt" lage="SO,W" name="K" />
+        <Element typ="GleisAbschnitt" lage="O,SW" name="K4" />
+        <Element typ="GleisAbschnitt" lage="O,W" anzahl="10" name="K3" />
+        <Element typ="GleisAbschnitt" lage="O,W" name="K2" />
+        <Element typ="GleisAbschnitt" lage="SO,W" name="K1" />
         <Element typ="Leer" />
       </Zeile>
       <Zeile>
-        <Element typ="GleisAbschnitt" lage="NO,S" name="K" />
+        <Element typ="GleisAbschnitt" lage="NO,S" name="K4" />
         <Element typ="Leer" anzahl="2" />
         <Element typ="GleisAbschnitt" lage="SW,O" name="15" />
         <Element typ="GleisAbschnitt" lage="W,O" name="15" />
@@ -3137,10 +3161,10 @@
         <Element typ="GleisAbschnitt" lage="W,O" name="5" />
         <Element typ="GleisAbschnitt" lage="W,SO" name="5" />
         <Element typ="Leer" anzahl="5" />
-        <Element typ="GleisAbschnitt" lage="S,NW" name="K" />
+        <Element typ="GleisAbschnitt" lage="S,NW" name="K1" />
       </Zeile>
       <Zeile>
-        <Element typ="GleisAbschnitt" lage="N,S" name="K" />
+        <Element typ="GleisAbschnitt" lage="N,S" name="K4" />
         <Element typ="Leer" anzahl="1" />
         <Element typ="GleisAbschnitt" lage="SW,NO" name="15" />
         <Element typ="Leer" anzahl="1" />
@@ -3151,10 +3175,10 @@
         <Element typ="GleisAbschnitt" lage="W,O" name="4" />
         <Element typ="Weiche" lage="NW|W,SO" name="7" />
         <Element typ="Leer" anzahl="4" />
-        <Element typ="GleisAbschnitt" lage="S,N" name="K" />
+        <Element typ="GleisAbschnitt" lage="S,N" name="K1" />
       </Zeile>
       <Zeile>
-        <Element typ="GleisAbschnitt" lage="N,S" name="K" />
+        <Element typ="GleisAbschnitt" lage="N,S" name="K4" />
         <Element typ="GleisAbschnitt" lage="S,NO" name="15" />
         <Element typ="Leer" anzahl="1" />
         <Element typ="Weiche" lage="SW,NO|O" name="6" />
@@ -3164,10 +3188,10 @@
         <Element typ="GleisAbschnitt" lage="W,O" name="3" />
         <Element typ="Weiche" lage="NW|W,SO" name="8" />
         <Element typ="Leer" anzahl="3" />
-        <Element typ="GleisAbschnitt" lage="S,N" name="K" />
+        <Element typ="GleisAbschnitt" lage="S,N" name="K1" />
       </Zeile>
       <Zeile>
-        <Element typ="GleisAbschnitt" lage="N,S" name="K" />
+        <Element typ="GleisAbschnitt" lage="N,S" name="K4" />
         <Element typ="GleisAbschnitt" lage="S,N" name="15" />
         <Element typ="GleisAbschnitt" lage="SW,NO" name="W6" />
         <Element typ="GleisAbschnitt" lage="SW,O" name="12" />
@@ -3177,10 +3201,10 @@
         <Element typ="GleisAbschnitt" lage="W,O" name="2" />
         <Element typ="Weiche" lage="NW|W,SO" name="9" />
         <Element typ="Leer" anzahl="2" />
-        <Element typ="GleisAbschnitt" lage="SW,N" name="K" />
+        <Element typ="GleisAbschnitt" lage="SW,N" name="K1" />
       </Zeile>
       <Zeile>
-        <Element typ="GleisAbschnitt" lage="N,S" name="K" />
+        <Element typ="GleisAbschnitt" lage="N,S" name="K4" />
         <Element typ="Weiche" lage="S,N|NO" name="4" />
         <Element typ="Weiche" lage="SW,NO|O" name="5" />
         <Element typ="GleisAbschnitt" lage="W,O" anzahl="6" name="11" />
@@ -3188,15 +3212,15 @@
         <Element typ="GleisAbschnitt" lage="W,O" name="1" label="true" />
         <Element typ="GleisAbschnitt" lage="W,O" name="1" />
         <Element typ="Weiche" lage="W|NW,O" name="10" />
-        <Element typ="GleisAbschnitt" lage="W,NO" name="K" />
+        <Element typ="GleisAbschnitt" lage="W,NO" name="K1" />
         <Element typ="Leer" />
       </Zeile>
       <Zeile>
-        <Element typ="GleisAbschnitt" lage="N,S" name="K" />
+        <Element typ="GleisAbschnitt" lage="N,S" name="K4" />
         <Element typ="Weiche" lage="S,N|NO" name="3" />
       </Zeile>
       <Zeile>
-        <Element typ="GleisAbschnitt" lage="N,S" name="K" />
+        <Element typ="GleisAbschnitt" lage="N,S" name="K4" />
         <Element typ="Weiche" lage="S|SW,N" name="2" />
       </Zeile>
       <Zeile>
