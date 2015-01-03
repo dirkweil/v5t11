@@ -150,6 +150,10 @@
       <Gleisabschnitt idx="3" bereich="Schattenbahnhof1" name="2" />
       <Gleisabschnitt idx="4" bereich="Schattenbahnhof1" name="1" />
       <Gleisabschnitt idx="5" bereich="Schattenbahnhof1" name="K1" />
+      <Gleisabschnitt idx="5" bereich="Schattenbahnhof1" name="W7" />
+      <Gleisabschnitt idx="5" bereich="Schattenbahnhof1" name="W8" />
+      <Gleisabschnitt idx="5" bereich="Schattenbahnhof1" name="W9" />
+      <Gleisabschnitt idx="5" bereich="Schattenbahnhof1" name="W10" />
       <Gleisabschnitt idx="7" bereich="Schattenbahnhof1" name="E" />
       <properties>
         <property name="abfallVerzoegerung" value="2000" />
@@ -157,6 +161,10 @@
     </SXBM1>
     <SXBM1 id="BM-2003-7" adr="101">
       <Gleisabschnitt idx="0" bereich="Schattenbahnhof2" name="K" />
+      <Gleisabschnitt idx="0" bereich="Schattenbahnhof2" name="W7" />
+      <Gleisabschnitt idx="0" bereich="Schattenbahnhof2" name="W8" />
+      <Gleisabschnitt idx="0" bereich="Schattenbahnhof2" name="W9" />
+      <Gleisabschnitt idx="0" bereich="Schattenbahnhof2" name="W10" />
       <Gleisabschnitt idx="1" bereich="Schattenbahnhof2" name="A" />
       <Gleisabschnitt idx="2" bereich="Schattenbahnhof2" name="1" />
       <Gleisabschnitt idx="3" bereich="Schattenbahnhof2" name="5" />
@@ -212,8 +220,6 @@
       <Gleisabschnitt idx="3" bereich="Schattenbahnhof1" name="W4" />
       <Gleisabschnitt idx="4" bereich="Schattenbahnhof1" name="W5" />
       <Gleisabschnitt idx="5" bereich="Schattenbahnhof1" name="W6" />
-      <Gleisabschnitt idx="6" bereich="Schattenbahnhof1" name="W7" />
-      <Gleisabschnitt idx="7" bereich="Schattenbahnhof1" name="W8" />
     </SXBM1>
 
     <SXBM1 id="BM-dummy-7" adr="56">
@@ -223,15 +229,9 @@
       <Gleisabschnitt idx="3" bereich="Schattenbahnhof2" name="W4" />
       <Gleisabschnitt idx="4" bereich="Schattenbahnhof2" name="W5" />
       <Gleisabschnitt idx="5" bereich="Schattenbahnhof2" name="W6" />
-      <Gleisabschnitt idx="6" bereich="Schattenbahnhof2" name="W7" />
-      <Gleisabschnitt idx="7" bereich="Schattenbahnhof2" name="W8" />
     </SXBM1>
 
     <SXBM1 id="BM-dummy-8" adr="57">
-      <Gleisabschnitt idx="0" bereich="Schattenbahnhof1" name="W9" />
-      <Gleisabschnitt idx="1" bereich="Schattenbahnhof1" name="W10" />
-      <Gleisabschnitt idx="4" bereich="Schattenbahnhof2" name="W9" />
-      <Gleisabschnitt idx="5" bereich="Schattenbahnhof2" name="W10" />
     </SXBM1>
 
     <SXBM1 id="BM-dummy-9" adr="58">
@@ -263,7 +263,7 @@
       <HauptsignalRtGn idx="6" bereich="Niederbach" name="I" />
       <Weiche idx="7" bereich="Niederbach" name="9" />
     </WDMiba>
-    <WDMiba id="FD-2003-2" adr="71">
+    <WDMiba id="FD-2003-2" adr="71" einbauOrt="Ebene -1, unter Schattenbahnhof1, Ein/Ausfahrt">
       <Weiche idx="4" bereich="Schattenbahnhof1" name="6" />
       <Weiche idx="5" bereich="Schattenbahnhof1" name="5" />
       <Weiche idx="6" bereich="Schattenbahnhof1" name="4" />
