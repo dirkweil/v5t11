@@ -30,11 +30,11 @@
 	</category>
 
 	<category name="de.gedoplan.v5t11.stellwerk.gui.GbsInputPanel">
-		<priority value="TRACE" />
+		<priority value="DEBUG" />
 	</category>
 
 	<category name="de.gedoplan.v5t11.stellwerk.gui.Main">
-		<priority value="TRACE" />
+		<priority value="DEBUG" />
 	</category>
 
 
