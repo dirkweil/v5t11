@@ -135,6 +135,21 @@
         <property name="abfallVerzoegerung" value="2000" />
       </properties>
     </SXBM1>
+
+    <SXBM1 id="BM-2014-3" adr="97" einbauOrt="Ebene -1, unter Schattenbahnhof2, links">
+      <Gleisabschnitt idx="0" bereich="Schattenbahnhof2" name="W3" />
+      <Gleisabschnitt idx="1" bereich="Schattenbahnhof2" name="W4" />
+      <Gleisabschnitt idx="2" bereich="Schattenbahnhof2" name="W5" />
+      <Gleisabschnitt idx="3" bereich="Schattenbahnhof2" name="W6" />
+      <Gleisabschnitt idx="6" bereich="Fensterhausen" name="W102" />
+      <Gleisabschnitt idx="6" bereich="Fensterhausen" name="W103" />
+      <Gleisabschnitt idx="7" bereich="Fensterhausen" name="W101" />
+
+      <properties>
+        <property name="abfallVerzoegerung" value="2000" />
+      </properties>
+    </SXBM1>
+
     <SXBM1 id="BM-2014-2" adr="98" einbauOrt="Ebene -1, unter Schattenbahnhof1, mitte">
       <Gleisabschnitt idx="0" bereich="Schattenbahnhof1" name="W3" />
       <Gleisabschnitt idx="1" bereich="Schattenbahnhof1" name="W5" />
@@ -173,10 +188,6 @@
     </SXBM1>
     <SXBM1 id="BM-2003-7" adr="101">
       <Gleisabschnitt idx="0" bereich="Schattenbahnhof2" name="K" />
-      <Gleisabschnitt idx="0" bereich="Schattenbahnhof2" name="W7" />
-      <Gleisabschnitt idx="0" bereich="Schattenbahnhof2" name="W8" />
-      <Gleisabschnitt idx="0" bereich="Schattenbahnhof2" name="W9" />
-      <Gleisabschnitt idx="0" bereich="Schattenbahnhof2" name="W10" />
       <Gleisabschnitt idx="1" bereich="Schattenbahnhof2" name="A" />
       <Gleisabschnitt idx="2" bereich="Schattenbahnhof2" name="1" />
       <Gleisabschnitt idx="3" bereich="Schattenbahnhof2" name="5" />
@@ -218,12 +229,6 @@
       Ab hier folgen Pseudo-Besetztmelder mit Adressen 5x, die nicht wirklich vorhanden sind, sondern nur die bislang nicht
       verdrahteten Gleisabschnitte erfassen. Ziel ist es, dies auf echte Melder umzuhängen. 
      -->
-    <SXBM1 id="BM-dummy-5" adr="54">
-      <Gleisabschnitt idx="2" bereich="Fensterhausen" name="W101" />
-      <Gleisabschnitt idx="3" bereich="Fensterhausen" name="W102" />
-      <Gleisabschnitt idx="4" bereich="Fensterhausen" name="W103" />
-    </SXBM1>
-
     <SXBM1 id="BM-dummy-7" adr="56">
       <Gleisabschnitt idx="0" bereich="Schattenbahnhof2" name="W1" />
       <Gleisabschnitt idx="1" bereich="Schattenbahnhof2" name="W2" />
