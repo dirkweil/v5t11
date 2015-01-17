@@ -34,7 +34,7 @@ public abstract class XyzAnlageTest
   }
 
   @Test
-  @Ignore
+//  @Ignore
   public void showGleiseOhneBesetztmelder()
   {
     for (Gleisabschnitt gleisabschnitt : this.steuerung.getGleisabschnitte())
@@ -48,7 +48,7 @@ public abstract class XyzAnlageTest
   }
 
   @Test
-  @Ignore
+//  @Ignore
   public void showFreieBesetztmelder()
   {
     for (Besetztmelder besetztmelder : this.steuerung.getBesetztmelder())
