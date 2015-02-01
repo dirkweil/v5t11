@@ -24,7 +24,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * Lokomotive.
- * 
+ *
  * @author dw
  */
 @XmlRootElement
@@ -59,12 +59,12 @@ public class Lok extends SingleIdEntity<Integer> implements Comparable<Lok>, Sel
 
   /**
    * Adresse der Lok am SX-Bus.
-   * 
+   *
    * Die Adresse stellt auch die Id des Objektes dar.
    */
   @Min(0)
   @Max(111)
-  @XmlAttribute(name = "adr")
+  @XmlAttribute(name = "adr", required = true)
   @JsonProperty("adr")
   protected int                 adresse;
 
@@ -85,7 +85,7 @@ public class Lok extends SingleIdEntity<Integer> implements Comparable<Lok>, Sel
   /**
    * Decoder.
    */
-  @XmlAttribute
+  @XmlAttribute(required = true)
   @JsonProperty
   protected LokDecoder          decoder;
 
@@ -109,7 +109,7 @@ public class Lok extends SingleIdEntity<Integer> implements Comparable<Lok>, Sel
 
   /**
    * Konstruktor.
-   * 
+   *
    * @param adresse Adresse
    * @param name Name
    * @param bildFileName Name der Bilddatei
@@ -123,7 +123,7 @@ public class Lok extends SingleIdEntity<Integer> implements Comparable<Lok>, Sel
 
   /**
    * {@inheritDoc}
-   * 
+   *
    * @see de.gedoplan.baselibs.persistence.entity.SingleIdEntity#getId()
    */
   @Override
@@ -134,7 +134,7 @@ public class Lok extends SingleIdEntity<Integer> implements Comparable<Lok>, Sel
 
   /**
    * Wert liefern: {@link #adresse}.
-   * 
+   *
    * @return Wert
    */
   public int getAdresse()
@@ -144,7 +144,7 @@ public class Lok extends SingleIdEntity<Integer> implements Comparable<Lok>, Sel
 
   /**
    * Wert liefern: {@link #name}.
-   * 
+   *
    * @return Wert
    */
   public String getName()
@@ -154,7 +154,7 @@ public class Lok extends SingleIdEntity<Integer> implements Comparable<Lok>, Sel
 
   /**
    * Wert liefern: {@link #bildFileName}.
-   * 
+   *
    * @return Wert
    */
   public String getBildFileName()
@@ -164,7 +164,7 @@ public class Lok extends SingleIdEntity<Integer> implements Comparable<Lok>, Sel
 
   /**
    * Wert liefern: {@link #decoder}.
-   * 
+   *
    * @return Wert
    */
   public LokDecoder getDecoder()
@@ -174,7 +174,7 @@ public class Lok extends SingleIdEntity<Integer> implements Comparable<Lok>, Sel
 
   /**
    * Wert liefern: {@link #wert}.
-   * 
+   *
    * @return Wert
    */
   public long getWert()
@@ -184,7 +184,7 @@ public class Lok extends SingleIdEntity<Integer> implements Comparable<Lok>, Sel
 
   /**
    * Horn abfragen.
-   * 
+   *
    * @return boolean Einschaltzustand des Lokhorns
    */
   public boolean isHorn()
@@ -194,7 +194,7 @@ public class Lok extends SingleIdEntity<Integer> implements Comparable<Lok>, Sel
 
   /**
    * Horn im übergebenen Wert abfragen.
-   * 
+   *
    * @param wert2 Wert
    * @return boolean Einschaltzustand des Lokhorns
    */
@@ -205,7 +205,7 @@ public class Lok extends SingleIdEntity<Integer> implements Comparable<Lok>, Sel
 
   /**
    * Horn ein/ausschalten.
-   * 
+   *
    * @param on Einschaltzustand des Lokhorns
    */
   public void setHorn(boolean on)
@@ -215,7 +215,7 @@ public class Lok extends SingleIdEntity<Integer> implements Comparable<Lok>, Sel
 
   /**
    * Horn im übergebenen Wert ein/ausschalten.
-   * 
+   *
    * @param wert2 Wert
    * @param on Einschaltzustand des Lokhorns
    */
@@ -233,7 +233,7 @@ public class Lok extends SingleIdEntity<Integer> implements Comparable<Lok>, Sel
 
   /**
    * Licht abfragen.
-   * 
+   *
    * @return Einschaltzustand der Stirn/Schlußbeleuchtung
    */
   public boolean isLicht()
@@ -243,7 +243,7 @@ public class Lok extends SingleIdEntity<Integer> implements Comparable<Lok>, Sel
 
   /**
    * Licht im übergebenen Wert abfragen.
-   * 
+   *
    * @param wert Wert
    * @return Einschaltzustand der Stirn/Schlußbeleuchtung
    */
@@ -254,7 +254,7 @@ public class Lok extends SingleIdEntity<Integer> implements Comparable<Lok>, Sel
 
   /**
    * Licht ein/ausschalten.
-   * 
+   *
    * @param on Einschaltzustand der Stirn/Schlußbeleuchtung
    */
   public void setLicht(boolean on)
@@ -264,7 +264,7 @@ public class Lok extends SingleIdEntity<Integer> implements Comparable<Lok>, Sel
 
   /**
    * Licht im übergebenen Wert ein/ausschalten.
-   * 
+   *
    * @param wert Wert
    * @param on Einschaltzustand der Stirn/Schlußbeleuchtung
    */
@@ -282,7 +282,7 @@ public class Lok extends SingleIdEntity<Integer> implements Comparable<Lok>, Sel
 
   /**
    * Fahrrichtung abfragen.
-   * 
+   *
    * @return <code>true</code>=rückwärts, <code>false</code>=vorwärts
    */
   public boolean isRueckwaerts()
@@ -292,7 +292,7 @@ public class Lok extends SingleIdEntity<Integer> implements Comparable<Lok>, Sel
 
   /**
    * Fahrrichtung im übergebenen Wert abfragen.
-   * 
+   *
    * @param wert Wert
    * @return <code>true</code>=rückwärts, <code>false</code>=vorwärts
    */
@@ -303,7 +303,7 @@ public class Lok extends SingleIdEntity<Integer> implements Comparable<Lok>, Sel
 
   /**
    * Fahrrichtung setzen.
-   * 
+   *
    * @param on <code>true</code>=rückwärts, <code>false</code>=vorwärts
    */
   public void setRueckwaerts(boolean on)
@@ -313,7 +313,7 @@ public class Lok extends SingleIdEntity<Integer> implements Comparable<Lok>, Sel
 
   /**
    * Fahrrichtung im übergebenen Wert ein/ausschalten.
-   * 
+   *
    * @param wert Wert
    * @param on <code>true</code>=rückwärts, <code>false</code>=vorwärts
    */
@@ -331,7 +331,7 @@ public class Lok extends SingleIdEntity<Integer> implements Comparable<Lok>, Sel
 
   /**
    * Geschwindigkeit abfragen.
-   * 
+   *
    * @return Fahrstufe (0..31)
    */
   public int getGeschwindigkeit()
@@ -341,7 +341,7 @@ public class Lok extends SingleIdEntity<Integer> implements Comparable<Lok>, Sel
 
   /**
    * Geschwindigkeit im übergebenen Wert abfragen.
-   * 
+   *
    * @param wert Wert
    * @return Fahrstufe (0..31)
    */
@@ -352,7 +352,7 @@ public class Lok extends SingleIdEntity<Integer> implements Comparable<Lok>, Sel
 
   /**
    * Geschwindigkeit setzen.
-   * 
+   *
    * @param geschwindigkeit Fahrstufe (0..31)
    */
   public void setGeschwindigkeit(int geschwindigkeit)
@@ -362,7 +362,7 @@ public class Lok extends SingleIdEntity<Integer> implements Comparable<Lok>, Sel
 
   /**
    * Geschwindigkeit im übergebenen Wert ein/ausschalten.
-   * 
+   *
    * @param wert Wert
    * @param geschwindigkeit Fahrstufe (0..31)
    */
@@ -378,7 +378,7 @@ public class Lok extends SingleIdEntity<Integer> implements Comparable<Lok>, Sel
 
   /**
    * Wert liefern: {@link #properties}.
-   * 
+   *
    * @return Wert
    */
   public Map<String, String> getProperties()
@@ -388,7 +388,7 @@ public class Lok extends SingleIdEntity<Integer> implements Comparable<Lok>, Sel
 
   /**
    * Wert setzen: {@link #wert}.
-   * 
+   *
    * @param wert Wert
    */
   public void setWert(long wert)
@@ -398,7 +398,7 @@ public class Lok extends SingleIdEntity<Integer> implements Comparable<Lok>, Sel
 
   /**
    * Wert setzen: {@link #wert}.
-   * 
+   *
    * @param wert Wert
    * @param updateInterface Änderung an Selectrix-Interface senden?
    */
@@ -419,7 +419,7 @@ public class Lok extends SingleIdEntity<Integer> implements Comparable<Lok>, Sel
 
   /**
    * Listener für Werteänderungen hinzufügen.
-   * 
+   *
    * @param valueChangedListener Listener
    * @see de.gedoplan.v5t11.betriebssteuerung.event.ValueChangedListenerRegistry#addListener(de.gedoplan.v5t11.betriebssteuerung.event.ValueChangedListener)
    */
@@ -430,7 +430,7 @@ public class Lok extends SingleIdEntity<Integer> implements Comparable<Lok>, Sel
 
   /**
    * {@inheritDoc}
-   * 
+   *
    * @see java.lang.Comparable#compareTo(java.lang.Object)
    */
   @Override
@@ -448,7 +448,7 @@ public class Lok extends SingleIdEntity<Integer> implements Comparable<Lok>, Sel
 
   /**
    * Nachbearbeitung nach JAXB-Unmarshal.
-   * 
+   *
    * @param unmarshaller Unmarshaller
    * @param parent Parent
    */

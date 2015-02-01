@@ -11,6 +11,9 @@ import de.gedoplan.v5t11.betriebssteuerung.steuerung.konfiguration.AutoFahrstras
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.konfiguration.BahnuebergangKonfiguration;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.konfiguration.BlockstellenKonfiguration;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.konfiguration.VorsignalKonfiguration;
+import de.gedoplan.v5t11.betriebssteuerung.steuerung.lok.Lok;
+
+import java.util.Map.Entry;
 
 import org.junit.Ignore;
 import org.junit.Test;
@@ -34,7 +37,7 @@ public abstract class XyzAnlageTest
   }
 
   @Test
-//  @Ignore
+  @Ignore
   public void showGleiseOhneBesetztmelder()
   {
     for (Gleisabschnitt gleisabschnitt : this.steuerung.getGleisabschnitte())
@@ -48,7 +51,7 @@ public abstract class XyzAnlageTest
   }
 
   @Test
-//  @Ignore
+  @Ignore
   public void showFreieBesetztmelder()
   {
     for (Besetztmelder besetztmelder : this.steuerung.getBesetztmelder())
@@ -106,7 +109,7 @@ public abstract class XyzAnlageTest
     {
       if (funktionsdecoder.getAdresse() >= 70)
       {
-            System.out.println(funktionsdecoder + ": " + funktionsdecoder.getEinbauOrt());
+        System.out.println(funktionsdecoder + ": " + funktionsdecoder.getEinbauOrt());
       }
     }
   }
@@ -175,5 +178,22 @@ public abstract class XyzAnlageTest
         System.out.println("  " + element);
       }
     }
+  }
+
+  @Test
+  public void showLoks() throws Exception
+  {
+    for (Lok lok : this.steuerung.getLoks())
+    {
+      System.out.println(lok.toDebugString());
+      if (lok.getProperties() != null)
+      {
+        for (Entry<String, String> entry : lok.getProperties().entrySet())
+        {
+          System.out.println("  " + entry.getKey() + " --> " + entry.getValue());
+        }
+      }
+    }
+
   }
 }

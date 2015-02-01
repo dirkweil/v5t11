@@ -30,6 +30,7 @@
       <property name="xmotor" value="true" />
     </properties>
   </Lok>
+  <Lok name="ET 90.5019" bild="lok_et90.png" adr="21" decoder="DHL100"/>
 
   <LokController id="LokControl 1" adr="30" />
   <LokController id="LokControl 2" adr="31" />
