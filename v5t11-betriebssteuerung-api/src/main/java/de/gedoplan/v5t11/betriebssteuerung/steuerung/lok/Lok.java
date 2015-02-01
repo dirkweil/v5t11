@@ -2,6 +2,8 @@ package de.gedoplan.v5t11.betriebssteuerung.steuerung.lok;
 
 import de.gedoplan.baselibs.persistence.entity.SingleIdEntity;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.Steuerung;
+import de.gedoplan.v5t11.betriebssteuerung.steuerung.baustein.Lokdecoder;
+import de.gedoplan.v5t11.betriebssteuerung.steuerung.baustein.lokdecoder.SxLokdecoder;
 import de.gedoplan.v5t11.betriebssteuerung.util.XmlPropertiesAdapter;
 import de.gedoplan.v5t11.selectrix.SelectrixMessage;
 import de.gedoplan.v5t11.selectrix.SelectrixMessageListener;
@@ -30,7 +32,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.NONE)
 @JsonAutoDetect(JsonMethod.NONE)
-public class Lok extends SingleIdEntity<Integer> implements Comparable<Lok>, SelectrixMessageListener
+public class Lok extends SingleIdEntity<String> implements Comparable<Lok>, SelectrixMessageListener
 {
   /**
    * Bitmaske für Horn im Wert.
@@ -58,22 +60,20 @@ public class Lok extends SingleIdEntity<Integer> implements Comparable<Lok>, Sel
   public static final int       MAX_GESCHWINDIGKEIT  = 31;
 
   /**
+   * Id.
+   */
+  @XmlAttribute(required = true)
+  @JsonProperty
+  protected String              id;
+
+  /**
    * Adresse der Lok am SX-Bus.
-   *
-   * Die Adresse stellt auch die Id des Objektes dar.
    */
   @Min(0)
   @Max(111)
   @XmlAttribute(name = "adr", required = true)
   @JsonProperty("adr")
   protected int                 adresse;
-
-  /**
-   * Name.
-   */
-  @XmlAttribute
-  @JsonProperty
-  protected String              name;
 
   /**
    * Bilddateiname.
@@ -83,11 +83,13 @@ public class Lok extends SingleIdEntity<Integer> implements Comparable<Lok>, Sel
   protected String              bildFileName;
 
   /**
-   * Decoder.
+   * Decoder-Typ.
    */
-  @XmlAttribute(required = true)
+  @XmlAttribute(name = "decoder", required = true)
   @JsonProperty
-  protected LokDecoder          decoder;
+  protected String              decoderTyp;
+
+  protected Lokdecoder          decoder;
 
   /**
    * Konfigurationswerte.
@@ -110,46 +112,26 @@ public class Lok extends SingleIdEntity<Integer> implements Comparable<Lok>, Sel
   /**
    * Konstruktor.
    *
+   * @param id Id
    * @param adresse Adresse
-   * @param name Name
    * @param bildFileName Name der Bilddatei
    */
-  public Lok(int adresse, String name, String bildFileName)
+  public Lok(String id, int adresse, String bildFileName)
   {
+    this.id = id;
     this.adresse = adresse;
-    this.name = name;
     this.bildFileName = bildFileName;
   }
 
-  /**
-   * {@inheritDoc}
-   *
-   * @see de.gedoplan.baselibs.persistence.entity.SingleIdEntity#getId()
-   */
   @Override
-  public Integer getId()
+  public String getId()
   {
-    return this.adresse;
+    return this.id;
   }
 
-  /**
-   * Wert liefern: {@link #adresse}.
-   *
-   * @return Wert
-   */
   public int getAdresse()
   {
     return this.adresse;
-  }
-
-  /**
-   * Wert liefern: {@link #name}.
-   *
-   * @return Wert
-   */
-  public String getName()
-  {
-    return this.name;
   }
 
   /**
@@ -165,9 +147,9 @@ public class Lok extends SingleIdEntity<Integer> implements Comparable<Lok>, Sel
   /**
    * Wert liefern: {@link #decoder}.
    *
-   * @return Wert
+   * @return Decoder
    */
-  public LokDecoder getDecoder()
+  public Lokdecoder getDecoder()
   {
     return this.decoder;
   }
@@ -446,6 +428,11 @@ public class Lok extends SingleIdEntity<Integer> implements Comparable<Lok>, Sel
   {
   }
 
+  public Lok(String lokDecoder)
+  {
+    this.decoderTyp = lokDecoder;
+  }
+
   /**
    * Nachbearbeitung nach JAXB-Unmarshal.
    *
@@ -462,6 +449,18 @@ public class Lok extends SingleIdEntity<Integer> implements Comparable<Lok>, Sel
     else
     {
       throw new IllegalArgumentException("Illegal parent " + parent);
+    }
+
+    try
+    {
+      String decoderClassName = SxLokdecoder.class.getPackage().getName() + "." + this.decoderTyp;
+      this.decoder = (Lokdecoder) Class.forName(decoderClassName).newInstance();
+      this.decoder.setId(this.id);
+      this.decoder.setAdresse(this.adresse);
+    }
+    catch (Exception e)
+    {
+      throw new IllegalArgumentException("Illegal decoder type " + this.decoderTyp, e);
     }
   }
 

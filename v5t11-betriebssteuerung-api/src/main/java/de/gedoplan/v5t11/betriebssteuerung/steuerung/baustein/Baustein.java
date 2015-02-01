@@ -343,4 +343,19 @@ public abstract class Baustein extends SingleIdEntity<String> implements Compara
   {
     return getClass().getSimpleName() + "{id=" + this.id + ",adresse=" + this.adresse + "}";
   }
+
+  public abstract String getLabelPrefix();
+
+  public String getLabel()
+  {
+    if (this.id != null)
+    {
+      return getLabelPrefix() + " " + this.id;
+    }
+    else
+    {
+      return getLabelPrefix() + " " + getClass().getSimpleName();
+    }
+  }
+
 }

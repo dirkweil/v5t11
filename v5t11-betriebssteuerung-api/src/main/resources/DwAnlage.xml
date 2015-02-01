@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <v5t11>
-  <Lok name="VT 11.5019" bild="lok_vt11.png" adr="1" decoder="DHL100"/>
-  <Lok name="216 xxx-x" bild="lok_216.png" adr="2" decoder="DHL100"/>
-  <Lok name="14283" bild="lok_14283.png" adr="3" decoder="DHL050"/>
-  <Lok name="323 673-4" bild="lok_323.png" adr="4" decoder="DHL050"/>
-  <Lok name="212 216-6" bild="lok_212.png" adr="5" decoder="Tr66825"/>
-  <Lok name="VT 98.9731" bild="lok_vt98.png" adr="6" decoder="DHL100"/>
-  <Lok name="89 005" bild="lok_89.png" adr="7" decoder="DH05A"/>
-  <Lok name="614 083-4" bild="lok_614.png" adr="11" decoder="Tr66832"/>
-  <Lok name="103 118-6" bild="lok_103.png" adr="13" decoder="DHL100"/>
-  <Lok name="332 262-5" bild="lok_332.png" adr="14" decoder="DHL100"/>
-  <Lok name="111 205-1" bild="lok_111.png" adr="15" decoder="DHL100">
+  <Lok id="VT 11.5019" bild="lok_vt11.png" adr="1" decoder="DHL100"/>
+  <Lok id="216 xxx-x" bild="lok_216.png" adr="2" decoder="DHL100"/>
+  <Lok id="14283" bild="lok_14283.png" adr="3" decoder="DHL050"/>
+  <Lok id="323 673-4" bild="lok_323.png" adr="4" decoder="DHL050"/>
+  <Lok id="212 216-6" bild="lok_212.png" adr="5" decoder="Tr66825"/>
+  <Lok id="VT 98.9731" bild="lok_vt98.png" adr="6" decoder="DHL100"/>
+  <Lok id="89 005" bild="lok_89.png" adr="7" decoder="DH05A"/>
+  <Lok id="614 083-4" bild="lok_614.png" adr="11" decoder="Tr66832"/>
+  <Lok id="103 118-6" bild="lok_103.png" adr="13" decoder="DHL100"/>
+  <Lok id="332 262-5" bild="lok_332.png" adr="14" decoder="DHL100"/>
+  <Lok id="111 205-1" bild="lok_111.png" adr="15" decoder="DHL100">
     <properties>
       <property name="xgleis" value="true" />
     </properties>
   </Lok>
-  <Lok name="430 119-8" bild="lok_430.png" adr="16" decoder="DHL100"/>
-  <Lok name="110 222-7" bild="lok_110.png" adr="17" decoder="DHL100">
+  <Lok id="430 119-8" bild="lok_430.png" adr="16" decoder="DHL100"/>
+  <Lok id="110 222-7" bild="lok_110.png" adr="17" decoder="DHL100">
     <properties>
       <property name="xmotor" value="true" />
     </properties>
   </Lok>
-  <Lok name="120 002-1" bild="lok_120.png" adr="18" decoder="Tr66830"/>
-  <Lok name="221 137-3" bild="lok_221.png" adr="19" decoder="Tr66835"/>
-  <Lok name="151 032-0" bild="lok_151.png" adr="20" decoder="DHL100">
+  <Lok id="120 002-1" bild="lok_120.png" adr="18" decoder="Tr66830"/>
+  <Lok id="221 137-3" bild="lok_221.png" adr="19" decoder="Tr66835"/>
+  <Lok id="151 032-0" bild="lok_151.png" adr="20" decoder="DHL100">
     <properties>
       <property name="xgleis" value="true" />
       <property name="xlicht" value="true" />
       <property name="xmotor" value="true" />
     </properties>
   </Lok>
-  <Lok name="ET 90.5019" bild="lok_et90.png" adr="21" decoder="DHL100"/>
+  <Lok id="ET 90.5019" bild="lok_et90.png" adr="21" decoder="DHL100"/>
 
   <LokController id="LokControl 1" adr="30" />
   <LokController id="LokControl 2" adr="31" />

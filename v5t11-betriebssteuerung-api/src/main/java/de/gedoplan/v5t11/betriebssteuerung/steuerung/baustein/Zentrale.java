@@ -14,7 +14,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * Selectrix-Zentrale.
- * 
+ *
  * @author dw
  */
 @XmlRootElement
@@ -40,7 +40,7 @@ public class Zentrale extends Baustein
 
   /**
    * Ist die Zentrale aktiv (Gleisspannung an)?
-   * 
+   *
    * @return <code>true</code>, wenn Zentrale aktiv
    */
   @XmlElement
@@ -52,7 +52,7 @@ public class Zentrale extends Baustein
 
   /**
    * Zentrale ein/ausschalten.
-   * 
+   *
    * @param aktiv <code>true</code> zum Einschalten
    */
   public void setAktiv(boolean aktiv)
@@ -67,7 +67,7 @@ public class Zentrale extends Baustein
 
   /**
    * Kurzschluss?
-   * 
+   *
    * @return <code>true</code> bei Kurzschluss
    */
   @XmlElement
@@ -75,5 +75,17 @@ public class Zentrale extends Baustein
   public boolean isKurzschluss()
   {
     return (getWert() & MASK_KURZSCHLUSS) != 0;
+  }
+
+  @Override
+  public String getLabel()
+  {
+    return getLabelPrefix();
+  }
+
+  @Override
+  public String getLabelPrefix()
+  {
+    return "Zentrale";
   }
 }

@@ -13,11 +13,11 @@
 
       <prime:tab title="Vorkonfigurierte Bausteine">
         <prime:dataTable value="#{bausteinProgrammierungModel.konfigurierteBausteine}" var="baustein">
-          <prime:column>
+          <prime:column sortBy="#{baustein.label}">
             <f:facet name="header">Id</f:facet>
-            <prime:commandButton value="#{baustein.id}" action="#{bausteinProgrammierungModel.selectBaustein(baustein)}" ajax="false"/>
+            <prime:commandButton value="#{baustein.label}" action="#{bausteinProgrammierungModel.selectBaustein(baustein)}" ajax="false"/>
           </prime:column>
-          <prime:column>
+          <prime:column sortBy="#{baustein.adresse}" >
             <f:facet name="header">Adresse</f:facet>
           #{baustein.adresse}
         </prime:column>
@@ -30,9 +30,9 @@
 
       <prime:tab title="Neue Bausteine">
         <prime:dataTable value="#{bausteinProgrammierungModel.neueBausteine}" var="baustein">
-          <prime:column>
+          <prime:column sortBy="#{baustein.label}">
             <f:facet name="header">Typ</f:facet>
-            <prime:commandButton value="#{baustein.class.simpleName}" action="#{bausteinProgrammierungModel.selectBaustein(baustein)}" ajax="false"/>
+            <prime:commandButton value="#{baustein.label}" action="#{bausteinProgrammierungModel.selectBaustein(baustein)}" ajax="false"/>
           </prime:column>
         </prime:dataTable>
       </prime:tab>

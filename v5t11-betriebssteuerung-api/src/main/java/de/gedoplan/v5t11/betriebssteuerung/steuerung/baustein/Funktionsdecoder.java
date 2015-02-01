@@ -25,7 +25,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * Besetztmelder.
- * 
+ *
  * @author dw
  */
 @XmlRootElement
@@ -45,9 +45,9 @@ public abstract class Funktionsdecoder extends Baustein implements Decoder
 
   /**
    * Konstruktor.
-   * 
+   *
    * Wird nur während des JAXB-Unmarshalling aufgerufen.
-   * 
+   *
    * @param byteAnzahl Anzahl belegter Bytes (Adressen)
    */
   protected Funktionsdecoder(int byteAnzahl)
@@ -57,7 +57,7 @@ public abstract class Funktionsdecoder extends Baustein implements Decoder
 
   /**
    * Konstruktor für JPA.
-   * 
+   *
    * Dieser Konstrktor ist auch für JAXB nötig, sollte hierdurch aber nie aufgerufen werden.
    */
   protected Funktionsdecoder()
@@ -66,7 +66,7 @@ public abstract class Funktionsdecoder extends Baustein implements Decoder
 
   /**
    * Wert liefern: {@link #geraete}.
-   * 
+   *
    * @return Wert
    */
   public SortedSet<Geraet> getGeraete()
@@ -83,5 +83,11 @@ public abstract class Funktionsdecoder extends Baustein implements Decoder
     {
       addValueChangedListener(geraet);
     }
+  }
+
+  @Override
+  public String getLabelPrefix()
+  {
+    return "Funktionsdecoder";
   }
 }

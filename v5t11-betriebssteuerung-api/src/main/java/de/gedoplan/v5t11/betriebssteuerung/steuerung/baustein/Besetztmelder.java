@@ -16,7 +16,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * Besetztmelder.
- * 
+ *
  * @author dw
  */
 @XmlRootElement
@@ -33,9 +33,9 @@ public abstract class Besetztmelder extends Baustein implements Encoder
 
   /**
    * Konstruktor.
-   * 
+   *
    * Wird nur während des JAXB-Unmarshalling aufgerufen.
-   * 
+   *
    * @param byteAnzahl Anzahl belegter Bytes (Adressen)
    */
   protected Besetztmelder(int byteAnzahl)
@@ -45,7 +45,7 @@ public abstract class Besetztmelder extends Baustein implements Encoder
 
   /**
    * Konstruktor für JPA.
-   * 
+   *
    * Dieser Konstrktor ist auch für JAXB nötig, sollte hierdurch aber nie aufgerufen werden.
    */
   protected Besetztmelder()
@@ -54,7 +54,7 @@ public abstract class Besetztmelder extends Baustein implements Encoder
 
   /**
    * Wert liefern: {@link #gleisabschnitte}.
-   * 
+   *
    * @return Wert
    */
   public SortedSet<Gleisabschnitt> getGleisabschnitte()
@@ -72,4 +72,11 @@ public abstract class Besetztmelder extends Baustein implements Encoder
       addValueChangedListener(gleisabschnitt);
     }
   }
+
+  @Override
+  public String getLabelPrefix()
+  {
+    return "Besetzmelder";
+  }
+
 }

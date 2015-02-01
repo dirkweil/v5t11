@@ -6,10 +6,7 @@ import de.gedoplan.v5t11.betriebssteuerung.steuerung.Steuerung;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.baustein.Baustein;
 
 import java.io.Serializable;
-import java.text.Collator;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -21,7 +18,7 @@ import javax.inject.Inject;
 
 /**
  * Presentation Model für die Bausteinprogrammierung.
- * 
+ *
  * @author dw
  */
 @Model
@@ -39,8 +36,6 @@ public class BausteinProgrammierungModel implements Serializable
 
   @Inject
   Conversation                  conversation;
-
-  private static final Collator COLLATOR = Collator.getInstance();
 
   /**
    * Liste aller konfigurierter Bausteine.
@@ -64,7 +59,7 @@ public class BausteinProgrammierungModel implements Serializable
 
   /**
    * Istkonfiguration des aktuellen Bausteins.
-   * 
+   *
    * Dieser Wert wird vom Presentation Model des jeweilligen Bausteins geliefert, wenn die Werte dauerhaft gespeichert werden
    * sollen. Ansonsten bleibt der Wert <code>null</code>.
    */
@@ -72,7 +67,7 @@ public class BausteinProgrammierungModel implements Serializable
 
   /**
    * Wert liefern: {@link #konfigurierteBausteine}.
-   * 
+   *
    * @return Wert
    */
   public List<Baustein> getKonfigurierteBausteine()
@@ -82,7 +77,7 @@ public class BausteinProgrammierungModel implements Serializable
 
   /**
    * Wert liefern: {@link #neueBausteine}.
-   * 
+   *
    * @return Wert
    */
   public List<Baustein> getNeueBausteine()
@@ -92,7 +87,7 @@ public class BausteinProgrammierungModel implements Serializable
 
   /**
    * Wert liefern: {@link #currentBaustein}.
-   * 
+   *
    * @return Wert
    */
   public Baustein getCurrentBaustein()
@@ -102,7 +97,7 @@ public class BausteinProgrammierungModel implements Serializable
 
   /**
    * Wert liefern: {@link #currentBausteinSollConfiguration}.
-   * 
+   *
    * @return Wert
    */
   public BausteinConfiguration getCurrentBausteinSollConfiguration()
@@ -112,7 +107,7 @@ public class BausteinProgrammierungModel implements Serializable
 
   /**
    * Wert liefern: {@link #currentBausteinIstConfiguration}.
-   * 
+   *
    * @return Wert
    */
   public BausteinConfiguration getCurrentBausteinIstConfiguration()
@@ -122,7 +117,7 @@ public class BausteinProgrammierungModel implements Serializable
 
   /**
    * Wert setzen: {@link #currentBausteinIstConfiguration}.
-   * 
+   *
    * @param currentBausteinIstConfiguration Wert
    */
   public void setCurrentBausteinIstConfiguration(BausteinConfiguration currentBausteinIstConfiguration)
@@ -132,7 +127,7 @@ public class BausteinProgrammierungModel implements Serializable
 
   /**
    * Aktuellen Baustein wählen und Programm-Session beginnen.
-   * 
+   *
    * @param baustein Wert
    */
   public String selectBaustein(Baustein baustein)
@@ -159,7 +154,7 @@ public class BausteinProgrammierungModel implements Serializable
 
   /**
    * Sollkonfiguration zum aktuellen Baustein besorgen und Einstelldialog beginnen.
-   * 
+   *
    * @return Outcome
    */
   public String edit()
@@ -174,33 +169,23 @@ public class BausteinProgrammierungModel implements Serializable
     return "/view/bausteinProgrammierung_" + this.currentBaustein.getClass().getSimpleName() + "?faces-redirect=true";
   }
 
-  @SuppressWarnings("unused")
   @PostConstruct
   private void init()
   {
     this.konfigurierteBausteine = new ArrayList<Baustein>(this.steuerung.getBesetztmelder());
     this.konfigurierteBausteine.addAll(this.steuerung.getFunktionsdecoder());
-    Collections.sort(this.konfigurierteBausteine);
+    this.konfigurierteBausteine.addAll(this.steuerung.getLokdecoder());
 
     this.neueBausteine = new ArrayList<>();
     for (Baustein b : this.bausteinInstanzen)
     {
       this.neueBausteine.add(b);
     }
-    Collections.sort(this.neueBausteine, new Comparator<Baustein>()
-    {
-      @Override
-      public int compare(Baustein b1, Baustein b2)
-      {
-        return COLLATOR.compare(b1.getClass().getSimpleName(), b2.getClass().getSimpleName());
-      }
-    });
-
   }
 
   /**
    * Bausteinkonfiguration persistent ablegen, falls nicht <code>null</code>.
-   * 
+   *
    * @return Outcome
    */
   public String store()
@@ -214,7 +199,7 @@ public class BausteinProgrammierungModel implements Serializable
 
   /**
    * Programmier-Session beenden.
-   * 
+   *
    * @return Outcome
    */
   public String abort()

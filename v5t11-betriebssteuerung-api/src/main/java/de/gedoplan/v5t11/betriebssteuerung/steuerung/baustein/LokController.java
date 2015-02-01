@@ -114,4 +114,10 @@ public class LokController extends Baustein implements Encoder
     this.configChangedListenerRegistry.addListener(valueChangedListener);
   }
 
+  @Override
+  public String getLabelPrefix()
+  {
+    return "Lokcontroller";
+  }
+
 }

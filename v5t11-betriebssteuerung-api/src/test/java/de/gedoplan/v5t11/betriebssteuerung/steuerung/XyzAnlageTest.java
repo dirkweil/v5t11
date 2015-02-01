@@ -186,6 +186,7 @@ public abstract class XyzAnlageTest
     for (Lok lok : this.steuerung.getLoks())
     {
       System.out.println(lok.toDebugString());
+      System.out.println("  " + lok.getDecoder());
       if (lok.getProperties() != null)
       {
         for (Entry<String, String> entry : lok.getProperties().entrySet())

@@ -33,7 +33,7 @@ import javax.swing.table.TableCellRenderer;
 public class LokCockpit extends ApplicationPanel
 {
   private static final int COL_ICON             = 0;
-  private static final int COL_NAME             = 1;
+  private static final int COL_ID               = 1;
   private static final int COL_ADR              = 2;
   private static final int COL_FIRST_CONTROLLER = 3;
 
@@ -172,8 +172,8 @@ public class LokCockpit extends ApplicationPanel
       case COL_ICON:
         return IconUtil.getIcon("images/loks/" + lokDecoder.getBildFileName(), -1, 35);
 
-      case COL_NAME:
-        return lokDecoder.getName();
+      case COL_ID:
+        return lokDecoder.getId();
 
       case COL_ADR:
         return lokDecoder.getAdresse();
@@ -197,7 +197,7 @@ public class LokCockpit extends ApplicationPanel
       case COL_ICON:
         return "Lok";
 
-      case COL_NAME:
+      case COL_ID:
         return "Name";
 
       case COL_ADR:

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <v5t11>
-  <Lok name="212 216-6" bild="lok_212.png" adr="5" />
-  <Lok name="VT 98.9731" bild="lok_vt98.png" adr="6" />
-  <Lok name="221 137-3" bild="lok_221.png" adr="19" />
+  <Lok id="212 216-6" bild="lok_212.png" adr="5" />
+  <Lok id="VT 98.9731" bild="lok_vt98.png" adr="6" />
+  <Lok id="221 137-3" bild="lok_221.png" adr="19" />
 
   <LokController id="LokControl 1" adr="30" />
   <LokController id="LokControl 2" adr="31" />

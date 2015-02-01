@@ -5,6 +5,7 @@ import de.gedoplan.v5t11.betriebssteuerung.qualifier.Outbound;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.baustein.Besetztmelder;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.baustein.Funktionsdecoder;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.baustein.LokController;
+import de.gedoplan.v5t11.betriebssteuerung.steuerung.baustein.Lokdecoder;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.baustein.Zentrale;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.baustein.besetztmelder.BMMiba3;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.baustein.besetztmelder.SXBM1;
@@ -35,6 +36,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -56,9 +58,9 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * Steuerung.
- * 
+ *
  * Diese Klasse fasst alle zur Steuerung gehörenden Elemente zusammen.
- * 
+ *
  * @author dw
  */
 @XmlRootElement(name = "v5t11")
@@ -80,8 +82,8 @@ public class Steuerung implements SelectrixMessageListener, Serializable
   SortedSet<Besetztmelder>                 besetztmelder                   = new TreeSet<>();
 
   @XmlElementWrapper(name = "Funktionsdecoder")
-  @XmlElements({ @XmlElement(name = "SD8", type = SD8.class), @XmlElement(name = "STRFD1", type = STRFD1.class), @XmlElement(name = "SXSD1", type = SXSD1.class), @XmlElement(name = "WDMiba", type = WDMiba.class),
-      @XmlElement(name = "WDMiba3", type = WDMiba3.class) })
+  @XmlElements({ @XmlElement(name = "SD8", type = SD8.class), @XmlElement(name = "STRFD1", type = STRFD1.class), @XmlElement(name = "SXSD1", type = SXSD1.class),
+      @XmlElement(name = "WDMiba", type = WDMiba.class), @XmlElement(name = "WDMiba3", type = WDMiba3.class) })
   private SortedSet<Funktionsdecoder>      funktionsdecoder                = new TreeSet<>();
 
   @XmlElement(name = "Blockstelle")
@@ -113,7 +115,7 @@ public class Steuerung implements SelectrixMessageListener, Serializable
 
   /**
    * Alle von der Steuerung belegten Selectrix-Adressen liefern.
-   * 
+   *
    * @return Adressen
    */
   public List<Integer> getAdressen()
@@ -147,7 +149,7 @@ public class Steuerung implements SelectrixMessageListener, Serializable
 
   /**
    * Wert liefern: {@link #zentrale}.
-   * 
+   *
    * @return Wert
    */
   public Zentrale getZentrale()
@@ -157,7 +159,7 @@ public class Steuerung implements SelectrixMessageListener, Serializable
 
   /**
    * Wert liefern: {@link #bereiche}.
-   * 
+   *
    * @return Wert
    */
   public Set<String> getBereiche()
@@ -167,7 +169,7 @@ public class Steuerung implements SelectrixMessageListener, Serializable
 
   /**
    * Wert liefern: {@link #loks}.
-   * 
+   *
    * @return Wert
    */
   public Set<Lok> getLoks()
@@ -176,8 +178,23 @@ public class Steuerung implements SelectrixMessageListener, Serializable
   }
 
   /**
+   * Alle Lokdecoder liefern.
+   *
+   * @return Lokdecoder
+   */
+  public Set<Lokdecoder> getLokdecoder()
+  {
+    Set<Lokdecoder> lokdecoder = new HashSet<>();
+    for (Lok lok : this.loks)
+    {
+      lokdecoder.add(lok.getDecoder());
+    }
+    return lokdecoder;
+  }
+
+  /**
    * Lok liefern.
-   * 
+   *
    * @param adresse Adresse
    * @return gefundene Lok oder <code>null</code>
    */
@@ -195,7 +212,7 @@ public class Steuerung implements SelectrixMessageListener, Serializable
 
   /**
    * Wert liefern: {@link #lokController}.
-   * 
+   *
    * @return Wert
    */
   public SortedSet<LokController> getLokController()
@@ -205,7 +222,7 @@ public class Steuerung implements SelectrixMessageListener, Serializable
 
   /**
    * Wert liefern: {@link #lokController}.
-   * 
+   *
    * @return Wert
    */
   public LokController getLokController(String id)
@@ -223,7 +240,7 @@ public class Steuerung implements SelectrixMessageListener, Serializable
 
   /**
    * Wert liefern: {@link #besetztmelder}.
-   * 
+   *
    * @return Wert
    */
   public Set<Besetztmelder> getBesetztmelder()
@@ -233,7 +250,7 @@ public class Steuerung implements SelectrixMessageListener, Serializable
 
   /**
    * Wert liefern: {@link #funktionsdecoder}.
-   * 
+   *
    * @return Wert
    */
   public Set<Funktionsdecoder> getFunktionsdecoder()
@@ -243,7 +260,7 @@ public class Steuerung implements SelectrixMessageListener, Serializable
 
   /**
    * Wert liefern: {@link #gleisabschnitte}.
-   * 
+   *
    * @return Wert
    */
   public Set<Gleisabschnitt> getGleisabschnitte()
@@ -253,7 +270,7 @@ public class Steuerung implements SelectrixMessageListener, Serializable
 
   /**
    * Wert liefern: {@link #gleisabschnitte}.
-   * 
+   *
    * @return Wert
    */
   public Set<Gleisabschnitt> getGleisabschnitte(String bereich)
@@ -263,7 +280,7 @@ public class Steuerung implements SelectrixMessageListener, Serializable
 
   /**
    * Gleisabschnitt liefern.
-   * 
+   *
    * @param bereich Bereich
    * @param name Name
    * @return gefundener Gleisabschnitt oder <code>null</code>
@@ -275,7 +292,7 @@ public class Steuerung implements SelectrixMessageListener, Serializable
 
   /**
    * Wert liefern: {@link #signale}.
-   * 
+   *
    * @return Wert
    */
   public Set<Signal> getSignale()
@@ -285,7 +302,7 @@ public class Steuerung implements SelectrixMessageListener, Serializable
 
   /**
    * Wert liefern: {@link #signale}.
-   * 
+   *
    * @return Wert
    */
   public Set<Signal> getSignale(String bereich)
@@ -295,7 +312,7 @@ public class Steuerung implements SelectrixMessageListener, Serializable
 
   /**
    * Signal liefern.
-   * 
+   *
    * @param bereich Bereich
    * @param name Name
    * @return gefundenes Signal oder <code>null</code>
@@ -307,7 +324,7 @@ public class Steuerung implements SelectrixMessageListener, Serializable
 
   /**
    * Wert liefern: {@link #weichen}.
-   * 
+   *
    * @return Wert
    */
   public Set<Weiche> getWeichen()
@@ -317,7 +334,7 @@ public class Steuerung implements SelectrixMessageListener, Serializable
 
   /**
    * Wert liefern: {@link #weichen}.
-   * 
+   *
    * @return Wert
    */
   public Set<Weiche> getWeichen(String bereich)
@@ -327,7 +344,7 @@ public class Steuerung implements SelectrixMessageListener, Serializable
 
   /**
    * Weiche liefern.
-   * 
+   *
    * @param bereich Bereich
    * @param name Name
    * @return gefundene Weiche oder <code>null</code>
@@ -339,7 +356,7 @@ public class Steuerung implements SelectrixMessageListener, Serializable
 
   /**
    * Wert liefern: {@link #blockstellenKonfigurationen}.
-   * 
+   *
    * @return Wert
    */
   public SortedSet<BlockstellenKonfiguration> getBlockstellenKonfigurationen()
@@ -349,7 +366,7 @@ public class Steuerung implements SelectrixMessageListener, Serializable
 
   /**
    * Wert liefern: {@link #bahnuebergangKonfigurationen}.
-   * 
+   *
    * @return Wert
    */
   public SortedSet<BahnuebergangKonfiguration> getBahnuebergangKonfigurationen()
@@ -359,7 +376,7 @@ public class Steuerung implements SelectrixMessageListener, Serializable
 
   /**
    * Wert liefern: {@link #vorsignalKonfigurationen}.
-   * 
+   *
    * @return Wert
    */
   public SortedSet<VorsignalKonfiguration> getVorsignalKonfigurationen()
@@ -369,7 +386,7 @@ public class Steuerung implements SelectrixMessageListener, Serializable
 
   /**
    * Wert liefern: {@link #fahrstrassen}.
-   * 
+   *
    * @return Wert
    */
   public SortedSet<Fahrstrasse> getFahrstrassen()
@@ -379,7 +396,7 @@ public class Steuerung implements SelectrixMessageListener, Serializable
 
   /**
    * Wert liefern: {@link #autoFahrstrassenKonfigurationen}.
-   * 
+   *
    * @return Wert
    */
   public SortedSet<AutoFahrstrassenKonfiguration> getAutoFahrstrassenKonfigurationen()
@@ -389,7 +406,7 @@ public class Steuerung implements SelectrixMessageListener, Serializable
 
   /**
    * Fahrstrasse liefern.
-   * 
+   *
    * @param bereich Bereich
    * @param name Name
    * @return gefundene Fahrstrasse oder <code>null</code>
@@ -401,7 +418,7 @@ public class Steuerung implements SelectrixMessageListener, Serializable
 
   /**
    * Stellwerk liefern.
-   * 
+   *
    * @param bereich Bereich
    * @return Stellwerk
    */
@@ -473,7 +490,7 @@ public class Steuerung implements SelectrixMessageListener, Serializable
 
   /**
    * Wert setzen.
-   * 
+   *
    * @param wert Wert
    * @param adresse Adresse
    */
@@ -491,7 +508,7 @@ public class Steuerung implements SelectrixMessageListener, Serializable
 
   /**
    * Nachbearbeitung nach JAXB-Unmarshal.
-   * 
+   *
    * @param unmarshaller Unmarshaller
    * @param parent Parent
    */
@@ -662,7 +679,7 @@ public class Steuerung implements SelectrixMessageListener, Serializable
 
   /**
    * Textliche Repräsentation der Steuerung erstellen.
-   * 
+   *
    * @param idOnly nur IDs?
    * @return Steuerung als String
    */
@@ -721,7 +738,7 @@ public class Steuerung implements SelectrixMessageListener, Serializable
 
   /**
    * {@inheritDoc}
-   * 
+   *
    * @see java.lang.Object#toString()
    */
   @Override
@@ -732,9 +749,9 @@ public class Steuerung implements SelectrixMessageListener, Serializable
 
   /**
    * Freie Fahrstrassen suchen.
-   * 
+   *
    * Die angegebenen Gleisabschnitte dürfen belegt sein, alle anderen müssen frei sein.
-   * 
+   *
    * @param beginn Beginn-Gleisabschnitt
    * @param ende Ende-Gleisabschnitt
    * @return Liste freie Fahrstrassen
@@ -746,9 +763,9 @@ public class Steuerung implements SelectrixMessageListener, Serializable
 
   /**
    * Freie Fahrstrassen suchen.
-   * 
+   *
    * Die angegebenen Gleisabschnitte dürfen belegt sein, alle anderen müssen frei sein.
-   * 
+   *
    * @param beginn Beginn-Gleisabschnitt
    * @param beginnMussFreiSein Beginn-Gleisabschnitt muss frei sein
    * @param ende Ende-Gleisabschnitt
