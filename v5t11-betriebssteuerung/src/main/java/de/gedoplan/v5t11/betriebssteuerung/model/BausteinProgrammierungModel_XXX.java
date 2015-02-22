@@ -15,7 +15,7 @@ import javax.inject.Inject;
 
 /**
  * Basisklasse für Presentation Models für die Programmierung von Bausteinen.
- * 
+ *
  * @author dw
  */
 public abstract class BausteinProgrammierungModel_XXX<A extends ConfigurationAdapter, S extends ConfigurationRuntimeService<A>> implements Serializable
@@ -40,13 +40,13 @@ public abstract class BausteinProgrammierungModel_XXX<A extends ConfigurationAda
   }
 
   /**
-   * 
+   *
    */
   protected BausteinProgrammierungModel_XXX()
   {
   }
 
-  @SuppressWarnings({ "unused", "unchecked" })
+  @SuppressWarnings({ "unchecked" })
   @PostConstruct
   private void init()
   {
@@ -79,7 +79,7 @@ public abstract class BausteinProgrammierungModel_XXX<A extends ConfigurationAda
 
   /**
    * Wert liefern: {@link #configurationAdapter}.
-   * 
+   *
    * @return Wert
    */
   public A getConfiguration()

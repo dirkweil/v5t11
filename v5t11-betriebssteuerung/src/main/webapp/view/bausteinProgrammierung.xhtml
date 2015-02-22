@@ -12,7 +12,7 @@
     <prime:tabView>
 
       <prime:tab title="Vorkonfigurierte Bausteine">
-        <prime:dataTable value="#{bausteinProgrammierungModel.konfigurierteBausteine}" var="baustein">
+        <prime:dataTable value="#{bausteinProgrammierungModel.konfigurierteBausteine}" var="baustein" sortBy="#{baustein.label}">
           <prime:column sortBy="#{baustein.label}">
             <f:facet name="header">Id</f:facet>
             <prime:commandButton value="#{baustein.label}" action="#{bausteinProgrammierungModel.selectBaustein(baustein)}" ajax="false"/>
@@ -29,7 +29,7 @@
       </prime:tab>
 
       <prime:tab title="Neue Bausteine">
-        <prime:dataTable value="#{bausteinProgrammierungModel.neueBausteine}" var="baustein">
+        <prime:dataTable value="#{bausteinProgrammierungModel.neueBausteine}" var="baustein" sortBy="#{baustein.label}">
           <prime:column sortBy="#{baustein.label}">
             <f:facet name="header">Typ</f:facet>
             <prime:commandButton value="#{baustein.label}" action="#{bausteinProgrammierungModel.selectBaustein(baustein)}" ajax="false"/>

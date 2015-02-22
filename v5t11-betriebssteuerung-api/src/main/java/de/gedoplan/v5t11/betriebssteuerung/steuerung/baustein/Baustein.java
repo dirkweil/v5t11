@@ -344,8 +344,18 @@ public abstract class Baustein extends SingleIdEntity<String> implements Compara
     return getClass().getSimpleName() + "{id=" + this.id + ",adresse=" + this.adresse + "}";
   }
 
+  /**
+   * Präfix für das Label liefern
+   *
+   * @return Präfix
+   */
   public abstract String getLabelPrefix();
 
+  /**
+   * Label für die GUI erstellen.
+   *
+   * @return Label
+   */
   public String getLabel()
   {
     if (this.id != null)
@@ -358,4 +368,28 @@ public abstract class Baustein extends SingleIdEntity<String> implements Compara
     }
   }
 
+  /**
+   * Ist der Baustein programmierbar?
+   *
+   * Der Default ist <code>true</code>, jedoch existieren alte Bausteine, die sich nur mit Dip-Schaltern o. ä. konfigurieren
+   * lassen.
+   *
+   * @return <code>true</code>, wenn der Baustein mittels Software programmierbar ist.
+   */
+  public boolean isProgrammierbar()
+  {
+    return true;
+  }
+
+  /**
+   * Ist der Baustein am SX-Bus angeschlossen?
+   *
+   * Der Default ist <code>true</code>. Die Ausnahme bilden Decoder in den Fahrzeugen.
+   *
+   * @return <code>true</code>, wenn der Baustein am SX-Bus angeschlossen ist, <code>false</code>, wenn er am Gleis hängt.
+   */
+  public boolean isBusBaustein()
+  {
+    return true;
+  }
 }

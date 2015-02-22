@@ -5,36 +5,63 @@
   <PROCESS-ITEM ID="rules:#view#bausteinProgrammierung.xhtml:0"
    NAME="item" PATH="/view/bausteinProgrammierung.xhtml" model-entity="JSFProcessItem">
    <PROCESS-ITEM-OUTPUT
-    ID="openProgMode::#view#bausteinProgrammierung_open.xhtml"
-    NAME="output" PATH="/view/bausteinProgrammierung_open.xhtml"
-    TARGET="rules:#view#bausteinProgrammierung_open.xhtml"
+    ID="openProgMode::#view#bausteinProgrammierung_openBusProgMode.xhtml"
+    NAME="output"
+    PATH="/view/bausteinProgrammierung_openBusProgMode.xhtml"
+    TARGET="rules:#view#bausteinProgrammierung_openBusProgMode.xhtml"
+    TITLE="openProgMode" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="openProgMode::#view#bausteinProgrammierung_openGleisProgMode.xhtml"
+    NAME="output1"
+    PATH="/view/bausteinProgrammierung_openGleisProgMode.xhtml"
+    TARGET="rules:#view#bausteinProgrammierung_openGleisProgMode.xhtml"
     TITLE="openProgMode" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
- <PROCESS-ITEM NAME="rules:#view#bausteinProgrammierung_open.xhtml"
-  PATH="/view/bausteinProgrammierung_open.xhtml" SHAPE="136,224,50,25"
-  model-entity="JSFProcessGroup" persistent="true"/>
- <PROCESS-ITEM NAME="rules:#view#bausteinProgrammierung_close.xhtml"
-  PATH="/view/bausteinProgrammierung_close.xhtml" SHAPE="136,416,50,41" model-entity="JSFProcessGroup">
-  <PROCESS-ITEM ID="rules:#view#bausteinProgrammierung_close.xhtml:0"
-   NAME="item" PATH="/view/bausteinProgrammierung_close.xhtml" model-entity="JSFProcessItem">
+ <PROCESS-ITEM
+  NAME="rules:#view#bausteinProgrammierung_openBusProgMode.xhtml"
+  PATH="/view/bausteinProgrammierung_openBusProgMode.xhtml"
+  SHAPE="136,224,50,25" model-entity="JSFProcessGroup" persistent="true"/>
+ <PROCESS-ITEM
+  NAME="rules:#view#bausteinProgrammierung_closeBusProgMode.xhtml"
+  PATH="/view/bausteinProgrammierung_closeBusProgMode.xhtml"
+  SHAPE="136,576,50,41" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM
+   ID="rules:#view#bausteinProgrammierung_closeBusProgMode.xhtml:0"
+   NAME="item"
+   PATH="/view/bausteinProgrammierung_closeBusProgMode.xhtml" model-entity="JSFProcessItem">
    <PROCESS-ITEM-OUTPUT
     ID="bausteinProgrammierung::#view#bausteinProgrammierung.xhtml"
     NAME="output" PATH="/view/bausteinProgrammierung.xhtml"
-    SHAPE="185,448,536,448,536,48,128,48,128,128,135,128"
+    SHAPE="185,608,536,608,536,48,128,48,128,128,135,128"
     TARGET="rules:#view#bausteinProgrammierung.xhtml"
     TITLE="bausteinProgrammierung" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#view#bausteinProgrammierung*"
-  PATH="/view/bausteinProgrammierung*" SHAPE="136,328,53,42" model-entity="JSFProcessGroup">
+  PATH="/view/bausteinProgrammierung*" SHAPE="136,488,53,42" model-entity="JSFProcessGroup">
   <PROCESS-ITEM ID="rules:#view#bausteinProgrammierung*:0" NAME="item"
    PATH="/view/bausteinProgrammierung*" model-entity="JSFProcessItem">
    <PROCESS-ITEM-OUTPUT
-    ID="closeProgMode::#view#bausteinProgrammierung_close.xhtml"
-    NAME="output" PATH="/view/bausteinProgrammierung_close.xhtml"
-    TARGET="rules:#view#bausteinProgrammierung_close.xhtml"
+    ID="closeProgMode::#view#bausteinProgrammierung_closeBusProgMode.xhtml"
+    NAME="output"
+    PATH="/view/bausteinProgrammierung_closeBusProgMode.xhtml"
+    TARGET="rules:#view#bausteinProgrammierung_closeBusProgMode.xhtml"
+    TITLE="closeProgMode" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="closeProgMode::#view#bausteinProgrammierung_closeGleisProgMode.xhtml"
+    NAME="output1"
+    PATH="/view/bausteinProgrammierung_closeGleisProgMode.xhtml"
+    TARGET="rules:#view#bausteinProgrammierung_closeGleisProgMode.xhtml"
     TITLE="closeProgMode" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
+ <PROCESS-ITEM
+  NAME="rules:#view#bausteinProgrammierung_openGleisProgMode.xhtml"
+  PATH="/view/bausteinProgrammierung_openGleisProgMode.xhtml"
+  SHAPE="136,304,50,25" model-entity="JSFProcessGroup" persistent="true"/>
+ <PROCESS-ITEM
+  NAME="rules:#view#bausteinProgrammierung_closeGleisProgMode.xhtml"
+  PATH="/view/bausteinProgrammierung_closeGleisProgMode.xhtml"
+  SHAPE="256,513,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>

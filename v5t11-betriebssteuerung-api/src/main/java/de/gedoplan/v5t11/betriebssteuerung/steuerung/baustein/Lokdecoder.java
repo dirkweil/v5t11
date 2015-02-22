@@ -27,11 +27,6 @@ public abstract class Lokdecoder extends Baustein implements Decoder
     super(1);
   }
 
-  public boolean isProgrammierbar()
-  {
-    return true;
-  }
-
   public void setId(String id)
   {
     this.id = id;
@@ -47,4 +42,11 @@ public abstract class Lokdecoder extends Baustein implements Decoder
   {
     return "Lokdecoder";
   }
+
+  @Override
+  public boolean isBusBaustein()
+  {
+    return false;
+  }
+
 }
