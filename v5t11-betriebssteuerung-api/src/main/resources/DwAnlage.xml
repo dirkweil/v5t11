@@ -2289,7 +2289,7 @@
     </Fahrstrasse>
 
     <!-- Fahrstrassen zum Übergang von Fensterhausen zum Schattenbahnhof1 und zurück -->
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false" zaehlrichtungsumkehr="true">
+    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
       <Gleisabschnitt name="LA"/>
       <Signal name="2B" stellung="FAHRT" block="true"/>
       <Gleisabschnitt bereich="Schattenbahnhof1" name="E"/>
