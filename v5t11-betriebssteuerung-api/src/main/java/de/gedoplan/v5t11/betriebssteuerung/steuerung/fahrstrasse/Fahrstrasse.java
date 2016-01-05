@@ -491,6 +491,12 @@ public class Fahrstrasse extends Bereichselement
    */
   public static Fahrstrasse concat(Fahrstrasse linkeFahrstrasse, Fahrstrasse rechteFahrstrasse)
   {
+    // Wenn verschiedene Bereiche, nicht kombinieren
+    if (!linkeFahrstrasse.bereich.equals(rechteFahrstrasse.bereich))
+    {
+      return null;
+    }
+
     // Wenn Ende links nicht Anfang rechts, nicht kombinieren
     FahrstrassenElement linksLast = linkeFahrstrasse.getLast();
     FahrstrassenElement rechtsFirst = rechteFahrstrasse.getFirst();
