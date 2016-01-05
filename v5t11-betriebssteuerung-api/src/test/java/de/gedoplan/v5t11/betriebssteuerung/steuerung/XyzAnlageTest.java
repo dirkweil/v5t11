@@ -156,7 +156,7 @@ public abstract class XyzAnlageTest
   }
 
   @Test
-  @Ignore
+  // @Ignore
   public void showFahrstrassen()
   {
     for (Fahrstrasse fahrstrasse : this.steuerung.getFahrstrassen())
@@ -181,6 +181,7 @@ public abstract class XyzAnlageTest
   }
 
   @Test
+  @Ignore
   public void showLoks() throws Exception
   {
     for (Lok lok : this.steuerung.getLoks())

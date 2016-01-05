@@ -416,32 +416,18 @@ public class Fahrstrasse extends Bereichselement
   }
 
   /**
-   * Weichengleisabschnitte und Vorsignale hinzufügen.
-   *
-   * Zu jeder Weiche, die nicht nur Schutzweiche ist, den zugehörigen Gleisabschnitt hinzufügen, wenn vorhanden.
+   * Vorsignale hinzufügen.
    *
    * Zu jedem Hauptsignal, das nicht Schutzsignal ist und das ein Vorsignal am gleichen Mast hat, dieses Vorsignal hinzufügen.
    *
    * @param steuerung Steuerung
    */
-  public void addWeichenGleisabschnitteUndVorsignale(Steuerung steuerung)
+  public void addVorsignale(Steuerung steuerung)
   {
     ListIterator<FahrstrassenElement> listIterator = this.elemente.listIterator();
     while (listIterator.hasNext())
     {
       FahrstrassenElement fahrstrassenElement = listIterator.next();
-
-      if (fahrstrassenElement instanceof FahrstrassenWeiche && !fahrstrassenElement.isSchutz())
-      {
-        String weichenGleisabschnittName = "W" + fahrstrassenElement.getName();
-        Gleisabschnitt gleisabschnitt = steuerung.getGleisabschnitt(fahrstrassenElement.getBereich(), weichenGleisabschnittName);
-        if (gleisabschnitt != null)
-        {
-          FahrstrassenGleisabschnitt fahrstrassenGleisabschnitt = new FahrstrassenGleisabschnitt(gleisabschnitt, true);
-          fahrstrassenGleisabschnitt.setZaehlrichtungIfNull(fahrstrassenElement.isZaehlrichtung());
-          listIterator.add(fahrstrassenGleisabschnitt);
-        }
-      }
 
       if (fahrstrassenElement instanceof FahrstrassenSignal && !fahrstrassenElement.isSchutz())
       {

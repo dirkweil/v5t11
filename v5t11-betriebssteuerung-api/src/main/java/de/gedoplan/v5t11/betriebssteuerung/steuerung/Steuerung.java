@@ -502,8 +502,7 @@ public class Steuerung implements SelectrixMessageListener, Serializable
     }
 
     EventFirer.fireEvent(new SelectrixMessage(adresse, wert), new AnnotationLiteral<Outbound>()
-    {
-    });
+    {});
   }
 
   /**
@@ -599,10 +598,10 @@ public class Steuerung implements SelectrixMessageListener, Serializable
       this.bereiche.add(bereich);
     }
 
-    // Weichengleisabschnitte und Vorsignale hinzufügen.
+    // Vorsignale hinzufügen.
     for (Fahrstrasse fahrstrasse : this.fahrstrassen)
     {
-      fahrstrasse.addWeichenGleisabschnitteUndVorsignale(this);
+      fahrstrasse.addVorsignale(this);
     }
 
     // Fahrstrassen kombinieren
@@ -663,6 +662,10 @@ public class Steuerung implements SelectrixMessageListener, Serializable
           if (kombiFahrstrasse != null && !this.fahrstrassen.contains(kombiFahrstrasse))
           {
             weitereFahrstrassen.add(kombiFahrstrasse);
+            // if ("Schattenbahnhof1".equals(kombiFahrstrasse.bereich))
+            // {
+            // System.out.println("WeitereFahrstrasse: " + kombiFahrstrasse);
+            // }
           }
         }
       }
