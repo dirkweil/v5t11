@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <v5t11>
-  <Lok id="VT 11.5019" bild="lok_vt11.png" adr="1" decoder="DHL100"/>
-  <Lok id="216 xxx-x" bild="lok_216.png" adr="2" decoder="DHL100"/>
-  <Lok id="14283" bild="lok_14283.png" adr="3" decoder="DHL050"/>
-  <Lok id="323 673-4" bild="lok_323.png" adr="4" decoder="DHL050"/>
-  <Lok id="212 216-6" bild="lok_212.png" adr="5" decoder="Tr66825"/>
-  <Lok id="VT 98.9731" bild="lok_vt98.png" adr="6" decoder="DHL100"/>
-  <Lok id="89 005" bild="lok_89.png" adr="7" decoder="DH05A"/>
-  <Lok id="614 083-4" bild="lok_614.png" adr="11" decoder="Tr66832"/>
-  <Lok id="103 118-6" bild="lok_103.png" adr="13" decoder="DHL100"/>
-  <Lok id="332 262-5" bild="lok_332.png" adr="14" decoder="DHL100"/>
+  <Lok id="VT 11.5019" bild="lok_vt11.png" adr="1" decoder="DHL100" />
+  <Lok id="216 xxx-x" bild="lok_216.png" adr="2" decoder="DHL100" />
+  <Lok id="14283" bild="lok_14283.png" adr="3" decoder="DHL050" />
+  <Lok id="323 673-4" bild="lok_323.png" adr="4" decoder="DHL050" />
+  <Lok id="212 216-6" bild="lok_212.png" adr="5" decoder="Tr66825" />
+  <Lok id="VT 98.9731" bild="lok_vt98.png" adr="6" decoder="DHL100" />
+  <Lok id="89 005" bild="lok_89.png" adr="7" decoder="DH05A" />
+  <Lok id="614 083-4" bild="lok_614.png" adr="11" decoder="Tr66832" />
+  <Lok id="103 118-6" bild="lok_103.png" adr="13" decoder="DHL100" />
+  <Lok id="332 262-5" bild="lok_332.png" adr="14" decoder="DHL100" />
   <Lok id="111 205-1" bild="lok_111.png" adr="15" decoder="DHL100">
     <properties>
       <property name="xgleis" value="true" />
     </properties>
   </Lok>
-  <Lok id="430 119-8" bild="lok_430.png" adr="16" decoder="DHL100"/>
+  <Lok id="430 119-8" bild="lok_430.png" adr="16" decoder="DHL100" />
   <Lok id="110 222-7" bild="lok_110.png" adr="17" decoder="DHL100">
     <properties>
       <property name="xmotor" value="true" />
     </properties>
   </Lok>
-  <Lok id="120 002-1" bild="lok_120.png" adr="18" decoder="Tr66830"/>
-  <Lok id="221 137-3" bild="lok_221.png" adr="19" decoder="Tr66835"/>
+  <Lok id="120 002-1" bild="lok_120.png" adr="18" decoder="Tr66830" />
+  <Lok id="221 137-3" bild="lok_221.png" adr="19" decoder="Tr66835" />
   <Lok id="151 032-0" bild="lok_151.png" adr="20" decoder="DHL100">
     <properties>
       <property name="xgleis" value="true" />
@@ -30,7 +30,7 @@
       <property name="xmotor" value="true" />
     </properties>
   </Lok>
-  <Lok id="ET 90.5019" bild="lok_et90.png" adr="21" decoder="DHL100"/>
+  <Lok id="ET 90.5019" bild="lok_et90.png" adr="21" decoder="DHL100" />
 
   <LokController id="LokControl 1" adr="30" />
   <LokController id="LokControl 2" adr="31" />
@@ -244,8 +244,8 @@
 
     <!--
       Ab hier folgen Pseudo-Besetztmelder mit Adressen 5x, die nicht wirklich vorhanden sind, sondern nur die bislang nicht
-      verdrahteten Gleisabschnitte erfassen. Ziel ist es, dies auf echte Melder umzuhängen. 
-     -->
+      verdrahteten Gleisabschnitte erfassen. Ziel ist es, dies auf echte Melder umzuhängen.
+    -->
     <SXBM1 id="BM-dummy-9" adr="58">
       <Gleisabschnitt idx="1" bereich="Niederbach" name="W1" />
       <Gleisabschnitt idx="2" bereich="Niederbach" name="W2" />
@@ -268,7 +268,7 @@
       <HauptsignalRtGn idx="6" bereich="Niederbach" name="I" />
       <Weiche idx="7" bereich="Niederbach" name="9" />
     </WDMiba>
-    
+
     <WDMiba id="FD-2003-2" adr="71" einbauOrt="Ebene -1, unter Schattenbahnhof1, Ein/Ausfahrt">
       <Weiche idx="4" bereich="Schattenbahnhof1" name="5" />
       <Weiche idx="5" bereich="Schattenbahnhof1" name="6" />
@@ -366,8 +366,8 @@
 
     <!--
       Ab hier folgen Pseudo-Funktionsdecoder mit Adressen 6x, die nicht wirklich vorhanden sind, sondern nur die funktionslosen
-      Weichen und Signale erfassen. Hier sollte ggf. ein neuer Typ Funktionsdecoder genutzt werden, der keine Adresse verbraucht. 
-     -->
+      Weichen und Signale erfassen. Hier sollte ggf. ein neuer Typ Funktionsdecoder genutzt werden, der keine Adresse verbraucht.
+    -->
     <SXSD1 id="FD-dummy-1" adr="60">
       <Hauptsperrsignal idx="0" bereich="Fensterhausen" name="N1" />
       <Hauptsperrsignal idx="2" bereich="Fensterhausen" name="N2" />
@@ -405,330 +405,154 @@
   <Blockstelle bereich="Fensterhausen" name="2B">
     <Gleisabschnitt name="E" bereich="Schattenbahnhof1" />
   </Blockstelle>
-  
+
   <Blockstelle bereich="Niederbach" name="I">
     <Gleisabschnitt name="W" bereich="Niederbach" />
   </Blockstelle>
-  
+
   <Bahnuebergang bereich="Fensterhausen" name="B1">
     <Gleisabschnitt name="RA" />
     <Gleisabschnitt name="RE" />
   </Bahnuebergang>
-  
+
   <Vorsignal bereich="Fensterhausen" name="p" mast="F">
-    <Hauptsignal name="P2"/>
-    <Hauptsignal name="P3"/>
-    <Hauptsignal name="P4"/>
-    <Hauptsignal name="P5"/>
-    <Hauptsignal name="P7-10"/>
+    <Hauptsignal name="P2" />
+    <Hauptsignal name="P3" />
+    <Hauptsignal name="P4" />
+    <Hauptsignal name="P5" />
+    <Hauptsignal name="P7-10" />
   </Vorsignal>
   <Vorsignal bereich="Fensterhausen" name="n" mast="A" autodunkel="true">
-    <Hauptsignal name="N4"/>
-    <Hauptsignal name="N5"/>
-    <Hauptsignal name="N7-10"/>
+    <Hauptsignal name="N4" />
+    <Hauptsignal name="N5" />
+    <Hauptsignal name="N7-10" />
   </Vorsignal>
   <Vorsignal bereich="Fensterhausen" name="f" mast="1F">
-    <Hauptsignal name="F"/>
+    <Hauptsignal name="F" />
   </Vorsignal>
   <Vorsignal bereich="Fensterhausen" name="f'" mast="1G">
-    <Hauptsignal name="F"/>
+    <Hauptsignal name="F" />
   </Vorsignal>
   <Vorsignal bereich="Fensterhausen" name="2b(2)" mast="P2" autodunkel="true">
-    <Hauptsignal name="2B"/>
+    <Hauptsignal name="2B" />
   </Vorsignal>
   <Vorsignal bereich="Fensterhausen" name="2b(3)" mast="P3" autodunkel="true">
-    <Hauptsignal name="2B"/>
+    <Hauptsignal name="2B" />
   </Vorsignal>
   <Vorsignal bereich="Fensterhausen" name="2b(4)" mast="P4" autodunkel="true">
-    <Hauptsignal name="2B"/>
+    <Hauptsignal name="2B" />
   </Vorsignal>
   <Vorsignal bereich="Fensterhausen" name="2b(5)" mast="P5" autodunkel="true">
-    <Hauptsignal name="2B"/>
+    <Hauptsignal name="2B" />
   </Vorsignal>
   <Vorsignal bereich="Fensterhausen" name="2b(7-10)" mast="P7-10" autodunkel="true">
-    <Hauptsignal name="2B"/>
+    <Hauptsignal name="2B" />
   </Vorsignal>
   <Vorsignal bereich="Fensterhausen" name="1a/1b(7-10)" mast="N7-10" autodunkel="true">
-    <Hauptsignal name="1A"/>
-    <Hauptsignal name="1B"/>
+    <Hauptsignal name="1A" />
+    <Hauptsignal name="1B" />
   </Vorsignal>
-  
+
   <Fahrstrassen>
     <!-- Fahrstrassen zur Einfahrt in Fensterhausen in Zählrichtung (von links) -->
     <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
       <Gleisabschnitt name="LE" />
       <Signal name="A" stellung="FAHRT" />
       <Weiche name="2" stellung="GERADE" />
-      <Gleisabschnitt name="W2"/>
       <Weiche name="1" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W1"/>
-      <Gleisabschnitt name="L4" />
-      <Weiche name="3" stellung="GERADE" />
-      <Gleisabschnitt name="W3"/>
-      <Weiche name="6" stellung="ABZWEIGEND" schutz="true" />
-      <Gleisabschnitt name="W6"/>
-      <Signal name="P4" stellung="HALT" schutz="true" />
-      <Signal name="P5" stellung="HALT" schutz="true" />
-      <Signal name="N4" stellung="HALT" schutz="true"/>
-      <Gleisabschnitt name="4" />
+      <Gleisabschnitt name="W2" />
     </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
-      <Gleisabschnitt name="LE" />
-      <Signal name="A" stellung="LANGSAMFAHRT" />
-      <Weiche name="2" stellung="GERADE" />
-      <Gleisabschnitt name="W2"/>
-      <Weiche name="1" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W1"/>
-      <Gleisabschnitt name="L4" />
-      <Weiche name="3" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W3"/>
-      <Weiche name="5" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W5"/>
-      <Weiche name="6" stellung="ABZWEIGEND" schutz="true" />
-      <Gleisabschnitt name="W6"/>
-      <Signal name="P4" stellung="HALT" schutz="true" />
-      <Signal name="P5" stellung="HALT" schutz="true" />
-      <Signal name="N5" stellung="HALT" schutz="true"/>
-      <Gleisabschnitt name="5" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
-      <Gleisabschnitt name="LE" />
-      <Signal name="A" stellung="LANGSAMFAHRT" />
-      <Weiche name="2" stellung="GERADE" />
-      <Gleisabschnitt name="W2"/>
-      <Weiche name="1" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W1"/>
-      <Gleisabschnitt name="L4" />
-      <Weiche name="3" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W3"/>
-      <Weiche name="5" stellung="GERADE" />
-      <Gleisabschnitt name="W5"/>
-      <Weiche name="6" stellung="GERADE" />
-      <Gleisabschnitt name="W6"/>
-      <Weiche name="7" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W7"/>
-      <Signal name="P4" stellung="HALT" schutz="true" />
-      <Signal name="P5" stellung="HALT" schutz="true" />
-      <Signal name="P7-10" stellung="HALT" schutz="true" />
-      <Signal name="7'" stellung="HALT" schutz="true" />
-      <Signal name="36" stellung="HALT" schutz="true" />
-      <Signal name="18'" stellung="HALT" schutz="true" />
-      <Signal name="7&quot;" stellung="HALT" schutz="true"/>
-      <Gleisabschnitt name="7" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
-      <Gleisabschnitt name="LE" />
-      <Signal name="A" stellung="LANGSAMFAHRT" />
-      <Weiche name="2" stellung="GERADE" />
-      <Gleisabschnitt name="W2"/>
-      <Weiche name="1" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W1"/>
-      <Gleisabschnitt name="L4" />
-      <Weiche name="3" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W3"/>
-      <Weiche name="5" stellung="GERADE" />
-      <Gleisabschnitt name="W5"/>
-      <Weiche name="6" stellung="GERADE" />
-      <Gleisabschnitt name="W6"/>
-      <Weiche name="7" stellung="GERADE" />
-      <Gleisabschnitt name="W7"/>
-      <Weiche name="9" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W9"/>
-      <Weiche name="10a" stellung="ABZWEIGEND" schutz="true" />
-      <Signal name="P4" stellung="HALT" schutz="true" />
-      <Signal name="P5" stellung="HALT" schutz="true" />
-      <Signal name="P7-10" stellung="HALT" schutz="true" />
-      <Signal name="7'" stellung="HALT" schutz="true" />
-      <Signal name="36" stellung="HALT" schutz="true" />
-      <Signal name="18'" stellung="HALT" schutz="true" />
-      <Signal name="18&quot;" stellung="HALT" schutz="true"/>
-      <Gleisabschnitt name="18" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
-      <Gleisabschnitt name="LE" />
-      <Signal name="A" stellung="LANGSAMFAHRT" />
-      <Weiche name="2" stellung="GERADE" />
-      <Gleisabschnitt name="W2"/>
-      <Weiche name="1" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W1"/>
-      <Gleisabschnitt name="L4" />
-      <Weiche name="3" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W3"/>
-      <Weiche name="5" stellung="GERADE" />
-      <Gleisabschnitt name="W5"/>
-      <Weiche name="6" stellung="GERADE" />
-      <Gleisabschnitt name="W6"/>
-      <Weiche name="7" stellung="GERADE" />
-      <Gleisabschnitt name="W7"/>
-      <Weiche name="9" stellung="GERADE" />
-      <Gleisabschnitt name="W9"/>
-      <Weiche name="10a" stellung="GERADE" />
-      <Weiche name="10b" stellung="ABZWEIGEND" />
-      <Signal name="P4" stellung="HALT" schutz="true" />
-      <Signal name="P5" stellung="HALT" schutz="true" />
-      <Signal name="P7-10" stellung="HALT" schutz="true" />
-      <Signal name="7'" stellung="HALT" schutz="true" />
-      <Signal name="36" stellung="HALT" schutz="true" />
-      <Signal name="18'" stellung="HALT" schutz="true" />
-      <Signal name="19'" stellung="HALT" schutz="true" />
-      <Signal name="38-39" stellung="HALT" schutz="true" />
-      <Signal name="10'" stellung="HALT" schutz="true" />
-      <Signal name="19&quot;" stellung="HALT" schutz="true"/>
-      <Gleisabschnitt name="19" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
-      <Gleisabschnitt name="LE" />
-      <Signal name="A" stellung="LANGSAMFAHRT" />
-      <Weiche name="2" stellung="GERADE" />
-      <Gleisabschnitt name="W2"/>
-      <Weiche name="1" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W1"/>
-      <Gleisabschnitt name="L4" />
-      <Weiche name="3" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W3"/>
-      <Weiche name="5" stellung="GERADE" />
-      <Gleisabschnitt name="W5"/>
-      <Weiche name="6" stellung="GERADE" />
-      <Gleisabschnitt name="W6"/>
-      <Weiche name="7" stellung="GERADE" />
-      <Gleisabschnitt name="W7"/>
-      <Weiche name="9" stellung="GERADE" />
-      <Gleisabschnitt name="W9"/>
-      <Weiche name="10a" stellung="GERADE" />
-      <Weiche name="10b" stellung="GERADE" />
-      <Signal name="P4" stellung="HALT" schutz="true" />
-      <Signal name="P5" stellung="HALT" schutz="true" />
-      <Signal name="P7-10" stellung="HALT" schutz="true" />
-      <Signal name="7'" stellung="HALT" schutz="true" />
-      <Signal name="36" stellung="HALT" schutz="true" />
-      <Signal name="18'" stellung="HALT" schutz="true" />
-      <Signal name="19'" stellung="HALT" schutz="true" />
-      <Signal name="38-39" stellung="HALT" schutz="true" />
-      <Signal name="10'" stellung="HALT" schutz="true" />
-      <Signal name="10&quot;" stellung="HALT" schutz="true"/>
-      <Gleisabschnitt name="10" />
-    </Fahrstrasse>
+
     <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
       <Gleisabschnitt name="LA" />
       <Signal name="W1" stellung="FAHRT" />
+      <Gleisabschnitt name="W1" />
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
+      <Gleisabschnitt name="W1" />
       <Weiche name="1" stellung="GERADE" />
-      <Gleisabschnitt name="W1"/>
       <Weiche name="2" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W2"/>
       <Gleisabschnitt name="L2" />
-      <Weiche name="4" stellung="GERADE" />
-      <Gleisabschnitt name="W4"/>
+      <Gleisabschnitt name="W4" />
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
+      <Gleisabschnitt name="W1" />
+      <Weiche name="1" stellung="ABZWEIGEND" />
+      <Weiche name="2" stellung="ABZWEIGEND" />
+      <Signal name="A" stellung="HALT" schutz="true" />
       <Signal name="P2" stellung="HALT" schutz="true" />
       <Signal name="P3" stellung="HALT" schutz="true" />
-      <Signal name="N2" stellung="HALT" schutz="true"/>
+      <Gleisabschnitt name="W2" />
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
+      <Gleisabschnitt name="W4" />
+      <Weiche name="4" stellung="GERADE" />
+      <Signal name="P2" stellung="HALT" schutz="true" />
+      <Signal name="P3" stellung="HALT" schutz="true" />
+      <Signal name="N2" stellung="HALT" schutz="true" />
       <Gleisabschnitt name="2" />
     </Fahrstrasse>
+
     <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
-      <Gleisabschnitt name="LA" />
-      <Signal name="W1" stellung="FAHRT" />
-      <Weiche name="1" stellung="GERADE" />
-      <Gleisabschnitt name="W1"/>
-      <Weiche name="2" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W2"/>
-      <Gleisabschnitt name="L2" />
+      <Gleisabschnitt name="W4" />
       <Weiche name="4" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W4"/>
       <Signal name="P2" stellung="HALT" schutz="true" />
       <Signal name="P3" stellung="HALT" schutz="true" />
-      <Signal name="N2" stellung="HALT" schutz="true"/>
+      <Signal name="N2" stellung="HALT" schutz="true" />
       <Gleisabschnitt name="3" />
     </Fahrstrasse>
+
+
     <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
-      <Gleisabschnitt name="LA" />
-      <Signal name="W1" stellung="FAHRT" />
-      <Signal name="P2" stellung="HALT" schutz="true" />
-      <Signal name="P3" stellung="HALT" schutz="true" />
-      <Weiche name="1" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W1"/>
-      <Weiche name="2" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W2"/>
-      <Signal name="A" stellung="HALT" schutz="true" />
+      <Gleisabschnitt name="W2" />
       <Gleisabschnitt name="L4" />
+      <Gleisabschnitt name="W3" />
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
+      <Gleisabschnitt name="W3" />
       <Weiche name="3" stellung="GERADE" />
-      <Gleisabschnitt name="W3"/>
       <Weiche name="6" stellung="ABZWEIGEND" schutz="true" />
-      <Gleisabschnitt name="W6"/>
       <Signal name="P4" stellung="HALT" schutz="true" />
       <Signal name="P5" stellung="HALT" schutz="true" />
-      <Signal name="N4" stellung="HALT" schutz="true"/>
+      <Signal name="N4" stellung="HALT" schutz="true" />
       <Gleisabschnitt name="4" />
     </Fahrstrasse>
+
     <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
-      <Gleisabschnitt name="LA" />
-      <Signal name="W1" stellung="FAHRT" />
-      <Signal name="P2" stellung="HALT" schutz="true" />
-      <Signal name="P3" stellung="HALT" schutz="true" />
-      <Weiche name="1" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W1"/>
-      <Weiche name="2" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W2"/>
-      <Signal name="A" stellung="HALT" schutz="true" />
-      <Gleisabschnitt name="L4" />
+      <Gleisabschnitt name="W3" />
       <Weiche name="3" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W3"/>
-      <Signal name="P4" stellung="HALT" schutz="true" />
+      <Gleisabschnitt name="W5" />
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
+      <Gleisabschnitt name="W5" />
       <Weiche name="5" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W5"/>
       <Weiche name="6" stellung="ABZWEIGEND" schutz="true" />
-      <Gleisabschnitt name="W6"/>
+      <Signal name="P4" stellung="HALT" schutz="true" />
       <Signal name="P5" stellung="HALT" schutz="true" />
-      <Signal name="N5" stellung="HALT" schutz="true"/>
+      <Signal name="N5" stellung="HALT" schutz="true" />
       <Gleisabschnitt name="5" />
     </Fahrstrasse>
+
     <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
-      <Gleisabschnitt name="LA" />
-      <Signal name="W1" stellung="FAHRT" />
-      <Signal name="P2" stellung="HALT" schutz="true" />
-      <Signal name="P3" stellung="HALT" schutz="true" />
-      <Weiche name="1" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W1"/>
-      <Weiche name="2" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W2"/>
-      <Signal name="A" stellung="HALT" schutz="true" />
-      <Gleisabschnitt name="L4" />
-      <Weiche name="3" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W3"/>
+      <Gleisabschnitt name="W5" />
       <Weiche name="5" stellung="GERADE" />
-      <Gleisabschnitt name="W5"/>
       <Weiche name="6" stellung="GERADE" />
-      <Gleisabschnitt name="W6"/>
-      <Weiche name="7" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W7"/>
-      <Signal name="P4" stellung="HALT" schutz="true" />
-      <Signal name="P5" stellung="HALT" schutz="true" />
-      <Signal name="P7-10" stellung="HALT" schutz="true" />
-      <Signal name="7'" stellung="HALT" schutz="true" />
-      <Signal name="36" stellung="HALT" schutz="true" />
-      <Signal name="18'" stellung="HALT" schutz="true" />
-      <Signal name="7&quot;" stellung="HALT" schutz="true"/>
-      <Gleisabschnitt name="7" />
+      <Gleisabschnitt name="W6" />
     </Fahrstrasse>
+
     <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
-      <Gleisabschnitt name="LA" />
-      <Signal name="W1" stellung="FAHRT" />
-      <Signal name="P2" stellung="HALT" schutz="true" />
-      <Signal name="P3" stellung="HALT" schutz="true" />
-      <Weiche name="1" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W1"/>
-      <Weiche name="2" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W2"/>
-      <Signal name="A" stellung="HALT" schutz="true" />
-      <Gleisabschnitt name="L4" />
-      <Weiche name="3" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W3"/>
-      <Weiche name="5" stellung="GERADE" />
-      <Gleisabschnitt name="W5"/>
-      <Weiche name="6" stellung="GERADE" />
-      <Gleisabschnitt name="W6"/>
-      <Weiche name="7" stellung="GERADE" />
-      <Gleisabschnitt name="W7"/>
-      <Weiche name="9" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W9"/>
+      <Gleisabschnitt name="W6" />
+      <Gleisabschnitt name="W7" />
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
+      <Gleisabschnitt name="W7" />
+      <Weiche name="7" stellung="ABZWEIGEND" />
       <Weiche name="10a" stellung="ABZWEIGEND" schutz="true" />
       <Signal name="P4" stellung="HALT" schutz="true" />
       <Signal name="P5" stellung="HALT" schutz="true" />
@@ -736,31 +560,39 @@
       <Signal name="7'" stellung="HALT" schutz="true" />
       <Signal name="36" stellung="HALT" schutz="true" />
       <Signal name="18'" stellung="HALT" schutz="true" />
-      <Signal name="18&quot;" stellung="HALT" schutz="true"/>
+      <Signal name="7&quot;" stellung="HALT" schutz="true" />
+      <Gleisabschnitt name="7" />
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
+      <Gleisabschnitt name="W7" />
+      <Weiche name="7" stellung="GERADE" />
+      <Gleisabschnitt name="W9" />
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
+      <Gleisabschnitt name="W9" />
+      <Weiche name="9" stellung="ABZWEIGEND" />
+      <Weiche name="10a" stellung="ABZWEIGEND" schutz="true" />
+      <Signal name="P4" stellung="HALT" schutz="true" />
+      <Signal name="P5" stellung="HALT" schutz="true" />
+      <Signal name="P7-10" stellung="HALT" schutz="true" />
+      <Signal name="7'" stellung="HALT" schutz="true" />
+      <Signal name="36" stellung="HALT" schutz="true" />
+      <Signal name="18'" stellung="HALT" schutz="true" />
+      <Signal name="18&quot;" stellung="HALT" schutz="true" />
       <Gleisabschnitt name="18" />
     </Fahrstrasse>
+
     <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
-      <Gleisabschnitt name="LA" />
-      <Signal name="W1" stellung="FAHRT" />
-      <Signal name="P2" stellung="HALT" schutz="true" />
-      <Signal name="P3" stellung="HALT" schutz="true" />
-      <Weiche name="1" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W1"/>
-      <Weiche name="2" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W2"/>
-      <Signal name="A" stellung="HALT" schutz="true" />
-      <Gleisabschnitt name="L4" />
-      <Weiche name="3" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W3"/>
-      <Weiche name="5" stellung="GERADE" />
-      <Gleisabschnitt name="W5"/>
-      <Weiche name="6" stellung="GERADE" />
-      <Gleisabschnitt name="W6"/>
-      <Weiche name="7" stellung="GERADE" />
-      <Gleisabschnitt name="W7"/>
+      <Gleisabschnitt name="W9" />
       <Weiche name="9" stellung="GERADE" />
-      <Gleisabschnitt name="W9"/>
       <Weiche name="10a" stellung="GERADE" />
+      <Gleisabschnitt name="W10" />
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
+      <Gleisabschnitt name="W10" />
       <Weiche name="10b" stellung="ABZWEIGEND" />
       <Signal name="P4" stellung="HALT" schutz="true" />
       <Signal name="P5" stellung="HALT" schutz="true" />
@@ -771,337 +603,23 @@
       <Signal name="19'" stellung="HALT" schutz="true" />
       <Signal name="38-39" stellung="HALT" schutz="true" />
       <Signal name="10'" stellung="HALT" schutz="true" />
-      <Signal name="19&quot;" stellung="HALT" schutz="true"/>
-      <Gleisabschnitt name="19" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
-      <Gleisabschnitt name="LA" />
-      <Signal name="W1" stellung="FAHRT" />
-      <Signal name="P2" stellung="HALT" schutz="true" />
-      <Signal name="P3" stellung="HALT" schutz="true" />
-      <Weiche name="1" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W1"/>
-      <Weiche name="2" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W2"/>
-      <Signal name="A" stellung="HALT" schutz="true" />
-      <Gleisabschnitt name="L4" />
-      <Weiche name="3" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W3"/>
-      <Weiche name="5" stellung="GERADE" />
-      <Gleisabschnitt name="W5"/>
-      <Weiche name="6" stellung="GERADE" />
-      <Gleisabschnitt name="W6"/>
-      <Weiche name="7" stellung="GERADE" />
-      <Gleisabschnitt name="W7"/>
-      <Weiche name="9" stellung="GERADE" />
-      <Gleisabschnitt name="W9"/>
-      <Weiche name="10a" stellung="GERADE" />
-      <Weiche name="10b" stellung="GERADE" />
-      <Signal name="P4" stellung="HALT" schutz="true" />
-      <Signal name="P5" stellung="HALT" schutz="true" />
-      <Signal name="P7-10" stellung="HALT" schutz="true" />
-      <Signal name="7'" stellung="HALT" schutz="true" />
-      <Signal name="36" stellung="HALT" schutz="true" />
-      <Signal name="18'" stellung="HALT" schutz="true" />
-      <Signal name="19'" stellung="HALT" schutz="true" />
-      <Signal name="38-39" stellung="HALT" schutz="true" />
-      <Signal name="10'" stellung="HALT" schutz="true" />
-      <Signal name="10&quot;" stellung="HALT" schutz="true"/>
-      <Gleisabschnitt name="10" />
-    </Fahrstrasse>
-    
-    <!-- Fahrstrassen innerhalb Fensterhausen in Zählrichtung (links nach rechts) -->
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
-      <Gleisabschnitt name="7" />
-      <Signal name="7&quot;" stellung="FAHRT" />
-      <Weiche name="15" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W15"/>
-      
-      <Signal name="N7-10" stellung="LANGSAMFAHRT" />
-      <Weiche name="17" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W17"/>
-      <Weiche name="18" stellung="ABZWEIGEND" schutz="true" />
-      <Gleisabschnitt name="W18"/>
-      <Gleisabschnitt name="17-20" />
-      <Weiche name="20" stellung="GERADE" />
-      <Gleisabschnitt name="W20"/>
-      <Signal name="8&quot;" stellung="HALT" schutz="true" />
-      <Signal name="46" stellung="HALT" schutz="true" />
-      <Gleisabschnitt name="46" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
-      <Gleisabschnitt name="8" />
-      <Signal name="8&quot;" stellung="FAHRT" />
-      <Weiche name="14" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W14"/>
-      <Weiche name="15" stellung="GERADE" />
-      <Gleisabschnitt name="W15"/>
-      
-      <Signal name="N7-10" stellung="LANGSAMFAHRT" />
-      <Weiche name="17" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W17"/>
-      <Weiche name="18" stellung="ABZWEIGEND" schutz="true" />
-      <Gleisabschnitt name="W18"/>
-      <Gleisabschnitt name="17-20" />
-      <Weiche name="20" stellung="GERADE" />
-      <Gleisabschnitt name="W20"/>
-      <Signal name="7&quot;" stellung="HALT" schutz="true" />
-      <Signal name="46" stellung="HALT" schutz="true" />
-      <Gleisabschnitt name="46" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
-      <Gleisabschnitt name="9" />
-      <Signal name="9&quot;" stellung="FAHRT" />
-      <Weiche name="13a" stellung="ABZWEIGEND" />
-      <Weiche name="13b" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="13-16" />
-      <Weiche name="16" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W16"/>
-      <Weiche name="14" stellung="ABZWEIGEND" schutz="true" />
-      <Gleisabschnitt name="W14"/>
-      <Signal name="11" stellung="HALT" schutz="true" />
-      <Signal name="29'" stellung="HALT" schutz="true" />
-      <Signal name="10&quot;" stellung="HALT" schutz="true" />
-      <Gleisabschnitt name="29" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
-      <Gleisabschnitt name="9" />
-      <Signal name="9&quot;" stellung="FAHRT" />
-      <Weiche name="13a" stellung="ABZWEIGEND" />
-      <Weiche name="13b" stellung="GERADE" />
-      <Weiche name="14" stellung="GERADE" />
-      <Gleisabschnitt name="W14"/>
-      <Weiche name="15" stellung="GERADE" />
-      <Gleisabschnitt name="W15"/>
-      <Signal name="N7-10" stellung="LANGSAMFAHRT" />
-      <Weiche name="17" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W17"/>
-      <Weiche name="18" stellung="ABZWEIGEND" schutz="true" />
-      <Gleisabschnitt name="W18"/>
-      <Gleisabschnitt name="17-20" />
-      <Weiche name="20" stellung="GERADE" />
-      <Gleisabschnitt name="W20"/>
-      <Signal name="7&quot;" stellung="HALT" schutz="true" />
-      <Signal name="8&quot;" stellung="HALT" schutz="true" />
-      <Signal name="10&quot;" stellung="HALT" schutz="true" />
-      <Signal name="46" stellung="HALT" schutz="true" />
-      <Gleisabschnitt name="46" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
-      <Gleisabschnitt name="10" />
-      <Signal name="10&quot;" stellung="FAHRT" />
-      <Weiche name="13a" stellung="GERADE" />
-      <Weiche name="13b" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="13-16" />
-      <Weiche name="16" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W16"/>
-      <Weiche name="14" stellung="ABZWEIGEND" schutz="true" />
-      <Gleisabschnitt name="W14"/>
-      <Signal name="11" stellung="HALT" schutz="true" />
-      <Signal name="29'" stellung="HALT" schutz="true" />
-      <Signal name="9&quot;" stellung="HALT" schutz="true" />
-      <Gleisabschnitt name="29" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
-      <Gleisabschnitt name="10" />
-      <Signal name="10&quot;" stellung="FAHRT" />
-      <Weiche name="13a" stellung="GERADE" />
-      <Weiche name="13b" stellung="GERADE" />
-      <Weiche name="14" stellung="GERADE" />
-      <Gleisabschnitt name="W14"/>
-      <Weiche name="15" stellung="GERADE" />
-      <Gleisabschnitt name="W15"/>
-      <Signal name="N7-10" stellung="LANGSAMFAHRT" />
-      <Weiche name="17" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W17"/>
-      <Weiche name="18" stellung="ABZWEIGEND" schutz="true" />
-      <Gleisabschnitt name="W18"/>
-      <Gleisabschnitt name="17-20" />
-      <Weiche name="20" stellung="GERADE" />
-      <Gleisabschnitt name="W20"/>
-      <Signal name="7&quot;" stellung="HALT" schutz="true" />
-      <Signal name="8&quot;" stellung="HALT" schutz="true" />
-      <Signal name="9&quot;" stellung="HALT" schutz="true" />
-      <Signal name="46" stellung="HALT" schutz="true" />
-      <Gleisabschnitt name="46" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
-      <Gleisabschnitt name="11" />
-      <Signal name="11" stellung="FAHRT" />
-      <Weiche name="13b" stellung="GERADE" schutz="true" />
-      <Weiche name="16" stellung="GERADE" />
-      <Gleisabschnitt name="W16"/>
-      <Signal name="29'" stellung="HALT" schutz="true" />
-      <Gleisabschnitt name="29" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
-      <Gleisabschnitt name="18" />
-      <Signal name="18&quot;" stellung="FAHRT" />
-      <Weiche name="11" stellung="GERADE" />
-      <Gleisabschnitt name="W11"/>
-      <Weiche name="12" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W12"/>
-      <Signal name="8&quot;" stellung="HALT" schutz="true"/>
-      <Gleisabschnitt name="8" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
-      <Gleisabschnitt name="18" />
-      <Signal name="18&quot;" stellung="FAHRT" />
-      <Weiche name="11" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W11"/>
-      <Weiche name="12" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W12"/>
-      <Signal name="8'" stellung="HALT" schutz="true" />
       <Signal name="19&quot;" stellung="HALT" schutz="true" />
-      <Signal name="9'" stellung="HALT" schutz="true" />
-      <Signal name="9&quot;" stellung="HALT" schutz="true"/>
-      <Gleisabschnitt name="9" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
       <Gleisabschnitt name="19" />
-      <Signal name="19&quot;" stellung="FAHRT" />
-      <Weiche name="12" stellung="GERADE" />
-      <Gleisabschnitt name="W12"/>
-      <Weiche name="11" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W11"/>
-      <Signal name="9&quot;" stellung="HALT" schutz="true"/>
-      <Gleisabschnitt name="9" />
     </Fahrstrasse>
+
     <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
-      <Gleisabschnitt name="29" />
-      <Signal name="29&quot;" stellung="FAHRT" />
-      <Weiche name="20" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W20"/>
-      <Weiche name="17" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W17"/>
-      <Signal name="46" stellung="HALT" schutz="true" />
-      <Gleisabschnitt name="46" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
-      <Gleisabschnitt name="36" />
-      <Signal name="36" stellung="FAHRT" />
-      <Weiche name="6" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W6"/>
-      <Weiche name="5" stellung="ABZWEIGEND" schutz="true" />
-      <Gleisabschnitt name="W5"/>
+      <Gleisabschnitt name="W10" />
+      <Weiche name="10b" stellung="GERADE" />
+      <Signal name="P4" stellung="HALT" schutz="true" />
+      <Signal name="P5" stellung="HALT" schutz="true" />
       <Signal name="P7-10" stellung="HALT" schutz="true" />
-      <Weiche name="7" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W7"/>
       <Signal name="7'" stellung="HALT" schutz="true" />
-      <Signal name="18'" stellung="HALT" schutz="true" />
-      <Signal name="7&quot;" stellung="HALT" schutz="true"/>
-      <Gleisabschnitt name="7" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
-      <Gleisabschnitt name="36" />
-      <Signal name="36" stellung="FAHRT" />
-      <Weiche name="6" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W6"/>
-      <Weiche name="5" stellung="ABZWEIGEND" schutz="true" />
-      <Gleisabschnitt name="W5"/>
-      <Signal name="P7-10" stellung="HALT" schutz="true" />
-      <Weiche name="7" stellung="GERADE" />
-      <Gleisabschnitt name="W7"/>
-      <Weiche name="9" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W9"/>
-      <Weiche name="10a" stellung="ABZWEIGEND" schutz="true" />
-      <Signal name="7'" stellung="HALT" schutz="true" />
-      <Signal name="18'" stellung="HALT" schutz="true" />
-      <Signal name="18" stellung="HALT" schutz="true"/>
-      <Gleisabschnitt name="18" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
-      <Gleisabschnitt name="36" />
-      <Signal name="36" stellung="FAHRT" />
-      <Weiche name="6" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W6"/>
-      <Weiche name="5" stellung="ABZWEIGEND" schutz="true" />
-      <Gleisabschnitt name="W5"/>
-      <Signal name="P7-10" stellung="HALT" schutz="true" />
-      <Weiche name="7" stellung="GERADE" />
-      <Gleisabschnitt name="W7"/>
-      <Weiche name="9" stellung="GERADE" />
-      <Gleisabschnitt name="W9"/>
-      <Weiche name="10a" stellung="GERADE" />
-      <Weiche name="10b" stellung="ABZWEIGEND" />
-      <Signal name="7'" stellung="HALT" schutz="true" />
+      <Signal name="36" stellung="HALT" schutz="true" />
       <Signal name="18'" stellung="HALT" schutz="true" />
       <Signal name="19'" stellung="HALT" schutz="true" />
       <Signal name="38-39" stellung="HALT" schutz="true" />
-      <Signal name="19" stellung="HALT" schutz="true"/>
-      <Gleisabschnitt name="19" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
-      <Gleisabschnitt name="36" />
-      <Signal name="36" stellung="FAHRT" />
-      <Weiche name="6" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W6"/>
-      <Weiche name="5" stellung="ABZWEIGEND" schutz="true" />
-      <Gleisabschnitt name="W5"/>
-      <Signal name="P7-10" stellung="HALT" schutz="true" />
-      <Weiche name="7" stellung="GERADE" />
-      <Gleisabschnitt name="W7"/>
-      <Weiche name="9" stellung="GERADE" />
-      <Gleisabschnitt name="W9"/>
-      <Weiche name="10a" stellung="GERADE" />
-      <Weiche name="10b" stellung="GERADE" />
-      <Signal name="7'" stellung="HALT" schutz="true" />
-      <Signal name="18'" stellung="HALT" schutz="true" />
-      <Signal name="19'" stellung="HALT" schutz="true" />
-      <Signal name="38-39" stellung="HALT" schutz="true" />
-      <Signal name="10" stellung="HALT" schutz="true"/>
-      <Gleisabschnitt name="10" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
-      <Gleisabschnitt name="38" />
-      <Weiche name="8" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W8"/>
-      <Signal name="38-39" stellung="FAHRT" />
-      <Gleisabschnitt name="38-39" />
-      <Weiche name="10a" stellung="ABZWEIGEND" />
-      <Weiche name="10b" stellung="ABZWEIGEND" />
-      <Signal name="19'" stellung="HALT" schutz="true" />
       <Signal name="10'" stellung="HALT" schutz="true" />
-      <Signal name="19" stellung="HALT" schutz="true"/>
-      <Gleisabschnitt name="19" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
-      <Gleisabschnitt name="38" />
-      <Weiche name="8" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W8"/>
-      <Signal name="38-39" stellung="FAHRT" />
-      <Gleisabschnitt name="38-39" />
-      <Weiche name="10a" stellung="ABZWEIGEND" />
-      <Weiche name="10b" stellung="GERADE" />
-      <Signal name="19'" stellung="HALT" schutz="true" />
-      <Signal name="10'" stellung="HALT" schutz="true" />
-      <Signal name="10" stellung="HALT" schutz="true"/>
-      <Gleisabschnitt name="10" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
-      <Gleisabschnitt name="39" />
-      <Weiche name="8" stellung="GERADE" />
-      <Gleisabschnitt name="W8"/>
-      <Signal name="38-39" stellung="FAHRT" />
-      <Gleisabschnitt name="38-39" />
-      <Weiche name="10a" stellung="ABZWEIGEND" />
-      <Weiche name="10b" stellung="ABZWEIGEND" />
-      <Signal name="19'" stellung="HALT" schutz="true" />
-      <Signal name="10'" stellung="HALT" schutz="true" />
-      <Signal name="19" stellung="HALT" schutz="true"/>
-      <Gleisabschnitt name="19" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
-      <Gleisabschnitt name="39" />
-      <Weiche name="8" stellung="GERADE" />
-      <Gleisabschnitt name="W8"/>
-      <Signal name="38-39" stellung="FAHRT" />
-      <Gleisabschnitt name="38-39" />
-      <Weiche name="10a" stellung="ABZWEIGEND" />
-      <Weiche name="10b" stellung="GERADE" />
-      <Signal name="19'" stellung="HALT" schutz="true" />
-      <Signal name="10'" stellung="HALT" schutz="true" />
-      <Signal name="10" stellung="HALT" schutz="true"/>
+      <Signal name="10&quot;" stellung="HALT" schutz="true" />
       <Gleisabschnitt name="10" />
     </Fahrstrasse>
 
@@ -1109,2438 +627,366 @@
     <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
       <Gleisabschnitt name="1" />
       <Signal name="N1" stellung="LANGSAMFAHRT" />
-      <Weiche name="19" stellung="GERADE" />
-      <Gleisabschnitt name="W19"/>
-      <Weiche name="22" stellung="GERADE" />
-      <Gleisabschnitt name="W22"/>
-      <Weiche name="25" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W25"/>
-      <Weiche name="26" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W26"/>
       <Signal name="N2" stellung="HALT" schutz="true" />
-      <Signal name="N3" stellung="HALT" schutz="true" />
-      <Signal name="N4" stellung="HALT" schutz="true" />
-      <Signal name="N5" stellung="HALT" schutz="true" />
-      <Signal name="N7-10" stellung="HALT" schutz="true" />
-      <Signal name="F" stellung="HALT" schutz="true" />
-      <Bahnuebergang name="B1"/>
-      <Signal name="W26" stellung="HALT" schutz="true" />
-      <Signal name="1A" stellung="HALT" schutz="true"/>
-      <Gleisabschnitt name="RA" />
+      <Weiche name="19" stellung="GERADE" />
+      <Gleisabschnitt name="W19" />
     </Fahrstrasse>
+
     <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
       <Gleisabschnitt name="2" />
       <Signal name="N2" stellung="LANGSAMFAHRT" />
-      <Weiche name="19" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W19"/>
-      <Weiche name="22" stellung="GERADE" />
-      <Gleisabschnitt name="W22"/>
-      <Weiche name="25" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W25"/>
-      <Weiche name="26" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W26"/>
       <Signal name="N1" stellung="HALT" schutz="true" />
-      <Signal name="N3" stellung="HALT" schutz="true" />
-      <Signal name="N4" stellung="HALT" schutz="true" />
-      <Signal name="N5" stellung="HALT" schutz="true" />
-      <Signal name="N7-10" stellung="HALT" schutz="true" />
-      <Signal name="F" stellung="HALT" schutz="true" />
-      <Bahnuebergang name="B1"/>
-      <Signal name="W26" stellung="HALT" schutz="true" />
-      <Signal name="1A" stellung="HALT" schutz="true"/>
-      <Gleisabschnitt name="RA" />
+      <Weiche name="19" stellung="ABZWEIGEND" />
+      <Gleisabschnitt name="W19" />
     </Fahrstrasse>
+
+    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
+      <Gleisabschnitt name="W19" />
+      <Weiche name="22" stellung="GERADE" />
+      <Signal name="N3" stellung="HALT" schutz="true" />
+      <Gleisabschnitt name="W22" />
+    </Fahrstrasse>
+
     <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
       <Gleisabschnitt name="3" />
       <Signal name="N3" stellung="LANGSAMFAHRT" />
-      <Weiche name="22" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W22"/>
-      <Weiche name="25" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W25"/>
-      <Weiche name="26" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W26"/>
       <Signal name="N1" stellung="HALT" schutz="true" />
       <Signal name="N2" stellung="HALT" schutz="true" />
+      <Weiche name="22" stellung="ABZWEIGEND" />
+      <Gleisabschnitt name="W22" />
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
+      <Gleisabschnitt name="W22" />
+      <Gleisabschnitt name="W25" />
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
+      <Gleisabschnitt name="W25" />
+      <Weiche name="25" stellung="ABZWEIGEND" />
+      <Weiche name="26" stellung="ABZWEIGEND" />
       <Signal name="N4" stellung="HALT" schutz="true" />
       <Signal name="N5" stellung="HALT" schutz="true" />
-      <Signal name="N7-10" stellung="HALT" schutz="true" />
+      <Gleisabschnitt name="W26" />
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
+      <Gleisabschnitt name="W26" />
       <Signal name="F" stellung="HALT" schutz="true" />
-      <Bahnuebergang name="B1"/>
+      <Bahnuebergang name="B1" />
       <Signal name="W26" stellung="HALT" schutz="true" />
-      <Signal name="1A" stellung="HALT" schutz="true"/>
+      <Signal name="1A" stellung="HALT" schutz="true" />
       <Gleisabschnitt name="RA" />
     </Fahrstrasse>
+
     <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
       <Gleisabschnitt name="4" />
       <Signal name="N4" stellung="FAHRT" />
       <Weiche name="21" stellung="GERADE" />
-      <Gleisabschnitt name="W21"/>
-      <Weiche name="23" stellung="GERADE" />
-      <Gleisabschnitt name="W23"/>
-      <Weiche name="26" stellung="GERADE" />
-      <Gleisabschnitt name="W26"/>
-      <Weiche name="25" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W25"/>
-      <Weiche name="24" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W24"/>
       <Signal name="N5" stellung="HALT" schutz="true" />
-      <Signal name="N7-10" stellung="HALT" schutz="true" />
-      <Bahnuebergang name="B1"/>
-      <Signal name="W26" stellung="HALT" schutz="true" />
-      <Signal name="1A" stellung="HALT" schutz="true"/>
-      <Gleisabschnitt name="RA" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
-      <Gleisabschnitt name="5" />
-      <Signal name="N5" stellung="LANGSAMFAHRT" />
-      <Weiche name="18" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W18"/>
-      <Weiche name="17" stellung="ABZWEIGEND" schutz="true" />
-      <Gleisabschnitt name="W17"/>
-      <Weiche name="21" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W21"/>
-      <Weiche name="23" stellung="GERADE" />
-      <Gleisabschnitt name="W23"/>
-      <Weiche name="26" stellung="GERADE" />
-      <Gleisabschnitt name="W26"/>
-      <Weiche name="25" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W25"/>
-      <Weiche name="24" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W24"/>
-      <Signal name="N4" stellung="HALT" schutz="true" />
-      <Signal name="N7-10" stellung="HALT" schutz="true" />
-      <Bahnuebergang name="B1"/>
-      <Signal name="W26" stellung="HALT" schutz="true" />
-      <Signal name="1A" stellung="HALT" schutz="true"/>
-      <Gleisabschnitt name="RA" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
-      <Gleisabschnitt name="7" />
-      <Signal name="7&quot;" stellung="FAHRT" />
-      <Weiche name="15" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W15"/>
-      <Signal name="N7-10" stellung="LANGSAMFAHRT" />
-      <Weiche name="18" stellung="GERADE" />
-      <Gleisabschnitt name="W18"/>
-      <Weiche name="17" stellung="GERADE" />
-      <Gleisabschnitt name="W17"/>
-      <Weiche name="21" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W21"/>
-      <Weiche name="23" stellung="GERADE" />
-      <Gleisabschnitt name="W23"/>
-      <Weiche name="26" stellung="GERADE" />
-      <Gleisabschnitt name="W26"/>
-      <Weiche name="25" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W25"/>
-      <Weiche name="24" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W24"/>
-      <Weiche name="20" stellung="ABZWEIGEND" schutz="true" />
-      <Gleisabschnitt name="W20"/>
-      <Signal name="N4" stellung="HALT" schutz="true" />
-      <Signal name="N5" stellung="HALT" schutz="true" />
-      <Signal name="8&quot;" stellung="HALT" schutz="true" />
-      <Bahnuebergang name="B1"/>
-      <Signal name="W26" stellung="HALT" schutz="true" />
-      <Signal name="1A" stellung="HALT" schutz="true"/>
-      <Gleisabschnitt name="RA" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
-      <Gleisabschnitt name="8" />
-      <Signal name="8&quot;" stellung="FAHRT" />
-      <Weiche name="14" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W14"/>
-      <Weiche name="15" stellung="GERADE" />
-      <Gleisabschnitt name="W15"/>
-      <Signal name="N7-10" stellung="LANGSAMFAHRT" />
-      <Weiche name="18" stellung="GERADE" />
-      <Gleisabschnitt name="W18"/>
-      <Weiche name="17" stellung="GERADE" />
-      <Gleisabschnitt name="W17"/>
-      <Weiche name="21" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W21"/>
-      <Weiche name="23" stellung="GERADE" />
-      <Gleisabschnitt name="W23"/>
-      <Weiche name="26" stellung="GERADE" />
-      <Gleisabschnitt name="W26"/>
-      <Weiche name="25" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W25"/>
-      <Weiche name="24" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W24"/>
-      <Weiche name="20" stellung="ABZWEIGEND" schutz="true" />
-      <Gleisabschnitt name="W20"/>
-      <Weiche name="13b" stellung="ABZWEIGEND" schutz="true" />
-      <Signal name="N4" stellung="HALT" schutz="true" />
-      <Signal name="N5" stellung="HALT" schutz="true" />
-      <Signal name="7&quot;" stellung="HALT" schutz="true" />
-      <Bahnuebergang name="B1"/>
-      <Signal name="W26" stellung="HALT" schutz="true" />
-      <Signal name="1A" stellung="HALT" schutz="true"/>
-      <Gleisabschnitt name="RA" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
-      <Gleisabschnitt name="9" />
-      <Signal name="9&quot;" stellung="FAHRT" />
-      <Weiche name="13a" stellung="ABZWEIGEND" />
-      <Weiche name="13b" stellung="GERADE" />
-      <Weiche name="14" stellung="GERADE" />
-      <Gleisabschnitt name="W14"/>
-      <Weiche name="15" stellung="GERADE" />
-      <Gleisabschnitt name="W15"/>
-      <Signal name="N7-10" stellung="LANGSAMFAHRT" />
-      <Weiche name="18" stellung="GERADE" />
-      <Gleisabschnitt name="W18"/>
-      <Weiche name="17" stellung="GERADE" />
-      <Gleisabschnitt name="W17"/>
-      <Weiche name="21" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W21"/>
-      <Weiche name="23" stellung="GERADE" />
-      <Gleisabschnitt name="W23"/>
-      <Weiche name="26" stellung="GERADE" />
-      <Gleisabschnitt name="W26"/>
-      <Weiche name="25" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W25"/>
-      <Weiche name="24" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W24"/>
-      <Weiche name="20" stellung="ABZWEIGEND" schutz="true" />
-      <Gleisabschnitt name="W20"/>
-      <Signal name="N4" stellung="HALT" schutz="true" />
-      <Signal name="N5" stellung="HALT" schutz="true" />
-      <Signal name="7&quot;" stellung="HALT" schutz="true" />
-      <Signal name="8&quot;" stellung="HALT" schutz="true" />
-      <Signal name="10&quot;" stellung="HALT" schutz="true" />
-      <Bahnuebergang name="B1"/>
-      <Signal name="W26" stellung="HALT" schutz="true" />
-      <Signal name="1A" stellung="HALT" schutz="true"/>
-      <Gleisabschnitt name="RA" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
-      <Gleisabschnitt name="10" />
-      <Signal name="10&quot;" stellung="FAHRT" />
-      <Weiche name="13a" stellung="GERADE" />
-      <Weiche name="13b" stellung="GERADE" />
-      <Weiche name="14" stellung="GERADE" />
-      <Gleisabschnitt name="W14"/>
-      <Weiche name="15" stellung="GERADE" />
-      <Gleisabschnitt name="W15"/>
-      <Signal name="N7-10" stellung="LANGSAMFAHRT" />
-      <Weiche name="18" stellung="GERADE" />
-      <Gleisabschnitt name="W18"/>
-      <Weiche name="17" stellung="GERADE" />
-      <Gleisabschnitt name="W17"/>
-      <Weiche name="21" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W21"/>
-      <Weiche name="23" stellung="GERADE" />
-      <Gleisabschnitt name="W23"/>
-      <Weiche name="26" stellung="GERADE" />
-      <Gleisabschnitt name="W26"/>
-      <Weiche name="25" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W25"/>
-      <Weiche name="24" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W24"/>
-      <Weiche name="20" stellung="ABZWEIGEND" schutz="true" />
-      <Gleisabschnitt name="W20"/>
-      <Signal name="N4" stellung="HALT" schutz="true" />
-      <Signal name="N5" stellung="HALT" schutz="true" />
-      <Signal name="7&quot;" stellung="HALT" schutz="true" />
-      <Signal name="8&quot;" stellung="HALT" schutz="true" />
-      <Signal name="9&quot;" stellung="HALT" schutz="true" />
-      <Bahnuebergang name="B1"/>
-      <Signal name="W26" stellung="HALT" schutz="true" />
-      <Signal name="1A" stellung="HALT" schutz="true"/>
-      <Gleisabschnitt name="RA" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
-      <Gleisabschnitt name="1" />
-      <Signal name="N1" stellung="LANGSAMFAHRT" />
-      <Weiche name="19" stellung="GERADE" />
-      <Gleisabschnitt name="W19"/>
-      <Weiche name="22" stellung="GERADE" />
-      <Gleisabschnitt name="W22"/>
-      <Weiche name="25" stellung="GERADE" />
-      <Gleisabschnitt name="W25"/>
-      <Weiche name="24" stellung="GERADE" />
-      <Gleisabschnitt name="W24"/>
-      <Weiche name="23" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W23"/>
-      <Weiche name="26" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W26"/>
-      <Signal name="N2" stellung="HALT" schutz="true" />
-      <Signal name="N3" stellung="HALT" schutz="true" />
-      <Bahnuebergang name="B1"/>
-      <Signal name="F" stellung="HALT" schutz="true" />
-      <Gleisabschnitt name="RE" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
-      <Gleisabschnitt name="2" />
-      <Signal name="N2" stellung="LANGSAMFAHRT" />
-      <Weiche name="19" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W19"/>
-      <Weiche name="22" stellung="GERADE" />
-      <Gleisabschnitt name="W22"/>
-      <Weiche name="25" stellung="GERADE" />
-      <Gleisabschnitt name="W25"/>
-      <Weiche name="24" stellung="GERADE" />
-      <Gleisabschnitt name="W24"/>
-      <Weiche name="23" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W23"/>
-      <Weiche name="26" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W26"/>
-      <Signal name="N1" stellung="HALT" schutz="true" />
-      <Signal name="N3" stellung="HALT" schutz="true" />
-      <Bahnuebergang name="B1"/>
-      <Signal name="F" stellung="HALT" schutz="true" />
-      <Gleisabschnitt name="RE" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
-      <Gleisabschnitt name="3" />
-      <Signal name="N3" stellung="LANGSAMFAHRT" />
-      <Weiche name="22" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W22"/>
-      <Weiche name="25" stellung="GERADE" />
-      <Gleisabschnitt name="W25"/>
-      <Weiche name="24" stellung="GERADE" />
-      <Gleisabschnitt name="W24"/>
-      <Weiche name="23" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W23"/>
-      <Weiche name="26" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W26"/>
-      <Signal name="N1" stellung="HALT" schutz="true" />
-      <Signal name="N2" stellung="HALT" schutz="true" />
-      <Bahnuebergang name="B1"/>
-      <Signal name="F" stellung="HALT" schutz="true" />
-      <Gleisabschnitt name="RE" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
-      <Gleisabschnitt name="4" />
-      <Signal name="N4" stellung="LANGSAMFAHRT" />
-      <Weiche name="21" stellung="GERADE" />
-      <Gleisabschnitt name="W21"/>
-      <Signal name="N5" stellung="HALT" schutz="true" />
-      <Weiche name="17" stellung="ABZWEIGEND" schutz="true" />
-      <Gleisabschnitt name="W17"/>
-      <Weiche name="23" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W23"/>
-      <Weiche name="24" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W24"/>
-      <Signal name="N1" stellung="HALT" schutz="true" />
-      <Signal name="N2" stellung="HALT" schutz="true" />
-      <Signal name="N3" stellung="HALT" schutz="true" />
-      <Bahnuebergang name="B1"/>
-      <Signal name="W26" stellung="HALT" schutz="true" />
-      <Signal name="F" stellung="HALT" schutz="true" />
-      <Gleisabschnitt name="RE" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
-      <Gleisabschnitt name="5" />
-      <Signal name="N5" stellung="LANGSAMFAHRT" />
-      <Weiche name="18" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W18"/>
-      <Weiche name="21" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W21"/>
-      <Signal name="N4" stellung="HALT" schutz="true" />
-      <Weiche name="17" stellung="ABZWEIGEND" schutz="true" />
-      <Gleisabschnitt name="W17"/>
-      <Weiche name="23" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W23"/>
-      <Weiche name="24" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W24"/>
-      <Signal name="N1" stellung="HALT" schutz="true" />
-      <Signal name="N2" stellung="HALT" schutz="true" />
-      <Signal name="N3" stellung="HALT" schutz="true" />
-      <Bahnuebergang name="B1"/>
-      <Signal name="W26" stellung="HALT" schutz="true" />
-      <Signal name="F" stellung="HALT" schutz="true" />
-      <Gleisabschnitt name="RE" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
-      <Gleisabschnitt name="7" />
-      <Signal name="7&quot;" stellung="FAHRT" />
-      <Weiche name="15" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W15"/>
-      <Signal name="8&quot;" stellung="HALT" schutz="true" />
-      <Weiche name="13b" stellung="ABZWEIGEND" schutz="true" />
-      <Signal name="N7-10" stellung="LANGSAMFAHRT" />
-      <Weiche name="17" stellung="GERADE" />
-      <Gleisabschnitt name="W17"/>
-      <Weiche name="20" stellung="ABZWEIGEND" schutz="true" />
-      <Gleisabschnitt name="W20"/>
-      <Weiche name="18" stellung="GERADE" />
-      <Gleisabschnitt name="W18"/>
-      <Signal name="N5" stellung="HALT" schutz="true" />
-      <Weiche name="21" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W21"/>
-      <Signal name="N4" stellung="HALT" schutz="true" />
-      <Weiche name="23" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W23"/>
-      <Weiche name="24" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W24"/>
-      <Signal name="N1" stellung="HALT" schutz="true" />
-      <Signal name="N2" stellung="HALT" schutz="true" />
-      <Signal name="N3" stellung="HALT" schutz="true" />
-      <Bahnuebergang name="B1"/>
-      <Signal name="W26" stellung="HALT" schutz="true" />
-      <Signal name="F" stellung="HALT" schutz="true" />
-      <Gleisabschnitt name="RE" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
-      <Gleisabschnitt name="8" />
-      <Signal name="8&quot;" stellung="FAHRT" />
-      <Weiche name="14" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W14"/>
-      <Weiche name="13b" stellung="ABZWEIGEND" schutz="true" />
-      <Weiche name="15" stellung="GERADE" />
-      <Gleisabschnitt name="W15"/>
-      <Signal name="7&quot;" stellung="HALT" schutz="true" />
-      <Signal name="N7-10" stellung="LANGSAMFAHRT" />
-      <Weiche name="17" stellung="GERADE" />
-      <Gleisabschnitt name="W17"/>
-      <Weiche name="20" stellung="ABZWEIGEND" schutz="true" />
-      <Gleisabschnitt name="W20"/>
-      <Weiche name="18" stellung="GERADE" />
-      <Gleisabschnitt name="W18"/>
-      <Signal name="N5" stellung="HALT" schutz="true" />
-      <Weiche name="21" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W21"/>
-      <Signal name="N4" stellung="HALT" schutz="true" />
-      <Weiche name="23" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W23"/>
-      <Weiche name="24" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W24"/>
-      <Signal name="N1" stellung="HALT" schutz="true" />
-      <Signal name="N2" stellung="HALT" schutz="true" />
-      <Signal name="N3" stellung="HALT" schutz="true" />
-      <Bahnuebergang name="B1"/>
-      <Signal name="W26" stellung="HALT" schutz="true" />
-      <Signal name="F" stellung="HALT" schutz="true" />
-      <Gleisabschnitt name="RE" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
-      <Gleisabschnitt name="9" />
-      <Signal name="9&quot;" stellung="FAHRT" />
-      <Weiche name="13a" stellung="ABZWEIGEND" />
-      <Weiche name="13b" stellung="GERADE" />
-      <Signal name="10&quot;" stellung="HALT" schutz="true" />
-      <Weiche name="14" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W14"/>
-      <Signal name="8&quot;" stellung="HALT" schutz="true" />
-      <Weiche name="16" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W16"/>
-      <Weiche name="15" stellung="GERADE" />
-      <Gleisabschnitt name="W15"/>
-      <Signal name="7&quot;" stellung="HALT" schutz="true" />
-      <Signal name="N7-10" stellung="LANGSAMFAHRT" />
-      <Weiche name="17" stellung="GERADE" />
-      <Gleisabschnitt name="W17"/>
-      <Weiche name="20" stellung="ABZWEIGEND" schutz="true" />
-      <Gleisabschnitt name="W20"/>
-      <Weiche name="18" stellung="GERADE" />
-      <Gleisabschnitt name="W18"/>
-      <Signal name="N5" stellung="HALT" schutz="true" />
-      <Weiche name="21" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W21"/>
-      <Signal name="N4" stellung="HALT" schutz="true" />
-      <Weiche name="23" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W23"/>
-      <Weiche name="24" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W24"/>
-      <Signal name="N1" stellung="HALT" schutz="true" />
-      <Signal name="N2" stellung="HALT" schutz="true" />
-      <Signal name="N3" stellung="HALT" schutz="true" />
-      <Bahnuebergang name="B1"/>
-      <Signal name="W26" stellung="HALT" schutz="true" />
-      <Signal name="F" stellung="HALT" schutz="true" />
-      <Gleisabschnitt name="RE" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
-      <Gleisabschnitt name="10" />
-      <Signal name="10&quot;" stellung="FAHRT" />
-      <Weiche name="13a" stellung="GERADE" />
-      <Weiche name="13b" stellung="GERADE" />
-      <Signal name="9&quot;" stellung="HALT" schutz="true" />
-      <Weiche name="14" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W14"/>
-      <Signal name="8&quot;" stellung="HALT" schutz="true" />
-      <Weiche name="16" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W16"/>
-      <Weiche name="15" stellung="GERADE" />
-      <Gleisabschnitt name="W15"/>
-      <Signal name="7&quot;" stellung="HALT" schutz="true" />
-      <Signal name="N7-10" stellung="LANGSAMFAHRT" />
-      <Weiche name="17" stellung="GERADE" />
-      <Gleisabschnitt name="W17"/>
-      <Weiche name="20" stellung="ABZWEIGEND" schutz="true" />
-      <Gleisabschnitt name="W20"/>
-      <Weiche name="18" stellung="GERADE" />
-      <Gleisabschnitt name="W18"/>
-      <Signal name="N5" stellung="HALT" schutz="true" />
-      <Weiche name="21" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W21"/>
-      <Signal name="N4" stellung="HALT" schutz="true" />
-      <Weiche name="23" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W23"/>
-      <Weiche name="24" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W24"/>
-      <Signal name="N1" stellung="HALT" schutz="true" />
-      <Signal name="N2" stellung="HALT" schutz="true" />
-      <Signal name="N3" stellung="HALT" schutz="true" />
-      <Bahnuebergang name="B1"/>
-      <Signal name="W26" stellung="HALT" schutz="true" />
-      <Signal name="F" stellung="HALT" schutz="true" />
-      <Gleisabschnitt name="RE" />
-    </Fahrstrasse>
-    
-    <!-- Fahrstrassen zur Einfahrt nach Fensterhausen gegen die Zaehlrichtung (von rechts) -->
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
-      <Gleisabschnitt name="RA" />
-      <Bahnuebergang name="B1"/>
-      <Signal name="W26" stellung="FAHRT" />
-      <Weiche name="26" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W26"/>
-      <Weiche name="25" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W25"/>
-      <Signal name="F" stellung="HALT" schutz="true" />
-      <Signal name="N4" stellung="HALT" schutz="true" />
-      <Signal name="N5" stellung="HALT" schutz="true" />
-      <Weiche name="22" stellung="GERADE" />
-      <Gleisabschnitt name="W22"/>
-      <Signal name="N3" stellung="HALT" schutz="true" />
-      <Weiche name="19" stellung="GERADE" />
-      <Gleisabschnitt name="W19"/>
-      <Signal name="N2" stellung="HALT" schutz="true" />
-      <Signal name="N1" stellung="HALT" schutz="true" />
-      <Gleisabschnitt name="1" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
-      <Gleisabschnitt name="RA" />
-      <Bahnuebergang name="B1"/>
-      <Signal name="W26" stellung="FAHRT" />
-      <Weiche name="26" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W26"/>
-      <Weiche name="25" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W25"/>
-      <Signal name="F" stellung="HALT" schutz="true" />
-      <Signal name="N4" stellung="HALT" schutz="true" />
-      <Signal name="N5" stellung="HALT" schutz="true" />
-      <Weiche name="22" stellung="GERADE" />
-      <Gleisabschnitt name="W22"/>
-      <Signal name="N3" stellung="HALT" schutz="true" />
-      <Weiche name="19" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W19"/>
-      <Signal name="N2" stellung="HALT" schutz="true" />
-      <Signal name="N1" stellung="HALT" schutz="true" />
-      <Signal name="P2" stellung="HALT" schutz="true"/>
-      <Gleisabschnitt name="2" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
-      <Gleisabschnitt name="RA" />
-      <Bahnuebergang name="B1"/>
-      <Signal name="W26" stellung="FAHRT" />
-      <Weiche name="26" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W26"/>
-      <Weiche name="25" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W25"/>
-      <Signal name="F" stellung="HALT" schutz="true" />
-      <Signal name="N4" stellung="HALT" schutz="true" />
-      <Signal name="N5" stellung="HALT" schutz="true" />
-      <Weiche name="22" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W22"/>
-      <Signal name="N3" stellung="HALT" schutz="true" />
-      <Signal name="N2" stellung="HALT" schutz="true" />
-      <Signal name="N1" stellung="HALT" schutz="true" />
-      <Signal name="P3" stellung="HALT" schutz="true"/>
-      <Gleisabschnitt name="3" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
-      <Gleisabschnitt name="RA" />
-      <Bahnuebergang name="B1"/>
-      <Signal name="W26" stellung="FAHRT" />
-      <Weiche name="26" stellung="GERADE" />
-      <Gleisabschnitt name="W26"/>
-      <Weiche name="23" stellung="GERADE" />
-      <Gleisabschnitt name="W23"/>
-      <Weiche name="25" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W25"/>
-      <Weiche name="24" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W24"/>
-      <Weiche name="21" stellung="GERADE" />
-      <Gleisabschnitt name="W21"/>
-      <Weiche name="17" stellung="ABZWEIGEND" schutz="true" />
-      <Gleisabschnitt name="W17"/>
-      <Signal name="N4" stellung="HALT" schutz="true" />
-      <Signal name="N5" stellung="HALT" schutz="true" />
-      <Signal name="P4" stellung="HALT" />
-      <Gleisabschnitt name="4" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
-      <Gleisabschnitt name="RA" />
-      <Bahnuebergang name="B1"/>
-      <Signal name="W26" stellung="FAHRT" />
-      <Weiche name="26" stellung="GERADE" />
-      <Gleisabschnitt name="W26"/>
-      <Weiche name="23" stellung="GERADE" />
-      <Gleisabschnitt name="W23"/>
-      <Weiche name="25" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W25"/>
-      <Weiche name="24" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W24"/>
-      <Weiche name="21" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W21"/>
-      <Weiche name="18" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W18"/>
-      <Weiche name="17" stellung="ABZWEIGEND" schutz="true" />
-      <Gleisabschnitt name="W17"/>
-      <Signal name="N4" stellung="HALT" schutz="true" />
-      <Signal name="N5" stellung="HALT" schutz="true" />
-      <Signal name="P5" stellung="HALT" schutz="true"/>
-      <Gleisabschnitt name="5" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
-      <Gleisabschnitt name="RA" />
-      <Bahnuebergang name="B1"/>
-      <Signal name="W26" stellung="FAHRT" />
-      <Weiche name="26" stellung="GERADE" />
-      <Gleisabschnitt name="W26"/>
-      <Weiche name="23" stellung="GERADE" />
-      <Gleisabschnitt name="W23"/>
-      <Weiche name="25" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W25"/>
-      <Weiche name="24" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W24"/>
-      <Weiche name="21" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W21"/>
-      <Weiche name="18" stellung="GERADE" />
-      <Gleisabschnitt name="W18"/>
-      <Weiche name="17" stellung="GERADE" />
-      <Gleisabschnitt name="W17"/>
-      <Weiche name="20" stellung="ABZWEIGEND" schutz="true" />
-      <Gleisabschnitt name="W20"/>
-      <Weiche name="15" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W15"/>
-      <Signal name="N4" stellung="HALT" schutz="true" />
-      <Signal name="N5" stellung="HALT" schutz="true" />
-      <Signal name="N7-10" stellung="HALT" schutz="true" />
-      <Signal name="7&quot;" stellung="HALT" schutz="true" />
-      <Signal name="7'" stellung="HALT" schutz="true"/>
-      <Gleisabschnitt name="7" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
-      <Gleisabschnitt name="RA" />
-      <Bahnuebergang name="B1"/>
-      <Signal name="W26" stellung="FAHRT" />
-      <Weiche name="26" stellung="GERADE" />
-      <Gleisabschnitt name="W26"/>
-      <Weiche name="23" stellung="GERADE" />
-      <Gleisabschnitt name="W23"/>
-      <Weiche name="25" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W25"/>
-      <Weiche name="24" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W24"/>
-      <Weiche name="21" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W21"/>
-      <Weiche name="18" stellung="GERADE" />
-      <Gleisabschnitt name="W18"/>
-      <Weiche name="17" stellung="GERADE" />
-      <Gleisabschnitt name="W17"/>
-      <Weiche name="20" stellung="ABZWEIGEND" schutz="true" />
-      <Gleisabschnitt name="W20"/>
-      <Weiche name="15" stellung="GERADE" />
-      <Gleisabschnitt name="W15"/>
-      <Weiche name="14" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W14"/>
-      <Signal name="N4" stellung="HALT" schutz="true" />
-      <Signal name="N5" stellung="HALT" schutz="true" />
-      <Signal name="N7-10" stellung="HALT" schutz="true" />
-      <Signal name="7&quot;" stellung="HALT" schutz="true" />
-      <Signal name="8&quot;" stellung="HALT" schutz="true" />
-      <Signal name="8'" stellung="HALT" schutz="true"/>
-      <Gleisabschnitt name="8" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
-      <Gleisabschnitt name="RA" />
-      <Bahnuebergang name="B1"/>
-      <Signal name="W26" stellung="FAHRT" />
-      <Weiche name="26" stellung="GERADE" />
-      <Gleisabschnitt name="W26"/>
-      <Weiche name="23" stellung="GERADE" />
-      <Gleisabschnitt name="W23"/>
-      <Weiche name="25" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W25"/>
-      <Weiche name="24" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W24"/>
-      <Weiche name="21" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W21"/>
-      <Weiche name="18" stellung="GERADE" />
-      <Gleisabschnitt name="W18"/>
-      <Weiche name="17" stellung="GERADE" />
-      <Gleisabschnitt name="W17"/>
-      <Weiche name="20" stellung="ABZWEIGEND" schutz="true" />
-      <Gleisabschnitt name="W20"/>
-      <Weiche name="15" stellung="GERADE" />
-      <Gleisabschnitt name="W15"/>
-      <Weiche name="14" stellung="GERADE" />
-      <Gleisabschnitt name="W14"/>
-      <Weiche name="13a" stellung="ABZWEIGEND" />
-      <Weiche name="13b" stellung="GERADE" />
-      <Signal name="N4" stellung="HALT" schutz="true" />
-      <Signal name="N5" stellung="HALT" schutz="true" />
-      <Signal name="N7-10" stellung="HALT" schutz="true" />
-      <Signal name="7&quot;" stellung="HALT" schutz="true" />
-      <Signal name="8&quot;" stellung="HALT" schutz="true" />
-      <Signal name="9&quot;" stellung="HALT" schutz="true" />
-      <Signal name="10&quot;" stellung="HALT" schutz="true" />
-      <Signal name="9'" stellung="HALT" schutz="true"/>
-      <Gleisabschnitt name="9" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
-      <Gleisabschnitt name="RA" />
-      <Bahnuebergang name="B1"/>
-      <Signal name="W26" stellung="FAHRT" />
-      <Weiche name="26" stellung="GERADE" />
-      <Gleisabschnitt name="W26"/>
-      <Weiche name="23" stellung="GERADE" />
-      <Gleisabschnitt name="W23"/>
-      <Weiche name="25" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W25"/>
-      <Weiche name="24" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W24"/>
-      <Weiche name="21" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W21"/>
-      <Weiche name="18" stellung="GERADE" />
-      <Gleisabschnitt name="W18"/>
-      <Weiche name="17" stellung="GERADE" />
-      <Gleisabschnitt name="W17"/>
-      <Weiche name="20" stellung="ABZWEIGEND" schutz="true" />
-      <Gleisabschnitt name="W20"/>
-      <Weiche name="15" stellung="GERADE" />
-      <Gleisabschnitt name="W15"/>
-      <Weiche name="14" stellung="GERADE" />
-      <Gleisabschnitt name="W14"/>
-      <Weiche name="13a" stellung="GERADE" />
-      <Weiche name="13b" stellung="GERADE" />
-      <Signal name="N4" stellung="HALT" schutz="true" />
-      <Signal name="N5" stellung="HALT" schutz="true" />
-      <Signal name="N7-10" stellung="HALT" schutz="true" />
-      <Signal name="7&quot;" stellung="HALT" schutz="true" />
-      <Signal name="8&quot;" stellung="HALT" schutz="true" />
-      <Signal name="9&quot;" stellung="HALT" schutz="true" />
-      <Signal name="10&quot;" stellung="HALT" schutz="true" />
-      <Signal name="10'" stellung="HALT" schutz="true"/>
-      <Gleisabschnitt name="10" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
-      <Gleisabschnitt name="RE" />
-      <Bahnuebergang name="B1"/>
-      
-      <Signal name="F" stellung="LANGSAMFAHRT" />
-      <Weiche name="24" stellung="GERADE" />
-      <Gleisabschnitt name="W24"/>
-      <Weiche name="23" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W23"/>
-      <Weiche name="25" stellung="GERADE" />
-      <Gleisabschnitt name="W25"/>
-      <Weiche name="26" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W26"/>
-      <Weiche name="22" stellung="GERADE" />
-      <Gleisabschnitt name="W22"/>
-      <Signal name="N3" stellung="HALT" schutz="true" />
-      <Weiche name="19" stellung="GERADE" />
-      <Gleisabschnitt name="W19"/>
-      <Signal name="N2" stellung="HALT" schutz="true" />
-      <Signal name="N1" stellung="HALT" schutz="true" />
-      <Gleisabschnitt name="1" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
-      <Gleisabschnitt name="RE" />
-      <Bahnuebergang name="B1"/>
-      
-      <Signal name="F" stellung="LANGSAMFAHRT" />
-      <Weiche name="24" stellung="GERADE" />
-      <Gleisabschnitt name="W24"/>
-      <Weiche name="23" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W23"/>
-      <Weiche name="25" stellung="GERADE" />
-      <Gleisabschnitt name="W25"/>
-      <Weiche name="26" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W26"/>
-      <Weiche name="22" stellung="GERADE" />
-      <Gleisabschnitt name="W22"/>
-      <Signal name="N3" stellung="HALT" schutz="true" />
-      <Weiche name="19" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W19"/>
-      <Signal name="N2" stellung="HALT" schutz="true" />
-      <Signal name="N1" stellung="HALT" schutz="true" />
-      <Signal name="P2" stellung="HALT" schutz="true"/>
-      <Gleisabschnitt name="2" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
-      <Gleisabschnitt name="RE" />
-      <Bahnuebergang name="B1"/>
-      
-      <Signal name="F" stellung="LANGSAMFAHRT" />
-      <Weiche name="24" stellung="GERADE" />
-      <Gleisabschnitt name="W24"/>
-      <Weiche name="23" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W23"/>
-      <Weiche name="25" stellung="GERADE" />
-      <Gleisabschnitt name="W25"/>
-      <Weiche name="26" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W26"/>
-      <Weiche name="22" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W22"/>
-      <Signal name="N3" stellung="HALT" schutz="true" />
-      <Signal name="N2" stellung="HALT" schutz="true" />
-      <Signal name="N1" stellung="HALT" schutz="true" />
-      <Signal name="P3" stellung="HALT" schutz="true"/>
-      <Gleisabschnitt name="3" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
-      <Gleisabschnitt name="RE" />
-      <Bahnuebergang name="B1"/>
-      
-      <Signal name="F" stellung="LANGSAMFAHRT" />
-      <Weiche name="24" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W24"/>
-      <Weiche name="23" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W23"/>
-      <Weiche name="21" stellung="GERADE" />
-      <Gleisabschnitt name="W21"/>
-      <Signal name="W26" stellung="HALT" schutz="true" />
-      <Signal name="N3" stellung="HALT" schutz="true" />
-      <Signal name="N2" stellung="HALT" schutz="true" />
-      <Signal name="N1" stellung="HALT" schutz="true" />
-      <Signal name="N5" stellung="HALT" schutz="true" />
-      <Signal name="N7-10" stellung="HALT" schutz="true" />
-      <Signal name="P4" stellung="HALT" schutz="true"/>
-      <Gleisabschnitt name="4" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
-      <Gleisabschnitt name="RE" />
-      <Bahnuebergang name="B1"/>
-      
-      <Signal name="F" stellung="LANGSAMFAHRT" />
-      <Weiche name="24" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W24"/>
-      <Weiche name="23" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W23"/>
-      <Weiche name="21" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W21"/>
-      <Weiche name="18" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W18"/>
-      <Weiche name="17" stellung="ABZWEIGEND" schutz="true" />
-      <Gleisabschnitt name="W17"/>
-      <Signal name="W26" stellung="HALT" schutz="true" />
-      <Signal name="N3" stellung="HALT" schutz="true" />
-      <Signal name="N2" stellung="HALT" schutz="true" />
-      <Signal name="N1" stellung="HALT" schutz="true" />
-      <Signal name="N5" stellung="HALT" schutz="true" />
-      <Signal name="N7-10" stellung="HALT" schutz="true" />
-      <Signal name="P5" stellung="HALT" schutz="true"/>
-      <Gleisabschnitt name="5" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
-      <Gleisabschnitt name="RE" />
-      <Bahnuebergang name="B1"/>
-      
-      <Signal name="F" stellung="LANGSAMFAHRT" />
-      <Weiche name="24" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W24"/>
-      <Weiche name="23" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W23"/>
-      <Weiche name="21" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W21"/>
-      <Weiche name="18" stellung="GERADE" />
-      <Gleisabschnitt name="W18"/>
-      <Weiche name="17" stellung="GERADE" />
-      <Gleisabschnitt name="W17"/>
-      <Weiche name="20" stellung="ABZWEIGEND" schutz="true" />
-      <Gleisabschnitt name="W20"/>
-      <Weiche name="15" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W15"/>
-      <Signal name="W26" stellung="HALT" schutz="true" />
-      <Signal name="N3" stellung="HALT" schutz="true" />
-      <Signal name="N2" stellung="HALT" schutz="true" />
-      <Signal name="N1" stellung="HALT" schutz="true" />
-      <Signal name="N4" stellung="HALT" schutz="true" />
-      <Signal name="N5" stellung="HALT" schutz="true" />
-      <Signal name="N7-10" stellung="HALT" schutz="true" />
-      <Signal name="7&quot;" stellung="HALT" schutz="true" />
-      <Signal name="7'" stellung="HALT" schutz="true"/>
-      <Gleisabschnitt name="7" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
-      <Gleisabschnitt name="RE" />
-      <Bahnuebergang name="B1"/>
-      
-      <Signal name="F" stellung="LANGSAMFAHRT" />
-      <Weiche name="24" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W24"/>
-      <Weiche name="23" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W23"/>
-      <Weiche name="21" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W21"/>
-      <Weiche name="18" stellung="GERADE" />
-      <Gleisabschnitt name="W18"/>
-      <Weiche name="17" stellung="GERADE" />
-      <Gleisabschnitt name="W17"/>
-      <Weiche name="20" stellung="ABZWEIGEND" schutz="true" />
-      <Gleisabschnitt name="W20"/>
-      <Weiche name="15" stellung="GERADE" />
-      <Gleisabschnitt name="W15"/>
-      <Weiche name="14" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W14"/>
-      <Signal name="W26" stellung="HALT" schutz="true" />
-      <Signal name="N3" stellung="HALT" schutz="true" />
-      <Signal name="N2" stellung="HALT" schutz="true" />
-      <Signal name="N1" stellung="HALT" schutz="true" />
-      <Signal name="N4" stellung="HALT" schutz="true" />
-      <Signal name="N5" stellung="HALT" schutz="true" />
-      <Signal name="N7-10" stellung="HALT" schutz="true" />
-      <Signal name="7&quot;" stellung="HALT" schutz="true" />
-      <Signal name="8&quot;" stellung="HALT" schutz="true" />
-      <Signal name="8'" stellung="HALT" schutz="true"/>
-      <Gleisabschnitt name="8" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
-      <Gleisabschnitt name="RE" />
-      <Bahnuebergang name="B1"/>
-      
-      <Signal name="F" stellung="LANGSAMFAHRT" />
-      <Weiche name="24" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W24"/>
-      <Weiche name="23" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W23"/>
-      <Weiche name="21" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W21"/>
-      <Weiche name="18" stellung="GERADE" />
-      <Gleisabschnitt name="W18"/>
-      <Weiche name="17" stellung="GERADE" />
-      <Gleisabschnitt name="W17"/>
-      <Weiche name="20" stellung="ABZWEIGEND" schutz="true" />
-      <Gleisabschnitt name="W20"/>
-      <Weiche name="15" stellung="GERADE" />
-      <Gleisabschnitt name="W15"/>
-      <Weiche name="14" stellung="GERADE" />
-      <Gleisabschnitt name="W14"/>
-      <Weiche name="13a" stellung="ABZWEIGEND" />
-      <Weiche name="13b" stellung="GERADE" />
-      <Signal name="W26" stellung="HALT" schutz="true" />
-      <Signal name="N3" stellung="HALT" schutz="true" />
-      <Signal name="N2" stellung="HALT" schutz="true" />
-      <Signal name="N1" stellung="HALT" schutz="true" />
-      <Signal name="N4" stellung="HALT" schutz="true" />
-      <Signal name="N5" stellung="HALT" schutz="true" />
-      <Signal name="N7-10" stellung="HALT" schutz="true" />
-      <Signal name="7&quot;" stellung="HALT" schutz="true" />
-      <Signal name="8&quot;" stellung="HALT" schutz="true" />
-      <Signal name="9&quot;" stellung="HALT" schutz="true" />
-      <Signal name="10&quot;" stellung="HALT" schutz="true" />
-      <Signal name="9'" stellung="HALT" schutz="true"/>
-      <Gleisabschnitt name="9" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
-      <Gleisabschnitt name="RE" />
-      <Bahnuebergang name="B1"/>
-      
-      <Signal name="F" stellung="LANGSAMFAHRT" />
-      <Weiche name="24" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W24"/>
-      <Weiche name="23" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W23"/>
-      <Weiche name="21" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W21"/>
-      <Weiche name="18" stellung="GERADE" />
-      <Gleisabschnitt name="W18"/>
-      <Weiche name="17" stellung="GERADE" />
-      <Gleisabschnitt name="W17"/>
-      <Weiche name="20" stellung="ABZWEIGEND" schutz="true" />
-      <Gleisabschnitt name="W20"/>
-      <Weiche name="15" stellung="GERADE" />
-      <Gleisabschnitt name="W15"/>
-      <Weiche name="14" stellung="GERADE" />
-      <Gleisabschnitt name="W14"/>
-      <Weiche name="13a" stellung="GERADE" />
-      <Weiche name="13b" stellung="GERADE" />
-      <Signal name="W26" stellung="HALT" schutz="true" />
-      <Signal name="N3" stellung="HALT" schutz="true" />
-      <Signal name="N2" stellung="HALT" schutz="true" />
-      <Signal name="N1" stellung="HALT" schutz="true" />
-      <Signal name="N4" stellung="HALT" schutz="true" />
-      <Signal name="N5" stellung="HALT" schutz="true" />
-      <Signal name="N7-10" stellung="HALT" schutz="true" />
-      <Signal name="7&quot;" stellung="HALT" schutz="true" />
-      <Signal name="8&quot;" stellung="HALT" schutz="true" />
-      <Signal name="9&quot;" stellung="HALT" schutz="true" />
-      <Signal name="10&quot;" stellung="HALT" schutz="true" />
-      <Signal name="10'" stellung="HALT" schutz="true"/>
-      <Gleisabschnitt name="10" />
+      <Gleisabschnitt name="W21" />
     </Fahrstrasse>
 
-    <!-- Fahrstrassen innerhalb Fensterhausen gegen die Zaehlrichtung (rechts nach links) -->
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
-      <Gleisabschnitt name="7" />
-      <Signal name="7'" stellung="FAHRT" />
-      <Weiche name="7" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W7"/>
-      <Signal name="P7-10" stellung="LANGSAMFAHRT" />
-      <Weiche name="6" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W6"/>
-      <Weiche name="5" stellung="ABZWEIGEND" schutz="true" />
-      <Gleisabschnitt name="W5"/>
-      <Signal name="18'" stellung="HALT" schutz="true" />
-      <Signal name="36" stellung="HALT" schutz="true" />
-      <Gleisabschnitt name="36" />
+    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
+      <Gleisabschnitt name="5" />
+      <Signal name="N5" stellung="LANGSAMFAHRT" />
+      <Weiche name="18" stellung="ABZWEIGEND" />
+      <Weiche name="17" stellung="ABZWEIGEND" schutz="true" />
+      <Gleisabschnitt name="W18" />
     </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
+
+    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
+      <Gleisabschnitt name="W18" />
+      <Weiche name="21" stellung="ABZWEIGEND" />
+      <Signal name="N4" stellung="HALT" schutz="true" />
+      <Gleisabschnitt name="W21" />
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
+      <Gleisabschnitt name="W21" />
+      <Gleisabschnitt name="W23" />
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
+      <Gleisabschnitt name="W23" />
+      <Weiche name="23" stellung="GERADE" />
+      <Weiche name="26" stellung="GERADE" />
+      <Weiche name="25" stellung="GERADE" schutz="true" />
+      <Weiche name="24" stellung="GERADE" schutz="true" />
+      <Gleisabschnitt name="W26" />
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
+      <Gleisabschnitt name="W23" />
+      <Weiche name="23" stellung="ABZWEIGEND" />
+      <Weiche name="24" stellung="ABZWEIGEND" />
+      <Signal name="W26" stellung="HALT" schutz="true" />
+      <Gleisabschnitt name="W24" />
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
+      <Gleisabschnitt name="W25" />
+      <Weiche name="25" stellung="ABZWEIGEND" />
+      <Weiche name="26" stellung="ABZWEIGEND" />
+      <Signal name="F" stellung="HALT" schutz="true" />
+      <Gleisabschnitt name="W26" />
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
+      <Gleisabschnitt name="W25" />
+      <Weiche name="25" stellung="GERADE" />
+      <Weiche name="24" stellung="GERADE" />
+      <Weiche name="23" stellung="GERADE" schutz="true" />
+      <Weiche name="26" stellung="GERADE" schutz="true" />
+      <Gleisabschnitt name="W24" />
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
+      <Gleisabschnitt name="W24" />
+      <Gleisabschnitt name="RE" />
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
+      <Gleisabschnitt name="7" />
+      <Signal name="7&quot;" stellung="FAHRT" />
+      <Weiche name="15" stellung="ABZWEIGEND" />
+      <Signal name="8&quot;" stellung="HALT" schutz="true" />
+      <Gleisabschnitt name="W15" />
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
+      <Gleisabschnitt name="W15" />
+      <Signal name="N7-10" stellung="LANGSAMFAHRT" />
+      <Gleisabschnitt name="W17" />
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
+      <Gleisabschnitt name="W17" />
+      <Weiche name="17" stellung="GERADE" />
+      <Weiche name="18" stellung="GERADE" />
+      <Signal name="N5" stellung="HALT" schutz="true" />
+      <Gleisabschnitt name="W18" />
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
       <Gleisabschnitt name="8" />
-      <Signal name="8'" stellung="FAHRT" />
+      <Signal name="8&quot;" stellung="FAHRT" />
+      <Weiche name="14" stellung="ABZWEIGEND" />
+      <Weiche name="13b" stellung="ABZWEIGEND" schutz="true" />
+      <Gleisabschnitt name="W14" />
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
+      <Gleisabschnitt name="W14" />
+      <Weiche name="15" stellung="GERADE" />
+      <Signal name="7&quot;" stellung="HALT" schutz="true" />
+      <Gleisabschnitt name="W15" />
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
+      <Gleisabschnitt name="9" />
+      <Signal name="9&quot;" stellung="FAHRT" />
+      <Weiche name="13a" stellung="ABZWEIGEND" />
+      <Signal name="10&quot;" stellung="HALT" schutz="true" />
+      <Gleisabschnitt name="W13" />
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
+      <Gleisabschnitt name="W13" />
+      <Weiche name="13b" stellung="GERADE" />
+      <Weiche name="14" stellung="GERADE" />
+      <Signal name="8&quot;" stellung="HALT" schutz="true" />
+      <Gleisabschnitt name="W14" />
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
+      <Gleisabschnitt name="10" />
+      <Signal name="10&quot;" stellung="FAHRT" />
+      <Weiche name="13a" stellung="GERADE" />
+      <Signal name="9&quot;" stellung="HALT" schutz="true" />
+      <Gleisabschnitt name="W13" />
+    </Fahrstrasse>
+
+    <!-- Fahrstrassen innerhalb von Fensterhausen in Zählrichtung (von links) -->
+    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
+      <Gleisabschnitt name="18" />
+      <Signal name="18&quot;" stellung="FAHRT" />
+      <Gleisabschnitt name="W11" />
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
+      <Gleisabschnitt name="W11" />
       <Weiche name="11" stellung="GERADE" />
-      <Gleisabschnitt name="W11"/>
       <Weiche name="12" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W12"/>
-      <Signal name="18'" stellung="HALT" />
-      <Signal name="18&quot;" stellung="HALT" schutz="true" />
-      <Gleisabschnitt name="18" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
-      <Gleisabschnitt name="9" />
-      <Signal name="9'" stellung="FAHRT" />
-      <Weiche name="12" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W12"/>
-      <Weiche name="11" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W11"/>
-      <Signal name="18'" stellung="HALT" />
-      <Signal name="8'" stellung="HALT" schutz="true" />
-      <Signal name="18&quot;" stellung="HALT" schutz="true" />
-      <Signal name="19&quot;" stellung="HALT" schutz="true" />
-      <Gleisabschnitt name="18" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
-      <Gleisabschnitt name="9" />
-      <Signal name="9'" stellung="FAHRT" />
-      <Weiche name="12" stellung="GERADE" />
-      <Gleisabschnitt name="W12"/>
-      <Weiche name="11" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W11"/>
-      <Signal name="19'" stellung="HALT" />
-      <Signal name="19&quot;" stellung="HALT" schutz="true" />
-      <Gleisabschnitt name="19" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
-      <Gleisabschnitt name="10" />
-      <Signal name="10'" stellung="FAHRT" />
-      <Weiche name="10a" stellung="GERADE" />
-      <Weiche name="10b" stellung="GERADE" />
-      <Weiche name="9" stellung="GERADE" />
-      <Gleisabschnitt name="W9"/>
-      <Weiche name="7" stellung="GERADE" />
-      <Gleisabschnitt name="W7"/>
-      <Signal name="P7-10" stellung="LANGSAMFAHRT" />
-      <Weiche name="6" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W6"/>
-      <Weiche name="5" stellung="ABZWEIGEND" schutz="true" />
-      <Gleisabschnitt name="W5"/>
-      <Signal name="7'" stellung="HALT" schutz="true" />
-      <Signal name="18'" stellung="HALT" schutz="true" />
-      <Signal name="19'" stellung="HALT" schutz="true" />
-      <Signal name="38-39" stellung="HALT" schutz="true" />
-      <Signal name="36" stellung="HALT" schutz="true" />
-      <Gleisabschnitt name="36" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
-      <Gleisabschnitt name="10" />
-      <Signal name="10'" stellung="FAHRT" />
-      <Weiche name="10a" stellung="ABZWEIGEND" />
-      <Weiche name="10b" stellung="GERADE" />
-      <Weiche name="9" stellung="ABZWEIGEND" schutz="true" />
-      <Gleisabschnitt name="W9"/>
-      <Gleisabschnitt name="38-39" />
-      <Signal name="38-39" stellung="HALT" schutz="true" />
-      <Weiche name="8" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W8"/>
-      <Gleisabschnitt name="38" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
-      <Gleisabschnitt name="10" />
-      <Signal name="10'" stellung="FAHRT" />
-      <Weiche name="10a" stellung="ABZWEIGEND" />
-      <Weiche name="10b" stellung="GERADE" />
-      <Weiche name="9" stellung="ABZWEIGEND" schutz="true" />
-      <Gleisabschnitt name="W9"/>
-      <Gleisabschnitt name="38-39" />
-      <Signal name="38-39" stellung="HALT" schutz="true" />
-      <Weiche name="8" stellung="GERADE" />
-      <Gleisabschnitt name="W8"/>
-      <Gleisabschnitt name="39" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
-      <Gleisabschnitt name="18" />
-      <Signal name="18'" stellung="FAHRT" />
-      <Weiche name="9" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W9"/>
-      <Weiche name="10a" stellung="ABZWEIGEND" schutz="true" />
-      <Weiche name="7" stellung="GERADE" />
-      <Gleisabschnitt name="W7"/>
-      <Signal name="P7-10" stellung="LANGSAMFAHRT" />
-      <Weiche name="6" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W6"/>
-      <Weiche name="5" stellung="ABZWEIGEND" schutz="true" />
-      <Gleisabschnitt name="W5"/>
-      <Signal name="7'" stellung="HALT" schutz="true" />
-      <Signal name="36" stellung="HALT" schutz="true" />
-      <Gleisabschnitt name="36" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
-      <Gleisabschnitt name="19" />
-      <Signal name="19'" stellung="FAHRT" />
-      <Weiche name="10a" stellung="ABZWEIGEND" />
-      <Weiche name="10b" stellung="ABZWEIGEND" />
-      <Weiche name="9" stellung="GERADE" />
-      <Gleisabschnitt name="W9"/>
-      <Weiche name="7" stellung="GERADE" />
-      <Gleisabschnitt name="W7"/>
-      <Signal name="P7-10" stellung="LANGSAMFAHRT" />
-      <Weiche name="6" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W6"/>
-      <Weiche name="5" stellung="ABZWEIGEND" schutz="true" />
-      <Gleisabschnitt name="W5"/>
-      <Signal name="7'" stellung="HALT" schutz="true" />
-      <Signal name="18'" stellung="HALT" schutz="true" />
-      <Signal name="10'" stellung="HALT" schutz="true" />
-      <Signal name="38-39" stellung="HALT" schutz="true" />
-      <Signal name="36" stellung="HALT" schutz="true" />
-      <Gleisabschnitt name="36" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
-      <Gleisabschnitt name="19" />
-      <Signal name="19'" stellung="FAHRT" />
-      <Weiche name="10a" stellung="ABZWEIGEND" />
-      <Weiche name="10b" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="38-39" />
-      <Signal name="38-39" stellung="HALT" schutz="true" />
-      <Weiche name="8" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W8"/>
-      <Signal name="10'" stellung="HALT" schutz="true" />
-      <Gleisabschnitt name="38" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
-      <Gleisabschnitt name="19" />
-      <Signal name="19'" stellung="FAHRT" />
-      <Weiche name="10a" stellung="ABZWEIGEND" />
-      <Weiche name="10b" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="38-39" />
-      <Signal name="38-39" stellung="HALT" schutz="true" />
-      <Weiche name="8" stellung="GERADE" />
-      <Gleisabschnitt name="W8"/>
-      <Signal name="10'" stellung="HALT" schutz="true" />
-      <Gleisabschnitt name="39" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
-      <Gleisabschnitt name="29" />
-      <Signal name="29'" stellung="FAHRT" />
-      <Signal name="9'" stellung="HALT" />
-      <Weiche name="16" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W16"/>
-      <Gleisabschnitt name="13-16" />
-      <Weiche name="13a" stellung="ABZWEIGEND" />
-      <Weiche name="13b" stellung="ABZWEIGEND" />
-      <Weiche name="14" stellung="ABZWEIGEND" schutz="true" />
-      <Gleisabschnitt name="W14"/>
-      <Signal name="9&quot;" stellung="HALT" schutz="true" />
-      <Signal name="11" stellung="HALT" schutz="true" />
-      <Signal name="10'" stellung="HALT" schutz="true" />
-      <Signal name="9'" stellung="HALT" schutz="true"/>
-      <Gleisabschnitt name="9" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
-      <Gleisabschnitt name="29" />
-      <Signal name="29'" stellung="FAHRT" />
-      <Signal name="9'" stellung="HALT" />
-      <Weiche name="16" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W16"/>
-      <Gleisabschnitt name="13-16" />
-      <Weiche name="13a" stellung="GERADE" />
-      <Weiche name="13b" stellung="ABZWEIGEND" />
-      <Weiche name="14" stellung="ABZWEIGEND" schutz="true" />
-      <Gleisabschnitt name="W14"/>
-      <Signal name="9&quot;" stellung="HALT" schutz="true" />
-      <Signal name="9'" stellung="HALT" schutz="true" />
-      <Signal name="11" stellung="HALT" schutz="true" />
-      <Signal name="10'" stellung="HALT" schutz="true"/>
-      <Gleisabschnitt name="10" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
-      <Gleisabschnitt name="29" />
-      <Signal name="29'" stellung="FAHRT" />
-      <Signal name="9'" stellung="HALT" />
-      <Weiche name="16" stellung="GERADE" />
-      <Gleisabschnitt name="W16"/>
-      <Weiche name="13b" stellung="GERADE" schutz="true" />
-      <Signal name="11" stellung="HALT" schutz="true"/>
-      <Gleisabschnitt name="11" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
-      <Gleisabschnitt name="46" />
-      <Signal name="46" stellung="FAHRT" />
-      <Weiche name="20" stellung="GERADE" />
-      <Gleisabschnitt name="W20"/>
-      <Gleisabschnitt name="17-20" />
-      <Weiche name="17" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W17"/>
-      <Weiche name="18" stellung="ABZWEIGEND" schutz="true" />
-      <Gleisabschnitt name="W18"/>
-      <Weiche name="15" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W15"/>
-      <Signal name="29&quot;" stellung="HALT" schutz="true" />
-      <Signal name="N7-10" stellung="HALT" schutz="true" />
-      <Signal name="7&quot;" stellung="HALT" schutz="true" />
       <Signal name="8&quot;" stellung="HALT" schutz="true" />
-      <Signal name="7'" stellung="HALT" schutz="true"/>
-      <Gleisabschnitt name="7" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
-      <Gleisabschnitt name="46" />
-      <Signal name="46" stellung="FAHRT" />
-      <Weiche name="20" stellung="GERADE" />
-      <Gleisabschnitt name="W20"/>
-      <Gleisabschnitt name="17-20" />
-      <Weiche name="17" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W17"/>
-      <Weiche name="18" stellung="ABZWEIGEND" schutz="true" />
-      <Gleisabschnitt name="W18"/>
-      <Weiche name="15" stellung="GERADE" />
-      <Gleisabschnitt name="W15"/>
-      <Weiche name="14" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W14"/>
-      <Weiche name="13b" stellung="ABZWEIGEND" schutz="true" />
-      <Signal name="29&quot;" stellung="HALT" schutz="true" />
-      <Signal name="N7-10" stellung="HALT" schutz="true" />
-      <Signal name="7&quot;" stellung="HALT" schutz="true" />
-      <Signal name="8&quot;" stellung="HALT" schutz="true" />
-      <Signal name="8'" stellung="HALT" schutz="true"/>
       <Gleisabschnitt name="8" />
     </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
-      <Gleisabschnitt name="46" />
-      <Signal name="46" stellung="FAHRT" />
-      <Weiche name="20" stellung="GERADE" />
-      <Gleisabschnitt name="W20"/>
-      <Gleisabschnitt name="17-20" />
-      <Weiche name="17" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W17"/>
-      <Weiche name="18" stellung="ABZWEIGEND" schutz="true" />
-      <Gleisabschnitt name="W18"/>
-      <Weiche name="15" stellung="GERADE" />
-      <Gleisabschnitt name="W15"/>
-      <Weiche name="14" stellung="GERADE" />
-      <Gleisabschnitt name="W14"/>
-      <Weiche name="13a" stellung="ABZWEIGEND" />
-      <Weiche name="13b" stellung="GERADE" />
-      <Signal name="29&quot;" stellung="HALT" schutz="true" />
-      <Signal name="N7-10" stellung="HALT" schutz="true" />
-      <Signal name="7&quot;" stellung="HALT" schutz="true" />
-      <Signal name="8&quot;" stellung="HALT" schutz="true" />
+
+    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
+      <Gleisabschnitt name="W11" />
+      <Weiche name="11" stellung="ABZWEIGEND" />
+      <Weiche name="12" stellung="ABZWEIGEND" />
+      <Signal name="8'" stellung="HALT" schutz="true" />
+      <Signal name="19&quot;" stellung="HALT" schutz="true" />
+      <Signal name="9'" stellung="HALT" schutz="true" />
       <Signal name="9&quot;" stellung="HALT" schutz="true" />
-      <Signal name="10&quot;" stellung="HALT" schutz="true" />
-      <Signal name="9'" stellung="HALT" schutz="true"/>
-      <Gleisabschnitt name="9" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
-      <Gleisabschnitt name="46" />
-      <Signal name="46" stellung="FAHRT" />
-      <Weiche name="20" stellung="GERADE" />
-      <Gleisabschnitt name="W20"/>
-      <Gleisabschnitt name="17-20" />
-      <Weiche name="17" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W17"/>
-      <Weiche name="18" stellung="ABZWEIGEND" schutz="true" />
-      <Gleisabschnitt name="W18"/>
-      <Weiche name="15" stellung="GERADE" />
-      <Gleisabschnitt name="W15"/>
-      <Weiche name="14" stellung="GERADE" />
-      <Gleisabschnitt name="W14"/>
-      <Weiche name="13a" stellung="GERADE" />
-      <Weiche name="13b" stellung="GERADE" />
-      <Signal name="29&quot;" stellung="HALT" schutz="true" />
-      <Signal name="N7-10" stellung="HALT" schutz="true" />
-      <Signal name="7&quot;" stellung="HALT" schutz="true" />
-      <Signal name="8&quot;" stellung="HALT" schutz="true" />
-      <Signal name="9&quot;" stellung="HALT" schutz="true" />
-      <Signal name="10&quot;" stellung="HALT" schutz="true" />
-      <Signal name="10'" stellung="HALT" schutz="true"/>
-      <Gleisabschnitt name="10" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
-      <Gleisabschnitt name="46" />
-      <Signal name="46" stellung="FAHRT" />
-      <Weiche name="20" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W20"/>
-      <Weiche name="17" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W17"/>
-      <Signal name="29&quot;" stellung="HALT" schutz="true" />
-      <Signal name="29'" stellung="HALT" />
-      <Gleisabschnitt name="29" />
+      <Gleisabschnitt name="W12" />
     </Fahrstrasse>
 
-    <!-- Fahrstrassen zur Ausfahrt aus Fensterhausen gegen die Zaehlrichtung (nach links) -->
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
-      <Gleisabschnitt name="2" />
-      <Signal name="P2" stellung="FAHRT" />
-      <Weiche name="4" stellung="GERADE" />
-      <Gleisabschnitt name="W4"/>
-      <Gleisabschnitt name="L2" />
-      <Weiche name="1" stellung="GERADE" />
-      <Gleisabschnitt name="W1"/>
-      <Weiche name="2" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W2"/>
-      <Signal name="W1" stellung="HALT" schutz="true" />
-      <Signal name="2B" />
-      <Gleisabschnitt name="LA" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
-      <Gleisabschnitt name="3" />
-      <Signal name="P3" stellung="LANGSAMFAHRT" />
-      <Weiche name="4" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W4"/>
-      <Gleisabschnitt name="L2" />
-      <Weiche name="1" stellung="GERADE" />
-      <Gleisabschnitt name="W1"/>
-      <Weiche name="2" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W2"/>
-      <Signal name="W1" stellung="HALT" schutz="true" />
-      <Signal name="2B" />
-      <Gleisabschnitt name="LA" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
-      <Gleisabschnitt name="4" />
-      <Signal name="P4" stellung="LANGSAMFAHRT" />
-      <Weiche name="3" stellung="GERADE" />
-      <Gleisabschnitt name="W3"/>
-      <Signal name="P5" stellung="HALT" schutz="true" />
-      <Weiche name="6" stellung="ABZWEIGEND" schutz="true" />
-      <Gleisabschnitt name="W6"/>
-      <Gleisabschnitt name="L4" />
-      <Weiche name="2" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W2"/>
-      <Weiche name="1" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W1"/>
-      <Signal name="P2" stellung="HALT" schutz="true" />
-      <Signal name="P3" stellung="HALT" schutz="true" />
-      <Signal name="A" stellung="HALT" schutz="true" />
-      <Signal name="W1" stellung="HALT" schutz="true" />
-      <Signal name="2B" />
-      <Gleisabschnitt name="LA" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
-      <Gleisabschnitt name="4" />
-      <Signal name="P4" stellung="LANGSAMFAHRT" />
-      <Weiche name="3" stellung="GERADE" />
-      <Gleisabschnitt name="W3"/>
-      <Signal name="P5" stellung="HALT" schutz="true" />
-      <Weiche name="6" stellung="ABZWEIGEND" schutz="true" />
-      <Gleisabschnitt name="W6"/>
-      <Gleisabschnitt name="L4" />
-      <Weiche name="2" stellung="GERADE" />
-      <Gleisabschnitt name="W2"/>
-      <Weiche name="1" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W1"/>
-      <Signal name="A" stellung="HALT" schutz="true" />
-      <Gleisabschnitt name="LE" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
-      <Gleisabschnitt name="5" />
-      <Signal name="P5" stellung="LANGSAMFAHRT" />
-      <Weiche name="5" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W5"/>
-      <Weiche name="3" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W3"/>
-      <Signal name="P4" stellung="HALT" schutz="true" />
-      <Weiche name="6" stellung="ABZWEIGEND" schutz="true" />
-      <Gleisabschnitt name="W6"/>
-      <Gleisabschnitt name="L4" />
-      <Weiche name="2" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W2"/>
-      <Weiche name="1" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W1"/>
-      <Signal name="P2" stellung="HALT" schutz="true" />
-      <Signal name="P3" stellung="HALT" schutz="true" />
-      <Signal name="A" stellung="HALT" schutz="true" />
-      <Signal name="W1" stellung="HALT" schutz="true" />
-      <Signal name="2B" />
-      <Gleisabschnitt name="LA" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
-      <Gleisabschnitt name="5" />
-      <Signal name="P5" stellung="LANGSAMFAHRT" />
-      <Weiche name="5" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W5"/>
-      <Weiche name="3" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W3"/>
-      <Signal name="P4" stellung="HALT" schutz="true" />
-      <Weiche name="6" stellung="ABZWEIGEND" schutz="true" />
-      <Gleisabschnitt name="W6"/>
-      <Gleisabschnitt name="L4" />
-      <Weiche name="2" stellung="GERADE" />
-      <Gleisabschnitt name="W2"/>
-      <Weiche name="1" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W1"/>
-      <Signal name="A" stellung="HALT" schutz="true" />
-      <Gleisabschnitt name="LE" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
-      <Gleisabschnitt name="7" />
-      <Signal name="7'" stellung="FAHRT" />
-      <Weiche name="7" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W7"/>
-      <Signal name="18'" stellung="HALT" schutz="true" />
-      <Weiche name="10a" stellung="ABZWEIGEND" schutz="true" />
-      <Signal name="P7-10" stellung="LANGSAMFAHRT" />
-      <Weiche name="6" stellung="GERADE" />
-      <Gleisabschnitt name="W6"/>
-      <Signal name="36" stellung="HALT" schutz="true" />
-      <Weiche name="5" stellung="GERADE" />
-      <Gleisabschnitt name="W5"/>
-      <Signal name="P5" stellung="HALT" schutz="true" />
-      <Weiche name="3" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W3"/>
-      <Signal name="P4" stellung="HALT" schutz="true" />
-      <Gleisabschnitt name="L4" />
-      <Weiche name="2" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W2"/>
-      <Weiche name="1" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W1"/>
-      <Signal name="P2" stellung="HALT" schutz="true" />
-      <Signal name="P3" stellung="HALT" schutz="true" />
-      <Signal name="A" stellung="HALT" schutz="true" />
-      <Signal name="W1" stellung="HALT" schutz="true" />
-      <Signal name="2B" />
-      <Gleisabschnitt name="LA" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
-      <Gleisabschnitt name="7" />
-      <Signal name="7'" stellung="FAHRT" />
-      <Weiche name="7" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W7"/>
-      <Signal name="18'" stellung="HALT" schutz="true" />
-      <Weiche name="10a" stellung="ABZWEIGEND" schutz="true" />
-      <Signal name="P7-10" stellung="LANGSAMFAHRT" />
-      <Weiche name="6" stellung="GERADE" />
-      <Gleisabschnitt name="W6"/>
-      <Signal name="36" stellung="HALT" schutz="true" />
-      <Weiche name="5" stellung="GERADE" />
-      <Gleisabschnitt name="W5"/>
-      <Signal name="P5" stellung="HALT" schutz="true" />
-      <Weiche name="3" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W3"/>
-      <Signal name="P4" stellung="HALT" schutz="true" />
-      <Gleisabschnitt name="L4" />
-      <Weiche name="2" stellung="GERADE" />
-      <Gleisabschnitt name="W2"/>
-      <Weiche name="1" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W1"/>
-      <Signal name="A" stellung="HALT" schutz="true" />
-      <Gleisabschnitt name="LE" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
-      <Gleisabschnitt name="18" />
-      <Signal name="18'" stellung="FAHRT" />
-      <Weiche name="9" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W9"/>
-      <Weiche name="10a" stellung="ABZWEIGEND" schutz="true" />
-      <Weiche name="7" stellung="GERADE" />
-      <Gleisabschnitt name="W7"/>
-      <Signal name="7'" stellung="HALT" schutz="true" />
-      <Signal name="P7-10" stellung="LANGSAMFAHRT" />
-      <Weiche name="6" stellung="GERADE" />
-      <Gleisabschnitt name="W6"/>
-      <Signal name="36" stellung="HALT" schutz="true" />
-      <Weiche name="5" stellung="GERADE" />
-      <Gleisabschnitt name="W5"/>
-      <Signal name="P5" stellung="HALT" schutz="true" />
-      <Weiche name="3" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W3"/>
-      <Signal name="P4" stellung="HALT" schutz="true" />
-      <Gleisabschnitt name="L4" />
-      <Weiche name="2" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W2"/>
-      <Weiche name="1" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W1"/>
-      <Signal name="P2" stellung="HALT" schutz="true" />
-      <Signal name="P3" stellung="HALT" schutz="true" />
-      <Signal name="A" stellung="HALT" schutz="true" />
-      <Signal name="W1" stellung="HALT" schutz="true" />
-      <Signal name="2B" />
-      <Gleisabschnitt name="LA" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
-      <Gleisabschnitt name="18" />
-      <Signal name="18'" stellung="FAHRT" />
-      <Weiche name="9" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W9"/>
-      <Weiche name="10a" stellung="ABZWEIGEND" schutz="true" />
-      <Weiche name="7" stellung="GERADE" />
-      <Gleisabschnitt name="W7"/>
-      <Signal name="7'" stellung="HALT" schutz="true" />
-      <Signal name="P7-10" stellung="LANGSAMFAHRT" />
-      <Weiche name="6" stellung="GERADE" />
-      <Gleisabschnitt name="W6"/>
-      <Signal name="36" stellung="HALT" schutz="true" />
-      <Weiche name="5" stellung="GERADE" />
-      <Gleisabschnitt name="W5"/>
-      <Signal name="P5" stellung="HALT" schutz="true" />
-      <Weiche name="3" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W3"/>
-      <Signal name="P4" stellung="HALT" schutz="true" />
-      <Gleisabschnitt name="L4" />
-      <Weiche name="2" stellung="GERADE" />
-      <Gleisabschnitt name="W2"/>
-      <Weiche name="1" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W1"/>
-      <Signal name="A" stellung="HALT" schutz="true" />
-      <Gleisabschnitt name="LE" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
+    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
       <Gleisabschnitt name="19" />
-      <Signal name="19'" stellung="FAHRT" />
-      <Weiche name="10b" stellung="ABZWEIGEND" />
-      <Weiche name="10a" stellung="GERADE" />
-      <Signal name="10'" stellung="HALT" schutz="true" />
-      <Signal name="38-39" stellung="HALT" schutz="true" />
-      <Weiche name="9" stellung="GERADE" />
-      <Gleisabschnitt name="W9"/>
-      <Signal name="18'" stellung="HALT" schutz="true" />
-      <Weiche name="7" stellung="GERADE" />
-      <Gleisabschnitt name="W7"/>
-      <Signal name="7'" stellung="HALT" schutz="true" />
-      <Signal name="P7-10" stellung="LANGSAMFAHRT" />
-      <Weiche name="6" stellung="GERADE" />
-      <Gleisabschnitt name="W6"/>
-      <Signal name="36" stellung="HALT" schutz="true" />
-      <Weiche name="5" stellung="GERADE" />
-      <Gleisabschnitt name="W5"/>
-      <Signal name="P5" stellung="HALT" schutz="true" />
-      <Weiche name="3" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W3"/>
-      <Signal name="P4" stellung="HALT" schutz="true" />
-      <Gleisabschnitt name="L4" />
-      <Weiche name="2" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W2"/>
-      <Weiche name="1" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W1"/>
-      <Signal name="P2" stellung="HALT" schutz="true" />
-      <Signal name="P3" stellung="HALT" schutz="true" />
-      <Signal name="A" stellung="HALT" schutz="true" />
-      <Signal name="W1" stellung="HALT" schutz="true" />
-      <Signal name="2B" />
-      <Gleisabschnitt name="LA" />
+      <Signal name="19&quot;" stellung="FAHRT" />
+      <Weiche name="12" stellung="GERADE" />
+      <Weiche name="11" stellung="GERADE" schutz="true" />
+      <Gleisabschnitt name="W12" />
     </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
-      <Gleisabschnitt name="19" />
-      <Signal name="19'" stellung="FAHRT" />
-      <Weiche name="10b" stellung="ABZWEIGEND" />
-      <Weiche name="10a" stellung="GERADE" />
-      <Signal name="10'" stellung="HALT" schutz="true" />
-      <Signal name="38-39" stellung="HALT" schutz="true" />
-      <Weiche name="9" stellung="GERADE" />
-      <Gleisabschnitt name="W9"/>
-      <Signal name="18'" stellung="HALT" schutz="true" />
-      <Weiche name="7" stellung="GERADE" />
-      <Gleisabschnitt name="W7"/>
-      <Signal name="7'" stellung="HALT" schutz="true" />
-      <Signal name="P7-10" stellung="LANGSAMFAHRT" />
-      <Weiche name="6" stellung="GERADE" />
-      <Gleisabschnitt name="W6"/>
-      <Signal name="36" stellung="HALT" schutz="true" />
-      <Weiche name="5" stellung="GERADE" />
-      <Gleisabschnitt name="W5"/>
-      <Signal name="P5" stellung="HALT" schutz="true" />
-      <Weiche name="3" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W3"/>
-      <Signal name="P4" stellung="HALT" schutz="true" />
-      <Gleisabschnitt name="L4" />
-      <Weiche name="2" stellung="GERADE" />
-      <Gleisabschnitt name="W2"/>
-      <Weiche name="1" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W1"/>
-      <Signal name="A" stellung="HALT" schutz="true" />
-      <Gleisabschnitt name="LE" />
+
+    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
+      <Gleisabschnitt name="W12" />
+      <Signal name="9&quot;" stellung="HALT" schutz="true" />
+      <Gleisabschnitt name="9" />
     </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
-      <Gleisabschnitt name="10" />
-      <Signal name="10'" stellung="FAHRT" />
-      <Weiche name="10b" stellung="GERADE" />
-      <Weiche name="10a" stellung="GERADE" />
-      <Signal name="19'" stellung="HALT" schutz="true" />
-      <Signal name="38-39" stellung="HALT" schutz="true" />
-      <Weiche name="9" stellung="GERADE" />
-      <Gleisabschnitt name="W9"/>
-      <Signal name="18'" stellung="HALT" schutz="true" />
-      <Weiche name="7" stellung="GERADE" />
-      <Gleisabschnitt name="W7"/>
-      <Signal name="7'" stellung="HALT" schutz="true" />
-      <Signal name="P7-10" stellung="LANGSAMFAHRT" />
-      <Weiche name="6" stellung="GERADE" />
-      <Gleisabschnitt name="W6"/>
-      <Signal name="36" stellung="HALT" schutz="true" />
-      <Weiche name="5" stellung="GERADE" />
-      <Gleisabschnitt name="W5"/>
-      <Signal name="P5" stellung="HALT" schutz="true" />
-      <Weiche name="3" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W3"/>
-      <Signal name="P4" stellung="HALT" schutz="true" />
-      <Gleisabschnitt name="L4" />
-      <Weiche name="2" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W2"/>
-      <Weiche name="1" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W1"/>
-      <Signal name="P2" stellung="HALT" schutz="true" />
-      <Signal name="P3" stellung="HALT" schutz="true" />
-      <Signal name="A" stellung="HALT" schutz="true" />
-      <Signal name="W1" stellung="HALT" schutz="true" />
-      <Signal name="2B" />
-      <Gleisabschnitt name="LA" />
+
+    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
+      <Gleisabschnitt name="36" />
+      <Signal name="36" stellung="FAHRT" />
+      <Weiche name="6" stellung="ABZWEIGEND" />
+      <Weiche name="5" stellung="ABZWEIGEND" schutz="true" />
+      <Gleisabschnitt name="W6" />
     </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
-      <Gleisabschnitt name="10" />
-      <Signal name="10'" stellung="FAHRT" />
-      <Weiche name="10b" stellung="GERADE" />
-      <Weiche name="10a" stellung="GERADE" />
-      <Signal name="19'" stellung="HALT" schutz="true" />
-      <Signal name="38-39" stellung="HALT" schutz="true" />
-      <Weiche name="9" stellung="GERADE" />
-      <Gleisabschnitt name="W9"/>
-      <Signal name="18'" stellung="HALT" schutz="true" />
-      <Weiche name="7" stellung="GERADE" />
-      <Gleisabschnitt name="W7"/>
-      <Signal name="7'" stellung="HALT" schutz="true" />
-      <Signal name="P7-10" stellung="LANGSAMFAHRT" />
-      <Weiche name="6" stellung="GERADE" />
-      <Gleisabschnitt name="W6"/>
-      <Signal name="36" stellung="HALT" schutz="true" />
-      <Weiche name="5" stellung="GERADE" />
-      <Gleisabschnitt name="W5"/>
-      <Signal name="P5" stellung="HALT" schutz="true" />
-      <Weiche name="3" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W3"/>
-      <Signal name="P4" stellung="HALT" schutz="true" />
-      <Gleisabschnitt name="L4" />
-      <Weiche name="2" stellung="GERADE" />
-      <Gleisabschnitt name="W2"/>
-      <Weiche name="1" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W1"/>
-      <Signal name="A" stellung="HALT" schutz="true" />
-      <Signal name="2B" />
-      <Gleisabschnitt name="LE" />
+
+    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
+      <Gleisabschnitt name="38" />
+      <Weiche name="8" stellung="ABZWEIGEND" />
+      <Gleisabschnitt name="W8" />
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
+      <Gleisabschnitt name="39" />
+      <Weiche name="8" stellung="GERADE" />
+      <Gleisabschnitt name="W8" />
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
+      <Gleisabschnitt name="W17" />
+      <Weiche name="17" stellung="ABZWEIGEND" />
+      <Weiche name="18" stellung="ABZWEIGEND" schutz="true" />
+      <Gleisabschnitt name="17-20" />
+      <Weiche name="20" stellung="GERADE" />
+      <Gleisabschnitt name="W20" />
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
+      <Gleisabschnitt name="29" />
+      <Signal name="29&quot;" stellung="FAHRT" />
+      <Weiche name="20" stellung="ABZWEIGEND" />
+      <Gleisabschnitt name="W20" />
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
+      <Gleisabschnitt name="W20" />
+      <Signal name="46" stellung="HALT" schutz="true" />
+      <Gleisabschnitt name="46" />
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
+      <Gleisabschnitt name="W8" />
+      <Signal name="38-39" stellung="FAHRT" />
+      <Gleisabschnitt name="38-39" />
+      <Weiche name="10a" stellung="ABZWEIGEND" />
+      <Gleisabschnitt name="W10" />
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
+      <Gleisabschnitt name="11" />
+      <Signal name="11" stellung="FAHRT" />
+      <Weiche name="16" stellung="GERADE" />
+      <Weiche name="13b" stellung="GERADE" schutz="true" />
+      <Gleisabschnitt name="W16" />
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
+      <Gleisabschnitt name="W13" />
+      <Weiche name="13b" stellung="ABZWEIGEND" />
+      <Weiche name="14" stellung="ABZWEIGEND" schutz="true" />
+      <Gleisabschnitt name="13-16" />
+      <Weiche name="16" stellung="ABZWEIGEND" />
+      <Signal name="11" stellung="HALT" schutz="true" />
+      <Gleisabschnitt name="W16" />
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
+      <Gleisabschnitt name="W16" />
+      <Signal name="29'" stellung="HALT" schutz="true" />
+      <Gleisabschnitt name="29" />
     </Fahrstrasse>
 
     <!-- Fahrstrassen durch die Abzweigstelle in Zählrichtung (von links nach rechts -->
     <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
       <Gleisabschnitt name="RA" />
       <Signal name="1A" stellung="FAHRT" />
+      <Gleisabschnitt name="W101" />
       <Weiche name="101" stellung="GERADE" />
-      <Gleisabschnitt name="W101"/>
       <Weiche name="102" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W102"/>
       <Gleisabschnitt name="PA" />
     </Fahrstrasse>
+
     <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
       <Gleisabschnitt name="RA" />
       <Signal name="1A" stellung="LANGSAMFAHRT" />
+      <Gleisabschnitt name="W101" />
       <Weiche name="101" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W101"/>
       <Weiche name="102" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W102"/>
+      <Gleisabschnitt name="W102" />
+      <Gleisabschnitt name="W103" />
       <Weiche name="103" stellung="GERADE" />
-      <Gleisabschnitt name="W103"/>
       <Signal name="1B" stellung="HALT" schutz="true" />
       <Signal name="1F" stellung="HALT" schutz="true" />
       <Signal name="1G" stellung="HALT" schutz="true" />
       <Gleisabschnitt name="N" />
     </Fahrstrasse>
+
     <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
       <Gleisabschnitt name="RE" />
       <Weiche name="102" stellung="GERADE" />
-      <Gleisabschnitt name="W102"/>
       <Weiche name="101" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W101"/>
+      <Gleisabschnitt name="W102" />
+      <Gleisabschnitt name="W103" />
       <Weiche name="103" stellung="GERADE" />
-      <Gleisabschnitt name="W103"/>
       <Signal name="1B" stellung="FAHRT" />
       <Signal name="1F" stellung="HALT" schutz="true" />
       <Signal name="1G" stellung="HALT" schutz="true" />
       <Gleisabschnitt name="N" />
     </Fahrstrasse>
 
-    <!--  Fahrstrassen durch die Abzweigstelle gegen die Zählrichtung (von rechts nach links -->
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
-      <Gleisabschnitt name="PE" />
-      
-      <Signal name="1F" stellung="FAHRT" />
-      <Signal name="1G" stellung="HALT" schutz="true" />
-      <Weiche name="103" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W103"/>
-      <Weiche name="102" stellung="GERADE" />
-      <Gleisabschnitt name="W102"/>
-      <Weiche name="101" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W101"/>
-      <Signal name="1B" stellung="HALT" schutz="true" />
-      <Signal name="F" stellung="HALT" schutz="true"/>
-      <Gleisabschnitt name="RE" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
-      <Gleisabschnitt name="N" />
-      
-      <Signal name="1G" stellung="FAHRT" />
-      <Signal name="1F" stellung="HALT" schutz="true" />
-      <Weiche name="103" stellung="GERADE" />
-      <Gleisabschnitt name="W103"/>
-      <Weiche name="102" stellung="GERADE" />
-      <Gleisabschnitt name="W102"/>
-      <Weiche name="101" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W101"/>
-      <Signal name="1B" stellung="HALT" schutz="true" />
-      <Signal name="F" stellung="HALT" schutz="true"/>
-      <Gleisabschnitt name="RE" />
-    </Fahrstrasse>
-
-    <!-- Fahrstrassen zum Übergang von Fensterhausen zum Schattenbahnhof1 und zurück -->
-    <!-- 
-     -->
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
-      <Gleisabschnitt name="LA"/>
-      <Signal name="2B" stellung="FAHRT" block="true"/>
-      <Gleisabschnitt bereich="Schattenbahnhof1" name="E"/>
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Schattenbahnhof1" zaehlrichtung="true">
-      <Gleisabschnitt name="A"/>
-      <Gleisabschnitt bereich="Fensterhausen" name="E"/>
-    </Fahrstrasse>
-    
-    <!-- Fahrstrassen zur Einfahrt in Schattenbahnhof1 gegen die Zaehlrichtung (von links) -->
-    <!-- 
-     -->
-    <Fahrstrasse bereich="Schattenbahnhof1" zaehlrichtung="false">
-      <Gleisabschnitt name="E" />
-      <Weiche name="10" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W10"/>
-      <Weiche name="9" stellung="GERADE" />
-      <Gleisabschnitt name="W9"/>
-      <Weiche name="8" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W8"/>
-      <Weiche name="6" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W6"/>
-      <Gleisabschnitt name="11" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Schattenbahnhof1" zaehlrichtung="false">
-      <Gleisabschnitt name="11" />
-      <Gleisabschnitt name="1" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Schattenbahnhof1" zaehlrichtung="false">
-      <Gleisabschnitt name="E" />
-      <Weiche name="10" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W10"/>
-      <Weiche name="9" stellung="GERADE" />
-      <Gleisabschnitt name="W9"/>
-      <Weiche name="8" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W8"/>
-      <Weiche name="6" stellung="GERADE" />
-      <Gleisabschnitt name="W6"/>
-      <Gleisabschnitt name="12" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Schattenbahnhof1" zaehlrichtung="false">
-      <Gleisabschnitt name="12" />
-      <Gleisabschnitt name="2" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Schattenbahnhof1" zaehlrichtung="false">
-      <Gleisabschnitt name="E" />
-      <Weiche name="10" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W10"/>
-      <Weiche name="9" stellung="GERADE" />
-      <Gleisabschnitt name="W9"/>
-      <Weiche name="8" stellung="GERADE" />
-      <Gleisabschnitt name="W8"/>
-      <Weiche name="7" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W7"/>
-      <Weiche name="5" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W5"/>
-      <Gleisabschnitt name="13" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Schattenbahnhof1" zaehlrichtung="false">
-      <Gleisabschnitt name="13" />
-      <Gleisabschnitt name="3" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Schattenbahnhof1" zaehlrichtung="false">
-      <Gleisabschnitt name="E" />
-      <Weiche name="10" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W10"/>
-      <Weiche name="9" stellung="GERADE" />
-      <Gleisabschnitt name="W9"/>
-      <Weiche name="8" stellung="GERADE" />
-      <Gleisabschnitt name="W8"/>
-      <Weiche name="7" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W7"/>
-      <Weiche name="5" stellung="GERADE" />
-      <Gleisabschnitt name="W5"/>
-      <Gleisabschnitt name="14" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Schattenbahnhof1" zaehlrichtung="false">
-      <Gleisabschnitt name="14" />
-      <Gleisabschnitt name="4" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Schattenbahnhof1" zaehlrichtung="false">
-      <Gleisabschnitt name="E" />
-      <Weiche name="10" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W10"/>
-      <Weiche name="9" stellung="GERADE" />
-      <Gleisabschnitt name="W9"/>
-      <Weiche name="8" stellung="GERADE" />
-      <Gleisabschnitt name="W8"/>
-      <Weiche name="7" stellung="GERADE" />
-      <Gleisabschnitt name="W7"/>
-      <Gleisabschnitt name="15" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Schattenbahnhof1" zaehlrichtung="false">
-      <Gleisabschnitt name="15" />
-      <Gleisabschnitt name="5" />
-    </Fahrstrasse>
-
-    <!-- Fahrstrassen zur Ausfahrt aus Schattenbahnhof1 gegen die Zaehlrichtung (nach rechts) -->
-    <!-- 
-     -->
-    <Fahrstrasse bereich="Schattenbahnhof1" zaehlrichtung="false">
-      <Gleisabschnitt name="1" />
-      <Weiche name="1" stellung="GERADE" />
-      <Gleisabschnitt name="W1"/>
-      <Gleisabschnitt name="K1" />
-      <Gleisabschnitt name="K2" zaehlrichtung="true"/>
-      <Gleisabschnitt name="K3" zaehlrichtung="true"/>
-      <Gleisabschnitt name="K4" zaehlrichtung="true"/>
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Schattenbahnhof1" zaehlrichtung="false">
-      <Gleisabschnitt name="2" />
-      <Weiche name="2" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W2"/>
-      <Weiche name="1" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W1"/>
-      <Gleisabschnitt name="K1" />
-      <Gleisabschnitt name="K2" zaehlrichtung="true"/>
-      <Gleisabschnitt name="K3" zaehlrichtung="true"/>
-      <Gleisabschnitt name="K4" zaehlrichtung="true"/>
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Schattenbahnhof1" zaehlrichtung="false">
-      <Gleisabschnitt name="3" />
-      <Weiche name="3" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W3"/>
-      <Weiche name="2" stellung="GERADE" />
-      <Gleisabschnitt name="W2"/>
-      <Weiche name="1" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W1"/>
-      <Gleisabschnitt name="K1" />
-      <Gleisabschnitt name="K2" zaehlrichtung="true"/>
-      <Gleisabschnitt name="K3" zaehlrichtung="true"/>
-      <Gleisabschnitt name="K4" zaehlrichtung="true"/>
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Schattenbahnhof1" zaehlrichtung="false">
-      <Gleisabschnitt name="4" />
-      <Weiche name="4" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W4"/>
-      <Weiche name="3" stellung="GERADE" />
-      <Gleisabschnitt name="W3"/>
-      <Weiche name="2" stellung="GERADE" />
-      <Gleisabschnitt name="W2"/>
-      <Weiche name="1" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W1"/>
-      <Gleisabschnitt name="K1" />
-      <Gleisabschnitt name="K2" zaehlrichtung="true"/>
-      <Gleisabschnitt name="K3" zaehlrichtung="true"/>
-      <Gleisabschnitt name="K4" zaehlrichtung="true"/>
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Schattenbahnhof1" zaehlrichtung="false">
-      <Gleisabschnitt name="5" />
-      <Weiche name="4" stellung="GERADE" />
-      <Gleisabschnitt name="W4"/>
-      <Weiche name="3" stellung="GERADE" />
-      <Gleisabschnitt name="W3"/>
-      <Weiche name="2" stellung="GERADE" />
-      <Gleisabschnitt name="W2"/>
-      <Weiche name="1" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W1"/>
-      <Gleisabschnitt name="K1" />
-      <Gleisabschnitt name="K2" zaehlrichtung="true"/>
-      <Gleisabschnitt name="K3" zaehlrichtung="true"/>
-      <Gleisabschnitt name="K4" zaehlrichtung="true"/>
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Schattenbahnhof1" zaehlrichtung="true">
-      <Gleisabschnitt name="K4" />
-      <Weiche name="1" stellung="GERADE" />
-      <Gleisabschnitt name="W1"/>
-      <Weiche name="2" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W2"/>
-      <Gleisabschnitt name="A" />
-    </Fahrstrasse>
-
-    <!-- Fahrstrassen zur Ausfahrt aus Schattenbahnhof1 in Zaehlrichtung (nach links) -->
-    <!-- 
-     -->
-    <Fahrstrasse bereich="Schattenbahnhof1" zaehlrichtung="true">
-      <Gleisabschnitt name="11" />
-      <Weiche name="6" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W6"/>
-      <Weiche name="8" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W8"/>
-      <Weiche name="9" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W9"/>
-      <Weiche name="10" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W10"/>
-      <Gleisabschnitt name="A"/>
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Schattenbahnhof1" zaehlrichtung="true">
-      <Gleisabschnitt name="1" />
-      <Gleisabschnitt name="11" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Schattenbahnhof1" zaehlrichtung="true">
-      <Gleisabschnitt name="12" />
-      <Weiche name="6" stellung="GERADE" />
-      <Gleisabschnitt name="W6"/>
-      <Weiche name="8" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W8"/>
-      <Weiche name="9" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W9"/>
-      <Weiche name="10" stellung="ABZWEIGEND"/>
-      <Gleisabschnitt name="W10"/>
-      <Gleisabschnitt name="A"/>
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Schattenbahnhof1" zaehlrichtung="true">
-      <Gleisabschnitt name="2" />
-      <Gleisabschnitt name="12" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Schattenbahnhof1" zaehlrichtung="true">
-      <Gleisabschnitt name="13" />
-      <Weiche name="5" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W5"/>
-      <Weiche name="7" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W7"/>
-      <Weiche name="8" stellung="GERADE" />
-      <Gleisabschnitt name="W8"/>
-      <Weiche name="9" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W9"/>
-      <Weiche name="10" stellung="ABZWEIGEND"/>
-      <Gleisabschnitt name="W10"/>
-      <Gleisabschnitt name="A"/>
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Schattenbahnhof1" zaehlrichtung="true">
-      <Gleisabschnitt name="3" />
-      <Gleisabschnitt name="13" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Schattenbahnhof1" zaehlrichtung="true">
-      <Gleisabschnitt name="14" />
-      <Weiche name="5" stellung="GERADE" />
-      <Gleisabschnitt name="W5"/>
-      <Weiche name="7" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W7"/>
-      <Weiche name="8" stellung="GERADE" />
-      <Gleisabschnitt name="W8"/>
-      <Weiche name="9" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W9"/>
-      <Weiche name="10" stellung="ABZWEIGEND"/>
-      <Gleisabschnitt name="W10"/>
-      <Gleisabschnitt name="A"/>
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Schattenbahnhof1" zaehlrichtung="true">
-      <Gleisabschnitt name="4" />
-      <Gleisabschnitt name="14" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Schattenbahnhof1" zaehlrichtung="true">
-      <Gleisabschnitt name="15" />
-      <Weiche name="7" stellung="GERADE" />
-      <Gleisabschnitt name="W7"/>
-      <Weiche name="8" stellung="GERADE" />
-      <Gleisabschnitt name="W8"/>
-      <Weiche name="9" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W9"/>
-      <Weiche name="10" stellung="ABZWEIGEND"/>
-      <Gleisabschnitt name="W10"/>
-      <Gleisabschnitt name="A"/>
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Schattenbahnhof1" zaehlrichtung="true">
-      <Gleisabschnitt name="5" />
-      <Gleisabschnitt name="15" />
-    </Fahrstrasse>
-
-    <!-- Fahrstrassen zum Übergang von Fensterhausen zum Schattenbahnhof2 und zurück -->
-    <!-- 
-     -->
-    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
-      <Gleisabschnitt name="PA"/>
-      <Gleisabschnitt bereich="Schattenbahnhof2" name="E"/>
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Schattenbahnhof2" zaehlrichtung="false">
-      <Gleisabschnitt name="A"/>
-      <Gleisabschnitt bereich="Fensterhausen" name="PE"/>
-    </Fahrstrasse>
-    
-    <!-- Fahrstrassen zur Einfahrt in Schattenbahnhof2 in Zaehlrichtung (von rechts) -->
-    <Fahrstrasse bereich="Schattenbahnhof2" zaehlrichtung="true">
-      <Gleisabschnitt name="E" />
-      <Weiche name="1" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W1"/>
-      <Weiche name="2" stellung="GERADE" />
-      <Gleisabschnitt name="W2"/>
-      <Weiche name="3" stellung="GERADE" />
-      <Gleisabschnitt name="W3"/>
-      <Gleisabschnitt name="11" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Schattenbahnhof2" zaehlrichtung="true">
-      <Gleisabschnitt name="11" />
-      <Gleisabschnitt name="1" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Schattenbahnhof2" zaehlrichtung="true">
-      <Gleisabschnitt name="E" />
-      <Weiche name="1" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W1"/>
-      <Weiche name="2" stellung="GERADE" />
-      <Gleisabschnitt name="W2"/>
-      <Weiche name="3" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W3"/>
-      <Weiche name="4" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W4"/>
-      <Gleisabschnitt name="12" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Schattenbahnhof2" zaehlrichtung="true">
-      <Gleisabschnitt name="12" />
-      <Gleisabschnitt name="2" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Schattenbahnhof2" zaehlrichtung="true">
-      <Gleisabschnitt name="E" />
-      <Weiche name="1" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W1"/>
-      <Weiche name="2" stellung="GERADE" />
-      <Gleisabschnitt name="W2"/>
-      <Weiche name="3" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W3"/>
-      <Weiche name="4" stellung="GERADE" />
-      <Gleisabschnitt name="W4"/>
-      <Weiche name="5" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W5"/>
-      <Gleisabschnitt name="13" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Schattenbahnhof2" zaehlrichtung="true">
-      <Gleisabschnitt name="13" />
-      <Gleisabschnitt name="3" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Schattenbahnhof2" zaehlrichtung="true">
-      <Gleisabschnitt name="E" />
-      <Weiche name="1" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W1"/>
-      <Weiche name="2" stellung="GERADE" />
-      <Gleisabschnitt name="W2"/>
-      <Weiche name="3" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W3"/>
-      <Weiche name="4" stellung="GERADE" />
-      <Gleisabschnitt name="W4"/>
-      <Weiche name="5" stellung="GERADE" />
-      <Gleisabschnitt name="W5"/>
-      <Weiche name="6" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W6"/>
-      <Gleisabschnitt name="14" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Schattenbahnhof2" zaehlrichtung="true">
-      <Gleisabschnitt name="14" />
-      <Gleisabschnitt name="4" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Schattenbahnhof2" zaehlrichtung="true">
-      <Gleisabschnitt name="E" />
-      <Weiche name="1" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W1"/>
-      <Weiche name="2" stellung="GERADE" />
-      <Gleisabschnitt name="W2"/>
-      <Weiche name="3" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W3"/>
-      <Weiche name="4" stellung="GERADE" />
-      <Gleisabschnitt name="W4"/>
-      <Weiche name="5" stellung="GERADE" />
-      <Gleisabschnitt name="W5"/>
-      <Weiche name="6" stellung="GERADE" />
-      <Gleisabschnitt name="W6"/>
-      <Gleisabschnitt name="15" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Schattenbahnhof2" zaehlrichtung="true">
-      <Gleisabschnitt name="15" />
-      <Gleisabschnitt name="5" />
-    </Fahrstrasse>
-
-    <!-- Fahrstrassen zur Ausfahrt aus Schattenbahnhof2 in Zaehlrichtung (nach links) -->
-    <!-- 
-     -->
-    <Fahrstrasse bereich="Schattenbahnhof2" zaehlrichtung="true">
-      <Gleisabschnitt name="1" />
-      <Weiche name="10" stellung="GERADE" />
-      <Gleisabschnitt name="W10"/>
-      <Gleisabschnitt name="K" zaehlrichtung="false"/>
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Schattenbahnhof2" zaehlrichtung="true">
-      <Gleisabschnitt name="2" />
-      <Weiche name="9" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W9"/>
-      <Weiche name="10" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W10"/>
-      <Gleisabschnitt name="K" zaehlrichtung="false"/>
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Schattenbahnhof2" zaehlrichtung="true">
-      <Gleisabschnitt name="3" />
-      <Weiche name="8" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W8"/>
-      <Weiche name="9" stellung="GERADE" />
-      <Gleisabschnitt name="W9"/>
-      <Weiche name="10" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W10"/>
-      <Gleisabschnitt name="K" zaehlrichtung="false"/>
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Schattenbahnhof2" zaehlrichtung="true">
-      <Gleisabschnitt name="4" />
-      <Weiche name="7" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W7"/>
-      <Weiche name="8" stellung="GERADE" />
-      <Gleisabschnitt name="W8"/>
-      <Weiche name="9" stellung="GERADE" />
-      <Gleisabschnitt name="W9"/>
-      <Weiche name="10" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W10"/>
-      <Gleisabschnitt name="K" zaehlrichtung="false"/>
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Schattenbahnhof2" zaehlrichtung="true">
-      <Gleisabschnitt name="5" />
-      <Weiche name="7" stellung="GERADE" />
-      <Gleisabschnitt name="W7"/>
-      <Weiche name="8" stellung="GERADE" />
-      <Gleisabschnitt name="W8"/>
-      <Weiche name="9" stellung="GERADE" />
-      <Gleisabschnitt name="W9"/>
-      <Weiche name="10" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W10"/>
-      <Gleisabschnitt name="K" zaehlrichtung="false"/>
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Schattenbahnhof2" zaehlrichtung="false">
-      <Gleisabschnitt name="K" />
-      <Weiche name="1" stellung="GERADE" />
-      <Gleisabschnitt name="W1"/>
-      <Weiche name="2" stellung="GERADE" schutz="true" />
-      <Gleisabschnitt name="W2"/>
-      <Gleisabschnitt name="A" />
-    </Fahrstrasse>
-
-    <!-- Fahrstrassen zur Ausfahrt aus Schattenbahnhof2 gegen die Zaehlrichtung (nach rechts) -->
-    <Fahrstrasse bereich="Schattenbahnhof2" zaehlrichtung="false">
-      <Gleisabschnitt name="11" />
-      <Weiche name="3" stellung="GERADE" />
-      <Gleisabschnitt name="W3"/>
-      <Weiche name="2" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W2"/>
-      <Weiche name="1" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W1"/>
-      <Gleisabschnitt name="A"/>
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Schattenbahnhof2" zaehlrichtung="false">
-      <Gleisabschnitt name="1" />
-      <Gleisabschnitt name="11" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Schattenbahnhof2" zaehlrichtung="false">
-      <Gleisabschnitt name="12" />
-      <Weiche name="4" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W4"/>
-      <Weiche name="3" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W3"/>
-      <Weiche name="2" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W2"/>
-      <Weiche name="1" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W1"/>
-      <Gleisabschnitt name="A" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Schattenbahnhof2" zaehlrichtung="false">
-      <Gleisabschnitt name="2" />
-      <Gleisabschnitt name="12" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Schattenbahnhof2" zaehlrichtung="false">
-      <Gleisabschnitt name="13" />
-      <Weiche name="5" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W5"/>
-      <Weiche name="4" stellung="GERADE" />
-      <Gleisabschnitt name="W4"/>
-      <Weiche name="3" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W3"/>
-      <Weiche name="2" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W2"/>
-      <Weiche name="1" stellung="ABZWEIGEND"  />
-      <Gleisabschnitt name="W1"/>
-      <Gleisabschnitt name="A" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Schattenbahnhof2" zaehlrichtung="false">
-      <Gleisabschnitt name="3" />
-      <Gleisabschnitt name="13" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Schattenbahnhof2" zaehlrichtung="false">
-      <Gleisabschnitt name="14" />
-      <Weiche name="6" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W6"/>
-      <Weiche name="5" stellung="GERADE" />
-      <Gleisabschnitt name="W5"/>
-      <Weiche name="4" stellung="GERADE" />
-      <Gleisabschnitt name="W4"/>
-      <Weiche name="3" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W3"/>
-      <Weiche name="2" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W2"/>
-      <Weiche name="1" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W1"/>
-      <Gleisabschnitt name="A"/>
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Schattenbahnhof2" zaehlrichtung="false">
-      <Gleisabschnitt name="4" />
-      <Gleisabschnitt name="14" />
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Schattenbahnhof2" zaehlrichtung="false">
-      <Gleisabschnitt name="15" />
-      <Weiche name="6" stellung="GERADE" />
-      <Gleisabschnitt name="W6"/>
-      <Weiche name="5" stellung="GERADE" />
-      <Gleisabschnitt name="W5"/>
-      <Weiche name="4" stellung="GERADE" />
-      <Gleisabschnitt name="W4"/>
-      <Weiche name="3" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W3"/>
-      <Weiche name="2" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W2"/>
-      <Weiche name="1" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W1"/>
-      <Gleisabschnitt name="A"/>
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Schattenbahnhof2" zaehlrichtung="false">
-      <Gleisabschnitt name="5" />
-      <Gleisabschnitt name="15" />
-    </Fahrstrasse>
-    
-    <!-- Fahrstrassen in Niederbach in Zählrichtung (von rechts nach links) -->
-    <Fahrstrasse bereich="Niederbach" zaehlrichtung="true">
-      <Gleisabschnitt name="H"/>
-      <Gleisabschnitt name="W"/>
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Niederbach" zaehlrichtung="true">
-      <Gleisabschnitt name="W"/>
-      <Weiche name="1" stellung="GERADE"/>
-      <Gleisabschnitt name="W1"/>
-      <Weiche name="2" stellung="ABZWEIGEND"/>
-      <Gleisabschnitt name="W2"/>
-      <Gleisabschnitt name="1"/>
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Niederbach" zaehlrichtung="true">
-      <Gleisabschnitt name="W"/>
-      <Weiche name="1" stellung="GERADE"/>
-      <Gleisabschnitt name="W1"/>
-      <Weiche name="2" stellung="GERADE"/>
-      <Gleisabschnitt name="W2"/>
-      <Gleisabschnitt name="2"/>
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Niederbach" zaehlrichtung="true">
-      <Gleisabschnitt name="W"/>
-      <Weiche name="1" stellung="ABZWEIGEND"/>
-      <Gleisabschnitt name="W1"/>
-      <Gleisabschnitt name="13"/>
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Niederbach" zaehlrichtung="true">
-      <Gleisabschnitt name="13"/>
-      <Weiche name="5" stellung="ABZWEIGEND"/>
-      <Gleisabschnitt name="W5"/>
-      <Gleisabschnitt name="3"/>
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Niederbach" zaehlrichtung="true">
-      <Gleisabschnitt name="14"/>
-      <Weiche name="3" stellung="ABZWEIGEND"/>
-      <Gleisabschnitt name="W3"/>
-      <Weiche name="4" stellung="ABZWEIGEND"/>
-      <Gleisabschnitt name="W4"/>
-      <Weiche name="5" stellung="GERADE"/>
-      <Gleisabschnitt name="W5"/>
-      <Gleisabschnitt name="3"/>
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Niederbach" zaehlrichtung="true">
-      <Gleisabschnitt name="15"/>
-      <Weiche name="3" stellung="GERADE"/>
-      <Gleisabschnitt name="W3"/>
-      <Weiche name="4" stellung="ABZWEIGEND"/>
-      <Gleisabschnitt name="W4"/>
-      <Weiche name="5" stellung="GERADE"/>
-      <Gleisabschnitt name="W5"/>
-      <Gleisabschnitt name="3"/>
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Niederbach" zaehlrichtung="true">
-      <Gleisabschnitt name="1"/>
-      <Weiche name="8" stellung="ABZWEIGEND"/>
-      <Gleisabschnitt name="W8"/>
-      <Weiche name="9" stellung="GERADE"/>
-      <Gleisabschnitt name="W9"/>
-      <Gleisabschnitt name="22"/>
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Niederbach" zaehlrichtung="true">
-      <Gleisabschnitt name="2"/>
-      <Weiche name="8" stellung="GERADE"/>
-      <Gleisabschnitt name="W8"/>
-      <Weiche name="9" stellung="GERADE"/>
-      <Gleisabschnitt name="W9"/>
-      <Gleisabschnitt name="22"/>
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Niederbach" zaehlrichtung="true">
-      <Gleisabschnitt name="3"/>
-      <Weiche name="6" stellung="ABZWEIGEND"/>
-      <Gleisabschnitt name="W6"/>
-      <Gleisabschnitt name="23"/>
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Niederbach" zaehlrichtung="true">
-      <Gleisabschnitt name="3"/>
-      <Weiche name="6" stellung="GERADE"/>
-      <Gleisabschnitt name="W6"/>
-      <Weiche name="7" stellung="GERADE"/>
-      <Gleisabschnitt name="W7"/>
-      <Gleisabschnitt name="24"/>
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Niederbach" zaehlrichtung="true">
-      <Gleisabschnitt name="3"/>
-      <Weiche name="6" stellung="GERADE"/>
-      <Gleisabschnitt name="W6"/>
-      <Weiche name="7" stellung="ABZWEIGEND"/>
-      <Gleisabschnitt name="W7"/>
-      <Gleisabschnitt name="25"/>
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Niederbach" zaehlrichtung="true">
-      <Gleisabschnitt name="23"/>
-      <Weiche name="9" stellung="ABZWEIGEND"/>
-      <Gleisabschnitt name="W9"/>
-      <Gleisabschnitt name="22"/>
-    </Fahrstrasse>
-    
-    <!-- Fahrstrassen in Niederbach gegen die Zählrichtung (von links nach rechts) -->
-    <Fahrstrasse bereich="Niederbach" zaehlrichtung="false">
-      <Gleisabschnitt name="W"/>
-      <Gleisabschnitt name="H"/>
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Niederbach" zaehlrichtung="false">
-      <Gleisabschnitt name="1"/>
-      <Weiche name="2" stellung="ABZWEIGEND"/>
-      <Gleisabschnitt name="W2"/>
-      <Weiche name="1" stellung="GERADE"/>
-      <Gleisabschnitt name="W1"/>
-      <Gleisabschnitt name="W"/>
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Niederbach" zaehlrichtung="false">
-      <Gleisabschnitt name="2"/>
-      <Weiche name="2" stellung="GERADE"/>
-      <Gleisabschnitt name="W2"/>
-      <Weiche name="1" stellung="GERADE"/>
-      <Gleisabschnitt name="W1"/>
-      <Gleisabschnitt name="W"/>
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Niederbach" zaehlrichtung="false">
-      <Gleisabschnitt name="13"/>
-      <Weiche name="1" stellung="ABZWEIGEND"/>
-      <Gleisabschnitt name="W1"/>
-      <Gleisabschnitt name="W"/>
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Niederbach" zaehlrichtung="false">
-      <Gleisabschnitt name="3"/>
-      <Weiche name="5" stellung="ABZWEIGEND"/>
-      <Gleisabschnitt name="W5"/>
-      <Gleisabschnitt name="13"/>
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Niederbach" zaehlrichtung="false">
-      <Gleisabschnitt name="3"/>
-      <Weiche name="5" stellung="GERADE"/>
-      <Gleisabschnitt name="W5"/>
-      <Weiche name="4" stellung="ABZWEIGEND"/>
-      <Gleisabschnitt name="W4"/>
-      <Weiche name="3" stellung="ABZWEIGEND"/>
-      <Gleisabschnitt name="W3"/>
-      <Gleisabschnitt name="14"/>
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Niederbach" zaehlrichtung="false">
-      <Gleisabschnitt name="3"/>
-      <Weiche name="5" stellung="GERADE"/>
-      <Gleisabschnitt name="W5"/>
-      <Weiche name="4" stellung="ABZWEIGEND"/>
-      <Gleisabschnitt name="W4"/>
-      <Weiche name="3" stellung="GERADE"/>
-      <Gleisabschnitt name="W3"/>
-      <Gleisabschnitt name="15"/>
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Niederbach" zaehlrichtung="false">
-      <Gleisabschnitt name="22"/>
-      <Weiche name="9" stellung="GERADE"/>
-      <Gleisabschnitt name="W9"/>
-      <Weiche name="8" stellung="ABZWEIGEND"/>
-      <Gleisabschnitt name="W8"/>
-      <Gleisabschnitt name="1"/>
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Niederbach" zaehlrichtung="false">
-      <Gleisabschnitt name="22"/>
-      <Weiche name="9" stellung="GERADE"/>
-      <Gleisabschnitt name="W9"/>
-      <Weiche name="8" stellung="GERADE"/>
-      <Gleisabschnitt name="W8"/>
-      <Gleisabschnitt name="2"/>
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Niederbach" zaehlrichtung="false">
-      <Gleisabschnitt name="23"/>
-      <Weiche name="6" stellung="ABZWEIGEND"/>
-      <Gleisabschnitt name="W6"/>
-      <Gleisabschnitt name="3"/>
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Niederbach" zaehlrichtung="false">
-      <Gleisabschnitt name="24"/>
-      <Weiche name="7" stellung="GERADE"/>
-      <Gleisabschnitt name="W7"/>
-      <Weiche name="6" stellung="GERADE"/>
-      <Gleisabschnitt name="W6"/>
-      <Gleisabschnitt name="3"/>
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Niederbach" zaehlrichtung="false">
-      <Gleisabschnitt name="25"/>
-      <Weiche name="7" stellung="ABZWEIGEND"/>
-      <Gleisabschnitt name="W7"/>
-      <Weiche name="6" stellung="GERADE"/>
-      <Gleisabschnitt name="W6"/>
-      <Gleisabschnitt name="3"/>
-    </Fahrstrasse>
-    <Fahrstrasse bereich="Niederbach" zaehlrichtung="false">
-      <Gleisabschnitt name="22"/>
-      <Weiche name="9" stellung="ABZWEIGEND"/>
-      <Gleisabschnitt name="W9"/>
-      <Gleisabschnitt name="23"/>
-    </Fahrstrasse>
   </Fahrstrassen>
 
-<!-- 
-  <Autofahrstrasse bereich="Fensterhausen" name="LE">
+  <!--
+    <Autofahrstrasse bereich="Fensterhausen" name="LE">
     <Ziel name="PA"/>
-  </Autofahrstrasse>
-  
-  <Autofahrstrasse bereich="Fensterhausen" name="PE">
+    </Autofahrstrasse>
+
+    <Autofahrstrasse bereich="Fensterhausen" name="PE">
     <Ziel name="LA"/>
-  </Autofahrstrasse>
- -->
-  
+    </Autofahrstrasse>
+  -->
+
   <Autofahrstrasse bereich="Schattenbahnhof1" name="E">
-    <Ziel name="1"/>
-    <Ziel name="2"/>
-    <Ziel name="3"/>
-    <Ziel name="4"/>
-    <Ziel name="5"/>
+    <Ziel name="1" />
+    <Ziel name="2" />
+    <Ziel name="3" />
+    <Ziel name="4" />
+    <Ziel name="5" />
   </Autofahrstrasse>
 
   <Autofahrstrasse bereich="Schattenbahnhof2" name="E">
-    <Ziel name="5"/>
-    <Ziel name="4"/>
-    <Ziel name="3"/>
-    <Ziel name="2"/>
-    <Ziel name="1"/>
+    <Ziel name="5" />
+    <Ziel name="4" />
+    <Ziel name="3" />
+    <Ziel name="2" />
+    <Ziel name="1" />
   </Autofahrstrasse>
-  
+
   <Stellwerke>
     <Stellwerk bereich="Fensterhausen">
       <Zeile>
@@ -3797,7 +1243,7 @@
         <Element typ="GleisAbschnitt" lage="NO,W" name="2" />
         <Element typ="GleisAbschnitt" lage="NO,SW" name="13" />
         <Element typ="Leer" anzahl="1" />
-        <Element typ="GleisAbschnitt" lage="NO,SW" name="W3"/>
+        <Element typ="GleisAbschnitt" lage="NO,SW" name="W3" />
         <Element typ="Leer" anzahl="5" />
       </Zeile>
       <Zeile>
@@ -3864,7 +1310,7 @@
         <Element typ="Leer" anzahl="1" />
         <Element typ="Weiche" lage="SW,NO|O" name="5" />
         <Element typ="GleisAbschnitt" lage="W,O" anzahl="3" name="13" />
-        <Element typ="GleisAbschnitt" lage="W,O" name="13" label="true"/>
+        <Element typ="GleisAbschnitt" lage="W,O" name="13" label="true" />
         <Element typ="GleisAbschnitt" lage="W,O" name="3" label="true" />
         <Element typ="GleisAbschnitt" lage="W,O" name="3" />
         <Element typ="Weiche" lage="NW|W,SO" name="3" />
@@ -3877,7 +1323,7 @@
         <Element typ="GleisAbschnitt" lage="SW,NO" name="W5" />
         <Element typ="GleisAbschnitt" lage="SW,O" name="12" />
         <Element typ="GleisAbschnitt" lage="W,O" anzahl="4" name="12" />
-        <Element typ="GleisAbschnitt" lage="W,O" name="12" label="true"/>
+        <Element typ="GleisAbschnitt" lage="W,O" name="12" label="true" />
         <Element typ="GleisAbschnitt" lage="W,O" name="2" label="true" />
         <Element typ="GleisAbschnitt" lage="W,O" name="2" />
         <Element typ="Weiche" lage="NW|W,SO" name="2" />
@@ -3889,7 +1335,7 @@
         <Element typ="Weiche" lage="S,N|NO" name="7" />
         <Element typ="Weiche" lage="SW,NO|O" name="6" />
         <Element typ="GleisAbschnitt" lage="W,O" anzahl="6" name="11" />
-        <Element typ="GleisAbschnitt" lage="W,O" name="11" label="true"/>
+        <Element typ="GleisAbschnitt" lage="W,O" name="11" label="true" />
         <Element typ="GleisAbschnitt" lage="W,O" name="1" label="true" />
         <Element typ="GleisAbschnitt" lage="W,O" name="1" />
         <Element typ="Weiche" lage="W|NW,O" name="1" />
@@ -3924,7 +1370,7 @@
         <Element typ="Weiche" lage="O|SO,W" name="10" />
         <Element typ="GleisAbschnitt" lage="O,W" name="1" />
         <Element typ="GleisAbschnitt" lage="O,W" name="1" label="true" />
-        <Element typ="GleisAbschnitt" lage="O,W" name="11" label="true"/>
+        <Element typ="GleisAbschnitt" lage="O,W" name="11" label="true" />
         <Element typ="GleisAbschnitt" lage="O,W" anzahl="8" name="11" />
         <Element typ="Weiche" lage="O,W|SW" name="3" />
         <Element typ="Weiche" lage="O|SO,W" name="2" />
@@ -3937,7 +1383,7 @@
         <Element typ="Weiche" lage="SO|O,NW" name="9" />
         <Element typ="GleisAbschnitt" lage="O,W" name="2" />
         <Element typ="GleisAbschnitt" lage="O,W" name="2" label="true" />
-        <Element typ="GleisAbschnitt" lage="O,W" name="12" label="true"/>
+        <Element typ="GleisAbschnitt" lage="O,W" name="12" label="true" />
         <Element typ="GleisAbschnitt" lage="O,W" anzahl="6" name="12" />
         <Element typ="Weiche" lage="NO,SW|W" name="4" />
         <Element typ="GleisAbschnitt" lage="SW,O" name="K" />
@@ -3952,7 +1398,7 @@
         <Element typ="Weiche" lage="SO|O,NW" name="8" />
         <Element typ="GleisAbschnitt" lage="O,W" name="3" />
         <Element typ="GleisAbschnitt" lage="O,W" name="3" label="true" />
-        <Element typ="GleisAbschnitt" lage="O,W" name="13" label="true"/>
+        <Element typ="GleisAbschnitt" lage="O,W" name="13" label="true" />
         <Element typ="GleisAbschnitt" lage="O,W" anzahl="4" name="13" />
         <Element typ="Weiche" lage="NO,SW|W" name="5" />
         <Element typ="GleisAbschnitt" lage="SW,NO" name="K" />
@@ -3980,7 +1426,7 @@
         <Element typ="GleisAbschnitt" lage="O,NW" name="5" />
         <Element typ="GleisAbschnitt" lage="O,W" name="5" />
         <Element typ="GleisAbschnitt" lage="O,W" name="5" label="true" />
-        <Element typ="GleisAbschnitt" lage="O,W" name="15" label="true"/>
+        <Element typ="GleisAbschnitt" lage="O,W" name="15" label="true" />
         <Element typ="GleisAbschnitt" lage="NO,W" name="15" />
         <Element typ="GleisAbschnitt" lage="SW,NO" name="K" />
         <Element typ="Leer" anzahl="4" />
