@@ -960,6 +960,280 @@
     </Fahrstrasse>
 
     <!-- Fahrstrassen zum Übergang von Fensterhausen zum Schattenbahnhof1 und zurück -->
+    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
+      <Gleisabschnitt name="N"/>
+      <Gleisabschnitt bereich="Niederbach" name="H"/>
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Niederbach" zaehlrichtung="false">
+      <Gleisabschnitt name="H"/>
+      <Gleisabschnitt bereich="Fensterhausen" name="N"/>
+    </Fahrstrasse>
+
+    <!-- Fahrstrassen in Niederbach in Zählrichtung (von rechts nach links) -->
+    <Fahrstrasse bereich="Niederbach" zaehlrichtung="true">
+      <Gleisabschnitt name="H"/>
+      <Signal name="I" stellung="FAHRT" block="true"/>
+      <Gleisabschnitt name="W"/>
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Niederbach" zaehlrichtung="true">
+      <Gleisabschnitt name="W"/>
+      <Gleisabschnitt name="W1"/>
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Niederbach" zaehlrichtung="true">
+      <Gleisabschnitt name="W1"/>
+      <Weiche name="1" stellung="GERADE"/>
+      <Gleisabschnitt name="W2"/>
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Niederbach" zaehlrichtung="true">
+      <Gleisabschnitt name="W2"/>
+      <Weiche name="2" stellung="ABZWEIGEND"/>
+      <Gleisabschnitt name="1"/>
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Niederbach" zaehlrichtung="true">
+      <Gleisabschnitt name="W2"/>
+      <Weiche name="2" stellung="GERADE"/>
+      <Gleisabschnitt name="2"/>
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Niederbach" zaehlrichtung="true">
+      <Gleisabschnitt name="W1"/>
+      <Weiche name="1" stellung="ABZWEIGEND"/>
+      <Gleisabschnitt name="13"/>
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Niederbach" zaehlrichtung="true">
+      <Gleisabschnitt name="13"/>
+      <Weiche name="5" stellung="ABZWEIGEND"/>
+      <Gleisabschnitt name="W5"/>
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Niederbach" zaehlrichtung="true">
+      <Gleisabschnitt name="W5"/>
+      <Gleisabschnitt name="3"/>
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Niederbach" zaehlrichtung="true">
+      <Gleisabschnitt name="14"/>
+      <Weiche name="3" stellung="ABZWEIGEND"/>
+      <Gleisabschnitt name="W3"/>
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Niederbach" zaehlrichtung="true">
+      <Gleisabschnitt name="W3"/>
+      <Weiche name="4" stellung="ABZWEIGEND"/>
+      <Gleisabschnitt name="W4"/>
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Niederbach" zaehlrichtung="true">
+      <Gleisabschnitt name="W4"/>
+      <Weiche name="5" stellung="GERADE"/>
+      <Gleisabschnitt name="W5"/>
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Niederbach" zaehlrichtung="true">
+      <Gleisabschnitt name="15"/>
+      <Weiche name="3" stellung="GERADE"/>
+      <Gleisabschnitt name="W3"/>
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Niederbach" zaehlrichtung="true">
+      <Gleisabschnitt name="1"/>
+      <Weiche name="8" stellung="ABZWEIGEND"/>
+      <Gleisabschnitt name="W8"/>
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Niederbach" zaehlrichtung="true">
+      <Gleisabschnitt name="W8"/>
+      <Weiche name="9" stellung="GERADE"/>
+      <Gleisabschnitt name="W9"/>
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Niederbach" zaehlrichtung="true">
+      <Gleisabschnitt name="W9"/>
+      <Gleisabschnitt name="22"/>
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Niederbach" zaehlrichtung="true">
+      <Gleisabschnitt name="2"/>
+      <Weiche name="8" stellung="GERADE"/>
+      <Gleisabschnitt name="W8"/>
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Niederbach" zaehlrichtung="true">
+      <Gleisabschnitt name="3"/>
+      <Gleisabschnitt name="W6"/>
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Niederbach" zaehlrichtung="true">
+      <Gleisabschnitt name="W6"/>
+      <Weiche name="6" stellung="ABZWEIGEND"/>
+      <Gleisabschnitt name="23"/>
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Niederbach" zaehlrichtung="true">
+      <Gleisabschnitt name="W6"/>
+      <Weiche name="6" stellung="GERADE"/>
+      <Gleisabschnitt name="W7"/>
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Niederbach" zaehlrichtung="true">
+      <Gleisabschnitt name="W7"/>
+      <Weiche name="7" stellung="GERADE"/>
+      <Gleisabschnitt name="24"/>
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Niederbach" zaehlrichtung="true">
+      <Gleisabschnitt name="W7"/>
+      <Weiche name="7" stellung="ABZWEIGEND"/>
+      <Gleisabschnitt name="25"/>
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Niederbach" zaehlrichtung="true">
+      <Gleisabschnitt name="23"/>
+      <Weiche name="9" stellung="ABZWEIGEND"/>
+      <Gleisabschnitt name="W9"/>
+    </Fahrstrasse>
+
+    <!-- Fahrstrassen in Niederbach gegen die Zählrichtung (von links nach rechts) -->
+    <Fahrstrasse bereich="Niederbach" zaehlrichtung="false">
+      <Gleisabschnitt name="W"/>
+      <Gleisabschnitt name="H"/>
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Niederbach" zaehlrichtung="false">
+      <Gleisabschnitt name="1"/>
+      <Weiche name="2" stellung="ABZWEIGEND"/>
+      <Gleisabschnitt name="W2"/>
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Niederbach" zaehlrichtung="false">
+      <Gleisabschnitt name="W2"/>
+      <Weiche name="1" stellung="GERADE"/>
+      <Gleisabschnitt name="W1"/>
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Niederbach" zaehlrichtung="false">
+      <Gleisabschnitt name="W1"/>
+      <Gleisabschnitt name="W"/>
+    </Fahrstrasse>
+    
+    <Fahrstrasse bereich="Niederbach" zaehlrichtung="false">
+      <Gleisabschnitt name="2"/>
+      <Weiche name="2" stellung="GERADE"/>
+      <Gleisabschnitt name="W2"/>
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Niederbach" zaehlrichtung="false">
+      <Gleisabschnitt name="13"/>
+      <Weiche name="1" stellung="ABZWEIGEND"/>
+      <Gleisabschnitt name="W1"/>
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Niederbach" zaehlrichtung="false">
+      <Gleisabschnitt name="3"/>
+      <Gleisabschnitt name="W5"/>
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Niederbach" zaehlrichtung="false">
+      <Gleisabschnitt name="W5"/>
+      <Weiche name="5" stellung="ABZWEIGEND"/>
+      <Gleisabschnitt name="13"/>
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Niederbach" zaehlrichtung="false">
+      <Gleisabschnitt name="W5"/>
+      <Weiche name="5" stellung="GERADE"/>
+      <Gleisabschnitt name="W4"/>
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Niederbach" zaehlrichtung="false">
+      <Gleisabschnitt name="W4"/>
+      <Weiche name="4" stellung="ABZWEIGEND"/>
+      <Gleisabschnitt name="W3"/>
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Niederbach" zaehlrichtung="false">
+      <Gleisabschnitt name="W3"/>
+      <Weiche name="3" stellung="ABZWEIGEND"/>
+      <Gleisabschnitt name="14"/>
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Niederbach" zaehlrichtung="false">
+      <Gleisabschnitt name="W3"/>
+      <Weiche name="3" stellung="GERADE"/>
+      <Gleisabschnitt name="15"/>
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Niederbach" zaehlrichtung="false">
+      <Gleisabschnitt name="22"/>
+      <Gleisabschnitt name="W9"/>
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Niederbach" zaehlrichtung="false">
+      <Gleisabschnitt name="W9"/>
+      <Weiche name="9" stellung="GERADE"/>
+      <Gleisabschnitt name="W8"/>
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Niederbach" zaehlrichtung="false">
+      <Gleisabschnitt name="W8"/>
+      <Weiche name="8" stellung="ABZWEIGEND"/>
+      <Gleisabschnitt name="1"/>
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Niederbach" zaehlrichtung="false">
+      <Gleisabschnitt name="W9"/>
+      <Weiche name="9" stellung="GERADE"/>
+      <Gleisabschnitt name="W8"/>
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Niederbach" zaehlrichtung="false">
+      <Gleisabschnitt name="W8"/>
+      <Weiche name="8" stellung="GERADE"/>
+      <Gleisabschnitt name="2"/>
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Niederbach" zaehlrichtung="false">
+      <Gleisabschnitt name="23"/>
+      <Weiche name="6" stellung="ABZWEIGEND"/>
+      <Gleisabschnitt name="W6"/>
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Niederbach" zaehlrichtung="false">
+      <Gleisabschnitt name="W6"/>
+      <Gleisabschnitt name="3"/>
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Niederbach" zaehlrichtung="false">
+      <Gleisabschnitt name="24"/>
+      <Weiche name="7" stellung="GERADE"/>
+      <Gleisabschnitt name="W7"/>
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Niederbach" zaehlrichtung="false">
+      <Gleisabschnitt name="W7"/>
+      <Weiche name="6" stellung="GERADE"/>
+      <Gleisabschnitt name="W6"/>
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Niederbach" zaehlrichtung="false">
+      <Gleisabschnitt name="25"/>
+      <Weiche name="7" stellung="ABZWEIGEND"/>
+      <Gleisabschnitt name="W7"/>
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Niederbach" zaehlrichtung="false">
+      <Gleisabschnitt name="W9"/>
+      <Weiche name="9" stellung="ABZWEIGEND"/>
+      <Gleisabschnitt name="23"/>
+    </Fahrstrasse>
+    
+    <!-- Fahrstrassen zum Übergang von Fensterhausen zum Schattenbahnhof1 und zurück -->
     <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
       <Gleisabschnitt name="LA"/>
       <Signal name="2B" stellung="FAHRT" block="true"/>
