@@ -124,11 +124,11 @@ public class Fahrstrasse extends Bereichselement
    *
    * @return erstes Element oder <code>null</code>, wenn Fahrstrasse leer
    */
-  public FahrstrassenElement getFirst()
+  public FahrstrassenGleisabschnitt getFirst()
   {
     if (this.elemente.size() != 0)
     {
-      return this.elemente.get(0);
+      return (FahrstrassenGleisabschnitt) this.elemente.get(0);
     }
 
     return null;
@@ -139,12 +139,12 @@ public class Fahrstrasse extends Bereichselement
    *
    * @return letztes Element oder <code>null</code>, wenn Fahrstrasse leer
    */
-  public FahrstrassenElement getLast()
+  public FahrstrassenGleisabschnitt getLast()
   {
     int size = this.elemente.size();
     if (size != 0)
     {
-      return this.elemente.get(size - 1);
+      return (FahrstrassenGleisabschnitt) this.elemente.get(size - 1);
     }
 
     return null;

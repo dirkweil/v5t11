@@ -156,7 +156,7 @@ public abstract class XyzAnlageTest
   }
 
   @Test
-  // @Ignore
+  @Ignore
   public void showFahrstrassen()
   {
     for (Fahrstrasse fahrstrasse : this.steuerung.getFahrstrassen())
@@ -178,6 +178,13 @@ public abstract class XyzAnlageTest
         System.out.println("  " + element);
       }
     }
+  }
+
+  @Test
+  // @Ignore
+  public void showFahrstrassenAnzahl()
+  {
+    System.out.println("Anzahl Fahrstrassen: " + this.steuerung.getFahrstrassen().size());
   }
 
   @Test

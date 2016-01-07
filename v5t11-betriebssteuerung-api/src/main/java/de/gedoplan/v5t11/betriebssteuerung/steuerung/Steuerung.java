@@ -38,9 +38,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -71,49 +73,51 @@ import org.apache.commons.logging.LogFactory;
 public class Steuerung implements SelectrixMessageListener, Serializable
 {
   @XmlElement(name = "Zentrale")
-  Zentrale                                 zentrale;
+  Zentrale                                            zentrale;
 
   @XmlElement(name = "Lok")
-  SortedSet<Lok>                           loks                            = new TreeSet<>();
+  SortedSet<Lok>                                      loks                            = new TreeSet<>();
 
   @XmlElement(name = "LokController")
-  SortedSet<LokController>                 lokController                   = new TreeSet<>();
+  SortedSet<LokController>                            lokController                   = new TreeSet<>();
 
   @XmlElementWrapper(name = "Besetztmelder")
   @XmlElements({ @XmlElement(name = "BMMiba3", type = BMMiba3.class), @XmlElement(name = "SXBM1", type = SXBM1.class) })
-  SortedSet<Besetztmelder>                 besetztmelder                   = new TreeSet<>();
+  SortedSet<Besetztmelder>                            besetztmelder                   = new TreeSet<>();
 
   @XmlElementWrapper(name = "Funktionsdecoder")
   @XmlElements({ @XmlElement(name = "SD8", type = SD8.class), @XmlElement(name = "STRFD1", type = STRFD1.class), @XmlElement(name = "SXSD1", type = SXSD1.class),
       @XmlElement(name = "WDMiba", type = WDMiba.class), @XmlElement(name = "WDMiba3", type = WDMiba3.class) })
-  private SortedSet<Funktionsdecoder>      funktionsdecoder                = new TreeSet<>();
+  private SortedSet<Funktionsdecoder>                 funktionsdecoder                = new TreeSet<>();
 
   @XmlElement(name = "Blockstelle")
-  SortedSet<BlockstellenKonfiguration>     blockstellenKonfigurationen     = new TreeSet<>();
+  SortedSet<BlockstellenKonfiguration>                blockstellenKonfigurationen     = new TreeSet<>();
 
   @XmlElement(name = "Bahnuebergang")
-  SortedSet<BahnuebergangKonfiguration>    bahnuebergangKonfigurationen    = new TreeSet<>();
+  SortedSet<BahnuebergangKonfiguration>               bahnuebergangKonfigurationen    = new TreeSet<>();
 
   @XmlElement(name = "Vorsignal")
-  SortedSet<VorsignalKonfiguration>        vorsignalKonfigurationen        = new TreeSet<>();
+  SortedSet<VorsignalKonfiguration>                   vorsignalKonfigurationen        = new TreeSet<>();
 
   @XmlElementWrapper(name = "Fahrstrassen")
   @XmlElement(name = "Fahrstrasse")
-  private SortedSet<Fahrstrasse>           fahrstrassen                    = new TreeSet<>();
+  private SortedSet<Fahrstrasse>                      fahrstrassen                    = new TreeSet<>();
+
+  private Map<Gleisabschnitt, SortedSet<Fahrstrasse>> fahrstrassenLookupMap           = new HashMap<>();
 
   @XmlElement(name = "Autofahrstrasse")
-  SortedSet<AutoFahrstrassenKonfiguration> autoFahrstrassenKonfigurationen = new TreeSet<>();
+  SortedSet<AutoFahrstrassenKonfiguration>            autoFahrstrassenKonfigurationen = new TreeSet<>();
 
   @XmlElementWrapper(name = "Stellwerke")
   @XmlElement(name = "Stellwerk")
-  private SortedSet<Stellwerk>             stellwerke                      = new TreeSet<>();
+  private SortedSet<Stellwerk>                        stellwerke                      = new TreeSet<>();
 
-  private SortedSet<String>                bereiche                        = new TreeSet<>();
-  private SortedSet<Gleisabschnitt>        gleisabschnitte                 = new TreeSet<>();
-  private SortedSet<Signal>                signale                         = new TreeSet<>();
-  private SortedSet<Weiche>                weichen                         = new TreeSet<>();
+  private SortedSet<String>                           bereiche                        = new TreeSet<>();
+  private SortedSet<Gleisabschnitt>                   gleisabschnitte                 = new TreeSet<>();
+  private SortedSet<Signal>                           signale                         = new TreeSet<>();
+  private SortedSet<Weiche>                           weichen                         = new TreeSet<>();
 
-  private static final Log                 LOGGER                          = LogFactory.getLog(Steuerung.class);
+  private static final Log                            LOGGER                          = LogFactory.getLog(Steuerung.class);
 
   /**
    * Alle von der Steuerung belegten Selectrix-Adressen liefern.
@@ -396,6 +400,41 @@ public class Steuerung implements SelectrixMessageListener, Serializable
     return this.fahrstrassen;
   }
 
+  public SortedSet<Fahrstrasse> getFahrstrassen4Start(Gleisabschnitt gleisabschnitt)
+  {
+    SortedSet<Fahrstrasse> fahrstrassen = this.fahrstrassenLookupMap.get(gleisabschnitt);
+    if (fahrstrassen != null)
+    {
+      return fahrstrassen;
+    }
+    else
+    {
+      return Collections.emptySortedSet();
+    }
+  }
+
+  void add2FahrstrassenLookupMap(Iterable<Fahrstrasse> fahrstrassen)
+  {
+    for (Fahrstrasse fahrstrasse : fahrstrassen)
+    {
+      add2FahrstrassenLookupMap(fahrstrasse);
+    }
+  }
+
+  void add2FahrstrassenLookupMap(Fahrstrasse fahrstrasse)
+  {
+    Gleisabschnitt start = fahrstrasse.getFirst().getFahrwegelement();
+
+    SortedSet<Fahrstrasse> fahrstrassen = this.fahrstrassenLookupMap.get(start);
+    if (fahrstrassen == null)
+    {
+      fahrstrassen = new TreeSet<>();
+      this.fahrstrassenLookupMap.put(start, fahrstrassen);
+    }
+
+    fahrstrassen.add(fahrstrasse);
+  }
+
   /**
    * Wert liefern: {@link #autoFahrstrassenKonfigurationen}.
    *
@@ -600,6 +639,9 @@ public class Steuerung implements SelectrixMessageListener, Serializable
       this.bereiche.add(bereich);
     }
 
+    // Fahrstrassen-Lookup-Map erstellen
+    add2FahrstrassenLookupMap(this.fahrstrassen);
+
     // Aus Fahrstrassen Vorgänger/Nachfolger für die enthaltenen Gleisabschnitte errechnen
     for (Fahrstrasse fahrstrasse : this.fahrstrassen)
     {
@@ -659,21 +701,12 @@ public class Steuerung implements SelectrixMessageListener, Serializable
       SortedSet<Fahrstrasse> weitereFahrstrassen = new TreeSet<>();
       for (Fahrstrasse fahrstrasse1 : zuPruefendeFahrstrassen)
       {
-        for (Fahrstrasse fahrstrasse2 : this.fahrstrassen)
+        for (Fahrstrasse fahrstrasse2 : getFahrstrassen4Start(fahrstrasse1.getLast().getFahrwegelement()))
         {
           Fahrstrasse kombiFahrstrasse = Fahrstrasse.concat(fahrstrasse1, fahrstrasse2);
-          if (kombiFahrstrasse == null)
-          {
-            kombiFahrstrasse = Fahrstrasse.concat(fahrstrasse2, fahrstrasse1);
-          }
-
           if (kombiFahrstrasse != null && !this.fahrstrassen.contains(kombiFahrstrasse))
           {
             weitereFahrstrassen.add(kombiFahrstrasse);
-            // if ("Schattenbahnhof1".equals(kombiFahrstrasse.bereich))
-            // {
-            // System.out.println("WeitereFahrstrasse: " + kombiFahrstrasse);
-            // }
           }
         }
       }
@@ -684,6 +717,8 @@ public class Steuerung implements SelectrixMessageListener, Serializable
       }
 
       this.fahrstrassen.addAll(weitereFahrstrassen);
+      add2FahrstrassenLookupMap(weitereFahrstrassen);
+
       zuPruefendeFahrstrassen = weitereFahrstrassen;
     }
   }
