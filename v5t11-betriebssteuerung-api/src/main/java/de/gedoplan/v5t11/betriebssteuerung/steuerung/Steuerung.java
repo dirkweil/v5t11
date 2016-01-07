@@ -16,6 +16,8 @@ import de.gedoplan.v5t11.betriebssteuerung.steuerung.baustein.funktionsdecoder.W
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.baustein.funktionsdecoder.WDMiba3;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.fahrstrasse.FahrstrassenElement;
+import de.gedoplan.v5t11.betriebssteuerung.steuerung.fahrstrasse.element.FahrstrassenGleisabschnitt;
+import de.gedoplan.v5t11.betriebssteuerung.steuerung.fahrstrasse.element.FahrstrassenWeiche;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.fahrweg.Geraet;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.fahrweg.geraet.Signal;
@@ -598,6 +600,12 @@ public class Steuerung implements SelectrixMessageListener, Serializable
       this.bereiche.add(bereich);
     }
 
+    // Aus Fahrstrassen Vorgänger/Nachfolger für die enthaltenen Gleisabschnitte errechnen
+    for (Fahrstrasse fahrstrasse : this.fahrstrassen)
+    {
+      deriveFolgeGleisabschnitte(fahrstrasse);
+    }
+
     // Vorsignale hinzufügen.
     for (Fahrstrasse fahrstrasse : this.fahrstrassen)
     {
@@ -678,6 +686,51 @@ public class Steuerung implements SelectrixMessageListener, Serializable
       this.fahrstrassen.addAll(weitereFahrstrassen);
       zuPruefendeFahrstrassen = weitereFahrstrassen;
     }
+  }
+
+  void deriveFolgeGleisabschnitte(Fahrstrasse fahrstrasse)
+  {
+    FahrstrassenGleisabschnitt fahrstrassenGleisabschnitt = null;
+    FahrstrassenWeiche fahrstrassenWeiche = null;
+    int weitereWeichen = 0;
+
+    for (FahrstrassenElement fahrstrassenElement : fahrstrasse.getElemente())
+    {
+      if (fahrstrassenElement instanceof FahrstrassenGleisabschnitt)
+      {
+        FahrstrassenGleisabschnitt nextFahrstrassenGleisabschnitt = (FahrstrassenGleisabschnitt) fahrstrassenElement;
+
+        if (fahrstrassenGleisabschnitt != null)
+        {
+          fahrstrassenGleisabschnitt.getFahrwegelement().addFolgeGleisabschnitt(
+              fahrstrassenGleisabschnitt.isZaehlrichtung(),
+              fahrstrassenWeiche != null ? fahrstrassenWeiche.getFahrwegelement() : null,
+              fahrstrassenWeiche != null ? Weiche.Stellung.valueOf(fahrstrassenWeiche.getStellungsName()) : null,
+              nextFahrstrassenGleisabschnitt.getFahrwegelement());
+        }
+
+        fahrstrassenGleisabschnitt = nextFahrstrassenGleisabschnitt;
+        fahrstrassenWeiche = null;
+        weitereWeichen = 0;
+      }
+
+      if (fahrstrassenElement instanceof FahrstrassenWeiche && !fahrstrassenElement.isSchutz())
+      {
+        if (fahrstrassenWeiche == null)
+        {
+          fahrstrassenWeiche = (FahrstrassenWeiche) fahrstrassenElement;
+        }
+        else
+        {
+          ++weitereWeichen;
+          if (weitereWeichen > 1)
+          {
+            throw new IllegalArgumentException(fahrstrasse + " hat zu viele Weichen nach " + fahrstrassenGleisabschnitt);
+          }
+        }
+      }
+    }
+
   }
 
   /**

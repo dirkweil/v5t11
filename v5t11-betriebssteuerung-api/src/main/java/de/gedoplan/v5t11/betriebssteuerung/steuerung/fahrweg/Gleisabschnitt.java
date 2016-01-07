@@ -4,6 +4,8 @@ import de.gedoplan.v5t11.betriebssteuerung.event.EventFirer;
 import de.gedoplan.v5t11.betriebssteuerung.listener.ValueChangedEvent;
 import de.gedoplan.v5t11.betriebssteuerung.qualifier.GleisBelegung;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.baustein.Besetztmelder;
+import de.gedoplan.v5t11.betriebssteuerung.steuerung.fahrweg.geraet.Weiche;
+import de.gedoplan.v5t11.betriebssteuerung.steuerung.fahrweg.geraet.Weiche.Stellung;
 
 import javax.enterprise.util.AnnotationLiteral;
 import javax.xml.bind.Unmarshaller;
@@ -29,20 +31,25 @@ public class Gleisabschnitt extends Fahrwegelement
   /**
    * Besetztmelder, der den Gleisabschnitt überwacht.
    */
-  private Besetztmelder besetztmelder;
+  private Besetztmelder         besetztmelder;
 
   /**
    * Anschluss am Besetztmelder (0, 1, ...)
    */
   @XmlAttribute(name = "idx")
   @JsonProperty
-  private int           anschluss;
+  private int                   anschluss;
 
   /**
    * Gleisabschnitt besetzt?
    */
   @JsonProperty
-  private boolean       besetzt;
+  private boolean               besetzt;
+
+  /**
+   * Folge-Gleisabschnitte entgegen der Zählrichtung (Index 0) und in Zählrichtung (Index 1).
+   */
+  private FolgeGleisabschnitt[] folgeGleisabschnitte = new FolgeGleisabschnitt[2];
 
   /**
    * Attribut liefern: {@link #besetztmelder}.
@@ -108,8 +115,7 @@ public class Gleisabschnitt extends Fahrwegelement
   private void fireGleisBelegung()
   {
     EventFirer.fireEvent(this, new AnnotationLiteral<GleisBelegung>()
-    {
-    });
+    {});
   }
 
   /**
@@ -120,7 +126,15 @@ public class Gleisabschnitt extends Fahrwegelement
   @Override
   public String toString()
   {
-    return this.getClass().getSimpleName() + "{" + this.bereich + "/" + this.name + " @ " + this.besetztmelder.getAdresse() + "/" + this.anschluss + "}";
+    return this.getClass().getSimpleName()
+        + "{"
+        + this.bereich + "/" + this.name
+        + " @ " + this.besetztmelder.getAdresse() + "/" + this.anschluss
+        + "}"
+        + " ["
+        + "next=" + this.folgeGleisabschnitte[1]
+        + ", prev=" + this.folgeGleisabschnitte[0]
+        + "]";
   }
 
   /**
@@ -147,6 +161,21 @@ public class Gleisabschnitt extends Fahrwegelement
     {
       throw new IllegalArgumentException("Illegal parent " + parent);
     }
+  }
+
+  public void addFolgeGleisabschnitt(boolean zaehlrichtung, Weiche weiche, Stellung stellung, Gleisabschnitt gleisabschnitt)
+  {
+    int idx = zaehlrichtung ? 1 : 0;
+
+    if (this.folgeGleisabschnitte[idx] == null)
+    {
+      this.folgeGleisabschnitte[idx] = new FolgeGleisabschnitt(weiche, stellung, gleisabschnitt);
+    }
+    else
+    {
+      this.folgeGleisabschnitte[idx].add(weiche, stellung, gleisabschnitt);
+    }
+
   }
 
 }
