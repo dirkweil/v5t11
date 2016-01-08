@@ -926,18 +926,24 @@
       <Gleisabschnitt name="RA" />
       <Signal name="1A" stellung="FAHRT" />
       <Gleisabschnitt name="W101" />
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
+      <Gleisabschnitt name="W101" />
       <Weiche name="101" stellung="GERADE" />
       <Weiche name="102" stellung="GERADE" schutz="true" />
       <Gleisabschnitt name="PA" />
     </Fahrstrasse>
 
     <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
-      <Gleisabschnitt name="RA" />
-      <Signal name="1A" stellung="LANGSAMFAHRT" />
       <Gleisabschnitt name="W101" />
       <Weiche name="101" stellung="ABZWEIGEND" />
       <Weiche name="102" stellung="ABZWEIGEND" />
       <Gleisabschnitt name="W102" />
+      <Gleisabschnitt name="W103" />
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
       <Gleisabschnitt name="W103" />
       <Weiche name="103" stellung="GERADE" />
       <Signal name="1B" stellung="HALT" schutz="true" />
@@ -948,15 +954,38 @@
 
     <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
       <Gleisabschnitt name="RE" />
+      <Signal name="1B" stellung="FAHRT" />
       <Weiche name="102" stellung="GERADE" />
       <Weiche name="101" stellung="GERADE" schutz="true" />
       <Gleisabschnitt name="W102" />
       <Gleisabschnitt name="W103" />
-      <Weiche name="103" stellung="GERADE" />
-      <Signal name="1B" stellung="FAHRT" />
-      <Signal name="1F" stellung="HALT" schutz="true" />
+    </Fahrstrasse>
+
+    <!--  Fahrstrassen durch die Abzweigstelle gegen die Zählrichtung (von rechts nach links -->
+    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
+      <Gleisabschnitt name="PE" />
+      <Signal name="1F" stellung="FAHRT" />
       <Signal name="1G" stellung="HALT" schutz="true" />
+      <Weiche name="103" stellung="ABZWEIGEND" />
+      <Gleisabschnitt name="W103"/>
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
       <Gleisabschnitt name="N" />
+      <Signal name="1G" stellung="FAHRT" />
+      <Signal name="1F" stellung="HALT" schutz="true" />
+      <Weiche name="103" stellung="GERADE" />
+      <Gleisabschnitt name="W103"/>
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
+      <Gleisabschnitt name="W103"/>
+      <Gleisabschnitt name="W102"/>
+      <Weiche name="102" stellung="GERADE" />
+      <Weiche name="101" stellung="GERADE" schutz="true" />
+      <Signal name="1B" stellung="HALT" schutz="true" />
+      <Signal name="F" stellung="HALT" schutz="true"/>
+      <Gleisabschnitt name="RE" />
     </Fahrstrasse>
 
     <!-- Fahrstrassen zum Übergang von Fensterhausen zum Schattenbahnhof1 und zurück -->
