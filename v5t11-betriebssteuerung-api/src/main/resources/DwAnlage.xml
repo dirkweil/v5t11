@@ -626,7 +626,7 @@
     <!-- Fahrstrassen zur Ausfahrt aus Fensterhausen in Zaehlrichtung (nach rechts) -->
     <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
       <Gleisabschnitt name="1" />
-      <Signal name="N1" stellung="LANGSAMFAHRT" />
+      <Signal name="N1" stellung="FAHRT" />
       <Signal name="N2" stellung="HALT" schutz="true" />
       <Weiche name="19" stellung="GERADE" />
       <Gleisabschnitt name="W19" />
@@ -634,7 +634,7 @@
 
     <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
       <Gleisabschnitt name="2" />
-      <Signal name="N2" stellung="LANGSAMFAHRT" />
+      <Signal name="N2" stellung="FAHRT" />
       <Signal name="N1" stellung="HALT" schutz="true" />
       <Weiche name="19" stellung="ABZWEIGEND" />
       <Gleisabschnitt name="W19" />
@@ -649,7 +649,7 @@
 
     <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
       <Gleisabschnitt name="3" />
-      <Signal name="N3" stellung="LANGSAMFAHRT" />
+      <Signal name="N3" stellung="FAHRT" />
       <Signal name="N1" stellung="HALT" schutz="true" />
       <Signal name="N2" stellung="HALT" schutz="true" />
       <Weiche name="22" stellung="ABZWEIGEND" />
@@ -689,7 +689,7 @@
 
     <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
       <Gleisabschnitt name="5" />
-      <Signal name="N5" stellung="LANGSAMFAHRT" />
+      <Signal name="N5" stellung="FAHRT" />
       <Weiche name="18" stellung="ABZWEIGEND" />
       <Weiche name="17" stellung="ABZWEIGEND" schutz="true" />
       <Gleisabschnitt name="W18" />
@@ -756,7 +756,7 @@
 
     <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="true">
       <Gleisabschnitt name="W15" />
-      <Signal name="N7-10" stellung="LANGSAMFAHRT" />
+      <Signal name="N7-10" stellung="FAHRT" />
       <Gleisabschnitt name="W17" />
     </Fahrstrasse>
 
@@ -925,7 +925,7 @@
     <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
       <Gleisabschnitt name="RE" />
       <Bahnuebergang name="B1" />
-      <Signal name="F" stellung="LANGSAMFAHRT" />
+      <Signal name="F" stellung="FAHRT" />
       <Gleisabschnitt name="W24" />
     </Fahrstrasse>
 
@@ -1109,7 +1109,7 @@
 
     <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
       <Gleisabschnitt name="3" />
-      <Signal name="P3" stellung="LANGSAMFAHRT" />
+      <Signal name="P3" stellung="FAHRT" />
       <Signal name="P2" stellung="HALT" schutz="true" />
       <Weiche name="4" stellung="ABZWEIGEND" />
       <Gleisabschnitt name="W4" />
@@ -1117,7 +1117,7 @@
 
     <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
       <Gleisabschnitt name="4" />
-      <Signal name="P4" stellung="LANGSAMFAHRT" />
+      <Signal name="P4" stellung="FAHRT" />
       <Signal name="P5" stellung="HALT" schutz="true" />
       <Weiche name="3" stellung="GERADE" />
       <Weiche name="6" stellung="ABZWEIGEND" schutz="true" />
@@ -1126,7 +1126,7 @@
 
     <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
       <Gleisabschnitt name="5" />
-      <Signal name="P5" stellung="LANGSAMFAHRT" />
+      <Signal name="P5" stellung="FAHRT" />
       <Weiche name="5" stellung="ABZWEIGEND" />
       <Weiche name="6" stellung="ABZWEIGEND" schutz="true" />
       <Gleisabschnitt name="W5" />
@@ -1184,7 +1184,7 @@
 
     <Fahrstrasse bereich="Fensterhausen" zaehlrichtung="false">
       <Gleisabschnitt name="W7" />
-      <Signal name="P7-10" stellung="LANGSAMFAHRT" />
+      <Signal name="P7-10" stellung="FAHRT" />
       <Gleisabschnitt name="W6" />
     </Fahrstrasse>
 

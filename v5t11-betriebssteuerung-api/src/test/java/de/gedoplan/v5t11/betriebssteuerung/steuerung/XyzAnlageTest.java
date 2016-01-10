@@ -161,16 +161,15 @@ public abstract class XyzAnlageTest
   {
     for (Fahrstrasse fahrstrasse : this.steuerung.getFahrstrassen())
     {
-      // switch (fahrstrasse.getName())
-      // {
-      // case "RE-2":
-      // case "2-LA":
-      // case "RE-2-LA":
-      // break;
-      //
-      // default:
-      // continue;
-      // }
+      switch (fahrstrasse.getName())
+      {
+      case "4-W3-W2-LE":
+      case "5-W5-W3-W2-LE":
+        break;
+
+      default:
+        continue;
+      }
 
       System.out.println(fahrstrasse);
       for (FahrstrassenElement element : fahrstrasse.getElemente())

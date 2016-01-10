@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 
 /**
  * Fahrstrassenelement 'Weiche'.
- * 
+ *
  * @author dw
  */
 @XmlAccessorType(XmlAccessType.NONE)
@@ -38,6 +38,11 @@ public class FahrstrassenWeiche extends FahrstrassenElement
   public void setFahrwegelement(Steuerung steuerung)
   {
     this.weiche = steuerung.getWeiche(this.bereich, this.name);
+  }
+
+  public Stellung getStellung()
+  {
+    return this.stellung;
   }
 
   /**

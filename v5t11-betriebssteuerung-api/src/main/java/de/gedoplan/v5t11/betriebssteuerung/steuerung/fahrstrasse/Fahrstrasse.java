@@ -11,6 +11,8 @@ import de.gedoplan.v5t11.betriebssteuerung.steuerung.fahrweg.Fahrwegelement;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.fahrweg.geraet.Hauptsignal;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.fahrweg.geraet.Signal;
+import de.gedoplan.v5t11.betriebssteuerung.steuerung.fahrweg.geraet.Signal.Stellung;
+import de.gedoplan.v5t11.betriebssteuerung.steuerung.fahrweg.geraet.Weiche;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.konfiguration.VorsignalKonfiguration;
 import de.gedoplan.v5t11.betriebssteuerung.util.GbsFarben;
 
@@ -616,5 +618,79 @@ public class Fahrstrasse extends Bereichselement
       }
       setName(name.toString());
     }
+  }
+
+  /**
+   * Hauptsignale auf FAHRT/LANGSAMFAHRT stellen wenn keine/mindestens eine abzweigende Weiche befahren wird.
+   */
+  public void adjustLangsamfahrt()
+  {
+    FahrstrassenSignal fahrstrassenHauptSignal = null;
+    int fahrstrassenHauptSignalIndex = 0;
+    boolean langsam = false;
+
+    int size = this.elemente.size();
+    for (int i = 0; i < size; ++i)
+    {
+      FahrstrassenElement fahrstrassenElement = this.elemente.get(i);
+      if (!fahrstrassenElement.isSchutz())
+      {
+        if (i >= size - 1
+            || (fahrstrassenElement instanceof FahrstrassenSignal
+            && ((FahrstrassenSignal) fahrstrassenElement).getFahrwegelement() instanceof Hauptsignal))
+        {
+          if (fahrstrassenHauptSignal != null)
+          {
+            Stellung neueStellung = langsam ? Signal.Stellung.LANGSAMFAHRT : Signal.Stellung.FAHRT;
+            if (neueStellung != fahrstrassenHauptSignal.getStellung())
+            {
+              this.elemente.set(fahrstrassenHauptSignalIndex, fahrstrassenHauptSignal.createCopy(neueStellung));
+            }
+          }
+
+          if (i >= size - 1)
+          {
+            break;
+          }
+
+          fahrstrassenHauptSignal = (FahrstrassenSignal) fahrstrassenElement;
+          fahrstrassenHauptSignalIndex = i;
+          langsam = false;
+        }
+
+        if (fahrstrassenElement instanceof FahrstrassenWeiche
+            && ((FahrstrassenWeiche) fahrstrassenElement).getStellung() != Weiche.Stellung.GERADE)
+        {
+          langsam = true;
+        }
+      }
+    }
+  }
+
+  /**
+   * Ist die Fahrstrasse für (normale) Zugfahrten benutzbar?
+   *
+   * @return <code>true</code>, falls für (normale) Zugfahrten benutzbar
+   */
+  public boolean isZugfahrtGeeignet()
+  {
+    // TODO Diese Q&D-Implementierung durch echte Entscheidung ersetzen
+    return !getFirst().getName().startsWith("W") && !getLast().getName().startsWith("W");
+  }
+
+  /**
+   * Ist die Fahrstrasse für Rangierfahrten benutzbar?
+   *
+   * @return <code>true</code>, falls für Rangierfahrten benutzbar
+   */
+  public boolean isRangierGeeignet()
+  {
+    // TODO Diese Q&D-Implementierung durch echte Entscheidung ersetzen
+    return !getFirst().getName().startsWith("W") && !getLast().getName().startsWith("W");
+  }
+
+  public String getShortName()
+  {
+    return this.name.replaceAll("-W\\d+", "");
   }
 }

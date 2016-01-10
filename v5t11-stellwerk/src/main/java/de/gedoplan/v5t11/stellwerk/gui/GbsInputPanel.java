@@ -309,7 +309,7 @@ public class GbsInputPanel extends JPanel
     {
       fahrstrasse.vorschlagen(true);
     }
-    this.fahrstrassenLabel.setText("Fahrstrasse " + fahrstrasse.getName());
+    this.fahrstrassenLabel.setText("Fahrstrasse " + fahrstrasse.getShortName());
   }
 
   protected void fahrstrassenNextButtonClicked()

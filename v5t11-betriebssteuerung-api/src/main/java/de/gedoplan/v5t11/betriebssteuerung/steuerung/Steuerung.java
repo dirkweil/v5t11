@@ -46,6 +46,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 import javax.enterprise.inject.Typed;
 import javax.enterprise.util.AnnotationLiteral;
@@ -415,10 +416,7 @@ public class Steuerung implements SelectrixMessageListener, Serializable
 
   void add2FahrstrassenLookupMap(Iterable<Fahrstrasse> fahrstrassen)
   {
-    for (Fahrstrasse fahrstrasse : fahrstrassen)
-    {
-      add2FahrstrassenLookupMap(fahrstrasse);
-    }
+    fahrstrassen.forEach(f -> add2FahrstrassenLookupMap(f));
   }
 
   void add2FahrstrassenLookupMap(Fahrstrasse fahrstrasse)
@@ -433,6 +431,22 @@ public class Steuerung implements SelectrixMessageListener, Serializable
     }
 
     fahrstrassen.add(fahrstrasse);
+  }
+
+  void removeFromFahrstrassenLookupMap(Iterable<Fahrstrasse> fahrstrassen)
+  {
+    fahrstrassen.forEach(f -> removeFromFahrstrassenLookupMap(f));
+  }
+
+  void removeFromFahrstrassenLookupMap(Fahrstrasse fahrstrasse)
+  {
+    Gleisabschnitt start = fahrstrasse.getFirst().getFahrwegelement();
+
+    SortedSet<Fahrstrasse> fahrstrassen = this.fahrstrassenLookupMap.get(start);
+    if (fahrstrassen != null)
+    {
+      fahrstrassen.remove(fahrstrasse);
+    }
   }
 
   /**
@@ -643,25 +657,27 @@ public class Steuerung implements SelectrixMessageListener, Serializable
     add2FahrstrassenLookupMap(this.fahrstrassen);
 
     // Aus Fahrstrassen Vorgänger/Nachfolger für die enthaltenen Gleisabschnitte errechnen
-    for (Fahrstrasse fahrstrasse : this.fahrstrassen)
-    {
-      deriveFolgeGleisabschnitte(fahrstrasse);
-    }
-
-    // Vorsignale hinzufügen.
-    for (Fahrstrasse fahrstrasse : this.fahrstrassen)
-    {
-      fahrstrasse.addVorsignale(this);
-    }
+    this.fahrstrassen.forEach(f -> deriveFolgeGleisabschnitte(f));
 
     // Fahrstrassen kombinieren
     concatFahrstrassen();
 
-    // Doppeleinträge in Fahrstrassen eliminieren.
-    for (Fahrstrasse fahrstrasse : this.fahrstrassen)
-    {
-      fahrstrasse.removeDoppeleintraege();
-    }
+    // Nicht nutzbare Fahrstrassen entfernen
+    Set<Fahrstrasse> unusableFahrstrassen = this.fahrstrassen
+        .stream()
+        .filter(f -> !f.isZugfahrtGeeignet() && !f.isRangierGeeignet())
+        .collect(Collectors.toSet());
+    this.fahrstrassen.removeAll(unusableFahrstrassen);
+    removeFromFahrstrassenLookupMap(unusableFahrstrassen);
+
+    // Doppeleinträge in Fahrstrassen eliminieren und Signale auf Langsamfahrt korrigieren, wenn nötig..
+    this.fahrstrassen.forEach(f -> {
+      f.removeDoppeleintraege();
+      f.adjustLangsamfahrt();
+    });
+
+    // Vorsignale hinzufügen.
+    this.fahrstrassen.forEach(f -> f.addVorsignale(this));
 
     // Ungültige Autofahrstrassen-Konfigurationen entfernen.
     Iterator<AutoFahrstrassenKonfiguration> autoFahrstrassenIterator = this.autoFahrstrassenKonfigurationen.iterator();
