@@ -1714,7 +1714,7 @@
 
     <Fahrstrasse bereich="Schattenbahnhof1" zaehlrichtung="true">
       <Gleisabschnitt name="A" />
-      <Gleisabschnitt bereich="Fensterhausen" name="E" />
+      <Gleisabschnitt bereich="Fensterhausen" name="LE" />
     </Fahrstrasse>
 
     <!-- Fahrstrassen zur Einfahrt in Schattenbahnhof1 gegen die Zaehlrichtung (von links) -->

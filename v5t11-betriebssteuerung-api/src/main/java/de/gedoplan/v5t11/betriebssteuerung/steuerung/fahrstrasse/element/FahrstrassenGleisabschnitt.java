@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 
 /**
  * Fahrstrassenelement 'Gleisabschnitt'.
- * 
+ *
  * @author dw
  */
 @XmlAccessorType(XmlAccessType.NONE)
@@ -28,7 +28,7 @@ public class FahrstrassenGleisabschnitt extends FahrstrassenElement
 
   /**
    * Konstruktor.
-   * 
+   *
    * @param gleisabschnitt Gleisabschnitt
    * @param weichenGleisabschnitt <code>true</code>, falls Gleisabschnitt zu einer Weiche
    */
@@ -43,7 +43,7 @@ public class FahrstrassenGleisabschnitt extends FahrstrassenElement
 
   /**
    * Wert liefern: {@link #weichenGleisabschnitt}.
-   * 
+   *
    * @return Wert
    */
   public boolean isWeichenGleisabschnitt()

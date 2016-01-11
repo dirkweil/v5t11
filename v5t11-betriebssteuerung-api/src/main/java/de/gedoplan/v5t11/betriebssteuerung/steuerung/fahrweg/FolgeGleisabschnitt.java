@@ -7,13 +7,18 @@ import java.io.Serializable;
 
 public class FolgeGleisabschnitt implements Serializable
 {
-  private Weiche         weiche;
-  private Gleisabschnitt gleisabschnitte[] = new Gleisabschnitt[2];
+  Weiche         weiche;
+  Gleisabschnitt gleisabschnitte[] = new Gleisabschnitt[2];
 
   public FolgeGleisabschnitt(Weiche weiche, Stellung stellung, Gleisabschnitt gleisabschnitt)
   {
+    if (gleisabschnitt == null)
+    {
+      throw new IllegalArgumentException("Unbestimmter Folge-Gleisabschnitt");
+    }
+
     this.weiche = weiche;
-    this.gleisabschnitte[stellung != null ? stellung.getValue() : 0] = gleisabschnitt;
+    this.gleisabschnitte[weiche != null && stellung != null ? stellung.getValue() : 0] = gleisabschnitt;
   }
 
   public Gleisabschnitt getCurrent()
@@ -25,6 +30,11 @@ public class FolgeGleisabschnitt implements Serializable
 
   public void add(Weiche weiche, Stellung stellung, Gleisabschnitt gleisabschnitt)
   {
+    if (gleisabschnitt == null)
+    {
+      throw new IllegalArgumentException("Unbestimmter Folge-Gleisabschnitt");
+    }
+
     if (weiche == null)
     {
       if (this.weiche != null)
@@ -36,6 +46,8 @@ public class FolgeGleisabschnitt implements Serializable
       {
         throw new IllegalArgumentException("Wiederspruechlicher unbedingter Folge-Gleisabschnitt");
       }
+
+      stellung = null;
     }
     else
     {

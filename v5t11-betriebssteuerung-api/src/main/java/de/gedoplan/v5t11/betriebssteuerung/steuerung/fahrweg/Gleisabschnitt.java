@@ -31,25 +31,25 @@ public class Gleisabschnitt extends Fahrwegelement
   /**
    * Besetztmelder, der den Gleisabschnitt überwacht.
    */
-  private Besetztmelder         besetztmelder;
+  private Besetztmelder besetztmelder;
 
   /**
    * Anschluss am Besetztmelder (0, 1, ...)
    */
   @XmlAttribute(name = "idx")
   @JsonProperty
-  private int                   anschluss;
+  private int           anschluss;
 
   /**
    * Gleisabschnitt besetzt?
    */
   @JsonProperty
-  private boolean               besetzt;
+  private boolean       besetzt;
 
   /**
    * Folge-Gleisabschnitte entgegen der Zählrichtung (Index 0) und in Zählrichtung (Index 1).
    */
-  private FolgeGleisabschnitt[] folgeGleisabschnitte = new FolgeGleisabschnitt[2];
+  FolgeGleisabschnitt[] folgeGleisabschnitte = new FolgeGleisabschnitt[2];
 
   /**
    * Attribut liefern: {@link #besetztmelder}.

@@ -187,4 +187,17 @@ public class Weiche extends Geraet
       }
     }
   }
+
+  public String getGleisabschnittName()
+  {
+    boolean doppelweiche = Character.isAlphabetic(this.name.charAt(this.name.length() - 1));
+    if (doppelweiche)
+    {
+      return "W" + this.name.substring(0, this.name.length() - 1);
+    }
+    else
+    {
+      return "W" + this.name;
+    }
+  }
 }

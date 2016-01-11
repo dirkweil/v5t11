@@ -749,17 +749,33 @@ public class Steuerung implements SelectrixMessageListener, Serializable
     {
       if (fahrstrassenElement instanceof FahrstrassenGleisabschnitt)
       {
+        // Nächster Gleisabschnitt
         FahrstrassenGleisabschnitt nextFahrstrassenGleisabschnitt = (FahrstrassenGleisabschnitt) fahrstrassenElement;
 
+        // Gibt es schon einen vorigen Gleisabschnitt?
         if (fahrstrassenGleisabschnitt != null)
         {
+          Weiche weiche = fahrstrassenWeiche != null ? fahrstrassenWeiche.getFahrwegelement() : null;
+          Gleisabschnitt nextGleisabschnitt = nextFahrstrassenGleisabschnitt.getFahrwegelement();
+
+          // Falls der nächste Gleisabschnitt zur letzten Weiche gehört, diese Weiche ignorieren, da der Gleisabschnitt dann
+          // unabhängig von der eichenstellung erreicht wird
+          if (weiche != null
+              && nextGleisabschnitt.getBereich().equals(weiche.getBereich())
+              && nextGleisabschnitt.getName().equals(weiche.getGleisabschnittName()))
+          {
+            weiche = null;
+          }
+
+          // Routing eintragen
           fahrstrassenGleisabschnitt.getFahrwegelement().addFolgeGleisabschnitt(
               fahrstrassenGleisabschnitt.isZaehlrichtung(),
-              fahrstrassenWeiche != null ? fahrstrassenWeiche.getFahrwegelement() : null,
-              fahrstrassenWeiche != null ? Weiche.Stellung.valueOf(fahrstrassenWeiche.getStellungsName()) : null,
-              nextFahrstrassenGleisabschnitt.getFahrwegelement());
+              weiche,
+              weiche != null ? fahrstrassenWeiche.getStellung() : null,
+              nextGleisabschnitt);
         }
 
+        // Abschnitt für's nächste Mal merken
         fahrstrassenGleisabschnitt = nextFahrstrassenGleisabschnitt;
         fahrstrassenWeiche = null;
         weitereWeichen = 0;
@@ -767,12 +783,14 @@ public class Steuerung implements SelectrixMessageListener, Serializable
 
       if (fahrstrassenElement instanceof FahrstrassenWeiche && !fahrstrassenElement.isSchutz())
       {
+        // Weiche merken
         if (fahrstrassenWeiche == null)
         {
           fahrstrassenWeiche = (FahrstrassenWeiche) fahrstrassenElement;
         }
         else
         {
+          // Es dürfen maximal zwei Weichen zwischen zwei Gleisabschnitten liegen
           ++weitereWeichen;
           if (weitereWeichen > 1)
           {
