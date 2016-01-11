@@ -16,6 +16,8 @@ import de.gedoplan.v5t11.betriebssteuerung.steuerung.baustein.funktionsdecoder.W
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.baustein.funktionsdecoder.WDMiba3;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.fahrstrasse.FahrstrassenElement;
+import de.gedoplan.v5t11.betriebssteuerung.steuerung.fahrstrasse.element.FahrstrassenGleisabschnitt;
+import de.gedoplan.v5t11.betriebssteuerung.steuerung.fahrstrasse.element.FahrstrassenWeiche;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.fahrweg.Geraet;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.fahrweg.geraet.Signal;
@@ -36,12 +38,15 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 import javax.enterprise.inject.Typed;
 import javax.enterprise.util.AnnotationLiteral;
@@ -69,49 +74,51 @@ import org.apache.commons.logging.LogFactory;
 public class Steuerung implements SelectrixMessageListener, Serializable
 {
   @XmlElement(name = "Zentrale")
-  Zentrale                                 zentrale;
+  Zentrale                                            zentrale;
 
   @XmlElement(name = "Lok")
-  SortedSet<Lok>                           loks                            = new TreeSet<>();
+  SortedSet<Lok>                                      loks                            = new TreeSet<>();
 
   @XmlElement(name = "LokController")
-  SortedSet<LokController>                 lokController                   = new TreeSet<>();
+  SortedSet<LokController>                            lokController                   = new TreeSet<>();
 
   @XmlElementWrapper(name = "Besetztmelder")
   @XmlElements({ @XmlElement(name = "BMMiba3", type = BMMiba3.class), @XmlElement(name = "SXBM1", type = SXBM1.class) })
-  SortedSet<Besetztmelder>                 besetztmelder                   = new TreeSet<>();
+  SortedSet<Besetztmelder>                            besetztmelder                   = new TreeSet<>();
 
   @XmlElementWrapper(name = "Funktionsdecoder")
   @XmlElements({ @XmlElement(name = "SD8", type = SD8.class), @XmlElement(name = "STRFD1", type = STRFD1.class), @XmlElement(name = "SXSD1", type = SXSD1.class),
       @XmlElement(name = "WDMiba", type = WDMiba.class), @XmlElement(name = "WDMiba3", type = WDMiba3.class) })
-  private SortedSet<Funktionsdecoder>      funktionsdecoder                = new TreeSet<>();
+  private SortedSet<Funktionsdecoder>                 funktionsdecoder                = new TreeSet<>();
 
   @XmlElement(name = "Blockstelle")
-  SortedSet<BlockstellenKonfiguration>     blockstellenKonfigurationen     = new TreeSet<>();
+  SortedSet<BlockstellenKonfiguration>                blockstellenKonfigurationen     = new TreeSet<>();
 
   @XmlElement(name = "Bahnuebergang")
-  SortedSet<BahnuebergangKonfiguration>    bahnuebergangKonfigurationen    = new TreeSet<>();
+  SortedSet<BahnuebergangKonfiguration>               bahnuebergangKonfigurationen    = new TreeSet<>();
 
   @XmlElement(name = "Vorsignal")
-  SortedSet<VorsignalKonfiguration>        vorsignalKonfigurationen        = new TreeSet<>();
+  SortedSet<VorsignalKonfiguration>                   vorsignalKonfigurationen        = new TreeSet<>();
 
   @XmlElementWrapper(name = "Fahrstrassen")
   @XmlElement(name = "Fahrstrasse")
-  private SortedSet<Fahrstrasse>           fahrstrassen                    = new TreeSet<>();
+  private SortedSet<Fahrstrasse>                      fahrstrassen                    = new TreeSet<>();
+
+  private Map<Gleisabschnitt, SortedSet<Fahrstrasse>> fahrstrassenLookupMap           = new HashMap<>();
 
   @XmlElement(name = "Autofahrstrasse")
-  SortedSet<AutoFahrstrassenKonfiguration> autoFahrstrassenKonfigurationen = new TreeSet<>();
+  SortedSet<AutoFahrstrassenKonfiguration>            autoFahrstrassenKonfigurationen = new TreeSet<>();
 
   @XmlElementWrapper(name = "Stellwerke")
   @XmlElement(name = "Stellwerk")
-  private SortedSet<Stellwerk>             stellwerke                      = new TreeSet<>();
+  private SortedSet<Stellwerk>                        stellwerke                      = new TreeSet<>();
 
-  private SortedSet<String>                bereiche                        = new TreeSet<>();
-  private SortedSet<Gleisabschnitt>        gleisabschnitte                 = new TreeSet<>();
-  private SortedSet<Signal>                signale                         = new TreeSet<>();
-  private SortedSet<Weiche>                weichen                         = new TreeSet<>();
+  private SortedSet<String>                           bereiche                        = new TreeSet<>();
+  private SortedSet<Gleisabschnitt>                   gleisabschnitte                 = new TreeSet<>();
+  private SortedSet<Signal>                           signale                         = new TreeSet<>();
+  private SortedSet<Weiche>                           weichen                         = new TreeSet<>();
 
-  private static final Log                 LOGGER                          = LogFactory.getLog(Steuerung.class);
+  private static final Log                            LOGGER                          = LogFactory.getLog(Steuerung.class);
 
   /**
    * Alle von der Steuerung belegten Selectrix-Adressen liefern.
@@ -394,6 +401,54 @@ public class Steuerung implements SelectrixMessageListener, Serializable
     return this.fahrstrassen;
   }
 
+  public SortedSet<Fahrstrasse> getFahrstrassen4Start(Gleisabschnitt gleisabschnitt)
+  {
+    SortedSet<Fahrstrasse> fahrstrassen = this.fahrstrassenLookupMap.get(gleisabschnitt);
+    if (fahrstrassen != null)
+    {
+      return fahrstrassen;
+    }
+    else
+    {
+      return Collections.emptySortedSet();
+    }
+  }
+
+  void add2FahrstrassenLookupMap(Iterable<Fahrstrasse> fahrstrassen)
+  {
+    fahrstrassen.forEach(f -> add2FahrstrassenLookupMap(f));
+  }
+
+  void add2FahrstrassenLookupMap(Fahrstrasse fahrstrasse)
+  {
+    Gleisabschnitt start = fahrstrasse.getFirst().getFahrwegelement();
+
+    SortedSet<Fahrstrasse> fahrstrassen = this.fahrstrassenLookupMap.get(start);
+    if (fahrstrassen == null)
+    {
+      fahrstrassen = new TreeSet<>();
+      this.fahrstrassenLookupMap.put(start, fahrstrassen);
+    }
+
+    fahrstrassen.add(fahrstrasse);
+  }
+
+  void removeFromFahrstrassenLookupMap(Iterable<Fahrstrasse> fahrstrassen)
+  {
+    fahrstrassen.forEach(f -> removeFromFahrstrassenLookupMap(f));
+  }
+
+  void removeFromFahrstrassenLookupMap(Fahrstrasse fahrstrasse)
+  {
+    Gleisabschnitt start = fahrstrasse.getFirst().getFahrwegelement();
+
+    SortedSet<Fahrstrasse> fahrstrassen = this.fahrstrassenLookupMap.get(start);
+    if (fahrstrassen != null)
+    {
+      fahrstrassen.remove(fahrstrasse);
+    }
+  }
+
   /**
    * Wert liefern: {@link #autoFahrstrassenKonfigurationen}.
    *
@@ -502,8 +557,7 @@ public class Steuerung implements SelectrixMessageListener, Serializable
     }
 
     EventFirer.fireEvent(new SelectrixMessage(adresse, wert), new AnnotationLiteral<Outbound>()
-    {
-    });
+    {});
   }
 
   /**
@@ -599,20 +653,31 @@ public class Steuerung implements SelectrixMessageListener, Serializable
       this.bereiche.add(bereich);
     }
 
-    // Weichengleisabschnitte und Vorsignale hinzufügen.
-    for (Fahrstrasse fahrstrasse : this.fahrstrassen)
-    {
-      fahrstrasse.addWeichenGleisabschnitteUndVorsignale(this);
-    }
+    // Fahrstrassen-Lookup-Map erstellen
+    add2FahrstrassenLookupMap(this.fahrstrassen);
+
+    // Aus Fahrstrassen Vorgänger/Nachfolger für die enthaltenen Gleisabschnitte errechnen
+    this.fahrstrassen.forEach(f -> deriveFolgeGleisabschnitte(f));
 
     // Fahrstrassen kombinieren
     concatFahrstrassen();
 
-    // Doppeleinträge in Fahrstrassen eliminieren.
-    for (Fahrstrasse fahrstrasse : this.fahrstrassen)
-    {
-      fahrstrasse.removeDoppeleintraege();
-    }
+    // Nicht nutzbare Fahrstrassen entfernen
+    Set<Fahrstrasse> unusableFahrstrassen = this.fahrstrassen
+        .stream()
+        .filter(f -> !f.isZugfahrtGeeignet() && !f.isRangierGeeignet())
+        .collect(Collectors.toSet());
+    this.fahrstrassen.removeAll(unusableFahrstrassen);
+    removeFromFahrstrassenLookupMap(unusableFahrstrassen);
+
+    // Doppeleinträge in Fahrstrassen eliminieren und Signale auf Langsamfahrt korrigieren, wenn nötig..
+    this.fahrstrassen.forEach(f -> {
+      f.removeDoppeleintraege();
+      f.adjustLangsamfahrt();
+    });
+
+    // Vorsignale hinzufügen.
+    this.fahrstrassen.forEach(f -> f.addVorsignale(this));
 
     // Ungültige Autofahrstrassen-Konfigurationen entfernen.
     Iterator<AutoFahrstrassenKonfiguration> autoFahrstrassenIterator = this.autoFahrstrassenKonfigurationen.iterator();
@@ -652,14 +717,9 @@ public class Steuerung implements SelectrixMessageListener, Serializable
       SortedSet<Fahrstrasse> weitereFahrstrassen = new TreeSet<>();
       for (Fahrstrasse fahrstrasse1 : zuPruefendeFahrstrassen)
       {
-        for (Fahrstrasse fahrstrasse2 : this.fahrstrassen)
+        for (Fahrstrasse fahrstrasse2 : getFahrstrassen4Start(fahrstrasse1.getLast().getFahrwegelement()))
         {
           Fahrstrasse kombiFahrstrasse = Fahrstrasse.concat(fahrstrasse1, fahrstrasse2);
-          if (kombiFahrstrasse == null)
-          {
-            kombiFahrstrasse = Fahrstrasse.concat(fahrstrasse2, fahrstrasse1);
-          }
-
           if (kombiFahrstrasse != null && !this.fahrstrassen.contains(kombiFahrstrasse))
           {
             weitereFahrstrassen.add(kombiFahrstrasse);
@@ -673,8 +733,73 @@ public class Steuerung implements SelectrixMessageListener, Serializable
       }
 
       this.fahrstrassen.addAll(weitereFahrstrassen);
+      add2FahrstrassenLookupMap(weitereFahrstrassen);
+
       zuPruefendeFahrstrassen = weitereFahrstrassen;
     }
+  }
+
+  void deriveFolgeGleisabschnitte(Fahrstrasse fahrstrasse)
+  {
+    FahrstrassenGleisabschnitt fahrstrassenGleisabschnitt = null;
+    FahrstrassenWeiche fahrstrassenWeiche = null;
+    int weitereWeichen = 0;
+
+    for (FahrstrassenElement fahrstrassenElement : fahrstrasse.getElemente())
+    {
+      if (fahrstrassenElement instanceof FahrstrassenGleisabschnitt)
+      {
+        // Nächster Gleisabschnitt
+        FahrstrassenGleisabschnitt nextFahrstrassenGleisabschnitt = (FahrstrassenGleisabschnitt) fahrstrassenElement;
+
+        // Gibt es schon einen vorigen Gleisabschnitt?
+        if (fahrstrassenGleisabschnitt != null)
+        {
+          Weiche weiche = fahrstrassenWeiche != null ? fahrstrassenWeiche.getFahrwegelement() : null;
+          Gleisabschnitt nextGleisabschnitt = nextFahrstrassenGleisabschnitt.getFahrwegelement();
+
+          // Falls der nächste Gleisabschnitt zur letzten Weiche gehört, diese Weiche ignorieren, da der Gleisabschnitt dann
+          // unabhängig von der eichenstellung erreicht wird
+          if (weiche != null
+              && nextGleisabschnitt.getBereich().equals(weiche.getBereich())
+              && nextGleisabschnitt.getName().equals(weiche.getGleisabschnittName()))
+          {
+            weiche = null;
+          }
+
+          // Routing eintragen
+          fahrstrassenGleisabschnitt.getFahrwegelement().addFolgeGleisabschnitt(
+              fahrstrassenGleisabschnitt.isZaehlrichtung(),
+              weiche,
+              weiche != null ? fahrstrassenWeiche.getStellung() : null,
+              nextGleisabschnitt);
+        }
+
+        // Abschnitt für's nächste Mal merken
+        fahrstrassenGleisabschnitt = nextFahrstrassenGleisabschnitt;
+        fahrstrassenWeiche = null;
+        weitereWeichen = 0;
+      }
+
+      if (fahrstrassenElement instanceof FahrstrassenWeiche && !fahrstrassenElement.isSchutz())
+      {
+        // Weiche merken
+        if (fahrstrassenWeiche == null)
+        {
+          fahrstrassenWeiche = (FahrstrassenWeiche) fahrstrassenElement;
+        }
+        else
+        {
+          // Es dürfen maximal zwei Weichen zwischen zwei Gleisabschnitten liegen
+          ++weitereWeichen;
+          if (weitereWeichen > 1)
+          {
+            throw new IllegalArgumentException(fahrstrasse + " hat zu viele Weichen nach " + fahrstrassenGleisabschnitt);
+          }
+        }
+      }
+    }
+
   }
 
   /**

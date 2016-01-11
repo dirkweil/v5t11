@@ -11,6 +11,8 @@ import de.gedoplan.v5t11.betriebssteuerung.steuerung.fahrweg.Fahrwegelement;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.fahrweg.geraet.Hauptsignal;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.fahrweg.geraet.Signal;
+import de.gedoplan.v5t11.betriebssteuerung.steuerung.fahrweg.geraet.Signal.Stellung;
+import de.gedoplan.v5t11.betriebssteuerung.steuerung.fahrweg.geraet.Weiche;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.konfiguration.VorsignalKonfiguration;
 import de.gedoplan.v5t11.betriebssteuerung.util.GbsFarben;
 
@@ -36,7 +38,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * Fahrstrasse.
- * 
+ *
  * @author dw
  */
 @XmlRootElement
@@ -46,6 +48,7 @@ public class Fahrstrasse extends Bereichselement
 {
   /**
    * In Zählrichtung orientiert?
+   * Dieses Attribut dient nur als Default für die zugehörigen Fahrstrassenelemente.
    */
   @XmlAttribute
   @JsonProperty
@@ -80,7 +83,7 @@ public class Fahrstrasse extends Bereichselement
 
   /**
    * Wert liefern: {@link #combi}.
-   * 
+   *
    * @return Wert
    */
   public boolean isCombi()
@@ -90,7 +93,7 @@ public class Fahrstrasse extends Bereichselement
 
   /**
    * Wert liefern: {@link #rank}.
-   * 
+   *
    * @return Wert
    */
   public int getRank()
@@ -100,7 +103,7 @@ public class Fahrstrasse extends Bereichselement
 
   /**
    * Wert liefern: {@link #elemente}.
-   * 
+   *
    * @return Wert
    */
   public List<FahrstrassenElement> getElemente()
@@ -110,7 +113,7 @@ public class Fahrstrasse extends Bereichselement
 
   /**
    * Wert liefern: {@link #reservierungsTyp}.
-   * 
+   *
    * @return Wert
    */
   public ReservierungsTyp getReservierungsTyp()
@@ -120,14 +123,14 @@ public class Fahrstrasse extends Bereichselement
 
   /**
    * Erstes Element liefern.
-   * 
+   *
    * @return erstes Element oder <code>null</code>, wenn Fahrstrasse leer
    */
-  public FahrstrassenElement getFirst()
+  public FahrstrassenGleisabschnitt getFirst()
   {
     if (this.elemente.size() != 0)
     {
-      return this.elemente.get(0);
+      return (FahrstrassenGleisabschnitt) this.elemente.get(0);
     }
 
     return null;
@@ -135,31 +138,43 @@ public class Fahrstrasse extends Bereichselement
 
   /**
    * Letztes Element liefern.
-   * 
+   *
    * @return letztes Element oder <code>null</code>, wenn Fahrstrasse leer
    */
-  public FahrstrassenElement getLast()
+  public FahrstrassenGleisabschnitt getLast()
   {
     int size = this.elemente.size();
     if (size != 0)
     {
-      return this.elemente.get(size - 1);
+      return (FahrstrassenGleisabschnitt) this.elemente.get(size - 1);
     }
 
     return null;
   }
 
+  // @Override
+  // public String toString()
+  // {
+  // StringBuilder buf = new StringBuilder(this.getClass().getSimpleName());
+  // buf.append("{bereich=");
+  // buf.append(this.bereich);
+  // buf.append(",name=");
+  // buf.append(this.name);
+  // buf.append("}");
+  //
+  // return buf.toString();
+  // }
+
   @Override
   public String toString()
   {
-    StringBuilder buf = new StringBuilder(this.getClass().getSimpleName());
-    buf.append("{bereich=");
-    buf.append(this.bereich);
-    buf.append(",name=");
-    buf.append(this.name);
-    buf.append("}");
-
-    return buf.toString();
+    return getClass().getSimpleName()
+        + "{bereich=" + this.bereich
+        + ", name=" + this.name
+        + ", rank=" + this.rank + "}"
+        + " ["
+        + (this.combi ? "combi " : "")
+        + "]";
   }
 
   /**
@@ -200,7 +215,7 @@ public class Fahrstrasse extends Bereichselement
 
   /**
    * Ist die Fahrstrasse (komplett) frei?
-   * 
+   *
    * @param includeFirst Erstes Element der Fahrstrasse berücksichtigen?
    * @param includeLast Letztes Element der Fahrstrasse berücksichtigen?
    * @return <code>true</code>, wenn die Gleisabschnitte der Fahrstrasse frei sind.
@@ -233,7 +248,7 @@ public class Fahrstrasse extends Bereichselement
 
   /**
    * Ist die Fahrstrasse reservierbar?
-   * 
+   *
    * @return <code>true</code>, wenn keines der zugeordneten Fahrwegelemente durch eine andere Fahrstrasse reserviert ist,
    *         Schutzelemente ausgenommen.
    */
@@ -278,7 +293,7 @@ public class Fahrstrasse extends Bereichselement
 
   /**
    * Beginnt die Fahrstrasse mit dem angegebenen Gleisabschnitt?
-   * 
+   *
    * @param gleisabschnitt Gleisabschnitt
    * @return <code>true</code>, wenn die Fahrstrasse mit dem angegebenen Gleisabschnitt beginnt
    */
@@ -290,7 +305,7 @@ public class Fahrstrasse extends Bereichselement
 
   /**
    * Endet die Fahrstrasse mit dem angegebenen Gleisabschnitt?
-   * 
+   *
    * @param gleisabschnitt Gleisabschnitt
    * @return <code>true</code>, wenn die Fahrstrasse mit dem angegebenen Gleisabschnitt endet
    */
@@ -309,11 +324,11 @@ public class Fahrstrasse extends Bereichselement
 
   /**
    * Fahrstrasse reservieren oder freigeben.
-   * 
+   *
    * Wird als reservierungsTyp <code>null</code> übergeben, wird die Fahrstrasse freigegeben. Die Methode ist ähnlich aufrufbar
    * wie {@link FahrstrassenElement#reservieren(Fahrstrasse)}. Zur Freigabe kann aber auch {@link #freigeben(Gleisabschnitt)}
    * genutzt werden.
-   * 
+   *
    * @param reservierungsTyp Art der Fahrstrassenreservierung, <code>null</code> für Freigabe
    */
   public void reservieren(ReservierungsTyp reservierungsTyp)
@@ -334,7 +349,7 @@ public class Fahrstrasse extends Bereichselement
 
   /**
    * Fahrstrasse komplett oder teilweise freigeben.
-   * 
+   *
    * @param teilFreigabeEnde <code>null</code> für Komplettfreigabe oder erster Gleisabschnitt, der nicht freigegeben wird
    */
   public void freigeben(Gleisabschnitt teilFreigabeEnde)
@@ -357,7 +372,7 @@ public class Fahrstrasse extends Bereichselement
 
   /**
    * Fahrstrasse vorschlagen.
-   * 
+   *
    * @param vorgeschlagen vorgeschlagen?
    */
   public void vorschlagen(boolean vorgeschlagen)
@@ -370,7 +385,7 @@ public class Fahrstrasse extends Bereichselement
 
   /**
    * Art der Fahrstrassenreservierung.
-   * 
+   *
    * @author dw
    */
   public static enum ReservierungsTyp
@@ -403,32 +418,18 @@ public class Fahrstrasse extends Bereichselement
   }
 
   /**
-   * Weichengleisabschnitte und Vorsignale hinzufügen.
-   * 
-   * Zu jeder Weiche, die nicht nur Schutzweiche ist, den zugehörigen Gleisabschnitt hinzufügen, wenn vorhanden.
-   * 
+   * Vorsignale hinzufügen.
+   *
    * Zu jedem Hauptsignal, das nicht Schutzsignal ist und das ein Vorsignal am gleichen Mast hat, dieses Vorsignal hinzufügen.
-   * 
+   *
    * @param steuerung Steuerung
    */
-  public void addWeichenGleisabschnitteUndVorsignale(Steuerung steuerung)
+  public void addVorsignale(Steuerung steuerung)
   {
     ListIterator<FahrstrassenElement> listIterator = this.elemente.listIterator();
     while (listIterator.hasNext())
     {
       FahrstrassenElement fahrstrassenElement = listIterator.next();
-
-      if (fahrstrassenElement instanceof FahrstrassenWeiche && !fahrstrassenElement.isSchutz())
-      {
-        String weichenGleisabschnittName = "W" + fahrstrassenElement.getName();
-        Gleisabschnitt gleisabschnitt = steuerung.getGleisabschnitt(fahrstrassenElement.getBereich(), weichenGleisabschnittName);
-        if (gleisabschnitt != null)
-        {
-          FahrstrassenGleisabschnitt fahrstrassenGleisabschnitt = new FahrstrassenGleisabschnitt(gleisabschnitt, true);
-          fahrstrassenGleisabschnitt.setZaehlrichtungIfNull(fahrstrassenElement.isZaehlrichtung());
-          listIterator.add(fahrstrassenGleisabschnitt);
-        }
-      }
 
       if (fahrstrassenElement instanceof FahrstrassenSignal && !fahrstrassenElement.isSchutz())
       {
@@ -451,7 +452,7 @@ public class Fahrstrasse extends Bereichselement
 
   /**
    * Enthält die Fahrstrasse das angegebene Fahrwegelement?
-   * 
+   *
    * @param fahrwegelement Fahrwegelement
    * @return <code>true</code>, wenn die Fahrstrasse das angegebene Fahrwegelement enthält
    */
@@ -469,15 +470,21 @@ public class Fahrstrasse extends Bereichselement
 
   /**
    * Fahrstrassen kombinieren.
-   * 
+   *
    * Die angegebenen Fahrstrassen werden in der Reihenfolge links-rechts kombiniert, wenn dies möglich ist.
-   * 
+   *
    * @param linkeFahrstrasse Linke Fahrstrasse (Einfahrt)
    * @param rechteFahrstrasse Rechte Fahrstrasse (Ausfahrt)
    * @return Kombi-Fahrstrasse, wenn Kombination möglich, sonst <code>null</code>
    */
   public static Fahrstrasse concat(Fahrstrasse linkeFahrstrasse, Fahrstrasse rechteFahrstrasse)
   {
+    // Wenn verschiedene Bereiche, nicht kombinieren
+    if (!linkeFahrstrasse.bereich.equals(rechteFahrstrasse.bereich))
+    {
+      return null;
+    }
+
     // Wenn Ende links nicht Anfang rechts, nicht kombinieren
     FahrstrassenElement linksLast = linkeFahrstrasse.getLast();
     FahrstrassenElement rechtsFirst = rechteFahrstrasse.getFirst();
@@ -560,7 +567,7 @@ public class Fahrstrasse extends Bereichselement
 
   /**
    * Nachbearbeitung nach JAXB-Unmarshal.
-   * 
+   *
    * @param unmarshaller Unmarshaller
    * @param parent Parent
    */
@@ -611,5 +618,79 @@ public class Fahrstrasse extends Bereichselement
       }
       setName(name.toString());
     }
+  }
+
+  /**
+   * Hauptsignale auf FAHRT/LANGSAMFAHRT stellen wenn keine/mindestens eine abzweigende Weiche befahren wird.
+   */
+  public void adjustLangsamfahrt()
+  {
+    FahrstrassenSignal fahrstrassenHauptSignal = null;
+    int fahrstrassenHauptSignalIndex = 0;
+    boolean langsam = false;
+
+    int size = this.elemente.size();
+    for (int i = 0; i < size; ++i)
+    {
+      FahrstrassenElement fahrstrassenElement = this.elemente.get(i);
+      if (!fahrstrassenElement.isSchutz())
+      {
+        if (i >= size - 1
+            || (fahrstrassenElement instanceof FahrstrassenSignal
+            && ((FahrstrassenSignal) fahrstrassenElement).getFahrwegelement() instanceof Hauptsignal))
+        {
+          if (fahrstrassenHauptSignal != null)
+          {
+            Stellung neueStellung = langsam ? Signal.Stellung.LANGSAMFAHRT : Signal.Stellung.FAHRT;
+            if (neueStellung != fahrstrassenHauptSignal.getStellung())
+            {
+              this.elemente.set(fahrstrassenHauptSignalIndex, fahrstrassenHauptSignal.createCopy(neueStellung));
+            }
+          }
+
+          if (i >= size - 1)
+          {
+            break;
+          }
+
+          fahrstrassenHauptSignal = (FahrstrassenSignal) fahrstrassenElement;
+          fahrstrassenHauptSignalIndex = i;
+          langsam = false;
+        }
+
+        if (fahrstrassenElement instanceof FahrstrassenWeiche
+            && ((FahrstrassenWeiche) fahrstrassenElement).getStellung() != Weiche.Stellung.GERADE)
+        {
+          langsam = true;
+        }
+      }
+    }
+  }
+
+  /**
+   * Ist die Fahrstrasse für (normale) Zugfahrten benutzbar?
+   *
+   * @return <code>true</code>, falls für (normale) Zugfahrten benutzbar
+   */
+  public boolean isZugfahrtGeeignet()
+  {
+    // TODO Diese Q&D-Implementierung durch echte Entscheidung ersetzen
+    return !getFirst().getName().startsWith("W") && !getLast().getName().startsWith("W");
+  }
+
+  /**
+   * Ist die Fahrstrasse für Rangierfahrten benutzbar?
+   *
+   * @return <code>true</code>, falls für Rangierfahrten benutzbar
+   */
+  public boolean isRangierGeeignet()
+  {
+    // TODO Diese Q&D-Implementierung durch echte Entscheidung ersetzen
+    return !getFirst().getName().startsWith("W") && !getLast().getName().startsWith("W");
+  }
+
+  public String getShortName()
+  {
+    return this.name.replaceAll("-W\\d+", "");
   }
 }

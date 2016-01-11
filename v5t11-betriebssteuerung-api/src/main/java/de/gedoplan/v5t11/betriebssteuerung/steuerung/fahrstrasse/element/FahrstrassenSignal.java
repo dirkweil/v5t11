@@ -1,5 +1,6 @@
 package de.gedoplan.v5t11.betriebssteuerung.steuerung.fahrstrasse.element;
 
+import de.gedoplan.baselibs.utils.exception.BugException;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.Steuerung;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.fahrstrasse.Fahrstrasse.ReservierungsTyp;
@@ -17,12 +18,12 @@ import org.codehaus.jackson.annotate.JsonMethod;
 
 /**
  * Fahrstrassenelement 'Signal'.
- * 
+ *
  * @author dw
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @JsonAutoDetect(JsonMethod.NONE)
-public class FahrstrassenSignal extends FahrstrassenElement
+public class FahrstrassenSignal extends FahrstrassenElement implements Cloneable
 {
   /**
    * Zugeordnetes Signal.
@@ -48,12 +49,27 @@ public class FahrstrassenSignal extends FahrstrassenElement
 
   /**
    * Wert liefern: {@link #stellung}.
-   * 
+   *
    * @return Wert
    */
   public Stellung getStellung()
   {
     return this.stellung;
+  }
+
+  public FahrstrassenSignal createCopy(Stellung stellung)
+  {
+    try
+    {
+      FahrstrassenSignal copy = (FahrstrassenSignal) clone();
+      copy.stellung = stellung;
+      copy.stellungsName = stellung.name();
+      return copy;
+    }
+    catch (CloneNotSupportedException e)
+    {
+      throw new BugException("Cannot clone FahrstrassenSignal");
+    }
   }
 
   public FahrstrassenSignal(Signal signal)
