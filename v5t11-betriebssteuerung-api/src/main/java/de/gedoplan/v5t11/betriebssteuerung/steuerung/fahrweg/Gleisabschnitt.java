@@ -4,8 +4,9 @@ import de.gedoplan.v5t11.betriebssteuerung.event.EventFirer;
 import de.gedoplan.v5t11.betriebssteuerung.listener.ValueChangedEvent;
 import de.gedoplan.v5t11.betriebssteuerung.qualifier.GleisBelegung;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.baustein.Besetztmelder;
+import de.gedoplan.v5t11.betriebssteuerung.steuerung.fahrstrasse.element.FahrstrassenGleisabschnitt;
+import de.gedoplan.v5t11.betriebssteuerung.steuerung.fahrstrasse.element.FahrstrassenWeiche;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.fahrweg.geraet.Weiche;
-import de.gedoplan.v5t11.betriebssteuerung.steuerung.fahrweg.geraet.Weiche.Stellung;
 
 import javax.enterprise.util.AnnotationLiteral;
 import javax.xml.bind.Unmarshaller;
@@ -163,17 +164,34 @@ public class Gleisabschnitt extends Fahrwegelement
     }
   }
 
-  public void addFolgeGleisabschnitt(boolean zaehlrichtung, Weiche weiche, Stellung stellung, Gleisabschnitt gleisabschnitt)
+  public void addFolgeGleisabschnitt(boolean zaehlrichtung, FahrstrassenWeiche fahrstrassenWeiche, FahrstrassenGleisabschnitt nextFahrstrassenGleisabschnitt)
   {
+    Gleisabschnitt nextGleisabschnitt = nextFahrstrassenGleisabschnitt.getFahrwegelement();
+    Weiche weiche = null;
+    Weiche.Stellung stellung = null;
+    if (fahrstrassenWeiche != null)
+    {
+      Weiche tmpWeiche = fahrstrassenWeiche.getFahrwegelement();
+
+      // Weiche nur dann beutzen, wenn der nächste Gleisabschnitt nicht zur Weiche gehört, da der Gleisabschnitt sonst
+      // unabhängig von der Weichenstellung erreicht wird
+      if (!nextGleisabschnitt.getBereich().equals(tmpWeiche.getBereich())
+          || !nextGleisabschnitt.getName().equals(tmpWeiche.getGleisabschnittName()))
+      {
+        weiche = tmpWeiche;
+        stellung = fahrstrassenWeiche.getStellung();
+      }
+    }
+
     int idx = zaehlrichtung ? 1 : 0;
 
     if (this.folgeGleisabschnitte[idx] == null)
     {
-      this.folgeGleisabschnitte[idx] = new FolgeGleisabschnitt(weiche, stellung, gleisabschnitt);
+      this.folgeGleisabschnitte[idx] = new FolgeGleisabschnitt(weiche, stellung, nextGleisabschnitt);
     }
     else
     {
-      this.folgeGleisabschnitte[idx].add(weiche, stellung, gleisabschnitt);
+      this.folgeGleisabschnitte[idx].add(weiche, stellung, nextGleisabschnitt);
     }
 
   }
