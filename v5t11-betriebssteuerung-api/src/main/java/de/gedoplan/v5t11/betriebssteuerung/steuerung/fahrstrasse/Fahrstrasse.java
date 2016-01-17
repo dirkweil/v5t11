@@ -23,6 +23,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
+import java.util.concurrent.locks.ReentrantLock;
 
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -74,12 +75,17 @@ public class Fahrstrasse extends Bereichselement
   @XmlElements({ @XmlElement(name = "Bahnuebergang", type = FahrstrassenBahnuebergang.class), @XmlElement(name = "Gleisabschnitt", type = FahrstrassenGleisabschnitt.class),
       @XmlElement(name = "Signal", type = FahrstrassenSignal.class), @XmlElement(name = "Weiche", type = FahrstrassenWeiche.class) })
   @JsonProperty
-  private List<FahrstrassenElement> elemente = new ArrayList<FahrstrassenElement>();
+  private List<FahrstrassenElement> elemente          = new ArrayList<FahrstrassenElement>();
 
   /**
    * Falls reserviert Typ der Reservierung, sonst <code>null</code>.
    */
   private ReservierungsTyp          reservierungsTyp;
+
+  /**
+   * Lock zur Synchronisation der mit der Reservierung verbundenen Methoden.
+   */
+  private ReentrantLock             reservierungsLock = new ReentrantLock();
 
   /**
    * Wert liefern: {@link #combi}.
@@ -254,42 +260,27 @@ public class Fahrstrasse extends Bereichselement
    */
   public boolean isReservierbar()
   {
-    for (FahrstrassenElement element : this.elemente)
+    this.reservierungsLock.lock();
+    try
     {
-      if (!element.isSchutz())
+      for (FahrstrassenElement element : this.elemente)
       {
-        if (element.getFahrwegelement().getReservierteFahrstrasse() != null)
+        if (!element.isSchutz())
         {
-          return false;
+          if (element.getFahrwegelement().getReservierteFahrstrasse() != null)
+          {
+            return false;
+          }
         }
       }
+    }
+    finally
+    {
+      this.reservierungsLock.unlock();
     }
 
     return true;
   }
-
-  // /**
-  // * Kollidiert die Fahrstrasse mit einer anderen?
-  // *
-  // * @param andereFahrstrasse andere Fahrstrasse
-  // * @return <code>true</code>, wenn eine Kollision vorliegt
-  // */
-  // public boolean kollidiertMit(Fahrstrasse andereFahrstrasse)
-  // {
-  // for (FahrstrassenElement element : this.elemente)
-  // {
-  // int i = andereFahrstrasse.elemente.indexOf(element);
-  // if (i >= 0)
-  // {
-  // FahrstrassenElement anderesElement = andereFahrstrasse.elemente.get(i);
-  // if (!element.isSchutz() && !anderesElement.isSchutz())
-  // {
-  // return true;
-  // }
-  // }
-  // }
-  // return false;
-  // }
 
   /**
    * Beginnt die Fahrstrasse mit dem angegebenen Gleisabschnitt?
@@ -333,17 +324,25 @@ public class Fahrstrasse extends Bereichselement
    */
   public void reservieren(ReservierungsTyp reservierungsTyp)
   {
-    if (reservierungsTyp == null)
+    this.reservierungsLock.lock();
+    try
     {
-      freigeben(null);
-    }
-    else
-    {
-      this.reservierungsTyp = reservierungsTyp;
-      for (FahrstrassenElement element : this.elemente)
+      if (reservierungsTyp == null)
       {
-        element.reservieren(this);
+        freigeben(null);
       }
+      else
+      {
+        this.reservierungsTyp = reservierungsTyp;
+        for (FahrstrassenElement element : this.elemente)
+        {
+          element.reservieren(this);
+        }
+      }
+    }
+    finally
+    {
+      this.reservierungsLock.unlock();
     }
   }
 
@@ -354,18 +353,26 @@ public class Fahrstrasse extends Bereichselement
    */
   public void freigeben(Gleisabschnitt teilFreigabeEnde)
   {
-    if (teilFreigabeEnde == null)
+    this.reservierungsLock.lock();
+    try
     {
-      this.reservierungsTyp = null;
-    }
-
-    for (FahrstrassenElement element : this.elemente)
-    {
-      if (teilFreigabeEnde != null && element instanceof FahrstrassenGleisabschnitt && teilFreigabeEnde.equals(element.getFahrwegelement()))
+      if (teilFreigabeEnde == null)
       {
-        break;
+        this.reservierungsTyp = null;
       }
-      element.reservieren(null);
+
+      for (FahrstrassenElement element : this.elemente)
+      {
+        if (teilFreigabeEnde != null && element instanceof FahrstrassenGleisabschnitt && teilFreigabeEnde.equals(element.getFahrwegelement()))
+        {
+          break;
+        }
+        element.reservieren(null);
+      }
+    }
+    finally
+    {
+      this.reservierungsLock.unlock();
     }
 
   }
@@ -377,9 +384,17 @@ public class Fahrstrasse extends Bereichselement
    */
   public void vorschlagen(boolean vorgeschlagen)
   {
-    for (FahrstrassenElement element : this.elemente)
+    this.reservierungsLock.lock();
+    try
     {
-      element.vorschlagen(vorgeschlagen ? this : null);
+      for (FahrstrassenElement element : this.elemente)
+      {
+        element.vorschlagen(vorgeschlagen ? this : null);
+      }
+    }
+    finally
+    {
+      this.reservierungsLock.unlock();
     }
   }
 
