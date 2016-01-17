@@ -12,7 +12,7 @@ import java.awt.Graphics2D;
 
 /**
  * Gleisabschnitt im Stellwerk.
- * 
+ *
  * @author dw
  */
 public class GbsGleisAbschnitt extends GbsElement
@@ -23,7 +23,7 @@ public class GbsGleisAbschnitt extends GbsElement
 
   /**
    * Konstruktor.
-   * 
+   *
    * @param bereich Stellwerksbereich
    * @param stellwerkElement zugehöriges Stellwerkselement
    */
@@ -57,7 +57,7 @@ public class GbsGleisAbschnitt extends GbsElement
 
   /**
    * {@inheritDoc}
-   * 
+   *
    * @see de.gedoplan.v5t11.stellwerk.gui.GbsElement#doPaintGleis(java.awt.Graphics2D)
    */
   @Override
@@ -97,6 +97,10 @@ public class GbsGleisAbschnitt extends GbsElement
 
       if (fahrstrasse != null)
       {
+        if ("Schattenbahnhof1".equals(this.gleisabschnitt.getBereich()) && "1".equals(this.gleisabschnitt.getName()))
+        {
+          System.out.println("S1/1.zaehlrichtung: " + this.gleisabschnitt.isZaehlrichtung());
+        }
         boolean zaehlrichtung = this.gleisabschnitt.isZaehlrichtung();
         drawFahrstrassenSegment(g2d, color, this.segmentPos[0], !zaehlrichtung);
         drawFahrstrassenSegment(g2d, color, this.segmentPos[1], zaehlrichtung);
@@ -116,7 +120,7 @@ public class GbsGleisAbschnitt extends GbsElement
 
   /**
    * {@inheritDoc}
-   * 
+   *
    * @see de.gedoplan.v5t11.stellwerk.gui.GbsElement#processMouseClick()
    */
   @Override

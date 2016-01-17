@@ -329,11 +329,12 @@ public class GbsInputPanel extends JPanel
   protected void fahrstrassenReservierungsButtonClicked(Fahrstrasse.ReservierungsTyp reservierungsTyp)
   {
     Fahrstrasse fahrstrasse = this.fahrstrassen.get(this.fahrstrassenIndex);
-    Main.getSteuerungRemoteService().setFahrstrasseReserviert(fahrstrasse.getBereich(), fahrstrasse.getName(), reservierungsTyp);
 
     reset();
     this.fahrstrassenBeginn = null;
     Main.setStatusLineText(null);
+
+    Main.getSteuerungRemoteService().setFahrstrasseReserviert(fahrstrasse.getBereich(), fahrstrasse.getName(), reservierungsTyp);
   }
 
   protected void abbrechenButtonClicked()
