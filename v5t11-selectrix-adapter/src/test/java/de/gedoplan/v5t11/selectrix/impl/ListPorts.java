@@ -1,6 +1,7 @@
 package de.gedoplan.v5t11.selectrix.impl;
 
 import gnu.io.CommPortIdentifier;
+import gnu.io.PortInUseException;
 
 import java.util.Enumeration;
 
@@ -13,7 +14,7 @@ public class ListPorts
   public static void main(String[] args) throws Exception
   {
 //	System.setProperty("gnu.io.rxtx.SerialPorts", "/dev/ttyUSB0");
-//	System.out.println("java.library.path: " + System.getProperty("java.library.path"));
+	System.out.println("java.library.path: " + System.getProperty("java.library.path"));
     showAll();
   }
 
@@ -48,3 +49,4 @@ public class ListPorts
   }
 
 }
+

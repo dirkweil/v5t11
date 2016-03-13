@@ -5,7 +5,7 @@
   <parent>
     <groupId>de.gedoplan</groupId>
     <artifactId>build-master</artifactId>
-    <version>7.1.13</version>
+    <version>7.2.1</version>
   </parent>
 
   <artifactId>v5t11</artifactId>
@@ -13,16 +13,10 @@
 
   <packaging>pom</packaging>
 
-  <properties>
-    <required.java.version>[1.8,)</required.java.version>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
-  </properties>
-  
   <repositories>
     <repository>
       <id>gedoplanPublic</id>
-      <url>http://svn.involva-gruppe.de/nexus/content/groups/public</url>
+      <url>http://service.gedoplan.de/nexus/content/groups/public</url>
     </repository>
 
     <repository>
@@ -34,7 +28,7 @@
   <pluginRepositories>
     <pluginRepository>
       <id>gedoplanPublic</id>
-      <url>http://svn.involva-gruppe.de/nexus/content/groups/public</url>
+      <url>http://service.gedoplan.de/nexus/content/groups/public</url>
     </pluginRepository>
   </pluginRepositories>
 
@@ -63,7 +57,7 @@
       <dependency>
         <groupId>de.gedoplan</groupId>
         <artifactId>baselibs-wildfly</artifactId>
-        <version>8.1.0_01</version>
+        <version>10.0.0_01</version>
       </dependency>
 
       <dependency>
@@ -81,19 +75,19 @@
       <dependency>
         <groupId>de.gedoplan</groupId>
         <artifactId>baselibs-naming</artifactId>
-        <version>1.0.10</version>
+        <version>1.0.14</version>
       </dependency>
 
       <dependency>
         <groupId>de.gedoplan</groupId>
         <artifactId>baselibs-persistence</artifactId>
-        <version>1.0.13</version>
+        <version>1.0.27</version>
       </dependency>
 
       <dependency>
         <groupId>de.gedoplan</groupId>
         <artifactId>baselibs-utils</artifactId>
-        <version>1.0.15</version>
+        <version>1.0.18</version>
       </dependency>
 
       <dependency>
@@ -183,7 +177,7 @@
       <dependency>
         <groupId>org.rxtx</groupId>
         <artifactId>rxtx</artifactId>
-        <version>2.2-20081207</version>
+        <version>2.2pre2</version>
       </dependency>
 
       <dependency>
