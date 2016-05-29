@@ -5,7 +5,7 @@
   <parent>
     <groupId>de.gedoplan</groupId>
     <artifactId>build-master</artifactId>
-    <version>7.2.1</version>
+    <version>7.2.3</version>
   </parent>
 
   <artifactId>v5t11</artifactId>
@@ -32,20 +32,6 @@
     </pluginRepository>
   </pluginRepositories>
 
-  <!--
-  <build>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>org.jboss.as.plugins</groupId>
-          <artifactId>jboss-as-maven-plugin</artifactId>
-          <version>7.3.Final</version>
-        </plugin>
-      </plugins>
-    </pluginManagement>
-  </build>
-  -->
-  
   <dependencyManagement>
     <dependencies>
       <dependency>
@@ -81,13 +67,13 @@
       <dependency>
         <groupId>de.gedoplan</groupId>
         <artifactId>baselibs-persistence</artifactId>
-        <version>1.0.27</version>
+        <version>1.0.30</version>
       </dependency>
 
       <dependency>
         <groupId>de.gedoplan</groupId>
         <artifactId>baselibs-utils</artifactId>
-        <version>1.0.18</version>
+        <version>1.0.19</version>
       </dependency>
 
       <dependency>
@@ -99,13 +85,13 @@
       <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
-        <version>4.11</version>
+        <version>4.12</version>
       </dependency>
 
       <dependency>
         <groupId>log4j</groupId>
         <artifactId>log4j</artifactId>
-        <version>1.2.14</version>
+        <version>1.2.17</version>
       </dependency>
 
       <dependency>
@@ -123,55 +109,25 @@
             <artifactId>hibernate-jpa-2.1-api</artifactId>
           </exclusion>
         </exclusions>
-        <version>4.3.5.Final</version>
+        <version>5.1.0.Final</version>
       </dependency>
 
       <dependency>
         <groupId>org.hibernate</groupId>
         <artifactId>hibernate-validator</artifactId>
-        <version>4.2.0.Final</version>
+        <version>5.0.3.Final</version>
       </dependency>
 
       <dependency>
         <groupId>org.jboss.resteasy</groupId>
         <artifactId>resteasy-jackson-provider</artifactId>
-        <version>2.3.1.GA</version>
+        <version>3.0.10.Final</version>
       </dependency>
 
       <dependency>
         <groupId>org.primefaces</groupId>
         <artifactId>primefaces</artifactId>
-        <version>3.1.1</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.primefaces.themes</groupId>
-        <artifactId>excite-bike</artifactId>
-        <version>1.0.3</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.primefaces.themes</groupId>
-        <artifactId>flick</artifactId>
-        <version>1.0.3</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.primefaces.themes</groupId>
-        <artifactId>glass-x</artifactId>
-        <version>1.0.3</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.primefaces.themes</groupId>
-        <artifactId>sam</artifactId>
-        <version>1.0.3</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.primefaces.themes</groupId>
-        <artifactId>smoothness</artifactId>
-        <version>1.0.3</version>
+        <version>5.3</version>
       </dependency>
 
       <dependency>
