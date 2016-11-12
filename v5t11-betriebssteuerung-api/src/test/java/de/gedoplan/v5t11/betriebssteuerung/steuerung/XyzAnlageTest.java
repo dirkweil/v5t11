@@ -51,7 +51,7 @@ public abstract class XyzAnlageTest
   }
 
   @Test
-  @Ignore
+  // @Ignore
   public void showFreieBesetztmelder()
   {
     for (Besetztmelder besetztmelder : this.steuerung.getBesetztmelder())
@@ -64,11 +64,26 @@ public abstract class XyzAnlageTest
           benutztFlags |= (1 << gleisabschnitt.getAnschluss());
         }
 
+        boolean teilweiseFrei = false;
         for (int anschluss = 0; anschluss < besetztmelder.getByteAnzahl() * 8; ++anschluss)
         {
           if ((benutztFlags & (1 << anschluss)) == 0)
           {
-            System.out.println(besetztmelder + ": Anschluss " + anschluss + " ist frei");
+            teilweiseFrei = true;
+            break;
+          }
+        }
+
+        if (teilweiseFrei)
+        {
+          System.out.printf("%-35s (%s)\n", besetztmelder, besetztmelder.getEinbauOrt());
+
+          for (int anschluss = 0; anschluss < besetztmelder.getByteAnzahl() * 8; ++anschluss)
+          {
+            if ((benutztFlags & (1 << anschluss)) == 0)
+            {
+              System.out.printf("  Anschluss %d ist frei\n", anschluss);
+            }
           }
         }
       }
@@ -76,7 +91,7 @@ public abstract class XyzAnlageTest
   }
 
   @Test
-  @Ignore
+  // @Ignore
   public void showFreieFunktionsdekoder()
   {
     for (Funktionsdecoder funktionsdecoder : this.steuerung.getFunktionsdecoder())
@@ -90,11 +105,25 @@ public abstract class XyzAnlageTest
           benutztFlags |= (mask << geraet.getAnschluss());
         }
 
+        boolean teilweiseFrei = false;
         for (int anschluss = 0; anschluss < funktionsdecoder.getByteAnzahl() * 8; ++anschluss)
         {
           if ((benutztFlags & (1 << anschluss)) == 0)
           {
-            System.out.println(funktionsdecoder + ": Anschluss " + anschluss + " ist frei");
+            teilweiseFrei = true;
+            break;
+          }
+        }
+
+        if (teilweiseFrei)
+        {
+          System.out.printf("%-35s (%s)\n", funktionsdecoder, funktionsdecoder.getEinbauOrt());
+          for (int anschluss = 0; anschluss < funktionsdecoder.getByteAnzahl() * 8; ++anschluss)
+          {
+            if ((benutztFlags & (1 << anschluss)) == 0)
+            {
+              System.out.printf("  Anschluss %d ist frei\n", anschluss);
+            }
           }
         }
       }
@@ -180,7 +209,7 @@ public abstract class XyzAnlageTest
   }
 
   @Test
-  // @Ignore
+  @Ignore
   public void showFahrstrassenAnzahl()
   {
     System.out.println("Anzahl Fahrstrassen: " + this.steuerung.getFahrstrassen().size());
