@@ -21,7 +21,7 @@ import org.apache.commons.logging.LogFactory;
 public class MessagePusher implements Serializable
 {
   private static final String CONNECTION_FACTORY = "java:/ConnectionFactory";
-  private static final String TOPIC              = "topic/V5T11SelectrixMessage";
+  private static final String TOPIC              = "jms/topic/V5T11SelectrixMessage";
 
   private static final Log    LOG                = LogFactory.getLog(MessagePusher.class);
 
