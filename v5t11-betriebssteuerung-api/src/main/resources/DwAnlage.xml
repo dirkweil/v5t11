@@ -232,6 +232,7 @@
     <SXBM1 id="BM-2003-9" adr="103" einbauOrt="Ebene -1, unter Schattenbahnhof1, mitte">
       <Gleisabschnitt idx="0" bereich="Schattenbahnhof1" name="W4" />
       <Gleisabschnitt idx="1" bereich="Schattenbahnhof1" name="W3" />
+      <Gleisabschnitt idx="2" bereich="Schattenbahnhof1" name="W5" />
       <Gleisabschnitt idx="3" bereich="Schattenbahnhof1" name="15" />
       <Gleisabschnitt idx="4" bereich="Schattenbahnhof1" name="11" />
       <Gleisabschnitt idx="5" bereich="Schattenbahnhof1" name="12" />
@@ -270,6 +271,7 @@
     </WDMiba>
 
     <WDMiba id="FD-2003-2" adr="71" einbauOrt="Ebene -1, unter Schattenbahnhof1, Ein/Ausfahrt">
+      <Weiche idx="3" bereich="Schattenbahnhof1" name="5" />
       <Weiche idx="4" bereich="Schattenbahnhof1" name="6" />
       <Weiche idx="5" bereich="Schattenbahnhof1" name="7" />
       <Weiche idx="6" bereich="Schattenbahnhof1" name="8" />
@@ -2509,7 +2511,7 @@
       <Zeile>
         <Element typ="Leer" />
         <Element typ="GleisAbschnitt" lage="O,SW" name="K4" />
-        <Element typ="GleisAbschnitt" lage="O,W" anzahl="10" name="K3" />
+        <Element typ="GleisAbschnitt" lage="O,W" anzahl="12" name="K3" />
         <Element typ="GleisAbschnitt" lage="O,W" name="K2" />
         <Element typ="GleisAbschnitt" lage="W,SO" name="K1" />
         <Element typ="Leer" />
@@ -2518,7 +2520,7 @@
         <Element typ="GleisAbschnitt" lage="NO,S" name="K4" />
         <Element typ="Leer" anzahl="2" />
         <Element typ="GleisAbschnitt" lage="O,SW" name="15" />
-        <Element typ="GleisAbschnitt" lage="O,W" name="15" />
+        <Element typ="GleisAbschnitt" lage="O,W" anzahl="3" name="15" />
         <Element typ="GleisAbschnitt" lage="O,W" name="15" label="true" />
         <Element typ="GleisAbschnitt" lage="O,W" name="5" label="true" />
         <Element typ="GleisAbschnitt" lage="O,W" name="5" />
@@ -2532,7 +2534,7 @@
         <Element typ="GleisAbschnitt" lage="NO,SW" name="15" />
         <Element typ="Leer" anzahl="1" />
         <Element typ="GleisAbschnitt" lage="O,SW" name="14" />
-        <Element typ="GleisAbschnitt" lage="O,W" name="14" />
+        <Element typ="GleisAbschnitt" lage="O,W" anzahl="3" name="14" />
         <Element typ="GleisAbschnitt" lage="O,W" name="14" label="true" />
         <Element typ="GleisAbschnitt" lage="O,W" name="4" label="true" />
         <Element typ="GleisAbschnitt" lage="O,W" name="4" />
@@ -2545,7 +2547,7 @@
         <Element typ="GleisAbschnitt" lage="NO,S" name="15" />
         <Element typ="Leer" anzahl="1" />
         <Element typ="Weiche" lage="NO|O,SW" name="6" />
-        <Element typ="GleisAbschnitt" lage="O,W" anzahl="3" name="13" />
+        <Element typ="GleisAbschnitt" lage="O,W" anzahl="5" name="13" />
         <Element typ="GleisAbschnitt" lage="O,W" name="13" label="true" />
         <Element typ="GleisAbschnitt" lage="O,W" name="3" label="true" />
         <Element typ="GleisAbschnitt" lage="O,W" name="3" />
@@ -2558,7 +2560,7 @@
         <Element typ="GleisAbschnitt" lage="N,S" name="15" />
         <Element typ="GleisAbschnitt" lage="NO,SW" name="W5" />
         <Element typ="GleisAbschnitt" lage="O,SW" name="12" />
-        <Element typ="GleisAbschnitt" lage="O,W" anzahl="4" name="12" />
+        <Element typ="GleisAbschnitt" lage="O,W" anzahl="6" name="12" />
         <Element typ="GleisAbschnitt" lage="O,W" name="12" label="true" />
         <Element typ="GleisAbschnitt" lage="O,W" name="2" label="true" />
         <Element typ="GleisAbschnitt" lage="O,W" name="2" />
@@ -2570,7 +2572,8 @@
         <Element typ="GleisAbschnitt" lage="N,S" name="K4" />
         <Element typ="Weiche" lage="N|NO,S" name="8" />
         <Element typ="Weiche" lage="NO|O,SW" name="7" />
-        <Element typ="GleisAbschnitt" lage="O,W" anzahl="6" name="11" />
+        <Element typ="Weiche" lage="O|SO,W" name="5" />
+        <Element typ="GleisAbschnitt" lage="O,W" anzahl="7" name="11" />
         <Element typ="GleisAbschnitt" lage="O,W" name="11" label="true" />
         <Element typ="GleisAbschnitt" lage="O,W" name="1" label="true" />
         <Element typ="GleisAbschnitt" lage="O,W" name="1" />
@@ -2581,6 +2584,9 @@
       <Zeile>
         <Element typ="GleisAbschnitt" lage="N,S" name="K4" />
         <Element typ="Weiche" lage="N|NO,S" name="9" />
+        <Element typ="Leer" anzahl="2" />
+        <Element typ="GleisAbschnitt" lage="O,NW" name="V" />
+        <Element typ="GleisAbschnitt" lage="O,W" name="V" label="true" />
       </Zeile>
       <Zeile>
         <Element typ="GleisAbschnitt" lage="N,S" name="K4" />
