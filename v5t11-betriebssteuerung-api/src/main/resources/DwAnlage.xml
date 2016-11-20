@@ -248,12 +248,13 @@
       verdrahteten Gleisabschnitte erfassen. Ziel ist es, dies auf echte Melder umzuhängen.
     -->
     <SXBM1 id="BM-dummy-9" adr="58">
-      <Gleisabschnitt idx="1" bereich="Niederbach" name="W1" />
-      <Gleisabschnitt idx="2" bereich="Niederbach" name="W2" />
-      <Gleisabschnitt idx="3" bereich="Niederbach" name="W3" />
-      <Gleisabschnitt idx="4" bereich="Niederbach" name="W4" />
-      <Gleisabschnitt idx="7" bereich="Niederbach" name="W7" />
-      <Gleisabschnitt idx="0" bereich="Niederbach" name="W8" />
+      <Gleisabschnitt idx="0" bereich="Niederbach" name="W1" />
+      <Gleisabschnitt idx="1" bereich="Niederbach" name="W2" />
+      <Gleisabschnitt idx="2" bereich="Niederbach" name="W3" />
+      <Gleisabschnitt idx="3" bereich="Niederbach" name="W4" />
+      <Gleisabschnitt idx="4" bereich="Niederbach" name="W7" />
+      <Gleisabschnitt idx="5" bereich="Niederbach" name="W8" />
+      <Gleisabschnitt idx="6" bereich="Schattenbahnhof1" name="V" />
     </SXBM1>
   </Besetztmelder>
 
@@ -1733,10 +1734,22 @@
       <Weiche name="9" stellung="ABZWEIGEND" />
       <Gleisabschnitt name="W7" />
     </Fahrstrasse>
-
+    
     <Fahrstrasse bereich="Schattenbahnhof1" zaehlrichtung="false">
       <Gleisabschnitt name="W7" />
       <Weiche name="7" stellung="ABZWEIGEND" />
+      <Gleisabschnitt name="W5" />
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Schattenbahnhof1" zaehlrichtung="false">
+      <Gleisabschnitt name="W5" />
+      <Weiche name="5" stellung="ABZWEIGEND" />
+      <Gleisabschnitt name="V" />
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Schattenbahnhof1" zaehlrichtung="false">
+      <Gleisabschnitt name="W5" />
+      <Weiche name="5" stellung="GERADE" />
       <Gleisabschnitt name="11" />
     </Fahrstrasse>
 
@@ -1878,6 +1891,18 @@
 
     <Fahrstrasse bereich="Schattenbahnhof1" zaehlrichtung="true">
       <Gleisabschnitt name="11" />
+      <Weiche name="5" stellung="GERADE" />
+      <Gleisabschnitt name="W5" />
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Schattenbahnhof1" zaehlrichtung="true">
+      <Gleisabschnitt name="V" />
+      <Weiche name="5" stellung="ABZWEIGEND" />
+      <Gleisabschnitt name="W5" />
+    </Fahrstrasse>
+
+    <Fahrstrasse bereich="Schattenbahnhof1" zaehlrichtung="true">
+      <Gleisabschnitt name="W5" />
       <Weiche name="7" stellung="ABZWEIGEND" />
       <Gleisabschnitt name="W7" />
     </Fahrstrasse>
@@ -2558,7 +2583,7 @@
       <Zeile>
         <Element typ="GleisAbschnitt" lage="N,S" name="K4" />
         <Element typ="GleisAbschnitt" lage="N,S" name="15" />
-        <Element typ="GleisAbschnitt" lage="NO,SW" name="W5" />
+        <Element typ="GleisAbschnitt" lage="NO,SW" name="W6" />
         <Element typ="GleisAbschnitt" lage="O,SW" name="12" />
         <Element typ="GleisAbschnitt" lage="O,W" anzahl="6" name="12" />
         <Element typ="GleisAbschnitt" lage="O,W" name="12" label="true" />
