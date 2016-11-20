@@ -167,7 +167,7 @@
     </SXBM1>
 
     <SXBM1 id="BM-2014-2" adr="98" einbauOrt="Ebene -1, unter Schattenbahnhof1, mitte">
-      <Gleisabschnitt idx="0" bereich="Schattenbahnhof1" name="W8" />
+      <Gleisabschnitt idx="0" bereich="Schattenbahnhof1" name="W9" />
       <Gleisabschnitt idx="1" bereich="Schattenbahnhof1" name="W6" />
       <Gleisabschnitt idx="2" bereich="Schattenbahnhof1" name="W5" />
       <Gleisabschnitt idx="3" bereich="Schattenbahnhof1" name="W7" />
@@ -273,7 +273,7 @@
       <Weiche idx="4" bereich="Schattenbahnhof1" name="5" />
       <Weiche idx="5" bereich="Schattenbahnhof1" name="6" />
       <Weiche idx="6" bereich="Schattenbahnhof1" name="7" />
-      <Weiche idx="7" bereich="Schattenbahnhof1" name="8" />
+      <Weiche idx="7" bereich="Schattenbahnhof1" name="9" />
     </WDMiba>
     <WDMiba id="FD-2003-3" adr="72">
       <Weiche idx="0" bereich="Niederbach" name="8" />
@@ -1723,12 +1723,12 @@
       <Weiche name="10" stellung="GERADE" />
       <Weiche name="11" stellung="GERADE" schutz="true" />
       <Gleisabschnitt name="W10" />
-      <Gleisabschnitt name="W8" />
+      <Gleisabschnitt name="W9" />
     </Fahrstrasse>
 
     <Fahrstrasse bereich="Schattenbahnhof1" zaehlrichtung="false">
-      <Gleisabschnitt name="W8" />
-      <Weiche name="8" stellung="ABZWEIGEND" />
+      <Gleisabschnitt name="W9" />
+      <Weiche name="9" stellung="ABZWEIGEND" />
       <Gleisabschnitt name="W6" />
     </Fahrstrasse>
 
@@ -1755,8 +1755,8 @@
     </Fahrstrasse>
 
     <Fahrstrasse bereich="Schattenbahnhof1" zaehlrichtung="false">
-      <Gleisabschnitt name="W8" />
-      <Weiche name="8" stellung="GERADE" />
+      <Gleisabschnitt name="W9" />
+      <Weiche name="9" stellung="GERADE" />
       <Gleisabschnitt name="W7" />
     </Fahrstrasse>
 
@@ -1882,12 +1882,12 @@
 
     <Fahrstrasse bereich="Schattenbahnhof1" zaehlrichtung="true">
       <Gleisabschnitt name="W6" />
-      <Weiche name="8" stellung="ABZWEIGEND" />
-      <Gleisabschnitt name="W8" />
+      <Weiche name="9" stellung="ABZWEIGEND" />
+      <Gleisabschnitt name="W9" />
     </Fahrstrasse>
 
     <Fahrstrasse bereich="Schattenbahnhof1" zaehlrichtung="true">
-      <Gleisabschnitt name="W8" />
+      <Gleisabschnitt name="W9" />
       <Gleisabschnitt name="W10" />
       <Weiche name="10" stellung="ABZWEIGEND" />
       <Weiche name="11" stellung="ABZWEIGEND" />
@@ -1924,8 +1924,8 @@
 
     <Fahrstrasse bereich="Schattenbahnhof1" zaehlrichtung="true">
       <Gleisabschnitt name="W7" />
-      <Weiche name="8" stellung="GERADE" />
-      <Gleisabschnitt name="W8" />
+      <Weiche name="9" stellung="GERADE" />
+      <Gleisabschnitt name="W9" />
     </Fahrstrasse>
 
     <Fahrstrasse bereich="Schattenbahnhof1" zaehlrichtung="true">
@@ -2580,7 +2580,7 @@
       </Zeile>
       <Zeile>
         <Element typ="GleisAbschnitt" lage="N,S" name="K4" />
-        <Element typ="Weiche" lage="N|NO,S" name="8" />
+        <Element typ="Weiche" lage="N|NO,S" name="9" />
       </Zeile>
       <Zeile>
         <Element typ="GleisAbschnitt" lage="N,S" name="K4" />
