@@ -156,7 +156,7 @@ public class FahrstrassenMonitor
       this.besetzt = this.gleisabschnitt.isBesetzt();
     }
 
-    public GleisabschnittStatus(String name, boolean besetzt, boolean durchfahren)
+    private GleisabschnittStatus(String name, boolean besetzt, boolean durchfahren)
     {
       this.name = name;
       this.besetzt = besetzt;
