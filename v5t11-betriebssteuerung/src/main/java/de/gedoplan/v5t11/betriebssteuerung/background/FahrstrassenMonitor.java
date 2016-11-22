@@ -100,8 +100,19 @@ public class FahrstrassenMonitor
         {
           // Fahrstrasse komplett freigeben
           this.fahrstrassenSteuerung.fahrstrasseFreigeben(this.fahrstrasse, null);
+          return;
         }
       }
+
+      // Falls restliche Fahrstrasse komplett belegt, ist Komplettfreigabe möglich
+      for (GleisabschnittStatus gleisabschnittStatus : this.gleisabschnittStatusListe)
+      {
+        if (!gleisabschnittStatus.besetzt)
+        {
+          return;
+        }
+      }
+      this.fahrstrassenSteuerung.fahrstrasseFreigeben(this.fahrstrasse, null);
     }
   }
 
@@ -147,7 +158,7 @@ public class FahrstrassenMonitor
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see java.lang.Object#toString()
      */
     @Override
