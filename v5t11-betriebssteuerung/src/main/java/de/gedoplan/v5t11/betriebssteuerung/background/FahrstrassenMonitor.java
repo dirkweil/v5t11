@@ -28,18 +28,24 @@ public class FahrstrassenMonitor
     this.fahrstrasse = fahrstrasse;
     this.fahrstrassenSteuerung = fahrstrassenSteuerung;
 
+    GleisabschnittStatus gleisabschnittStatus = null;
     for (FahrstrassenElement element : fahrstrasse.getElemente())
     {
       if (element instanceof FahrstrassenGleisabschnitt)
       {
         Gleisabschnitt gleisabschnitt = ((FahrstrassenGleisabschnitt) element).getFahrwegelement();
         this.gleisabschnitte.add(gleisabschnitt);
-        this.gleisabschnittStatusListe.add(new GleisabschnittStatus(gleisabschnitt));
+        gleisabschnittStatus = new GleisabschnittStatus(gleisabschnitt);
+        this.gleisabschnittStatusListe.add(gleisabschnittStatus);
 
         if (LOG.isDebugEnabled())
         {
           LOG.debug("Monitor fuer " + fahrstrasse + " ueberwacht " + gleisabschnitt);
         }
+      }
+      else if (gleisabschnittStatus != null)
+      {
+        gleisabschnittStatus.gleisabschnittFolgt = false;
       }
     }
   }
@@ -104,10 +110,10 @@ public class FahrstrassenMonitor
         }
       }
 
-      // Falls restliche Fahrstrasse komplett belegt, ist Komplettfreigabe möglich
+      // Falls restliche Fahrstrasse nur aus besetzten Gleisabschnitten besteht, ist Komplettfreigabe möglich
       for (GleisabschnittStatus gleisabschnittStatus : this.gleisabschnittStatusListe)
       {
-        if (!gleisabschnittStatus.besetzt)
+        if (!gleisabschnittStatus.besetzt || !gleisabschnittStatus.gleisabschnittFolgt)
         {
           return;
         }
@@ -119,6 +125,7 @@ public class FahrstrassenMonitor
   private static class GleisabschnittStatus
   {
     private Gleisabschnitt gleisabschnitt;
+    private boolean        gleisabschnittFolgt = true;
     private boolean        besetzt;
     private boolean        durchfahren;
     private String         name;
