@@ -1,8 +1,8 @@
 package de.gedoplan.v5t11.betriebssteuerung.model;
 
-import de.gedoplan.v5t11.betriebssteuerung.service.SD8ConfigurationAdapter;
-import de.gedoplan.v5t11.betriebssteuerung.service.SD8ConfigurationAdapter.ServoConfiguration;
-import de.gedoplan.v5t11.betriebssteuerung.service.SD8RuntimeService;
+import de.gedoplan.v5t11.betriebssteuerung.service.funktionsdecoder.sd8.SD8ConfigurationAdapter;
+import de.gedoplan.v5t11.betriebssteuerung.service.funktionsdecoder.sd8.SD8RuntimeService;
+import de.gedoplan.v5t11.betriebssteuerung.service.funktionsdecoder.sd8.SD8ConfigurationAdapter.ServoConfiguration;
 
 import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.inject.Model;

@@ -1,6 +1,7 @@
-package de.gedoplan.v5t11.betriebssteuerung.service;
+package de.gedoplan.v5t11.betriebssteuerung.service.funktionsdecoder.sd8;
 
-import de.gedoplan.v5t11.betriebssteuerung.service.SD8ConfigurationAdapter.ServoConfiguration;
+import de.gedoplan.v5t11.betriebssteuerung.service.ConfigurationRuntimeService;
+import de.gedoplan.v5t11.betriebssteuerung.service.funktionsdecoder.sd8.SD8ConfigurationAdapter.ServoConfiguration;
 
 import javax.enterprise.context.ApplicationScoped;
 
@@ -8,20 +9,17 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 @ApplicationScoped
-public class SD8RuntimeService extends ConfigurationRuntimeService<SD8ConfigurationAdapter>
-{
+public class SD8RuntimeService extends ConfigurationRuntimeService<SD8ConfigurationAdapter> {
   private static final int WAIT_MILLIS = 1000;
 
-  private static Log       LOG         = LogFactory.getLog(SD8RuntimeService.class);
+  private static Log LOG = LogFactory.getLog(SD8RuntimeService.class);
 
   @Override
-  public void getRuntimeValues(SD8ConfigurationAdapter configuration)
-  {
+  public void getRuntimeValues(SD8ConfigurationAdapter configuration) {
     configuration.setAdresseIst(getParameter(0));
     configuration.clearAdresseDirty();
 
-    for (ServoConfiguration servo : configuration.getServo())
-    {
+    for (ServoConfiguration servo : configuration.getServo()) {
       int parameterNummer = servo.getServoNummer() * 3 - 1;
       servo.getStart().setIst(getParameter(parameterNummer));
       servo.getStart().clearDirty();
@@ -36,81 +34,65 @@ public class SD8RuntimeService extends ConfigurationRuntimeService<SD8Configurat
   }
 
   @Override
-  public void setRuntimeValues(SD8ConfigurationAdapter configuration)
-  {
+  public void setRuntimeValues(SD8ConfigurationAdapter configuration) {
     setRuntimeValues(configuration, 0);
   }
 
-  public void setRuntimeValues(SD8ConfigurationAdapter configuration, int servoNummer)
-  {
-    if (servoNummer == 0)
-    {
+  public void setRuntimeValues(SD8ConfigurationAdapter configuration, int servoNummer) {
+    if (servoNummer == 0) {
       setParameter(0, configuration.getAdresseIst());
       setParameter(1, 255);
       configuration.clearAdresseDirty();
     }
 
-    for (ServoConfiguration servo : configuration.getServo())
-    {
-      if (servoNummer == 0 || servoNummer == servo.getServoNummer())
-      {
+    for (ServoConfiguration servo : configuration.getServo()) {
+      if (servoNummer == 0 || servoNummer == servo.getServoNummer()) {
         int parameterNummer = servo.getServoNummer() * 3 - 1;
-        if (servo.getStart().isDirty())
-        {
+        if (servo.getStart().isDirty()) {
           setParameter(parameterNummer, servo.getStart().getIst());
           servo.getStart().clearDirty();
         }
-        if (servo.getEnde().isDirty())
-        {
+        if (servo.getEnde().isDirty()) {
           setParameter(parameterNummer + 1, servo.getEnde().getIst());
           servo.getEnde().clearDirty();
         }
-        if (servo.getGeschwindigkeit().isDirty())
-        {
+        if (servo.getGeschwindigkeit().isDirty()) {
           setParameter(parameterNummer + 2, servo.getGeschwindigkeit().getIst());
           servo.getGeschwindigkeit().clearDirty();
         }
       }
     }
 
-    if (configuration.getAbschaltZeit().isDirty())
-    {
+    if (configuration.getAbschaltZeit().isDirty()) {
       setParameter(26, configuration.getAbschaltZeit().getIst());
       configuration.getAbschaltZeit().clearDirty();
     }
   }
 
-  private int getParameter(int parameterNummer)
-  {
-    if (LOG.isDebugEnabled())
-    {
+  private int getParameter(int parameterNummer) {
+    if (LOG.isDebugEnabled()) {
       LOG.debug("getParameter: set parameterNummer=" + parameterNummer);
     }
     int oldValue = this.selectrixGateway.getValue(2, true);
     this.selectrixGateway.setValue(1, parameterNummer);
 
     int value = 0;
-    for (int i = 0; i < 10; ++i)
-    {
+    for (int i = 0; i < 10; ++i) {
       delay(WAIT_MILLIS / 10);
 
       value = this.selectrixGateway.getValue(2, true);
-      if (value != oldValue)
-      {
+      if (value != oldValue) {
         break;
       }
     }
-    if (LOG.isDebugEnabled())
-    {
+    if (LOG.isDebugEnabled()) {
       LOG.debug("getParameter: get value=" + value);
     }
     return value;
   }
 
-  private void setParameter(int parameterNummer, int newValue)
-  {
-    if (LOG.isDebugEnabled())
-    {
+  private void setParameter(int parameterNummer, int newValue) {
+    if (LOG.isDebugEnabled()) {
       LOG.debug("setParameter: set parameterNummer=" + parameterNummer);
     }
     this.selectrixGateway.setValue(1, parameterNummer);
@@ -118,15 +100,12 @@ public class SD8RuntimeService extends ConfigurationRuntimeService<SD8Configurat
     delay(WAIT_MILLIS);
 
     int oldValue = this.selectrixGateway.getValue(2, true);
-    if (LOG.isDebugEnabled())
-    {
+    if (LOG.isDebugEnabled()) {
       LOG.debug("setParameter: get old value=" + oldValue);
     }
 
-    if (newValue != oldValue)
-    {
-      if (LOG.isDebugEnabled())
-      {
+    if (newValue != oldValue) {
+      if (LOG.isDebugEnabled()) {
         LOG.debug("setParameter: set new value=" + newValue);
       }
 
@@ -135,29 +114,21 @@ public class SD8RuntimeService extends ConfigurationRuntimeService<SD8Configurat
     }
   }
 
-  private static void delay(long millis)
-  {
-    try
-    {
+  private static void delay(long millis) {
+    try {
       Thread.sleep(millis);
-    }
-    catch (Exception e)
-    {
+    } catch (Exception e) {
       // ignore
     }
   }
 
-  public void setServostellung(int servoNummer, boolean ende)
-  {
+  public void setServostellung(int servoNummer, boolean ende) {
     int mask = 1 << (servoNummer - 1);
 
     int value = this.selectrixGateway.getValue(0);
-    if (ende)
-    {
+    if (ende) {
       value |= mask;
-    }
-    else
-    {
+    } else {
       value &= (~mask);
     }
     this.selectrixGateway.setValue(0, value);

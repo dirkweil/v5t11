@@ -1,12 +1,14 @@
-package de.gedoplan.v5t11.betriebssteuerung.service;
+package de.gedoplan.v5t11.betriebssteuerung.service.funktionsdecoder.wdmiba;
+
+import de.gedoplan.v5t11.betriebssteuerung.service.ConfigurationRuntimeService;
 
 import javax.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
-public class WDMiba3RuntimeService extends ConfigurationRuntimeService<WDMiba3ConfigurationAdapter>
+public class WDMibaRuntimeService extends ConfigurationRuntimeService<WDMibaConfigurationAdapter>
 {
   @Override
-  public void getRuntimeValues(WDMiba3ConfigurationAdapter configuration)
+  public void getRuntimeValues(WDMibaConfigurationAdapter configuration)
   {
     configuration.setAdresseIst(this.selectrixGateway.getValue(0));
 
@@ -15,12 +17,10 @@ public class WDMiba3RuntimeService extends ConfigurationRuntimeService<WDMiba3Co
     {
       configuration.getDauer()[i].setIst((betriebsArt & bit) != 0);
     }
-
-    configuration.getImpulsDauer().setIst(this.selectrixGateway.getValue(2) * 80);
   }
 
   @Override
-  public void setRuntimeValues(WDMiba3ConfigurationAdapter configuration)
+  public void setRuntimeValues(WDMibaConfigurationAdapter configuration)
   {
     this.selectrixGateway.setValue(0, configuration.getAdresseIst());
 
@@ -33,17 +33,6 @@ public class WDMiba3RuntimeService extends ConfigurationRuntimeService<WDMiba3Co
       }
     }
     this.selectrixGateway.setValue(1, betriebsArt);
-
-    int dauerIn80ms = configuration.getImpulsDauer().getIst() / 80;
-    if (dauerIn80ms < 1)
-    {
-      dauerIn80ms = 1;
-    }
-    if (dauerIn80ms > 254)
-    {
-      dauerIn80ms = 254;
-    }
-    this.selectrixGateway.setValue(2, dauerIn80ms);
-    this.selectrixGateway.setValue(3, 255);
   }
+
 }

@@ -1,13 +1,15 @@
-package de.gedoplan.v5t11.betriebssteuerung.service;
+package de.gedoplan.v5t11.betriebssteuerung.service.funktionsdecoder.wdmiba3;
 
 import de.gedoplan.v5t11.betriebssteuerung.entity.BausteinConfiguration;
+import de.gedoplan.v5t11.betriebssteuerung.service.ConfigurationPropertyAdapter;
+import de.gedoplan.v5t11.betriebssteuerung.service.funktionsdecoder.FunktionsdecoderConfigurationAdapter;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.baustein.Baustein;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.baustein.Funktionsdecoder;
 
 import java.util.Collections;
 import java.util.Map;
 
-public class STRFD1ConfigurationAdapter extends FunktionsdecoderConfigurationAdapter
+public class WDMiba3ConfigurationAdapter extends FunktionsdecoderConfigurationAdapter
 {
   private ConfigurationPropertyAdapter<Integer> impulsDauer;
 
@@ -15,7 +17,7 @@ public class STRFD1ConfigurationAdapter extends FunktionsdecoderConfigurationAda
    * @param istConfiguration
    * @param sollConfiguration
    */
-  public STRFD1ConfigurationAdapter(Funktionsdecoder funktionsdecoder, BausteinConfiguration istConfiguration, BausteinConfiguration sollConfiguration)
+  public WDMiba3ConfigurationAdapter(Funktionsdecoder funktionsdecoder, BausteinConfiguration istConfiguration, BausteinConfiguration sollConfiguration)
   {
     super(funktionsdecoder, istConfiguration, sollConfiguration);
 
@@ -43,9 +45,9 @@ public class STRFD1ConfigurationAdapter extends FunktionsdecoderConfigurationAda
     return this.impulsDauer;
   }
 
-  public static STRFD1ConfigurationAdapter createInstance(Baustein baustein, BausteinConfiguration istConfiguration, BausteinConfiguration sollConfiguration)
+  public static WDMiba3ConfigurationAdapter createInstance(Baustein baustein, BausteinConfiguration istConfiguration, BausteinConfiguration sollConfiguration)
   {
-    return new STRFD1ConfigurationAdapter((Funktionsdecoder) baustein, istConfiguration, sollConfiguration);
+    return new WDMiba3ConfigurationAdapter((Funktionsdecoder) baustein, istConfiguration, sollConfiguration);
   }
 
 }

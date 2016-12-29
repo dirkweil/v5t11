@@ -1,4 +1,6 @@
-package de.gedoplan.v5t11.betriebssteuerung.service;
+package de.gedoplan.v5t11.betriebssteuerung.service.funktionsdecoder.strfd1;
+
+import de.gedoplan.v5t11.betriebssteuerung.service.ConfigurationRuntimeService;
 
 import javax.enterprise.context.ApplicationScoped;
 

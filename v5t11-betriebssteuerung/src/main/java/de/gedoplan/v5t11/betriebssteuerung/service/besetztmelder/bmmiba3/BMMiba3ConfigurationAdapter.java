@@ -1,6 +1,8 @@
-package de.gedoplan.v5t11.betriebssteuerung.service;
+package de.gedoplan.v5t11.betriebssteuerung.service.besetztmelder.bmmiba3;
 
 import de.gedoplan.v5t11.betriebssteuerung.entity.BausteinConfiguration;
+import de.gedoplan.v5t11.betriebssteuerung.service.ConfigurationAdapter;
+import de.gedoplan.v5t11.betriebssteuerung.service.ConfigurationPropertyAdapter;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.baustein.Baustein;
 
 import java.util.Collections;

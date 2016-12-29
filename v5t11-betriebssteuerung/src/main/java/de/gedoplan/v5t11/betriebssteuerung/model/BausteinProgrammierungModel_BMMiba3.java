@@ -1,7 +1,7 @@
 package de.gedoplan.v5t11.betriebssteuerung.model;
 
-import de.gedoplan.v5t11.betriebssteuerung.service.BMMiba3ConfigurationAdapter;
-import de.gedoplan.v5t11.betriebssteuerung.service.BMMiba3RuntimeService;
+import de.gedoplan.v5t11.betriebssteuerung.service.besetztmelder.bmmiba3.BMMiba3ConfigurationAdapter;
+import de.gedoplan.v5t11.betriebssteuerung.service.besetztmelder.bmmiba3.BMMiba3RuntimeService;
 
 import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.inject.Model;

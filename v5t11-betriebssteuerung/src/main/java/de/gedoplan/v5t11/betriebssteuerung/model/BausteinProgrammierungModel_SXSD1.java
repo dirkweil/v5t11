@@ -1,7 +1,7 @@
 package de.gedoplan.v5t11.betriebssteuerung.model;
 
-import de.gedoplan.v5t11.betriebssteuerung.service.SXSD1ConfigurationAdapter;
-import de.gedoplan.v5t11.betriebssteuerung.service.SXSD1RuntimeService;
+import de.gedoplan.v5t11.betriebssteuerung.service.funktionsdecoder.sxsd1.SXSD1ConfigurationAdapter;
+import de.gedoplan.v5t11.betriebssteuerung.service.funktionsdecoder.sxsd1.SXSD1RuntimeService;
 
 import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.inject.Model;

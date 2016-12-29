@@ -1,6 +1,7 @@
-package de.gedoplan.v5t11.betriebssteuerung.service;
+package de.gedoplan.v5t11.betriebssteuerung.service.funktionsdecoder;
 
 import de.gedoplan.v5t11.betriebssteuerung.entity.BausteinConfiguration;
+import de.gedoplan.v5t11.betriebssteuerung.service.ConfigurationAdapter;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.baustein.Funktionsdecoder;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.fahrweg.Geraet;
 

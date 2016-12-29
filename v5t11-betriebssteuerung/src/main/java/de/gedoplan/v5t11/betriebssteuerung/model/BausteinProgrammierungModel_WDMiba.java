@@ -1,7 +1,7 @@
 package de.gedoplan.v5t11.betriebssteuerung.model;
 
-import de.gedoplan.v5t11.betriebssteuerung.service.WDMibaConfigurationAdapter;
-import de.gedoplan.v5t11.betriebssteuerung.service.WDMibaRuntimeService;
+import de.gedoplan.v5t11.betriebssteuerung.service.funktionsdecoder.wdmiba.WDMibaConfigurationAdapter;
+import de.gedoplan.v5t11.betriebssteuerung.service.funktionsdecoder.wdmiba.WDMibaRuntimeService;
 
 import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.inject.Model;

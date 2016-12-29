@@ -1,7 +1,7 @@
 package de.gedoplan.v5t11.betriebssteuerung.model;
 
-import de.gedoplan.v5t11.betriebssteuerung.service.DHL100ConfigurationAdapter;
-import de.gedoplan.v5t11.betriebssteuerung.service.DHL100RuntimeService;
+import de.gedoplan.v5t11.betriebssteuerung.service.lokdecoder.dhl100.DHL100ConfigurationAdapter;
+import de.gedoplan.v5t11.betriebssteuerung.service.lokdecoder.dhl100.DHL100RuntimeService;
 
 import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.inject.Model;

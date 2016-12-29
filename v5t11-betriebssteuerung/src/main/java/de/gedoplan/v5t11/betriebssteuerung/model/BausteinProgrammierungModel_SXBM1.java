@@ -1,7 +1,7 @@
 package de.gedoplan.v5t11.betriebssteuerung.model;
 
-import de.gedoplan.v5t11.betriebssteuerung.service.SXBM1ConfigurationAdapter;
-import de.gedoplan.v5t11.betriebssteuerung.service.SXBM1RuntimeService;
+import de.gedoplan.v5t11.betriebssteuerung.service.besetztmelder.sxbm1.SXBM1ConfigurationAdapter;
+import de.gedoplan.v5t11.betriebssteuerung.service.besetztmelder.sxbm1.SXBM1RuntimeService;
 
 import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.inject.Model;

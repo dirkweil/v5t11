@@ -1,6 +1,7 @@
-package de.gedoplan.v5t11.betriebssteuerung.service;
+package de.gedoplan.v5t11.betriebssteuerung.service.funktionsdecoder.wdmiba;
 
 import de.gedoplan.v5t11.betriebssteuerung.entity.BausteinConfiguration;
+import de.gedoplan.v5t11.betriebssteuerung.service.funktionsdecoder.FunktionsdecoderConfigurationAdapter;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.baustein.Baustein;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.baustein.Funktionsdecoder;
 

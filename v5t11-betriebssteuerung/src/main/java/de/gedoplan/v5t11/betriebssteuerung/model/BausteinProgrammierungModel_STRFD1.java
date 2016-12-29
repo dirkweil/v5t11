@@ -1,7 +1,7 @@
 package de.gedoplan.v5t11.betriebssteuerung.model;
 
-import de.gedoplan.v5t11.betriebssteuerung.service.STRFD1ConfigurationAdapter;
-import de.gedoplan.v5t11.betriebssteuerung.service.STRFD1RuntimeService;
+import de.gedoplan.v5t11.betriebssteuerung.service.funktionsdecoder.strfd1.STRFD1ConfigurationAdapter;
+import de.gedoplan.v5t11.betriebssteuerung.service.funktionsdecoder.strfd1.STRFD1RuntimeService;
 
 import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.inject.Model;

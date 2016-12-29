@@ -1,17 +1,16 @@
-package de.gedoplan.v5t11.betriebssteuerung.service;
+package de.gedoplan.v5t11.betriebssteuerung.service.besetztmelder.bmmiba3;
 
-import de.gedoplan.v5t11.betriebssteuerung.service.BMMiba3ConfigurationAdapter.MeldungsModus;
-import de.gedoplan.v5t11.betriebssteuerung.service.BMMiba3ConfigurationAdapter.MeldungsSpeicherung;
-import de.gedoplan.v5t11.betriebssteuerung.service.BMMiba3ConfigurationAdapter.Zeittakt;
+import de.gedoplan.v5t11.betriebssteuerung.service.ConfigurationRuntimeService;
+import de.gedoplan.v5t11.betriebssteuerung.service.besetztmelder.bmmiba3.BMMiba3ConfigurationAdapter.MeldungsModus;
+import de.gedoplan.v5t11.betriebssteuerung.service.besetztmelder.bmmiba3.BMMiba3ConfigurationAdapter.MeldungsSpeicherung;
+import de.gedoplan.v5t11.betriebssteuerung.service.besetztmelder.bmmiba3.BMMiba3ConfigurationAdapter.Zeittakt;
 
 import javax.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
-public class BMMiba3RuntimeService extends ConfigurationRuntimeService<BMMiba3ConfigurationAdapter>
-{
+public class BMMiba3RuntimeService extends ConfigurationRuntimeService<BMMiba3ConfigurationAdapter> {
   @Override
-  public void getRuntimeValues(BMMiba3ConfigurationAdapter configuration)
-  {
+  public void getRuntimeValues(BMMiba3ConfigurationAdapter configuration) {
     configuration.setAdresseIst(this.selectrixGateway.getValue(0));
 
     configuration.getAnsprechVerzoegerung().setIst(this.selectrixGateway.getValue(1));
@@ -27,15 +26,13 @@ public class BMMiba3RuntimeService extends ConfigurationRuntimeService<BMMiba3Co
   }
 
   @Override
-  public void setRuntimeValues(BMMiba3ConfigurationAdapter configuration)
-  {
+  public void setRuntimeValues(BMMiba3ConfigurationAdapter configuration) {
     this.selectrixGateway.setValue(0, configuration.getAdresseIst());
     this.selectrixGateway.setValue(1, configuration.getAnsprechVerzoegerung().getIst());
     this.selectrixGateway.setValue(2, configuration.getAbfallVerzoegerung().getIst());
     int options = configuration.getMeldungBeiZeStopp().getIst().getBits();
     options |= configuration.getMeldungBeiFehlendemFahrstrom().getIst().getBits() << 2;
-    if (configuration.getMeldungsNegation().getIst())
-    {
+    if (configuration.getMeldungsNegation().getIst()) {
       options |= 0b00010000;
     }
     options |= configuration.getZeittakt().getIst().getBits() << 5;
