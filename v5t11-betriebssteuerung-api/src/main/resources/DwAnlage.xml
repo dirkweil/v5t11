@@ -16,7 +16,7 @@
     </properties>
   </Lok>
   <Lok id="430 119-8" bild="lok_430.png" adr="16" decoder="DHL100" />
-  <Lok id="110 222-7" bild="lok_110.pnFDg" adr="17" decoder="DHL100">
+  <Lok id="110 222-7" bild="lok_110.png" adr="17" decoder="DHL100">
     <properties>
       <property name="xmotor" value="true" />
     </properties>
