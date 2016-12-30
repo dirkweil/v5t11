@@ -3,6 +3,7 @@ package de.gedoplan.v5t11.betriebssteuerung.service;
 import de.gedoplan.v5t11.betriebssteuerung.entity.BausteinConfiguration;
 
 import java.lang.reflect.Method;
+import java.util.Collections;
 import java.util.Map;
 
 import lombok.Getter;
@@ -28,7 +29,11 @@ import lombok.Getter;
 public abstract class ConfigurationAdapter {
   protected BausteinConfiguration sollConfiguration;
   protected BausteinConfiguration istConfiguration;
+
   protected boolean adresseDirty;
+
+  protected Map<String, String> istProperties;
+  protected Map<String, String> sollProperties;
 
   /**
    * @param istConfiguration
@@ -37,6 +42,16 @@ public abstract class ConfigurationAdapter {
   public ConfigurationAdapter(BausteinConfiguration istConfiguration, BausteinConfiguration sollConfiguration) {
     this.istConfiguration = istConfiguration;
     this.sollConfiguration = sollConfiguration;
+
+    this.istProperties = this.istConfiguration.getProperties();
+    this.sollProperties = null;
+    if (this.sollConfiguration != null) {
+      this.sollProperties = this.sollConfiguration.getProperties();
+    }
+    if (this.sollProperties == null) {
+      this.sollProperties = Collections.emptyMap();
+    }
+
   }
 
   public int getAdresseSoll() {
