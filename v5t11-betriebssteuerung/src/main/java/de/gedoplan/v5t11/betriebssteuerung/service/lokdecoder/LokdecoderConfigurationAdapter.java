@@ -24,8 +24,10 @@ public abstract class LokdecoderConfigurationAdapter extends ConfigurationAdapte
     this.lokdecoder = lokdecoder;
 
     this.impulsbreite = new ConfigurationPropertyAdapter<>(this.istProperties, "impulsbreite", Impulsbreite.KLEIN, this.sollProperties, Impulsbreite.class);
-    this.traegheit = new ConfigurationPropertyAdapter<>(this.istProperties, "traegheit", 4, this.sollProperties, Integer.class);
-    this.hoechstGeschwindigkeit = new ConfigurationPropertyAdapter<>(this.istProperties, "hoechstGeschwindigkeit", 5, this.sollProperties, Integer.class);
+    this.traegheit = new ConfigurationPropertyAdapter<>(this.istProperties, "traegheit", 4, this.sollProperties, Integer.class, Integer::valueOf,
+        () -> new Integer[] { 1, 2, 3, 4, 5, 6, 7 });
+    this.hoechstGeschwindigkeit = new ConfigurationPropertyAdapter<>(this.istProperties, "hoechstGeschwindigkeit", 5, this.sollProperties, Integer.class, Integer::valueOf,
+        () -> new Integer[] { 1, 2, 3, 4, 5, 6, 7 });
   }
 
   public Lokdecoder getlokdecoder() {

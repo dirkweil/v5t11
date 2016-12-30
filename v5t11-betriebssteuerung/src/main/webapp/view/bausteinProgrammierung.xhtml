@@ -15,16 +15,20 @@
         <prime:dataTable value="#{bausteinProgrammierungModel.konfigurierteBausteine}" var="baustein" sortBy="#{baustein.label}">
           <prime:column sortBy="#{baustein.label}">
             <f:facet name="header">Id</f:facet>
-            <prime:commandButton value="#{baustein.label}" action="#{bausteinProgrammierungModel.selectBaustein(baustein)}" ajax="false"/>
+            <prime:commandButton value="#{baustein.label}" action="#{bausteinProgrammierungModel.selectBaustein(baustein)}" ajax="false" />
           </prime:column>
-          <prime:column sortBy="#{baustein.adresse}" >
+          <prime:column>
+            <f:facet name="header">Typ</f:facet>
+            #{baustein.class.simpleName}
+          </prime:column>
+          <prime:column sortBy="#{baustein.adresse}">
             <f:facet name="header">Adresse</f:facet>
-          #{baustein.adresse}
-        </prime:column>
+            #{baustein.adresse}
+          </prime:column>
           <prime:column>
             <f:facet name="header">Einbauort</f:facet>
-          #{baustein.einbauOrt}
-        </prime:column>
+            #{baustein.einbauOrt}
+          </prime:column>
         </prime:dataTable>
       </prime:tab>
 
@@ -32,7 +36,7 @@
         <prime:dataTable value="#{bausteinProgrammierungModel.neueBausteine}" var="baustein" sortBy="#{baustein.label}">
           <prime:column sortBy="#{baustein.label}">
             <f:facet name="header">Typ</f:facet>
-            <prime:commandButton value="#{baustein.label}" action="#{bausteinProgrammierungModel.selectBaustein(baustein)}" ajax="false"/>
+            <prime:commandButton value="#{baustein.label}" action="#{bausteinProgrammierungModel.selectBaustein(baustein)}" ajax="false" />
           </prime:column>
         </prime:dataTable>
       </prime:tab>
