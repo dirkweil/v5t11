@@ -19,7 +19,7 @@ public class SD8RuntimeService extends ConfigurationRuntimeService<SD8Configurat
     configuration.setAdresseIst(getParameter(0));
     configuration.clearAdresseDirty();
 
-    for (ServoConfiguration servo : configuration.getServo()) {
+    for (ServoConfiguration servo : configuration.getServoConfiguration()) {
       int parameterNummer = servo.getServoNummer() * 3 - 1;
       servo.getStart().setIst(getParameter(parameterNummer));
       servo.getStart().clearDirty();
@@ -45,7 +45,7 @@ public class SD8RuntimeService extends ConfigurationRuntimeService<SD8Configurat
       configuration.clearAdresseDirty();
     }
 
-    for (ServoConfiguration servo : configuration.getServo()) {
+    for (ServoConfiguration servo : configuration.getServoConfiguration()) {
       if (servoNummer == 0 || servoNummer == servo.getServoNummer()) {
         int parameterNummer = servo.getServoNummer() * 3 - 1;
         if (servo.getStart().isDirty()) {

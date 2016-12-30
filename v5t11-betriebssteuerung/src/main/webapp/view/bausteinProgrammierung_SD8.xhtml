@@ -44,7 +44,7 @@
       <p:message for="istAbschaltZeit" />
     </h:panelGrid>
 
-    <p:dataTable value="#{bausteinProgrammierungModel_SD8.configuration.servo}" var="servo" emptyMessage="">
+    <p:dataTable value="#{bausteinProgrammierungModel_SD8.configuration.servoConfiguration}" var="servoConfiguration" emptyMessage="">
       <p:columnGroup type="header">
         <p:row>
           <p:column rowspan="2" headerText="Servo" />
@@ -64,32 +64,32 @@
         </p:row>
       </p:columnGroup>
       <p:column style="text-align: center;">
-        <h:outputText value="#{servo.servoNummer}" />
+        <h:outputText value="#{servoConfiguration.servoNummer}" />
       </p:column>
       <p:column style="text-align: center;">
-        <p:inputText value="#{servo.start.soll}" size="3" readonly="true" />
+        <p:inputText value="#{servoConfiguration.start.soll}" size="3" readonly="true" />
       </p:column>
       <p:column style="text-align: center;">
-        <p:inputText value="#{servo.ende.soll}" size="3" readonly="true" />
+        <p:inputText value="#{servoConfiguration.ende.soll}" size="3" readonly="true" />
       </p:column>
       <p:column style="text-align: center;">
-        <p:inputText value="#{servo.geschwindigkeit.soll}" size="3" readonly="true" />
+        <p:inputText value="#{servoConfiguration.geschwindigkeit.soll}" size="3" readonly="true" />
       </p:column>
       <p:column style="text-align: center;">
-        <p:commandButton value=">" action="#{servo.resetToSoll()}" ajax="false" />
+        <p:commandButton value=">" action="#{servoConfiguration.resetToSoll()}" ajax="false" />
       </p:column>
       <p:column style="text-align: center;">
-        <p:inputText value="#{servo.start.ist}" size="3" />
+        <p:inputText value="#{servoConfiguration.start.ist}" size="3" />
       </p:column>
       <p:column style="text-align: center;">
-        <p:inputText value="#{servo.ende.ist}" size="3" />
+        <p:inputText value="#{servoConfiguration.ende.ist}" size="3" />
       </p:column>
       <p:column style="text-align: center;">
-        <p:inputText value="#{servo.geschwindigkeit.ist}" size="3" />
+        <p:inputText value="#{servoConfiguration.geschwindigkeit.ist}" size="3" />
       </p:column>
       <p:column style="text-align: center;">
-        <p:commandButton value="Start" action="#{bausteinProgrammierungModel_SD8.testStart(servo)}" ajax="false"/>
-        <p:commandButton value="Ende" action="#{bausteinProgrammierungModel_SD8.testEnde(servo)}" ajax="false"/>
+        <p:commandButton value="Start" action="#{bausteinProgrammierungModel_SD8.testStart(servoConfiguration)}" ajax="false"/>
+        <p:commandButton value="Ende" action="#{bausteinProgrammierungModel_SD8.testEnde(servoConfiguration)}" ajax="false"/>
       </p:column>
     </p:dataTable>
     

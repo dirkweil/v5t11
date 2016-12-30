@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.lang.reflect.Method;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.inject.Instance;
+import javax.enterprise.inject.spi.CDI;
 import javax.inject.Inject;
 
 /**
@@ -18,23 +18,19 @@ import javax.inject.Inject;
  *
  * @author dw
  */
-public abstract class BausteinProgrammierungModel_XXX<A extends ConfigurationAdapter, S extends ConfigurationRuntimeService<A>> implements Serializable
-{
+public abstract class BausteinProgrammierungModel_XXX<A extends ConfigurationAdapter, S extends ConfigurationRuntimeService<A>> implements Serializable {
   @Inject
-  BausteinProgrammierungModel                      bausteinProgrammierungModel;
+  BausteinProgrammierungModel bausteinProgrammierungModel;
 
-  @Inject
-  private Instance<ConfigurationRuntimeService<A>> configurationRuntimeServices;
-  private Class<S>                                 configurationRuntimeServiceClass;
-  S                                                configurationRuntimeService;
+  private Class<S> configurationRuntimeServiceClass;
+  S configurationRuntimeService;
 
-  BausteinConfiguration                            currentBausteinIstConfiguration;
+  BausteinConfiguration currentBausteinIstConfiguration;
 
-  private Class<A>                                 configurationAdapterClass;
-  private A                                        configurationAdapter;
+  private Class<A> configurationAdapterClass;
+  private A configurationAdapter;
 
-  public BausteinProgrammierungModel_XXX(Class<A> configurationAdapterClass, Class<S> configurationRuntimeServiceClass)
-  {
+  public BausteinProgrammierungModel_XXX(Class<A> configurationAdapterClass, Class<S> configurationRuntimeServiceClass) {
     this.configurationAdapterClass = configurationAdapterClass;
     this.configurationRuntimeServiceClass = configurationRuntimeServiceClass;
   }
@@ -42,34 +38,23 @@ public abstract class BausteinProgrammierungModel_XXX<A extends ConfigurationAda
   /**
    *
    */
-  protected BausteinProgrammierungModel_XXX()
-  {
+  protected BausteinProgrammierungModel_XXX() {
   }
 
   @SuppressWarnings({ "unchecked" })
   @PostConstruct
-  private void init()
-  {
+  private void init() {
     // Manuelle Injektion in this.configurationRuntimeService
-    // TODO: Geht das nicht einfacher (mittels BeanManager o. ä.)?
-    Instance<S> select = this.configurationRuntimeServices.select(this.configurationRuntimeServiceClass);
-    if (select.isUnsatisfied() || select.isAmbiguous())
-    {
-      throw new BugException("Injection not resolveable");
-    }
-    this.configurationRuntimeService = select.iterator().next();
+    this.configurationRuntimeService = CDI.current().select(this.configurationRuntimeServiceClass).get();
 
     // Bausteinkonfiguration (Soll + Ist) erstellen
     this.currentBausteinIstConfiguration = new BausteinConfiguration(this.bausteinProgrammierungModel.getCurrentBaustein().getId());
 
-    try
-    {
+    try {
       Method createInstanceMethod = this.configurationAdapterClass.getMethod("createInstance", Baustein.class, BausteinConfiguration.class, BausteinConfiguration.class);
       this.configurationAdapter = (A) createInstanceMethod.invoke(
           null, this.bausteinProgrammierungModel.getCurrentBaustein(), this.currentBausteinIstConfiguration, this.bausteinProgrammierungModel.getCurrentBausteinSollConfiguration());
-    }
-    catch (Exception e)
-    {
+    } catch (Exception e) {
       throw new BugException("Cannot create configuration adapter", e);
     }
 
@@ -82,13 +67,11 @@ public abstract class BausteinProgrammierungModel_XXX<A extends ConfigurationAda
    *
    * @return Wert
    */
-  public A getConfiguration()
-  {
+  public A getConfiguration() {
     return this.configurationAdapter;
   }
 
-  public void program()
-  {
+  public void program() {
     this.configurationRuntimeService.setRuntimeValues(this.configurationAdapter);
 
     this.bausteinProgrammierungModel.setCurrentBausteinIstConfiguration(this.currentBausteinIstConfiguration);

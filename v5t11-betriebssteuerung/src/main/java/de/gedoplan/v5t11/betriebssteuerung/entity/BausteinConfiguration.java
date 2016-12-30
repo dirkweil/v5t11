@@ -14,27 +14,31 @@ import javax.persistence.Id;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * Bausteinkonfiguration.
- * 
+ *
  * @author dw
  */
 @Entity
 @Access(AccessType.FIELD)
-public class BausteinConfiguration extends SingleIdEntity<String>
-{
+@Getter
+public class BausteinConfiguration extends SingleIdEntity<String> {
   /**
    * Id des Bausteins.
    */
   @Id
-  private String              id;
+  private String id;
 
   /**
    * Adresse des Bausteins am SX-Bus.
    */
   @Min(0)
   @Max(127)
-  private int                 adresse;
+  @Setter
+  private int adresse;
 
   /**
    * Konfigurationswerte.
@@ -44,61 +48,18 @@ public class BausteinConfiguration extends SingleIdEntity<String>
 
   /**
    * Konstruktor.
-   * 
-   * @param id Id des Bausteins
+   *
+   * @param id
+   *          Id des Bausteins
    */
-  public BausteinConfiguration(String id)
-  {
+  public BausteinConfiguration(String id) {
     this.id = id;
-    this.properties = new HashMap<String, String>();
+    this.properties = new HashMap<>();
   }
 
   /**
    * Konstruktor (nur für JPA).
    */
-  protected BausteinConfiguration()
-  {
+  protected BausteinConfiguration() {
   }
-
-  /**
-   * Wert liefern: {@link #id}.
-   * 
-   * @return Wert
-   */
-  @Override
-  public String getId()
-  {
-    return this.id;
-  }
-
-  /**
-   * Wert liefern: {@link #adresse}.
-   * 
-   * @return Wert
-   */
-  public int getAdresse()
-  {
-    return this.adresse;
-  }
-
-  /**
-   * Wert setzen: {@link #adresse}.
-   * 
-   * @param adresse Wert
-   */
-  public void setAdresse(int adresse)
-  {
-    this.adresse = adresse;
-  }
-
-  /**
-   * Wert liefern: {@link #properties}.
-   * 
-   * @return Wert
-   */
-  public Map<String, String> getProperties()
-  {
-    return this.properties;
-  }
-
 }
