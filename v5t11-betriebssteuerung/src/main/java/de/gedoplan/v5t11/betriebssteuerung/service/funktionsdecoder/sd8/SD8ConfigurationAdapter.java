@@ -5,7 +5,6 @@ import de.gedoplan.v5t11.betriebssteuerung.service.ConfigurationAdapter;
 import de.gedoplan.v5t11.betriebssteuerung.service.funktionsdecoder.FunktionsdecoderConfigurationAdapter;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.baustein.Baustein;
 
-import java.util.Collections;
 import java.util.Map;
 
 import lombok.Getter;
@@ -27,21 +26,12 @@ public class SD8ConfigurationAdapter extends ConfigurationAdapter {
   public SD8ConfigurationAdapter(BausteinConfiguration istConfiguration, BausteinConfiguration sollConfiguration) {
     super(istConfiguration, sollConfiguration);
 
-    Map<String, String> istProperties = this.istConfiguration.getProperties();
-    Map<String, String> sollProperties = null;
-    if (this.sollConfiguration != null) {
-      sollProperties = this.sollConfiguration.getProperties();
-    }
-    if (sollProperties == null) {
-      sollProperties = Collections.emptyMap();
-    }
-
     this.servoConfiguration = new ServoConfiguration[8];
     for (int servoNummer = 1; servoNummer <= 8; ++servoNummer) {
-      this.servoConfiguration[servoNummer - 1] = new ServoConfiguration(servoNummer, istProperties, sollProperties);
+      this.servoConfiguration[servoNummer - 1] = new ServoConfiguration(servoNummer, this.istProperties, this.sollProperties);
     }
 
-    this.abschaltZeit = new ConfigurationPropertyAdapter<>(istProperties, "abschaltZeit", 0, sollProperties, Integer.class);
+    this.abschaltZeit = new ConfigurationPropertyAdapter<>(this.istProperties, "abschaltZeit", 0, this.sollProperties, Integer.class);
   }
 
   public static SD8ConfigurationAdapter createInstance(Baustein baustein, BausteinConfiguration istConfiguration, BausteinConfiguration sollConfiguration) {

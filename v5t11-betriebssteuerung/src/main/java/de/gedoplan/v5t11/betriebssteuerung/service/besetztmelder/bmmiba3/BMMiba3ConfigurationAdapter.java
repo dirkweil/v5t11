@@ -4,9 +4,6 @@ import de.gedoplan.v5t11.betriebssteuerung.entity.BausteinConfiguration;
 import de.gedoplan.v5t11.betriebssteuerung.service.ConfigurationAdapter;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.baustein.Baustein;
 
-import java.util.Collections;
-import java.util.Map;
-
 import lombok.Getter;
 
 /**
@@ -27,22 +24,13 @@ public class BMMiba3ConfigurationAdapter extends ConfigurationAdapter {
   public BMMiba3ConfigurationAdapter(BausteinConfiguration istConfiguration, BausteinConfiguration sollConfiguration) {
     super(istConfiguration, sollConfiguration);
 
-    Map<String, String> istProperties = this.istConfiguration.getProperties();
-    Map<String, String> sollProperties = null;
-    if (this.sollConfiguration != null) {
-      sollProperties = this.sollConfiguration.getProperties();
-    }
-    if (sollProperties == null) {
-      sollProperties = Collections.emptyMap();
-    }
-
-    this.ansprechVerzoegerung = new ConfigurationPropertyAdapter<>(istProperties, "ansprechVerzoegerung", 8, sollProperties, Integer.class);
-    this.abfallVerzoegerung = new ConfigurationPropertyAdapter<>(istProperties, "abfallVerzoegerung", 50, sollProperties, Integer.class);
-    this.zeittakt = new ConfigurationPropertyAdapter<>(istProperties, "zeitTakt", Zeittakt.TAKT_10MS, sollProperties, Zeittakt.class);
-    this.meldungsNegation = new ConfigurationPropertyAdapter<>(istProperties, "meldungsNegation", false, sollProperties, Boolean.class);
-    this.meldungBeiZeStopp = new ConfigurationPropertyAdapter<>(istProperties, "meldungBeiZeStopp", MeldungsModus.UNVERAENDERT, sollProperties, MeldungsModus.class);
-    this.meldungBeiFehlendemFahrstrom = new ConfigurationPropertyAdapter<>(istProperties, "meldungBeiFehlendemFahrstrom", MeldungsModus.UNVERAENDERT, sollProperties, MeldungsModus.class);
-    this.meldungsSpeicherung = new ConfigurationPropertyAdapter<>(istProperties, "meldungsSpeicherung", MeldungsSpeicherung.ZE_STOPP, sollProperties, MeldungsSpeicherung.class);
+    this.ansprechVerzoegerung = new ConfigurationPropertyAdapter<>(this.istProperties, "ansprechVerzoegerung", 8, this.sollProperties, Integer.class);
+    this.abfallVerzoegerung = new ConfigurationPropertyAdapter<>(this.istProperties, "abfallVerzoegerung", 50, this.sollProperties, Integer.class);
+    this.zeittakt = new ConfigurationPropertyAdapter<>(this.istProperties, "zeitTakt", Zeittakt.TAKT_10MS, this.sollProperties, Zeittakt.class);
+    this.meldungsNegation = new ConfigurationPropertyAdapter<>(this.istProperties, "meldungsNegation", false, this.sollProperties, Boolean.class);
+    this.meldungBeiZeStopp = new ConfigurationPropertyAdapter<>(this.istProperties, "meldungBeiZeStopp", MeldungsModus.UNVERAENDERT, this.sollProperties, MeldungsModus.class);
+    this.meldungBeiFehlendemFahrstrom = new ConfigurationPropertyAdapter<>(this.istProperties, "meldungBeiFehlendemFahrstrom", MeldungsModus.UNVERAENDERT, this.sollProperties, MeldungsModus.class);
+    this.meldungsSpeicherung = new ConfigurationPropertyAdapter<>(this.istProperties, "meldungsSpeicherung", MeldungsSpeicherung.ZE_STOPP, this.sollProperties, MeldungsSpeicherung.class);
   }
 
   public static BMMiba3ConfigurationAdapter createInstance(Baustein baustein, BausteinConfiguration istConfiguration, BausteinConfiguration sollConfiguration) {

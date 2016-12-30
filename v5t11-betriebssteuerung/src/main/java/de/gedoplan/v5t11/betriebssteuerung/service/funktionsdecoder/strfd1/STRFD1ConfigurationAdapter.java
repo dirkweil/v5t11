@@ -5,9 +5,6 @@ import de.gedoplan.v5t11.betriebssteuerung.service.funktionsdecoder.Funktionsdec
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.baustein.Baustein;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.baustein.Funktionsdecoder;
 
-import java.util.Collections;
-import java.util.Map;
-
 import lombok.Getter;
 
 /**
@@ -22,16 +19,7 @@ public class STRFD1ConfigurationAdapter extends FunktionsdecoderConfigurationAda
   public STRFD1ConfigurationAdapter(Funktionsdecoder funktionsdecoder, BausteinConfiguration istConfiguration, BausteinConfiguration sollConfiguration) {
     super(funktionsdecoder, istConfiguration, sollConfiguration);
 
-    Map<String, String> istProperties = this.istConfiguration.getProperties();
-    Map<String, String> sollProperties = null;
-    if (this.sollConfiguration != null) {
-      sollProperties = this.sollConfiguration.getProperties();
-    }
-    if (sollProperties == null) {
-      sollProperties = Collections.emptyMap();
-    }
-
-    this.impulsDauer = new ConfigurationPropertyAdapter<>(istProperties, "impulsDauer", 16 * 80, sollProperties, Integer.class);
+    this.impulsDauer = new ConfigurationPropertyAdapter<>(this.istProperties, "impulsDauer", 16 * 80, this.sollProperties, Integer.class);
   }
 
   public static STRFD1ConfigurationAdapter createInstance(Baustein baustein, BausteinConfiguration istConfiguration, BausteinConfiguration sollConfiguration) {

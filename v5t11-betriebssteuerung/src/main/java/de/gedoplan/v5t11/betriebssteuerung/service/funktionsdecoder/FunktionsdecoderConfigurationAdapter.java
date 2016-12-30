@@ -6,7 +6,6 @@ import de.gedoplan.v5t11.betriebssteuerung.steuerung.baustein.Funktionsdecoder;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.fahrweg.Geraet;
 
 import lombok.Getter;
-import lombok.Setter;
 
 /**
  * Konfigurations-Adapter für Funktionsdecoder.
@@ -17,18 +16,19 @@ import lombok.Setter;
 public abstract class FunktionsdecoderConfigurationAdapter extends ConfigurationAdapter {
   private Funktionsdecoder funktionsdecoder;
 
-  private DauerConfiguration[] dauer;
+  private ConfigurationPropertyAdapter<Boolean> dauer[];
 
   /**
    * @param funktionsdecoder
    */
+  @SuppressWarnings("unchecked")
   public FunktionsdecoderConfigurationAdapter(Funktionsdecoder funktionsdecoder, BausteinConfiguration istConfiguration, BausteinConfiguration sollConfiguration) {
     super(istConfiguration, sollConfiguration);
     this.funktionsdecoder = funktionsdecoder;
 
-    this.dauer = new DauerConfiguration[funktionsdecoder.getByteAnzahl() * 8];
+    this.dauer = new ConfigurationPropertyAdapter[funktionsdecoder.getByteAnzahl() * 8];
     for (int i = 0; i < this.dauer.length; ++i) {
-      this.dauer[i] = new DauerConfiguration();
+      this.dauer[i] = new ConfigurationPropertyAdapter<>(this.istProperties, "dauer_" + i, false, this.sollProperties, Boolean.class);
     }
 
     for (Geraet geraet : funktionsdecoder.getGeraete()) {
@@ -43,14 +43,7 @@ public abstract class FunktionsdecoderConfigurationAdapter extends Configuration
 
   public void resetDauerToSoll() {
     for (int i = 0; i < this.dauer.length; ++i) {
-      this.dauer[i].setIst(this.dauer[i].isSoll());
+      this.dauer[i].setIst(this.dauer[i].getSoll());
     }
-  }
-
-  @Getter
-  @Setter
-  public static class DauerConfiguration {
-    private boolean ist;
-    private boolean soll;
   }
 }

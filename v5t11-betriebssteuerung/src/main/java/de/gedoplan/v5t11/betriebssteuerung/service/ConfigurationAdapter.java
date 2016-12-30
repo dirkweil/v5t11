@@ -197,6 +197,11 @@ public abstract class ConfigurationAdapter {
       return getValueFrom(this.sollProperties);
     }
 
+    public void setSoll(T value) {
+      String valueAsString = value.toString();
+      this.sollProperties.put(this.key, valueAsString);
+    }
+
     public T getIst() {
       return getValueFrom(this.istProperties);
     }
