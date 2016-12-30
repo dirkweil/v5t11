@@ -23,34 +23,33 @@ import javax.inject.Inject;
  */
 @Model
 @SessionScoped
-public class BausteinProgrammierungModel implements Serializable
-{
+public class BausteinProgrammierungModel implements Serializable {
   @Inject
-  Steuerung                     steuerung;
+  Steuerung steuerung;
 
   @Inject
-  Instance<Baustein>            bausteinInstanzen;
+  Instance<Baustein> bausteinInstanzen;
 
   @Inject
-  BausteinConfigurationService  bausteinConfigurationService;
+  BausteinConfigurationService bausteinConfigurationService;
 
   @Inject
-  Conversation                  conversation;
+  Conversation conversation;
 
   /**
    * Liste aller konfigurierter Bausteine.
    */
-  private List<Baustein>        konfigurierteBausteine;
+  private List<Baustein> konfigurierteBausteine;
 
   /**
    * Liste aller nicht-konfigurierter Bausteine.
    */
-  private List<Baustein>        neueBausteine;
+  private List<Baustein> neueBausteine;
 
   /**
    * Aktueller Baustein.
    */
-  private Baustein              currentBaustein;
+  private Baustein currentBaustein;
 
   /**
    * Sollkonfiguration des aktuellen Bausteins.
@@ -60,7 +59,8 @@ public class BausteinProgrammierungModel implements Serializable
   /**
    * Istkonfiguration des aktuellen Bausteins.
    *
-   * Dieser Wert wird vom Presentation Model des jeweilligen Bausteins geliefert, wenn die Werte dauerhaft gespeichert werden
+   * Dieser Wert wird vom Presentation Model des jeweilligen Bausteins
+   * geliefert, wenn die Werte dauerhaft gespeichert werden
    * sollen. Ansonsten bleibt der Wert <code>null</code>.
    */
   private BausteinConfiguration currentBausteinIstConfiguration;
@@ -70,8 +70,7 @@ public class BausteinProgrammierungModel implements Serializable
    *
    * @return Wert
    */
-  public List<Baustein> getKonfigurierteBausteine()
-  {
+  public List<Baustein> getKonfigurierteBausteine() {
     return this.konfigurierteBausteine;
   }
 
@@ -80,8 +79,7 @@ public class BausteinProgrammierungModel implements Serializable
    *
    * @return Wert
    */
-  public List<Baustein> getNeueBausteine()
-  {
+  public List<Baustein> getNeueBausteine() {
     return this.neueBausteine;
   }
 
@@ -90,8 +88,7 @@ public class BausteinProgrammierungModel implements Serializable
    *
    * @return Wert
    */
-  public Baustein getCurrentBaustein()
-  {
+  public Baustein getCurrentBaustein() {
     return this.currentBaustein;
   }
 
@@ -100,8 +97,7 @@ public class BausteinProgrammierungModel implements Serializable
    *
    * @return Wert
    */
-  public BausteinConfiguration getCurrentBausteinSollConfiguration()
-  {
+  public BausteinConfiguration getCurrentBausteinSollConfiguration() {
     return this.currentBausteinSollConfiguration;
   }
 
@@ -110,38 +106,35 @@ public class BausteinProgrammierungModel implements Serializable
    *
    * @return Wert
    */
-  public BausteinConfiguration getCurrentBausteinIstConfiguration()
-  {
+  public BausteinConfiguration getCurrentBausteinIstConfiguration() {
     return this.currentBausteinIstConfiguration;
   }
 
   /**
    * Wert setzen: {@link #currentBausteinIstConfiguration}.
    *
-   * @param currentBausteinIstConfiguration Wert
+   * @param currentBausteinIstConfiguration
+   *          Wert
    */
-  public void setCurrentBausteinIstConfiguration(BausteinConfiguration currentBausteinIstConfiguration)
-  {
+  public void setCurrentBausteinIstConfiguration(BausteinConfiguration currentBausteinIstConfiguration) {
     this.currentBausteinIstConfiguration = currentBausteinIstConfiguration;
   }
 
   /**
    * Aktuellen Baustein wählen und Programm-Session beginnen.
    *
-   * @param baustein Wert
+   * @param baustein
+   *          Wert
    */
-  public String selectBaustein(Baustein baustein)
-  {
+  public String selectBaustein(Baustein baustein) {
     this.steuerung.getZentrale().setAktiv(false);
 
     this.currentBaustein = baustein;
-    if (this.currentBaustein == null)
-    {
+    if (this.currentBaustein == null) {
       return null;
     }
 
-    if (this.conversation.isTransient())
-    {
+    if (this.conversation.isTransient()) {
       this.conversation.begin();
     }
 
@@ -153,32 +146,29 @@ public class BausteinProgrammierungModel implements Serializable
   }
 
   /**
-   * Sollkonfiguration zum aktuellen Baustein besorgen und Einstelldialog beginnen.
+   * Sollkonfiguration zum aktuellen Baustein besorgen und Einstelldialog
+   * beginnen.
    *
    * @return Outcome
    */
-  public String edit()
-  {
-    if (this.currentBaustein == null)
-    {
+  public String edit() {
+    if (this.currentBaustein == null) {
       return null;
     }
 
     this.currentBausteinSollConfiguration = this.bausteinConfigurationService.getBausteinConfiguration(this.currentBaustein);
 
-    return "/view/bausteinProgrammierung_" + this.currentBaustein.getClass().getSimpleName() + "?faces-redirect=true";
+    return "/view/bausteinProgrammierung_" + this.currentBaustein.getProgrammierklasse().getSimpleName() + "?faces-redirect=true";
   }
 
   @PostConstruct
-  private void init()
-  {
-    this.konfigurierteBausteine = new ArrayList<Baustein>(this.steuerung.getBesetztmelder());
+  private void init() {
+    this.konfigurierteBausteine = new ArrayList<>(this.steuerung.getBesetztmelder());
     this.konfigurierteBausteine.addAll(this.steuerung.getFunktionsdecoder());
     this.konfigurierteBausteine.addAll(this.steuerung.getLokdecoder());
 
     this.neueBausteine = new ArrayList<>();
-    for (Baustein b : this.bausteinInstanzen)
-    {
+    for (Baustein b : this.bausteinInstanzen) {
       this.neueBausteine.add(b);
     }
   }
@@ -188,10 +178,8 @@ public class BausteinProgrammierungModel implements Serializable
    *
    * @return Outcome
    */
-  public String store()
-  {
-    if (this.currentBausteinIstConfiguration != null)
-    {
+  public String store() {
+    if (this.currentBausteinIstConfiguration != null) {
       this.bausteinConfigurationService.save(this.currentBausteinIstConfiguration);
     }
     return abort();
@@ -202,12 +190,10 @@ public class BausteinProgrammierungModel implements Serializable
    *
    * @return Outcome
    */
-  public String abort()
-  {
+  public String abort() {
     // TODO: Alte Werte der Kanäle 0..9 restaurieren
 
-    if (!this.conversation.isTransient())
-    {
+    if (!this.conversation.isTransient()) {
       this.conversation.end();
     }
 

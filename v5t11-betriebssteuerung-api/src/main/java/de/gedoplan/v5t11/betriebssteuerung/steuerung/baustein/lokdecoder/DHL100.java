@@ -7,7 +7,5 @@ package de.gedoplan.v5t11.betriebssteuerung.steuerung.baustein.lokdecoder;
  *
  * @author dw
  */
-public class DHL100 extends DuHLocdecoder
-{
-
+public class DHL100 extends DHLokdecoder {
 }
