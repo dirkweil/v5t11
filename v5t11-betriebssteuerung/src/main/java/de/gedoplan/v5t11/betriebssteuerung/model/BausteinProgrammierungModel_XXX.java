@@ -13,6 +13,9 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.inject.spi.CDI;
 import javax.inject.Inject;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * Basisklasse für Presentation Models für die Programmierung von Bausteinen.
  *
@@ -29,6 +32,8 @@ public abstract class BausteinProgrammierungModel_XXX<A extends ConfigurationAda
 
   private Class<A> configurationAdapterClass;
   private A configurationAdapter;
+
+  protected Log log = LogFactory.getLog(getClass());
 
   public BausteinProgrammierungModel_XXX(Class<A> configurationAdapterClass, Class<S> configurationRuntimeServiceClass) {
     this.configurationAdapterClass = configurationAdapterClass;
@@ -60,6 +65,10 @@ public abstract class BausteinProgrammierungModel_XXX<A extends ConfigurationAda
 
     // Ist-Konfiguration aus Baustein einlesen
     this.configurationRuntimeService.getRuntimeValues(this.configurationAdapter);
+
+    if (this.log.isDebugEnabled()) {
+      this.log.debug("Init: configurationRuntimeService=" + this.configurationRuntimeService + ", configurationAdapter=" + this.configurationAdapter);
+    }
   }
 
   /**

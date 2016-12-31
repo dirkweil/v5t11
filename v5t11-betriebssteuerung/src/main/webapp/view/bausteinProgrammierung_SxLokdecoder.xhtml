@@ -1,48 +1,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
   xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:p="http://primefaces.org/ui">
 
-<ui:composition template="/WEB-INF/templates/bausteinProgrammierung.xhtml">
+<ui:composition template="/WEB-INF/templates/bausteinProgrammierung_Lokdecoder.xhtml">
   <ui:param name="progMod" value="#{bausteinProgrammierungModel_SxLokdecoder}" />
-  <ui:define name="properties">
-    <h:panelGrid columns="5">
-      <h:panelGroup />
-      <h:outputText value="Soll" />
-      <h:panelGroup />
-      <h:outputText value="Ist" />
-      <h:panelGroup />
-
-      <h:outputText value="Adresse: " />
-      <p:inputText value="#{bausteinProgrammierungModel_SxLokdecoder.configuration.adresseSoll}" readonly="true" />
-      <p:commandButton value=">" action="#{bausteinProgrammierungModel_SxLokdecoder.configuration.adresseResetToSoll()}" ajax="false" />
-      <p:inputText value="#{bausteinProgrammierungModel_SxLokdecoder.configuration.adresseIst}" id="istAdresse" />
-      <p:message for="istAdresse" />
-
-      <h:outputText value="Höchstgeschwindigkeit: " />
-      <p:inputText value="#{bausteinProgrammierungModel_SxLokdecoder.configuration.hoechstGeschwindigkeit.soll}" readonly="true" />
-      <p:commandButton value=">" action="#{bausteinProgrammierungModel_SxLokdecoder.configuration.hoechstGeschwindigkeit.resetToSoll()}" ajax="false" />
-      <p:selectOneMenu value="#{bausteinProgrammierungModel_SxLokdecoder.configuration.hoechstGeschwindigkeit.ist}" id="istHoechstGeschwindigkeit">
-        <f:selectItems value="#{bausteinProgrammierungModel_SxLokdecoder.configuration.hoechstGeschwindigkeit.values}" />
-      </p:selectOneMenu>
-      <p:message for="istHoechstGeschwindigkeit" />
-
-      <h:outputText value="Trägheit: " />
-      <p:inputText value="#{bausteinProgrammierungModel_SxLokdecoder.configuration.traegheit.soll}" readonly="true" />
-      <p:commandButton value=">" action="#{bausteinProgrammierungModel_SxLokdecoder.configuration.traegheit.resetToSoll()}" ajax="false" />
-      <p:selectOneMenu value="#{bausteinProgrammierungModel_SxLokdecoder.configuration.traegheit.ist}" id="istTraegheit">
-        <f:selectItems value="#{bausteinProgrammierungModel_SxLokdecoder.configuration.traegheit.values}" />
-      </p:selectOneMenu>
-      <p:message for="istTraegheit" />
-
-      <h:outputText value="Impulsbreite: " />
-      <p:inputText value="#{bausteinProgrammierungModel_SxLokdecoder.configuration.impulsbreite.soll}" readonly="true" />
-      <p:commandButton value=">" action="#{bausteinProgrammierungModel_SxLokdecoder.configuration.impulsbreite.resetToSoll()}" ajax="false" />
-      <p:selectOneMenu value="#{bausteinProgrammierungModel_SxLokdecoder.configuration.impulsbreite.ist}" id="istImpulsbreite">
-        <f:selectItems value="#{bausteinProgrammierungModel_SxLokdecoder.configuration.impulsbreite.values}" />
-      </p:selectOneMenu>
-      <p:message for="istImpulsbreite" />
-
-      <ui:insert name="extendedProperties" />
-    </h:panelGrid>
-  </ui:define>
 </ui:composition>
 </html>

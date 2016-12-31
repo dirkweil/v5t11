@@ -17,27 +17,25 @@ import org.apache.commons.logging.LogFactory;
 @Singleton
 @Startup
 @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
-public class InitService
-{
+public class InitService {
   @Inject
   Instance<InitializableService> initializableServices;
 
-  private static final Log       LOG = LogFactory.getLog(InitService.class);
+  private static final Log LOG = LogFactory.getLog(InitService.class);
 
   @Inject
-  BeanManager                    beanManager;
+  BeanManager beanManager;
 
   @PostConstruct
-  private void init()
-  {
-    for (InitializableService initializable : this.initializableServices)
-    {
-      if (LOG.isDebugEnabled())
-      {
-        LOG.debug("Initialisierung von " + initializable.getClass());
-      }
+  private void init() {
+    if (!System.getProperty("v5t11.portName", "none").equalsIgnoreCase("none")) {
+      for (InitializableService initializable : this.initializableServices) {
+        if (LOG.isDebugEnabled()) {
+          LOG.debug("Initialisierung von " + initializable.getClass());
+        }
 
-      initializable.init();
+        initializable.init();
+      }
     }
 
     EventFirer.setBeanManager(this.beanManager);

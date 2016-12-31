@@ -15,61 +15,8 @@ import lombok.Getter;
 public abstract class LokdecoderConfigurationAdapter extends ConfigurationAdapter {
   protected Lokdecoder lokdecoder;
 
-  protected ConfigurationPropertyAdapter<Impulsbreite> impulsbreite;
-  protected ConfigurationPropertyAdapter<Integer> traegheit;
-  protected ConfigurationPropertyAdapter<Integer> hoechstGeschwindigkeit;
-
   public LokdecoderConfigurationAdapter(Lokdecoder lokdecoder, BausteinConfiguration istConfiguration, BausteinConfiguration sollConfiguration) {
     super(istConfiguration, sollConfiguration);
     this.lokdecoder = lokdecoder;
-
-    this.impulsbreite = new ConfigurationPropertyAdapter<>(this.istProperties, "impulsbreite", Impulsbreite.KLEIN, this.sollProperties, Impulsbreite.class);
-    this.traegheit = new ConfigurationPropertyAdapter<>(this.istProperties, "traegheit", 4, this.sollProperties, Integer.class, Integer::valueOf,
-        () -> new Integer[] { 1, 2, 3, 4, 5, 6, 7 });
-    this.hoechstGeschwindigkeit = new ConfigurationPropertyAdapter<>(this.istProperties, "hoechstGeschwindigkeit", 5, this.sollProperties, Integer.class, Integer::valueOf,
-        () -> new Integer[] { 1, 2, 3, 4, 5, 6, 7 });
   }
-
-  public Lokdecoder getlokdecoder() {
-    return this.lokdecoder;
-  }
-
-  public static enum Impulsbreite {
-    MINIMAL {
-      @Override
-      public int getBits() {
-        return 0b00;
-      }
-    },
-    KLEIN {
-      @Override
-      public int getBits() {
-        return 0b01;
-      }
-    },
-    GROSS {
-      @Override
-      public int getBits() {
-        return 0b10;
-      }
-    },
-    MAXIMAL {
-      @Override
-      public int getBits() {
-        return 0b11;
-      }
-    };
-
-    public static Impulsbreite valueOf(int bits) {
-      for (Impulsbreite impulsbreite : Impulsbreite.values()) {
-        if (impulsbreite.getBits() == bits) {
-          return impulsbreite;
-        }
-      }
-      throw new IllegalArgumentException("Ungueltige Impulsbreite-Bits");
-    }
-
-    public abstract int getBits();
-  }
-
 }
