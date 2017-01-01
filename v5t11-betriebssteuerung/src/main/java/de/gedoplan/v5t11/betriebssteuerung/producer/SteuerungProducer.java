@@ -20,26 +20,21 @@ import javax.inject.Inject;
  * @author dw
  */
 @ApplicationScoped
-public class SteuerungProducer
-{
-  // Wichtig: Dependent, da nur so kein CDI-Proxy gebaut wird. Das wäre beim Marchalling zum Client (EJB, JAXB, Jason) im Wege.
+public class SteuerungProducer {
+  // Wichtig: Dependent, da nur so kein CDI-Proxy gebaut wird. Das wäre beim Marshalling zum Client (EJB, JAXB, Jason) im Wege.
   @Produces
   @Dependent
   private Steuerung steuerung;
 
   @Inject
-  SelectrixGateway  selectrixGateway;
+  SelectrixGateway selectrixGateway;
 
   @PostConstruct
-  private void init()
-  {
+  private void init() {
     String xmlResourceName = System.getProperty("v5t11.anlage", "DemoAnlage") + ".xml";
-    try
-    {
+    try {
       this.steuerung = XmlConverter.fromXml(Steuerung.class, xmlResourceName);
-    }
-    catch (Exception e)
-    {
+    } catch (Exception e) {
       throw new CreationException("Cannot read " + xmlResourceName, e);
     }
 
@@ -47,8 +42,7 @@ public class SteuerungProducer
     this.selectrixGateway.addAddressen(adressen);
     this.selectrixGateway.addAddressen(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
 
-    for (int adresse : adressen)
-    {
+    for (int adresse : adressen) {
       this.steuerung.onMessage(new SelectrixMessage(adresse, this.selectrixGateway.getValue(adresse)));
     }
   }
