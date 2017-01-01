@@ -72,6 +72,11 @@ public abstract class ConfigurationAdapter {
     }
   }
 
+  public void setAdresseIst(int adresse, boolean dirty) {
+    this.istConfiguration.setAdresse(adresse);
+    this.adresseDirty = dirty;
+  }
+
   public void adresseResetToSoll() {
     setAdresseIst(getAdresseSoll());
   }
@@ -212,6 +217,12 @@ public abstract class ConfigurationAdapter {
       if (!value.equals(old)) {
         this.dirty = true;
       }
+    }
+
+    public void setIst(T value, boolean dirty) {
+      String valueAsString = value.toString();
+      this.istProperties.put(this.key, valueAsString);
+      this.dirty = dirty;
     }
 
     public void resetToSoll() {
