@@ -7,6 +7,11 @@ import de.gedoplan.v5t11.betriebssteuerung.service.besetztmelder.bmmiba3.BMMiba3
 
 import javax.enterprise.context.ApplicationScoped;
 
+/**
+ * Service zum Lesen und Schreiben der Konfiguration eines Besetztmelders des Typs BM-MIBA 3.
+ * 
+ * @author dw
+ */
 @ApplicationScoped
 public class BMMiba3RuntimeService extends ConfigurationRuntimeService<BMMiba3ConfigurationAdapter> {
   @Override

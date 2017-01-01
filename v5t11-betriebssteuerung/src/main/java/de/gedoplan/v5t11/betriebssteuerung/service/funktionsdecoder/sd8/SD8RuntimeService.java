@@ -8,6 +8,11 @@ import javax.enterprise.context.ApplicationScoped;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+/**
+ * Service zum Lesen und Schreiben der Konfiguration eines Funktionsdecoders des Typs SD 8.
+ *
+ * @author dw
+ */
 @ApplicationScoped
 public class SD8RuntimeService extends ConfigurationRuntimeService<SD8ConfigurationAdapter> {
   private static final int WAIT_MILLIS = 1000;

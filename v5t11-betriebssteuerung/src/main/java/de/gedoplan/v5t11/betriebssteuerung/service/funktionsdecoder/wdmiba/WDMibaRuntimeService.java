@@ -4,6 +4,11 @@ import de.gedoplan.v5t11.betriebssteuerung.service.ConfigurationRuntimeService;
 
 import javax.enterprise.context.ApplicationScoped;
 
+/**
+ * Service zum Lesen und Schreiben der Konfiguration eines Funktionsdecoders des Typs WD-MIBA.
+ *
+ * @author dw
+ */
 @ApplicationScoped
 public class WDMibaRuntimeService extends ConfigurationRuntimeService<WDMibaConfigurationAdapter> {
   @Override

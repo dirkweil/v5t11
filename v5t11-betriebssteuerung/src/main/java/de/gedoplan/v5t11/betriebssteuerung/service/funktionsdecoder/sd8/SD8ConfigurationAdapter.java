@@ -12,9 +12,7 @@ import lombok.Getter;
 /**
  * Konfigurations-Adapter für Funktionsdecoder des Typs SD 8.
  *
- * Achtung: Die Basisklasse ist nicht
- * {@link FunktionsdecoderConfigurationAdapter}, da die darin enthaltenen
- * Properties hier nicht benötigt werden.
+ * Achtung: Die Basisklasse ist nicht {@link FunktionsdecoderConfigurationAdapter}, da die darin enthaltenen Properties hier nicht benötigt werden.
  *
  * @author dw
  */
