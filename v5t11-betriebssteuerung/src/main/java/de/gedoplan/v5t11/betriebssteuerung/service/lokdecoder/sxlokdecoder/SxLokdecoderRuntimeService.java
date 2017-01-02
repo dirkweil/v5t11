@@ -37,6 +37,9 @@ public class SxLokdecoderRuntimeService extends ConfigurationRuntimeService<SxLo
 
       int value105 = this.selectrixGateway.getValue(105);
       configuration.setAdresseIst(value105 & 0b1111111, false);
+      
+      if (log.isDebugEnabled())
+    	  log.debug("value104=0b"+Integer.toBinaryString(value104) + ", value105=0b"+Integer.toBinaryString(value105));
     } finally {
       stopProgMode();
     }
@@ -120,7 +123,7 @@ public class SxLokdecoderRuntimeService extends ConfigurationRuntimeService<SxLo
 
   private static void delay(long millis) {
     try {
-      Thread.currentThread().wait(millis);
+      Thread.sleep(10*millis);
     } catch (InterruptedException e) {
     }
 
