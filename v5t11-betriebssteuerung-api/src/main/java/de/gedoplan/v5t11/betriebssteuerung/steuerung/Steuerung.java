@@ -40,13 +40,11 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
-import java.util.stream.Collectors;
 
 import javax.enterprise.inject.Typed;
 import javax.enterprise.util.AnnotationLiteral;
@@ -71,83 +69,77 @@ import org.apache.commons.logging.LogFactory;
 @XmlRootElement(name = "v5t11")
 @XmlAccessorType(XmlAccessType.NONE)
 @Typed
-public class Steuerung implements SelectrixMessageListener, Serializable
-{
+public class Steuerung implements SelectrixMessageListener, Serializable {
   @XmlElement(name = "Zentrale")
-  Zentrale                                            zentrale;
+  Zentrale zentrale;
 
   @XmlElement(name = "Lok")
-  SortedSet<Lok>                                      loks                            = new TreeSet<>();
+  SortedSet<Lok> loks = new TreeSet<>();
 
   @XmlElement(name = "LokController")
-  SortedSet<LokController>                            lokController                   = new TreeSet<>();
+  SortedSet<LokController> lokController = new TreeSet<>();
 
   @XmlElementWrapper(name = "Besetztmelder")
   @XmlElements({ @XmlElement(name = "BMMiba3", type = BMMiba3.class), @XmlElement(name = "SXBM1", type = SXBM1.class) })
-  SortedSet<Besetztmelder>                            besetztmelder                   = new TreeSet<>();
+  SortedSet<Besetztmelder> besetztmelder = new TreeSet<>();
 
   @XmlElementWrapper(name = "Funktionsdecoder")
   @XmlElements({ @XmlElement(name = "SD8", type = SD8.class), @XmlElement(name = "STRFD1", type = STRFD1.class), @XmlElement(name = "SXSD1", type = SXSD1.class),
       @XmlElement(name = "WDMiba", type = WDMiba.class), @XmlElement(name = "WDMiba3", type = WDMiba3.class) })
-  private SortedSet<Funktionsdecoder>                 funktionsdecoder                = new TreeSet<>();
+  private SortedSet<Funktionsdecoder> funktionsdecoder = new TreeSet<>();
 
   @XmlElement(name = "Blockstelle")
-  SortedSet<BlockstellenKonfiguration>                blockstellenKonfigurationen     = new TreeSet<>();
+  SortedSet<BlockstellenKonfiguration> blockstellenKonfigurationen = new TreeSet<>();
 
   @XmlElement(name = "Bahnuebergang")
-  SortedSet<BahnuebergangKonfiguration>               bahnuebergangKonfigurationen    = new TreeSet<>();
+  SortedSet<BahnuebergangKonfiguration> bahnuebergangKonfigurationen = new TreeSet<>();
 
   @XmlElement(name = "Vorsignal")
-  SortedSet<VorsignalKonfiguration>                   vorsignalKonfigurationen        = new TreeSet<>();
+  SortedSet<VorsignalKonfiguration> vorsignalKonfigurationen = new TreeSet<>();
 
   @XmlElementWrapper(name = "Fahrstrassen")
   @XmlElement(name = "Fahrstrasse")
-  private SortedSet<Fahrstrasse>                      fahrstrassen                    = new TreeSet<>();
+  private SortedSet<Fahrstrasse> fahrstrassen = new TreeSet<>();
 
-  private Map<Gleisabschnitt, SortedSet<Fahrstrasse>> fahrstrassenLookupMap           = new HashMap<>();
+  private Map<Gleisabschnitt, SortedSet<Fahrstrasse>> fahrstrassenLookupMap = new HashMap<>();
 
   @XmlElement(name = "Autofahrstrasse")
-  SortedSet<AutoFahrstrassenKonfiguration>            autoFahrstrassenKonfigurationen = new TreeSet<>();
+  SortedSet<AutoFahrstrassenKonfiguration> autoFahrstrassenKonfigurationen = new TreeSet<>();
 
   @XmlElementWrapper(name = "Stellwerke")
   @XmlElement(name = "Stellwerk")
-  private SortedSet<Stellwerk>                        stellwerke                      = new TreeSet<>();
+  private SortedSet<Stellwerk> stellwerke = new TreeSet<>();
 
-  private SortedSet<String>                           bereiche                        = new TreeSet<>();
-  private SortedSet<Gleisabschnitt>                   gleisabschnitte                 = new TreeSet<>();
-  private SortedSet<Signal>                           signale                         = new TreeSet<>();
-  private SortedSet<Weiche>                           weichen                         = new TreeSet<>();
+  private SortedSet<String> bereiche = new TreeSet<>();
+  private SortedSet<Gleisabschnitt> gleisabschnitte = new TreeSet<>();
+  private SortedSet<Signal> signale = new TreeSet<>();
+  private SortedSet<Weiche> weichen = new TreeSet<>();
 
-  private static final Log                            LOGGER                          = LogFactory.getLog(Steuerung.class);
+  private static final Log LOGGER = LogFactory.getLog(Steuerung.class);
 
   /**
    * Alle von der Steuerung belegten Selectrix-Adressen liefern.
    *
    * @return Adressen
    */
-  public List<Integer> getAdressen()
-  {
+  public List<Integer> getAdressen() {
     List<Integer> adressen = new ArrayList<>();
 
     adressen.addAll(this.zentrale.getAdressen());
 
-    for (Lok lok : this.loks)
-    {
+    for (Lok lok : this.loks) {
       adressen.add(lok.getAdresse());
     }
 
-    for (LokController lokController : this.lokController)
-    {
+    for (LokController lokController : this.lokController) {
       adressen.add(lokController.getAdresse());
     }
 
-    for (Besetztmelder bm : this.besetztmelder)
-    {
+    for (Besetztmelder bm : this.besetztmelder) {
       adressen.addAll(bm.getAdressen());
     }
 
-    for (Funktionsdecoder fd : this.funktionsdecoder)
-    {
+    for (Funktionsdecoder fd : this.funktionsdecoder) {
       adressen.addAll(fd.getAdressen());
     }
 
@@ -159,8 +151,7 @@ public class Steuerung implements SelectrixMessageListener, Serializable
    *
    * @return Wert
    */
-  public Zentrale getZentrale()
-  {
+  public Zentrale getZentrale() {
     return this.zentrale;
   }
 
@@ -169,8 +160,7 @@ public class Steuerung implements SelectrixMessageListener, Serializable
    *
    * @return Wert
    */
-  public Set<String> getBereiche()
-  {
+  public Set<String> getBereiche() {
     return this.bereiche;
   }
 
@@ -179,8 +169,7 @@ public class Steuerung implements SelectrixMessageListener, Serializable
    *
    * @return Wert
    */
-  public Set<Lok> getLoks()
-  {
+  public Set<Lok> getLoks() {
     return this.loks;
   }
 
@@ -189,11 +178,9 @@ public class Steuerung implements SelectrixMessageListener, Serializable
    *
    * @return Lokdecoder
    */
-  public Set<Lokdecoder> getLokdecoder()
-  {
+  public Set<Lokdecoder> getLokdecoder() {
     Set<Lokdecoder> lokdecoder = new HashSet<>();
-    for (Lok lok : this.loks)
-    {
+    for (Lok lok : this.loks) {
       lokdecoder.add(lok.getDecoder());
     }
     return lokdecoder;
@@ -202,15 +189,13 @@ public class Steuerung implements SelectrixMessageListener, Serializable
   /**
    * Lok liefern.
    *
-   * @param adresse Adresse
+   * @param adresse
+   *          Adresse
    * @return gefundene Lok oder <code>null</code>
    */
-  public Lok getLok(int adresse)
-  {
-    for (Lok lok : this.loks)
-    {
-      if (lok.getAdresse() == adresse)
-      {
+  public Lok getLok(int adresse) {
+    for (Lok lok : this.loks) {
+      if (lok.getAdresse() == adresse) {
         return lok;
       }
     }
@@ -222,8 +207,7 @@ public class Steuerung implements SelectrixMessageListener, Serializable
    *
    * @return Wert
    */
-  public SortedSet<LokController> getLokController()
-  {
+  public SortedSet<LokController> getLokController() {
     return this.lokController;
   }
 
@@ -232,12 +216,9 @@ public class Steuerung implements SelectrixMessageListener, Serializable
    *
    * @return Wert
    */
-  public LokController getLokController(String id)
-  {
-    for (LokController l : this.lokController)
-    {
-      if (id.equals(l.getId()))
-      {
+  public LokController getLokController(String id) {
+    for (LokController l : this.lokController) {
+      if (id.equals(l.getId())) {
         return l;
       }
     }
@@ -250,8 +231,7 @@ public class Steuerung implements SelectrixMessageListener, Serializable
    *
    * @return Wert
    */
-  public Set<Besetztmelder> getBesetztmelder()
-  {
+  public Set<Besetztmelder> getBesetztmelder() {
     return this.besetztmelder;
   }
 
@@ -260,8 +240,7 @@ public class Steuerung implements SelectrixMessageListener, Serializable
    *
    * @return Wert
    */
-  public Set<Funktionsdecoder> getFunktionsdecoder()
-  {
+  public Set<Funktionsdecoder> getFunktionsdecoder() {
     return this.funktionsdecoder;
   }
 
@@ -270,8 +249,7 @@ public class Steuerung implements SelectrixMessageListener, Serializable
    *
    * @return Wert
    */
-  public Set<Gleisabschnitt> getGleisabschnitte()
-  {
+  public Set<Gleisabschnitt> getGleisabschnitte() {
     return this.gleisabschnitte;
   }
 
@@ -280,20 +258,20 @@ public class Steuerung implements SelectrixMessageListener, Serializable
    *
    * @return Wert
    */
-  public Set<Gleisabschnitt> getGleisabschnitte(String bereich)
-  {
+  public Set<Gleisabschnitt> getGleisabschnitte(String bereich) {
     return getBereichselemente(bereich, this.gleisabschnitte);
   }
 
   /**
    * Gleisabschnitt liefern.
    *
-   * @param bereich Bereich
-   * @param name Name
+   * @param bereich
+   *          Bereich
+   * @param name
+   *          Name
    * @return gefundener Gleisabschnitt oder <code>null</code>
    */
-  public Gleisabschnitt getGleisabschnitt(String bereich, String name)
-  {
+  public Gleisabschnitt getGleisabschnitt(String bereich, String name) {
     return getBereichselement(bereich, name, this.gleisabschnitte);
   }
 
@@ -302,8 +280,7 @@ public class Steuerung implements SelectrixMessageListener, Serializable
    *
    * @return Wert
    */
-  public Set<Signal> getSignale()
-  {
+  public Set<Signal> getSignale() {
     return this.signale;
   }
 
@@ -312,20 +289,20 @@ public class Steuerung implements SelectrixMessageListener, Serializable
    *
    * @return Wert
    */
-  public Set<Signal> getSignale(String bereich)
-  {
+  public Set<Signal> getSignale(String bereich) {
     return getBereichselemente(bereich, this.signale);
   }
 
   /**
    * Signal liefern.
    *
-   * @param bereich Bereich
-   * @param name Name
+   * @param bereich
+   *          Bereich
+   * @param name
+   *          Name
    * @return gefundenes Signal oder <code>null</code>
    */
-  public Signal getSignal(String bereich, String name)
-  {
+  public Signal getSignal(String bereich, String name) {
     return getBereichselement(bereich, name, this.signale);
   }
 
@@ -334,8 +311,7 @@ public class Steuerung implements SelectrixMessageListener, Serializable
    *
    * @return Wert
    */
-  public Set<Weiche> getWeichen()
-  {
+  public Set<Weiche> getWeichen() {
     return this.weichen;
   }
 
@@ -344,20 +320,20 @@ public class Steuerung implements SelectrixMessageListener, Serializable
    *
    * @return Wert
    */
-  public Set<Weiche> getWeichen(String bereich)
-  {
+  public Set<Weiche> getWeichen(String bereich) {
     return getBereichselemente(bereich, this.weichen);
   }
 
   /**
    * Weiche liefern.
    *
-   * @param bereich Bereich
-   * @param name Name
+   * @param bereich
+   *          Bereich
+   * @param name
+   *          Name
    * @return gefundene Weiche oder <code>null</code>
    */
-  public Weiche getWeiche(String bereich, String name)
-  {
+  public Weiche getWeiche(String bereich, String name) {
     return getBereichselement(bereich, name, this.weichen);
   }
 
@@ -366,8 +342,7 @@ public class Steuerung implements SelectrixMessageListener, Serializable
    *
    * @return Wert
    */
-  public SortedSet<BlockstellenKonfiguration> getBlockstellenKonfigurationen()
-  {
+  public SortedSet<BlockstellenKonfiguration> getBlockstellenKonfigurationen() {
     return this.blockstellenKonfigurationen;
   }
 
@@ -376,8 +351,7 @@ public class Steuerung implements SelectrixMessageListener, Serializable
    *
    * @return Wert
    */
-  public SortedSet<BahnuebergangKonfiguration> getBahnuebergangKonfigurationen()
-  {
+  public SortedSet<BahnuebergangKonfiguration> getBahnuebergangKonfigurationen() {
     return this.bahnuebergangKonfigurationen;
   }
 
@@ -386,8 +360,7 @@ public class Steuerung implements SelectrixMessageListener, Serializable
    *
    * @return Wert
    */
-  public SortedSet<VorsignalKonfiguration> getVorsignalKonfigurationen()
-  {
+  public SortedSet<VorsignalKonfiguration> getVorsignalKonfigurationen() {
     return this.vorsignalKonfigurationen;
   }
 
@@ -396,36 +369,28 @@ public class Steuerung implements SelectrixMessageListener, Serializable
    *
    * @return Wert
    */
-  public SortedSet<Fahrstrasse> getFahrstrassen()
-  {
+  public SortedSet<Fahrstrasse> getFahrstrassen() {
     return this.fahrstrassen;
   }
 
-  public SortedSet<Fahrstrasse> getFahrstrassen4Start(Gleisabschnitt gleisabschnitt)
-  {
+  public SortedSet<Fahrstrasse> getFahrstrassen4Start(Gleisabschnitt gleisabschnitt) {
     SortedSet<Fahrstrasse> fahrstrassen = this.fahrstrassenLookupMap.get(gleisabschnitt);
-    if (fahrstrassen != null)
-    {
+    if (fahrstrassen != null) {
       return fahrstrassen;
-    }
-    else
-    {
+    } else {
       return Collections.emptySortedSet();
     }
   }
 
-  void add2FahrstrassenLookupMap(Iterable<Fahrstrasse> fahrstrassen)
-  {
+  void add2FahrstrassenLookupMap(Iterable<Fahrstrasse> fahrstrassen) {
     fahrstrassen.forEach(f -> add2FahrstrassenLookupMap(f));
   }
 
-  void add2FahrstrassenLookupMap(Fahrstrasse fahrstrasse)
-  {
+  void add2FahrstrassenLookupMap(Fahrstrasse fahrstrasse) {
     Gleisabschnitt start = fahrstrasse.getFirst().getFahrwegelement();
 
     SortedSet<Fahrstrasse> fahrstrassen = this.fahrstrassenLookupMap.get(start);
-    if (fahrstrassen == null)
-    {
+    if (fahrstrassen == null) {
       fahrstrassen = new TreeSet<>();
       this.fahrstrassenLookupMap.put(start, fahrstrassen);
     }
@@ -433,18 +398,15 @@ public class Steuerung implements SelectrixMessageListener, Serializable
     fahrstrassen.add(fahrstrasse);
   }
 
-  void removeFromFahrstrassenLookupMap(Iterable<Fahrstrasse> fahrstrassen)
-  {
+  void removeFromFahrstrassenLookupMap(Iterable<Fahrstrasse> fahrstrassen) {
     fahrstrassen.forEach(f -> removeFromFahrstrassenLookupMap(f));
   }
 
-  void removeFromFahrstrassenLookupMap(Fahrstrasse fahrstrasse)
-  {
+  void removeFromFahrstrassenLookupMap(Fahrstrasse fahrstrasse) {
     Gleisabschnitt start = fahrstrasse.getFirst().getFahrwegelement();
 
     SortedSet<Fahrstrasse> fahrstrassen = this.fahrstrassenLookupMap.get(start);
-    if (fahrstrassen != null)
-    {
+    if (fahrstrassen != null) {
       fahrstrassen.remove(fahrstrasse);
     }
   }
@@ -454,35 +416,33 @@ public class Steuerung implements SelectrixMessageListener, Serializable
    *
    * @return Wert
    */
-  public SortedSet<AutoFahrstrassenKonfiguration> getAutoFahrstrassenKonfigurationen()
-  {
+  public SortedSet<AutoFahrstrassenKonfiguration> getAutoFahrstrassenKonfigurationen() {
     return this.autoFahrstrassenKonfigurationen;
   }
 
   /**
    * Fahrstrasse liefern.
    *
-   * @param bereich Bereich
-   * @param name Name
+   * @param bereich
+   *          Bereich
+   * @param name
+   *          Name
    * @return gefundene Fahrstrasse oder <code>null</code>
    */
-  public Fahrstrasse getFahrstrasse(String bereich, String name)
-  {
+  public Fahrstrasse getFahrstrasse(String bereich, String name) {
     return getBereichselement(bereich, name, this.fahrstrassen);
   }
 
   /**
    * Stellwerk liefern.
    *
-   * @param bereich Bereich
+   * @param bereich
+   *          Bereich
    * @return Stellwerk
    */
-  public Stellwerk getStellwerk(String bereich)
-  {
-    for (Stellwerk stellwerk : this.stellwerke)
-    {
-      if (bereich.equals(stellwerk.getBereich()))
-      {
+  public Stellwerk getStellwerk(String bereich) {
+    for (Stellwerk stellwerk : this.stellwerke) {
+      if (bereich.equals(stellwerk.getBereich())) {
         return stellwerk;
       }
     }
@@ -490,13 +450,10 @@ public class Steuerung implements SelectrixMessageListener, Serializable
     return null;
   }
 
-  private static <E extends Bereichselement> SortedSet<E> getBereichselemente(String bereich, SortedSet<E> bereichselemente)
-  {
+  private static <E extends Bereichselement> SortedSet<E> getBereichselemente(String bereich, SortedSet<E> bereichselemente) {
     SortedSet<E> result = new TreeSet<>();
-    for (E element : bereichselemente)
-    {
-      if (bereich.equals(element.getBereich()))
-      {
+    for (E element : bereichselemente) {
+      if (bereich.equals(element.getBereich())) {
         result.add(element);
       }
     }
@@ -504,12 +461,9 @@ public class Steuerung implements SelectrixMessageListener, Serializable
     return result;
   }
 
-  private static <T extends Bereichselement> T getBereichselement(String bereich, String name, Collection<T> set)
-  {
-    for (T element : set)
-    {
-      if (element.getBereich().equals(bereich) && element.getName().equals(name))
-      {
+  private static <T extends Bereichselement> T getBereichselement(String bereich, String name, Collection<T> set) {
+    for (T element : set) {
+      if (element.getBereich().equals(bereich) && element.getName().equals(name)) {
         return element;
       }
     }
@@ -518,27 +472,22 @@ public class Steuerung implements SelectrixMessageListener, Serializable
   }
 
   @Override
-  public void onMessage(SelectrixMessage message)
-  {
+  public void onMessage(SelectrixMessage message) {
     this.zentrale.onMessage(message);
 
-    for (Besetztmelder bm : this.besetztmelder)
-    {
+    for (Besetztmelder bm : this.besetztmelder) {
       bm.onMessage(message);
     }
 
-    for (Funktionsdecoder fd : this.funktionsdecoder)
-    {
+    for (Funktionsdecoder fd : this.funktionsdecoder) {
       fd.onMessage(message);
     }
 
-    for (Lok lok : this.loks)
-    {
+    for (Lok lok : this.loks) {
       lok.onMessage(message);
     }
 
-    for (LokController lc : this.lokController)
-    {
+    for (LokController lc : this.lokController) {
       lc.onMessage(message);
     }
   }
@@ -546,31 +495,31 @@ public class Steuerung implements SelectrixMessageListener, Serializable
   /**
    * Wert setzen.
    *
-   * @param wert Wert
-   * @param adresse Adresse
+   * @param wert
+   *          Wert
+   * @param adresse
+   *          Adresse
    */
-  public void setWert(int adresse, int wert)
-  {
-    if (LOGGER.isTraceEnabled())
-    {
+  public void setWert(int adresse, int wert) {
+    if (LOGGER.isTraceEnabled()) {
       LOGGER.trace(String.format("setWert(%d, 0x%02x)", adresse, wert));
     }
 
-    EventFirer.fireEvent(new SelectrixMessage(adresse, wert), new AnnotationLiteral<Outbound>()
-    {});
+    EventFirer.fireEvent(new SelectrixMessage(adresse, wert), new AnnotationLiteral<Outbound>() {
+    });
   }
 
   /**
    * Nachbearbeitung nach JAXB-Unmarshal.
    *
-   * @param unmarshaller Unmarshaller
-   * @param parent Parent
+   * @param unmarshaller
+   *          Unmarshaller
+   * @param parent
+   *          Parent
    */
   @SuppressWarnings("unused")
-  private void afterUnmarshal(Unmarshaller unmarshaller, Object parent)
-  {
-    if (this.zentrale == null)
-    {
+  private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
+    if (this.zentrale == null) {
       this.zentrale = new Zentrale();
       this.zentrale.afterUnmarshal(unmarshaller, this);
     }
@@ -579,10 +528,8 @@ public class Steuerung implements SelectrixMessageListener, Serializable
      * Den Besetztmeldern zugeordnete Gleisabschnitte in this.gleisabschnitte sammeln. Dabei auch die Bereiche in this.bereiche
      * eintragen.
      */
-    for (Besetztmelder bm : this.besetztmelder)
-    {
-      for (Gleisabschnitt g : bm.getGleisabschnitte())
-      {
+    for (Besetztmelder bm : this.besetztmelder) {
+      for (Gleisabschnitt g : bm.getGleisabschnitte()) {
         this.gleisabschnitte.add(g);
         this.bereiche.add(g.getBereich());
       }
@@ -592,17 +539,13 @@ public class Steuerung implements SelectrixMessageListener, Serializable
      * Den Funktionsdecodern zugeordnete Weichen und Signale in this.weichen und this.signale sammeln. Dabei auch die Bereiche in
      * this.bereiche eintragen.
      */
-    for (Funktionsdecoder fd : this.funktionsdecoder)
-    {
-      for (Geraet g : fd.getGeraete())
-      {
-        if (g instanceof Signal)
-        {
+    for (Funktionsdecoder fd : this.funktionsdecoder) {
+      for (Geraet g : fd.getGeraete()) {
+        if (g instanceof Signal) {
           this.signale.add((Signal) g);
         }
 
-        if (g instanceof Weiche)
-        {
+        if (g instanceof Weiche) {
           this.weichen.add((Weiche) g);
         }
 
@@ -610,95 +553,91 @@ public class Steuerung implements SelectrixMessageListener, Serializable
       }
     }
 
-    // Blocksignale als solche markieren. Dabei ungültige Konfigurationen entfernen.
-    Iterator<BlockstellenKonfiguration> blockstellenIterator = this.blockstellenKonfigurationen.iterator();
-    while (blockstellenIterator.hasNext())
-    {
-      BlockstellenKonfiguration blockstellenKonfiguration = blockstellenIterator.next();
-      Signal signal = blockstellenKonfiguration.getSignal();
-      Gleisabschnitt gleisabschnitt = blockstellenKonfiguration.getGleisabschnitt();
-      if (signal == null || gleisabschnitt == null)
-      {
-        blockstellenIterator.remove();
-      }
-      else
-      {
-        signal.setBlock(true);
-      }
-    }
+    // // Blocksignale als solche markieren. Dabei ungültige Konfigurationen entfernen.
+    // Iterator<BlockstellenKonfiguration> blockstellenIterator = this.blockstellenKonfigurationen.iterator();
+    // while (blockstellenIterator.hasNext())
+    // {
+    // BlockstellenKonfiguration blockstellenKonfiguration = blockstellenIterator.next();
+    // Signal signal = blockstellenKonfiguration.getSignal();
+    // Gleisabschnitt gleisabschnitt = blockstellenKonfiguration.getGleisabschnitt();
+    // if (signal == null || gleisabschnitt == null)
+    // {
+    // blockstellenIterator.remove();
+    // }
+    // else
+    // {
+    // signal.setBlock(true);
+    // }
+    // }
+    //
+    // // Ungültige Bahnuebergangskonfigurationen entfernen.
+    // Iterator<BahnuebergangKonfiguration> bahnuebergangIterator = this.bahnuebergangKonfigurationen.iterator();
+    // while (bahnuebergangIterator.hasNext())
+    // {
+    // BahnuebergangKonfiguration bahnuebergangKonfiguration = bahnuebergangIterator.next();
+    // if (bahnuebergangKonfiguration.getBahnuebergang() == null || bahnuebergangKonfiguration.getGleisabschnitte().isEmpty())
+    // {
+    // bahnuebergangIterator.remove();
+    // }
+    // }
+    //
+    // // Fahrstrassen komplettieren. Dabei auch die Bereiche in this.bereiche eintragen.
+    // for (Fahrstrasse fahrstrasse : this.fahrstrassen)
+    // {
+    // String bereich = fahrstrasse.getBereich();
+    // for (FahrstrassenElement fahrstrassenElement : fahrstrasse.getElemente())
+    // {
+    // // Zugehöriges Fahrwegelement setzen
+    // fahrstrassenElement.setFahrwegelement(this);
+    //
+    // this.bereiche.add(fahrstrassenElement.getBereich());
+    // }
+    //
+    // this.bereiche.add(bereich);
+    // }
+    //
+    // // Fahrstrassen-Lookup-Map erstellen
+    // add2FahrstrassenLookupMap(this.fahrstrassen);
+    //
+    // // Aus Fahrstrassen Vorgänger/Nachfolger für die enthaltenen Gleisabschnitte errechnen
+    // this.fahrstrassen.forEach(f -> deriveFolgeGleisabschnitte(f));
+    //
+    // // Fahrstrassen kombinieren
+    // concatFahrstrassen();
+    //
+    // // Nicht nutzbare Fahrstrassen entfernen
+    // Set<Fahrstrasse> unusableFahrstrassen = this.fahrstrassen
+    // .stream()
+    // .filter(f -> !f.isZugfahrtGeeignet() && !f.isRangierGeeignet())
+    // .collect(Collectors.toSet());
+    // this.fahrstrassen.removeAll(unusableFahrstrassen);
+    // removeFromFahrstrassenLookupMap(unusableFahrstrassen);
+    //
+    // // Doppeleinträge in Fahrstrassen eliminieren und Signale auf Langsamfahrt korrigieren, wenn nötig..
+    // this.fahrstrassen.forEach(f -> {
+    // f.removeDoppeleintraege();
+    // f.adjustLangsamfahrt();
+    // });
+    //
+    // // Vorsignale hinzufügen.
+    // this.fahrstrassen.forEach(f -> f.addVorsignale(this));
+    //
+    // // Ungültige Autofahrstrassen-Konfigurationen entfernen.
+    // Iterator<AutoFahrstrassenKonfiguration> autoFahrstrassenIterator = this.autoFahrstrassenKonfigurationen.iterator();
+    // while (autoFahrstrassenIterator.hasNext())
+    // {
+    // AutoFahrstrassenKonfiguration autoFahrstrassenKonfiguration = autoFahrstrassenIterator.next();
+    // if (autoFahrstrassenKonfiguration.getGleisabschnitt() == null || autoFahrstrassenKonfiguration.getZielGleisabschnitte().isEmpty())
+    // {
+    // autoFahrstrassenIterator.remove();
+    // }
+    // }
 
-    // Ungültige Bahnuebergangskonfigurationen entfernen.
-    Iterator<BahnuebergangKonfiguration> bahnuebergangIterator = this.bahnuebergangKonfigurationen.iterator();
-    while (bahnuebergangIterator.hasNext())
-    {
-      BahnuebergangKonfiguration bahnuebergangKonfiguration = bahnuebergangIterator.next();
-      if (bahnuebergangKonfiguration.getBahnuebergang() == null || bahnuebergangKonfiguration.getGleisabschnitte().isEmpty())
-      {
-        bahnuebergangIterator.remove();
-      }
-    }
-
-    // Fahrstrassen komplettieren. Dabei auch die Bereiche in this.bereiche eintragen.
-    for (Fahrstrasse fahrstrasse : this.fahrstrassen)
-    {
-      String bereich = fahrstrasse.getBereich();
-      for (FahrstrassenElement fahrstrassenElement : fahrstrasse.getElemente())
-      {
-        // Zugehöriges Fahrwegelement setzen
-        fahrstrassenElement.setFahrwegelement(this);
-
-        this.bereiche.add(fahrstrassenElement.getBereich());
-      }
-
-      this.bereiche.add(bereich);
-    }
-
-    // Fahrstrassen-Lookup-Map erstellen
-    add2FahrstrassenLookupMap(this.fahrstrassen);
-
-    // Aus Fahrstrassen Vorgänger/Nachfolger für die enthaltenen Gleisabschnitte errechnen
-    this.fahrstrassen.forEach(f -> deriveFolgeGleisabschnitte(f));
-
-    // Fahrstrassen kombinieren
-    concatFahrstrassen();
-
-    // Nicht nutzbare Fahrstrassen entfernen
-    Set<Fahrstrasse> unusableFahrstrassen = this.fahrstrassen
-        .stream()
-        .filter(f -> !f.isZugfahrtGeeignet() && !f.isRangierGeeignet())
-        .collect(Collectors.toSet());
-    this.fahrstrassen.removeAll(unusableFahrstrassen);
-    removeFromFahrstrassenLookupMap(unusableFahrstrassen);
-
-    // Doppeleinträge in Fahrstrassen eliminieren und Signale auf Langsamfahrt korrigieren, wenn nötig..
-    this.fahrstrassen.forEach(f -> {
-      f.removeDoppeleintraege();
-      f.adjustLangsamfahrt();
-    });
-
-    // Vorsignale hinzufügen.
-    this.fahrstrassen.forEach(f -> f.addVorsignale(this));
-
-    // Ungültige Autofahrstrassen-Konfigurationen entfernen.
-    Iterator<AutoFahrstrassenKonfiguration> autoFahrstrassenIterator = this.autoFahrstrassenKonfigurationen.iterator();
-    while (autoFahrstrassenIterator.hasNext())
-    {
-      AutoFahrstrassenKonfiguration autoFahrstrassenKonfiguration = autoFahrstrassenIterator.next();
-      if (autoFahrstrassenKonfiguration.getGleisabschnitt() == null || autoFahrstrassenKonfiguration.getZielGleisabschnitte().isEmpty())
-      {
-        autoFahrstrassenIterator.remove();
-      }
-    }
-
-    for (String bereich : getBereiche())
-    {
+    for (String bereich : getBereiche()) {
       Stellwerk stellwerk = getStellwerk(bereich);
-      for (StellwerkZeile zeile : stellwerk.getZeilen())
-      {
-        for (StellwerkElement element : zeile.getElemente())
-        {
-          if (element.getBereich() == null)
-          {
+      for (StellwerkZeile zeile : stellwerk.getZeilen()) {
+        for (StellwerkElement element : zeile.getElemente()) {
+          if (element.getBereich() == null) {
             element.setBereich(bereich);
           }
         }
@@ -709,26 +648,20 @@ public class Steuerung implements SelectrixMessageListener, Serializable
     addValueChangedListeners();
   }
 
-  private void concatFahrstrassen()
-  {
+  private void concatFahrstrassen() {
     SortedSet<Fahrstrasse> zuPruefendeFahrstrassen = this.fahrstrassen;
-    while (true)
-    {
+    while (true) {
       SortedSet<Fahrstrasse> weitereFahrstrassen = new TreeSet<>();
-      for (Fahrstrasse fahrstrasse1 : zuPruefendeFahrstrassen)
-      {
-        for (Fahrstrasse fahrstrasse2 : getFahrstrassen4Start(fahrstrasse1.getLast().getFahrwegelement()))
-        {
+      for (Fahrstrasse fahrstrasse1 : zuPruefendeFahrstrassen) {
+        for (Fahrstrasse fahrstrasse2 : getFahrstrassen4Start(fahrstrasse1.getLast().getFahrwegelement())) {
           Fahrstrasse kombiFahrstrasse = Fahrstrasse.concat(fahrstrasse1, fahrstrasse2);
-          if (kombiFahrstrasse != null && !this.fahrstrassen.contains(kombiFahrstrasse))
-          {
+          if (kombiFahrstrasse != null && !this.fahrstrassen.contains(kombiFahrstrasse)) {
             weitereFahrstrassen.add(kombiFahrstrasse);
           }
         }
       }
 
-      if (weitereFahrstrassen.isEmpty())
-      {
+      if (weitereFahrstrassen.isEmpty()) {
         break;
       }
 
@@ -739,24 +672,19 @@ public class Steuerung implements SelectrixMessageListener, Serializable
     }
   }
 
-  void deriveFolgeGleisabschnitte(Fahrstrasse fahrstrasse)
-  {
+  void deriveFolgeGleisabschnitte(Fahrstrasse fahrstrasse) {
     FahrstrassenGleisabschnitt fahrstrassenGleisabschnitt = null;
     FahrstrassenWeiche fahrstrassenWeiche1 = null;
     FahrstrassenWeiche fahrstrassenWeiche2 = null;
 
-    for (FahrstrassenElement fahrstrassenElement : fahrstrasse.getElemente())
-    {
-      if (fahrstrassenElement instanceof FahrstrassenGleisabschnitt)
-      {
+    for (FahrstrassenElement fahrstrassenElement : fahrstrasse.getElemente()) {
+      if (fahrstrassenElement instanceof FahrstrassenGleisabschnitt) {
         // Nächster Gleisabschnitt
         FahrstrassenGleisabschnitt nextFahrstrassenGleisabschnitt = (FahrstrassenGleisabschnitt) fahrstrassenElement;
 
         // Gibt es schon einen vorigen Gleisabschnitt?
-        if (fahrstrassenGleisabschnitt != null)
-        {
-          if (fahrstrassenWeiche2 == null)
-          {
+        if (fahrstrassenGleisabschnitt != null) {
+          if (fahrstrassenWeiche2 == null) {
             fahrstrassenWeiche2 = fahrstrassenWeiche1;
           }
 
@@ -779,19 +707,13 @@ public class Steuerung implements SelectrixMessageListener, Serializable
         fahrstrassenWeiche2 = null;
       }
 
-      if (fahrstrassenElement instanceof FahrstrassenWeiche && !fahrstrassenElement.isSchutz())
-      {
+      if (fahrstrassenElement instanceof FahrstrassenWeiche && !fahrstrassenElement.isSchutz()) {
         // Weiche merken
-        if (fahrstrassenWeiche1 == null)
-        {
+        if (fahrstrassenWeiche1 == null) {
           fahrstrassenWeiche1 = (FahrstrassenWeiche) fahrstrassenElement;
-        }
-        else if (fahrstrassenWeiche2 == null)
-        {
+        } else if (fahrstrassenWeiche2 == null) {
           fahrstrassenWeiche2 = (FahrstrassenWeiche) fahrstrassenElement;
-        }
-        else
-        {
+        } else {
           // Es dürfen maximal zwei Weichen zwischen zwei Gleisabschnitten liegen
           throw new IllegalArgumentException(fahrstrasse + " hat zu viele Weichen nach " + fahrstrassenGleisabschnitt);
         }
@@ -803,54 +725,44 @@ public class Steuerung implements SelectrixMessageListener, Serializable
   /**
    * Textliche Repräsentation der Steuerung erstellen.
    *
-   * @param idOnly nur IDs?
+   * @param idOnly
+   *          nur IDs?
    * @return Steuerung als String
    */
-  public String toDebugString(boolean idOnly)
-  {
+  public String toDebugString(boolean idOnly) {
     StringBuilder buf = new StringBuilder("Steuerung");
-    for (Lok lok : this.loks)
-    {
+    for (Lok lok : this.loks) {
       buf.append("\n  ").append(lok.toDebugString(idOnly));
     }
 
-    for (Besetztmelder bm : this.besetztmelder)
-    {
+    for (Besetztmelder bm : this.besetztmelder) {
       buf.append("\n  ").append(bm);
-      for (Gleisabschnitt g : bm.getGleisabschnitte())
-      {
+      for (Gleisabschnitt g : bm.getGleisabschnitte()) {
         buf.append("\n    ").append(g);
       }
       buf.append("\n    Properties: ").append(bm.getProperties());
     }
 
-    for (Funktionsdecoder fd : this.funktionsdecoder)
-    {
+    for (Funktionsdecoder fd : this.funktionsdecoder) {
       buf.append("\n  ").append(fd);
-      for (Geraet g : fd.getGeraete())
-      {
+      for (Geraet g : fd.getGeraete()) {
         buf.append("\n    ").append(g);
       }
       buf.append("\n    Properties: ").append(fd.getProperties());
     }
 
-    for (Fahrstrasse fahrstrasse : this.fahrstrassen)
-    {
+    for (Fahrstrasse fahrstrasse : this.fahrstrassen) {
       buf.append("\n  ").append(fahrstrasse);
-      for (FahrstrassenElement fahrstrassenElement : fahrstrasse.getElemente())
-      {
+      for (FahrstrassenElement fahrstrassenElement : fahrstrasse.getElemente()) {
         buf.append("\n    ").append(fahrstrassenElement);
       }
     }
 
-    for (Stellwerk stellwerk : this.stellwerke)
-    {
+    for (Stellwerk stellwerk : this.stellwerke) {
       buf.append("\n  ").append(stellwerk);
-      for (StellwerkZeile zeile : stellwerk.getZeilen())
-      {
+      for (StellwerkZeile zeile : stellwerk.getZeilen()) {
         buf.append("\n    Zeile");
-        for (StellwerkElement element : zeile.getElemente())
-        {
+        for (StellwerkElement element : zeile.getElemente()) {
           buf.append("\n      " + element);
         }
       }
@@ -865,8 +777,7 @@ public class Steuerung implements SelectrixMessageListener, Serializable
    * @see java.lang.Object#toString()
    */
   @Override
-  public String toString()
-  {
+  public String toString() {
     return toDebugString(true);
   }
 
@@ -875,12 +786,13 @@ public class Steuerung implements SelectrixMessageListener, Serializable
    *
    * Die angegebenen Gleisabschnitte dürfen belegt sein, alle anderen müssen frei sein.
    *
-   * @param beginn Beginn-Gleisabschnitt
-   * @param ende Ende-Gleisabschnitt
+   * @param beginn
+   *          Beginn-Gleisabschnitt
+   * @param ende
+   *          Ende-Gleisabschnitt
    * @return Liste freie Fahrstrassen
    */
-  public List<Fahrstrasse> getFreieFahrstrassen(Gleisabschnitt beginn, Gleisabschnitt ende)
-  {
+  public List<Fahrstrasse> getFreieFahrstrassen(Gleisabschnitt beginn, Gleisabschnitt ende) {
     return getFreieFahrstrassen(beginn, false, ende, false);
   }
 
@@ -889,31 +801,29 @@ public class Steuerung implements SelectrixMessageListener, Serializable
    *
    * Die angegebenen Gleisabschnitte dürfen belegt sein, alle anderen müssen frei sein.
    *
-   * @param beginn Beginn-Gleisabschnitt
-   * @param beginnMussFreiSein Beginn-Gleisabschnitt muss frei sein
-   * @param ende Ende-Gleisabschnitt
-   * @param endeMussFreiSein Ende-Gleisabschnitt muss frei sein
+   * @param beginn
+   *          Beginn-Gleisabschnitt
+   * @param beginnMussFreiSein
+   *          Beginn-Gleisabschnitt muss frei sein
+   * @param ende
+   *          Ende-Gleisabschnitt
+   * @param endeMussFreiSein
+   *          Ende-Gleisabschnitt muss frei sein
    * @return Liste freie Fahrstrassen
    */
-  public List<Fahrstrasse> getFreieFahrstrassen(Gleisabschnitt beginn, boolean beginnMussFreiSein, Gleisabschnitt ende, boolean endeMussFreiSein)
-  {
+  public List<Fahrstrasse> getFreieFahrstrassen(Gleisabschnitt beginn, boolean beginnMussFreiSein, Gleisabschnitt ende, boolean endeMussFreiSein) {
     List<Fahrstrasse> freieFahrstrassen = new ArrayList<>();
-    for (Fahrstrasse fahrstrasse : this.fahrstrassen)
-    {
-      if (fahrstrasse.startsWith(beginn) && fahrstrasse.endsWith(ende))
-      {
-        if (fahrstrasse.isFrei(beginnMussFreiSein, endeMussFreiSein) && fahrstrasse.isReservierbar())
-        {
+    for (Fahrstrasse fahrstrasse : this.fahrstrassen) {
+      if (fahrstrasse.startsWith(beginn) && fahrstrasse.endsWith(ende)) {
+        if (fahrstrasse.isFrei(beginnMussFreiSein, endeMussFreiSein) && fahrstrasse.isReservierbar()) {
           freieFahrstrassen.add(fahrstrasse);
         }
       }
     }
 
-    Collections.sort(freieFahrstrassen, new Comparator<Fahrstrasse>()
-    {
+    Collections.sort(freieFahrstrassen, new Comparator<Fahrstrasse>() {
       @Override
-      public int compare(Fahrstrasse f1, Fahrstrasse f2)
-      {
+      public int compare(Fahrstrasse f1, Fahrstrasse f2) {
         return f1.getRank() - f2.getRank();
       }
     });
@@ -924,15 +834,12 @@ public class Steuerung implements SelectrixMessageListener, Serializable
   /**
    * Alle ValueChangedListener registrieren.
    */
-  public void addValueChangedListeners()
-  {
-    for (Funktionsdecoder funktionsdecoder : this.funktionsdecoder)
-    {
+  public void addValueChangedListeners() {
+    for (Funktionsdecoder funktionsdecoder : this.funktionsdecoder) {
       funktionsdecoder.addValueChangedListeners();
     }
 
-    for (Besetztmelder besetztmelder : this.besetztmelder)
-    {
+    for (Besetztmelder besetztmelder : this.besetztmelder) {
       besetztmelder.addValueChangedListeners();
     }
   }
