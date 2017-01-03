@@ -11,19 +11,19 @@
       <h:panelGroup />
 
       <h:outputText value="Adresse: " />
-      <p:inputText value="#{bausteinProgrammierungModel_SD8.configuration.adresseSoll}" size="3" readonly="true" />
-      <p:commandButton value=">" action="#{bausteinProgrammierungModel_SD8.configuration.adresseResetToSoll()}" ajax="false" />
-      <p:inputText value="#{bausteinProgrammierungModel_SD8.configuration.adresseIst}" size="3" id="istAdresse" />
+      <p:inputText value="#{bausteinProgrammierungModel.configuration.adresseSoll}" size="3" readonly="true" />
+      <p:commandButton value=">" action="#{bausteinProgrammierungModel.configuration.adresseResetToSoll()}" ajax="false" />
+      <p:inputText value="#{bausteinProgrammierungModel.configuration.adresseIst}" size="3" id="istAdresse" />
       <p:message for="istAdresse" />
 
       <h:outputText value="Abschaltzeit (in 100 ms, 0=nie): " />
-      <p:inputText value="#{bausteinProgrammierungModel_SD8.configuration.abschaltZeit.soll}" size="3" readonly="true" />
-      <p:commandButton value=">" action="#{bausteinProgrammierungModel_SD8.configuration.abschaltZeit.resetToSoll()}" ajax="false" />
-      <p:inputText value="#{bausteinProgrammierungModel_SD8.configuration.abschaltZeit.ist}" size="3" id="istAbschaltZeit" />
+      <p:inputText value="#{bausteinProgrammierungModel.configuration.abschaltZeit.soll}" size="3" readonly="true" />
+      <p:commandButton value=">" action="#{bausteinProgrammierungModel.configuration.abschaltZeit.resetToSoll()}" ajax="false" />
+      <p:inputText value="#{bausteinProgrammierungModel.configuration.abschaltZeit.ist}" size="3" id="istAbschaltZeit" />
       <p:message for="istAbschaltZeit" />
     </h:panelGrid>
 
-    <p:dataTable value="#{bausteinProgrammierungModel_SD8.configuration.servoConfiguration}" var="servoConfiguration" emptyMessage="">
+    <p:dataTable value="#{bausteinProgrammierungModel.configuration.servoConfiguration}" var="servoConfiguration" emptyMessage="">
       <p:columnGroup type="header">
         <p:row>
           <p:column rowspan="2" headerText="Servo" />
@@ -67,8 +67,8 @@
         <p:inputText value="#{servoConfiguration.geschwindigkeit.ist}" size="3" />
       </p:column>
       <p:column style="text-align: center;">
-        <p:commandButton value="Start" action="#{bausteinProgrammierungModel_SD8.testStart(servoConfiguration)}" ajax="false" />
-        <p:commandButton value="Ende" action="#{bausteinProgrammierungModel_SD8.testEnde(servoConfiguration)}" ajax="false" />
+        <p:commandButton value="Start" action="#{bausteinProgrammierungModel.configurationRuntimeService.testStart(servoConfiguration)}" ajax="false" />
+        <p:commandButton value="Ende" action="#{bausteinProgrammierungModel.configurationRuntimeService.testEnde(servoConfiguration)}" ajax="false" />
       </p:column>
     </p:dataTable>
   </ui:define>

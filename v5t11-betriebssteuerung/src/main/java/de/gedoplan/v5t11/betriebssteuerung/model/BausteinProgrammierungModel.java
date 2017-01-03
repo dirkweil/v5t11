@@ -70,6 +70,7 @@ public class BausteinProgrammierungModel implements Serializable {
   @Getter
   private Baustein currentBaustein;
 
+  @Getter
   private ConfigurationRuntimeService configurationRuntimeService;
 
   @Getter
