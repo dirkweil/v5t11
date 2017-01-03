@@ -11,32 +11,32 @@
       <h:panelGroup />
 
       <h:outputText value="Adresse: " />
-      <p:inputText value="#{progMod.configuration.adresseSoll}" readonly="true" />
-      <p:commandButton value=">" action="#{progMod.configuration.adresseResetToSoll()}" ajax="false" />
-      <p:inputText value="#{progMod.configuration.adresseIst}" id="istAdresse" />
+      <p:inputText value="#{bausteinProgrammierungModel.configuration.adresseSoll}" readonly="true" />
+      <p:commandButton value=">" action="#{bausteinProgrammierungModel.configuration.adresseResetToSoll()}" ajax="false" />
+      <p:inputText value="#{bausteinProgrammierungModel.configuration.adresseIst}" id="istAdresse" />
       <p:message for="istAdresse" />
 
       <h:outputText value="Höchstgeschwindigkeit: " />
-      <p:inputText value="#{progMod.configuration.hoechstGeschwindigkeit.soll}" readonly="true" />
-      <p:commandButton value=">" action="#{progMod.configuration.hoechstGeschwindigkeit.resetToSoll()}" ajax="false" />
-      <p:selectOneMenu value="#{progMod.configuration.hoechstGeschwindigkeit.ist}" id="istHoechstGeschwindigkeit">
-        <f:selectItems value="#{progMod.configuration.hoechstGeschwindigkeit.values}" />
+      <p:inputText value="#{bausteinProgrammierungModel.configuration.hoechstGeschwindigkeit.soll}" readonly="true" />
+      <p:commandButton value=">" action="#{bausteinProgrammierungModel.configuration.hoechstGeschwindigkeit.resetToSoll()}" ajax="false" />
+      <p:selectOneMenu value="#{bausteinProgrammierungModel.configuration.hoechstGeschwindigkeit.ist}" id="istHoechstGeschwindigkeit">
+        <f:selectItems value="#{bausteinProgrammierungModel.configuration.hoechstGeschwindigkeit.values}" />
       </p:selectOneMenu>
       <p:message for="istHoechstGeschwindigkeit" />
 
       <h:outputText value="Trägheit: " />
-      <p:inputText value="#{progMod.configuration.traegheit.soll}" readonly="true" />
-      <p:commandButton value=">" action="#{progMod.configuration.traegheit.resetToSoll()}" ajax="false" />
-      <p:selectOneMenu value="#{progMod.configuration.traegheit.ist}" id="istTraegheit">
-        <f:selectItems value="#{progMod.configuration.traegheit.values}" />
+      <p:inputText value="#{bausteinProgrammierungModel.configuration.traegheit.soll}" readonly="true" />
+      <p:commandButton value=">" action="#{bausteinProgrammierungModel.configuration.traegheit.resetToSoll()}" ajax="false" />
+      <p:selectOneMenu value="#{bausteinProgrammierungModel.configuration.traegheit.ist}" id="istTraegheit">
+        <f:selectItems value="#{bausteinProgrammierungModel.configuration.traegheit.values}" />
       </p:selectOneMenu>
       <p:message for="istTraegheit" />
 
       <h:outputText value="Impulsbreite: " />
-      <p:inputText value="#{progMod.configuration.impulsbreite.soll}" readonly="true" />
-      <p:commandButton value=">" action="#{progMod.configuration.impulsbreite.resetToSoll()}" ajax="false" />
-      <p:selectOneMenu value="#{progMod.configuration.impulsbreite.ist}" id="istImpulsbreite">
-        <f:selectItems value="#{progMod.configuration.impulsbreite.values}" />
+      <p:inputText value="#{bausteinProgrammierungModel.configuration.impulsbreite.soll}" readonly="true" />
+      <p:commandButton value=">" action="#{bausteinProgrammierungModel.configuration.impulsbreite.resetToSoll()}" ajax="false" />
+      <p:selectOneMenu value="#{bausteinProgrammierungModel.configuration.impulsbreite.ist}" id="istImpulsbreite">
+        <f:selectItems value="#{bausteinProgrammierungModel.configuration.impulsbreite.values}" />
       </p:selectOneMenu>
       <p:message for="istImpulsbreite" />
 

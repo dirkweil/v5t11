@@ -1,18 +1,37 @@
 package de.gedoplan.v5t11.betriebssteuerung.service.lokdecoder.sxlokdecoder;
 
+import de.gedoplan.v5t11.betriebssteuerung.entity.BausteinConfiguration;
+import de.gedoplan.v5t11.betriebssteuerung.service.BausteinConfigurationService;
 import de.gedoplan.v5t11.betriebssteuerung.service.ConfigurationRuntimeService;
+import de.gedoplan.v5t11.betriebssteuerung.service.Current;
+import de.gedoplan.v5t11.betriebssteuerung.service.Programmierfamilie;
 import de.gedoplan.v5t11.betriebssteuerung.service.lokdecoder.sxlokdecoder.SxLokdecoderConfigurationAdapter.Impulsbreite;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.Steuerung;
+import de.gedoplan.v5t11.betriebssteuerung.steuerung.baustein.Baustein;
+import de.gedoplan.v5t11.betriebssteuerung.steuerung.baustein.Lokdecoder;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.baustein.Zentrale;
+import de.gedoplan.v5t11.betriebssteuerung.steuerung.baustein.lokdecoder.SxLokdecoder;
 import de.gedoplan.v5t11.selectrix.SelectrixException;
 
 import java.util.function.Supplier;
 
-import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
 
-@ApplicationScoped
-public class SxLokdecoderRuntimeService extends ConfigurationRuntimeService<SxLokdecoderConfigurationAdapter> {
+import lombok.Getter;
+
+@ConversationScoped
+@Programmierfamilie(SxLokdecoder.class)
+public class SxLokdecoderRuntimeService extends ConfigurationRuntimeService {
+  @Getter
+  private SxLokdecoderConfigurationAdapter configuration;
+
+  @Inject
+  public SxLokdecoderRuntimeService(@Current Baustein baustein, BausteinConfigurationService bausteinConfigurationService) {
+    BausteinConfiguration bausteinSollConfiguration = bausteinConfigurationService.getBausteinConfiguration(baustein);
+    BausteinConfiguration bausteinIstConfiguration = new BausteinConfiguration(baustein.getId());
+    this.configuration = new SxLokdecoderConfigurationAdapter((Lokdecoder) baustein, bausteinIstConfiguration, bausteinSollConfiguration);
+  }
 
   Zentrale zentrale;
 
@@ -22,7 +41,7 @@ public class SxLokdecoderRuntimeService extends ConfigurationRuntimeService<SxLo
   }
 
   @Override
-  public void getRuntimeValues(SxLokdecoderConfigurationAdapter configuration) {
+  public void getRuntimeValues() {
     this.zentrale.setAktiv(false);
 
     startProgMode();
@@ -31,12 +50,12 @@ public class SxLokdecoderRuntimeService extends ConfigurationRuntimeService<SxLo
       requestDecoderDaten();
 
       int value104 = this.selectrixGateway.getValue(104);
-      configuration.hoechstGeschwindigkeit.setIst(value104 & 0b111, false);
-      configuration.traegheit.setIst((value104 >>> 3) & 0b111, false);
-      configuration.impulsbreite.setIst(Impulsbreite.valueOf((value104 >>> 6) & 0b11), false);
+      this.configuration.hoechstGeschwindigkeit.setIst(value104 & 0b111, false);
+      this.configuration.traegheit.setIst((value104 >>> 3) & 0b111, false);
+      this.configuration.impulsbreite.setIst(Impulsbreite.valueOf((value104 >>> 6) & 0b11), false);
 
       int value105 = this.selectrixGateway.getValue(105);
-      configuration.setAdresseIst(value105 & 0b1111111, false);
+      this.configuration.setAdresseIst(value105 & 0b1111111, false);
 
       if (this.log.isDebugEnabled()) {
         this.log.debug("value104=0b" + Integer.toBinaryString(value104) + ", value105=0b" + Integer.toBinaryString(value105));
@@ -47,18 +66,18 @@ public class SxLokdecoderRuntimeService extends ConfigurationRuntimeService<SxLo
   }
 
   @Override
-  public void setRuntimeValues(SxLokdecoderConfigurationAdapter configuration) {
+  public void setRuntimeValues() {
     this.zentrale.setAktiv(false);
 
     startProgMode();
 
     try {
-      int value104 = (configuration.hoechstGeschwindigkeit.getIst() & 0b111)
-          | ((configuration.traegheit.getIst() << 3) & 0b111)
-          | ((configuration.impulsbreite.getIst().getBits() << 6) & 0b11);
+      int value104 = (this.configuration.hoechstGeschwindigkeit.getIst() & 0b111)
+          | ((this.configuration.traegheit.getIst() << 3) & 0b111)
+          | ((this.configuration.impulsbreite.getIst().getBits() << 6) & 0b11);
       this.selectrixGateway.setValue(104, value104);
 
-      int value105 = (configuration.getAdresseIst() & 0b0111_1111);
+      int value105 = (this.configuration.getAdresseIst() & 0b0111_1111);
       this.selectrixGateway.setValue(105, value105);
 
       storeDecoderDaten();
@@ -103,6 +122,10 @@ public class SxLokdecoderRuntimeService extends ConfigurationRuntimeService<SxLo
   }
 
   private boolean isProgBereit() {
+    if (System.getProperty("v5t11.portName", "none").equalsIgnoreCase("none")) {
+      return true;
+    }
+
     int value109 = this.selectrixGateway.getValue(109);
     if (this.log.isTraceEnabled()) {
       this.log.trace("value109=" + Integer.toBinaryString(value109));
