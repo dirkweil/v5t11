@@ -73,8 +73,8 @@ public class SxLokdecoderRuntimeService extends ConfigurationRuntimeService {
 
     try {
       int value104 = (this.configuration.hoechstGeschwindigkeit.getIst() & 0b111)
-          | ((this.configuration.traegheit.getIst() << 3) & 0b111)
-          | ((this.configuration.impulsbreite.getIst().getBits() << 6) & 0b11);
+          | ((this.configuration.traegheit.getIst() & 0b111) << 3)
+          | ((this.configuration.impulsbreite.getIst().getBits() & 0b11) << 6);
       this.selectrixGateway.setValue(104, value104);
 
       int value105 = (this.configuration.getAdresseIst() & 0b0111_1111);
@@ -134,15 +134,18 @@ public class SxLokdecoderRuntimeService extends ConfigurationRuntimeService {
   }
 
   private static void waitFor(Supplier<Boolean> condition, long millis, String errorMessage) {
-    for (int i = 0; i < 10; ++i) {
-      delay(millis / 10);
-
-      if (condition.get()) {
-        return;
-      }
-    }
-
-    throw new SelectrixException(errorMessage);
+	  delay(2000);
+	  return;
+	  
+//    for (int i = 0; i < 10; ++i) {
+//      delay(millis / 10);
+//
+//      if (condition.get()) {
+//        return;
+//      }
+//    }
+//
+//    throw new SelectrixException(errorMessage);
   }
 
   private static void delay(long millis) {
