@@ -8,5 +8,10 @@ package de.gedoplan.v5t11.betriebssteuerung.steuerung.baustein.lokdecoder;
  *
  * @author dw
  */
-public class Tr66825 extends SxLokdecoderCodierbar {
+public class Tr66825 extends SxLokdecoder {
+
+  @Override
+  public String getProgrammierfamilie() {
+    return null;
+  }
 }

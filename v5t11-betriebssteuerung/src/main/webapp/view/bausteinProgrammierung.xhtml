@@ -15,7 +15,7 @@
         <prime:dataTable value="#{bausteinProgrammierungModel.konfigurierteBausteine}" var="baustein" sortBy="#{baustein.label}">
           <prime:column sortBy="#{baustein.label}">
             <f:facet name="header">Id</f:facet>
-            <prime:commandButton value="#{baustein.label}" action="#{bausteinProgrammierungModel.selectBaustein(baustein)}" ajax="false" disabled="#{empty baustein.programmierklasse}" />
+            <prime:commandButton value="#{baustein.label}" action="#{bausteinProgrammierungModel.selectBaustein(baustein)}" ajax="false" disabled="#{empty baustein.programmierfamilie}" />
           </prime:column>
           <prime:column>
             <f:facet name="header">Typ</f:facet>
@@ -36,7 +36,7 @@
         <prime:dataTable value="#{bausteinProgrammierungModel.neueBausteine}" var="baustein" sortBy="#{baustein.label}">
           <prime:column sortBy="#{baustein.label}">
             <f:facet name="header">Typ</f:facet>
-            <prime:commandButton value="#{baustein.label}" action="#{bausteinProgrammierungModel.selectBaustein(baustein)}" ajax="false" disabled="#{empty baustein.programmierklasse}" />
+            <prime:commandButton value="#{baustein.label}" action="#{bausteinProgrammierungModel.selectBaustein(baustein)}" ajax="false" disabled="#{empty baustein.programmierfamilie}" />
           </prime:column>
         </prime:dataTable>
       </prime:tab>

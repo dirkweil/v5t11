@@ -282,16 +282,15 @@ public abstract class Baustein extends SingleIdEntity<String> implements Compara
   }
 
   /**
-   * Programmierklasse liefern.
+   * Programmierfamilie liefern.
    *
-   * Die Programmierklasse ist die Identifizierung für Programmieralgorithmus
-   * und zugehörigen Dialog etc.
+   * Die Programmierfamilie ist die Identifizierung für Programmieralgorithmus und zugehörigen Dialog etc.
+   * Als Konvention wird als Programmierfamilie der einfache Klassenname verwendet.
    *
-   * @return Programmierklasse oder <code>null</code>, falls nicht
-   *         programmierbar.
+   * @return Programmierfamilie oder <code>null</code>, falls nicht programmierbar.
    */
-  public Class<?> getProgrammierklasse() {
-    return getClass();
+  public String getProgrammierfamilie() {
+    return getClass().getSimpleName();
   }
 
   /**

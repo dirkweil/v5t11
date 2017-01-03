@@ -11,58 +11,58 @@
       <h:panelGroup />
 
       <h:outputText value="Adresse: " />
-      <p:inputText value="#{bausteinProgrammierungModel_BMMiba3.configuration.adresseSoll}" readonly="true" />
-      <p:commandButton value=">" action="#{bausteinProgrammierungModel_BMMiba3.configuration.adresseResetToSoll()}" ajax="false" />
-      <p:inputText value="#{bausteinProgrammierungModel_BMMiba3.configuration.adresseIst}" id="istAdresse" />
+      <p:inputText value="#{bausteinProgrammierungModel.configuration.adresseSoll}" readonly="true" />
+      <p:commandButton value=">" action="#{bausteinProgrammierungModel.configuration.adresseResetToSoll()}" ajax="false" />
+      <p:inputText value="#{bausteinProgrammierungModel.configuration.adresseIst}" id="istAdresse" />
       <p:message for="istAdresse" />
 
       <h:outputText value="Ansprechverzögerung: " />
-      <p:inputText value="#{bausteinProgrammierungModel_BMMiba3.configuration.ansprechVerzoegerung.soll}" readonly="true" />
-      <p:commandButton value=">" action="#{bausteinProgrammierungModel_BMMiba3.configuration.ansprechVerzoegerung.resetToSoll()}" ajax="false" />
-      <p:inputText value="#{bausteinProgrammierungModel_BMMiba3.configuration.ansprechVerzoegerung.ist}" id="istAnsprechVerzoegerung" />
+      <p:inputText value="#{bausteinProgrammierungModel.configuration.ansprechVerzoegerung.soll}" readonly="true" />
+      <p:commandButton value=">" action="#{bausteinProgrammierungModel.configuration.ansprechVerzoegerung.resetToSoll()}" ajax="false" />
+      <p:inputText value="#{bausteinProgrammierungModel.configuration.ansprechVerzoegerung.ist}" id="istAnsprechVerzoegerung" />
       <p:message for="istAnsprechVerzoegerung" />
 
       <h:outputText value="Abfallverzögerung: " />
-      <p:inputText value="#{bausteinProgrammierungModel_BMMiba3.configuration.abfallVerzoegerung.soll}" readonly="true" />
-      <p:commandButton value=">" action="#{bausteinProgrammierungModel_BMMiba3.configuration.abfallVerzoegerung.resetToSoll()}" ajax="false" />
-      <p:inputText value="#{bausteinProgrammierungModel_BMMiba3.configuration.abfallVerzoegerung.ist}" id="istAbfallVerzoegerung" />
+      <p:inputText value="#{bausteinProgrammierungModel.configuration.abfallVerzoegerung.soll}" readonly="true" />
+      <p:commandButton value=">" action="#{bausteinProgrammierungModel.configuration.abfallVerzoegerung.resetToSoll()}" ajax="false" />
+      <p:inputText value="#{bausteinProgrammierungModel.configuration.abfallVerzoegerung.ist}" id="istAbfallVerzoegerung" />
       <p:message for="istAbfallVerzoegerung" />
 
       <h:outputText value="Zeittakt für Verzögerungen: " />
-      <p:inputText value="#{bausteinProgrammierungModel_BMMiba3.configuration.zeittakt.soll}" readonly="true" />
-      <p:commandButton value=">" action="#{bausteinProgrammierungModel_BMMiba3.configuration.zeittakt.resetToSoll()}" ajax="false" />
-      <p:selectOneMenu value="#{bausteinProgrammierungModel_BMMiba3.configuration.zeittakt.ist}" id="istZeittakt">
-        <f:selectItems value="#{bausteinProgrammierungModel_BMMiba3.configuration.zeittakt.values}" />
+      <p:inputText value="#{bausteinProgrammierungModel.configuration.zeittakt.soll}" readonly="true" />
+      <p:commandButton value=">" action="#{bausteinProgrammierungModel.configuration.zeittakt.resetToSoll()}" ajax="false" />
+      <p:selectOneMenu value="#{bausteinProgrammierungModel.configuration.zeittakt.ist}" id="istZeittakt">
+        <f:selectItems value="#{bausteinProgrammierungModel.configuration.zeittakt.values}" />
       </p:selectOneMenu>
       <p:message for="istZeittakt" />
 
       <h:outputText value="Belegtmeldung bei ZE Stopp: " />
-      <p:inputText value="#{bausteinProgrammierungModel_BMMiba3.configuration.meldungBeiZeStopp.soll}" readonly="true" />
-      <p:commandButton value=">" action="#{bausteinProgrammierungModel_BMMiba3.configuration.meldungBeiZeStopp.resetToSoll()}" ajax="false" />
-      <p:selectOneMenu value="#{bausteinProgrammierungModel_BMMiba3.configuration.meldungBeiZeStopp.ist}" id="istBelegtmeldungBeiZeStopp">
-        <f:selectItems value="#{bausteinProgrammierungModel_BMMiba3.configuration.meldungBeiZeStopp.values}" />
+      <p:inputText value="#{bausteinProgrammierungModel.configuration.meldungBeiZeStopp.soll}" readonly="true" />
+      <p:commandButton value=">" action="#{bausteinProgrammierungModel.configuration.meldungBeiZeStopp.resetToSoll()}" ajax="false" />
+      <p:selectOneMenu value="#{bausteinProgrammierungModel.configuration.meldungBeiZeStopp.ist}" id="istBelegtmeldungBeiZeStopp">
+        <f:selectItems value="#{bausteinProgrammierungModel.configuration.meldungBeiZeStopp.values}" />
       </p:selectOneMenu>
       <p:message for="istBelegtmeldungBeiZeStopp" />
 
       <h:outputText value="Belegtmeldung bei fehlendem Fahrstrom: " />
-      <p:inputText value="#{bausteinProgrammierungModel_BMMiba3.configuration.meldungBeiFehlendemFahrstrom.soll}" readonly="true" />
-      <p:commandButton value=">" action="#{bausteinProgrammierungModel_BMMiba3.configuration.meldungBeiFehlendemFahrstrom.resetToSoll()}" ajax="false" />
-      <p:selectOneMenu value="#{bausteinProgrammierungModel_BMMiba3.configuration.meldungBeiFehlendemFahrstrom.ist}" id="istBelegtmeldungBeiFehlendemFahrstrom">
-        <f:selectItems value="#{bausteinProgrammierungModel_BMMiba3.configuration.meldungBeiFehlendemFahrstrom.values}" />
+      <p:inputText value="#{bausteinProgrammierungModel.configuration.meldungBeiFehlendemFahrstrom.soll}" readonly="true" />
+      <p:commandButton value=">" action="#{bausteinProgrammierungModel.configuration.meldungBeiFehlendemFahrstrom.resetToSoll()}" ajax="false" />
+      <p:selectOneMenu value="#{bausteinProgrammierungModel.configuration.meldungBeiFehlendemFahrstrom.ist}" id="istBelegtmeldungBeiFehlendemFahrstrom">
+        <f:selectItems value="#{bausteinProgrammierungModel.configuration.meldungBeiFehlendemFahrstrom.values}" />
       </p:selectOneMenu>
       <p:message for="istBelegtmeldungBeiFehlendemFahrstrom" />
 
       <h:outputText value="Meldungs-Negation: " />
-      <p:selectBooleanCheckbox value="#{bausteinProgrammierungModel_BMMiba3.configuration.meldungsNegation.soll}" disabled="true" />
-      <p:commandButton value=">" action="#{bausteinProgrammierungModel_BMMiba3.configuration.meldungsNegation.resetToSoll()}" ajax="false" />
-      <p:selectBooleanCheckbox value="#{bausteinProgrammierungModel_BMMiba3.configuration.meldungsNegation.ist}" id="istMeldungsNegation" />
+      <p:selectBooleanCheckbox value="#{bausteinProgrammierungModel.configuration.meldungsNegation.soll}" disabled="true" />
+      <p:commandButton value=">" action="#{bausteinProgrammierungModel.configuration.meldungsNegation.resetToSoll()}" ajax="false" />
+      <p:selectBooleanCheckbox value="#{bausteinProgrammierungModel.configuration.meldungsNegation.ist}" id="istMeldungsNegation" />
       <p:message for="istMeldungsNegation" />
 
       <h:outputText value="Meldungs-Speicherung " />
-      <p:inputText value="#{bausteinProgrammierungModel_BMMiba3.configuration.meldungsSpeicherung.soll}" readonly="true" />
-      <p:commandButton value=">" action="#{bausteinProgrammierungModel_BMMiba3.configuration.meldungsSpeicherung.resetToSoll()}" ajax="false" />
-      <p:selectOneMenu value="#{bausteinProgrammierungModel_BMMiba3.configuration.meldungsSpeicherung.ist}" id="istMeldungsSpeicherung">
-        <f:selectItems value="#{bausteinProgrammierungModel_BMMiba3.configuration.meldungsSpeicherung.values}" />
+      <p:inputText value="#{bausteinProgrammierungModel.configuration.meldungsSpeicherung.soll}" readonly="true" />
+      <p:commandButton value=">" action="#{bausteinProgrammierungModel.configuration.meldungsSpeicherung.resetToSoll()}" ajax="false" />
+      <p:selectOneMenu value="#{bausteinProgrammierungModel.configuration.meldungsSpeicherung.ist}" id="istMeldungsSpeicherung">
+        <f:selectItems value="#{bausteinProgrammierungModel.configuration.meldungsSpeicherung.values}" />
       </p:selectOneMenu>
       <p:message for="istMeldungsSpeicherung" />
 

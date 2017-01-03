@@ -6,36 +6,29 @@
   <from-view-id>/view/bausteinProgrammierung.xhtml</from-view-id>
   <navigation-case>
    <from-outcome>openProgMode</from-outcome>
-   <if>#{bausteinProgrammierungModel.currentBaustein.busBaustein}</if>
-   <to-view-id>/view/bausteinProgrammierung_openBusProgMode.xhtml</to-view-id>
-  </navigation-case>
-  <navigation-case>
-   <from-outcome>openProgMode</from-outcome>
-   <if>#{!bausteinProgrammierungModel.currentBaustein.busBaustein}</if>
-   <to-view-id>/view/bausteinProgrammierung_openGleisProgMode.xhtml</to-view-id>
+   <to-view-id>/view/bausteinProgrammierung_openProgMode.xhtml</to-view-id>
+   <redirect/>
   </navigation-case>
  </navigation-rule>
+
  <navigation-rule>
-  <from-view-id>/view/bausteinProgrammierung*</from-view-id>
+  <from-view-id>/view/bausteinProgrammierung_*</from-view-id>
   <navigation-case>
    <from-outcome>closeProgMode</from-outcome>
-   <if>#{bausteinProgrammierungModel.currentBaustein.busBaustein}</if>
-   <to-view-id>/view/bausteinProgrammierung_closeBusProgMode.xhtml</to-view-id>
-  </navigation-case>
-  <navigation-case>
-   <from-outcome>closeProgMode</from-outcome>
-   <if>#{!bausteinProgrammierungModel.currentBaustein.busBaustein}</if>
-   <to-view-id>/view/bausteinProgrammierung_closeGleisProgMode.xhtml</to-view-id>
+   <to-view-id>/view/bausteinProgrammierung_closeProgMode.xhtml</to-view-id>
+   <redirect/>
   </navigation-case>
  </navigation-rule>
+
  <navigation-rule>
-  <from-view-id>/view/bausteinProgrammierung_closeBusProgMode.xhtml</from-view-id>
+  <from-view-id>*</from-view-id>
   <navigation-case>
    <from-outcome>bausteinProgrammierung</from-outcome>
    <to-view-id>/view/bausteinProgrammierung.xhtml</to-view-id>
    <redirect/>
   </navigation-case>
  </navigation-rule>
+
  <factory>
   <exception-handler-factory>de.gedoplan.v5t11.betriebssteuerung.model.ViewExpiredExceptionHandlerFactory</exception-handler-factory>
   <exception-handler-factory>de.gedoplan.v5t11.betriebssteuerung.model.SelectrixExceptionHandlerFactory</exception-handler-factory>

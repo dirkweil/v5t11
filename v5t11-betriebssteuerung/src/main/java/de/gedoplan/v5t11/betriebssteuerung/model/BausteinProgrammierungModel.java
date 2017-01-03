@@ -1,7 +1,10 @@
 package de.gedoplan.v5t11.betriebssteuerung.model;
 
-import de.gedoplan.v5t11.betriebssteuerung.entity.BausteinConfiguration;
 import de.gedoplan.v5t11.betriebssteuerung.service.BausteinConfigurationService;
+import de.gedoplan.v5t11.betriebssteuerung.service.ConfigurationAdapter;
+import de.gedoplan.v5t11.betriebssteuerung.service.ConfigurationRuntimeService;
+import de.gedoplan.v5t11.betriebssteuerung.service.Current;
+import de.gedoplan.v5t11.betriebssteuerung.service.Literal;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.Steuerung;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.baustein.Baustein;
 
@@ -14,7 +17,15 @@ import javax.enterprise.context.Conversation;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Instance;
 import javax.enterprise.inject.Model;
+import javax.enterprise.inject.Produces;
+import javax.enterprise.inject.spi.CDI;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+
+import org.apache.commons.logging.Log;
+
+import lombok.Getter;
 
 /**
  * Presentation Model für die Bausteinprogrammierung.
@@ -36,89 +47,33 @@ public class BausteinProgrammierungModel implements Serializable {
   @Inject
   Conversation conversation;
 
+  @Inject
+  Log log;
+
   /**
    * Liste aller konfigurierter Bausteine.
    */
+  @Getter
   private List<Baustein> konfigurierteBausteine;
 
   /**
    * Liste aller nicht-konfigurierter Bausteine.
    */
+  @Getter
   private List<Baustein> neueBausteine;
 
   /**
    * Aktueller Baustein.
    */
+  @Produces
+  @Current
+  @Getter
   private Baustein currentBaustein;
 
-  /**
-   * Sollkonfiguration des aktuellen Bausteins.
-   */
-  private BausteinConfiguration currentBausteinSollConfiguration;
+  private ConfigurationRuntimeService configurationRuntimeService;
 
-  /**
-   * Istkonfiguration des aktuellen Bausteins.
-   *
-   * Dieser Wert wird vom Presentation Model des jeweilligen Bausteins
-   * geliefert, wenn die Werte dauerhaft gespeichert werden
-   * sollen. Ansonsten bleibt der Wert <code>null</code>.
-   */
-  private BausteinConfiguration currentBausteinIstConfiguration;
-
-  /**
-   * Wert liefern: {@link #konfigurierteBausteine}.
-   *
-   * @return Wert
-   */
-  public List<Baustein> getKonfigurierteBausteine() {
-    return this.konfigurierteBausteine;
-  }
-
-  /**
-   * Wert liefern: {@link #neueBausteine}.
-   *
-   * @return Wert
-   */
-  public List<Baustein> getNeueBausteine() {
-    return this.neueBausteine;
-  }
-
-  /**
-   * Wert liefern: {@link #currentBaustein}.
-   *
-   * @return Wert
-   */
-  public Baustein getCurrentBaustein() {
-    return this.currentBaustein;
-  }
-
-  /**
-   * Wert liefern: {@link #currentBausteinSollConfiguration}.
-   *
-   * @return Wert
-   */
-  public BausteinConfiguration getCurrentBausteinSollConfiguration() {
-    return this.currentBausteinSollConfiguration;
-  }
-
-  /**
-   * Wert liefern: {@link #currentBausteinIstConfiguration}.
-   *
-   * @return Wert
-   */
-  public BausteinConfiguration getCurrentBausteinIstConfiguration() {
-    return this.currentBausteinIstConfiguration;
-  }
-
-  /**
-   * Wert setzen: {@link #currentBausteinIstConfiguration}.
-   *
-   * @param currentBausteinIstConfiguration
-   *          Wert
-   */
-  public void setCurrentBausteinIstConfiguration(BausteinConfiguration currentBausteinIstConfiguration) {
-    this.currentBausteinIstConfiguration = currentBausteinIstConfiguration;
-  }
+  @Getter
+  private ConfigurationAdapter configuration;
 
   /**
    * Aktuellen Baustein wählen und Programm-Session beginnen.
@@ -138,11 +93,16 @@ public class BausteinProgrammierungModel implements Serializable {
       this.conversation.begin();
     }
 
-    // TODO: Aktuelle Werte der Kanäle 0..9 sichern
-
-    this.currentBausteinSollConfiguration = this.bausteinConfigurationService.getBausteinConfiguration(this.currentBaustein);
-
     return "openProgMode";
+  }
+
+  public String getOpenProgModeMessage() {
+    return this.currentBaustein == null ? null : this.currentBaustein.isBusBaustein() ? "Bitte Programmiertaster am Baustein drücken!" : "Bitte Fahrzeug alleine auf das Programmiergleis stellen!";
+  }
+
+  public String getCloseProgModeMessage() {
+    return this.currentBaustein == null ? null
+        : this.currentBaustein.isBusBaustein() ? "Bitte Programmiertaster am Baustein drücken!" : "Fahrzeug kann vom Programmiergleis entfernt werden.";
   }
 
   /**
@@ -152,13 +112,36 @@ public class BausteinProgrammierungModel implements Serializable {
    * @return Outcome
    */
   public String edit() {
-    if (this.currentBaustein == null) {
-      return null;
+    if (this.currentBaustein != null) {
+
+      try {
+        // "Injektion" des passenden ConfigurationRuntimeService per API
+        String programmierfamilie = this.currentBaustein.getProgrammierfamilie();
+        this.configurationRuntimeService = CDI.current().select(ConfigurationRuntimeService.class, new Literal(programmierfamilie)).get();
+
+        // Aktuelle Ist-Werte holen
+        this.configurationRuntimeService.getRuntimeValues();
+
+        // Config-Werte für Zugriff aus Webseite bereitstellen
+        this.configuration = this.configurationRuntimeService.getConfiguration();
+
+        // In passende View navigieren
+        return "/view/bausteinProgrammierung_" + programmierfamilie + "?faces-redirect=true";
+      } catch (Exception e) {
+        this.log.error("Kann ConfigurationRuntimeService nicht erzeugen", e);
+
+        String message = e.getMessage();
+        if (message == null || message.trim().isEmpty()) {
+          message = e.toString();
+        }
+
+        FacesMessage facesMessage = new FacesMessage(message);
+        facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
+        FacesContext.getCurrentInstance().addMessage(null, facesMessage);
+      }
     }
 
-    this.currentBausteinSollConfiguration = this.bausteinConfigurationService.getBausteinConfiguration(this.currentBaustein);
-
-    return "/view/bausteinProgrammierung_" + this.currentBaustein.getProgrammierklasse().getSimpleName() + "?faces-redirect=true";
+    return null;
   }
 
   @PostConstruct
@@ -173,16 +156,8 @@ public class BausteinProgrammierungModel implements Serializable {
     }
   }
 
-  /**
-   * Bausteinkonfiguration persistent ablegen, falls nicht <code>null</code>.
-   *
-   * @return Outcome
-   */
-  public String store() {
-    if (this.currentBausteinIstConfiguration != null) {
-      this.bausteinConfigurationService.save(this.currentBausteinIstConfiguration);
-    }
-    return abort();
+  public void program() {
+    this.configurationRuntimeService.program();
   }
 
   /**
@@ -191,8 +166,6 @@ public class BausteinProgrammierungModel implements Serializable {
    * @return Outcome
    */
   public String abort() {
-    // TODO: Alte Werte der Kanäle 0..9 restaurieren
-
     if (!this.conversation.isTransient()) {
       this.conversation.end();
     }

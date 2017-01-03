@@ -27,10 +27,12 @@
     <ui:insert name="properties" />
 
     <ui:insert name="buttons">
-      <p:commandButton value="programmieren" actionListener="#{progMod.program()}" action="closeProgMode" ajax="false" />
+      <p:commandButton value="programmieren" actionListener="#{bausteinProgrammierungModel.program()}" action="closeProgMode" ajax="false" />
       <p:commandButton value="abbrechen" action="closeProgMode" immediate="true" ajax="false" />
     </ui:insert>
   </h:form>
+  
+  <p:messages globalOnly="true" />
 
 </h:body>
 </html>

@@ -5,9 +5,9 @@
   <ui:define name="properties" />
 
   <ui:define name="buttons">
-    <h:outputText value="Bitte Programmiertaster am Baustein drücken!" />
+    <h:outputText value="#{bausteinProgrammierungModel.closeProgModeMessage}" />
     <br />
-    <p:commandButton value="ok" action="#{bausteinProgrammierungModel.store()}" ajax="false" />
+    <p:commandButton value="ok" action="#{bausteinProgrammierungModel.abort()}" ajax="false" />
   </ui:define>
 </ui:composition>
 </html>

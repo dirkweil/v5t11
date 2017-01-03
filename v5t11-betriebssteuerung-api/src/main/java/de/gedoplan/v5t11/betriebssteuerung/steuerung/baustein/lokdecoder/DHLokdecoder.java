@@ -7,7 +7,7 @@ package de.gedoplan.v5t11.betriebssteuerung.steuerung.baustein.lokdecoder;
  */
 public abstract class DHLokdecoder extends SxLokdecoder {
   @Override
-  public Class<?> getProgrammierklasse() {
-    return DHLokdecoder.class;
+  public String getProgrammierfamilie() {
+    return DHLokdecoder.class.getSimpleName();
   }
 }

@@ -11,15 +11,15 @@
       <h:panelGroup />
 
       <h:outputText value="Adresse: " />
-      <p:inputText value="#{bausteinProgrammierungModel_SXBM1.configuration.adresseSoll}" readonly="true" />
-      <p:commandButton value=">" action="#{bausteinProgrammierungModel_SXBM1.configuration.adresseResetToSoll()}" ajax="false" />
-      <p:inputText value="#{bausteinProgrammierungModel_SXBM1.configuration.adresseIst}" id="istAdresse" />
+      <p:inputText value="#{bausteinProgrammierungModel.configuration.adresseSoll}" readonly="true" />
+      <p:commandButton value=">" action="#{bausteinProgrammierungModel.configuration.adresseResetToSoll()}" ajax="false" />
+      <p:inputText value="#{bausteinProgrammierungModel.configuration.adresseIst}" id="istAdresse" />
       <p:message for="istAdresse" />
 
       <h:outputText value="Abfallverzögerung: " />
-      <p:inputText value="#{bausteinProgrammierungModel_SXBM1.configuration.abfallVerzoegerung.soll}" readonly="true" />
-      <p:commandButton value=">" action="#{bausteinProgrammierungModel_SXBM1.configuration.abfallVerzoegerung.resetToSoll()}" ajax="false" />
-      <p:inputText value="#{bausteinProgrammierungModel_SXBM1.configuration.abfallVerzoegerung.ist}" id="istAbfallVerzoegerung" />
+      <p:inputText value="#{bausteinProgrammierungModel.configuration.abfallVerzoegerung.soll}" readonly="true" />
+      <p:commandButton value=">" action="#{bausteinProgrammierungModel.configuration.abfallVerzoegerung.resetToSoll()}" ajax="false" />
+      <p:inputText value="#{bausteinProgrammierungModel.configuration.abfallVerzoegerung.ist}" id="istAbfallVerzoegerung" />
       <p:message for="istAbfallVerzoegerung" />
     </h:panelGrid>
   </ui:define>
