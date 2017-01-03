@@ -289,8 +289,8 @@ public abstract class Baustein extends SingleIdEntity<String> implements Compara
    *
    * @return Programmierfamilie oder <code>null</code>, falls nicht programmierbar.
    */
-  public String getProgrammierfamilie() {
-    return getClass().getSimpleName();
+  public Class<?> getProgrammierfamilie() {
+    return getClass();
   }
 
   /**

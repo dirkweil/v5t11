@@ -10,7 +10,7 @@ import de.gedoplan.v5t11.betriebssteuerung.steuerung.baustein.Lokdecoder;
 public abstract class SxLokdecoder extends Lokdecoder {
 
   @Override
-  public String getProgrammierfamilie() {
-    return SxLokdecoder.class.getSimpleName();
+  public Class<?> getProgrammierfamilie() {
+    return SxLokdecoder.class;
   }
 }

@@ -9,6 +9,7 @@ import de.gedoplan.v5t11.betriebssteuerung.service.besetztmelder.bmmiba3.BMMiba3
 import de.gedoplan.v5t11.betriebssteuerung.service.besetztmelder.bmmiba3.BMMiba3ConfigurationAdapter.MeldungsSpeicherung;
 import de.gedoplan.v5t11.betriebssteuerung.service.besetztmelder.bmmiba3.BMMiba3ConfigurationAdapter.Zeittakt;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.baustein.Baustein;
+import de.gedoplan.v5t11.betriebssteuerung.steuerung.baustein.besetztmelder.BMMiba3;
 
 import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
@@ -21,7 +22,7 @@ import lombok.Getter;
  * @author dw
  */
 @ConversationScoped
-@Programmierfamilie("BMMiba3")
+@Programmierfamilie(BMMiba3.class)
 public class BMMiba3RuntimeService extends ConfigurationRuntimeService {
 
   @Getter

@@ -6,6 +6,7 @@ import de.gedoplan.v5t11.betriebssteuerung.service.ConfigurationRuntimeService;
 import de.gedoplan.v5t11.betriebssteuerung.service.Current;
 import de.gedoplan.v5t11.betriebssteuerung.service.Programmierfamilie;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.baustein.Baustein;
+import de.gedoplan.v5t11.betriebssteuerung.steuerung.baustein.besetztmelder.SXBM1;
 
 import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
@@ -18,7 +19,7 @@ import lombok.Getter;
  * @author dw
  */
 @ConversationScoped
-@Programmierfamilie("SXBM1")
+@Programmierfamilie(SXBM1.class)
 public class SXBM1RuntimeService extends ConfigurationRuntimeService {
   @Getter
   private SXBM1ConfigurationAdapter configuration;

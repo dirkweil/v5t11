@@ -4,7 +4,7 @@ import de.gedoplan.v5t11.betriebssteuerung.service.BausteinConfigurationService;
 import de.gedoplan.v5t11.betriebssteuerung.service.ConfigurationAdapter;
 import de.gedoplan.v5t11.betriebssteuerung.service.ConfigurationRuntimeService;
 import de.gedoplan.v5t11.betriebssteuerung.service.Current;
-import de.gedoplan.v5t11.betriebssteuerung.service.Literal;
+import de.gedoplan.v5t11.betriebssteuerung.service.Programmierfamilie;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.Steuerung;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.baustein.Baustein;
 
@@ -116,8 +116,8 @@ public class BausteinProgrammierungModel implements Serializable {
 
       try {
         // "Injektion" des passenden ConfigurationRuntimeService per API
-        String programmierfamilie = this.currentBaustein.getProgrammierfamilie();
-        this.configurationRuntimeService = CDI.current().select(ConfigurationRuntimeService.class, new Literal(programmierfamilie)).get();
+        Class<?> programmierfamilie = this.currentBaustein.getProgrammierfamilie();
+        this.configurationRuntimeService = CDI.current().select(ConfigurationRuntimeService.class, new Programmierfamilie.Literal(programmierfamilie)).get();
 
         // Aktuelle Ist-Werte holen
         this.configurationRuntimeService.getRuntimeValues();
@@ -126,7 +126,7 @@ public class BausteinProgrammierungModel implements Serializable {
         this.configuration = this.configurationRuntimeService.getConfiguration();
 
         // In passende View navigieren
-        return "/view/bausteinProgrammierung_" + programmierfamilie + "?faces-redirect=true";
+        return "/view/bausteinProgrammierung_" + programmierfamilie.getSimpleName() + "?faces-redirect=true";
       } catch (Exception e) {
         this.log.error("Kann ConfigurationRuntimeService nicht erzeugen", e);
 

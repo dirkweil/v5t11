@@ -10,6 +10,7 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
+import javax.enterprise.util.AnnotationLiteral;
 import javax.inject.Qualifier;
 
 @Qualifier
@@ -17,5 +18,20 @@ import javax.inject.Qualifier;
 @Retention(RUNTIME)
 @Documented
 public @interface Programmierfamilie {
-  String value();
+  Class<?> value();
+
+  public static class Literal extends AnnotationLiteral<Programmierfamilie> implements Programmierfamilie {
+
+    private Class<?> value;
+
+    public Literal(Class<?> value) {
+      this.value = value;
+    }
+
+    @Override
+    public Class<?> value() {
+      return this.value;
+    }
+  }
+
 }
