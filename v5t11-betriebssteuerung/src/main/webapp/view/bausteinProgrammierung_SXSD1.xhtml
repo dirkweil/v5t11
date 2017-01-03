@@ -11,9 +11,9 @@
       <h:panelGroup />
 
       <h:outputText value="Adresse: " />
-      <p:inputText value="#{bausteinProgrammierungModel_SXSD1.configuration.adresseSoll}" readonly="true" />
-      <p:commandButton value=">" action="#{bausteinProgrammierungModel_SXSD1.configuration.adresseResetToSoll()}" ajax="false" />
-      <p:inputText value="#{bausteinProgrammierungModel_SXSD1.configuration.adresseIst}" id="istAdresse" />
+      <p:inputText value="#{bausteinProgrammierungModel.configuration.adresseSoll}" readonly="true" />
+      <p:commandButton value=">" action="#{bausteinProgrammierungModel.configuration.adresseResetToSoll()}" ajax="false" />
+      <p:inputText value="#{bausteinProgrammierungModel.configuration.adresseIst}" id="istAdresse" />
       <p:message for="istAdresse" />
     </h:panelGrid>
   </ui:define>
