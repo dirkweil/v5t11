@@ -2,7 +2,6 @@ package de.gedoplan.v5t11.betriebssteuerung.service.funktionsdecoder.strfd1;
 
 import de.gedoplan.v5t11.betriebssteuerung.entity.BausteinConfiguration;
 import de.gedoplan.v5t11.betriebssteuerung.service.funktionsdecoder.FunktionsdecoderConfigurationAdapter;
-import de.gedoplan.v5t11.betriebssteuerung.steuerung.baustein.Baustein;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.baustein.Funktionsdecoder;
 
 import lombok.Getter;
@@ -21,9 +20,4 @@ public class STRFD1ConfigurationAdapter extends FunktionsdecoderConfigurationAda
 
     this.impulsDauer = new ConfigurationPropertyAdapter<>(this.istProperties, "impulsDauer", 16 * 80, this.sollProperties, Integer.class);
   }
-
-  public static STRFD1ConfigurationAdapter createInstance(Baustein baustein, BausteinConfiguration istConfiguration, BausteinConfiguration sollConfiguration) {
-    return new STRFD1ConfigurationAdapter((Funktionsdecoder) baustein, istConfiguration, sollConfiguration);
-  }
-
 }
