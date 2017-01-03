@@ -91,8 +91,9 @@ public class SxLokdecoderRuntimeService extends ConfigurationRuntimeService {
       this.log.debug("Start Programmier-Modus");
     }
 
+    // Bit 6 in Adresse 106 setzen und auf gesetztes Bit 5 von Adresse 109 warten
     this.selectrixGateway.setValue(106, 0b0100_0000);
-    waitFor(this::isProgBereit, 2000, "Kann Programmiermodus nicht anfordern");
+    waitFor(() -> (this.selectrixGateway.getValue(109) & 0b0010_0000) != 0, 2000, "Kann Programmiermodus nicht anfordern");
   }
 
   private void stopProgMode() {
@@ -100,6 +101,7 @@ public class SxLokdecoderRuntimeService extends ConfigurationRuntimeService {
       this.log.debug("Stop Programmier-Modus");
     }
 
+    // Bit 6 in Adresse 106 löschen
     this.selectrixGateway.setValue(106, 0b0000_0000);
   }
 
@@ -108,8 +110,15 @@ public class SxLokdecoderRuntimeService extends ConfigurationRuntimeService {
       this.log.debug("Decoderdaten anfordern");
     }
 
+    /*
+     * Bit 7 zusätzlich zu Bit 6 in Adresse 106 setzen.
+     * Als Ausführungsbestätigung soll lt. Doku Bit 5 in Adresse 9 gesetzt werden, was aber (zumindest mit der CC2000 und SLX825 im Rautenhaus-Format) nicht passiert.
+     * Daher zunächst Adresse 104 auf 0 setzen und auf Änderung warten (zumindest ein Bit in Höchstgeschwindigkeit und Trägkeit ist 1).
+     */
+
+    this.selectrixGateway.setValue(104, 0b0000_0000);
     this.selectrixGateway.setValue(106, 0b1100_0001);
-    waitFor(this::isProgBereit, 2000, "Kann Decoderdaten nicht lesen");
+    waitFor(() -> (this.selectrixGateway.getValue(104) & 0b1111_1111) != 0, 2000, "Kann Decoderdaten nicht lesen");
   }
 
   private void storeDecoderDaten() {
@@ -118,34 +127,23 @@ public class SxLokdecoderRuntimeService extends ConfigurationRuntimeService {
     }
 
     this.selectrixGateway.setValue(106, 0b1100_1001);
-    waitFor(this::isProgBereit, 2000, "Kann Decoderdaten nicht schreiben");
-  }
-
-  private boolean isProgBereit() {
-    if (System.getProperty("v5t11.portName", "none").equalsIgnoreCase("none")) {
-      return true;
-    }
-
-    int value109 = this.selectrixGateway.getValue(109);
-    if (this.log.isTraceEnabled()) {
-      this.log.trace("value109=" + Integer.toBinaryString(value109));
-    }
-    return (value109 & 0b0010_0000) != 0;
+    waitFor(() -> (this.selectrixGateway.getValue(109) & 0b0010_0000) != 0, 2000, "Kann Decoderdaten nicht schreiben");
   }
 
   private static void waitFor(Supplier<Boolean> condition, long millis, String errorMessage) {
-	  delay(2000);
-	  return;
-	  
-//    for (int i = 0; i < 10; ++i) {
-//      delay(millis / 10);
-//
-//      if (condition.get()) {
-//        return;
-//      }
-//    }
-//
-//    throw new SelectrixException(errorMessage);
+    if (System.getProperty("v5t11.portName", "none").equalsIgnoreCase("none")) {
+      return;
+    }
+
+    for (int i = 0; i < 10; ++i) {
+      delay(millis / 10);
+
+      if (condition.get()) {
+        return;
+      }
+    }
+
+    throw new SelectrixException(errorMessage);
   }
 
   private static void delay(long millis) {
