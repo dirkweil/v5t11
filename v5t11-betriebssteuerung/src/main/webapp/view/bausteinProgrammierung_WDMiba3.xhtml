@@ -11,29 +11,29 @@
       <h:panelGroup />
 
       <h:outputText value="Adresse: " />
-      <p:inputText value="#{bausteinProgrammierungModel_WDMiba3.configuration.adresseSoll}" readonly="true" />
-      <p:commandButton value=">" action="#{bausteinProgrammierungModel_WDMiba3.configuration.adresseResetToSoll()}" ajax="false" />
-      <p:inputText value="#{bausteinProgrammierungModel_WDMiba3.configuration.adresseIst}" id="istAdresse" />
+      <p:inputText value="#{bausteinProgrammierungModel.configuration.adresseSoll}" readonly="true" />
+      <p:commandButton value=">" action="#{bausteinProgrammierungModel.configuration.adresseResetToSoll()}" ajax="false" />
+      <p:inputText value="#{bausteinProgrammierungModel.configuration.adresseIst}" id="istAdresse" />
       <p:message for="istAdresse" />
 
       <h:outputText value="Dauerausgang (0..7): " />
       <h:panelGroup>
-        <c:forEach items="#{bausteinProgrammierungModel_WDMiba3.configuration.dauer}" var="dauer">
+        <c:forEach items="#{bausteinProgrammierungModel.configuration.dauer}" var="dauer">
           <p:selectBooleanCheckbox value="#{dauer.soll}" disabled="true" />
         </c:forEach>
       </h:panelGroup>
-      <p:commandButton value=">" action="#{bausteinProgrammierungModel_WDMiba3.configuration.resetDauerToSoll()}" ajax="false" />
+      <p:commandButton value=">" action="#{bausteinProgrammierungModel.configuration.resetDauerToSoll()}" ajax="false" />
       <h:panelGroup>
-        <c:forEach items="#{bausteinProgrammierungModel_WDMiba3.configuration.dauer}" var="dauer">
+        <c:forEach items="#{bausteinProgrammierungModel.configuration.dauer}" var="dauer">
           <p:selectBooleanCheckbox value="#{dauer.ist}" />
         </c:forEach>
       </h:panelGroup>
       <h:panelGroup />
 
       <h:outputText value="Impulsdauer (ms): " />
-      <p:inputText value="#{bausteinProgrammierungModel_WDMiba3.configuration.impulsDauer.soll}" readonly="true" />
-      <p:commandButton value=">" action="#{bausteinProgrammierungModel_WDMiba3.configuration.impulsDauer.resetToSoll()}" ajax="false" />
-      <p:inputText value="#{bausteinProgrammierungModel_WDMiba3.configuration.impulsDauer.ist}" id="istImpulsDauer" />
+      <p:inputText value="#{bausteinProgrammierungModel.configuration.impulsDauer.soll}" readonly="true" />
+      <p:commandButton value=">" action="#{bausteinProgrammierungModel.configuration.impulsDauer.resetToSoll()}" ajax="false" />
+      <p:inputText value="#{bausteinProgrammierungModel.configuration.impulsDauer.ist}" id="istImpulsDauer" />
       <p:message for="istImpulsDauer" />
     </h:panelGrid>
   </ui:define>
