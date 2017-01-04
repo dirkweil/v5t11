@@ -1,6 +1,7 @@
 package de.gedoplan.v5t11.betriebssteuerung.service.lokdecoder;
 
 import de.gedoplan.v5t11.betriebssteuerung.service.ConfigurationRuntimeService;
+import de.gedoplan.v5t11.betriebssteuerung.service.lokdecoder.LokdecoderConfigurationAdapter.Impulsbreite;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.Steuerung;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.baustein.Zentrale;
 import de.gedoplan.v5t11.selectrix.SelectrixException;
@@ -9,8 +10,13 @@ import java.util.function.Supplier;
 
 import javax.inject.Inject;
 
-public abstract class LokdecoderRuntimeService extends ConfigurationRuntimeService {
+import lombok.Getter;
+
+public abstract class LokdecoderRuntimeService<C extends LokdecoderConfigurationAdapter> extends ConfigurationRuntimeService {
   private static final int WAIT_MILLIS = 2000;
+
+  @Getter
+  protected C configuration;
 
   Zentrale zentrale;
 
@@ -73,6 +79,17 @@ public abstract class LokdecoderRuntimeService extends ConfigurationRuntimeServi
     return decoderDaten;
   }
 
+  protected void pullStandardConfig() {
+    int decoderDaten = readDecoderDaten();
+
+    this.configuration.hoechstGeschwindigkeit.setIst(decoderDaten & 0b111, false);
+    this.configuration.traegheit.setIst((decoderDaten >>> 3) & 0b111, false);
+    this.configuration.impulsbreite.setIst(Impulsbreite.valueOf((decoderDaten >>> 6) & 0b11), false);
+
+    this.configuration.setAdresseIst((decoderDaten >>> 8) & 0b1111111, false);
+
+  }
+
   protected void writeDecoderDaten(int decoderDaten) {
     if (this.log.isDebugEnabled()) {
       this.log.debug("Decoderdaten schreiben");
@@ -105,11 +122,20 @@ public abstract class LokdecoderRuntimeService extends ConfigurationRuntimeServi
     }
   }
 
+  protected void pushStandardConfig() {
+    int decoderDaten = (this.configuration.hoechstGeschwindigkeit.getIst() & 0b111)
+        | ((this.configuration.traegheit.getIst() & 0b111) << 3)
+        | ((this.configuration.impulsbreite.getIst().getBits() & 0b11) << 6)
+        | ((this.configuration.getAdresseIst() & 0b0111_1111) << 8);
+
+    writeDecoderDaten(decoderDaten);
+  }
+
   private static void waitFor(Supplier<Boolean> condition, long millis, String errorMessage) {
     if (System.getProperty("v5t11.portName", "none").equalsIgnoreCase("none")) {
       return;
     }
-    
+
     for (int i = 0; i < 10; ++i) {
       delay(millis / 10);
 

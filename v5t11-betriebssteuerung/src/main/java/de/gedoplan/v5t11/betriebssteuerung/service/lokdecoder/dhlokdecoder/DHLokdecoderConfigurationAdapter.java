@@ -1,7 +1,7 @@
 package de.gedoplan.v5t11.betriebssteuerung.service.lokdecoder.dhlokdecoder;
 
 import de.gedoplan.v5t11.betriebssteuerung.entity.BausteinConfiguration;
-import de.gedoplan.v5t11.betriebssteuerung.service.lokdecoder.sxlokdecoder.SxLokdecoderConfigurationAdapter;
+import de.gedoplan.v5t11.betriebssteuerung.service.lokdecoder.LokdecoderConfigurationAdapter;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.baustein.Baustein;
 import de.gedoplan.v5t11.betriebssteuerung.steuerung.baustein.Lokdecoder;
 
@@ -13,11 +13,11 @@ import lombok.Getter;
  * @author dw
  */
 @Getter
-public class DHLokdecoderConfigurationAdapter extends SxLokdecoderConfigurationAdapter {
-  protected ConfigurationPropertyAdapter<Boolean> anschlusstauschMotor;
-  protected ConfigurationPropertyAdapter<Boolean> anschlusstauschLicht;
-  protected ConfigurationPropertyAdapter<Boolean> anschlusstauschGleis;
-  protected ConfigurationPropertyAdapter<RegelVariante> regelVariante;
+public class DHLokdecoderConfigurationAdapter extends LokdecoderConfigurationAdapter {
+  private ConfigurationPropertyAdapter<Boolean> anschlusstauschMotor;
+  private ConfigurationPropertyAdapter<Boolean> anschlusstauschLicht;
+  private ConfigurationPropertyAdapter<Boolean> anschlusstauschGleis;
+  private ConfigurationPropertyAdapter<RegelVariante> regelVariante;
 
   public DHLokdecoderConfigurationAdapter(Lokdecoder lokdecoder, BausteinConfiguration istConfiguration, BausteinConfiguration sollConfiguration) {
     super(lokdecoder, istConfiguration, sollConfiguration);
