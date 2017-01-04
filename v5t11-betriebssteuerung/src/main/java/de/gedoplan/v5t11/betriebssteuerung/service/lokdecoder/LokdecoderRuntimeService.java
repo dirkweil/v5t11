@@ -26,7 +26,8 @@ public abstract class LokdecoderRuntimeService extends ConfigurationRuntimeServi
 
     this.zentrale.setAktiv(false);
 
-    // Bit 6 in Adresse 106 setzen und auf gesetztes Bit 5 von Adresse 109 warten
+    // Bit 6 in Adresse 106 setzen und auf gesetztes Bit 5 von Adresse 109
+    // warten
     this.selectrixGateway.setValue(106, 0b0100_0000);
     waitFor(() -> (this.selectrixGateway.getValue(109) & 0b0010_0000) != 0, WAIT_MILLIS, "Kann Programmiermodus nicht anfordern");
   }
@@ -48,15 +49,28 @@ public abstract class LokdecoderRuntimeService extends ConfigurationRuntimeServi
 
     /*
      * Bit 7 zusätzlich zu Bit 6 in Adresse 106 setzen.
-     * Als Ausführungsbestätigung soll lt. Doku Bit 5 in Adresse 9 gesetzt werden, was aber (zumindest mit der CC2000 und SLX825 im Rautenhaus-Format) nicht passiert.
-     * Daher zunächst Adresse 104 auf 0 setzen und auf Änderung warten (zumindest ein Bit in Höchstgeschwindigkeit und Trägkeit ist 1).
+     * Als Ausführungsbestätigung soll lt. Doku Bit 5 in Adresse 9 gesetzt
+     * werden, was aber (zumindest mit der CC2000 und SLX825 im
+     * Rautenhaus-Format) nicht passiert.
+     * Daher zunächst Adresse 104 auf 0 setzen und auf Änderung warten
+     * (zumindest ein Bit in Höchstgeschwindigkeit und Trägkeit ist 1).
      */
 
     this.selectrixGateway.setValue(104, 0b0000_0000);
+    delay(WAIT_MILLIS);
     this.selectrixGateway.setValue(106, 0b1100_0001);
     waitFor(() -> (this.selectrixGateway.getValue(104) & 0b1111_1111) != 0, WAIT_MILLIS, "Kann Decoderdaten nicht lesen");
 
-    return (this.selectrixGateway.getValue(104) & 0b1111_1111) | ((this.selectrixGateway.getValue(105) & 0b1111_1111) << 8);
+    int decoderDaten = (this.selectrixGateway.getValue(104) & 0b1111_1111) | ((this.selectrixGateway.getValue(105) & 0b1111_1111) << 8);
+
+    if (this.log.isTraceEnabled()) {
+      this.log.trace(String.format("readDecoderDaten: 0x%04x", decoderDaten));
+    }
+
+    this.selectrixGateway.setValue(106, 0b0100_0000);
+    delay(WAIT_MILLIS);
+
+    return decoderDaten;
   }
 
   protected void writeDecoderDaten(int decoderDaten) {
@@ -64,19 +78,30 @@ public abstract class LokdecoderRuntimeService extends ConfigurationRuntimeServi
       this.log.debug("Decoderdaten schreiben");
     }
 
+    if (this.log.isTraceEnabled()) {
+      this.log.trace(String.format("writeDecoderDaten: 0x%04x", decoderDaten));
+    }
+
     this.selectrixGateway.setValue(104, decoderDaten & 0b1111_1111);
     this.selectrixGateway.setValue(105, (decoderDaten >>> 8) & 0b1111_1111);
 
     /*
      * Bits 7 und 3 zusätzlich zu Bit 6 in Adresse 106 setzen.
-     * Als Ausführungsbestätigung soll lt. Doku Bit 5 in Adresse 9 gesetzt werden, was aber (zumindest mit der CC2000 und SLX825 im Rautenhaus-Format) nicht passiert.
-     * Daher zunächst etwas warten und dann die Daten zur Kontrolle zurücklesen und vergleichen.
+     * Als Ausführungsbestätigung soll lt. Doku Bit 5 in Adresse 9 gesetzt
+     * werden, was aber (zumindest mit der CC2000 und SLX825 im
+     * Rautenhaus-Format) nicht passiert.
+     * Daher zunächst etwas warten und dann die Daten zur Kontrolle zurücklesen
+     * und vergleichen.
      */
     this.selectrixGateway.setValue(106, 0b1100_1001);
     delay(WAIT_MILLIS);
 
-    if (readDecoderDaten() != decoderDaten) {
-      throw new SelectrixException("Kann Decoderdaten nicht schreiben");
+    this.selectrixGateway.setValue(106, 0b0100_0000);
+    delay(WAIT_MILLIS);
+
+    int istDecoderDaten = readDecoderDaten();
+    if (istDecoderDaten != decoderDaten) {
+      throw new SelectrixException(String.format("Kann Decoderdaten nicht schreiben: soll=0x%04x, ist=0x%04x", decoderDaten, istDecoderDaten));
     }
   }
 
@@ -84,7 +109,7 @@ public abstract class LokdecoderRuntimeService extends ConfigurationRuntimeServi
     if (System.getProperty("v5t11.portName", "none").equalsIgnoreCase("none")) {
       return;
     }
-
+    
     for (int i = 0; i < 10; ++i) {
       delay(millis / 10);
 

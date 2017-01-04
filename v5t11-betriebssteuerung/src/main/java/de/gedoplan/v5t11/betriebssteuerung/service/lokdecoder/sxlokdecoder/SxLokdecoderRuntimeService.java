@@ -35,10 +35,6 @@ public class SxLokdecoderRuntimeService extends LokdecoderRuntimeService {
     try {
       int decoderDaten = readDecoderDaten();
 
-      if (this.log.isTraceEnabled()) {
-        this.log.trace(String.format("readDecoderDaten: 0x%04x", decoderDaten));
-      }
-
       this.configuration.hoechstGeschwindigkeit.setIst(decoderDaten & 0b111, false);
       this.configuration.traegheit.setIst((decoderDaten >>> 3) & 0b111, false);
       this.configuration.impulsbreite.setIst(Impulsbreite.valueOf((decoderDaten >>> 6) & 0b11), false);
@@ -58,10 +54,6 @@ public class SxLokdecoderRuntimeService extends LokdecoderRuntimeService {
           | ((this.configuration.traegheit.getIst() & 0b111) << 3)
           | ((this.configuration.impulsbreite.getIst().getBits() & 0b11) << 6)
           | ((this.configuration.getAdresseIst() & 0b0111_1111) << 8);
-
-      if (this.log.isTraceEnabled()) {
-        this.log.trace(String.format("writeDecoderDaten: 0x%04x", decoderDaten));
-      }
 
       writeDecoderDaten(decoderDaten);
     } finally {
