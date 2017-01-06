@@ -19,6 +19,7 @@ public class LokdecoderConfigurationAdapter extends ConfigurationAdapter {
   protected ConfigurationPropertyAdapter<Impulsbreite> impulsbreite;
   protected ConfigurationPropertyAdapter<Integer> traegheit;
   protected ConfigurationPropertyAdapter<Integer> hoechstGeschwindigkeit;
+  protected ConfigurationPropertyAdapter<Boolean> mehrteiligerHalteabschnitt;
 
   public LokdecoderConfigurationAdapter(Lokdecoder lokdecoder, BausteinConfiguration istConfiguration, BausteinConfiguration sollConfiguration) {
     super(istConfiguration, sollConfiguration);
@@ -29,6 +30,7 @@ public class LokdecoderConfigurationAdapter extends ConfigurationAdapter {
         () -> new Integer[] { 1, 2, 3, 4, 5, 6, 7 });
     this.hoechstGeschwindigkeit = new ConfigurationPropertyAdapter<>(this.istProperties, "hoechstGeschwindigkeit", 5, this.sollProperties, Integer.class, Integer::valueOf,
         () -> new Integer[] { 1, 2, 3, 4, 5, 6, 7 });
+    this.mehrteiligerHalteabschnitt = new ConfigurationPropertyAdapter<>(this.istProperties, "mehrteiligerHalteabschnitt", false, this.sollProperties, Boolean.class);
   }
 
   public static enum Impulsbreite {

@@ -15,6 +15,16 @@ import lombok.Getter;
 public abstract class LokdecoderRuntimeService<C extends LokdecoderConfigurationAdapter> extends ConfigurationRuntimeService {
   private static final int WAIT_MILLIS = 2000;
 
+  protected static final int HOECHSTGESCHWINDIGKEIT_MASK = 0b0000_0000_0000_0111;
+  protected static final int HOECHSTGESCHWINDIGKEIT_OFFSET = 0;
+  protected static final int TRAEGHEIT_MASK = 0b0000_0000_0011_1000;
+  protected static final int TRAEGHEIT_OFFSET = 3;
+  protected static final int IMPULSBREITE_MASK = 0b0000_0000_1100_0000;
+  protected static final int IMPULSBREITE_OFFSET = 6;
+  protected static final int ADRESSE_MASK = 0b0111_1111_0000_0000;
+  protected static final int ADRESSE_OFFSET = 8;
+  protected static final int MEHRTEILGERHALTEABSCHNITT_BIT = 0b1000_0000_0000_0000;
+
   @Getter
   protected C configuration;
 
@@ -82,12 +92,12 @@ public abstract class LokdecoderRuntimeService<C extends LokdecoderConfiguration
   protected void pullStandardConfig() {
     int decoderDaten = readDecoderDaten();
 
-    this.configuration.hoechstGeschwindigkeit.setIst(decoderDaten & 0b111, false);
-    this.configuration.traegheit.setIst((decoderDaten >>> 3) & 0b111, false);
-    this.configuration.impulsbreite.setIst(Impulsbreite.valueOf((decoderDaten >>> 6) & 0b11), false);
+    this.configuration.hoechstGeschwindigkeit.setIst((decoderDaten & HOECHSTGESCHWINDIGKEIT_MASK) >>> HOECHSTGESCHWINDIGKEIT_OFFSET, false);
+    this.configuration.traegheit.setIst((decoderDaten & TRAEGHEIT_MASK) >>> TRAEGHEIT_OFFSET, false);
+    this.configuration.impulsbreite.setIst(Impulsbreite.valueOf((decoderDaten & IMPULSBREITE_MASK) >>> IMPULSBREITE_OFFSET), false);
 
-    this.configuration.setAdresseIst((decoderDaten >>> 8) & 0b1111111, false);
-
+    this.configuration.setAdresseIst((decoderDaten & ADRESSE_MASK) >>> ADRESSE_OFFSET, false);
+    this.configuration.mehrteiligerHalteabschnitt.setIst((decoderDaten & TRAEGHEIT_MASK) != 0, false);
   }
 
   protected void writeDecoderDaten(int decoderDaten) {
@@ -123,10 +133,11 @@ public abstract class LokdecoderRuntimeService<C extends LokdecoderConfiguration
   }
 
   protected void pushStandardConfig() {
-    int decoderDaten = (this.configuration.hoechstGeschwindigkeit.getIst() & 0b111)
-        | ((this.configuration.traegheit.getIst() & 0b111) << 3)
-        | ((this.configuration.impulsbreite.getIst().getBits() & 0b11) << 6)
-        | ((this.configuration.getAdresseIst() & 0b0111_1111) << 8);
+    int decoderDaten = ((this.configuration.hoechstGeschwindigkeit.getIst() << HOECHSTGESCHWINDIGKEIT_OFFSET) & HOECHSTGESCHWINDIGKEIT_MASK)
+        | ((this.configuration.traegheit.getIst() << TRAEGHEIT_OFFSET) & TRAEGHEIT_MASK)
+        | ((this.configuration.impulsbreite.getIst().getBits() << IMPULSBREITE_OFFSET) & IMPULSBREITE_MASK)
+        | ((this.configuration.getAdresseIst() << ADRESSE_OFFSET) & ADRESSE_MASK)
+        | (this.configuration.mehrteiligerHalteabschnitt.getIst() ? MEHRTEILGERHALTEABSCHNITT_BIT : 0);
 
     writeDecoderDaten(decoderDaten);
   }

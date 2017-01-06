@@ -16,6 +16,14 @@ import javax.inject.Inject;
 @ConversationScoped
 @Programmierfamilie(DHLokdecoder.class)
 public class DHLokdecoderRuntimeService extends LokdecoderRuntimeService<DHLokdecoderConfigurationAdapter> {
+
+  protected static final int ANSCHLUSSTAUSCHMOTOR_BIT = 0b0000_0000_0000_0001;
+  protected static final int ANSCHLUSSTAUSCHLICHT_BIT = 0b0000_0000_0000_0010;
+  protected static final int ANSCHLUSSTAUSCHGLEIS_BIT = 0b0000_0000_0000_0100;
+  protected static final int TRAEGHEITIMMER_BIT = 0b0000_0000_0000_1000;
+  protected static final int REGELVARIANTE_MASK = 0b0000_0000_1100_0000;
+  protected static final int REGELVARIANTE_OFFSET = 6;
+
   @Inject
   public DHLokdecoderRuntimeService(@Current Baustein baustein, BausteinConfigurationService bausteinConfigurationService) {
     BausteinConfiguration bausteinSollConfiguration = bausteinConfigurationService.getBausteinConfiguration(baustein);
@@ -37,10 +45,10 @@ public class DHLokdecoderRuntimeService extends LokdecoderRuntimeService<DHLokde
 
         int erweiterteDecoderDaten = readDecoderDaten();
 
-        this.configuration.getAnschlusstauschMotor().setIst((erweiterteDecoderDaten & 0b0000_0001) != 0);
-        this.configuration.getAnschlusstauschLicht().setIst((erweiterteDecoderDaten & 0b0000_0010) != 0);
-        this.configuration.getAnschlusstauschGleis().setIst((erweiterteDecoderDaten & 0b0000_0100) != 0);
-        this.configuration.getRegelVariante().setIst(RegelVariante.valueOf((erweiterteDecoderDaten & 0b1100_0000) >>> 6));
+        this.configuration.getAnschlusstauschMotor().setIst((erweiterteDecoderDaten & ANSCHLUSSTAUSCHMOTOR_BIT) != 0);
+        this.configuration.getAnschlusstauschLicht().setIst((erweiterteDecoderDaten & ANSCHLUSSTAUSCHLICHT_BIT) != 0);
+        this.configuration.getAnschlusstauschGleis().setIst((erweiterteDecoderDaten & ANSCHLUSSTAUSCHGLEIS_BIT) == 0);
+        this.configuration.getRegelVariante().setIst(RegelVariante.valueOf((erweiterteDecoderDaten & REGELVARIANTE_MASK) >>> REGELVARIANTE_OFFSET));
       } finally {
         // Standardparameter restaurieren
         pushStandardConfig();
@@ -59,10 +67,11 @@ public class DHLokdecoderRuntimeService extends LokdecoderRuntimeService<DHLokde
       writeDecoderDaten(0x0000_0000_0100_1001);
 
       // Erweiterte Parameter schreiben
-      int erweiterteDecoderDaten = (this.configuration.getAnschlusstauschMotor().getIst() ? 0b0000_0001 : 0)
-          | (this.configuration.getAnschlusstauschLicht().getIst() ? 0b0000_0010 : 0)
-          | (this.configuration.getAnschlusstauschGleis().getIst() ? 0b0000_0100 : 0)
-          | ((this.configuration.getRegelVariante().getIst().getBits() << 6) & 0b1100_0000);
+      int erweiterteDecoderDaten = (this.configuration.getAnschlusstauschMotor().getIst() ? ANSCHLUSSTAUSCHMOTOR_BIT : 0)
+          | (this.configuration.getAnschlusstauschLicht().getIst() ? ANSCHLUSSTAUSCHLICHT_BIT : 0)
+          | (this.configuration.getAnschlusstauschGleis().getIst() ? 0 : ANSCHLUSSTAUSCHGLEIS_BIT)
+          | ((this.configuration.getRegelVariante().getIst().getBits() << REGELVARIANTE_OFFSET) & REGELVARIANTE_MASK)
+          | 0b1000_0000_0000_0000;
       writeDecoderDaten(erweiterteDecoderDaten);
 
       // Standardparameter schreiben

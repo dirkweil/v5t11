@@ -40,6 +40,12 @@
       </p:selectOneMenu>
       <p:message for="istImpulsbreite" />
 
+      <h:outputText value="Mehrteilger Halteabschnitt: " />
+      <p:selectBooleanCheckbox value="#{bausteinProgrammierungModel.configuration.mehrteiligerHalteabschnitt.ist}" disabled="true" />
+      <p:commandButton value=">" action="#{bausteinProgrammierungModel.configuration.mehrteiligerHalteabschnitt.resetToSoll()}" ajax="false" />
+      <p:selectBooleanCheckbox value="#{bausteinProgrammierungModel.configuration.mehrteiligerHalteabschnitt.ist}" id="istMehrteiligerHalteabschnitt" />
+      <p:message for="istMehrteiligerHalteabschnitt" />
+
       <ui:insert name="extendedProperties" />
     </h:panelGrid>
   </ui:define>
