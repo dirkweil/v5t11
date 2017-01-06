@@ -65,7 +65,7 @@ public class LokdecoderConfigurationAdapter extends ConfigurationAdapter {
           return impulsbreite;
         }
       }
-      throw new IllegalArgumentException("Ungueltige Impulsbreite-Bits");
+      throw new IllegalArgumentException("Ungueltige Impulsbreite-Bits: 0b" + Integer.toBinaryString(bits));
     }
 
     public abstract int getBits();

@@ -23,7 +23,7 @@ public abstract class LokdecoderRuntimeService<C extends LokdecoderConfiguration
   protected static final int IMPULSBREITE_OFFSET = 6;
   protected static final int ADRESSE_MASK = 0b0111_1111_0000_0000;
   protected static final int ADRESSE_OFFSET = 8;
-  protected static final int MEHRTEILGERHALTEABSCHNITT_BIT = 0b1000_0000_0000_0000;
+  protected static final int MEHRTEILIGERHALTEABSCHNITT_BIT = 0b1000_0000_0000_0000;
 
   @Getter
   protected C configuration;
@@ -97,10 +97,19 @@ public abstract class LokdecoderRuntimeService<C extends LokdecoderConfiguration
     this.configuration.impulsbreite.setIst(Impulsbreite.valueOf((decoderDaten & IMPULSBREITE_MASK) >>> IMPULSBREITE_OFFSET), false);
 
     this.configuration.setAdresseIst((decoderDaten & ADRESSE_MASK) >>> ADRESSE_OFFSET, false);
-    this.configuration.mehrteiligerHalteabschnitt.setIst((decoderDaten & TRAEGHEIT_MASK) != 0, false);
+    this.configuration.mehrteiligerHalteabschnitt.setIst((decoderDaten & MEHRTEILIGERHALTEABSCHNITT_BIT) != 0, false);
   }
 
   protected void writeDecoderDaten(int decoderDaten) {
+    writeDecoderDatenUnverified(decoderDaten);
+
+    int istDecoderDaten = readDecoderDaten();
+    if (istDecoderDaten != decoderDaten) {
+      throw new SelectrixException(String.format("Kann Decoderdaten nicht schreiben: soll=0x%04x, ist=0x%04x", decoderDaten, istDecoderDaten));
+    }
+  }
+
+  protected void writeDecoderDatenUnverified(int decoderDaten) {
     if (this.log.isDebugEnabled()) {
       this.log.debug("Decoderdaten schreiben");
     }
@@ -125,11 +134,6 @@ public abstract class LokdecoderRuntimeService<C extends LokdecoderConfiguration
 
     this.selectrixGateway.setValue(106, 0b0100_0000);
     delay(WAIT_MILLIS);
-
-    int istDecoderDaten = readDecoderDaten();
-    if (istDecoderDaten != decoderDaten) {
-      throw new SelectrixException(String.format("Kann Decoderdaten nicht schreiben: soll=0x%04x, ist=0x%04x", decoderDaten, istDecoderDaten));
-    }
   }
 
   protected void pushStandardConfig() {
@@ -137,7 +141,7 @@ public abstract class LokdecoderRuntimeService<C extends LokdecoderConfiguration
         | ((this.configuration.traegheit.getIst() << TRAEGHEIT_OFFSET) & TRAEGHEIT_MASK)
         | ((this.configuration.impulsbreite.getIst().getBits() << IMPULSBREITE_OFFSET) & IMPULSBREITE_MASK)
         | ((this.configuration.getAdresseIst() << ADRESSE_OFFSET) & ADRESSE_MASK)
-        | (this.configuration.mehrteiligerHalteabschnitt.getIst() ? MEHRTEILGERHALTEABSCHNITT_BIT : 0);
+        | (this.configuration.mehrteiligerHalteabschnitt.getIst() ? MEHRTEILIGERHALTEABSCHNITT_BIT : 0);
 
     writeDecoderDaten(decoderDaten);
   }

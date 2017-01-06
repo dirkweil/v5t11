@@ -42,25 +42,25 @@ public class DHLokdecoderConfigurationAdapter extends LokdecoderConfigurationAda
     SEHR_HART {
       @Override
       public int getBits() {
-        return 0b001;
+        return 0b00;
       }
     },
     HART {
       @Override
       public int getBits() {
-        return 0b010;
+        return 0b01;
       }
     },
     WEICH {
       @Override
       public int getBits() {
-        return 0b011;
+        return 0b10;
       }
     },
     SEHR_WEICH {
       @Override
       public int getBits() {
-        return 0b100;
+        return 0b11;
       }
     };
 
@@ -70,7 +70,7 @@ public class DHLokdecoderConfigurationAdapter extends LokdecoderConfigurationAda
           return impulsbreite;
         }
       }
-      throw new IllegalArgumentException("Ungueltige RegelVariante-Bits");
+      throw new IllegalArgumentException("Ungueltige RegelVariante-Bits0b" + Integer.toBinaryString(bits));
     }
 
     public abstract int getBits();

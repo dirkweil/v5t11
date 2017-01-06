@@ -41,7 +41,7 @@ public class DHLokdecoderRuntimeService extends LokdecoderRuntimeService<DHLokde
 
       try {
         // Decoder auf Lesen erweiterter Parameter umprogrammieren
-        writeDecoderDaten(0x0000_0000_0100_1001);
+        writeDecoderDatenUnverified(0b0000_0000_0100_1001);
 
         int erweiterteDecoderDaten = readDecoderDaten();
 
@@ -64,12 +64,13 @@ public class DHLokdecoderRuntimeService extends LokdecoderRuntimeService<DHLokde
 
     try {
       // Decoder auf Schreiben erweiterter Parameter umprogrammieren
-      writeDecoderDaten(0x0000_0000_0100_1001);
+      writeDecoderDatenUnverified(0b0000_0000_0100_1001);
 
       // Erweiterte Parameter schreiben
       int erweiterteDecoderDaten = (this.configuration.getAnschlusstauschMotor().getIst() ? ANSCHLUSSTAUSCHMOTOR_BIT : 0)
           | (this.configuration.getAnschlusstauschLicht().getIst() ? ANSCHLUSSTAUSCHLICHT_BIT : 0)
           | (this.configuration.getAnschlusstauschGleis().getIst() ? 0 : ANSCHLUSSTAUSCHGLEIS_BIT)
+          | TRAEGHEITIMMER_BIT
           | ((this.configuration.getRegelVariante().getIst().getBits() << REGELVARIANTE_OFFSET) & REGELVARIANTE_MASK)
           | 0b1000_0000_0000_0000;
       writeDecoderDaten(erweiterteDecoderDaten);
