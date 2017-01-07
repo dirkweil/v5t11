@@ -6,7 +6,7 @@
   <Lok id="323 673-4" bild="lok_323.png" adr="4" decoder="DHL050" />
   <Lok id="212 216-6" bild="lok_212.png" adr="5" decoder="Tr66825" />
   <Lok id="VT 98.9731" bild="lok_vt98.png" adr="6" decoder="DHL100" />
-  <Lok id="89 005" bild="lok_89.png" adr="7" decoder="DH05A" />
+  <Lok id="89 005" bild="lok_89.png" adr="7" decoder="DH05" />
   <Lok id="614 083-4" bild="lok_614.png" adr="11" decoder="Tr66832" />
   <Lok id="103 118-6" bild="lok_103.png" adr="13" decoder="DHL100" />
   <Lok id="332 262-5" bild="lok_332.png" adr="14" decoder="DHL100" />
@@ -31,6 +31,11 @@
     </properties>
   </Lok>
   <Lok id="ET 90.5019" bild="lok_et90.png" adr="21" decoder="DHL100" />
+  <Lok id="151 073-4" bild="lok_151_blau-beige.png" adr="22" decoder="DH10" >
+    <properties>
+      <property name="xgleis" value="true" />
+    </properties>
+  </Lok>
 
   <LokController id="LokControl 1" adr="30" />
   <LokController id="LokControl 2" adr="31" />

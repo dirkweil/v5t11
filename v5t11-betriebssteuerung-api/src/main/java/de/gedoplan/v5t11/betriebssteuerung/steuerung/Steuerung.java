@@ -40,11 +40,13 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 import javax.enterprise.inject.Typed;
 import javax.enterprise.util.AnnotationLiteral;
@@ -525,7 +527,8 @@ public class Steuerung implements SelectrixMessageListener, Serializable {
     }
 
     /*
-     * Den Besetztmeldern zugeordnete Gleisabschnitte in this.gleisabschnitte sammeln. Dabei auch die Bereiche in this.bereiche
+     * Den Besetztmeldern zugeordnete Gleisabschnitte in this.gleisabschnitte
+     * sammeln. Dabei auch die Bereiche in this.bereiche
      * eintragen.
      */
     for (Besetztmelder bm : this.besetztmelder) {
@@ -536,7 +539,8 @@ public class Steuerung implements SelectrixMessageListener, Serializable {
     }
 
     /*
-     * Den Funktionsdecodern zugeordnete Weichen und Signale in this.weichen und this.signale sammeln. Dabei auch die Bereiche in
+     * Den Funktionsdecodern zugeordnete Weichen und Signale in this.weichen und
+     * this.signale sammeln. Dabei auch die Bereiche in
      * this.bereiche eintragen.
      */
     for (Funktionsdecoder fd : this.funktionsdecoder) {
@@ -553,85 +557,79 @@ public class Steuerung implements SelectrixMessageListener, Serializable {
       }
     }
 
-    // // Blocksignale als solche markieren. Dabei ungültige Konfigurationen entfernen.
-    // Iterator<BlockstellenKonfiguration> blockstellenIterator = this.blockstellenKonfigurationen.iterator();
-    // while (blockstellenIterator.hasNext())
-    // {
-    // BlockstellenKonfiguration blockstellenKonfiguration = blockstellenIterator.next();
-    // Signal signal = blockstellenKonfiguration.getSignal();
-    // Gleisabschnitt gleisabschnitt = blockstellenKonfiguration.getGleisabschnitt();
-    // if (signal == null || gleisabschnitt == null)
-    // {
-    // blockstellenIterator.remove();
-    // }
-    // else
-    // {
-    // signal.setBlock(true);
-    // }
-    // }
-    //
-    // // Ungültige Bahnuebergangskonfigurationen entfernen.
-    // Iterator<BahnuebergangKonfiguration> bahnuebergangIterator = this.bahnuebergangKonfigurationen.iterator();
-    // while (bahnuebergangIterator.hasNext())
-    // {
-    // BahnuebergangKonfiguration bahnuebergangKonfiguration = bahnuebergangIterator.next();
-    // if (bahnuebergangKonfiguration.getBahnuebergang() == null || bahnuebergangKonfiguration.getGleisabschnitte().isEmpty())
-    // {
-    // bahnuebergangIterator.remove();
-    // }
-    // }
-    //
-    // // Fahrstrassen komplettieren. Dabei auch die Bereiche in this.bereiche eintragen.
-    // for (Fahrstrasse fahrstrasse : this.fahrstrassen)
-    // {
-    // String bereich = fahrstrasse.getBereich();
-    // for (FahrstrassenElement fahrstrassenElement : fahrstrasse.getElemente())
-    // {
-    // // Zugehöriges Fahrwegelement setzen
-    // fahrstrassenElement.setFahrwegelement(this);
-    //
-    // this.bereiche.add(fahrstrassenElement.getBereich());
-    // }
-    //
-    // this.bereiche.add(bereich);
-    // }
-    //
-    // // Fahrstrassen-Lookup-Map erstellen
-    // add2FahrstrassenLookupMap(this.fahrstrassen);
-    //
-    // // Aus Fahrstrassen Vorgänger/Nachfolger für die enthaltenen Gleisabschnitte errechnen
-    // this.fahrstrassen.forEach(f -> deriveFolgeGleisabschnitte(f));
-    //
-    // // Fahrstrassen kombinieren
-    // concatFahrstrassen();
-    //
-    // // Nicht nutzbare Fahrstrassen entfernen
-    // Set<Fahrstrasse> unusableFahrstrassen = this.fahrstrassen
-    // .stream()
-    // .filter(f -> !f.isZugfahrtGeeignet() && !f.isRangierGeeignet())
-    // .collect(Collectors.toSet());
-    // this.fahrstrassen.removeAll(unusableFahrstrassen);
-    // removeFromFahrstrassenLookupMap(unusableFahrstrassen);
-    //
-    // // Doppeleinträge in Fahrstrassen eliminieren und Signale auf Langsamfahrt korrigieren, wenn nötig..
-    // this.fahrstrassen.forEach(f -> {
-    // f.removeDoppeleintraege();
-    // f.adjustLangsamfahrt();
-    // });
-    //
-    // // Vorsignale hinzufügen.
-    // this.fahrstrassen.forEach(f -> f.addVorsignale(this));
-    //
-    // // Ungültige Autofahrstrassen-Konfigurationen entfernen.
-    // Iterator<AutoFahrstrassenKonfiguration> autoFahrstrassenIterator = this.autoFahrstrassenKonfigurationen.iterator();
-    // while (autoFahrstrassenIterator.hasNext())
-    // {
-    // AutoFahrstrassenKonfiguration autoFahrstrassenKonfiguration = autoFahrstrassenIterator.next();
-    // if (autoFahrstrassenKonfiguration.getGleisabschnitt() == null || autoFahrstrassenKonfiguration.getZielGleisabschnitte().isEmpty())
-    // {
-    // autoFahrstrassenIterator.remove();
-    // }
-    // }
+    // Blocksignale als solche markieren. Dabei ungültige Konfigurationen
+    // entfernen.
+    Iterator<BlockstellenKonfiguration> blockstellenIterator = this.blockstellenKonfigurationen.iterator();
+    while (blockstellenIterator.hasNext()) {
+      BlockstellenKonfiguration blockstellenKonfiguration = blockstellenIterator.next();
+      Signal signal = blockstellenKonfiguration.getSignal();
+      Gleisabschnitt gleisabschnitt = blockstellenKonfiguration.getGleisabschnitt();
+      if (signal == null || gleisabschnitt == null) {
+        blockstellenIterator.remove();
+      } else {
+        signal.setBlock(true);
+      }
+    }
+
+    // Ungültige Bahnuebergangskonfigurationen entfernen.
+    Iterator<BahnuebergangKonfiguration> bahnuebergangIterator = this.bahnuebergangKonfigurationen.iterator();
+    while (bahnuebergangIterator.hasNext()) {
+      BahnuebergangKonfiguration bahnuebergangKonfiguration = bahnuebergangIterator.next();
+      if (bahnuebergangKonfiguration.getBahnuebergang() == null || bahnuebergangKonfiguration.getGleisabschnitte().isEmpty()) {
+        bahnuebergangIterator.remove();
+      }
+    }
+
+    // Fahrstrassen komplettieren. Dabei auch die Bereiche in this.bereiche
+    // eintragen.
+    for (Fahrstrasse fahrstrasse : this.fahrstrassen) {
+      String bereich = fahrstrasse.getBereich();
+      for (FahrstrassenElement fahrstrassenElement : fahrstrasse.getElemente()) {
+        // Zugehöriges Fahrwegelement setzen
+        fahrstrassenElement.setFahrwegelement(this);
+
+        this.bereiche.add(fahrstrassenElement.getBereich());
+      }
+
+      this.bereiche.add(bereich);
+    }
+
+    // Fahrstrassen-Lookup-Map erstellen
+    add2FahrstrassenLookupMap(this.fahrstrassen);
+
+    // Aus Fahrstrassen Vorgänger/Nachfolger für die enthaltenen Gleisabschnitte
+    // errechnen
+    this.fahrstrassen.forEach(f -> deriveFolgeGleisabschnitte(f));
+
+    // Fahrstrassen kombinieren
+    concatFahrstrassen();
+
+    // Nicht nutzbare Fahrstrassen entfernen
+    Set<Fahrstrasse> unusableFahrstrassen = this.fahrstrassen
+        .stream()
+        .filter(f -> !f.isZugfahrtGeeignet() && !f.isRangierGeeignet())
+        .collect(Collectors.toSet());
+    this.fahrstrassen.removeAll(unusableFahrstrassen);
+    removeFromFahrstrassenLookupMap(unusableFahrstrassen);
+
+    // Doppeleinträge in Fahrstrassen eliminieren und Signale auf Langsamfahrt
+    // korrigieren, wenn nötig..
+    this.fahrstrassen.forEach(f -> {
+      f.removeDoppeleintraege();
+      f.adjustLangsamfahrt();
+    });
+
+    // Vorsignale hinzufügen.
+    this.fahrstrassen.forEach(f -> f.addVorsignale(this));
+
+    // Ungültige Autofahrstrassen-Konfigurationen entfernen.
+    Iterator<AutoFahrstrassenKonfiguration> autoFahrstrassenIterator = this.autoFahrstrassenKonfigurationen.iterator();
+    while (autoFahrstrassenIterator.hasNext()) {
+      AutoFahrstrassenKonfiguration autoFahrstrassenKonfiguration = autoFahrstrassenIterator.next();
+      if (autoFahrstrassenKonfiguration.getGleisabschnitt() == null || autoFahrstrassenKonfiguration.getZielGleisabschnitte().isEmpty()) {
+        autoFahrstrassenIterator.remove();
+      }
+    }
 
     for (String bereich : getBereiche()) {
       Stellwerk stellwerk = getStellwerk(bereich);
@@ -714,7 +712,8 @@ public class Steuerung implements SelectrixMessageListener, Serializable {
         } else if (fahrstrassenWeiche2 == null) {
           fahrstrassenWeiche2 = (FahrstrassenWeiche) fahrstrassenElement;
         } else {
-          // Es dürfen maximal zwei Weichen zwischen zwei Gleisabschnitten liegen
+          // Es dürfen maximal zwei Weichen zwischen zwei Gleisabschnitten
+          // liegen
           throw new IllegalArgumentException(fahrstrasse + " hat zu viele Weichen nach " + fahrstrassenGleisabschnitt);
         }
       }
@@ -784,7 +783,8 @@ public class Steuerung implements SelectrixMessageListener, Serializable {
   /**
    * Freie Fahrstrassen suchen.
    *
-   * Die angegebenen Gleisabschnitte dürfen belegt sein, alle anderen müssen frei sein.
+   * Die angegebenen Gleisabschnitte dürfen belegt sein, alle anderen müssen
+   * frei sein.
    *
    * @param beginn
    *          Beginn-Gleisabschnitt
@@ -799,7 +799,8 @@ public class Steuerung implements SelectrixMessageListener, Serializable {
   /**
    * Freie Fahrstrassen suchen.
    *
-   * Die angegebenen Gleisabschnitte dürfen belegt sein, alle anderen müssen frei sein.
+   * Die angegebenen Gleisabschnitte dürfen belegt sein, alle anderen müssen
+   * frei sein.
    *
    * @param beginn
    *          Beginn-Gleisabschnitt
