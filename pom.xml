@@ -5,7 +5,7 @@
   <parent>
     <groupId>de.gedoplan</groupId>
     <artifactId>build-master</artifactId>
-    <version>7.2.3</version>
+    <version>2018.1.2</version>
   </parent>
 
   <artifactId>v5t11</artifactId>
