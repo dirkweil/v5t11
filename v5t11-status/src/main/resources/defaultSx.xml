@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<sx>
+<!--   <Lok id="212 216-6" bild="lok_212.png" adr="5" /> -->
+<!--   <Lok id="VT 98.9731" bild="lok_vt98.png" adr="6" /> -->
+<!--   <Lok id="221 137-3" bild="lok_221.png" adr="19" /> -->
+
+<!--   <LokController id="LokControl 1" adr="30" /> -->
+<!--   <LokController id="LokControl 2" adr="31" /> -->
+<!--   <LokController id="Zentrale 9" adr="9" /> -->
+
+  <Besetztmelder>
+    <BMMiba3 id="BM-1" adr="90" einbauOrt="neben Interface">
+      <Gleisabschnitt idx="0" bereich="default" name="W1" />
+      <Gleisabschnitt idx="1" bereich="default" name="S" />
+      <Gleisabschnitt idx="2" bereich="default" name="W3" />
+      <Gleisabschnitt idx="3" bereich="default" name="2" />
+      <Gleisabschnitt idx="4" bereich="default" name="W2" />
+      <Gleisabschnitt idx="5" bereich="default" name="11" />
+      <Gleisabschnitt idx="6" bereich="default" name="12" />
+      <Gleisabschnitt idx="7" bereich="default" name="1" />
+    </BMMiba3>
+    
+    <SXBM1 id="BM-x" adr="92" einbauOrt="fliegender Aufbau">
+    </SXBM1>
+  </Besetztmelder>
+
+  <Funktionsdecoder>
+    <WDMiba3 id="FD-1" adr="80" einbauOrt="neben Trafo">
+      <Weiche idx="1" bereich="default" name="3" />
+      <Weiche idx="2" bereich="default" name="2" />
+      <Weiche idx="3" bereich="default" name="1" />
+      <HauptsignalRtGnGe idx="4" bereich="default" name="F" dauer="true" />
+      <HauptsignalRtGe idx="6" bereich="default" name="N1" dauer="true" />
+      <HauptsignalRtGn idx="7" bereich="default" name="N2" dauer="true" />
+    </WDMiba3>
+  </Funktionsdecoder>
+
+</sx>
+

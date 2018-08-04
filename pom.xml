@@ -37,13 +37,13 @@
       <dependency>
         <groupId>commons-logging</groupId>
         <artifactId>commons-logging</artifactId>
-        <version>1.1.1</version>
+        <version>1.2</version>
       </dependency>
 
       <dependency>
         <groupId>de.gedoplan</groupId>
         <artifactId>baselibs-wildfly</artifactId>
-        <version>10.0.0_03</version>
+        <version>13.0.0_01</version>
       </dependency>
 
       <dependency>
@@ -79,7 +79,7 @@
       <dependency>
         <groupId>javax</groupId>
         <artifactId>javaee-api</artifactId>
-        <version>7.0</version>
+        <version>8.0</version>
       </dependency>
 
       <dependency>
@@ -98,6 +98,14 @@
         <groupId>mysql</groupId>
         <artifactId>mysql-connector-java</artifactId>
         <version>5.0.5</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.logging.log4j</groupId>
+        <artifactId>log4j-bom</artifactId>
+        <version>2.9.1</version>
+        <scope>import</scope>
+        <type>pom</type>
       </dependency>
 
       <dependency>
@@ -165,6 +173,8 @@
   </dependencies>
 
   <modules>
+    <module>v5t11-status</module>
+    
     <module>v5t11-betriebssteuerung-api</module>
     <module>v5t11-betriebssteuerung</module>
     <module>v5t11-selectrix-adapter-api</module>
