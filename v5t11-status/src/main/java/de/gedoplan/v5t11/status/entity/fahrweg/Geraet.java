@@ -39,12 +39,6 @@ public abstract class Geraet extends Fahrwegelement {
   protected int bitCount;
 
   /**
-   * Hat der Funktiondecoder-Ausgang Dauerstrom?
-   */
-  @XmlAttribute(name = "dauer")
-  private boolean dauer;
-
-  /**
    * Bitmaske für den Wert am Index 0.
    *
    * In diesem Wert sind die niederwertigsten bitCount Bits gesetzt. Er kann somit zum Ausschneiden des Wertes des Geräts aus dem
@@ -100,4 +94,6 @@ public abstract class Geraet extends Fahrwegelement {
     this.bitMaskeAnschluss = this.bitMaske0 << this.anschluss;
 
   }
+
+  public abstract void adjustStatus();
 }

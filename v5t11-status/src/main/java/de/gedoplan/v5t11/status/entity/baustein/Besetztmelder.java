@@ -24,6 +24,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class Besetztmelder extends Baustein implements Encoder {
+
   /**
    * Zugeordnete Gleisabschnitte.
    */
@@ -47,4 +48,8 @@ public abstract class Besetztmelder extends Baustein implements Encoder {
     return "Besetzmelder";
   }
 
+  @Override
+  public void adjustStatus() {
+    this.gleisabschnitte.forEach(Gleisabschnitt::adjustStatus);
+  }
 }

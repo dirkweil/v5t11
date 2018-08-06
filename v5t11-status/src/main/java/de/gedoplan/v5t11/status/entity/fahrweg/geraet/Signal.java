@@ -111,10 +111,23 @@ public abstract class Signal extends Geraet {
    *          Wert
    */
   public void setStellung(Stellung stellung) {
-    if (!this.stellung2wert.containsKey(stellung)) {
-      throw new IllegalArgumentException("Ungueltige Signalstellung)");
+    setStellung(stellung, true);
+  }
+
+  protected void setStellung(Stellung stellung, boolean updateInterface) {
+    if (this.stellung != stellung) {
+      if (!this.stellung2wert.containsKey(stellung)) {
+        throw new IllegalArgumentException("Ungueltige Signalstellung)");
+      }
+
+      this.stellung = stellung;
+
+      if (updateInterface) {
+        /* TODO Wert des FD setzen */;
+      }
+
+      publishStatus();
     }
-    this.stellung = stellung;
   }
 
   /**
@@ -138,6 +151,11 @@ public abstract class Signal extends Geraet {
    */
   public Stellung getStellungForWert(long stellungsWert) {
     return this.wert2stellung.get(stellungsWert);
+  }
+
+  @Override
+  public void adjustStatus() {
+    setStellung(getStellungForWert((this.funktionsdecoder.getWert() & this.bitMaskeAnschluss) >>> this.anschluss), false);
   }
 
 }

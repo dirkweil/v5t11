@@ -70,4 +70,10 @@ public class Zentrale extends Baustein {
   public String getLabelPrefix() {
     return "Zentrale";
   }
+
+  @Override
+  public void adjustStatus() {
+    // Nichts zu tun, da kein expliziter Status vorhanden
+    // TODO Notifications?
+  }
 }

@@ -1,5 +1,6 @@
 package de.gedoplan.v5t11.status.entity;
 
+import de.gedoplan.v5t11.status.entity.baustein.Baustein;
 import de.gedoplan.v5t11.status.entity.baustein.Besetztmelder;
 import de.gedoplan.v5t11.status.entity.baustein.Funktionsdecoder;
 import de.gedoplan.v5t11.status.entity.baustein.Zentrale;
@@ -15,12 +16,13 @@ import de.gedoplan.v5t11.status.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -32,6 +34,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jboss.weld.exceptions.IllegalArgumentException;
 
 import lombok.Getter;
 
@@ -45,9 +48,13 @@ import lombok.Getter;
 @XmlRootElement(name = "sx")
 @XmlAccessorType(XmlAccessType.NONE)
 public class Steuerung {
+  private volatile int[] kanalWerte = new int[256];
+
+  private Baustein[] kanalBausteine = new Baustein[256];
+
   @XmlElement(name = "Zentrale")
   @Getter
-  Zentrale zentrale;
+  private Zentrale zentrale;
 
   // @XmlElement(name = "Lok")
   // SortedSet<Lok> loks = new TreeSet<>();
@@ -57,7 +64,7 @@ public class Steuerung {
 
   @XmlElementWrapper(name = "Besetztmelder")
   @XmlElements({ @XmlElement(name = "BMMiba3", type = BMMiba3.class), @XmlElement(name = "SXBM1", type = SXBM1.class) })
-  SortedSet<Besetztmelder> besetztmelder = new TreeSet<>();
+  private SortedSet<Besetztmelder> besetztmelder = new TreeSet<>();
 
   @XmlElementWrapper(name = "Funktionsdecoder")
   @XmlElements({ @XmlElement(name = "SD8", type = SD8.class), @XmlElement(name = "STRFD1", type = STRFD1.class), @XmlElement(name = "SXSD1", type = SXSD1.class),
@@ -84,27 +91,10 @@ public class Steuerung {
    * @return Adressen
    */
   public List<Integer> getAdressen() {
-    List<Integer> adressen = new ArrayList<>();
-
-    adressen.addAll(this.zentrale.getAdressen());
-
-    // for (Lok lok : this.loks) {
-    // adressen.add(lok.getAdresse());
-    // }
-
-    // for (LokController lokController : this.lokController) {
-    // adressen.add(lokController.getAdresse());
-    // }
-
-    for (Besetztmelder bm : this.besetztmelder) {
-      adressen.addAll(bm.getAdressen());
-    }
-
-    for (Funktionsdecoder fd : this.funktionsdecoder) {
-      adressen.addAll(fd.getAdressen());
-    }
-
-    return adressen;
+    return IntStream.range(0, this.kanalWerte.length)
+        .filter(i -> this.kanalBausteine[i] != null)
+        .mapToObj(Integer::valueOf)
+        .collect(Collectors.toList());
   }
 
   // /**
@@ -257,27 +247,34 @@ public class Steuerung {
    */
   @SuppressWarnings("unused")
   private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
+
+    // Zentrale ergänzen.
     if (this.zentrale == null) {
       this.zentrale = new Zentrale();
       this.zentrale.afterUnmarshal(unmarshaller, this);
     }
 
+    // Adressen der Zentrale registrieren.
+    registerAdressen(this.zentrale);
+
     /*
      * Den Besetztmeldern zugeordnete Gleisabschnitte in this.gleisabschnitte
-     * sammeln. Dabei auch die Bereiche in this.bereiche
-     * eintragen.
+     * sammeln. Dabei auch die Bereiche in this.bereiche eintragen und Adressen
+     * registrieren.
      */
     for (Besetztmelder bm : this.besetztmelder) {
       for (Gleisabschnitt g : bm.getGleisabschnitte()) {
         this.gleisabschnitte.add(g);
         this.bereiche.add(g.getBereich());
       }
+
+      registerAdressen(bm);
     }
 
     /*
      * Den Funktionsdecodern zugeordnete Weichen und Signale in this.weichen und
-     * this.signale sammeln. Dabei auch die Bereiche in
-     * this.bereiche eintragen.
+     * this.signale sammeln. Dabei auch die Bereiche in this.bereiche eintragen und Adressen
+     * registrieren.
      */
     for (Funktionsdecoder fd : this.funktionsdecoder) {
       for (Geraet g : fd.getGeraete()) {
@@ -291,7 +288,20 @@ public class Steuerung {
 
         this.bereiche.add(g.getBereich());
       }
+
+      registerAdressen(fd);
     }
+  }
+
+  private void registerAdressen(Baustein baustein) {
+    baustein.getAdressen().forEach(adr -> {
+      if (this.kanalBausteine[adr] != null) {
+        throw new IllegalArgumentException("Adresse " + adr + " mehrfach belegt");
+      }
+
+      this.kanalBausteine[adr] = baustein;
+    });
+
   }
 
   /**
@@ -332,5 +342,27 @@ public class Steuerung {
   @Override
   public String toString() {
     return toDebugString(true);
+  }
+
+  public int getKanalWert(int adr) {
+    return this.kanalWerte[adr];
+  }
+
+  public void setKanalWert(int adr, int wert) {
+    setKanalWert(adr, wert, true);
+  }
+
+  public void setKanalWert(int adr, int wert, boolean updateInterface) {
+    if (this.kanalWerte[adr] != wert) {
+      this.kanalWerte[adr] = wert;
+
+      if (updateInterface) {
+        /* Interface aktualisieren */;
+      }
+
+      this.kanalBausteine[adr].adjustWert(adr, wert);
+
+      // fireEvent
+    }
   }
 }

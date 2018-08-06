@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<sx>
+<!--   <Lok id="212 216-6" bild="lok_212.png" adr="5" /> -->
+<!--   <Lok id="VT 98.9731" bild="lok_vt98.png" adr="6" /> -->
+<!--   <Lok id="221 137-3" bild="lok_221.png" adr="19" /> -->
+
+<!--   <LokController id="LokControl 1" adr="30" /> -->
+<!--   <LokController id="LokControl 2" adr="31" /> -->
+<!--   <LokController id="Zentrale 9" adr="9" /> -->
+
+  <Besetztmelder>
+    <BMMiba3 id="BM-1" adr="90" einbauOrt="neben Interface">
+      <Gleisabschnitt idx="0" bereich="test" name="1" />
+      <Gleisabschnitt idx="1" bereich="test" name="2" />
+      <Gleisabschnitt idx="2" bereich="test" name="3" />
+      <Gleisabschnitt idx="3" bereich="test" name="4" />
+      <Gleisabschnitt idx="4" bereich="test" name="5" />
+      <Gleisabschnitt idx="5" bereich="test" name="6" />
+      <Gleisabschnitt idx="6" bereich="test" name="7" />
+      <Gleisabschnitt idx="7" bereich="test" name="8" />
+    </BMMiba3>
+  </Besetztmelder>
+
+  <Funktionsdecoder>
+    <WDMiba3 id="FD-1" adr="80" einbauOrt="neben Trafo">
+      <Weiche idx="1" bereich="test" name="1" />
+      <Weiche idx="2" bereich="test" name="2" />
+      <Weiche idx="3" bereich="test" name="3" />
+      <HauptsignalRtGnGe idx="4" bereich="test" name="F" />
+      <HauptsignalRtGe idx="6" bereich="test" name="N1" />
+      <HauptsignalRtGn idx="7" bereich="test" name="N2" />
+    </WDMiba3>
+    
+    <SXSD1 id="FD-2" adr="81" einbauOrt="fliegender Aufbau">
+      <Hauptsperrsignal idx="0" bereich="test" name="P2" />
+      <Hauptsperrsignal idx="2" bereich="test" name="P3" />
+      <Hauptsperrsignal idx="4" bereich="test" name="P4" />
+      <Weiche idx="6" bereich="test" name="10" />
+      <Weiche idx="7" bereich="test" name="11" />
+      <Vorsignal idx="8" bereich="test" name="2a" />
+      <Vorsignal idx="10" bereich="test" name="2b" />
+      <HauptsignalRtGnGe idx="12" bereich="test" name="A" />
+      <HauptsignalRtGe idx="14" bereich="test" name="B" />
+      <HauptsignalRtGn idx="15" bereich="test" name="C" />
+    </SXSD1>
+  </Funktionsdecoder>
+
+</sx>
+

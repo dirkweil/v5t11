@@ -58,4 +58,10 @@ public abstract class Funktionsdecoder extends Baustein implements Decoder {
   public String getLabelPrefix() {
     return "Funktionsdecoder";
   }
+
+  @Override
+  public void adjustStatus() {
+    this.geraete.forEach(Geraet::adjustStatus);
+  }
+
 }

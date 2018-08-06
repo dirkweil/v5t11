@@ -1,6 +1,7 @@
 package de.gedoplan.v5t11.status.entity.baustein;
 
 import de.gedoplan.baselibs.persistence.entity.SingleIdEntity;
+import de.gedoplan.v5t11.status.entity.Steuerung;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,6 +63,10 @@ public abstract class Baustein extends SingleIdEntity<String> implements Compara
   @Min(0)
   @Getter
   private long wert;
+
+  @Transient
+  @Getter
+  private Steuerung steuerung;
 
   @Transient
   protected AtomicReference<List<Integer>> adressen = new AtomicReference<>();
@@ -144,6 +149,12 @@ public abstract class Baustein extends SingleIdEntity<String> implements Compara
     if (this.id == null) {
       throw new IllegalArgumentException("Id darf nicht null sein: " + this.toDebugString());
     }
+
+    if (parent instanceof Steuerung) {
+      this.steuerung = (Steuerung) parent;
+    } else {
+      throw new IllegalArgumentException("Illegal parent " + parent);
+    }
   }
 
   /**
@@ -190,4 +201,35 @@ public abstract class Baustein extends SingleIdEntity<String> implements Compara
   public boolean isBusBaustein() {
     return true;
   }
+
+  /**
+   * Bausteinwert entsprechend Kanalwert aktualisieren.
+   *
+   * @param adr
+   *          Adresse
+   * @param kanalWert
+   *          Wert
+   */
+  public void adjustWert(int adr, int kanalWert) {
+    long mask = 0b11111111;
+    long teilWert = (kanalWert) & mask;
+
+    for (int bausteinAdresse : getAdressen()) {
+      if (bausteinAdresse == adr) {
+        this.wert = (this.wert & ~mask) | teilWert;
+
+        adjustStatus();
+
+        break;
+      }
+
+      mask <<= 8;
+      teilWert <<= 8;
+    }
+  }
+
+  /**
+   * Status des Bausteins bzw. der angeschlossenen Elemente aktualisieren.
+   */
+  public abstract void adjustStatus();
 }

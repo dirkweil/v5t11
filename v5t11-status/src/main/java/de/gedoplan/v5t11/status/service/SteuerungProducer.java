@@ -14,7 +14,8 @@ public class SteuerungProducer {
   @ApplicationScoped
   Steuerung createSteuerung() {
 
-    String xmlResourceName = "defaultSx.xml";
+    // TODO Dateinamen konfigurierbar machen
+    String xmlResourceName = "testSx.xml";
     try {
       return XmlConverter.fromXml(Steuerung.class, xmlResourceName);
     } catch (Exception e) {

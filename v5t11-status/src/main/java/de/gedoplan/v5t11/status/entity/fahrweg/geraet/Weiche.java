@@ -68,6 +68,28 @@ public class Weiche extends Geraet {
     super(1);
   }
 
+  /**
+   * Wert setzen: {@link #stellung}.
+   *
+   * @param stellung
+   *          Wert
+   */
+  public void setStellung(Stellung stellung) {
+    setStellung(stellung, true);
+  }
+
+  protected void setStellung(Stellung stellung, boolean updateInterface) {
+    if (this.stellung != stellung) {
+      this.stellung = stellung;
+
+      if (updateInterface) {
+        /* TODO Wert des FD setzen */;
+      }
+
+      publishStatus();
+    }
+  }
+
   public String getGleisabschnittName() {
     boolean doppelweiche = Character.isAlphabetic(this.name.charAt(this.name.length() - 1));
     if (doppelweiche) {
@@ -75,5 +97,10 @@ public class Weiche extends Geraet {
     } else {
       return "W" + this.name;
     }
+  }
+
+  @Override
+  public void adjustStatus() {
+    setStellung(Stellung.getInstance((this.funktionsdecoder.getWert() & this.bitMaskeAnschluss) >>> this.anschluss), false);
   }
 }
