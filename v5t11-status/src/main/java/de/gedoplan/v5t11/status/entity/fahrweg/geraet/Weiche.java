@@ -83,7 +83,10 @@ public class Weiche extends Geraet {
       this.stellung = stellung;
 
       if (updateInterface) {
-        /* TODO Wert des FD setzen */;
+        long fdWert = this.funktionsdecoder.getWert();
+        fdWert &= (~this.bitMaskeAnschluss);
+        fdWert |= this.stellung.getValue() << this.anschluss;
+        this.funktionsdecoder.setWert(fdWert);
       }
 
       publishStatus();

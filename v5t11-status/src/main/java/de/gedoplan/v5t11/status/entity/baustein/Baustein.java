@@ -114,16 +114,20 @@ public abstract class Baustein extends SingleIdEntity<String> implements Compara
    *          Wert
    */
   public void setWert(long wert) {
+    setWert(wert, true);
+  }
+
+  protected void setWert(long wert, boolean updateInterface) {
     long old = this.wert;
     this.wert = wert;
     if (old != this.wert) {
-      // if (updateInterface && this.steuerung != null) {
-      // List<Integer> adressen = getAdressen();
-      // for (int offset = 0; offset < this.byteAnzahl; ++offset) {
-      // this.steuerung.setWert(adressen.get(offset), (int) (wert & 0b11111111L));
-      // wert >>>= 8;
-      // }
-      // }
+      if (updateInterface) {
+        List<Integer> adressen = getAdressen();
+        for (int offset = 0; offset < this.byteAnzahl; ++offset) {
+          this.steuerung.setKanalWert(adressen.get(offset), (int) (wert & 0b11111111L));
+          wert >>>= 8;
+        }
+      }
     }
   }
 

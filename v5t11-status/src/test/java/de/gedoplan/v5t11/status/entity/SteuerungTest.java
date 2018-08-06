@@ -8,6 +8,7 @@ import de.gedoplan.v5t11.status.StatusEventCollector;
 import de.gedoplan.v5t11.status.entity.fahrweg.Geraet;
 import de.gedoplan.v5t11.status.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
+import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal.Stellung;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
 
 import java.util.Random;
@@ -84,7 +85,8 @@ public class SteuerungTest extends CdiTestBase {
    */
   @Test
   public void test_03_adjustGeraete() {
-    final int ADR = 81;
+    final int ADR1 = 81;
+    final int ADR2 = 82;
 
     Geraet[] geraete = {
         this.steuerung.getSignal("test", "P2"),
@@ -99,20 +101,23 @@ public class SteuerungTest extends CdiTestBase {
         this.steuerung.getSignal("test", "C")
     };
 
-    // Grundzustand herstellen: Alle Gleise an BM-1 nicht besetzt
-    this.steuerung.setKanalWert(ADR, 0b1111_1111);
-    int wert = 0;
-    this.steuerung.setKanalWert(ADR, wert);
+    // Grundzustand herstellen: Alle Geraete an FD-2 in Grundstellung
+    this.steuerung.setKanalWert(ADR1, 0b1111_1111);
+    this.steuerung.setKanalWert(ADR2, 0b1111_1111);
+    long wert = 0;
+    this.steuerung.setKanalWert(ADR1, (int) (wert & 0b1111_1111));
+    this.steuerung.setKanalWert(ADR2, (int) ((wert >> 8) & 0b1111_1111));
 
-    // Zufällige Kombinationen von Gleisbelegungen prüfen
+    // Zufällige Kombinationen von Geraetestellungen prüfen
     Random random = new Random(0);
     for (int count = 0; count < 100; ++count) {
       this.statusEventCollector.clear();
 
-      int oldWert = wert;
-      wert = random.nextInt(256);
+      long oldWert = wert;
+      wert = random.nextInt(256 * 256);
 
-      this.steuerung.setKanalWert(ADR, wert);
+      this.steuerung.setKanalWert(ADR1, (int) (wert & 0b1111_1111));
+      this.steuerung.setKanalWert(ADR2, (int) ((wert >> 8) & 0b1111_1111));
 
       int anschluss = 0;
       for (int i = 0; i < geraete.length; ++i) {
@@ -130,7 +135,17 @@ public class SteuerungTest extends CdiTestBase {
           Signal signal = (Signal) geraet;
 
           // Ist die Signalstellung korrekt?
-          assertThat("Signalstellung fuer " + signal, signal.getStellung(), is(signal.getStellungForWert(geraeteWert)));
+          Stellung stellungForWert = signal.getStellungForWert(geraeteWert);
+          if (stellungForWert != null) {
+            assertThat("Signalstellung fuer " + signal, signal.getStellung(), is(stellungForWert));
+          } else {
+            /*
+             * Sondersituation: Der Geraetewert ist ungueltig, d. h. es gibt keine erlaubte Signalstellung dazu.
+             * In diesem Fall Werte so manipulieren, als ob fuer dieses Signal keine Aenderung erfolgt waere.
+             */
+            geraeteWert = oldGeraeteWert;
+            wert = (wert & ~(mask << anschluss)) | (geraeteWert << anschluss);
+          }
         } else {
           fail("Unbekanntes Geraet: " + geraet);
         }
@@ -143,4 +158,5 @@ public class SteuerungTest extends CdiTestBase {
     }
 
   }
+
 }

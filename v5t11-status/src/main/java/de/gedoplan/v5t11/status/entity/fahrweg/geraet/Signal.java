@@ -123,7 +123,10 @@ public abstract class Signal extends Geraet {
       this.stellung = stellung;
 
       if (updateInterface) {
-        /* TODO Wert des FD setzen */;
+        long fdWert = this.funktionsdecoder.getWert();
+        fdWert &= (~this.bitMaskeAnschluss);
+        fdWert |= getWertForStellung(stellung) << this.anschluss;
+        this.funktionsdecoder.setWert(fdWert);
       }
 
       publishStatus();
@@ -147,7 +150,7 @@ public abstract class Signal extends Geraet {
    *
    * @param stellungsWert
    *          Stellungswert
-   * @return Stellung
+   * @return Stellung oder null, wenn ungueltiger Stellungswert
    */
   public Stellung getStellungForWert(long stellungsWert) {
     return this.wert2stellung.get(stellungsWert);
@@ -155,7 +158,10 @@ public abstract class Signal extends Geraet {
 
   @Override
   public void adjustStatus() {
-    setStellung(getStellungForWert((this.funktionsdecoder.getWert() & this.bitMaskeAnschluss) >>> this.anschluss), false);
+    Stellung stellungForWert = getStellungForWert((this.funktionsdecoder.getWert() & this.bitMaskeAnschluss) >>> this.anschluss);
+    if (stellungForWert != null) {
+      setStellung(stellungForWert, false);
+    }
   }
 
 }
