@@ -10,6 +10,17 @@
 
   <Besetztmelder>
     <BMMiba3 id="BM-1" adr="90" einbauOrt="neben Interface">
+      <Gleisabschnitt idx="0" bereich="Demoanlage" name="W1" />
+      <Gleisabschnitt idx="1" bereich="Demoanlage" name="S" />
+      <Gleisabschnitt idx="2" bereich="Demoanlage" name="W3" />
+      <Gleisabschnitt idx="3" bereich="Demoanlage" name="2" />
+      <Gleisabschnitt idx="4" bereich="Demoanlage" name="W2" />
+      <Gleisabschnitt idx="5" bereich="Demoanlage" name="11" />
+      <Gleisabschnitt idx="6" bereich="Demoanlage" name="12" />
+      <Gleisabschnitt idx="7" bereich="Demoanlage" name="1" />
+    </BMMiba3>
+
+    <BMMiba3 id="BM-2" adr="91" einbauOrt="nur zum Test">
       <Gleisabschnitt idx="0" bereich="test" name="1" />
       <Gleisabschnitt idx="1" bereich="test" name="2" />
       <Gleisabschnitt idx="2" bereich="test" name="3" />
@@ -23,15 +34,15 @@
 
   <Funktionsdecoder>
     <WDMiba3 id="FD-1" adr="80" einbauOrt="neben Trafo">
-      <Weiche idx="1" bereich="test" name="1" />
-      <Weiche idx="2" bereich="test" name="2" />
-      <Weiche idx="3" bereich="test" name="3" />
-      <HauptsignalRtGnGe idx="4" bereich="test" name="F" />
-      <HauptsignalRtGe idx="6" bereich="test" name="N1" />
-      <HauptsignalRtGn idx="7" bereich="test" name="N2" />
+      <Weiche idx="1" bereich="Demoanlage" name="3" />
+      <Weiche idx="2" bereich="Demoanlage" name="2" />
+      <Weiche idx="3" bereich="Demoanlage" name="1" />
+      <HauptsignalRtGnGe idx="4" bereich="Demoanlage" name="F" dauer="true" />
+      <HauptsignalRtGe idx="6" bereich="Demoanlage" name="N1" dauer="true" />
+      <HauptsignalRtGn idx="7" bereich="Demoanlage" name="N2" dauer="true" />
     </WDMiba3>
     
-    <SXSD1 id="FD-2" adr="81" einbauOrt="fliegender Aufbau">
+    <SXSD1 id="FD-2" adr="81" einbauOrt="nur zum Test">
       <Hauptsperrsignal idx="0" bereich="test" name="P2" />
       <Hauptsperrsignal idx="2" bereich="test" name="P3" />
       <Hauptsperrsignal idx="4" bereich="test" name="P4" />

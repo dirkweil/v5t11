@@ -30,6 +30,11 @@ public class SteuerungTest extends CdiTestBase {
   @Inject
   StatusEventCollector statusEventCollector;
 
+  private static final int BM_ADR = 91;
+
+  private static final int FD_ADR1 = 81;
+  private static final int FD_ADR2 = 82;
+
   /**
    * Test: Kann Steuerung produziert (= aus XML eingelesen) werden?
    */
@@ -43,7 +48,6 @@ public class SteuerungTest extends CdiTestBase {
    */
   @Test
   public void test_02_adjustGleisAbschnitt() {
-    final int ADR = 90;
 
     Gleisabschnitt[] gleisabschnitte = {
         this.steuerung.getGleisabschnitt("test", "1"),
@@ -57,9 +61,9 @@ public class SteuerungTest extends CdiTestBase {
     };
 
     // Grundzustand herstellen: Alle Gleise an BM-1 nicht besetzt
-    this.steuerung.setKanalWert(ADR, 0b1111_1111);
+    this.steuerung.setKanalWert(BM_ADR, 0b1111_1111);
     int wert = 0;
-    this.steuerung.setKanalWert(ADR, wert);
+    this.steuerung.setKanalWert(BM_ADR, wert);
 
     // Zufällige Kombinationen von Gleisbelegungen prüfen
     Random random = new Random(0);
@@ -69,7 +73,7 @@ public class SteuerungTest extends CdiTestBase {
       int oldWert = wert;
       wert = random.nextInt(256);
 
-      this.steuerung.setKanalWert(ADR, wert);
+      this.steuerung.setKanalWert(BM_ADR, wert);
 
       for (int i = 0; i < gleisabschnitte.length; ++i) {
         // Ist der Gleiszustand korrekt?
@@ -87,8 +91,6 @@ public class SteuerungTest extends CdiTestBase {
    */
   @Test
   public void test_03_adjustGeraete() {
-    final int ADR1 = 81;
-    final int ADR2 = 82;
 
     Geraet[] geraete = {
         this.steuerung.getSignal("test", "P2"),
@@ -104,11 +106,11 @@ public class SteuerungTest extends CdiTestBase {
     };
 
     // Grundzustand herstellen: Alle Geraete an FD-2 in Grundstellung
-    this.steuerung.setKanalWert(ADR1, 0b1111_1111);
-    this.steuerung.setKanalWert(ADR2, 0b1111_1111);
+    this.steuerung.setKanalWert(FD_ADR1, 0b1111_1111);
+    this.steuerung.setKanalWert(FD_ADR2, 0b1111_1111);
     long wert = 0;
-    this.steuerung.setKanalWert(ADR1, (int) (wert & 0b1111_1111));
-    this.steuerung.setKanalWert(ADR2, (int) ((wert >> 8) & 0b1111_1111));
+    this.steuerung.setKanalWert(FD_ADR1, (int) (wert & 0b1111_1111));
+    this.steuerung.setKanalWert(FD_ADR2, (int) ((wert >> 8) & 0b1111_1111));
 
     // Zufällige Kombinationen von Geraetestellungen prüfen
     Random random = new Random(0);
@@ -118,8 +120,8 @@ public class SteuerungTest extends CdiTestBase {
       long oldWert = wert;
       wert = random.nextInt(256 * 256);
 
-      this.steuerung.setKanalWert(ADR1, (int) (wert & 0b1111_1111));
-      this.steuerung.setKanalWert(ADR2, (int) ((wert >> 8) & 0b1111_1111));
+      this.steuerung.setKanalWert(FD_ADR1, (int) (wert & 0b1111_1111));
+      this.steuerung.setKanalWert(FD_ADR2, (int) ((wert >> 8) & 0b1111_1111));
 
       int anschluss = 0;
       for (int i = 0; i < geraete.length; ++i) {
@@ -166,8 +168,6 @@ public class SteuerungTest extends CdiTestBase {
    */
   @Test
   public void test_04_setGeraete() {
-    final int ADR1 = 81;
-    final int ADR2 = 82;
 
     Geraet[] geraete = {
         this.steuerung.getSignal("test", "P2"),
@@ -183,10 +183,10 @@ public class SteuerungTest extends CdiTestBase {
     };
 
     // Grundzustand herstellen: Alle Geraete an FD-2 in Grundstellung
-    this.steuerung.setKanalWert(ADR1, 0b1111_1111);
-    this.steuerung.setKanalWert(ADR2, 0b1111_1111);
-    this.steuerung.setKanalWert(ADR1, 0);
-    this.steuerung.setKanalWert(ADR2, 0);
+    this.steuerung.setKanalWert(FD_ADR1, 0b1111_1111);
+    this.steuerung.setKanalWert(FD_ADR2, 0b1111_1111);
+    this.steuerung.setKanalWert(FD_ADR1, 0);
+    this.steuerung.setKanalWert(FD_ADR2, 0);
 
     long wert = 0;
 
@@ -233,7 +233,7 @@ public class SteuerungTest extends CdiTestBase {
       }
 
       // Ist der Kanalwert passend?
-      wert = this.steuerung.getKanalWert(ADR1) | (this.steuerung.getKanalWert(ADR2) << 8);
+      wert = this.steuerung.getKanalWert(FD_ADR1) | (this.steuerung.getKanalWert(FD_ADR2) << 8);
       assertThat("Kanalwert nach Aenderung von " + geraet, wert, is(newWert));
 
       // Ist bei Zustandswechsel ein Event ausgelöst worden und sonst nicht?
