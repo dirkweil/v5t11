@@ -36,10 +36,10 @@ public class Weiche extends Geraet {
     ABZWEIGEND(1);
 
     @Getter
-    private final int value;
+    private final long stellungsWert;
 
-    private Stellung(int value) {
-      this.value = value;
+    private Stellung(int stellungsWert) {
+      this.stellungsWert = stellungsWert;
     }
 
     /**
@@ -85,7 +85,7 @@ public class Weiche extends Geraet {
       if (updateInterface) {
         long fdWert = this.funktionsdecoder.getWert();
         fdWert &= (~this.bitMaskeAnschluss);
-        fdWert |= this.stellung.getValue() << this.anschluss;
+        fdWert |= this.stellung.getStellungsWert() << this.anschluss;
         this.funktionsdecoder.setWert(fdWert);
       }
 

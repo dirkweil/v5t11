@@ -11,6 +11,8 @@ import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal.Stellung;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import javax.inject.Inject;
@@ -157,6 +159,88 @@ public class SteuerungTest extends CdiTestBase {
       }
     }
 
+  }
+
+  /**
+   * Test: Entspricht nach Statusaenderungen von Weichen und Signalen der Zustand der zugehoerigen Adressen dem der Geraete und werden Statuswechsel gemeldet?
+   */
+  @Test
+  public void test_04_setGeraete() {
+    final int ADR1 = 81;
+    final int ADR2 = 82;
+
+    Geraet[] geraete = {
+        this.steuerung.getSignal("test", "P2"),
+        this.steuerung.getSignal("test", "P3"),
+        this.steuerung.getSignal("test", "P4"),
+        this.steuerung.getWeiche("test", "10"),
+        this.steuerung.getWeiche("test", "11"),
+        this.steuerung.getSignal("test", "2a"),
+        this.steuerung.getSignal("test", "2b"),
+        this.steuerung.getSignal("test", "A"),
+        this.steuerung.getSignal("test", "B"),
+        this.steuerung.getSignal("test", "C")
+    };
+
+    // Grundzustand herstellen: Alle Geraete an FD-2 in Grundstellung
+    this.steuerung.setKanalWert(ADR1, 0b1111_1111);
+    this.steuerung.setKanalWert(ADR2, 0b1111_1111);
+    this.steuerung.setKanalWert(ADR1, 0);
+    this.steuerung.setKanalWert(ADR2, 0);
+
+    long wert = 0;
+
+    // Zufällige Stellungsaenderungen prüfen
+    Random random = new Random(0);
+    for (int count = 0; count < 100; ++count) {
+      this.statusEventCollector.clear();
+
+      long newWert = 0;
+
+      Geraet geraet = geraete[random.nextInt(geraete.length)];
+      int anschluss = geraet.getAnschluss();
+      long mask = ((1L << (geraet.getBitCount())) - 1) << anschluss;
+
+      boolean changed = false;
+
+      if (geraet instanceof Weiche) {
+        Weiche weiche = (Weiche) geraet;
+
+        Weiche.Stellung oldStellung = weiche.getStellung();
+        Weiche.Stellung stellung = Weiche.Stellung.getInstance(random.nextInt(2));
+
+        weiche.setStellung(stellung);
+
+        changed = stellung != oldStellung;
+
+        newWert = (wert & ~mask) | (stellung.getStellungsWert() << anschluss);
+
+      } else if (geraet instanceof Signal) {
+        Signal signal = (Signal) geraet;
+
+        Signal.Stellung oldStellung = signal.getStellung();
+        List<Signal.Stellung> erlaubteStellungen = new ArrayList<>(signal.getErlaubteStellungen());
+        Signal.Stellung stellung = erlaubteStellungen.get(random.nextInt(erlaubteStellungen.size()));
+
+        signal.setStellung(stellung);
+
+        changed = stellung != oldStellung;
+
+        newWert = (wert & ~mask) | (signal.getWertForStellung(stellung) << anschluss);
+
+      } else {
+        fail("Unbekanntes Geraet: " + geraet);
+      }
+
+      // Ist der Kanalwert passend?
+      wert = this.steuerung.getKanalWert(ADR1) | (this.steuerung.getKanalWert(ADR2) << 8);
+      assertThat("Kanalwert nach Aenderung von " + geraet, wert, is(newWert));
+
+      // Ist bei Zustandswechsel ein Event ausgelöst worden und sonst nicht?
+      assertThat("Statuswechselmeldung fuer " + geraet + " erfolgt", this.statusEventCollector.getEvents().contains(geraet), is(changed));
+
+      anschluss += geraet.getBitCount();
+    }
   }
 
 }
