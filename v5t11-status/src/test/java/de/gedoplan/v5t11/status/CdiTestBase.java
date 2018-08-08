@@ -1,6 +1,7 @@
 package de.gedoplan.v5t11.status;
 
 import de.gedoplan.baselibs.utils.util.ApplicationProperties;
+import de.gedoplan.v5t11.status.service.SteuerungProducer;
 
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.spi.CreationalContext;
@@ -25,6 +26,9 @@ public abstract class CdiTestBase extends TestBase {
 
   @BeforeClass
   public static void startCdiContainer() {
+
+    System.setProperty(SteuerungProducer.V5T11_CONFIG, "test");
+
     cdiProviderName = ApplicationProperties.getProperty("cdi.provider.name");
 
     if (container == null) {

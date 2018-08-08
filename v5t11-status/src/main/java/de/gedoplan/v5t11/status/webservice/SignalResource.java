@@ -1,0 +1,85 @@
+package de.gedoplan.v5t11.status.webservice;
+
+import de.gedoplan.v5t11.status.entity.Steuerung;
+import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
+import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal.Stellung;
+
+import java.util.Set;
+
+import javax.enterprise.context.Dependent;
+import javax.inject.Inject;
+import javax.ws.rs.BadRequestException;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.NotFoundException;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+
+@Path("signal")
+@Dependent
+public class SignalResource {
+
+  @Inject
+  Steuerung steuerung;
+
+  @GET
+  @Path("{bereich}/{name}")
+  @Produces(MediaType.TEXT_PLAIN + "; qs=1.0")
+  public Stellung getSignalStellung(@PathParam("bereich") String bereich, @PathParam("name") String name) {
+
+    return getSignal(bereich, name).getStellung();
+  }
+
+  @GET
+  @Produces(MediaType.APPLICATION_JSON)
+  public Set<Signal> getSignale() {
+
+    return this.steuerung.getSignale();
+  }
+
+  @GET
+  @Path("{bereich}")
+  @Produces(MediaType.APPLICATION_JSON)
+  public Set<Signal> getSignale(@PathParam("bereich") String bereich) {
+
+    if (!this.steuerung.getBereiche().contains(bereich)) {
+      throw new NotFoundException();
+    }
+
+    return this.steuerung.getSignale(bereich);
+  }
+
+  @GET
+  @Path("{bereich}/{name}")
+  @Produces(MediaType.APPLICATION_JSON + "; qs=0.7")
+  public Signal getSignal(@PathParam("bereich") String bereich, @PathParam("name") String name) {
+
+    Signal signal = this.steuerung.getSignal(bereich, name);
+    if (signal == null) {
+      throw new NotFoundException();
+    }
+
+    return signal;
+  }
+
+  @PUT
+  @Path("{bereich}/{name}")
+  @Consumes(MediaType.TEXT_PLAIN)
+  public void putSignalStellung(@PathParam("bereich") String bereich, @PathParam("name") String name, String stellungsName) {
+
+    Stellung stellung = Stellung.valueOf(stellungsName);
+    if (stellung == null) {
+      throw new BadRequestException();
+    }
+
+    Signal signal = getSignal(bereich, name);
+    if (!signal.getErlaubteStellungen().contains(stellung)) {
+      throw new BadRequestException();
+    }
+
+    signal.setStellung(stellung);
+  }
+}

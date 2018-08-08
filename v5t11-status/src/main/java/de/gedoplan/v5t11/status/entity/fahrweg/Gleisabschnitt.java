@@ -2,6 +2,7 @@ package de.gedoplan.v5t11.status.entity.fahrweg;
 
 import de.gedoplan.v5t11.status.entity.baustein.Besetztmelder;
 
+import javax.json.bind.annotation.JsonbTransient;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -19,18 +20,20 @@ import lombok.NoArgsConstructor;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.NONE)
-@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class Gleisabschnitt extends Fahrwegelement {
   /**
    * Besetztmelder, der den Gleisabschnitt überwacht.
    */
+  @JsonbTransient
   private Besetztmelder besetztmelder;
 
   /**
    * Anschluss am Besetztmelder (0, 1, ...)
    */
   @XmlAttribute(name = "idx")
+  @JsonbTransient
   private int anschluss;
 
   /**

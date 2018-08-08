@@ -2,6 +2,7 @@ package de.gedoplan.v5t11.status.entity.fahrweg;
 
 import de.gedoplan.v5t11.status.entity.baustein.Funktionsdecoder;
 
+import javax.json.bind.annotation.JsonbTransient;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -25,17 +26,20 @@ public abstract class Geraet extends Fahrwegelement {
   /**
    * Funktionsdecoder, der das Gerät steuert.
    */
+  @JsonbTransient
   protected Funktionsdecoder funktionsdecoder;
 
   /**
    * Anschluss am Funktionsdecoder (0, 1, ...).
    */
   @XmlAttribute(name = "idx")
+  @JsonbTransient
   protected int anschluss;
 
   /**
    * Anzahl benutzter Bits.
    */
+  @JsonbTransient
   protected int bitCount;
 
   /**
@@ -44,6 +48,7 @@ public abstract class Geraet extends Fahrwegelement {
    * In diesem Wert sind die niederwertigsten bitCount Bits gesetzt. Er kann somit zum Ausschneiden des Wertes des Geräts aus dem
    * Wert des Funktionsdekoders verwendet werden, wenn dieser zunächst um anschluss Bits nach rechts verschoben wurde.
    */
+  @JsonbTransient
   protected long bitMaske0;
 
   /**
@@ -52,6 +57,7 @@ public abstract class Geraet extends Fahrwegelement {
    * In diesem Wert sind bitCount Bits passend zum Anschluss gesetzt. Er kann somit zum Ausschneiden des Wertes des Geräts aus dem
    * Wert des Funktionsdekoders verwendet werden.
    */
+  @JsonbTransient
   protected long bitMaskeAnschluss;
 
   /**

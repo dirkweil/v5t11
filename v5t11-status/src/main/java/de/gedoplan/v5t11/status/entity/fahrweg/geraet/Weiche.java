@@ -5,11 +5,11 @@ package de.gedoplan.v5t11.status.entity.fahrweg.geraet;
 
 import de.gedoplan.v5t11.status.entity.fahrweg.Geraet;
 
+import javax.json.bind.annotation.JsonbTransient;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
 import lombok.Getter;
-import lombok.Setter;
 
 /**
  * Weiche.
@@ -58,7 +58,6 @@ public class Weiche extends Geraet {
    * Aktuelle Stellung der Weiche.
    */
   @Getter
-  @Setter
   private Stellung stellung = Stellung.GERADE;
 
   /**
@@ -93,6 +92,7 @@ public class Weiche extends Geraet {
     }
   }
 
+  @JsonbTransient
   public String getGleisabschnittName() {
     boolean doppelweiche = Character.isAlphabetic(this.name.charAt(this.name.length() - 1));
     if (doppelweiche) {

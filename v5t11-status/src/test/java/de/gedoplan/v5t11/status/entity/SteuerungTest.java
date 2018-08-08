@@ -10,7 +10,6 @@ import de.gedoplan.v5t11.status.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal.Stellung;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
-import de.gedoplan.v5t11.status.service.SteuerungProducer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,18 +17,12 @@ import java.util.Random;
 
 import javax.inject.Inject;
 
-import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class SteuerungTest extends CdiTestBase {
-
-  @BeforeClass
-  public static void setConfig() {
-    System.setProperty(SteuerungProducer.V5T11_CONFIG, "test");
-  }
 
   @Inject
   Steuerung steuerung;

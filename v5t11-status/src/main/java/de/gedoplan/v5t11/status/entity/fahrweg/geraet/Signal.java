@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import javax.json.bind.annotation.JsonbTransient;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
@@ -58,11 +59,13 @@ public abstract class Signal extends Geraet {
   /**
    * Map Stellung -> Stellungswert für alle erlaubten Stellungen.
    */
+  @JsonbTransient
   protected SortedMap<Stellung, Long> stellung2wert = new TreeMap<Stellung, Long>();
 
   /**
    * Map Stellungswert -> Stellung für alle erlaubten Stellungen.
    */
+  @JsonbTransient
   protected Map<Long, Stellung> wert2stellung = new HashMap<Long, Stellung>();
 
   /**
@@ -70,12 +73,6 @@ public abstract class Signal extends Geraet {
    */
   @Getter
   protected Stellung stellung = Stellung.HALT;
-
-  /**
-   * Ist dies ein Blocksignal?
-   */
-  @Getter
-  protected boolean block;
 
   /**
    * Konstruktor.
@@ -100,6 +97,7 @@ public abstract class Signal extends Geraet {
     this.wert2stellung.put(stellungswert, stellung);
   }
 
+  @JsonbTransient
   public Set<Stellung> getErlaubteStellungen() {
     return this.stellung2wert.keySet();
   }
@@ -140,6 +138,7 @@ public abstract class Signal extends Geraet {
    *          Stellung
    * @return Stellungswert
    */
+  @JsonbTransient
   public long getWertForStellung(Stellung stellung) {
     Long wert = this.stellung2wert.get(stellung);
     return wert != null ? wert : 0;
@@ -152,6 +151,7 @@ public abstract class Signal extends Geraet {
    *          Stellungswert
    * @return Stellung oder null, wenn ungueltiger Stellungswert
    */
+  @JsonbTransient
   public Stellung getStellungForWert(long stellungsWert) {
     return this.wert2stellung.get(stellungsWert);
   }

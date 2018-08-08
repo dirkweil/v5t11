@@ -4,6 +4,7 @@ import de.gedoplan.v5t11.status.entity.Bereichselement;
 
 import javax.enterprise.inject.spi.BeanManager;
 import javax.enterprise.inject.spi.CDI;
+import javax.json.bind.annotation.JsonbTransient;
 
 /**
  * Element eines Fahrwegs.
@@ -13,6 +14,7 @@ import javax.enterprise.inject.spi.CDI;
  * @author dw
  */
 public abstract class Fahrwegelement extends Bereichselement {
+  @JsonbTransient
   private transient BeanManager beanManager;
 
   protected void publishStatus() {
