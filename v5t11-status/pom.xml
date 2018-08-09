@@ -79,10 +79,10 @@
     <!-- <artifactId>resteasy-jackson-provider</artifactId> -->
     <!-- </dependency> -->
 
-    <!-- <dependency> -->
-    <!-- <groupId>org.primefaces</groupId> -->
-    <!-- <artifactId>primefaces</artifactId> -->
-    <!-- </dependency> -->
+    <dependency>
+      <groupId>org.primefaces</groupId>
+      <artifactId>primefaces</artifactId>
+    </dependency>
 
     <dependency>
       <groupId>org.projectlombok</groupId>
@@ -173,8 +173,8 @@
         </dependency>
       </dependencies>
     </profile>
-    
-        <!-- Profiles for JSON-B provider -->
+
+    <!-- Profiles for JSON-B provider -->
     <profile>
       <id>jsonb-yasson</id>
       <activation>
@@ -207,6 +207,6 @@
         </dependency>
       </dependencies>
     </profile>
-    
+
   </profiles>
 </project>

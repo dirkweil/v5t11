@@ -36,11 +36,12 @@ public abstract class Baustein extends SingleIdEntity<String> implements Compara
   protected String id;
 
   /**
-   * Adresse des Bausteins am SX-Bus.
+   * Erste Adresse des Bausteins am SX-Bus.
    */
   @Min(0)
   @Max(256)
   @XmlAttribute(name = "adr")
+  @Getter
   protected int adresse;
 
   /**
