@@ -7,8 +7,7 @@ import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
 import javax.enterprise.inject.Model;
 import javax.inject.Inject;
@@ -26,20 +25,20 @@ public class SteuerungsstatusModel implements Serializable {
   // return new ArrayList<>(this.steuerung.getLoks());
   // }
 
-  public List<String> getBereiche() {
-    return new ArrayList<>(this.steuerung.getBereiche());
+  public Collection<String> getBereiche() {
+    return this.steuerung.getBereiche();
   }
 
-  public List<Weiche> getWeichen(String bereich) {
-    return new ArrayList<>(this.steuerung.getWeichen(bereich));
+  public Collection<Weiche> getWeichen(String bereich) {
+    return this.steuerung.getWeichen(bereich);
   }
 
-  public List<Signal> getSignale(String bereich) {
-    return new ArrayList<>(this.steuerung.getSignale(bereich));
+  public Collection<Signal> getSignale(String bereich) {
+    return this.steuerung.getSignale(bereich);
   }
 
-  public List<Gleisabschnitt> getGleisabschnitte(String bereich) {
-    return new ArrayList<>(this.steuerung.getGleisabschnitte(bereich));
+  public Collection<Gleisabschnitt> getGleisabschnitte(String bereich) {
+    return this.steuerung.getGleisabschnitte(bereich);
   }
 
 }
