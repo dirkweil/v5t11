@@ -28,6 +28,7 @@ public class SignalTest extends CdiTestBase {
 
     this.log.debug("JSON string: " + json);
 
-    assertThat(json, is("{\"bereich\":\"test\",\"name\":\"P2\",\"stellung\":\"HALT\"}"));
+    assertThat(json, is("{\"bereich\":\"test\",\"name\":\"P2\",\"erlaubteStellungen\":[\"HALT\",\"FAHRT\",\"LANGSAMFAHRT\",\"RANGIERFAHRT\"],\"stellung\":\"" + signal.getStellung()
+        + "\",\"typ\":\"Hauptsperrsignal\"}"));
   }
 }

@@ -28,6 +28,6 @@ public class WeicheTest extends CdiTestBase {
 
     this.log.debug("JSON string: " + json);
 
-    assertThat(json, is("{\"bereich\":\"test\",\"name\":\"10\",\"stellung\":\"GERADE\"}"));
+    assertThat(json, is("{\"bereich\":\"test\",\"name\":\"10\",\"stellung\":\"" + weiche.getStellung() + "\"}"));
   }
 }

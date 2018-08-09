@@ -84,6 +84,10 @@ public abstract class Signal extends Geraet {
     super(bitCount);
   }
 
+  public String getTyp() {
+    return getClass().getSimpleName();
+  }
+
   /**
    * Erlaubte Stellung hinzufügen.
    *
@@ -97,7 +101,6 @@ public abstract class Signal extends Geraet {
     this.wert2stellung.put(stellungswert, stellung);
   }
 
-  @JsonbTransient
   public Set<Stellung> getErlaubteStellungen() {
     return this.stellung2wert.keySet();
   }

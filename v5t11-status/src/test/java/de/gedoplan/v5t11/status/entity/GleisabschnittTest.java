@@ -28,6 +28,6 @@ public class GleisabschnittTest extends CdiTestBase {
 
     this.log.debug("JSON string: " + json);
 
-    assertThat(json, is("{\"bereich\":\"test\",\"name\":\"1\",\"besetzt\":false}"));
+    assertThat(json, is("{\"bereich\":\"test\",\"name\":\"1\",\"besetzt\":" + gleisabschnitt.isBesetzt() + "}"));
   }
 }

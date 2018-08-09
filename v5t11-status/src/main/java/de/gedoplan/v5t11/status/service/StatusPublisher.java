@@ -27,7 +27,7 @@ public class StatusPublisher {
   @Inject
   Log log;
 
-  public void publish(String category, Object status) {
+  protected void publish(String category, Object status) {
 
     String json = JsonbBuilder.create().toJson(status);
 
