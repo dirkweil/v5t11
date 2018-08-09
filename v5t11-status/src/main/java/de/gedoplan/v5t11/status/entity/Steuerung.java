@@ -24,6 +24,8 @@ import java.util.TreeSet;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import javax.enterprise.inject.spi.BeanManager;
+import javax.enterprise.inject.spi.CDI;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -48,6 +50,8 @@ import lombok.Getter;
 @XmlRootElement(name = "sx")
 @XmlAccessorType(XmlAccessType.NONE)
 public class Steuerung {
+  private transient BeanManager beanManager;
+
   private volatile int[] kanalWerte = new int[256];
 
   private Baustein[] kanalBausteine = new Baustein[256];
@@ -362,7 +366,11 @@ public class Steuerung {
 
       this.kanalBausteine[adr].adjustWert(adr, wert);
 
-      // fireEvent
+      if (this.beanManager == null) {
+        this.beanManager = CDI.current().select(BeanManager.class).get();
+      }
+
+      this.beanManager.fireEvent(new Kanal(adr, wert));
     }
   }
 }

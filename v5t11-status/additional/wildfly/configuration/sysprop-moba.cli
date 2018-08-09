@@ -1,0 +1,3 @@
+/system-property=v5t11.portName:add(value=/dev/ttyUSB0)
+/system-property=v5t11.anlage:add(value=DwAnlage)
+/system-property=v5t11.ifTyp:add(value=rautenhaus)
