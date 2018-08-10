@@ -3,6 +3,7 @@ package de.gedoplan.v5t11.status.entity;
 import de.gedoplan.v5t11.status.entity.baustein.Baustein;
 import de.gedoplan.v5t11.status.entity.baustein.Besetztmelder;
 import de.gedoplan.v5t11.status.entity.baustein.Funktionsdecoder;
+import de.gedoplan.v5t11.status.entity.baustein.Lokdecoder;
 import de.gedoplan.v5t11.status.entity.baustein.Zentrale;
 import de.gedoplan.v5t11.status.entity.baustein.besetztmelder.BMMiba3;
 import de.gedoplan.v5t11.status.entity.baustein.besetztmelder.SXBM1;
@@ -11,10 +12,19 @@ import de.gedoplan.v5t11.status.entity.baustein.funktionsdecoder.STRFD1;
 import de.gedoplan.v5t11.status.entity.baustein.funktionsdecoder.SXSD1;
 import de.gedoplan.v5t11.status.entity.baustein.funktionsdecoder.WDMiba;
 import de.gedoplan.v5t11.status.entity.baustein.funktionsdecoder.WDMiba3;
+import de.gedoplan.v5t11.status.entity.baustein.lokdecoder.DH05;
+import de.gedoplan.v5t11.status.entity.baustein.lokdecoder.DH10;
+import de.gedoplan.v5t11.status.entity.baustein.lokdecoder.DHL050;
+import de.gedoplan.v5t11.status.entity.baustein.lokdecoder.DHL100;
+import de.gedoplan.v5t11.status.entity.baustein.lokdecoder.Tr66825;
+import de.gedoplan.v5t11.status.entity.baustein.lokdecoder.Tr66830;
+import de.gedoplan.v5t11.status.entity.baustein.lokdecoder.Tr66832;
+import de.gedoplan.v5t11.status.entity.baustein.lokdecoder.Tr66835;
 import de.gedoplan.v5t11.status.entity.fahrweg.Geraet;
 import de.gedoplan.v5t11.status.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
+import de.gedoplan.v5t11.status.entity.lok.Lok;
 
 import java.util.Collection;
 import java.util.List;
@@ -60,19 +70,38 @@ public class Steuerung {
   @Getter
   private Zentrale zentrale;
 
-  // @XmlElement(name = "Lok")
-  // SortedSet<Lok> loks = new TreeSet<>();
+  @XmlElementWrapper(name = "Lokdecoder")
+  @XmlElements({
+      @XmlElement(name = "DH05", type = DH05.class),
+      @XmlElement(name = "DH10", type = DH10.class),
+      @XmlElement(name = "DHL050", type = DHL050.class),
+      @XmlElement(name = "DHL100", type = DHL100.class),
+      @XmlElement(name = "Tr66825", type = Tr66825.class),
+      @XmlElement(name = "Tr66830", type = Tr66830.class),
+      @XmlElement(name = "Tr66832", type = Tr66832.class),
+      @XmlElement(name = "Tr66835", type = Tr66835.class),
+  })
+  @Getter
+  SortedSet<Lokdecoder> lokdecoder = new TreeSet<>();
 
   // @XmlElement(name = "LokController")
   // SortedSet<LokController> lokController = new TreeSet<>();
 
   @XmlElementWrapper(name = "Besetztmelder")
-  @XmlElements({ @XmlElement(name = "BMMiba3", type = BMMiba3.class), @XmlElement(name = "SXBM1", type = SXBM1.class) })
+  @XmlElements({
+      @XmlElement(name = "BMMiba3", type = BMMiba3.class),
+      @XmlElement(name = "SXBM1", type = SXBM1.class),
+  })
   private SortedSet<Besetztmelder> besetztmelder = new TreeSet<>();
 
   @XmlElementWrapper(name = "Funktionsdecoder")
-  @XmlElements({ @XmlElement(name = "SD8", type = SD8.class), @XmlElement(name = "STRFD1", type = STRFD1.class), @XmlElement(name = "SXSD1", type = SXSD1.class),
-      @XmlElement(name = "WDMiba", type = WDMiba.class), @XmlElement(name = "WDMiba3", type = WDMiba3.class) })
+  @XmlElements({
+      @XmlElement(name = "SD8", type = SD8.class),
+      @XmlElement(name = "STRFD1", type = STRFD1.class),
+      @XmlElement(name = "SXSD1", type = SXSD1.class),
+      @XmlElement(name = "WDMiba", type = WDMiba.class),
+      @XmlElement(name = "WDMiba3", type = WDMiba3.class),
+  })
   private SortedSet<Funktionsdecoder> funktionsdecoder = new TreeSet<>();
 
   @Getter
@@ -86,6 +115,9 @@ public class Steuerung {
 
   @Getter
   private SortedSet<Weiche> weichen = new TreeSet<>();
+
+  @Getter
+  private SortedSet<Lok> loks = new TreeSet<>();
 
   private static final Log LOGGER = LogFactory.getLog(Steuerung.class);
 
@@ -101,34 +133,21 @@ public class Steuerung {
         .collect(Collectors.toList());
   }
 
-  // /**
-  // * Alle Lokdecoder liefern.
-  // *
-  // * @return Lokdecoder
-  // */
-  // public Set<Lokdecoder> getLokdecoder() {
-  // Set<Lokdecoder> lokdecoder = new HashSet<>();
-  // for (Lok lok : this.loks) {
-  // lokdecoder.add(lok.getDecoder());
-  // }
-  // return lokdecoder;
-  // }
-
-  // /**
-  // * Lok liefern.
-  // *
-  // * @param adresse
-  // * Adresse
-  // * @return gefundene Lok oder <code>null</code>
-  // */
-  // public Lok getLok(int adresse) {
-  // for (Lok lok : this.loks) {
-  // if (lok.getAdresse() == adresse) {
-  // return lok;
-  // }
-  // }
-  // return null;
-  // }
+  /**
+   * Lok liefern.
+   *
+   * @param id
+   *          Id
+   * @return gefundene Lok oder <code>null</code>
+   */
+  public Lok getLok(String id) {
+    for (Lok lok : this.loks) {
+      if (id.equals(lok.getId())) {
+        return lok;
+      }
+    }
+    return null;
+  }
 
   // /**
   // * Wert liefern: {@link #lokController}.
@@ -295,6 +314,17 @@ public class Steuerung {
 
       registerAdressen(fd);
     }
+
+    for (Lokdecoder ld : this.lokdecoder) {
+      Lok lok = ld.getLok();
+      if (lok != null) {
+        if (!this.loks.add(lok)) {
+          throw new IllegalArgumentException("Lok " + lok.getId() + " ist mehreren Lokdecodern zugeordnet");
+        }
+
+        registerAdressen(ld);
+      }
+    }
   }
 
   private void registerAdressen(Baustein baustein) {
@@ -332,6 +362,13 @@ public class Steuerung {
       buf.append("\n  ").append(fd);
       for (Geraet g : fd.getGeraete()) {
         buf.append("\n    ").append(g);
+      }
+    }
+
+    for (Lokdecoder ld : this.lokdecoder) {
+      buf.append("\n  ").append(ld);
+      if (ld.getLok() != null) {
+        buf.append("\n    ").append(ld.getLok());
       }
     }
 

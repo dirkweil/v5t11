@@ -63,11 +63,11 @@ public abstract class Baustein extends SingleIdEntity<String> implements Compara
    */
   @Min(0)
   @Getter
-  private long wert;
+  protected long wert;
 
   @Transient
   @Getter
-  private Steuerung steuerung;
+  protected Steuerung steuerung;
 
   @Transient
   protected AtomicReference<List<Integer>> adressen = new AtomicReference<>();

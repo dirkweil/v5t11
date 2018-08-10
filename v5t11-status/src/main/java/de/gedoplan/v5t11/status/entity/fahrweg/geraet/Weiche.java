@@ -4,6 +4,7 @@
 package de.gedoplan.v5t11.status.entity.fahrweg.geraet;
 
 import de.gedoplan.v5t11.status.entity.fahrweg.Geraet;
+import de.gedoplan.v5t11.status.util.EventFirer;
 
 import javax.json.bind.annotation.JsonbTransient;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -88,7 +89,7 @@ public class Weiche extends Geraet {
         this.funktionsdecoder.setWert(fdWert);
       }
 
-      publishStatus();
+      EventFirer.fire(this);
     }
   }
 

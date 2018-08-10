@@ -47,7 +47,7 @@ public class SteuerungProducer {
         return XmlConverter.fromXml(Steuerung.class, configFile);
       }
     } catch (Exception e) {
-      throw new CreationException("Kann Konfiguration" + config + " nicht lesen", e);
+      throw new CreationException("Kann Konfiguration " + config + " nicht lesen", e);
     }
   }
 

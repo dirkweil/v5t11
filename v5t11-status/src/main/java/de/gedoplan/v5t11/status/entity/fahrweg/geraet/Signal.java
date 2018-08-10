@@ -1,6 +1,7 @@
 package de.gedoplan.v5t11.status.entity.fahrweg.geraet;
 
 import de.gedoplan.v5t11.status.entity.fahrweg.Geraet;
+import de.gedoplan.v5t11.status.util.EventFirer;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -84,10 +85,6 @@ public abstract class Signal extends Geraet {
     super(bitCount);
   }
 
-  public String getTyp() {
-    return getClass().getSimpleName();
-  }
-
   /**
    * Erlaubte Stellung hinzufügen.
    *
@@ -101,6 +98,7 @@ public abstract class Signal extends Geraet {
     this.wert2stellung.put(stellungswert, stellung);
   }
 
+  @JsonbTransient
   public Set<Stellung> getErlaubteStellungen() {
     return this.stellung2wert.keySet();
   }
@@ -130,7 +128,7 @@ public abstract class Signal extends Geraet {
         this.funktionsdecoder.setWert(fdWert);
       }
 
-      publishStatus();
+      EventFirer.fire(this);
     }
   }
 
