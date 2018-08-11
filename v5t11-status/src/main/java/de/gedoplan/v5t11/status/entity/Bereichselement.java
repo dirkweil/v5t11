@@ -9,6 +9,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 
+import lombok.Getter;
+
 /**
  * Element in einem Bereich.
  *
@@ -17,23 +19,15 @@ import javax.xml.bind.annotation.XmlAttribute;
 @XmlAccessorType(XmlAccessType.NONE)
 public class Bereichselement implements Comparable<Bereichselement>, Serializable {
   @XmlAttribute
+  @Getter(onMethod = @__(@JsonbInclude))
   protected String bereich;
 
   @XmlAttribute
+  @Getter(onMethod = @__(@JsonbInclude))
   protected String name;
-
-  @JsonbInclude
-  public String getBereich() {
-    return this.bereich;
-  }
 
   public void setBereich(String bereich) {
     this.bereich = bereich;
-  }
-
-  @JsonbInclude
-  public String getName() {
-    return this.name;
   }
 
   public void setName(String name) {

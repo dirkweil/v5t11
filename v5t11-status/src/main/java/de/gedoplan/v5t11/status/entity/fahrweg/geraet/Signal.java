@@ -14,6 +14,7 @@ import javax.json.bind.annotation.JsonbTransient;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
@@ -72,6 +73,7 @@ public abstract class Signal extends Geraet {
   /**
    * Aktuelle Signalstellung.
    */
+  @Getter(onMethod = @__(@JsonbInclude))
   protected Stellung stellung = Stellung.HALT;
 
   /**
@@ -105,11 +107,6 @@ public abstract class Signal extends Geraet {
   @JsonbInclude(full = true)
   public String getTyp() {
     return getClass().getSimpleName();
-  }
-
-  @JsonbInclude
-  public Stellung getStellung() {
-    return this.stellung;
   }
 
   /**

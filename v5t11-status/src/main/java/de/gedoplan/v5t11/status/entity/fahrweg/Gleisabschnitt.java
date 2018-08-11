@@ -41,12 +41,8 @@ public class Gleisabschnitt extends Fahrwegelement {
   /**
    * Gleisabschnitt besetzt?
    */
+  @Getter(onMethod = @__(@JsonbInclude))
   private boolean besetzt;
-
-  @JsonbInclude
-  public boolean isBesetzt() {
-    return this.besetzt;
-  }
 
   /**
    * {@inheritDoc}

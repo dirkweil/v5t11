@@ -17,7 +17,7 @@ public class WeicheTest extends CdiTestBase {
   Steuerung steuerung;
 
   @Test
-  public void test_01_toJson() throws Exception {
+  public void test_01_toShortJson() throws Exception {
 
     Weiche weiche = this.steuerung.getWeiche("test", "10");
 
@@ -25,6 +25,27 @@ public class WeicheTest extends CdiTestBase {
 
     this.log.debug("JSON string: " + json);
 
-    assertThat(json, is("{\"bereich\":\"test\",\"name\":\"10\",\"stellung\":\"" + weiche.getStellung() + "\"}"));
+    assertThat(json, is(
+        "{\"bereich\":\"test\""
+            + ",\"name\":\"10\""
+            + ",\"stellung\":\"" + weiche.getStellung() + "\""
+            + "}"));
+  }
+
+  @Test
+  public void test_02_toFullJson() throws Exception {
+
+    Weiche weiche = this.steuerung.getWeiche("test", "10");
+
+    String json = JsonbWithIncludeVisibility.FULL.toJson(weiche);
+
+    this.log.debug("JSON string: " + json);
+
+    assertThat(json, is(
+        "{\"bereich\":\"test\""
+            + ",\"name\":\"10\""
+            + ",\"gleisabschnittName\":\"W10\""
+            + ",\"stellung\":\"" + weiche.getStellung() + "\""
+            + "}"));
   }
 }
