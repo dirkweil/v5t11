@@ -5,10 +5,9 @@ import static org.junit.Assert.*;
 
 import de.gedoplan.v5t11.status.CdiTestBase;
 import de.gedoplan.v5t11.status.entity.fahrweg.Gleisabschnitt;
+import de.gedoplan.v5t11.status.jsonb.JsonbWithIncludeVisibility;
 
 import javax.inject.Inject;
-import javax.json.bind.Jsonb;
-import javax.json.bind.JsonbBuilder;
 
 import org.junit.Test;
 
@@ -22,12 +21,14 @@ public class GleisabschnittTest extends CdiTestBase {
 
     Gleisabschnitt gleisabschnitt = this.steuerung.getGleisabschnitt("test", "1");
 
-    Jsonb jsonb = JsonbBuilder.create();
-
-    String json = jsonb.toJson(gleisabschnitt);
+    String json = JsonbWithIncludeVisibility.SHORT.toJson(gleisabschnitt);
 
     this.log.debug("JSON string: " + json);
 
-    assertThat(json, is("{\"bereich\":\"test\",\"name\":\"1\",\"besetzt\":" + gleisabschnitt.isBesetzt() + "}"));
+    assertThat(json, is(
+        "{\"bereich\":\"test\""
+            + ",\"name\":\"1\""
+            + ",\"besetzt\":" + gleisabschnitt.isBesetzt()
+            + "}"));
   }
 }

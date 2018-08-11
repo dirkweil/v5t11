@@ -4,6 +4,7 @@
 package de.gedoplan.v5t11.status.entity.fahrweg.geraet;
 
 import de.gedoplan.v5t11.status.entity.fahrweg.Geraet;
+import de.gedoplan.v5t11.status.jsonb.JsonbInclude;
 import de.gedoplan.v5t11.status.util.EventFirer;
 
 import javax.json.bind.annotation.JsonbTransient;
@@ -58,7 +59,6 @@ public class Weiche extends Geraet {
   /**
    * Aktuelle Stellung der Weiche.
    */
-  @Getter
   private Stellung stellung = Stellung.GERADE;
 
   /**
@@ -66,6 +66,11 @@ public class Weiche extends Geraet {
    */
   protected Weiche() {
     super(1);
+  }
+
+  @JsonbInclude
+  public Stellung getStellung() {
+    return this.stellung;
   }
 
   /**

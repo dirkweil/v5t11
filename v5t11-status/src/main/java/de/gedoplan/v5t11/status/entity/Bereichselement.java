@@ -1,5 +1,6 @@
 package de.gedoplan.v5t11.status.entity;
 
+import de.gedoplan.v5t11.status.jsonb.JsonbInclude;
 import de.gedoplan.v5t11.status.util.NameComparator;
 
 import java.io.Serializable;
@@ -8,23 +9,36 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 
-import lombok.Getter;
-import lombok.Setter;
-
 /**
  * Element in einem Bereich.
  *
  * @author dw
  */
 @XmlAccessorType(XmlAccessType.NONE)
-@Getter
-@Setter
 public class Bereichselement implements Comparable<Bereichselement>, Serializable {
   @XmlAttribute
   protected String bereich;
 
   @XmlAttribute
   protected String name;
+
+  @JsonbInclude
+  public String getBereich() {
+    return this.bereich;
+  }
+
+  public void setBereich(String bereich) {
+    this.bereich = bereich;
+  }
+
+  @JsonbInclude
+  public String getName() {
+    return this.name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
 
   @Override
   public int compareTo(Bereichselement other) {

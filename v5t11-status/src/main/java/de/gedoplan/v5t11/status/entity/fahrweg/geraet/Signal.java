@@ -1,6 +1,7 @@
 package de.gedoplan.v5t11.status.entity.fahrweg.geraet;
 
 import de.gedoplan.v5t11.status.entity.fahrweg.Geraet;
+import de.gedoplan.v5t11.status.jsonb.JsonbInclude;
 import de.gedoplan.v5t11.status.util.EventFirer;
 
 import java.util.HashMap;
@@ -13,7 +14,6 @@ import javax.json.bind.annotation.JsonbTransient;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
@@ -72,7 +72,6 @@ public abstract class Signal extends Geraet {
   /**
    * Aktuelle Signalstellung.
    */
-  @Getter
   protected Stellung stellung = Stellung.HALT;
 
   /**
@@ -98,9 +97,19 @@ public abstract class Signal extends Geraet {
     this.wert2stellung.put(stellungswert, stellung);
   }
 
-  @JsonbTransient
+  @JsonbInclude(full = true)
   public Set<Stellung> getErlaubteStellungen() {
     return this.stellung2wert.keySet();
+  }
+
+  @JsonbInclude(full = true)
+  public String getTyp() {
+    return getClass().getSimpleName();
+  }
+
+  @JsonbInclude
+  public Stellung getStellung() {
+    return this.stellung;
   }
 
   /**

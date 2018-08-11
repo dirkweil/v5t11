@@ -1,6 +1,7 @@
 package de.gedoplan.v5t11.status.entity.fahrweg;
 
 import de.gedoplan.v5t11.status.entity.baustein.Besetztmelder;
+import de.gedoplan.v5t11.status.jsonb.JsonbInclude;
 import de.gedoplan.v5t11.status.util.EventFirer;
 
 import javax.json.bind.annotation.JsonbTransient;
@@ -41,6 +42,11 @@ public class Gleisabschnitt extends Fahrwegelement {
    * Gleisabschnitt besetzt?
    */
   private boolean besetzt;
+
+  @JsonbInclude
+  public boolean isBesetzt() {
+    return this.besetzt;
+  }
 
   /**
    * {@inheritDoc}
