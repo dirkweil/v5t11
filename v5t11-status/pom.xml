@@ -29,11 +29,6 @@
       <artifactId>commons-logging</artifactId>
     </dependency>
 
-    <!-- <dependency> -->
-    <!-- <groupId>de.gedoplan</groupId> -->
-    <!-- <artifactId>baselibs-enterprise</artifactId> -->
-    <!-- </dependency> -->
-
     <dependency>
       <groupId>de.gedoplan</groupId>
       <artifactId>baselibs-persistence</artifactId>
@@ -43,41 +38,6 @@
       <groupId>de.gedoplan</groupId>
       <artifactId>baselibs-utils</artifactId>
     </dependency>
-
-    <!-- <dependency> -->
-    <!-- <groupId>de.gedoplan</groupId> -->
-    <!-- <artifactId>v5t11-selectrix-adapter-api</artifactId> -->
-    <!-- <version>1.0.0-VT-2_StatusMgmt-SNAPSHOT</version> -->
-    <!-- </dependency> -->
-
-    <!-- <dependency> -->
-    <!-- <groupId>de.gedoplan</groupId> -->
-    <!-- <artifactId>v5t11-betriebssteuerung-api</artifactId> -->
-    <!-- <version>1.0.0-VT-2_StatusMgmt-SNAPSHOT</version> -->
-    <!-- </dependency> -->
-
-    <!-- <dependency> -->
-    <!-- <groupId>mysql</groupId> -->
-    <!-- <artifactId>mysql-connector-java</artifactId> -->
-    <!-- <scope>test</scope> -->
-    <!-- </dependency> -->
-
-    <!-- <dependency> -->
-    <!-- <groupId>org.hibernate</groupId> -->
-    <!-- <artifactId>hibernate-entitymanager</artifactId> -->
-    <!-- <scope>test</scope> -->
-    <!-- </dependency> -->
-
-    <!-- <dependency> -->
-    <!-- <groupId>org.hibernate</groupId> -->
-    <!-- <artifactId>hibernate-validator</artifactId> -->
-    <!-- <scope>test</scope> -->
-    <!-- </dependency> -->
-
-    <!-- <dependency> -->
-    <!-- <groupId>org.jboss.resteasy</groupId> -->
-    <!-- <artifactId>resteasy-jackson-provider</artifactId> -->
-    <!-- </dependency> -->
 
     <dependency>
       <groupId>org.primefaces</groupId>
