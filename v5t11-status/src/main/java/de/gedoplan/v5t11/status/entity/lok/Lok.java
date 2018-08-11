@@ -1,7 +1,10 @@
 package de.gedoplan.v5t11.status.entity.lok;
 
 import de.gedoplan.v5t11.status.entity.baustein.Lokdecoder;
+import de.gedoplan.v5t11.status.jsonb.JsonbInclude;
 import de.gedoplan.v5t11.status.util.EventFirer;
+
+import java.util.List;
 
 import javax.json.bind.annotation.JsonbTransient;
 
@@ -15,16 +18,16 @@ public class Lok implements Comparable<Lok> {
    */
   public static final int MAX_GESCHWINDIGKEIT = 31;
 
-  @Getter
+  @Getter(onMethod = @__(@JsonbInclude))
   private String id;
 
-  @Getter
+  @Getter(onMethod = @__(@JsonbInclude))
   private boolean licht;
 
-  @Getter
+  @Getter(onMethod = @__(@JsonbInclude))
   private boolean rueckwaerts;
 
-  @Getter
+  @Getter(onMethod = @__(@JsonbInclude))
   private int geschwindigkeit;
 
   @Getter
@@ -92,6 +95,16 @@ public class Lok implements Comparable<Lok> {
       this.lokdecoder.setGeschwindigkeit(geschwindigkeit);
       EventFirer.fire(this);
     }
+  }
+
+  @JsonbInclude(full = true)
+  public String getLokdecoderTyp() {
+    return this.lokdecoder.getClass().getSimpleName();
+  }
+
+  @JsonbInclude(full = true)
+  public List<Integer> getLokdecoderAdressen() {
+    return this.lokdecoder.getAdressen();
   }
 
 }

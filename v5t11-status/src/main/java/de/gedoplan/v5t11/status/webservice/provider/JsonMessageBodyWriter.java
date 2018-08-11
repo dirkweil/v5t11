@@ -1,12 +1,12 @@
 package de.gedoplan.v5t11.status.webservice.provider;
 
+import de.gedoplan.v5t11.status.jsonb.JsonbWithIncludeVisibility;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 
-import javax.json.bind.Jsonb;
-import javax.json.bind.JsonbBuilder;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
@@ -42,8 +42,7 @@ public class JsonMessageBodyWriter implements MessageBodyWriter<Object> {
       MultivaluedMap<String, Object> httpHeaders, OutputStream entityStream)
       throws IOException, WebApplicationException {
 
-    Jsonb jsonb = JsonbBuilder.create();
-    String json = jsonb.toJson(object);
+    String json = JsonbWithIncludeVisibility.FULL.toJson(object);
 
     // TODO CharSet aus Header uebernehmen
     entityStream.write(json.getBytes());
