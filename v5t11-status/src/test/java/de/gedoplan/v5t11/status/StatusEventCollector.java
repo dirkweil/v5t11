@@ -1,6 +1,7 @@
 package de.gedoplan.v5t11.status;
 
 import de.gedoplan.v5t11.status.entity.fahrweg.Fahrwegelement;
+import de.gedoplan.v5t11.status.entity.lok.Lok;
 
 import java.util.Collection;
 import java.util.concurrent.ConcurrentLinkedDeque;
@@ -14,7 +15,7 @@ import lombok.Getter;
 public class StatusEventCollector {
 
   @Getter
-  private Collection<Fahrwegelement> events = new ConcurrentLinkedDeque<Fahrwegelement>();
+  private Collection<Object> events = new ConcurrentLinkedDeque<>();
 
   public void clear() {
     this.events.clear();
@@ -22,6 +23,10 @@ public class StatusEventCollector {
 
   void fahrwegelementChanged(@Observes Fahrwegelement fahrwegelement) {
     this.events.add(fahrwegelement);
+  }
+
+  void lokChanged(@Observes Lok lok) {
+    this.events.add(lok);
   }
 
 }

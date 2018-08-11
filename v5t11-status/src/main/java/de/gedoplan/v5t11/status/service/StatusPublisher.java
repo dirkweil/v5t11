@@ -4,6 +4,8 @@ import de.gedoplan.v5t11.status.entity.Kanal;
 import de.gedoplan.v5t11.status.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
+import de.gedoplan.v5t11.status.entity.lok.Lok;
+import de.gedoplan.v5t11.status.jsonb.JsonbWithIncludeVisibility;
 
 import javax.annotation.Resource;
 import javax.enterprise.context.ApplicationScoped;
@@ -11,7 +13,6 @@ import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import javax.jms.Destination;
 import javax.jms.JMSContext;
-import javax.json.bind.JsonbBuilder;
 
 import org.apache.commons.logging.Log;
 
@@ -29,7 +30,7 @@ public class StatusPublisher {
 
   protected void publish(String category, Object status) {
 
-    String json = JsonbBuilder.create().toJson(status);
+    String json = JsonbWithIncludeVisibility.SHORT.toJson(status);
 
     if (this.log.isDebugEnabled()) {
       this.log.debug("jmsContext: " + this.jmsContext);
@@ -59,6 +60,10 @@ public class StatusPublisher {
 
   void publish(@Observes Signal signal) {
     publish("signal", signal);
+  }
+
+  void publish(@Observes Lok lok) {
+    publish("lok", lok);
   }
 
   void publish(@Observes Kanal kanal) {

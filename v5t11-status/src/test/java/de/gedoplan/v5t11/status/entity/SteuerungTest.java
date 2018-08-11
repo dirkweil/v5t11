@@ -10,6 +10,7 @@ import de.gedoplan.v5t11.status.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal.Stellung;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
+import de.gedoplan.v5t11.status.entity.lok.Lok;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -243,4 +244,76 @@ public class SteuerungTest extends CdiTestBase {
     }
   }
 
+  /**
+   * Test: Entspricht der Zustand von Loks dem der zugehoerigen Adressen und werden Statuswechsel gemeldet?
+   */
+  @Test
+  public void test_05_adjustLoks() {
+    Lok lok = this.steuerung.getLok("212 216-6");
+    int adr = lok.getLokdecoder().getAdresse();
+
+    // Grundzustand herstellen: Lok steht vorwaerts ohne Licht
+    this.steuerung.setKanalWert(adr, 0b0111_1111);
+    int wert = 0;
+    this.steuerung.setKanalWert(adr, wert);
+
+    // Zufällige Statusaenderungen prüfen
+    Random random = new Random(0);
+    for (int count = 0; count < 100; ++count) {
+      this.statusEventCollector.clear();
+
+      int oldWert = wert;
+      wert = random.nextInt(100) < 10
+          ? oldWert
+          : random.nextInt(0b1000_0000);
+      this.steuerung.setKanalWert(adr, wert);
+
+      // Stimmt der Lok-Status?
+      assertThat("Licht an?", lok.isLicht(), is((wert & 0b0100_0000) != 0));
+      assertThat("Rueckwaerts?", lok.isRueckwaerts(), is((wert & 0b0010_0000) != 0));
+      assertThat("Geschwindigkeit", lok.getGeschwindigkeit(), is((wert & 0b0001_1111)));
+
+      // Ist bei Zustandswechsel ein Event ausgelöst worden und sonst nicht?
+      assertThat("Statuswechselmeldung fuer " + lok + " erfolgt", this.statusEventCollector.getEvents().contains(lok), is(wert != oldWert));
+    }
+
+  }
+
+  /**
+   * Test: Entspricht nach Statusaenderungen von Loks der Zustand der zugehoerigen Adressen dem der Loks und werden Statuswechsel gemeldet?
+   */
+  @Test
+  public void test_06_setLoks() {
+    Lok lok = this.steuerung.getLok("212 216-6");
+    int adr = lok.getLokdecoder().getAdresse();
+
+    // Grundzustand herstellen: Lok steht vorwaerts ohne Licht
+    this.steuerung.setKanalWert(adr, 0b0111_1111);
+    this.steuerung.setKanalWert(adr, 0);
+
+    // Zufällige Statusaenderungen prüfen
+    Random random = new Random(0);
+    for (int count = 0; count < 100; ++count) {
+      this.statusEventCollector.clear();
+
+      int oldWert = lok.getGeschwindigkeit()
+          + (lok.isRueckwaerts() ? 0b0010_0000 : 0)
+          + (lok.isLicht() ? 0b0100_0000 : 0);
+
+      int wert = random.nextInt(100) < 10
+          ? oldWert
+          : random.nextInt(0b1000_0000);
+
+      lok.setLicht((wert & 0b0100_0000) != 0);
+      lok.setRueckwaerts((wert & 0b0010_0000) != 0);
+      lok.setGeschwindigkeit(wert & 0b0001_1111);
+
+      // Stimmt der Kanalwert?
+      assertThat("Kanalwert", this.steuerung.getKanalWert(adr), is(wert));
+
+      // Ist bei Zustandswechsel ein Event ausgelöst worden und sonst nicht?
+      assertThat("Statuswechselmeldung fuer " + lok + " erfolgt", this.statusEventCollector.getEvents().contains(lok), is(wert != oldWert));
+    }
+
+  }
 }
