@@ -5,6 +5,7 @@ import de.gedoplan.v5t11.status.entity.baustein.Besetztmelder;
 import de.gedoplan.v5t11.status.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
+import de.gedoplan.v5t11.status.entity.lok.Lok;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -17,22 +18,46 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @SessionScoped
 @Model
 public class WebControlModel implements Serializable {
+  @Getter
   private List<String> bereiche;
+
+  @Getter
+  @Setter
   private String bereich;
-  private int lokAdresse;
+
+  @Getter
+  @Setter
+  private String lokId;
+
+  @Getter
+  @Setter
   private int lokGeschwindigkeit;
+
+  @Getter
+  @Setter
   private boolean lokRueckwaerts;
+
+  @Getter
+  @Setter
   private String weichenName;
+
+  @Getter
+  @Setter
   private String signalName;
+
+  @Getter
+  @Setter
   private String gleisabschnittsName;
 
   @Inject
   private Steuerung steuerung;
 
-  @SuppressWarnings("unused")
   @PostConstruct
   private void postConstruct() {
     this.bereiche = new ArrayList<>(this.steuerung.getBereiche());
@@ -44,124 +69,6 @@ public class WebControlModel implements Serializable {
   public boolean isSelectrixSimuliert() {
     String portName = System.getProperty("v5t11.portName");
     return portName == null || portName.equalsIgnoreCase("none");
-  }
-
-  public List<String> getBereiche() {
-    return this.bereiche;
-  }
-
-  /**
-   * Wert liefern: {@link #bereich}.
-   *
-   * @return Wert
-   */
-  public String getBereich() {
-    return this.bereich;
-  }
-
-  /**
-   * Wert setzen: {@link #bereich}.
-   *
-   * @param bereich
-   *          Wert
-   */
-  public void setBereich(String bereich) {
-    this.bereich = bereich;
-  }
-
-  /**
-   * Wert liefern: {@link #weichenName}.
-   *
-   * @return Wert
-   */
-  public String getWeichenName() {
-    return this.weichenName;
-  }
-
-  /**
-   * Wert setzen: {@link #weichenName}.
-   *
-   * @param weichenName
-   *          Wert
-   */
-  public void setWeichenName(String weichenName) {
-    this.weichenName = weichenName;
-  }
-
-  /**
-   * Wert liefern: {@link #signalName}.
-   *
-   * @return Wert
-   */
-  public String getSignalName() {
-    return this.signalName;
-  }
-
-  /**
-   * Wert setzen: {@link #signalName}.
-   *
-   * @param signalName
-   *          Wert
-   */
-  public void setSignalName(String signalName) {
-    this.signalName = signalName;
-  }
-
-  /**
-   * Wert liefern: {@link #lokAdresse}.
-   *
-   * @return Wert
-   */
-  public int getLokAdresse() {
-    return this.lokAdresse;
-  }
-
-  /**
-   * Wert setzen: {@link #lokAdresse}.
-   *
-   * @param lokAdresse
-   *          Wert
-   */
-  public void setLokAdresse(int lokAdresse) {
-    this.lokAdresse = lokAdresse;
-  }
-
-  /**
-   * Wert liefern: {@link #lokGeschwindigkeit}.
-   *
-   * @return Wert
-   */
-  public int getLokGeschwindigkeit() {
-    return this.lokGeschwindigkeit;
-  }
-
-  /**
-   * Wert setzen: {@link #lokGeschwindigkeit}.
-   *
-   * @param lokGeschwindigkeit
-   *          Wert
-   */
-  public void setLokGeschwindigkeit(int lokGeschwindigkeit) {
-    this.lokGeschwindigkeit = lokGeschwindigkeit;
-  }
-
-  /**
-   * Wert liefern: {@link #lokRueckwaerts}.
-   *
-   * @return Wert
-   */
-  public boolean isLokRueckwaerts() {
-    return this.lokRueckwaerts;
-  }
-
-  /**
-   * Wert setzen: {@link #lokRueckwaerts}.
-   *
-   * @param lokRueckwaerts
-   *          Wert
-   */
-  public void setLokRueckwaerts(boolean lokRueckwaerts) {
-    this.lokRueckwaerts = lokRueckwaerts;
   }
 
   public void zentraleEinschalten() {
@@ -223,86 +130,67 @@ public class WebControlModel implements Serializable {
   }
 
   private void lichtStellen(boolean b) {
-    // Lok lok = this.steuerung.getLok(this.lokAdresse);
-    // if (lok == null) {
-    // FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("unbekannte Lok"));
-    // return;
-    // }
-    // lok.setLicht(b);
+    Lok lok = this.steuerung.getLok(this.lokId);
+    if (lok == null) {
+      FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("unbekannte Lok"));
+      return;
+    }
+    lok.setLicht(b);
   }
 
   public void geschwindigkeitStellen() {
-    // Lok lok = this.steuerung.getLok(this.lokAdresse);
-    // if (lok == null) {
-    // FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("unbekannte Lok"));
-    // return;
-    // }
-    // lok.setGeschwindigkeit(this.lokGeschwindigkeit);
-    // lok.setRueckwaerts(this.lokRueckwaerts);
+    Lok lok = this.steuerung.getLok(this.lokId);
+    if (lok == null) {
+      FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("unbekannte Lok"));
+      return;
+    }
+    lok.setGeschwindigkeit(this.lokGeschwindigkeit);
+    lok.setRueckwaerts(this.lokRueckwaerts);
   }
 
   public void lokStopp() {
-    // Lok lok = this.steuerung.getLok(this.lokAdresse);
-    // if (lok == null) {
-    // FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("unbekannte Lok"));
-    // return;
-    // }
-    //
-    // lok.setGeschwindigkeit(0);
-    // this.lokGeschwindigkeit = 0;
+    Lok lok = this.steuerung.getLok(this.lokId);
+    if (lok == null) {
+      FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("unbekannte Lok"));
+      return;
+    }
+
+    lok.setGeschwindigkeit(0);
+    this.lokGeschwindigkeit = 0;
   }
 
   public void geschwindigkeitErhöhen() {
-    // Lok lok = this.steuerung.getLok(this.lokAdresse);
-    // if (lok == null) {
-    // FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("unbekannte Lok"));
-    // return;
-    // }
-    //
-    // int geschwindigkeit = lok.getGeschwindigkeit();
-    // if (geschwindigkeit < Lok.MAX_GESCHWINDIGKEIT) {
-    // ++geschwindigkeit;
-    // }
-    // lok.setGeschwindigkeit(geschwindigkeit);
-    // this.lokGeschwindigkeit = geschwindigkeit;
-    //
-    // this.lokRueckwaerts = lok.isRueckwaerts();
+    Lok lok = this.steuerung.getLok(this.lokId);
+    if (lok == null) {
+      FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("unbekannte Lok"));
+      return;
+    }
+
+    int geschwindigkeit = lok.getGeschwindigkeit();
+    if (geschwindigkeit < Lok.MAX_GESCHWINDIGKEIT) {
+      ++geschwindigkeit;
+    }
+    lok.setGeschwindigkeit(geschwindigkeit);
+    this.lokGeschwindigkeit = geschwindigkeit;
+
+    this.lokRueckwaerts = lok.isRueckwaerts();
   }
 
   public void geschwindigkeitVermindern() {
-    // Lok lok = this.steuerung.getLok(this.lokAdresse);
-    // if (lok == null) {
-    // FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("unbekannte Lok"));
-    // return;
-    // }
-    //
-    // int geschwindigkeit = lok.getGeschwindigkeit();
-    // if (geschwindigkeit > 0) {
-    // --geschwindigkeit;
-    // }
-    // lok.setGeschwindigkeit(geschwindigkeit);
-    // this.lokGeschwindigkeit = geschwindigkeit;
-    //
-    // this.lokRueckwaerts = lok.isRueckwaerts();
-  }
+    Lok lok = this.steuerung.getLok(this.lokId);
+    if (lok == null) {
+      FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("unbekannte Lok"));
+      return;
+    }
 
-  /**
-   * Wert liefern: {@link #gleisabschnittsName}.
-   *
-   * @return Wert
-   */
-  public String getGleisabschnittsName() {
-    return this.gleisabschnittsName;
-  }
+    int geschwindigkeit = lok.getGeschwindigkeit();
+    if (geschwindigkeit > 0) {
+      --geschwindigkeit;
+    }
+    lok.setGeschwindigkeit(geschwindigkeit);
+    this.lokGeschwindigkeit = geschwindigkeit;
 
-  /**
-   * Wert setzen: {@link #gleisabschnittsName}.
-   *
-   * @param gleisAbschnittsName
-   *          Wert
-   */
-  public void setGleisabschnittsName(String gleisAbschnittsName) {
-    this.gleisabschnittsName = gleisAbschnittsName;
+    this.lokRueckwaerts = lok.isRueckwaerts();
   }
 
   public void gleisBelegtSetzen() {
