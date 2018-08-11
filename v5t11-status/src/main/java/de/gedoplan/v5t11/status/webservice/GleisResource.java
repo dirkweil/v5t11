@@ -8,8 +8,6 @@ import java.util.SortedSet;
 
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
-import javax.json.bind.Jsonb;
-import javax.json.bind.JsonbBuilder;
 import javax.ws.rs.GET;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.Path;
@@ -43,9 +41,6 @@ public class GleisResource {
   @Path("{bereich}")
   @Produces(MediaType.APPLICATION_JSON)
   public Set<Gleisabschnitt> getGleisabschnitte(@PathParam("bereich") String bereich) {
-
-    Jsonb jsonb = JsonbBuilder.create();
-    System.out.println(jsonb);
 
     if (!this.steuerung.getBereiche().contains(bereich)) {
       throw new NotFoundException();
