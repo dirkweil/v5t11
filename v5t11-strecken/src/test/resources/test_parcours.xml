@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Parcours>
+  <!-- Strecken in Zählrichtung -->
+  <Strecke bereich="Demoanlage" zaehlrichtung="true">
+    <Gleisabschnitt name="1" />
+    <Weiche name="3" stellung="ABZWEIGEND" />
+    <Signal name="N1" stellung="LANGSAMFAHRT" />
+    <Signal name="N2" stellung="HALT" schutz="true" />
+    <Gleisabschnitt name="S" />
+  </Strecke>
+
+  <Strecke bereich="Demoanlage" zaehlrichtung="true">
+    <Gleisabschnitt name="2" />
+    <Weiche name="3" stellung="GERADE" />
+    <Signal name="N2" stellung="FAHRT" />
+    <Signal name="N1" stellung="HALT" schutz="true" />
+    <Gleisabschnitt name="S" />
+  </Strecke>
+
+  <Strecke bereich="Demoanlage" zaehlrichtung="true">
+    <Gleisabschnitt name="11" />
+    <Weiche name="1" stellung="ABZWEIGEND" />
+    <Weiche name="2" stellung="GERADE" schutz="true" />
+    <Gleisabschnitt name="1" />
+  </Strecke>
+
+  <Strecke bereich="Demoanlage" zaehlrichtung="true">
+    <Gleisabschnitt name="11" />
+    <Weiche name="1" stellung="GERADE" />
+    <Weiche name="2" stellung="ABZWEIGEND" />
+    <Gleisabschnitt name="2" />
+  </Strecke>
+
+  <Strecke bereich="Demoanlage" zaehlrichtung="true">
+    <Gleisabschnitt name="12" />
+    <Weiche name="2" stellung="GERADE" />
+    <Weiche name="1" stellung="ABZWEIGEND" schutz="true" />
+    <Gleisabschnitt name="2" />
+  </Strecke>
+
+  <!-- Strecken entgegen der Zählrichtung -->
+  <Strecke bereich="Demoanlage" zaehlrichtung="false">
+    <Gleisabschnitt name="S" />
+    <Weiche name="3" stellung="ABZWEIGEND" />
+    <Signal name="F" stellung="LANGSAMFAHRT" />
+    <Signal name="N2" stellung="HALT" schutz="true" />
+    <Gleisabschnitt name="1" />
+  </Strecke>
+
+  <Strecke bereich="Demoanlage" zaehlrichtung="false">
+    <Gleisabschnitt name="S" />
+    <Weiche name="3" stellung="GERADE" />
+    <Signal name="F" stellung="FAHRT" />
+    <Signal name="N1" stellung="HALT" schutz="true" />
+    <Gleisabschnitt name="2" />
+  </Strecke>
+
+  <Strecke bereich="Demoanlage" zaehlrichtung="false">
+    <Gleisabschnitt name="1" />
+    <Weiche name="1" stellung="ABZWEIGEND" />
+    <Weiche name="2" stellung="GERADE" schutz="true" />
+    <Gleisabschnitt name="11" />
+  </Strecke>
+
+  <Strecke bereich="Demoanlage" zaehlrichtung="false">
+    <Gleisabschnitt name="2" />
+    <Weiche name="2" stellung="ABZWEIGEND" />
+    <Weiche name="1" stellung="GERADE" />
+    <Gleisabschnitt name="11" />
+  </Strecke>
+
+  <Strecke bereich="Demoanlage" zaehlrichtung="false">
+    <Gleisabschnitt name="2" />
+    <Weiche name="2" stellung="GERADE" />
+    <Weiche name="1" stellung="ABZWEIGEND" schutz="true" />
+    <Gleisabschnitt name="12" />
+  </Strecke>
+
+</Parcours>
+

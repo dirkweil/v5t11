@@ -1,6 +1,7 @@
-package de.gedoplan.v5t11.status;
+package de.gedoplan.v5t11.strecken;
 
 import de.gedoplan.baselibs.utils.util.ApplicationProperties;
+import de.gedoplan.v5t11.strecken.service.ParcoursProducer;
 
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.spi.CreationalContext;
@@ -26,7 +27,7 @@ public abstract class CdiTestBase extends TestBase {
   @BeforeClass
   public static void startCdiContainer() {
 
-    // System.setProperty(SteuerungProducer.V5T11_CONFIG, "test");
+    System.setProperty(ParcoursProducer.CONFIG, "test");
 
     cdiProviderName = ApplicationProperties.getProperty("cdi.provider.name");
 

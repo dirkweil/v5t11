@@ -1,0 +1,25 @@
+package de.gedoplan.v5t11.strecken.entity;
+
+import de.gedoplan.v5t11.strecken.CdiTestBase;
+
+import javax.inject.Inject;
+
+import org.junit.FixMethodOrder;
+import org.junit.Test;
+import org.junit.runners.MethodSorters;
+
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+public class ParcoursTest extends CdiTestBase {
+
+  @Inject
+  Parcours parcours;
+
+  /**
+   * Test: Kann der Parcours produziert (= aus XML eingelesen) werden?
+   */
+  @Test
+  public void test_01_produce() {
+    System.out.println(this.parcours);
+  }
+
+}

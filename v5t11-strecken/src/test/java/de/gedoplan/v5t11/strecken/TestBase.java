@@ -1,4 +1,4 @@
-package de.gedoplan.v5t11.status;
+package de.gedoplan.v5t11.strecken;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
