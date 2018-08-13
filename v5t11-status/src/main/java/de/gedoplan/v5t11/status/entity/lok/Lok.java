@@ -1,8 +1,8 @@
 package de.gedoplan.v5t11.status.entity.lok;
 
 import de.gedoplan.v5t11.status.entity.baustein.Lokdecoder;
-import de.gedoplan.v5t11.status.jsonb.JsonbInclude;
-import de.gedoplan.v5t11.status.util.EventFirer;
+import de.gedoplan.v5t11.util.cdi.EventFirer;
+import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
 import java.util.List;
 

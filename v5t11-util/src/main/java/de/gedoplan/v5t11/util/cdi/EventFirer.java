@@ -1,4 +1,4 @@
-package de.gedoplan.v5t11.status.util;
+package de.gedoplan.v5t11.util.cdi;
 
 import javax.enterprise.inject.spi.BeanManager;
 import javax.enterprise.inject.spi.CDI;

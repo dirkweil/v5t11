@@ -1,4 +1,4 @@
-package de.gedoplan.v5t11.status.util;
+package de.gedoplan.v5t11.util.jaxb;
 
 import java.util.ArrayList;
 

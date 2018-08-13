@@ -1,6 +1,6 @@
-package de.gedoplan.v5t11.status.util;
+package de.gedoplan.v5t11.util.jaxb;
 
-import de.gedoplan.v5t11.status.util.XmlPropertiesAdapterHelper.Property;
+import de.gedoplan.v5t11.util.jaxb.XmlPropertiesAdapterHelper.Property;
 
 import java.util.ArrayList;
 import java.util.HashMap;

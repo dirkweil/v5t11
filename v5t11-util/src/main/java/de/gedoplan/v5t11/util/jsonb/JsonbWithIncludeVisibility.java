@@ -1,4 +1,4 @@
-package de.gedoplan.v5t11.status.jsonb;
+package de.gedoplan.v5t11.util.jsonb;
 
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;

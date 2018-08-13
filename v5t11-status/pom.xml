@@ -40,6 +40,12 @@
     </dependency>
 
     <dependency>
+      <groupId>de.gedoplan</groupId>
+      <artifactId>v5t11-util</artifactId>
+      <version>1.0.0-VT-3_Strecken-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
       <groupId>org.primefaces</groupId>
       <artifactId>primefaces</artifactId>
     </dependency>

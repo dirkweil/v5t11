@@ -3,9 +3,11 @@
  */
 package de.gedoplan.v5t11.status.entity.fahrweg.geraet;
 
+import de.gedoplan.baselibs.utils.exception.BugException;
 import de.gedoplan.v5t11.status.entity.fahrweg.Geraet;
-import de.gedoplan.v5t11.status.jsonb.JsonbInclude;
-import de.gedoplan.v5t11.status.util.EventFirer;
+import de.gedoplan.v5t11.util.cdi.EventFirer;
+import de.gedoplan.v5t11.util.domain.WeichenStellung;
+import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -20,46 +22,12 @@ import lombok.Getter;
  */
 @XmlAccessorType(XmlAccessType.NONE)
 public class Weiche extends Geraet {
-  /**
-   * Weichenstellung.
-   *
-   * @author dw
-   */
-  public static enum Stellung {
-    /**
-     * gerade.
-     */
-    GERADE(0),
-
-    /**
-     * abzweigend.
-     */
-    ABZWEIGEND(1);
-
-    @Getter
-    private final long stellungsWert;
-
-    private Stellung(int stellungsWert) {
-      this.stellungsWert = stellungsWert;
-    }
-
-    /**
-     * Stellung zu numerischem Wert erstellen.
-     *
-     * @param stellungsWert
-     *          numerischer Wert
-     * @return zugehörige Stellung
-     */
-    public static Stellung getInstance(long stellungsWert) {
-      return stellungsWert == 0 ? GERADE : ABZWEIGEND;
-    }
-  }
 
   /**
    * Aktuelle Stellung der Weiche.
    */
   @Getter(onMethod = @__(@JsonbInclude))
-  private Stellung stellung = Stellung.GERADE;
+  private WeichenStellung stellung = WeichenStellung.GERADE;
 
   /**
    * Konstruktor.
@@ -74,23 +42,53 @@ public class Weiche extends Geraet {
    * @param stellung
    *          Wert
    */
-  public void setStellung(Stellung stellung) {
+  public void setStellung(WeichenStellung stellung) {
     setStellung(stellung, true);
   }
 
-  protected void setStellung(Stellung stellung, boolean updateInterface) {
+  protected void setStellung(WeichenStellung stellung, boolean updateInterface) {
     if (this.stellung != stellung) {
       this.stellung = stellung;
 
       if (updateInterface) {
         long fdWert = this.funktionsdecoder.getWert();
         fdWert &= (~this.bitMaskeAnschluss);
-        fdWert |= this.stellung.getStellungsWert() << this.anschluss;
+        fdWert |= getWertForStellung(this.stellung) << this.anschluss;
         this.funktionsdecoder.setWert(fdWert);
       }
 
       EventFirer.fire(this);
     }
+  }
+
+  /**
+   * Stellungswert für Stellung ermitteln.
+   *
+   * @param stellung
+   *          Stellung
+   * @return Stellungswert
+   */
+  public static long getWertForStellung(WeichenStellung stellung) {
+    switch (stellung) {
+    case GERADE:
+      return 0;
+
+    case ABZWEIGEND:
+      return 1;
+    }
+
+    throw new BugException("Unbekannte Weichenstellung: " + stellung);
+  }
+
+  /**
+   * Stellung für Stellungswert ermitteln.
+   *
+   * @param stellungsWert
+   *          Stellungswert
+   * @return Stellung
+   */
+  public static WeichenStellung getStellungForWert(long stellungsWert) {
+    return stellungsWert == 0 ? WeichenStellung.GERADE : WeichenStellung.ABZWEIGEND;
   }
 
   @JsonbInclude(full = true)
@@ -105,6 +103,6 @@ public class Weiche extends Geraet {
 
   @Override
   public void adjustStatus() {
-    setStellung(Stellung.getInstance((this.funktionsdecoder.getWert() & this.bitMaskeAnschluss) >>> this.anschluss), false);
+    setStellung(getStellungForWert((this.funktionsdecoder.getWert() & this.bitMaskeAnschluss) >>> this.anschluss), false);
   }
 }

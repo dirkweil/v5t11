@@ -5,7 +5,7 @@ import de.gedoplan.v5t11.status.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
 import de.gedoplan.v5t11.status.entity.lok.Lok;
-import de.gedoplan.v5t11.status.jsonb.JsonbWithIncludeVisibility;
+import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 
 import javax.annotation.Resource;
 import javax.enterprise.context.ApplicationScoped;

@@ -1,6 +1,6 @@
 package de.gedoplan.v5t11.status.entity;
 
-import de.gedoplan.v5t11.status.jsonb.JsonbInclude;
+import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

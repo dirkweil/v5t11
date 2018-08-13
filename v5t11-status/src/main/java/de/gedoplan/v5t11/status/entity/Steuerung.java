@@ -44,9 +44,6 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import lombok.Getter;
 
 /**
@@ -117,8 +114,6 @@ public class Steuerung {
 
   @Getter
   private SortedSet<Lok> loks = new TreeSet<>();
-
-  private static final Log LOGGER = LogFactory.getLog(Steuerung.class);
 
   /**
    * Alle von der Steuerung belegten Selectrix-Adressen liefern.

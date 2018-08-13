@@ -1,4 +1,4 @@
-package de.gedoplan.v5t11.status.webservice.provider;
+package de.gedoplan.v5t11.util.webservice.provider;
 
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 

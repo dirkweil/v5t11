@@ -1,4 +1,4 @@
-package de.gedoplan.v5t11.status.jsonb;
+package de.gedoplan.v5t11.util.jsonb;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;

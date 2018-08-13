@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 
 import de.gedoplan.v5t11.status.CdiTestBase;
 import de.gedoplan.v5t11.status.entity.lok.Lok;
-import de.gedoplan.v5t11.status.jsonb.JsonbWithIncludeVisibility;
+import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 
 import javax.inject.Inject;
 
