@@ -1,4 +1,4 @@
-package de.gedoplan.v5t11.status.webservice;
+package de.gedoplan.v5t11.strecken.webservice;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
