@@ -1,0 +1,1 @@
+jms-topic add --topic-address=v5t11-status --entries=jms/topic/v5t11-status,java:jboss/exported/jms/topic/v5t11-status

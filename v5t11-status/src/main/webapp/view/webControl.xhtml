@@ -1,0 +1,73 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:c="http://java.sun.com/jsp/jstl/core"
+  xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+<h:head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <title>V5T11: Web Control</title>
+</h:head>
+
+<h:body>
+  <h:form>
+    <h:panelGrid columns="4">
+      <h:outputLabel value="Zentrale: " for="bereich" />
+      <h:panelGroup />
+      <h:panelGroup />
+      <h:panelGroup>
+        <h:commandButton action="#{webControlModel.zentraleAusschalten}" value="aus" />
+        <h:commandButton action="#{webControlModel.zentraleEinschalten}" value="ein" />
+      </h:panelGroup>
+
+      <h:outputLabel value="Bereich: " for="bereich" />
+      <h:selectOneMenu value="#{webControlModel.bereich}" id="bereich">
+        <f:selectItems value="#{webControlModel.bereiche}" />
+      </h:selectOneMenu>
+      <h:message for="bereich" />
+      <h:panelGroup />
+
+      <h:outputLabel value="Lok: " for="lok" />
+      <h:inputText value="#{webControlModel.lokId}" id="lok" />
+      <h:message for="lok" />
+      <h:panelGroup>
+        <h:commandButton action="#{webControlModel.lichtAusStellen}" value="Licht aus" />
+        <h:commandButton action="#{webControlModel.lichtAnStellen}" value="Licht an" />
+
+        <h:outputLabel value="Geschwindigkeit: " for="geschwindigkeit" />
+        <h:inputText value="#{webControlModel.lokGeschwindigkeit}" size="2" id="geschwindigkeit" />
+        <h:message for="geschwindigkeit" />
+        <h:outputLabel value="rückwärts" />
+        <h:selectBooleanCheckbox value="#{webControlModel.lokRueckwaerts}" />
+        <h:commandButton action="#{webControlModel.geschwindigkeitStellen}" value="ok" />
+        <h:commandButton action="#{webControlModel.lokStopp}" value="stopp" />
+        <h:commandButton action="#{webControlModel.geschwindigkeitErhöhen}" value="+" />
+        <h:commandButton action="#{webControlModel.geschwindigkeitVermindern}" value="-" />
+      </h:panelGroup>
+
+      <h:outputLabel value="Weiche: " for="weiche" />
+      <h:inputText value="#{webControlModel.weichenName}" id="weiche" />
+      <h:message for="weiche" />
+      <h:panelGroup>
+        <h:commandButton action="#{webControlModel.weicheGeradeStellen}" value="gerade" />
+        <h:commandButton action="#{webControlModel.weicheAbzweigendStellen}" value="abzweigend" />
+      </h:panelGroup>
+
+      <h:outputLabel value="Signal: " for="signal" />
+      <h:inputText value="#{webControlModel.signalName}" id="signal" />
+      <h:message for="signal" />
+      <h:panelGroup>
+        <h:commandButton action="#{webControlModel.signalHaltStellen}" value="Halt" />
+        <h:commandButton action="#{webControlModel.signalFahrtStellen}" value="Fahrt" />
+        <h:commandButton action="#{webControlModel.signalLangsamfahrtStellen}" value="Langsamfahrt" />
+        <h:commandButton action="#{webControlModel.signalRangierfahrtStellen}" value="Rangierfahrt" />
+      </h:panelGroup>
+
+      <h:outputLabel value="Gleis: " for="gleis" rendered="#{webControlModel.selectrixSimuliert}"/>
+      <h:inputText value="#{webControlModel.gleisabschnittsName}" id="gleis" rendered="#{webControlModel.selectrixSimuliert}"/>
+      <h:message for="weiche" rendered="#{webControlModel.selectrixSimuliert}"/>
+      <h:panelGroup rendered="#{webControlModel.selectrixSimuliert}">
+        <h:commandButton action="#{webControlModel.gleisBelegtSetzen}" value="belegt" />
+        <h:commandButton action="#{webControlModel.gleisFreiSetzen}" value="frei" />
+      </h:panelGroup>
+    </h:panelGrid>
+  </h:form>
+</h:body>
+</html>

@@ -1,0 +1,72 @@
+package de.gedoplan.v5t11.status.service;
+
+import de.gedoplan.v5t11.status.entity.Kanal;
+import de.gedoplan.v5t11.status.entity.fahrweg.Gleisabschnitt;
+import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
+import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
+import de.gedoplan.v5t11.status.entity.lok.Lok;
+import de.gedoplan.v5t11.status.jsonb.JsonbWithIncludeVisibility;
+
+import javax.annotation.Resource;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Observes;
+import javax.inject.Inject;
+import javax.jms.Destination;
+import javax.jms.JMSContext;
+
+import org.apache.commons.logging.Log;
+
+@ApplicationScoped
+public class StatusPublisher {
+
+  @Inject
+  JMSContext jmsContext;
+
+  @Resource(lookup = "java:/jms/topic/v5t11-status")
+  Destination destination;
+
+  @Inject
+  Log log;
+
+  protected void publish(String category, Object status) {
+
+    String json = JsonbWithIncludeVisibility.SHORT.toJson(status);
+
+    if (this.log.isDebugEnabled()) {
+      this.log.debug("jmsContext: " + this.jmsContext);
+      this.log.debug("destination: " + this.destination);
+      this.log.debug("category: " + category);
+      this.log.debug("status: " + json);
+    }
+
+    try {
+      this.jmsContext
+          .createProducer()
+          .setTimeToLive(10 * 1000)
+          .setProperty("category", category)
+          .send(this.destination, json);
+    } catch (Exception e) {
+      this.log.error("Cannot send status message", e);
+    }
+  }
+
+  void publish(@Observes Gleisabschnitt gleisabschnitt) {
+    publish("gleis", gleisabschnitt);
+  }
+
+  void publish(@Observes Weiche weiche) {
+    publish("weiche", weiche);
+  }
+
+  void publish(@Observes Signal signal) {
+    publish("signal", signal);
+  }
+
+  void publish(@Observes Lok lok) {
+    publish("lok", lok);
+  }
+
+  void publish(@Observes Kanal kanal) {
+    publish("kanal", kanal);
+  }
+}
