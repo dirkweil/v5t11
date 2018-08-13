@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn">
+
+  <Appenders>
+    <Console name="STDOUT">
+      <PatternLayout pattern="%d{ABSOLUTE} %-5p [%c] (%t) %m%n" />
+    </Console>
+  </Appenders>
+
+  <Loggers>
+    <Root level="error">
+      <AppenderRef ref="STDOUT" />
+    </Root>
+
+    <Logger name="de.gedoplan" level="debug"/>
+  </Loggers>
+</Configuration>
