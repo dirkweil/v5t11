@@ -15,8 +15,6 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.CreationException;
 import javax.enterprise.inject.Produces;
 
-import org.jboss.weld.exceptions.IllegalArgumentException;
-
 @ApplicationScoped
 public class SteuerungProducer {
 

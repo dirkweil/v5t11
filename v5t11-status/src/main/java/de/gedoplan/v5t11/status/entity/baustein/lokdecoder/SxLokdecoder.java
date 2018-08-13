@@ -2,8 +2,6 @@ package de.gedoplan.v5t11.status.entity.baustein.lokdecoder;
 
 import de.gedoplan.v5t11.status.entity.baustein.Lokdecoder;
 
-import org.jboss.weld.exceptions.IllegalArgumentException;
-
 import lombok.Getter;
 
 /**
@@ -50,6 +48,7 @@ public abstract class SxLokdecoder extends Lokdecoder {
   @Getter
   private int geschwindigkeit;
 
+  @Override
   public void setHorn(boolean horn) {
     if (this.horn != horn) {
       if (horn) {
@@ -60,6 +59,7 @@ public abstract class SxLokdecoder extends Lokdecoder {
     }
   }
 
+  @Override
   public void setLicht(boolean licht) {
     if (this.licht != licht) {
       if (licht) {
@@ -70,6 +70,7 @@ public abstract class SxLokdecoder extends Lokdecoder {
     }
   }
 
+  @Override
   public void setRueckwaerts(boolean rueckwaerts) {
     if (this.rueckwaerts != rueckwaerts) {
       if (rueckwaerts) {
@@ -80,6 +81,7 @@ public abstract class SxLokdecoder extends Lokdecoder {
     }
   }
 
+  @Override
   public void setGeschwindigkeit(int geschwindigkeit) {
     if (this.geschwindigkeit != geschwindigkeit) {
       if (geschwindigkeit < 0 || geschwindigkeit > MAX_GESCHWINDIGKEIT) {

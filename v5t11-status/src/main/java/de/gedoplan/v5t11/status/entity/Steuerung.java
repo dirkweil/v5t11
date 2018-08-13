@@ -46,7 +46,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.jboss.weld.exceptions.IllegalArgumentException;
 
 import lombok.Getter;
 
