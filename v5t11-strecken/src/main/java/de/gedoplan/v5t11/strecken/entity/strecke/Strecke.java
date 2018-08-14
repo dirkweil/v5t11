@@ -3,6 +3,8 @@ package de.gedoplan.v5t11.strecken.entity.strecke;
 import de.gedoplan.v5t11.strecken.entity.Bereichselement;
 import de.gedoplan.v5t11.strecken.entity.Parcours;
 import de.gedoplan.v5t11.strecken.entity.fahrweg.Signal;
+import de.gedoplan.v5t11.util.domain.SignalStellung;
+import de.gedoplan.v5t11.util.domain.WeichenStellung;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -246,50 +248,59 @@ public class Strecke extends Bereichselement {
     }
   }
 
-  // /**
-  // * Signale auf FAHRT/LANGSAMFAHRT stellen wenn keine/mindestens eine abzweigende Weiche befahren wird.
-  // */
-  // public void adjustLangsamfahrt()
-  // {
-  // StreckenSignal fahrstrassenHauptSignal = null;
-  // int fahrstrassenHauptSignalIndex = 0;
-  // boolean langsam = false;
-  //
-  // int size = this.elemente.size();
-  // for (int i = 0; i < size; ++i)
-  // {
-  // Streckenelement fahrstrassenElement = this.elemente.get(i);
-  // if (!fahrstrassenElement.isSchutz())
-  // {
-  // if (i >= size - 1
-  // || (fahrstrassenElement instanceof StreckenSignal
-  // && ((StreckenSignal) fahrstrassenElement).getFahrwegelement() instanceof Hauptsignal))
-  // {
-  // if (fahrstrassenHauptSignal != null)
-  // {
-  // Stellung neueStellung = langsam ? Signal.Stellung.LANGSAMFAHRT : Signal.Stellung.FAHRT;
-  // if (neueStellung != fahrstrassenHauptSignal.getStellung())
-  // {
-  // this.elemente.set(fahrstrassenHauptSignalIndex, fahrstrassenHauptSignal.createCopy(neueStellung));
-  // }
-  // }
-  //
-  // if (i >= size - 1)
-  // {
-  // break;
-  // }
-  //
-  // fahrstrassenHauptSignal = (StreckenSignal) fahrstrassenElement;
-  // fahrstrassenHauptSignalIndex = i;
-  // langsam = false;
-  // }
-  //
-  // if (fahrstrassenElement instanceof StreckenWeiche
-  // && ((StreckenWeiche) fahrstrassenElement).getStellung() != Weiche.Stellung.GERADE)
-  // {
-  // langsam = true;
-  // }
-  // }
-  // }
-  // }
+  /**
+   * Signalstellungen für Hauptsignale passend zu Weichenstellungen anpassen.
+   *
+   * Die Stellung von Hauptsignalen (erkennbar an Stellung FAHRT bzw. LANGSAMFAHRT) werden zu FAHRT bzw. LANGSAMFAHRT korrigiert, wenn bis zum nächsten
+   * Hauptsignal bzw. bis zum Streckenende keine bzw. mindestens eine abzweigende Weiche befahren wird.
+   */
+  public void adjustLangsamfahrt() {
+    StreckenSignal streckenSignal = null;
+    int streckenSignalIndex = -1;
+    boolean langsam = false;
+
+    int size = this.elemente.size();
+    for (int i = 0; i < size; ++i) {
+      Streckenelement streckenelement = this.elemente.get(i);
+      if (!streckenelement.isSchutz()) {
+        if (i >= size - 1 || isFahrtOrLangsamfahrt(streckenelement)) {
+          if (streckenSignal != null) {
+            SignalStellung neueStellung = langsam ? SignalStellung.LANGSAMFAHRT : SignalStellung.FAHRT;
+            if (neueStellung != streckenSignal.getStellung()) {
+              this.elemente.set(streckenSignalIndex, streckenSignal.createCopy(neueStellung));
+            }
+          }
+
+          if (i >= size - 1) {
+            break;
+          }
+
+          streckenSignal = (StreckenSignal) streckenelement;
+          streckenSignalIndex = i;
+          langsam = false;
+        }
+
+        if (streckenelement instanceof StreckenWeiche
+            && ((StreckenWeiche) streckenelement).getStellung() != WeichenStellung.GERADE) {
+          langsam = true;
+        }
+      }
+    }
+  }
+
+  private static boolean isFahrtOrLangsamfahrt(Streckenelement streckenelement) {
+    if (streckenelement instanceof StreckenSignal) {
+      StreckenSignal streckenSignal = (StreckenSignal) streckenelement;
+      switch (streckenSignal.getStellung()) {
+      case FAHRT:
+      case LANGSAMFAHRT:
+        return true;
+
+      default:
+        return false;
+      }
+    }
+
+    return false;
+  }
 }

@@ -189,7 +189,7 @@ public class Parcours {
     // Doppeleinträge in Strecken eliminieren und Signale auf Langsamfahrt korrigieren, wenn nötig.
     this.strecken.forEach(f -> {
       f.removeDoppeleintraege();
-      // f.adjustLangsamfahrt();
+      f.adjustLangsamfahrt();
     });
   }
 

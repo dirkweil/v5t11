@@ -1,9 +1,11 @@
 package de.gedoplan.v5t11.strecken.entity.strecke;
 
+import de.gedoplan.baselibs.utils.exception.BugException;
 import de.gedoplan.v5t11.strecken.entity.Parcours;
 import de.gedoplan.v5t11.strecken.entity.fahrweg.Signal;
 import de.gedoplan.v5t11.util.domain.SignalStellung;
 
+import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -13,7 +15,7 @@ import lombok.NoArgsConstructor;
 
 @XmlAccessorType(XmlAccessType.NONE)
 @NoArgsConstructor
-public class StreckenSignal extends StreckenGeraet {
+public class StreckenSignal extends StreckenGeraet implements Cloneable {
 
   @Getter
   private Signal signal;
@@ -39,6 +41,23 @@ public class StreckenSignal extends StreckenGeraet {
   @Override
   public String toString() {
     return super.toString() + ", stellung=" + this.stellung;
+  }
+
+  public Streckenelement createCopy(SignalStellung stellung) {
+    try {
+      StreckenSignal copy = (StreckenSignal) clone();
+      copy.stellung = stellung;
+      return copy;
+    } catch (CloneNotSupportedException e) {
+      throw new BugException("Cannot clone StreckenSignal");
+    }
+  }
+
+  @SuppressWarnings("unused")
+  private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
+    if (isSchutz()) {
+      this.stellung = SignalStellung.HALT;
+    }
   }
 
 }
