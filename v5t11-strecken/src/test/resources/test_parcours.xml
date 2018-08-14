@@ -3,16 +3,16 @@
   <!-- Strecken in Zählrichtung -->
   <Strecke bereich="Demoanlage" zaehlrichtung="true">
     <Gleisabschnitt name="1" />
-    <Weiche name="3" stellung="ABZWEIGEND" />
     <Signal name="N1" stellung="LANGSAMFAHRT" />
+    <Weiche name="3" stellung="ABZWEIGEND" />
     <Signal name="N2" stellung="HALT" schutz="true" />
     <Gleisabschnitt name="S" />
   </Strecke>
 
   <Strecke bereich="Demoanlage" zaehlrichtung="true">
     <Gleisabschnitt name="2" />
-    <Weiche name="3" stellung="GERADE" />
     <Signal name="N2" stellung="FAHRT" />
+    <Weiche name="3" stellung="GERADE" />
     <Signal name="N1" stellung="HALT" schutz="true" />
     <Gleisabschnitt name="S" />
   </Strecke>
@@ -41,16 +41,16 @@
   <!-- Strecken entgegen der Zählrichtung -->
   <Strecke bereich="Demoanlage" zaehlrichtung="false">
     <Gleisabschnitt name="S" />
-    <Weiche name="3" stellung="ABZWEIGEND" />
     <Signal name="F" stellung="LANGSAMFAHRT" />
+    <Weiche name="3" stellung="ABZWEIGEND" />
     <Signal name="N2" stellung="HALT" schutz="true" />
     <Gleisabschnitt name="1" />
   </Strecke>
 
   <Strecke bereich="Demoanlage" zaehlrichtung="false">
     <Gleisabschnitt name="S" />
-    <Weiche name="3" stellung="GERADE" />
     <Signal name="F" stellung="FAHRT" />
+    <Weiche name="3" stellung="GERADE" />
     <Signal name="N1" stellung="HALT" schutz="true" />
     <Gleisabschnitt name="2" />
   </Strecke>
