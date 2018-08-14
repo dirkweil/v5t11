@@ -2,21 +2,25 @@ package de.gedoplan.v5t11.strecken.entity.strecke;
 
 import de.gedoplan.v5t11.strecken.entity.Parcours;
 import de.gedoplan.v5t11.strecken.entity.fahrweg.Weiche;
+import de.gedoplan.v5t11.util.domain.WeichenStellung;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @XmlAccessorType(XmlAccessType.NONE)
 @NoArgsConstructor
 public class StreckenWeiche extends StreckenGeraet {
 
   @Getter
-  @Setter
   private Weiche weiche;
+
+  @Getter
+  @XmlAttribute
+  private WeichenStellung stellung;
 
   @Override
   public Weiche getFahrwegelement() {
@@ -52,6 +56,11 @@ public class StreckenWeiche extends StreckenGeraet {
 
   @Override
   public int getRank() {
-    return this.stellungsName.equals("ABZWEIGEND") ? 1 : 0;
+    return this.stellung == WeichenStellung.ABZWEIGEND ? 1 : 0;
+  }
+
+  @Override
+  public String toString() {
+    return super.toString() + ", stellung=" + this.stellung;
   }
 }

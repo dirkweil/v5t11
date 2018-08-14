@@ -92,7 +92,7 @@ public class Strecke extends Bereichselement {
     ListIterator<Streckenelement> iterator = this.elemente.listIterator();
     while (iterator.hasNext()) {
       Streckenelement streckenelement = iterator.next();
-      if (streckenelement instanceof StreckenWeiche && !((StreckenWeiche) streckenelement).isSchutz()) {
+      if (streckenelement instanceof StreckenWeiche && !streckenelement.isSchutz()) {
         StreckenGleisabschnitt streckenGleisabschnitt = ((StreckenWeiche) streckenelement).createStreckenGleisabschnitt();
         if (!this.elemente.contains(streckenGleisabschnitt)) {
           iterator.add(streckenGleisabschnitt);
@@ -179,7 +179,7 @@ public class Strecke extends Bereichselement {
     // Schutzsignale entfernen, die auch als normale Signale vorhanden sind
     Set<Signal> normaleSignale = new HashSet<>();
     for (Streckenelement element : result.elemente) {
-      if (element instanceof StreckenSignal && !((StreckenSignal) element).isSchutz()) {
+      if (element instanceof StreckenSignal && !element.isSchutz()) {
         Signal signal = ((StreckenSignal) element).getFahrwegelement();
         if (signal != null) {
           normaleSignale.add(signal);
@@ -190,7 +190,7 @@ public class Strecke extends Bereichselement {
     Iterator<Streckenelement> iterator = result.elemente.iterator();
     while (iterator.hasNext()) {
       Streckenelement element = iterator.next();
-      if (element instanceof StreckenSignal && ((StreckenSignal) element).isSchutz()) {
+      if (element instanceof StreckenSignal && element.isSchutz()) {
         Signal schutzSignal = ((StreckenSignal) element).getFahrwegelement();
         if (schutzSignal != null && normaleSignale.contains(schutzSignal)) {
           iterator.remove();
@@ -233,7 +233,7 @@ public class Strecke extends Bereichselement {
           break;
         }
 
-        if (element instanceof StreckenGeraet && ((StreckenGeraet) element).isSchutz()) {
+        if (element instanceof StreckenGeraet && element.isSchutz()) {
           // aktuelles Element ist Schutzelement; löschen, 2. Eintrag bestehen lassen, weiter mit nächstem Eintrag (der dann am
           // gleichen Index steht!)
           this.elemente.remove(i);

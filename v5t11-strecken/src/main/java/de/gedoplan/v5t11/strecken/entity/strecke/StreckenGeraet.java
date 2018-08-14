@@ -18,15 +18,9 @@ public abstract class StreckenGeraet extends Streckenelement {
   @Getter
   protected boolean schutz = false;
 
-  /**
-   * Name der gewünschten Stellung.
-   */
-  @XmlAttribute(name = "stellung")
-  protected String stellungsName;
-
   @Override
   public String toString() {
-    return super.toString() + ", schutz=" + this.schutz + ", stellung=" + this.stellungsName;
+    return super.toString() + ", schutz=" + this.schutz;
   }
 
 }
