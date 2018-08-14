@@ -6,10 +6,13 @@ import de.gedoplan.v5t11.strecken.entity.fahrweg.Weiche;
 import de.gedoplan.v5t11.strecken.entity.strecke.Strecke;
 
 import java.util.Collection;
-import java.util.List;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -30,7 +33,7 @@ public class Parcours {
 
   @XmlElement(name = "Strecke", type = Strecke.class)
   @Getter
-  private List<Strecke> strecken;
+  private SortedSet<Strecke> strecken = new TreeSet<>();
 
   @Getter
   private SortedSet<String> bereiche = new TreeSet<>();
@@ -113,12 +116,81 @@ public class Parcours {
     StringBuilder sb = new StringBuilder();
 
     this.strecken.forEach(strecke -> {
-      sb.append(String.format("%s zaehlrichtung=%b\n", strecke, strecke.isZaehlrichtung()));
+      sb.append(String.format("%s zaehlrichtung=%b rank=%d combi=%b\n", strecke, strecke.isZaehlrichtung(), strecke.getRank(), strecke.isCombi()));
 
       strecke.getElemente().forEach(element -> sb.append(String.format("  %s\n", element)));
     });
 
     return sb.toString();
+  }
+
+  private Map<Gleisabschnitt, SortedSet<Strecke>> mapStartToStrecken = new HashMap<>();
+
+  public SortedSet<Strecke> getStreckenMitStart(Gleisabschnitt gleisabschnitt) {
+    SortedSet<Strecke> strecken = this.mapStartToStrecken.get(gleisabschnitt);
+    if (strecken != null) {
+      return strecken;
+    } else {
+      return Collections.emptySortedSet();
+    }
+  }
+
+  private void add2MapStartToStrecken(Iterable<Strecke> strecken) {
+    strecken.forEach(f -> add2MapStartToStrecken(f));
+  }
+
+  private void add2MapStartToStrecken(Strecke strecke) {
+    Gleisabschnitt start = strecke.getStart().getFahrwegelement();
+
+    SortedSet<Strecke> strecken = this.mapStartToStrecken.get(start);
+    if (strecken == null) {
+      strecken = new TreeSet<>();
+      this.mapStartToStrecken.put(start, strecken);
+    }
+
+    strecken.add(strecke);
+  }
+
+  /**
+   * Nachbearbeitung nach JAXB-Unmarshal.
+   *
+   * @param unmarshaller
+   *          Unmarshaller
+   * @param parent
+   *          Parent
+   */
+  @SuppressWarnings("unused")
+  private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
+    // Strecken kombinieren
+    add2MapStartToStrecken(this.strecken);
+
+    SortedSet<Strecke> zuPruefendeStrecken = this.strecken;
+    while (true) {
+      SortedSet<Strecke> weitereStrecken = new TreeSet<>();
+      for (Strecke fahrstrasse1 : zuPruefendeStrecken) {
+        for (Strecke fahrstrasse2 : getStreckenMitStart(fahrstrasse1.getEnde().getFahrwegelement())) {
+          Strecke kombiStrecke = Strecke.concat(fahrstrasse1, fahrstrasse2);
+          if (kombiStrecke != null && !this.strecken.contains(kombiStrecke)) {
+            weitereStrecken.add(kombiStrecke);
+          }
+        }
+      }
+
+      if (weitereStrecken.isEmpty()) {
+        break;
+      }
+
+      this.strecken.addAll(weitereStrecken);
+      add2MapStartToStrecken(weitereStrecken);
+
+      zuPruefendeStrecken = weitereStrecken;
+    }
+
+    // Doppeleinträge in Strecken eliminieren und Signale auf Langsamfahrt korrigieren, wenn nötig.
+    this.strecken.forEach(f -> {
+      f.removeDoppeleintraege();
+      // f.adjustLangsamfahrt();
+    });
   }
 
 }

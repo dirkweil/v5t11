@@ -14,18 +14,23 @@ import lombok.Setter;
 @NoArgsConstructor
 public class StreckenGleisabschnitt extends Streckenelement {
 
+  public static final String PREFIX_WEICHEN_GLEISABSCHNITT = "W";
+
   @Getter
   @Setter
   private Gleisabschnitt gleisabschnitt;
+
+  public StreckenGleisabschnitt(String bereich, String name, boolean zaehlrichtung) {
+    super(bereich, name, zaehlrichtung);
+  }
 
   @Override
   public Gleisabschnitt getFahrwegelement() {
     return this.gleisabschnitt;
   }
 
-  public StreckenGleisabschnitt(String bereich, String name) {
-    this.bereich = bereich;
-    this.name = name;
+  public boolean isWeichenGleisabschnitt() {
+    return this.name.startsWith(PREFIX_WEICHEN_GLEISABSCHNITT);
   }
 
   @Override
@@ -36,4 +41,10 @@ public class StreckenGleisabschnitt extends Streckenelement {
       parcours.addGleisabschnitt(this.gleisabschnitt);
     }
   }
+
+  @Override
+  public int getRank() {
+    return 1;
+  }
+
 }

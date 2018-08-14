@@ -8,7 +8,10 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 
+import lombok.NoArgsConstructor;
+
 @XmlAccessorType(XmlAccessType.NONE)
+@NoArgsConstructor
 public abstract class Streckenelement extends Bereichselement {
 
   /**
@@ -17,7 +20,20 @@ public abstract class Streckenelement extends Bereichselement {
   @XmlAttribute
   protected Boolean zaehlrichtung;
 
+  public Streckenelement(String bereich, String name, boolean zaehlrichtung) {
+    super(bereich, name);
+    this.zaehlrichtung = zaehlrichtung;
+  }
+
+  public boolean isZaehlrichtung() {
+    return this.zaehlrichtung != null ? this.zaehlrichtung : false;
+  }
+
   public abstract Fahrwegelement getFahrwegelement();
+
+  public int getRank() {
+    return 0;
+  }
 
   public abstract void linkFahrwegelement(Parcours parcours);
 

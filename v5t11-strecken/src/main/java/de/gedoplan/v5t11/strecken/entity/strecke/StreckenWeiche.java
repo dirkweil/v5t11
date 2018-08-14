@@ -33,12 +33,12 @@ public class StreckenWeiche extends StreckenGeraet {
     boolean doppelweiche = Character.isAlphabetic(this.name.charAt(this.name.length() - 1));
     String name;
     if (doppelweiche) {
-      name = "W" + this.name.substring(0, this.name.length() - 1);
+      name = StreckenGleisabschnitt.PREFIX_WEICHEN_GLEISABSCHNITT + this.name.substring(0, this.name.length() - 1);
     } else {
-      name = "W" + this.name;
+      name = StreckenGleisabschnitt.PREFIX_WEICHEN_GLEISABSCHNITT + this.name;
     }
 
-    return new StreckenGleisabschnitt(this.bereich, name);
+    return new StreckenGleisabschnitt(this.bereich, name, this.zaehlrichtung);
   }
 
   @Override
@@ -48,5 +48,10 @@ public class StreckenWeiche extends StreckenGeraet {
       this.weiche = new Weiche(this.bereich, this.name);
       parcours.addWeiche(this.weiche);
     }
+  }
+
+  @Override
+  public int getRank() {
+    return this.stellungsName.equals("ABZWEIGEND") ? 1 : 0;
   }
 }

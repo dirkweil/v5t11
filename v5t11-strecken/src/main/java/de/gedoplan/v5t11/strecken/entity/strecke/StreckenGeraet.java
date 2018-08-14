@@ -4,6 +4,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 
+import lombok.Getter;
+
 @XmlAccessorType(XmlAccessType.NONE)
 public abstract class StreckenGeraet extends Streckenelement {
 
@@ -13,6 +15,7 @@ public abstract class StreckenGeraet extends Streckenelement {
    * Elemente mit Schutzfunktion liegen nicht im eigentlichen Fahrweg, sondern schützen ihn nur vor Kollisionen.
    */
   @XmlAttribute
+  @Getter
   protected boolean schutz = false;
 
   /**
