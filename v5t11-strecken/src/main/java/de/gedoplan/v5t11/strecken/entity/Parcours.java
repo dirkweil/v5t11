@@ -12,7 +12,6 @@ import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -152,15 +151,13 @@ public class Parcours {
   }
 
   /**
-   * Nachbearbeitung nach JAXB-Unmarshal.
+   * Strecken komplettieren.
    *
-   * @param unmarshaller
-   *          Unmarshaller
-   * @param parent
-   *          Parent
+   * - Strecken kombinieren,
+   * - Signalstellungen korrigieren,
+   * - Doppeleinträge entfernen.
    */
-  @SuppressWarnings("unused")
-  private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
+  public void completeStrecken() {
     // Strecken kombinieren
     add2MapStartToStrecken(this.strecken);
 

@@ -1,5 +1,7 @@
 package de.gedoplan.v5t11.strecken.entity.fahrweg;
 
+import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
@@ -15,10 +17,14 @@ public class Gleisabschnitt extends Fahrwegelement {
    * Gleisabschnitt besetzt?
    */
   @Getter
-  @Setter
+  @Setter(onMethod = @__(@JsonbInclude))
   private boolean besetzt;
 
   public Gleisabschnitt(String bereich, String name) {
     super(bereich, name);
+  }
+
+  public void copyStatus(Gleisabschnitt other) {
+    this.besetzt = other.besetzt;
   }
 }

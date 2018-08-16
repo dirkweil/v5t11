@@ -1,5 +1,6 @@
 package de.gedoplan.v5t11.strecken.entity;
 
+import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 import de.gedoplan.v5t11.util.misc.NameComparator;
 
 import java.io.Serializable;
@@ -22,12 +23,12 @@ import lombok.Setter;
 public class Bereichselement implements Comparable<Bereichselement>, Serializable {
   @XmlAttribute
   @Getter
-  @Setter
+  @Setter(onMethod = @__(@JsonbInclude))
   protected String bereich;
 
   @XmlAttribute
   @Getter
-  @Setter
+  @Setter(onMethod = @__(@JsonbInclude))
   protected String name;
 
   public Bereichselement(String bereich, String name) {

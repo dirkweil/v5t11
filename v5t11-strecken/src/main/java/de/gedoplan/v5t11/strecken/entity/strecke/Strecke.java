@@ -263,7 +263,7 @@ public class Strecke extends Bereichselement {
     for (int i = 0; i < size; ++i) {
       Streckenelement streckenelement = this.elemente.get(i);
       if (!streckenelement.isSchutz()) {
-        if (i >= size - 1 || isFahrtOrLangsamfahrt(streckenelement)) {
+        if (i >= size - 1 || isHauptsignal(streckenelement)) {
           if (streckenSignal != null) {
             SignalStellung neueStellung = langsam ? SignalStellung.LANGSAMFAHRT : SignalStellung.FAHRT;
             if (neueStellung != streckenSignal.getStellung()) {
@@ -288,17 +288,12 @@ public class Strecke extends Bereichselement {
     }
   }
 
-  private static boolean isFahrtOrLangsamfahrt(Streckenelement streckenelement) {
+  private static boolean isHauptsignal(Streckenelement streckenelement) {
     if (streckenelement instanceof StreckenSignal) {
       StreckenSignal streckenSignal = (StreckenSignal) streckenelement;
-      switch (streckenSignal.getStellung()) {
-      case FAHRT:
-      case LANGSAMFAHRT:
-        return true;
 
-      default:
-        return false;
-      }
+      // TODO Das sollte eine richtige Eigenschaft sein!
+      return streckenSignal.getFahrwegelement().getTyp().startsWith("Haupt");
     }
 
     return false;

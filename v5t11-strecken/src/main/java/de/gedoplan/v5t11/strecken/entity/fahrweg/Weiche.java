@@ -1,6 +1,7 @@
 package de.gedoplan.v5t11.strecken.entity.fahrweg;
 
 import de.gedoplan.v5t11.util.domain.WeichenStellung;
+import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -17,11 +18,14 @@ public class Weiche extends Geraet {
    * Aktuelle Signalstellung.
    */
   @Getter
-  @Setter
+  @Setter(onMethod = @__(@JsonbInclude))
   private WeichenStellung stellung = WeichenStellung.GERADE;
 
   public Weiche(String bereich, String name) {
     super(bereich, name);
   }
 
+  public void copyStatus(Weiche other) {
+    this.stellung = other.stellung;
+  }
 }

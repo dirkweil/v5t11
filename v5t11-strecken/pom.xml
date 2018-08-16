@@ -34,10 +34,10 @@
     <!-- <artifactId>baselibs-enterprise</artifactId> -->
     <!-- </dependency> -->
 
-<!--     <dependency> -->
-<!--       <groupId>de.gedoplan</groupId> -->
-<!--       <artifactId>baselibs-persistence</artifactId> -->
-<!--     </dependency> -->
+    <!-- <dependency> -->
+    <!-- <groupId>de.gedoplan</groupId> -->
+    <!-- <artifactId>baselibs-persistence</artifactId> -->
+    <!-- </dependency> -->
 
     <dependency>
       <groupId>de.gedoplan</groupId>
@@ -85,10 +85,10 @@
     <!-- <artifactId>resteasy-jackson-provider</artifactId> -->
     <!-- </dependency> -->
 
-<!--     <dependency> -->
-<!--       <groupId>org.primefaces</groupId> -->
-<!--       <artifactId>primefaces</artifactId> -->
-<!--     </dependency> -->
+    <!-- <dependency> -->
+    <!-- <groupId>org.primefaces</groupId> -->
+    <!-- <artifactId>primefaces</artifactId> -->
+    <!-- </dependency> -->
 
     <dependency>
       <groupId>org.projectlombok</groupId>
@@ -213,6 +213,50 @@
         </dependency>
       </dependencies>
     </profile>
+
+    <!-- Profile für JAX-RS-Clients -->
+    <profile>
+      <id>jaxrsclient-resteasy</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <dependencies>
+        <!-- RESTEasy Client -->
+        <dependency>
+          <groupId>org.jboss.resteasy</groupId>
+          <artifactId>resteasy-client</artifactId>
+          <version>3.6.1.Final</version>
+          <scope>test</scope>
+        </dependency>
+        <!-- JSON-Zusätze, u. a. Message Body Reader/Writer für Collections -->
+<!--         <dependency> -->
+<!--           <groupId>org.jboss.resteasy</groupId> -->
+<!--           <artifactId>resteasy-jackson-provider</artifactId> -->
+<!--           <version>3.0.10.Final</version> -->
+<!--           <scope>test</scope> -->
+<!--         </dependency> -->
+        <!-- JAXB-Zusätze, u. a. Message Body Reader/Writer für Collections -->
+<!--         <dependency> -->
+<!--           <groupId>org.jboss.resteasy</groupId> -->
+<!--           <artifactId>resteasy-jaxb-provider</artifactId> -->
+<!--           <version>3.0.10.Final</version> -->
+<!--           <scope>test</scope> -->
+<!--         </dependency> -->
+      </dependencies>
+    </profile>
+
+    <profile>
+      <id>jaxrsclient-jersey</id>
+      <dependencies>
+        <dependency>
+          <groupId>org.glassfish.jersey.core</groupId>
+          <artifactId>jersey-client</artifactId>
+          <version>2.14</version>
+          <scope>test</scope>
+        </dependency>
+      </dependencies>
+    </profile>
+
 
   </profiles>
 </project>
