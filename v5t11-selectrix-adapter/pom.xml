@@ -28,6 +28,13 @@
   </build>
 
   <dependencies>
+    <!-- Wird als WildFly-Modul geladen (s. jboss-deployment-structure.xml) -->
+    <dependency>
+      <groupId>com.neuronrobotics</groupId>
+      <artifactId>nrjavaserial</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
     <dependency>
       <groupId>commons-logging</groupId>
       <artifactId>commons-logging</artifactId>
@@ -37,13 +44,6 @@
       <groupId>de.gedoplan</groupId>
       <artifactId>v5t11-selectrix-adapter-api</artifactId>
       <version>${project.version}</version>
-    </dependency>
-
-    <!-- RXTX wird als JBoss-7-Modul geladen (s. jboss-deployment-structure.xml) -->
-    <dependency>
-      <groupId>org.rxtx</groupId>
-      <artifactId>rxtx</artifactId>
-      <scope>provided</scope>
     </dependency>
 
     <dependency>

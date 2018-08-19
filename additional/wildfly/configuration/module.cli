@@ -1,1 +1,1 @@
-module add --name=org.rxtx.rxtx --resources=rxtx-2.2-20081207.jar
+module add --name=com.neuronrobotics.nrjavaserial --resources=nrjavaserial-3.12.1.jar

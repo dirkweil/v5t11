@@ -12,7 +12,17 @@
 
   <packaging>jar</packaging>
 
+  <properties>
+    <logging.scope>compile</logging.scope>
+  </properties>
+
+
   <dependencies>
+    <dependency>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
+    </dependency>
+
     <dependency>
       <groupId>de.gedoplan</groupId>
       <artifactId>baselibs-wildfly</artifactId>
@@ -29,18 +39,8 @@
       <version>1.0.0-VT-3_Strecken-SNAPSHOT</version>
     </dependency>
 
-<!-- 
-    <dependency>
-      <groupId>javax.persistence</groupId>
-      <artifactId>persistence-api</artifactId>
-      <scope>runtime</scope>
-    </dependency>
- -->
+    <!-- <dependency> <groupId>javax.persistence</groupId> <artifactId>persistence-api</artifactId> <scope>runtime</scope> </dependency> -->
 
-    <dependency>
-      <groupId>log4j</groupId>
-      <artifactId>log4j</artifactId>
-    </dependency>
   </dependencies>
 
 </project>

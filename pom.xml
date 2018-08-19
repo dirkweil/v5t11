@@ -12,6 +12,10 @@
   <version>1.0.0-VT-3_Strecken-SNAPSHOT</version>
 
   <packaging>pom</packaging>
+  
+  <properties>
+    <logging.scope>test</logging.scope>
+  </properties>
 
   <repositories>
     <repository>
@@ -34,6 +38,12 @@
 
   <dependencyManagement>
     <dependencies>
+      <dependency>
+        <groupId>com.neuronrobotics</groupId>
+        <artifactId>nrjavaserial</artifactId>
+        <version>3.12.1</version>
+      </dependency>
+
       <dependency>
         <groupId>commons-logging</groupId>
         <artifactId>commons-logging</artifactId>
@@ -138,23 +148,23 @@
         <version>5.3</version>
       </dependency>
 
-      <dependency>
-        <groupId>org.rxtx</groupId>
-        <artifactId>rxtx</artifactId>
-        <version>2.2pre2</version>
-      </dependency>
+      <!-- <dependency> -->
+      <!-- <groupId>org.rxtx</groupId> -->
+      <!-- <artifactId>rxtx</artifactId> -->
+      <!-- <version>2.2pre2</version> -->
+      <!-- </dependency> -->
 
-      <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-api</artifactId>
-        <version>1.5.6</version>
-      </dependency>
+      <!-- <dependency> -->
+      <!-- <groupId>org.slf4j</groupId> -->
+      <!-- <artifactId>slf4j-api</artifactId> -->
+      <!-- <version>1.5.6</version> -->
+      <!-- </dependency> -->
 
-      <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-log4j12</artifactId>
-        <version>1.5.6</version>
-      </dependency>
+      <!-- <dependency> -->
+      <!-- <groupId>org.slf4j</groupId> -->
+      <!-- <artifactId>slf4j-log4j12</artifactId> -->
+      <!-- <version>1.5.6</version> -->
+      <!-- </dependency> -->
 
       <dependency>
         <groupId>org.projectlombok</groupId>
@@ -170,13 +180,40 @@
       <artifactId>javaee-api</artifactId>
       <scope>provided</scope>
     </dependency>
+
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-api</artifactId>
+      <scope>${logging.scope}</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-core</artifactId>
+      <scope>${logging.scope}</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-jcl</artifactId>
+      <scope>${logging.scope}</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-jul</artifactId>
+      <scope>${logging.scope}</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-slf4j-impl</artifactId>
+      <scope>${logging.scope}</scope>
+    </dependency>
+
   </dependencies>
 
   <modules>
     <module>v5t11-status</module>
     <module>v5t11-strecken</module>
     <module>v5t11-util</module>
-    
+
     <module>v5t11-betriebssteuerung-api</module>
     <module>v5t11-betriebssteuerung</module>
     <module>v5t11-selectrix-adapter-api</module>
