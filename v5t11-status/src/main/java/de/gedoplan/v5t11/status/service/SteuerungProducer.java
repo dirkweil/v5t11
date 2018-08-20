@@ -1,5 +1,6 @@
 package de.gedoplan.v5t11.status.service;
 
+import de.gedoplan.baselibs.utils.inject.InjectionUtil;
 import de.gedoplan.baselibs.utils.xml.XmlConverter;
 import de.gedoplan.v5t11.status.entity.Steuerung;
 
@@ -36,14 +37,18 @@ public class SteuerungProducer {
 
     try {
       Path configPath = Paths.get(configFile);
+      Steuerung steuerung;
       if (Files.exists(configPath)) {
         try (InputStream is = new FileInputStream(configPath.toFile());
             Reader reader = new InputStreamReader(is, "UTF-8")) {
-          return XmlConverter.fromXml(Steuerung.class, reader);
+          steuerung = XmlConverter.fromXml(Steuerung.class, reader);
         }
       } else {
-        return XmlConverter.fromXml(Steuerung.class, configFile);
+        steuerung = XmlConverter.fromXml(Steuerung.class, configFile);
       }
+      InjectionUtil.injectFields(steuerung);
+      steuerung.postConstruct();
+      return steuerung;
     } catch (Exception e) {
       throw new CreationException("Kann Konfiguration " + config + " nicht lesen", e);
     }

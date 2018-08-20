@@ -1,5 +1,6 @@
 package de.gedoplan.v5t11.status.entity;
 
+import de.gedoplan.v5t11.selectrix.SelectrixMessage;
 import de.gedoplan.v5t11.status.entity.baustein.Baustein;
 import de.gedoplan.v5t11.status.entity.baustein.Besetztmelder;
 import de.gedoplan.v5t11.status.entity.baustein.Funktionsdecoder;
@@ -25,6 +26,8 @@ import de.gedoplan.v5t11.status.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
 import de.gedoplan.v5t11.status.entity.lok.Lok;
+import de.gedoplan.v5t11.status.service.SelectrixGateway;
+import de.gedoplan.v5t11.util.cdi.EventFirer;
 
 import java.util.Collection;
 import java.util.List;
@@ -34,8 +37,8 @@ import java.util.TreeSet;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import javax.enterprise.inject.spi.BeanManager;
-import javax.enterprise.inject.spi.CDI;
+import javax.enterprise.inject.Vetoed;
+import javax.inject.Inject;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -55,8 +58,11 @@ import lombok.Getter;
  */
 @XmlRootElement(name = "sx")
 @XmlAccessorType(XmlAccessType.NONE)
+@Vetoed // Steuerung wird durch einen Producer bereitgestellt
 public class Steuerung {
-  private transient BeanManager beanManager;
+
+  @Inject
+  SelectrixGateway selectrixGateway;
 
   private volatile int[] kanalWerte = new int[256];
 
@@ -341,9 +347,6 @@ public class Steuerung {
    */
   public String toDebugString(boolean idOnly) {
     StringBuilder buf = new StringBuilder("Steuerung");
-    // for (Lok lok : this.loks) {
-    // buf.append("\n ").append(lok.toDebugString(idOnly));
-    // }
 
     for (Besetztmelder bm : this.besetztmelder) {
       buf.append("\n  ").append(bm);
@@ -392,16 +395,20 @@ public class Steuerung {
       this.kanalWerte[adr] = wert;
 
       if (updateInterface) {
-        /* Interface aktualisieren */;
+        this.selectrixGateway.setValue(adr, wert);
       }
 
       this.kanalBausteine[adr].adjustWert(adr, wert);
 
-      if (this.beanManager == null) {
-        this.beanManager = CDI.current().select(BeanManager.class).get();
-      }
-
-      this.beanManager.fireEvent(new Kanal(adr, wert));
+      EventFirer.fire(new Kanal(adr, wert));
     }
+  }
+
+  public void onMessage(SelectrixMessage message) {
+    setKanalWert(message.getAddress(), message.getValue(), false);
+  }
+
+  public void postConstruct() {
+    this.selectrixGateway.addAddressen(this.getAdressen());
   }
 }
