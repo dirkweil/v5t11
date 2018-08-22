@@ -51,22 +51,22 @@ public class StatusPublisher {
   }
 
   void publish(@Observes Gleisabschnitt gleisabschnitt) {
-    publish("gleis", gleisabschnitt);
+    publish("GLEIS", gleisabschnitt);
   }
 
   void publish(@Observes Weiche weiche) {
-    publish("weiche", weiche);
+    publish("WEICHE", weiche);
   }
 
   void publish(@Observes Signal signal) {
-    publish("signal", signal);
+    publish("SIGNAL", signal);
   }
 
   void publish(@Observes Lok lok) {
-    publish("lok", lok);
+    publish("LOK", lok);
   }
 
   void publish(@Observes Kanal kanal) {
-    publish("kanal", kanal);
+    publish("KANAL", kanal);
   }
 }
