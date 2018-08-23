@@ -18,6 +18,8 @@
   </properties>
 
   <dependencies>
+    <!-- Main dependencies -->
+    
     <dependency>
       <groupId>de.gedoplan</groupId>
       <artifactId>baselibs-utils</artifactId>
@@ -42,6 +44,20 @@
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
+    </dependency>
+
+    <!-- Test dependencies -->
+    
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.meecrowave</groupId>
+      <artifactId>meecrowave-junit</artifactId>
+      <scope>test</scope>
     </dependency>
 
   </dependencies>

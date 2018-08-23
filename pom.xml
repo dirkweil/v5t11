@@ -137,6 +137,12 @@
       </dependency>
 
       <dependency>
+        <groupId>org.apache.meecrowave</groupId>
+        <artifactId>meecrowave-junit</artifactId>
+        <version>1.2.3</version>
+      </dependency>
+
+      <dependency>
         <groupId>org.hibernate</groupId>
         <artifactId>hibernate-entitymanager</artifactId>
         <exclusions>

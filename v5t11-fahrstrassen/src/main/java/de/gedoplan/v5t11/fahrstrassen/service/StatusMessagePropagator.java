@@ -34,7 +34,7 @@ public class StatusMessagePropagator {
   @Inject
   Log log;
 
-  void startListener(@Observes @Initialized(ApplicationScoped.class) Object obj) {
+  protected void startListener(@Observes @Initialized(ApplicationScoped.class) Object obj) {
     String selector = Stream.of(Category.values())
         .map(Object::toString)
         .collect(Collectors.joining("','", "category in ('", "')"));

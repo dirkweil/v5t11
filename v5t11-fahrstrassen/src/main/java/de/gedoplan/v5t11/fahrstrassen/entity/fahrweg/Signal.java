@@ -24,10 +24,12 @@ public class Signal extends Geraet {
   private SignalStellung stellung = SignalStellung.HALT;
 
   @Getter
+  @Setter
   @JsonbInclude
   private Set<SignalStellung> erlaubteStellungen;
 
   @Getter
+  @Setter
   @JsonbInclude
   private String typ;
 
