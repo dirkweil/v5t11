@@ -21,7 +21,7 @@ public class Signal extends Geraet {
    */
   @Getter
   @Setter(onMethod = @__(@JsonbInclude))
-  private SignalStellung stellung = SignalStellung.HALT;
+  private volatile SignalStellung stellung = SignalStellung.HALT;
 
   @Getter
   @Setter
@@ -39,7 +39,11 @@ public class Signal extends Geraet {
 
   public void copyStatus(Signal other) {
     this.stellung = other.stellung;
-    this.erlaubteStellungen = other.erlaubteStellungen;
-    this.typ = other.typ;
+    if (other.erlaubteStellungen != null) {
+      this.erlaubteStellungen = other.erlaubteStellungen;
+    }
+    if (other.typ != null) {
+      this.typ = other.typ;
+    }
   }
 }

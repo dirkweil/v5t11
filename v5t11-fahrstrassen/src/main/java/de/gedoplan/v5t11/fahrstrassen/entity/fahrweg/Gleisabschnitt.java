@@ -18,7 +18,7 @@ public class Gleisabschnitt extends Fahrwegelement {
    */
   @Getter
   @Setter(onMethod = @__(@JsonbInclude))
-  private boolean besetzt;
+  private volatile boolean besetzt;
 
   public Gleisabschnitt(String bereich, String name) {
     super(bereich, name);

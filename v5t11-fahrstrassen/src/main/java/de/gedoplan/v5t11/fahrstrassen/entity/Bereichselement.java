@@ -22,12 +22,12 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Bereichselement implements Comparable<Bereichselement>, Serializable {
   @XmlAttribute
-  @Getter
+  @Getter(onMethod = @__(@JsonbInclude))
   @Setter(onMethod = @__(@JsonbInclude))
   protected String bereich;
 
   @XmlAttribute
-  @Getter
+  @Getter(onMethod = @__(@JsonbInclude))
   @Setter(onMethod = @__(@JsonbInclude))
   protected String name;
 

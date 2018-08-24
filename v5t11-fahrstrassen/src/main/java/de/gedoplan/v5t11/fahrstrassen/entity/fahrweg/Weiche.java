@@ -19,7 +19,7 @@ public class Weiche extends Geraet {
    */
   @Getter
   @Setter(onMethod = @__(@JsonbInclude))
-  private WeichenStellung stellung = WeichenStellung.GERADE;
+  private volatile WeichenStellung stellung = WeichenStellung.GERADE;
 
   public Weiche(String bereich, String name) {
     super(bereich, name);

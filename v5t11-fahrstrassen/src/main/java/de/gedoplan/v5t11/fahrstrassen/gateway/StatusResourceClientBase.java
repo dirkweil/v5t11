@@ -1,6 +1,6 @@
 package de.gedoplan.v5t11.fahrstrassen.gateway;
 
-import de.gedoplan.v5t11.fahrstrassen.webservice.provider.JsonMessageBodyReader;
+import de.gedoplan.v5t11.util.webservice.provider.JsonMessageBodyReader;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -15,8 +15,8 @@ public abstract class StatusResourceClientBase {
 
   @PostConstruct
   void createClient() {
-    this.client = ClientBuilder.newBuilder().register(JsonMessageBodyReader.class).build();
-    this.StatusBaseTarget = this.client.target("http://localhost:8080/v5t11-status/rest");
+    this.client = ClientBuilder.newBuilder().register(JsonMessageBodyReader.FULL.class).build();
+    this.StatusBaseTarget = this.client.target("http://localhost:8080/rs");
   }
 
   @PreDestroy

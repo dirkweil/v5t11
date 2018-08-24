@@ -1,5 +1,6 @@
 package de.gedoplan.v5t11.fahrstrassen.service;
 
+import de.gedoplan.v5t11.fahrstrassen.entity.Parcours;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Signal;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Weiche;
@@ -32,6 +33,9 @@ public class StatusMessagePropagator {
   Topic statusTopic;
 
   @Inject
+  Parcours parcours;
+
+  @Inject
   Log log;
 
   protected void startListener(@Observes @Initialized(ApplicationScoped.class) Object obj) {
@@ -54,23 +58,35 @@ public class StatusMessagePropagator {
       String category = message.getStringProperty("category");
       switch (Category.valueOf(category)) {
       case GLEIS:
-        Gleisabschnitt gleisabschnitt = JsonbWithIncludeVisibility.SHORT.fromJson(text, Gleisabschnitt.class);
+        Gleisabschnitt statusGleisabschnitt = JsonbWithIncludeVisibility.SHORT.fromJson(text, Gleisabschnitt.class);
         if (this.log.isDebugEnabled()) {
-          this.log.debug(gleisabschnitt + " -> " + (gleisabschnitt.isBesetzt() ? "besetzt" : "frei"));
+          this.log.debug(statusGleisabschnitt + " -> " + (statusGleisabschnitt.isBesetzt() ? "besetzt" : "frei"));
+        }
+        Gleisabschnitt gleisabschnitt = this.parcours.getGleisabschnitt(statusGleisabschnitt.getBereich(), statusGleisabschnitt.getName());
+        if (gleisabschnitt != null) {
+          gleisabschnitt.copyStatus(statusGleisabschnitt);
         }
         break;
 
       case SIGNAL:
-        Signal signal = JsonbWithIncludeVisibility.SHORT.fromJson(text, Signal.class);
+        Signal statusSignal = JsonbWithIncludeVisibility.SHORT.fromJson(text, Signal.class);
         if (this.log.isDebugEnabled()) {
-          this.log.debug(signal + " -> " + signal.getStellung());
+          this.log.debug(statusSignal + " -> " + statusSignal.getStellung());
+        }
+        Signal signal = this.parcours.getSignal(statusSignal.getBereich(), statusSignal.getName());
+        if (signal != null) {
+          signal.copyStatus(statusSignal);
         }
         break;
 
       case WEICHE:
-        Weiche weiche = JsonbWithIncludeVisibility.SHORT.fromJson(text, Weiche.class);
+        Weiche statusWeiche = JsonbWithIncludeVisibility.SHORT.fromJson(text, Weiche.class);
         if (this.log.isDebugEnabled()) {
-          this.log.debug(weiche + " -> " + weiche.getStellung());
+          this.log.debug(statusWeiche + " -> " + statusWeiche.getStellung());
+        }
+        Weiche weiche = this.parcours.getWeiche(statusWeiche.getBereich(), statusWeiche.getName());
+        if (weiche != null) {
+          weiche.copyStatus(statusWeiche);
         }
         break;
 

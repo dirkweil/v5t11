@@ -5,12 +5,17 @@ import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Signal;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Weiche;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -98,6 +103,19 @@ public class Parcours {
   public void addWeiche(Weiche weiche) {
     this.weichen.add(weiche);
     this.bereiche.add(weiche.getBereich());
+  }
+
+  /**
+   * Fahrstrasse liefern.
+   *
+   * @param bereich
+   *          Bereich
+   * @param name
+   *          Name
+   * @return gefundene Fahrstrasse oder <code>null</code>
+   */
+  public Fahrstrasse getFahrstrasse(String bereich, String name) {
+    return getBereichselement(bereich, name, this.fahrstrassen);
   }
 
   private static <T extends Bereichselement> T getBereichselement(String bereich, String name, Collection<T> set) {
@@ -188,6 +206,60 @@ public class Parcours {
       f.removeDoppeleintraege();
       f.adjustLangsamfahrt();
     });
+  }
+
+  /**
+   * Freie Fahrstrassen suchen.
+   *
+   * Die angegebenen Gleisabschnitte dürfen belegt sein, alle anderen müssen
+   * frei sein.
+   *
+   * @param beginn
+   *          Beginn-Gleisabschnitt
+   * @param beginnMussFreiSein
+   *          Beginn-Gleisabschnitt muss frei sein
+   * @param ende
+   *          Ende-Gleisabschnitt
+   * @param endeMussFreiSein
+   *          Ende-Gleisabschnitt muss frei sein
+   * @return Liste freie Fahrstrassen
+   */
+  public List<Fahrstrasse> getFreieFahrstrassen(Gleisabschnitt beginn, boolean beginnMussFreiSein, Gleisabschnitt ende, boolean endeMussFreiSein) {
+    List<Fahrstrasse> freieFahrstrassen = new ArrayList<>();
+    for (Fahrstrasse fahrstrasse : this.fahrstrassen) {
+      if (fahrstrasse.startsWith(beginn) && fahrstrasse.endsWith(ende)) {
+        if (fahrstrasse.isFrei(beginnMussFreiSein, endeMussFreiSein)) {
+          freieFahrstrassen.add(fahrstrasse);
+        }
+      }
+    }
+
+    Collections.sort(freieFahrstrassen, new Comparator<Fahrstrasse>() {
+      @Override
+      public int compare(Fahrstrasse f1, Fahrstrasse f2) {
+        return f1.getRank() - f2.getRank();
+      }
+    });
+
+    return freieFahrstrassen;
+  }
+
+  public List<Fahrstrasse> getFahrstrassen(Gleisabschnitt beginn, Gleisabschnitt ende, boolean frei) {
+    Stream<Fahrstrasse> stream = this.fahrstrassen.stream();
+
+    if (beginn != null) {
+      stream = stream.filter(fs -> fs.startsWith(beginn));
+    }
+
+    if (ende != null) {
+      stream = stream.filter(fs -> fs.endsWith(ende));
+    }
+
+    if (frei) {
+      stream = stream.filter(fs -> fs.isFrei(false, true));
+    }
+
+    return stream.sorted((fs1, fs2) -> fs1.getRank() - fs2.getRank()).collect(Collectors.toList());
   }
 
 }

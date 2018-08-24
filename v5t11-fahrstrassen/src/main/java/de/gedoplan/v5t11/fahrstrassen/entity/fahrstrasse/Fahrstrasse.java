@@ -2,6 +2,8 @@ package de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse;
 
 import de.gedoplan.v5t11.fahrstrassen.entity.Bereichselement;
 import de.gedoplan.v5t11.fahrstrassen.entity.Parcours;
+import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Fahrwegelement;
+import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Signal;
 import de.gedoplan.v5t11.util.domain.SignalStellung;
 import de.gedoplan.v5t11.util.domain.WeichenStellung;
@@ -298,4 +300,59 @@ public class Fahrstrasse extends Bereichselement {
 
     return false;
   }
+
+  /**
+   * Beginnt die Fahrstrasse mit dem angegebenen Gleisabschnitt?
+   *
+   * @param gleisabschnitt
+   *          Gleisabschnitt
+   * @return <code>true</code>, wenn die Fahrstrasse mit dem angegebenen Gleisabschnitt beginnt
+   */
+  public boolean startsWith(Gleisabschnitt gleisabschnitt) {
+    FahrstrassenGleisabschnitt start = getStart();
+    return gleisabschnitt.equals(start.getFahrwegelement());
+  }
+
+  /**
+   * Endet die Fahrstrasse mit dem angegebenen Gleisabschnitt?
+   *
+   * @param gleisabschnitt
+   *          Gleisabschnitt
+   * @return <code>true</code>, wenn die Fahrstrasse mit dem angegebenen Gleisabschnitt endet
+   */
+  public boolean endsWith(Gleisabschnitt gleisabschnitt) {
+    FahrstrassenGleisabschnitt ende = getEnde();
+    return gleisabschnitt.equals(ende.getFahrwegelement());
+  }
+
+  /**
+   * Ist die Fahrstrasse (komplett) frei?
+   *
+   * @param includeStart
+   *          Erstes Element der Fahrstrasse berücksichtigen?
+   * @param includeEnde
+   *          Letztes Element der Fahrstrasse berücksichtigen?
+   * @return <code>true</code>, wenn die Gleisabschnitte der Fahrstrasse frei sind.
+   */
+  public boolean isFrei(boolean includeStart, boolean includeEnde) {
+    int elementCount = this.elemente.size();
+    for (int index = 0; index < elementCount; ++index) {
+      if (!includeStart && index == 0) {
+        continue;
+      }
+
+      if (!includeEnde && index == elementCount - 1) {
+        continue;
+      }
+
+      Fahrstrassenelement element = this.elemente.get(index);
+      Fahrwegelement fahrwegelement = element.getFahrwegelement();
+      if (fahrwegelement instanceof Gleisabschnitt && ((Gleisabschnitt) fahrwegelement).isBesetzt()) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
 }

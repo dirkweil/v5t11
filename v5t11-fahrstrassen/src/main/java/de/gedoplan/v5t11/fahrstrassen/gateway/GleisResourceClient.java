@@ -21,10 +21,11 @@ public class GleisResourceClient extends StatusResourceClientBase {
   }
 
   public Set<Gleisabschnitt> getGleisabschnitte() {
-    return this.gleisTarget
+    Set<Gleisabschnitt> gleisabschnitte = this.gleisTarget
         .request()
         .accept(MediaType.APPLICATION_JSON)
         .get(new GenericType<Set<Gleisabschnitt>>() {
         });
+    return gleisabschnitte;
   }
 }
