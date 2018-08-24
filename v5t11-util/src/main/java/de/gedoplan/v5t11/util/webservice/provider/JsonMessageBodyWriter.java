@@ -7,26 +7,49 @@ import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 
+import javax.json.bind.Jsonb;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.MessageBodyWriter;
-import javax.ws.rs.ext.Provider;
 
 /**
  * Message Body Writer für Object -> application/json.
  *
- * In JEE8 ist ein MBR fuer JSON bereits enthalten, allerdings enthaelt bspw. die Implementierung in WildFly 13
- * (RestEasy, Jackson2) einen Bug, der u. a. JAXB-Annotationen faelschlicherweise beruecksichtigt. Der hier
- * vorliegende MBR nutzt ausschliesslich JSON-B.
+ * In JEE8 ist ein MBW fuer JSON bereits enthalten, allerdings enthaelt bspw. die Implementierung in WildFly 13
+ * (RestEasy, Jackson2) einen Bug, der u. a. JAXB-Annotationen faelschlicherweise beruecksichtigt.
+ * Der hier enthaltenen MBW nutzen ausschliesslich JSON-B.
  *
  * @author dw
  *
  */
-@Provider
-@Produces("application/json")
-public class JsonMessageBodyWriter implements MessageBodyWriter<Object> {
+public abstract class JsonMessageBodyWriter implements MessageBodyWriter<Object> {
+
+  // @Provider
+  @Produces("application/json")
+  public static class SHORT extends JsonMessageBodyWriter {
+
+    public SHORT() {
+      super(JsonbWithIncludeVisibility.SHORT);
+    }
+  }
+
+  // @Provider
+  @Produces("application/json")
+  public static class FULL extends JsonMessageBodyWriter {
+
+    public FULL() {
+      super(JsonbWithIncludeVisibility.FULL);
+    }
+  }
+
+  private Jsonb jsonb;
+
+  protected JsonMessageBodyWriter(Jsonb jsonb) {
+    this.jsonb = jsonb;
+  }
+
   @Override
   public boolean isWriteable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
     return true;
@@ -42,7 +65,7 @@ public class JsonMessageBodyWriter implements MessageBodyWriter<Object> {
       MultivaluedMap<String, Object> httpHeaders, OutputStream entityStream)
       throws IOException, WebApplicationException {
 
-    String json = JsonbWithIncludeVisibility.FULL.toJson(object);
+    String json = this.jsonb.toJson(object);
 
     // TODO CharSet aus Header uebernehmen
     entityStream.write(json.getBytes());
