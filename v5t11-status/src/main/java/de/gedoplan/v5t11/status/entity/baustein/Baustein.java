@@ -152,7 +152,7 @@ public abstract class Baustein extends SingleIdEntity<String> implements Compara
    */
   public void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
     if (this.id == null) {
-      throw new IllegalArgumentException("Id darf nicht null sein: " + this.toDebugString());
+      throw new IllegalArgumentException("Id darf nicht null sein: " + this);
     }
 
     if (parent instanceof Steuerung) {
