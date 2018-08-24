@@ -407,8 +407,4 @@ public class Steuerung {
   public void onMessage(SelectrixMessage message) {
     setKanalWert(message.getAddress(), message.getValue(), false);
   }
-
-  public void postConstruct() {
-    this.selectrixGateway.addAddressen(this.getAdressen());
-  }
 }

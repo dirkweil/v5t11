@@ -3,7 +3,7 @@ package de.gedoplan.v5t11.status.service;
 import de.gedoplan.v5t11.selectrix.SelectrixConnection;
 import de.gedoplan.v5t11.selectrix.SelectrixConnectionFactory;
 
-import java.util.List;
+import java.util.Collection;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -30,13 +30,12 @@ public class SelectrixGateway {
     }
   }
 
-  public void addAddressen(List<Integer> adressen) {
-    this.connection.addAdressen(adressen);
-    try {
-      Thread.sleep(500);
-    } catch (Exception e) {
-      // ignore
-    }
+  public void start(String serialPortName, int serialPortSpeed, String interfaceName, Collection<Integer> adressen) {
+    this.connection.start(serialPortName, serialPortSpeed, interfaceName, adressen);
+  }
+
+  public void stop() {
+    this.connection.stop();
   }
 
   public int getValue(int address) {

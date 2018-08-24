@@ -20,17 +20,16 @@ import org.junit.Test;
 
 /**
  * Testklasse zu Steuerung.
- * 
+ *
  * @author dw
  */
-public class SteuerungTest implements SelectrixConnection
-{
+public class SteuerungTest implements SelectrixConnection {
   private Map<Integer, Integer> cache = new HashMap<>();
-  private Steuerung             steuerung;
+  private Steuerung steuerung;
 
   /**
    * Initialisierung vor jedem Test.
-   * 
+   *
    * @throws Exception
    */
   @Before
@@ -41,7 +40,7 @@ public class SteuerungTest implements SelectrixConnection
 
   /**
    * Simulation von Gleisbelegungen per Hardware und Test der Belegung der entsprechenden Gleisabschnitte.
-   * 
+   *
    * @throws Exception
    */
   @Test
@@ -82,22 +81,20 @@ public class SteuerungTest implements SelectrixConnection
 
   /**
    * Hilfsmethode zum Setzen der simulierten Hardware-Bits für eine Gleisbelegung.
-   * 
-   * @param gleisabschnitt Gleisabschnitt
-   * @param besetzt <code>true</code>, wenn besetzt
+   *
+   * @param gleisabschnitt
+   *          Gleisabschnitt
+   * @param besetzt
+   *          <code>true</code>, wenn besetzt
    */
-  private void setBesetzt(Gleisabschnitt gleisabschnitt, boolean besetzt)
-  {
+  private void setBesetzt(Gleisabschnitt gleisabschnitt, boolean besetzt) {
     Besetztmelder besetztmelder = gleisabschnitt.getBesetztmelder();
     int adresse = besetztmelder.getAdresse();
     int anschluss = gleisabschnitt.getAnschluss();
     int wert = getValue(adresse);
-    if (besetzt)
-    {
+    if (besetzt) {
       wert |= (1 << anschluss);
-    }
-    else
-    {
+    } else {
       wert &= ~(1 << anschluss);
     }
     setValue(adresse, wert);
@@ -105,7 +102,7 @@ public class SteuerungTest implements SelectrixConnection
 
   /**
    * Stellung von Weichenobjekten verändern und Testen der entsprechenden simulierten Hardware-Bits.
-   * 
+   *
    * @throws Exception
    */
   @Test
@@ -146,12 +143,12 @@ public class SteuerungTest implements SelectrixConnection
 
   /**
    * Weichenstellung aus simulierten Hardware-Bits ermitteln.
-   * 
-   * @param weiche Weiche
+   *
+   * @param weiche
+   *          Weiche
    * @return Weichenstellung
    */
-  private Weiche.Stellung getWeichenStellung(Weiche weiche)
-  {
+  private Weiche.Stellung getWeichenStellung(Weiche weiche) {
     Funktionsdecoder funktionsdecoder = weiche.getFunktionsdecoder();
     int adresse = funktionsdecoder.getAdresse();
     int anschluss = weiche.getAnschluss();
@@ -161,8 +158,9 @@ public class SteuerungTest implements SelectrixConnection
 
   /**
    * Weichenstellung mittels simulierter Hardware-Bits ändern und Zustand der entsprechenden Weichenobjekte testen.
-   * 
-   * @throws Exception bei Fehlern
+   *
+   * @throws Exception
+   *           bei Fehlern
    */
   @Test
   // @Ignore
@@ -192,12 +190,13 @@ public class SteuerungTest implements SelectrixConnection
 
   /**
    * Simulierte Hardware-Bits für eine Weiche setzen.
-   * 
-   * @param weiche Weiche
-   * @param stellung Weichenstellung
+   *
+   * @param weiche
+   *          Weiche
+   * @param stellung
+   *          Weichenstellung
    */
-  private void setWeiche(Weiche weiche, Weiche.Stellung stellung)
-  {
+  private void setWeiche(Weiche weiche, Weiche.Stellung stellung) {
     Funktionsdecoder funktionsdecoder = weiche.getFunktionsdecoder();
     int adresse = funktionsdecoder.getAdresse();
     int anschluss = weiche.getAnschluss();
@@ -209,7 +208,7 @@ public class SteuerungTest implements SelectrixConnection
 
   /**
    * Stellung von Signalobjekten verändern und Testen der entsprechenden simulierten Hardware-Bits.
-   * 
+   *
    * @throws Exception
    */
   @Test
@@ -253,8 +252,7 @@ public class SteuerungTest implements SelectrixConnection
     Assert.assertEquals("Signal F", Signal.Stellung.LANGSAMFAHRT, getSignalStellung(signalF));
   }
 
-  private Object getSignalStellung(Signal signal)
-  {
+  private Object getSignalStellung(Signal signal) {
     Funktionsdecoder funktionsdecoder = signal.getFunktionsdecoder();
     int adresse = funktionsdecoder.getAdresse();
     int anschluss = signal.getAnschluss();
@@ -266,8 +264,9 @@ public class SteuerungTest implements SelectrixConnection
 
   /**
    * Signalstellung mittels simulierter Hardware-Bits ändern und Zustand der entsprechenden Signalobjekte testen.
-   * 
-   * @throws Exception bei Fehlern
+   *
+   * @throws Exception
+   *           bei Fehlern
    */
   @Test
   // @Ignore
@@ -295,8 +294,7 @@ public class SteuerungTest implements SelectrixConnection
     Assert.assertEquals("Signal F", Signal.Stellung.FAHRT, signalF.getStellung());
   }
 
-  private void setSignal(Signal signal, Signal.Stellung stellung)
-  {
+  private void setSignal(Signal signal, Signal.Stellung stellung) {
     Funktionsdecoder funktionsdecoder = signal.getFunktionsdecoder();
     int adresse = funktionsdecoder.getAdresse();
     int anschluss = signal.getAnschluss();
@@ -309,13 +307,11 @@ public class SteuerungTest implements SelectrixConnection
   }
 
   @Override
-  public void close()
-  {
+  public void close() {
   }
 
   @Override
-  public int getValue(int address)
-  {
+  public int getValue(int address) {
     assert address >= 0 && address <= SelectrixConnection.MAX_ADDRESSE : "Ungueltige Adresse";
 
     Integer value = this.cache.get(address);
@@ -327,18 +323,16 @@ public class SteuerungTest implements SelectrixConnection
 
   /**
    * {@inheritDoc}
-   * 
+   *
    * @see de.gedoplan.v5t11.selectrix.SelectrixConnection#getValue(int, boolean)
    */
   @Override
-  public int getValue(int address, boolean refresh)
-  {
+  public int getValue(int address, boolean refresh) {
     return getValue(address);
   }
 
   @Override
-  public void setValue(int address, int value)
-  {
+  public void setValue(int address, int value) {
     assert address >= 0 && address <= SelectrixConnection.MAX_ADDRESSE : "Ungueltige Adresse";
     assert value >= 0 && value < 256 : "Ungueltiger Wert";
     assert this.cache.containsKey(address) : "Nicht überwachte Adresse";
@@ -349,12 +343,13 @@ public class SteuerungTest implements SelectrixConnection
   }
 
   @Override
-  public void addAdressen(Collection<Integer> adressen)
-  {
-    for (int a : adressen)
-    {
+  public void start(String serialPortName, int serialPortSpeed, String interfaceTyp, Collection<Integer> adressen) {
+    for (int a : adressen) {
       this.cache.put(a, 0);
     }
   }
 
+  @Override
+  public void stop() {
+  }
 }

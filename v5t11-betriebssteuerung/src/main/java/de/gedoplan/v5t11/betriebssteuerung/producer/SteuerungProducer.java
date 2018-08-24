@@ -8,6 +8,7 @@ import de.gedoplan.v5t11.selectrix.SelectrixMessage;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.CreationException;
@@ -39,11 +40,23 @@ public class SteuerungProducer {
     }
 
     List<Integer> adressen = this.steuerung.getAdressen();
-    this.selectrixGateway.addAddressen(adressen);
-    this.selectrixGateway.addAddressen(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
+    for (int i = 0; i <= 9; ++i) {
+      adressen.add(i);
+    }
+
+    this.selectrixGateway.start(
+        System.getProperty("v5t11.portName", "none"),
+        Integer.parseInt(System.getProperty("v5t11.portSpeed", "9600")),
+        System.getProperty("v5t11.ifTyp", "rautenhaus"),
+        adressen);
 
     for (int adresse : adressen) {
       this.steuerung.onMessage(new SelectrixMessage(adresse, this.selectrixGateway.getValue(adresse)));
     }
+  }
+
+  @PreDestroy
+  private void shutdown() {
+    this.selectrixGateway.stop();
   }
 }

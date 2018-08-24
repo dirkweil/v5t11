@@ -2,7 +2,7 @@ package de.gedoplan.v5t11.status.testenvironment.service;
 
 import de.gedoplan.v5t11.status.service.SelectrixGateway;
 
-import java.util.List;
+import java.util.Collection;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Specializes;
@@ -20,7 +20,7 @@ public class TestSelectrixGateway extends SelectrixGateway {
   }
 
   @Override
-  public void addAddressen(List<Integer> adressen) {
+  public void start(String serialPortName, int serialPortSpeed, String interfaceName, Collection<Integer> adressen) {
   }
 
   @Override

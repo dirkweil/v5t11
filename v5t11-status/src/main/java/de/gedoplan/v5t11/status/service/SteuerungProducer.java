@@ -15,11 +15,15 @@ import java.nio.file.Paths;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.CreationException;
 import javax.enterprise.inject.Produces;
+import javax.inject.Inject;
 
 @ApplicationScoped
 public class SteuerungProducer {
 
   public static final String V5T11_CONFIG = "v5t11.config";
+
+  @Inject
+  SelectrixGateway selectrixGateway;
 
   @Produces
   @ApplicationScoped
@@ -35,9 +39,10 @@ public class SteuerungProducer {
       configFile += "_sx.xml";
     }
 
+    Steuerung steuerung;
+
     try {
       Path configPath = Paths.get(configFile);
-      Steuerung steuerung;
       if (Files.exists(configPath)) {
         try (InputStream is = new FileInputStream(configPath.toFile());
             Reader reader = new InputStreamReader(is, "UTF-8")) {
@@ -47,11 +52,11 @@ public class SteuerungProducer {
         steuerung = XmlConverter.fromXml(Steuerung.class, configFile);
       }
       InjectionUtil.injectFields(steuerung);
-      steuerung.postConstruct();
-      return steuerung;
     } catch (Exception e) {
       throw new CreationException("Kann Konfiguration " + config + " nicht lesen", e);
     }
+
+    return steuerung;
   }
 
 }

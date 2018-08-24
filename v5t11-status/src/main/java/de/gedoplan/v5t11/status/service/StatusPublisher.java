@@ -33,10 +33,7 @@ public class StatusPublisher {
     String json = JsonbWithIncludeVisibility.SHORT.toJson(status);
 
     if (this.log.isDebugEnabled()) {
-      this.log.debug("jmsContext: " + this.jmsContext);
-      this.log.debug("destination: " + this.destination);
-      this.log.debug("category: " + category);
-      this.log.debug("status: " + json);
+      this.log.debug(category + ": " + json);
     }
 
     try {
