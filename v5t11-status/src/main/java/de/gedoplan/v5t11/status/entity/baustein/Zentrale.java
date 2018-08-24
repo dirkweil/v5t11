@@ -1,5 +1,7 @@
 package de.gedoplan.v5t11.status.entity.baustein;
 
+import java.util.Arrays;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -24,7 +26,7 @@ public class Zentrale extends Baustein {
     super(5);
     this.id = "Zentrale";
     this.adresse = 104;
-    // this.adressCache.set(Arrays.asList(104, 105, 106, 109, 127));
+    this.adressen.set(Arrays.asList(104, 105, 106, 109, 127));
   }
 
   /**
