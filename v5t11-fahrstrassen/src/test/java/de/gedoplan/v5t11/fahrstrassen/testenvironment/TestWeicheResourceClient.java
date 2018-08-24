@@ -16,9 +16,9 @@ import javax.enterprise.inject.Specializes;
 public class TestWeicheResourceClient extends WeicheResourceClient {
 
   private static final Weiche[] TEST_WEICHEN = {
-      createTestWeiche("Demoanlage", "1", WeichenStellung.GERADE),
-      createTestWeiche("Demoanlage", "2", WeichenStellung.ABZWEIGEND),
-      createTestWeiche("Demoanlage", "3", WeichenStellung.GERADE)
+      createTestWeiche("show", "1", WeichenStellung.GERADE),
+      createTestWeiche("show", "2", WeichenStellung.ABZWEIGEND),
+      createTestWeiche("show", "3", WeichenStellung.GERADE)
   };
 
   @Override

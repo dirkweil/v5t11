@@ -16,9 +16,9 @@ import javax.enterprise.inject.Specializes;
 public class TestSignalResourceClient extends SignalResourceClient {
 
   private static final Signal[] TEST_SIGNALE = {
-      createTestSignal("Demoanlage", "F", "HauptsignalRtGnGe", SignalStellung.HALT, SignalStellung.FAHRT, SignalStellung.LANGSAMFAHRT),
-      createTestSignal("Demoanlage", "N1", "HauptsignalRtGe", SignalStellung.HALT, SignalStellung.LANGSAMFAHRT),
-      createTestSignal("Demoanlage", "N2", "HauptsignalRtGn", SignalStellung.HALT, SignalStellung.FAHRT)
+      createTestSignal("show", "F", "HauptsignalRtGnGe", SignalStellung.HALT, SignalStellung.FAHRT, SignalStellung.LANGSAMFAHRT),
+      createTestSignal("show", "N1", "HauptsignalRtGe", SignalStellung.HALT, SignalStellung.LANGSAMFAHRT),
+      createTestSignal("show", "N2", "HauptsignalRtGn", SignalStellung.HALT, SignalStellung.FAHRT)
   };
 
   @Override

@@ -25,14 +25,14 @@ public class FahrstrasseTest extends TestBase {
   @Test
   public void test_01_toShortJson() throws Exception {
 
-    Fahrstrasse fahrstrasse = this.parcours.getFahrstrasse("Demoanlage", "11-1-S");
+    Fahrstrasse fahrstrasse = this.parcours.getFahrstrasse("show", "11-1-S");
 
     String json = JsonbWithIncludeVisibility.SHORT.toJson(fahrstrasse);
 
     this.log.debug("JSON string: " + json);
 
     assertThat(json, is("{"
-        + "\"bereich\":\"Demoanlage\""
+        + "\"bereich\":\"show\""
         + ",\"name\":\"11-1-S\""
         + "}"));
   }

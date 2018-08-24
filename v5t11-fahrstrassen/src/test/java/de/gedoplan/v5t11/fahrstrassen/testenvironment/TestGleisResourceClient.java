@@ -15,14 +15,14 @@ import javax.enterprise.inject.Specializes;
 public class TestGleisResourceClient extends GleisResourceClient {
 
   private static final Gleisabschnitt[] TEST_GLEISABSCHNITTE = {
-      createTestGleisabschnitt("Demoanlage", "1", false),
-      createTestGleisabschnitt("Demoanlage", "2", true),
-      createTestGleisabschnitt("Demoanlage", "11", false),
-      createTestGleisabschnitt("Demoanlage", "12", false),
-      createTestGleisabschnitt("Demoanlage", "S", false),
-      createTestGleisabschnitt("Demoanlage", "W1", false),
-      createTestGleisabschnitt("Demoanlage", "W2", false),
-      createTestGleisabschnitt("Demoanlage", "W3", false)
+      createTestGleisabschnitt("show", "1", false),
+      createTestGleisabschnitt("show", "2", true),
+      createTestGleisabschnitt("show", "11", false),
+      createTestGleisabschnitt("show", "12", false),
+      createTestGleisabschnitt("show", "S", false),
+      createTestGleisabschnitt("show", "W1", false),
+      createTestGleisabschnitt("show", "W2", false),
+      createTestGleisabschnitt("show", "W3", false)
   };
 
   @Override

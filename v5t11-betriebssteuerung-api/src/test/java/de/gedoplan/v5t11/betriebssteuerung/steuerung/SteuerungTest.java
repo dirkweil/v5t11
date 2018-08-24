@@ -48,9 +48,9 @@ public class SteuerungTest implements SelectrixConnection
   // @Ignore
   public void testGleisBesetzt() throws Exception // CHECKSTYLE:IGNORE
   {
-    Gleisabschnitt gleis1 = this.steuerung.getGleisabschnitt("Demoanlage", "1");
-    Gleisabschnitt gleis2 = this.steuerung.getGleisabschnitt("Demoanlage", "2");
-    Gleisabschnitt gleis11 = this.steuerung.getGleisabschnitt("Demoanlage", "11");
+    Gleisabschnitt gleis1 = this.steuerung.getGleisabschnitt("show", "1");
+    Gleisabschnitt gleis2 = this.steuerung.getGleisabschnitt("show", "2");
+    Gleisabschnitt gleis11 = this.steuerung.getGleisabschnitt("show", "11");
 
     setBesetzt(gleis1, false);
     setBesetzt(gleis2, false);
@@ -112,9 +112,9 @@ public class SteuerungTest implements SelectrixConnection
   // @Ignore
   public void testWeicheStellenPerSoftware() throws Exception // CHECKSTYLE:IGNORE
   {
-    Weiche weiche1 = this.steuerung.getWeiche("Demoanlage", "1");
-    Weiche weiche2 = this.steuerung.getWeiche("Demoanlage", "2");
-    Weiche weiche3 = this.steuerung.getWeiche("Demoanlage", "3");
+    Weiche weiche1 = this.steuerung.getWeiche("show", "1");
+    Weiche weiche2 = this.steuerung.getWeiche("show", "2");
+    Weiche weiche3 = this.steuerung.getWeiche("show", "3");
 
     weiche1.setStellung(Weiche.Stellung.GERADE);
     weiche2.setStellung(Weiche.Stellung.GERADE);
@@ -168,9 +168,9 @@ public class SteuerungTest implements SelectrixConnection
   // @Ignore
   public void testWeicheStellenPerHardware() throws Exception // CHECKSTYLE:IGNORE
   {
-    Weiche weiche1 = this.steuerung.getWeiche("Demoanlage", "1");
-    Weiche weiche2 = this.steuerung.getWeiche("Demoanlage", "2");
-    Weiche weiche3 = this.steuerung.getWeiche("Demoanlage", "3");
+    Weiche weiche1 = this.steuerung.getWeiche("show", "1");
+    Weiche weiche2 = this.steuerung.getWeiche("show", "2");
+    Weiche weiche3 = this.steuerung.getWeiche("show", "3");
 
     setWeiche(weiche1, Weiche.Stellung.GERADE);
     setWeiche(weiche2, Weiche.Stellung.GERADE);
@@ -216,9 +216,9 @@ public class SteuerungTest implements SelectrixConnection
   // @Ignore
   public void testSignalStellenPerSoftware() throws Exception // CHECKSTYLE:IGNORE
   {
-    Signal signalN1 = this.steuerung.getSignal("Demoanlage", "N1");
-    Signal signalN2 = this.steuerung.getSignal("Demoanlage", "N2");
-    Signal signalF = this.steuerung.getSignal("Demoanlage", "F");
+    Signal signalN1 = this.steuerung.getSignal("show", "N1");
+    Signal signalN2 = this.steuerung.getSignal("show", "N2");
+    Signal signalF = this.steuerung.getSignal("show", "F");
 
     signalN1.setStellung(Signal.Stellung.HALT);
     signalN2.setStellung(Signal.Stellung.HALT);
@@ -273,9 +273,9 @@ public class SteuerungTest implements SelectrixConnection
   // @Ignore
   public void testSignalStellenPerHardware() throws Exception // CHECKSTYLE:IGNORE
   {
-    Signal signalN1 = this.steuerung.getSignal("Demoanlage", "N1");
-    Signal signalN2 = this.steuerung.getSignal("Demoanlage", "N2");
-    Signal signalF = this.steuerung.getSignal("Demoanlage", "F");
+    Signal signalN1 = this.steuerung.getSignal("show", "N1");
+    Signal signalN2 = this.steuerung.getSignal("show", "N2");
+    Signal signalF = this.steuerung.getSignal("show", "F");
 
     setSignal(signalN1, Signal.Stellung.HALT);
     setSignal(signalN2, Signal.Stellung.HALT);
