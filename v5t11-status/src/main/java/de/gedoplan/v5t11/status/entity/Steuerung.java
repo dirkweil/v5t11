@@ -42,6 +42,7 @@ import javax.inject.Inject;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlElements;
@@ -67,6 +68,10 @@ public class Steuerung {
   private volatile int[] kanalWerte = new int[256];
 
   private Baustein[] kanalBausteine = new Baustein[256];
+
+  @XmlElement(name = "Interface")
+  @Getter
+  private SxInterface sxInterface;
 
   @XmlElement(name = "Zentrale")
   @Getter
@@ -271,6 +276,11 @@ public class Steuerung {
   @SuppressWarnings("unused")
   private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
 
+    // Interface ergänzen
+    if (this.sxInterface == null) {
+      this.sxInterface = new SxInterface();
+    }
+
     // Zentrale ergänzen.
     if (this.zentrale == null) {
       this.zentrale = new Zentrale();
@@ -406,5 +416,15 @@ public class Steuerung {
 
   public void onMessage(SelectrixMessage message) {
     setKanalWert(message.getAddress(), message.getValue(), false);
+  }
+
+  @XmlAccessorType(XmlAccessType.NONE)
+  @Getter
+  public static class SxInterface {
+    @XmlAttribute
+    private String typ;
+
+    @XmlAttribute
+    private int speed;
   }
 }

@@ -1,6 +1,7 @@
 package de.gedoplan.v5t11.status.service;
 
 import de.gedoplan.v5t11.status.entity.Steuerung;
+import de.gedoplan.v5t11.util.config.ConfigUtil;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.Dependent;
@@ -12,7 +13,12 @@ import javax.enterprise.event.Observes;
 public class Bootstrap {
 
   void boot(@Observes @Initialized(ApplicationScoped.class) Object object, Steuerung steuerung, SelectrixGateway selectrixGateway) {
-    selectrixGateway.start("auto", -1, "selectrix", steuerung.getAdressen());
+    int portSpeed = ConfigUtil.getPortSpeed();
+    if (portSpeed <= 0) {
+      portSpeed = steuerung.getSxInterface().getSpeed();
+    }
+
+    selectrixGateway.start(ConfigUtil.getPortName(), portSpeed, steuerung.getSxInterface().getTyp(), steuerung.getAdressen());
   }
 
   void shutdown(@Observes @Destroyed(ApplicationScoped.class) Object object, SelectrixGateway selectrixGateway) {

@@ -24,6 +24,10 @@ public class TestSelectrixGateway extends SelectrixGateway {
   }
 
   @Override
+  public void stop() {
+  }
+
+  @Override
   public int getValue(int address) {
     throw new UnsupportedOperationException();
   }
