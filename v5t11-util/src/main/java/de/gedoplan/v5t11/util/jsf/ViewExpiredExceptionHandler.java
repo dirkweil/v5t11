@@ -1,4 +1,4 @@
-package de.gedoplan.v5t11.status.webui;
+package de.gedoplan.v5t11.util.jsf;
 
 import de.gedoplan.baselibs.utils.util.ExceptionUtil;
 
@@ -14,15 +14,9 @@ import javax.faces.event.ExceptionQueuedEvent;
 import javax.faces.event.ExceptionQueuedEventContext;
 
 public class ViewExpiredExceptionHandler extends ExceptionHandlerWrapper {
-  private ExceptionHandler wrapped;
 
   public ViewExpiredExceptionHandler(ExceptionHandler wrapped) {
-    this.wrapped = wrapped;
-  }
-
-  @Override
-  public ExceptionHandler getWrapped() {
-    return this.wrapped;
+    super(wrapped);
   }
 
   @Override

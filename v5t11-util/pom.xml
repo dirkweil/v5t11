@@ -29,12 +29,12 @@
       <groupId>de.gedoplan</groupId>
       <artifactId>baselibs-persistence</artifactId>
     </dependency>
+-->
 
     <dependency>
       <groupId>de.gedoplan</groupId>
       <artifactId>baselibs-utils</artifactId>
     </dependency>
--->
 
     <dependency>
       <groupId>org.projectlombok</groupId>
