@@ -54,7 +54,9 @@ public class Fahrstrasse extends Bereichselement {
    */
   @XmlElements({
       @XmlElement(name = "Gleisabschnitt", type = FahrstrassenGleisabschnitt.class),
-      @XmlElement(name = "Signal", type = FahrstrassenSignal.class),
+      @XmlElement(name = "Hauptsignal", type = FahrstrassenHauptsignal.class),
+      @XmlElement(name = "Vorsignal", type = FahrstrassenVorsignal.class),
+      @XmlElement(name = "Sperrsignal", type = FahrstrassenSperrsignal.class),
       @XmlElement(name = "Weiche", type = FahrstrassenWeiche.class) })
   @Getter
   private List<Fahrstrassenelement> elemente = new ArrayList<>();
@@ -265,7 +267,7 @@ public class Fahrstrasse extends Bereichselement {
     for (int i = 0; i < size; ++i) {
       Fahrstrassenelement fahrstrassenelement = this.elemente.get(i);
       if (!fahrstrassenelement.isSchutz()) {
-        if (i >= size - 1 || isHauptsignal(fahrstrassenelement)) {
+        if (i >= size - 1 || fahrstrassenelement.isHauptsignal()) {
           if (fahrstrassenSignal != null) {
             SignalStellung neueStellung = langsam ? SignalStellung.LANGSAMFAHRT : SignalStellung.FAHRT;
             if (neueStellung != fahrstrassenSignal.getStellung()) {
@@ -288,17 +290,6 @@ public class Fahrstrasse extends Bereichselement {
         }
       }
     }
-  }
-
-  private static boolean isHauptsignal(Fahrstrassenelement fahrstrassenelement) {
-    if (fahrstrassenelement instanceof FahrstrassenSignal) {
-      FahrstrassenSignal fahrstrassenSignal = (FahrstrassenSignal) fahrstrassenelement;
-
-      // TODO Das sollte eine richtige Eigenschaft sein!
-      return fahrstrassenSignal.getFahrwegelement().getTyp().startsWith("Haupt");
-    }
-
-    return false;
   }
 
   /**

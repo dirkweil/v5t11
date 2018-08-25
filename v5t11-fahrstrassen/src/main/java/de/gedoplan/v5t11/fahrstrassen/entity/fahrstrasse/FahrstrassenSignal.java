@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 
 @XmlAccessorType(XmlAccessType.NONE)
 @NoArgsConstructor
-public class FahrstrassenSignal extends FahrstrassenGeraet implements Cloneable {
+public abstract class FahrstrassenSignal extends FahrstrassenGeraet implements Cloneable {
 
   @Getter
   private Signal signal;

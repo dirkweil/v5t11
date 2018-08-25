@@ -42,6 +42,15 @@ public abstract class Fahrstrassenelement extends Bereichselement {
   }
 
   /**
+   * Ist dies ein Hauptsignal?
+   * 
+   * @return <code>true</code>, wenn Hauptsignal
+   */
+  public boolean isHauptsignal() {
+    return false;
+  }
+
+  /**
    * Zugehöriges Fahrwegelement liefern.
    *
    * @return Fahrwegelement
@@ -59,7 +68,7 @@ public abstract class Fahrstrassenelement extends Bereichselement {
 
   /**
    * Zugehöriges Fahrwegelement suchen und eintragen.
-   * 
+   *
    * @param parcours
    *          Parcours
    */

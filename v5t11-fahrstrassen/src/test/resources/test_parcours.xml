@@ -3,17 +3,17 @@
   <!-- Fahrstrassen in Zählrichtung -->
   <Fahrstrasse bereich="show" zaehlrichtung="true">
     <Gleisabschnitt name="1" />
-    <Signal name="N1" stellung="LANGSAMFAHRT" />
+    <Hauptsignal name="N1" stellung="LANGSAMFAHRT" />
     <Weiche name="3" stellung="ABZWEIGEND" />
-    <Signal name="N2" stellung="HALT" schutz="true" />
+    <Hauptsignal name="N2" stellung="HALT" schutz="true" />
     <Gleisabschnitt name="S" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="show" zaehlrichtung="true">
     <Gleisabschnitt name="2" />
-    <Signal name="N2" stellung="FAHRT" />
+    <Hauptsignal name="N2" stellung="FAHRT" />
     <Weiche name="3" stellung="GERADE" />
-    <Signal name="N1" stellung="HALT" schutz="true" />
+    <Hauptsignal name="N1" stellung="HALT" schutz="true" />
     <Gleisabschnitt name="S" />
   </Fahrstrasse>
 
@@ -41,17 +41,17 @@
   <!-- Fahrstrassen entgegen der Zählrichtung -->
   <Fahrstrasse bereich="show" zaehlrichtung="false">
     <Gleisabschnitt name="S" />
-    <Signal name="F" stellung="LANGSAMFAHRT" />
+    <Hauptsignal name="F" stellung="LANGSAMFAHRT" />
     <Weiche name="3" stellung="ABZWEIGEND" />
-    <Signal name="N2" stellung="HALT" schutz="true" />
+    <Hauptsignal name="N2" stellung="HALT" schutz="true" />
     <Gleisabschnitt name="1" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="show" zaehlrichtung="false">
     <Gleisabschnitt name="S" />
-    <Signal name="F" stellung="FAHRT" />
+    <Hauptsignal name="F" stellung="FAHRT" />
     <Weiche name="3" stellung="GERADE" />
-    <Signal name="N1" stellung="HALT" schutz="true" />
+    <Hauptsignal name="N1" stellung="HALT" schutz="true" />
     <Gleisabschnitt name="2" />
   </Fahrstrasse>
 
