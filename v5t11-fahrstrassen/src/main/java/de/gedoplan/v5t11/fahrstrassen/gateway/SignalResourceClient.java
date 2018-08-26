@@ -40,4 +40,12 @@ public class SignalResourceClient extends StatusResourceClientBase {
         .put(Entity.text(stellungenAsString));
 
   }
+
+  public void signalStellen(Signal signal, SignalStellung stellung) {
+    this.signalTarget
+        .path(signal.getBereich())
+        .path(signal.getName())
+        .request()
+        .put(Entity.text(stellung));
+  }
 }

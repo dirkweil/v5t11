@@ -26,6 +26,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.enterprise.util.AnnotationLiteral;
+import javax.enterprise.util.Nonbinding;
 import javax.inject.Qualifier;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -83,6 +84,9 @@ public class Fahrstrasse extends Bereichselement {
    */
   @Getter(onMethod = @__(@JsonbInclude))
   private FahrstrassenReservierungsTyp reservierungsTyp = FahrstrassenReservierungsTyp.UNRESERVIERT;
+
+  @Getter(onMethod = @__(@JsonbInclude))
+  private int teilFreigabeAnzahl = 0;
 
   /**
    * Nachbearbeitung nach JAXB-Unmarshal.
@@ -388,24 +392,24 @@ public class Fahrstrasse extends Bereichselement {
    * @return <code>true</code>, wenn die Fahrstrasse reserviert bzw. freigegeben werden konnte
    */
   public boolean reservieren(FahrstrassenReservierungsTyp reservierungsTyp) {
+
     if (reservierungsTyp == null || reservierungsTyp == FahrstrassenReservierungsTyp.UNRESERVIERT) {
-      freigeben(null);
-      return true;
+      return freigeben(null);
 
-    } else {
+    }
 
-      synchronized (Fahrstrasse.class) {
-        if (!isFrei(false, true)) {
-          return false;
-        }
-
-        this.reservierungsTyp = reservierungsTyp;
-        this.elemente.forEach(fe -> fe.reservieren(this));
+    synchronized (Fahrstrasse.class) {
+      if (!isFrei(false, true)) {
+        return false;
       }
 
-      EventFirer.getInstance().fire(this, Reserviert.Literal.INSTANCE);
-      return true;
+      this.reservierungsTyp = reservierungsTyp;
+      this.teilFreigabeAnzahl = 0;
+      this.elemente.forEach(fe -> fe.reservieren(this));
     }
+
+    EventFirer.getInstance().fire(this, Reserviert.Literal.INSTANCE);
+    return true;
 
   }
 
@@ -414,32 +418,37 @@ public class Fahrstrasse extends Bereichselement {
    *
    * @param teilFreigabeEnde
    *          <code>null</code> für Komplettfreigabe oder erster Gleisabschnitt, der nicht freigegeben wird
+   * @return <code>true</code>, wenn die Fahrstrasse freigegeben werden konnte
    */
-  public void freigeben(Gleisabschnitt teilFreigabeEnde) {
-    synchronized (Fahrstrasse.class) {
-      if (teilFreigabeEnde == null) {
-        this.reservierungsTyp = FahrstrassenReservierungsTyp.UNRESERVIERT;
-      }
+  public boolean freigeben(Gleisabschnitt teilFreigabeEnde) {
 
-      for (Fahrstrassenelement element : this.elemente) {
+    if (this.reservierungsTyp == FahrstrassenReservierungsTyp.UNRESERVIERT) {
+      return false;
+    }
+
+    int bisherigeTeilFreigabeAnzahl = this.teilFreigabeAnzahl;
+    int neueTeilFreigabeAnzahl = this.teilFreigabeAnzahl;
+
+    synchronized (Fahrstrasse.class) {
+      while (neueTeilFreigabeAnzahl < this.elemente.size()) {
+        Fahrstrassenelement element = this.elemente.get(neueTeilFreigabeAnzahl);
         if (teilFreigabeEnde != null && element instanceof FahrstrassenGleisabschnitt && teilFreigabeEnde.equals(element.getFahrwegelement())) {
           break;
         }
         element.reservieren(null);
+        ++neueTeilFreigabeAnzahl;
       }
+
+      if (neueTeilFreigabeAnzahl >= this.elemente.size()) {
+        this.reservierungsTyp = FahrstrassenReservierungsTyp.UNRESERVIERT;
+      }
+
+      this.teilFreigabeAnzahl = neueTeilFreigabeAnzahl;
     }
 
-    EventFirer.getInstance().fire(this, Freigegeben.Literal.INSTANCE);
-  }
+    EventFirer.getInstance().fire(this, Freigegeben.Literal.of(bisherigeTeilFreigabeAnzahl, neueTeilFreigabeAnzahl));
 
-  @Qualifier
-  @Target({ TYPE, METHOD, PARAMETER, FIELD })
-  @Retention(RUNTIME)
-  @Documented
-  public static @interface Freigegeben {
-    public static final class Literal extends AnnotationLiteral<Freigegeben> implements Freigegeben {
-      public static final Literal INSTANCE = new Literal();
-    }
+    return neueTeilFreigabeAnzahl != bisherigeTeilFreigabeAnzahl;
   }
 
   @Qualifier
@@ -452,4 +461,40 @@ public class Fahrstrasse extends Bereichselement {
     }
   }
 
+  @Qualifier
+  @Target({ TYPE, METHOD, PARAMETER, FIELD })
+  @Retention(RUNTIME)
+  @Documented
+  public static @interface Freigegeben {
+    @Nonbinding
+    int bisher() default 0;
+
+    @Nonbinding
+    int neu() default 0;
+
+    public static final class Literal extends AnnotationLiteral<Freigegeben> implements Freigegeben {
+
+      public static Literal of(int bisher, int neu) {
+        return new Literal(bisher, neu);
+      }
+
+      private int bisher;
+      private int neu;
+
+      private Literal(int bisher, int neu) {
+        this.bisher = bisher;
+        this.neu = neu;
+      }
+
+      @Override
+      public int bisher() {
+        return this.bisher;
+      }
+
+      @Override
+      public int neu() {
+        return this.neu;
+      }
+    }
+  }
 }
