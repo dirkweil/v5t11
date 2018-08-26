@@ -60,4 +60,22 @@ public abstract class FahrstrassenSignal extends FahrstrassenGeraet implements C
     }
   }
 
+  @Override
+  public void reservieren(Fahrstrasse fahrstrasse) {
+    if (this.signal != null) {
+      if (!this.schutz) {
+        this.signal.reserviereFuerFahrstrasse(fahrstrasse, isZaehlrichtung());
+      }
+
+      // TODO Stellen in separater Methode
+      // if (!isBlocksignal() && !(isVorsignal())) {
+      // if (fahrstrasse != null) {
+      // FahrstrassenReservierungsTyp reservierungsTyp = fahrstrasse.getReservierungsTyp();
+      // this.signal.setStellung(this.stellung, reservierungsTyp);
+      // } else {
+      // this.signal.setStellung(Stellung.HALT);
+      // }
+      // }
+    }
+  }
 }

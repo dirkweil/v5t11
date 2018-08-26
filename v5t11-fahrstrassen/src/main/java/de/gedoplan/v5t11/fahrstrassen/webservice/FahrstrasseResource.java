@@ -1,14 +1,20 @@
 package de.gedoplan.v5t11.fahrstrassen.webservice;
 
 import de.gedoplan.v5t11.fahrstrassen.entity.Parcours;
+import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleisabschnitt;
+import de.gedoplan.v5t11.util.domain.FahrstrassenReservierungsTyp;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 import de.gedoplan.v5t11.util.webservice.ResponseFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.NotFoundException;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
@@ -36,7 +42,7 @@ public class FahrstrasseResource {
       @QueryParam("frei") boolean frei) {
 
     if (this.log.isDebugEnabled()) {
-      this.log.debug(String.format("start=%s/%s, ende=%s/%s, frei=%b", startBereich, startName, endeBereich, endeName, frei));
+      this.log.debug(String.format("getFahrstrassen: start=%s/%s, ende=%s/%s, frei=%b", startBereich, startName, endeBereich, endeName, frei));
     }
 
     Gleisabschnitt start = null;
@@ -64,5 +70,21 @@ public class FahrstrasseResource {
     }
 
     return ResponseFactory.createJsonResponse(this.parcours.getFahrstrassen(start, ende, frei), JsonbWithIncludeVisibility.SHORT);
+  }
+
+  @PUT
+  @Path("{bereich}/{name}/reservierung")
+  @Consumes(MediaType.TEXT_PLAIN)
+  public void reserviereFahrstrasse(@PathParam("bereich") String bereich, @PathParam("name") String name, FahrstrassenReservierungsTyp reservierungsTyp) {
+    if (this.log.isDebugEnabled()) {
+      this.log.debug(String.format("reserviereFahrstrasse: fahrstrasse=%s/%s, reservierungsTyp=%s", bereich, name, reservierungsTyp));
+    }
+
+    Fahrstrasse fahrstrasse = this.parcours.getFahrstrasse(bereich, name);
+    if (fahrstrasse == null) {
+      throw new NotFoundException();
+    }
+
+    fahrstrasse.reservieren(reservierungsTyp);
   }
 }

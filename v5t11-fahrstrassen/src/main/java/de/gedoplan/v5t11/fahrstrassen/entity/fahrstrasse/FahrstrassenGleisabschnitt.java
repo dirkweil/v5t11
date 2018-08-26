@@ -47,4 +47,10 @@ public class FahrstrassenGleisabschnitt extends Fahrstrassenelement {
     return 1;
   }
 
+  @Override
+  public void reservieren(Fahrstrasse fahrstrasse) {
+    if (this.gleisabschnitt != null) {
+      this.gleisabschnitt.reserviereFuerFahrstrasse(fahrstrasse, isZaehlrichtung());
+    }
+  }
 }

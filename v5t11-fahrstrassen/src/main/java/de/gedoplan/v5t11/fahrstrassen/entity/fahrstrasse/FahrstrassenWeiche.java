@@ -63,4 +63,18 @@ public class FahrstrassenWeiche extends FahrstrassenGeraet {
   public String toString() {
     return super.toString() + ", stellung=" + this.stellung;
   }
+
+  @Override
+  public void reservieren(Fahrstrasse fahrstrasse) {
+    if (this.weiche != null) {
+      if (!this.schutz) {
+        this.weiche.reserviereFuerFahrstrasse(fahrstrasse, isZaehlrichtung());
+      }
+
+      // TODO Stellen in separater Methode
+      // if (fahrstrasse != null) {
+      // this.weiche.setStellung(this.stellung);
+      // }
+    }
+  }
 }

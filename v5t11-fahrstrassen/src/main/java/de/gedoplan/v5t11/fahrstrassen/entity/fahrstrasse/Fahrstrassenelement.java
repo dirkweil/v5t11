@@ -43,10 +43,37 @@ public abstract class Fahrstrassenelement extends Bereichselement {
 
   /**
    * Ist dies ein Hauptsignal?
-   * 
+   *
    * @return <code>true</code>, wenn Hauptsignal
    */
   public boolean isHauptsignal() {
+    return false;
+  }
+
+  /**
+   * Ist dies ein Vorsignal?
+   *
+   * @return <code>true</code>, wenn Vorsignal
+   */
+  public boolean isVorsignal() {
+    return false;
+  }
+
+  /**
+   * Ist dies ein Sperrsignal?
+   *
+   * @return <code>true</code>, wenn Vorsignal
+   */
+  public boolean isSperrsignal() {
+    return false;
+  }
+
+  /**
+   * Ist dies ein Blocksignal?
+   *
+   * @return <code>true</code>, wenn Blocksignal
+   */
+  public boolean isBlocksignal() {
     return false;
   }
 
@@ -79,4 +106,11 @@ public abstract class Fahrstrassenelement extends Bereichselement {
     return getFahrwegelement() + ", zaehlrichtung=" + this.zaehlrichtung;
   }
 
+  /**
+   * Element für Fahrstrasse reservieren bzw. freigeben.
+   *
+   * @param fahrstrasse
+   *          <code>null</code> zum Freigeben, sonst Fahrstrasse
+   */
+  public abstract void reservieren(Fahrstrasse fahrstrasse);
 }

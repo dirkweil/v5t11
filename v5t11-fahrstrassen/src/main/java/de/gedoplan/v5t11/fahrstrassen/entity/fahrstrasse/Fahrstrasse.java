@@ -1,13 +1,22 @@
 package de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse;
 
+import static java.lang.annotation.ElementType.*;
+import static java.lang.annotation.RetentionPolicy.*;
+
 import de.gedoplan.v5t11.fahrstrassen.entity.Bereichselement;
 import de.gedoplan.v5t11.fahrstrassen.entity.Parcours;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Fahrwegelement;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Signal;
+import de.gedoplan.v5t11.util.cdi.EventFirer;
+import de.gedoplan.v5t11.util.domain.FahrstrassenReservierungsTyp;
 import de.gedoplan.v5t11.util.domain.SignalStellung;
 import de.gedoplan.v5t11.util.domain.WeichenStellung;
+import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -16,6 +25,8 @@ import java.util.ListIterator;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.enterprise.util.AnnotationLiteral;
+import javax.inject.Qualifier;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -66,6 +77,12 @@ public class Fahrstrasse extends Bereichselement {
 
   @Getter
   private FahrstrassenGleisabschnitt ende;
+
+  /**
+   * Falls reserviert, Typ der Reservierung, sonst <code>null</code>.
+   */
+  @Getter(onMethod = @__(@JsonbInclude))
+  private FahrstrassenReservierungsTyp reservierungsTyp = FahrstrassenReservierungsTyp.UNRESERVIERT;
 
   /**
    * Nachbearbeitung nach JAXB-Unmarshal.
@@ -319,31 +336,113 @@ public class Fahrstrasse extends Bereichselement {
   /**
    * Ist die Fahrstrasse (komplett) frei?
    *
+   * Die Fahrstrasse ist dann frei,
+   * - wenn sie mit keiner bereits reservierten Fahrstrasse kollidiert,
+   * - wenn keiner ihrer Gleisabschnitte besetzt ist, wobei für diese Prüfung der Start und das Ende per Parameter ausgenommen werden können.
+   *
    * @param includeStart
-   *          Erstes Element der Fahrstrasse berücksichtigen?
+   *          Erstes Element der Fahrstrasse in Besetztprüfung berücksichtigen?
    * @param includeEnde
-   *          Letztes Element der Fahrstrasse berücksichtigen?
-   * @return <code>true</code>, wenn die Gleisabschnitte der Fahrstrasse frei sind.
+   *          Letztes Element der Fahrstrasse in Besetztprüfung berücksichtigen?
+   * @return <code>true</code>, wenn die Fahrstrasse frei ist.
    */
   public boolean isFrei(boolean includeStart, boolean includeEnde) {
-    int elementCount = this.elemente.size();
-    for (int index = 0; index < elementCount; ++index) {
-      if (!includeStart && index == 0) {
-        continue;
-      }
+    synchronized (Fahrstrasse.class) {
 
-      if (!includeEnde && index == elementCount - 1) {
-        continue;
-      }
+      int elementCount = this.elemente.size();
+      for (int index = 0; index < elementCount; ++index) {
+        Fahrstrassenelement element = this.elemente.get(index);
+        Fahrwegelement fahrwegelement = element.getFahrwegelement();
 
-      Fahrstrassenelement element = this.elemente.get(index);
-      Fahrwegelement fahrwegelement = element.getFahrwegelement();
-      if (fahrwegelement instanceof Gleisabschnitt && ((Gleisabschnitt) fahrwegelement).isBesetzt()) {
-        return false;
+        if (!element.isSchutz() && fahrwegelement.getReserviertefahrstrasse() != null) {
+          return false;
+        }
+
+        if (!includeStart && index == 0) {
+          continue;
+        }
+
+        if (!includeEnde && index == elementCount - 1) {
+          continue;
+        }
+
+        if (fahrwegelement instanceof Gleisabschnitt && ((Gleisabschnitt) fahrwegelement).isBesetzt()) {
+          return false;
+        }
       }
     }
 
     return true;
+  }
+
+  /**
+   * Fahrstrasse reservieren oder freigeben.
+   *
+   * Wird als reservierungsTyp {@link FahrstrassenReservierungsTyp#UNRESERVIERT} übergeben, wird die Fahrstrasse freigegeben.
+   * Bei anderem reservierungsTyp wird die Fahrstrasse entsprechend reserviert.
+   *
+   * Zur Freigabe kann aber auch {@link #freigeben(Gleisabschnitt)} genutzt werden.
+   *
+   * @param reservierungsTyp
+   *          Art der Fahrstrassenreservierung, <code>UNRESERVIERT</code> für Freigabe
+   */
+  public void reservieren(FahrstrassenReservierungsTyp reservierungsTyp) {
+    if (reservierungsTyp == null || reservierungsTyp == FahrstrassenReservierungsTyp.UNRESERVIERT) {
+      freigeben(null);
+
+    } else {
+
+      synchronized (Fahrstrasse.class) {
+        this.reservierungsTyp = reservierungsTyp;
+        this.elemente.forEach(fe -> fe.reservieren(this));
+      }
+
+      EventFirer.getInstance().fire(this, Reserviert.Literal.INSTANCE);
+    }
+
+  }
+
+  /**
+   * Fahrstrasse komplett oder teilweise freigeben.
+   *
+   * @param teilFreigabeEnde
+   *          <code>null</code> für Komplettfreigabe oder erster Gleisabschnitt, der nicht freigegeben wird
+   */
+  public void freigeben(Gleisabschnitt teilFreigabeEnde) {
+    synchronized (Fahrstrasse.class) {
+      if (teilFreigabeEnde == null) {
+        this.reservierungsTyp = FahrstrassenReservierungsTyp.UNRESERVIERT;
+      }
+
+      for (Fahrstrassenelement element : this.elemente) {
+        if (teilFreigabeEnde != null && element instanceof FahrstrassenGleisabschnitt && teilFreigabeEnde.equals(element.getFahrwegelement())) {
+          break;
+        }
+        element.reservieren(null);
+      }
+    }
+
+    EventFirer.getInstance().fire(this, Freigegeben.Literal.INSTANCE);
+  }
+
+  @Qualifier
+  @Target({ TYPE, METHOD, PARAMETER, FIELD })
+  @Retention(RUNTIME)
+  @Documented
+  public static @interface Freigegeben {
+    public static final class Literal extends AnnotationLiteral<Freigegeben> implements Freigegeben {
+      public static final Literal INSTANCE = new Literal();
+    }
+  }
+
+  @Qualifier
+  @Target({ TYPE, METHOD, PARAMETER, FIELD })
+  @Retention(RUNTIME)
+  @Documented
+  public static @interface Reserviert {
+    public static final class Literal extends AnnotationLiteral<Reserviert> implements Reserviert {
+      public static final Literal INSTANCE = new Literal();
+    }
   }
 
 }

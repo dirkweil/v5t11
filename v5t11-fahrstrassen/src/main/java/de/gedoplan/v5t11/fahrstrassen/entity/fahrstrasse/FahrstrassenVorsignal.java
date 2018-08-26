@@ -8,4 +8,9 @@ import lombok.NoArgsConstructor;
 @XmlAccessorType(XmlAccessType.NONE)
 @NoArgsConstructor
 public class FahrstrassenVorsignal extends FahrstrassenSignal {
+
+  @Override
+  public boolean isVorsignal() {
+    return true;
+  }
 }
