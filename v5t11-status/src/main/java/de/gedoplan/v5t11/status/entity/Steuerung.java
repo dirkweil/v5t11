@@ -410,7 +410,7 @@ public class Steuerung {
 
       this.kanalBausteine[adr].adjustWert(adr, wert);
 
-      EventFirer.fire(new Kanal(adr, wert));
+      EventFirer.getInstance().fire(new Kanal(adr, wert));
     }
   }
 

@@ -103,7 +103,7 @@ public abstract class Signal extends Geraet {
         this.funktionsdecoder.setWert(fdWert);
       }
 
-      EventFirer.fire(this);
+      EventFirer.getInstance().fire(this);
     }
   }
 

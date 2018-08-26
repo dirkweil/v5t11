@@ -2,28 +2,42 @@ package de.gedoplan.v5t11.util.cdi;
 
 import java.lang.annotation.Annotation;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Event;
 import javax.enterprise.inject.spi.CDI;
-import javax.enterprise.util.TypeLiteral;
+import javax.inject.Inject;
 
-public final class EventFirer {
-  private static Event<Object> eventSource = null;
+/**
+ * Helferklasse zum Feuern von CDI-Events.
+ *
+ * Die übergebenen Events werden synchron und asynchron gefeuert.
+ *
+ * EventFirer kann als Dependency genutzt werden (mittels @Inject). Alternativ kann eine Instanz von EventFirer
+ * auch mittels {@link #getInstance()} erstellt werden.
+ *
+ * @author dw
+ */
+@ApplicationScoped
+public class EventFirer {
 
-  public static void fire(Object event, Annotation... qualifiers) {
-    if (eventSource == null) {
-      eventSource = CDI.current()
-          .select(new TypeLiteral<Event<Object>>() {})
-          .get();
+  private static EventFirer INSTANCE = null;
+
+  public static EventFirer getInstance() {
+    if (INSTANCE == null) {
+      INSTANCE = CDI.current().select(EventFirer.class).get();
     }
+    return INSTANCE;
+  }
 
-    Event<Object> es = eventSource;
+  @Inject
+  private Event<Object> eventSource;
+
+  public void fire(Object event, Annotation... qualifiers) {
+    Event<Object> es = this.eventSource;
     if (qualifiers.length != 0) {
       es = es.select(qualifiers);
     }
     es.fire(event);
     es.fireAsync(event);
-  }
-
-  private EventFirer() {
   }
 }

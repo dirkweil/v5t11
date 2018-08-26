@@ -79,7 +79,7 @@ public class Gleisabschnitt extends Fahrwegelement {
     boolean old = this.besetzt;
     this.besetzt = (this.besetztmelder.getWert() & (1 << this.anschluss)) != 0;
     if (old != this.besetzt) {
-      EventFirer.fire(this);
+      EventFirer.getInstance().fire(this);
     }
   }
 
