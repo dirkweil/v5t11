@@ -11,7 +11,6 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.NotFoundException;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -53,7 +52,7 @@ public class FahrstrasseResource {
 
       start = this.parcours.getGleisabschnitt(startBereich, startName);
       if (start == null) {
-        return ResponseFactory.createNotFoundReponse();
+        return ResponseFactory.createNotFoundResponse();
       }
     }
 
@@ -65,7 +64,7 @@ public class FahrstrasseResource {
 
       ende = this.parcours.getGleisabschnitt(endeBereich, endeName);
       if (ende == null) {
-        return ResponseFactory.createNotFoundReponse();
+        return ResponseFactory.createNotFoundResponse();
       }
     }
 
@@ -75,16 +74,20 @@ public class FahrstrasseResource {
   @PUT
   @Path("{bereich}/{name}/reservierung")
   @Consumes(MediaType.TEXT_PLAIN)
-  public void reserviereFahrstrasse(@PathParam("bereich") String bereich, @PathParam("name") String name, FahrstrassenReservierungsTyp reservierungsTyp) {
+  public Response reserviereFahrstrasse(@PathParam("bereich") String bereich, @PathParam("name") String name, FahrstrassenReservierungsTyp reservierungsTyp) {
     if (this.log.isDebugEnabled()) {
       this.log.debug(String.format("reserviereFahrstrasse: fahrstrasse=%s/%s, reservierungsTyp=%s", bereich, name, reservierungsTyp));
     }
 
     Fahrstrasse fahrstrasse = this.parcours.getFahrstrasse(bereich, name);
     if (fahrstrasse == null) {
-      throw new NotFoundException();
+      return ResponseFactory.createNotFoundResponse();
     }
 
-    fahrstrasse.reservieren(reservierungsTyp);
+    if (!fahrstrasse.reservieren(reservierungsTyp)) {
+      return ResponseFactory.createConflictResponse();
+    }
+
+    return ResponseFactory.createNoContentResponse();
   }
 }

@@ -379,25 +379,32 @@ public class Fahrstrasse extends Bereichselement {
    * Fahrstrasse reservieren oder freigeben.
    *
    * Wird als reservierungsTyp {@link FahrstrassenReservierungsTyp#UNRESERVIERT} übergeben, wird die Fahrstrasse freigegeben.
-   * Bei anderem reservierungsTyp wird die Fahrstrasse entsprechend reserviert.
+   * Bei anderem reservierungsTyp wird die Fahrstrasse entsprechend reserviert, wenn sie noch frei ist.
    *
    * Zur Freigabe kann aber auch {@link #freigeben(Gleisabschnitt)} genutzt werden.
    *
    * @param reservierungsTyp
    *          Art der Fahrstrassenreservierung, <code>UNRESERVIERT</code> für Freigabe
+   * @return <code>true</code>, wenn die Fahrstrasse reserviert bzw. freigegeben werden konnte
    */
-  public void reservieren(FahrstrassenReservierungsTyp reservierungsTyp) {
+  public boolean reservieren(FahrstrassenReservierungsTyp reservierungsTyp) {
     if (reservierungsTyp == null || reservierungsTyp == FahrstrassenReservierungsTyp.UNRESERVIERT) {
       freigeben(null);
+      return true;
 
     } else {
 
       synchronized (Fahrstrasse.class) {
+        if (!isFrei(false, true)) {
+          return false;
+        }
+
         this.reservierungsTyp = reservierungsTyp;
         this.elemente.forEach(fe -> fe.reservieren(this));
       }
 
       EventFirer.getInstance().fire(this, Reserviert.Literal.INSTANCE);
+      return true;
     }
 
   }

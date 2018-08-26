@@ -7,8 +7,20 @@ import javax.ws.rs.core.Response;
 
 public abstract class ResponseFactory {
 
-  public static Response createNotFoundReponse() {
+  public static Response createNoContentResponse() {
+    return Response.noContent().build();
+  }
+
+  public static Response createNotFoundResponse() {
     return Response.status(Response.Status.NOT_FOUND).build();
+  }
+
+  public static Response createBadRequestResponse() {
+    return Response.status(Response.Status.BAD_REQUEST).build();
+  }
+
+  public static Response createConflictResponse() {
+    return Response.status(Response.Status.CONFLICT).build();
   }
 
   public static Response createJsonResponse(Object object, Jsonb jsonb) {
@@ -17,4 +29,5 @@ public abstract class ResponseFactory {
         .entity(jsonb.toJson(object))
         .build();
   }
+
 }
