@@ -4,6 +4,7 @@ import de.gedoplan.v5t11.fahrstrassen.entity.Parcours;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Signal;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Weiche;
+import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 
 import java.util.stream.Collectors;
@@ -36,6 +37,9 @@ public class StatusMessagePropagator {
   Parcours parcours;
 
   @Inject
+  EventFirer eventFirer;
+
+  @Inject
   Log log;
 
   protected void startListener(@Observes @Initialized(ApplicationScoped.class) Object obj) {
@@ -65,6 +69,7 @@ public class StatusMessagePropagator {
         Gleisabschnitt gleisabschnitt = this.parcours.getGleisabschnitt(statusGleisabschnitt.getBereich(), statusGleisabschnitt.getName());
         if (gleisabschnitt != null) {
           gleisabschnitt.copyStatus(statusGleisabschnitt);
+          this.eventFirer.fire(gleisabschnitt);
         }
         break;
 
@@ -76,6 +81,7 @@ public class StatusMessagePropagator {
         Signal signal = this.parcours.getSignal(statusSignal.getBereich(), statusSignal.getName());
         if (signal != null) {
           signal.copyStatus(statusSignal);
+          this.eventFirer.fire(signal);
         }
         break;
 
@@ -87,6 +93,7 @@ public class StatusMessagePropagator {
         Weiche weiche = this.parcours.getWeiche(statusWeiche.getBereich(), statusWeiche.getName());
         if (weiche != null) {
           weiche.copyStatus(statusWeiche);
+          this.eventFirer.fire(weiche);
         }
         break;
 
