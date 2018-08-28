@@ -65,7 +65,6 @@ public abstract class Lokdecoder extends Baustein implements Decoder {
    *          Parent
    */
   @Override
-  @SuppressWarnings("unused")
   public void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
     super.afterUnmarshal(unmarshaller, parent);
 
