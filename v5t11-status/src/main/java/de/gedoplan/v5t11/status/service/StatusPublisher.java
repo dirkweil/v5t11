@@ -11,6 +11,7 @@ import javax.annotation.Resource;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
+import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
 import javax.jms.JMSContext;
 
@@ -19,8 +20,8 @@ import org.apache.commons.logging.Log;
 @ApplicationScoped
 public class StatusPublisher {
 
-  @Inject
-  JMSContext jmsContext;
+  @Resource
+  ConnectionFactory connectionFactory;
 
   @Resource(lookup = "java:/jms/topic/v5t11-status")
   Destination destination;
@@ -36,8 +37,8 @@ public class StatusPublisher {
       this.log.debug(category + ": " + json);
     }
 
-    try {
-      this.jmsContext
+    try (JMSContext jmsContext = this.connectionFactory.createContext()) {
+      jmsContext
           .createProducer()
           .setTimeToLive(10 * 1000)
           .setProperty("category", category)
