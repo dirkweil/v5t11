@@ -4,6 +4,7 @@ import de.gedoplan.v5t11.selectrix.SelectrixMessage;
 import de.gedoplan.v5t11.status.entity.baustein.Baustein;
 import de.gedoplan.v5t11.status.entity.baustein.Besetztmelder;
 import de.gedoplan.v5t11.status.entity.baustein.Funktionsdecoder;
+import de.gedoplan.v5t11.status.entity.baustein.Lokcontroller;
 import de.gedoplan.v5t11.status.entity.baustein.Lokdecoder;
 import de.gedoplan.v5t11.status.entity.baustein.Zentrale;
 import de.gedoplan.v5t11.status.entity.baustein.besetztmelder.BMMiba3;
@@ -13,6 +14,7 @@ import de.gedoplan.v5t11.status.entity.baustein.funktionsdecoder.STRFD1;
 import de.gedoplan.v5t11.status.entity.baustein.funktionsdecoder.SXSD1;
 import de.gedoplan.v5t11.status.entity.baustein.funktionsdecoder.WDMiba;
 import de.gedoplan.v5t11.status.entity.baustein.funktionsdecoder.WDMiba3;
+import de.gedoplan.v5t11.status.entity.baustein.lokcontroller.SxLokControl;
 import de.gedoplan.v5t11.status.entity.baustein.lokdecoder.DH05;
 import de.gedoplan.v5t11.status.entity.baustein.lokdecoder.DH10;
 import de.gedoplan.v5t11.status.entity.baustein.lokdecoder.DHL050;
@@ -91,8 +93,12 @@ public class Steuerung {
   @Getter
   SortedSet<Lokdecoder> lokdecoder = new TreeSet<>();
 
-  // @XmlElement(name = "LokController")
-  // SortedSet<LokController> lokController = new TreeSet<>();
+  @XmlElementWrapper(name = "Lokcontroller")
+  @XmlElements({
+      @XmlElement(name = "SxLokControl", type = SxLokControl.class),
+  })
+  @Getter
+  SortedSet<Lokcontroller> lokcontroller = new TreeSet<>();
 
   @XmlElementWrapper(name = "Besetztmelder")
   @XmlElements({
@@ -154,29 +160,20 @@ public class Steuerung {
     return null;
   }
 
-  // /**
-  // * Wert liefern: {@link #lokController}.
-  // *
-  // * @return Wert
-  // */
-  // public SortedSet<LokController> getLokController() {
-  // return this.lokController;
-  // }
+  /**
+   * Wert liefern: {@link #lokController}.
+   *
+   * @return Wert
+   */
+  public Lokcontroller getLokcontroller(String id) {
+    for (Lokcontroller lc : this.lokcontroller) {
+      if (id.equals(lc.getId())) {
+        return lc;
+      }
+    }
 
-  // /**
-  // * Wert liefern: {@link #lokController}.
-  // *
-  // * @return Wert
-  // */
-  // public LokController getLokController(String id) {
-  // for (LokController l : this.lokController) {
-  // if (id.equals(l.getId())) {
-  // return l;
-  // }
-  // }
-  //
-  // return null;
-  // }
+    return null;
+  }
 
   /**
    * Wert liefern: {@link #gleisabschnitte}.
@@ -335,6 +332,33 @@ public class Steuerung {
         registerAdressen(ld);
       }
     }
+
+    for (Lokcontroller lc : this.lokcontroller) {
+      registerAdressen(lc);
+    }
+  }
+
+  public void assignLokcontroller(String lokcontrollerId, String lokId) {
+    Lokcontroller lokcontroller = getLokcontroller(lokcontrollerId);
+    if (lokcontroller == null) {
+      throw new IllegalArgumentException("Lokcontroller nicht gefunden: " + lokcontrollerId);
+    }
+
+    Lok lok = null;
+    if (lokId != null && !lokId.equals("none")) {
+      lok = getLok(lokId);
+      if (lok == null) {
+        throw new IllegalArgumentException("Lok nicht gefunden: " + lokId);
+      }
+
+      for (Lokcontroller lc : getLokcontroller()) {
+        if (!lc.equals(lokcontroller) && lok.equals(lc.getLok())) {
+          lc.setLok(null);
+        }
+      }
+    }
+
+    lokcontroller.setLok(lok);
   }
 
   private void registerAdressen(Baustein baustein) {
@@ -377,6 +401,10 @@ public class Steuerung {
       if (ld.getLok() != null) {
         buf.append("\n    ").append(ld.getLok());
       }
+    }
+
+    for (Lokcontroller ld : this.lokcontroller) {
+      buf.append("\n  ").append(ld);
     }
 
     return buf.toString();

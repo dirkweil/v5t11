@@ -29,12 +29,12 @@ public class TestSelectrixGateway extends SelectrixGateway {
 
   @Override
   public int getValue(int address) {
-    throw new UnsupportedOperationException();
+    return 0;
   }
 
   @Override
   public int getValue(int address, boolean refresh) {
-    throw new UnsupportedOperationException();
+    return 0;
   }
 
   @Override

@@ -1,13 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <sx>
-  <!-- <Lok id="212 216-6" bild="lok_212.png" adr="5" /> -->
-  <!-- <Lok id="VT 98.9731" bild="lok_vt98.png" adr="6" /> -->
-  <!-- <Lok id="221 137-3" bild="lok_221.png" adr="19" /> -->
-
-  <!-- <LokController id="LokControl 1" adr="30" /> -->
-  <!-- <LokController id="LokControl 2" adr="31" /> -->
-  <!-- <LokController id="Zentrale 9" adr="9" /> -->
-
   <Besetztmelder>
     <BMMiba3 id="BM-1" adr="90" einbauOrt="neben Interface">
       <Gleisabschnitt idx="0" bereich="show" name="W1" />
@@ -60,6 +52,11 @@
     <Tr66825 id="LD-1" adr="5" lok="212 216-6" />
     <DHL100 id="LD-2" adr="6" lok="VT 98.9731" />
   </Lokdecoder>
+
+  <Lokcontroller>
+    <SxLokControl id="LokControl 1" adr="30" />
+    <SxLokControl id="LokControl 2" adr="31" />
+  </Lokcontroller>
 
 </sx>
 
