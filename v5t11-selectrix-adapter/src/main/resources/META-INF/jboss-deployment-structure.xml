@@ -1,8 +1,8 @@
 <jboss-deployment-structure>
   <deployment>
     <dependencies>
-      <!-- RXTX als Modul referenzieren; s. additional/jboss/modules -->
-      <module name="org.rxtx.rxtx" />
+      <!-- Modul fuer Serienschnittstelle referenzieren; s. additional/wildfly -->
+      <module name="com.neuronrobotics.nrjavaserial" />
     </dependencies>
   </deployment>
 </jboss-deployment-structure>

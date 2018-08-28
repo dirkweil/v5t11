@@ -1,9 +1,8 @@
 package de.gedoplan.v5t11.selectrix.impl;
 
-import gnu.io.CommPortIdentifier;
-import gnu.io.PortInUseException;
-
 import java.util.Enumeration;
+
+import gnu.io.CommPortIdentifier;
 
 /**
  * @author Dirk Weil

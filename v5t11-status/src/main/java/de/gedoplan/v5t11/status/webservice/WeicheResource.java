@@ -2,7 +2,7 @@ package de.gedoplan.v5t11.status.webservice;
 
 import de.gedoplan.v5t11.status.entity.Steuerung;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
-import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche.Stellung;
+import de.gedoplan.v5t11.util.domain.WeichenStellung;
 
 import java.util.Set;
 
@@ -28,7 +28,7 @@ public class WeicheResource {
   @GET
   @Path("{bereich}/{name}")
   @Produces(MediaType.TEXT_PLAIN + "; qs=1.0")
-  public Stellung getWeichenStellung(@PathParam("bereich") String bereich, @PathParam("name") String name) {
+  public WeichenStellung getWeichenStellung(@PathParam("bereich") String bereich, @PathParam("name") String name) {
 
     return getWeiche(bereich, name).getStellung();
   }
@@ -70,7 +70,7 @@ public class WeicheResource {
   @Consumes(MediaType.TEXT_PLAIN)
   public void putWeichenStellung(@PathParam("bereich") String bereich, @PathParam("name") String name, String stellungsName) {
 
-    Stellung stellung = Stellung.valueOf(stellungsName);
+    WeichenStellung stellung = WeichenStellung.valueOf(stellungsName);
     if (stellung == null) {
       throw new BadRequestException();
     }

@@ -1,8 +1,9 @@
 package de.gedoplan.v5t11.status.entity.fahrweg.geraet;
 
 import de.gedoplan.v5t11.status.entity.fahrweg.Geraet;
-import de.gedoplan.v5t11.status.jsonb.JsonbInclude;
-import de.gedoplan.v5t11.status.util.EventFirer;
+import de.gedoplan.v5t11.util.cdi.EventFirer;
+import de.gedoplan.v5t11.util.domain.SignalStellung;
+import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,56 +26,24 @@ import lombok.NoArgsConstructor;
 @XmlAccessorType(XmlAccessType.NONE)
 @NoArgsConstructor
 public abstract class Signal extends Geraet {
-  /**
-   * Signalstellung.
-   *
-   * @author dw
-   */
-  public static enum Stellung {
-    /**
-     * Halt (Hp0, Hp00, Sr0, Vr0).
-     */
-    HALT,
-
-    /**
-     * Fahrt (Hp1, Vr1).
-     */
-    FAHRT,
-
-    /**
-     * Langsamfahrt (Hp2, Vr2).
-     */
-    LANGSAMFAHRT,
-
-    /**
-     * Rangierfahrt (Sr1).
-     */
-    RANGIERFAHRT,
-
-    /**
-     * Dunkel (Vorsignal am Hauptsignalmast bei Hp0).
-     */
-    DUNKEL
-
-  };
 
   /**
    * Map Stellung -> Stellungswert für alle erlaubten Stellungen.
    */
   @JsonbTransient
-  protected SortedMap<Stellung, Long> stellung2wert = new TreeMap<Stellung, Long>();
+  protected SortedMap<SignalStellung, Long> stellung2wert = new TreeMap<SignalStellung, Long>();
 
   /**
    * Map Stellungswert -> Stellung für alle erlaubten Stellungen.
    */
   @JsonbTransient
-  protected Map<Long, Stellung> wert2stellung = new HashMap<Long, Stellung>();
+  protected Map<Long, SignalStellung> wert2stellung = new HashMap<Long, SignalStellung>();
 
   /**
    * Aktuelle Signalstellung.
    */
   @Getter(onMethod = @__(@JsonbInclude))
-  protected Stellung stellung = Stellung.HALT;
+  protected SignalStellung stellung = SignalStellung.HALT;
 
   /**
    * Konstruktor.
@@ -94,13 +63,13 @@ public abstract class Signal extends Geraet {
    * @param stellungswert
    *          Stellungswert
    */
-  protected void addErlaubteStellung(Stellung stellung, long stellungswert) {
+  protected void addErlaubteStellung(SignalStellung stellung, long stellungswert) {
     this.stellung2wert.put(stellung, stellungswert);
     this.wert2stellung.put(stellungswert, stellung);
   }
 
   @JsonbInclude(full = true)
-  public Set<Stellung> getErlaubteStellungen() {
+  public Set<SignalStellung> getErlaubteStellungen() {
     return this.stellung2wert.keySet();
   }
 
@@ -115,11 +84,11 @@ public abstract class Signal extends Geraet {
    * @param stellung
    *          Wert
    */
-  public void setStellung(Stellung stellung) {
+  public void setStellung(SignalStellung stellung) {
     setStellung(stellung, true);
   }
 
-  protected void setStellung(Stellung stellung, boolean updateInterface) {
+  protected void setStellung(SignalStellung stellung, boolean updateInterface) {
     if (this.stellung != stellung) {
       if (!this.stellung2wert.containsKey(stellung)) {
         throw new IllegalArgumentException("Ungueltige Signalstellung)");
@@ -134,7 +103,7 @@ public abstract class Signal extends Geraet {
         this.funktionsdecoder.setWert(fdWert);
       }
 
-      EventFirer.fire(this);
+      EventFirer.getInstance().fire(this);
     }
   }
 
@@ -146,7 +115,7 @@ public abstract class Signal extends Geraet {
    * @return Stellungswert
    */
   @JsonbTransient
-  public long getWertForStellung(Stellung stellung) {
+  public long getWertForStellung(SignalStellung stellung) {
     Long wert = this.stellung2wert.get(stellung);
     return wert != null ? wert : 0;
   }
@@ -159,13 +128,13 @@ public abstract class Signal extends Geraet {
    * @return Stellung oder null, wenn ungueltiger Stellungswert
    */
   @JsonbTransient
-  public Stellung getStellungForWert(long stellungsWert) {
+  public SignalStellung getStellungForWert(long stellungsWert) {
     return this.wert2stellung.get(stellungsWert);
   }
 
   @Override
   public void adjustStatus() {
-    Stellung stellungForWert = getStellungForWert((this.funktionsdecoder.getWert() & this.bitMaskeAnschluss) >>> this.anschluss);
+    SignalStellung stellungForWert = getStellungForWert((this.funktionsdecoder.getWert() & this.bitMaskeAnschluss) >>> this.anschluss);
     if (stellungForWert != null) {
       setStellung(stellungForWert, false);
     }

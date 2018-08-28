@@ -3,6 +3,8 @@
  */
 package de.gedoplan.v5t11.status.entity.fahrweg.geraet;
 
+import de.gedoplan.v5t11.util.domain.SignalStellung;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
@@ -13,9 +15,9 @@ public class Vorsignal extends Signal {
    */
   protected Vorsignal() {
     super(2);
-    addErlaubteStellung(Stellung.HALT, 0);
-    addErlaubteStellung(Stellung.FAHRT, 3);
-    addErlaubteStellung(Stellung.LANGSAMFAHRT, 2);
-    addErlaubteStellung(Stellung.DUNKEL, 1);
+    addErlaubteStellung(SignalStellung.HALT, 0);
+    addErlaubteStellung(SignalStellung.FAHRT, 3);
+    addErlaubteStellung(SignalStellung.LANGSAMFAHRT, 2);
+    addErlaubteStellung(SignalStellung.DUNKEL, 1);
   }
 }

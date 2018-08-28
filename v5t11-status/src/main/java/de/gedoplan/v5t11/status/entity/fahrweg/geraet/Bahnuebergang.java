@@ -3,6 +3,8 @@
  */
 package de.gedoplan.v5t11.status.entity.fahrweg.geraet;
 
+import de.gedoplan.v5t11.util.domain.SignalStellung;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
@@ -13,25 +15,25 @@ public class Bahnuebergang extends Signal {
    */
   protected Bahnuebergang() {
     super(1);
-    addErlaubteStellung(Stellung.HALT, 0);
-    addErlaubteStellung(Stellung.FAHRT, 1);
+    addErlaubteStellung(SignalStellung.HALT, 0);
+    addErlaubteStellung(SignalStellung.FAHRT, 1);
   }
 
   /**
    * Bahnübergang schliessen.
    *
-   * Conveniance-Methode äquivalent zu {@link #setStellung(Stellung) setStellung(FAHRT)}.
+   * Conveniance-Methode äquivalent zu {@link #setStellung(SignalStellung) setStellung(FAHRT)}.
    */
   public void schliessen() {
-    setStellung(Stellung.FAHRT);
+    setStellung(SignalStellung.FAHRT);
   }
 
   /**
    * Bahnübergang öffnen.
    *
-   * Conveniance-Methode äquivalent zu {@link #setStellung(Stellung) setStellung(HALT)}.
+   * Conveniance-Methode äquivalent zu {@link #setStellung(SignalStellung) setStellung(HALT)}.
    */
   public void oeffnen() {
-    setStellung(Stellung.HALT);
+    setStellung(SignalStellung.HALT);
   }
 }

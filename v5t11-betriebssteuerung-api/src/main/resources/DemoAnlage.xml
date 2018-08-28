@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <v5t11>
-  <Lok id="212 216-6" bild="lok_212.png" adr="5" />
-  <Lok id="VT 98.9731" bild="lok_vt98.png" adr="6" />
-  <Lok id="221 137-3" bild="lok_221.png" adr="19" />
+  <Lok id="212 216-6" bild="lok_212.png" adr="5" decoder="Tr66825" />
+  <Lok id="VT 98.9731" bild="lok_vt98.png" adr="6" decoder="DHL100" />
+  <Lok id="221 137-3" bild="lok_221.png" adr="19" decoder="Tr66835" />
 
   <LokController id="LokControl 1" adr="30" />
   <LokController id="LokControl 2" adr="31" />
@@ -10,14 +10,14 @@
 
   <Besetztmelder>
     <BMMiba3 id="BM-1" adr="90" einbauOrt="neben Interface">
-      <Gleisabschnitt idx="0" bereich="Demoanlage" name="W1" />
-      <Gleisabschnitt idx="1" bereich="Demoanlage" name="S" />
-      <Gleisabschnitt idx="2" bereich="Demoanlage" name="W3" />
-      <Gleisabschnitt idx="3" bereich="Demoanlage" name="2" />
-      <Gleisabschnitt idx="4" bereich="Demoanlage" name="W2" />
-      <Gleisabschnitt idx="5" bereich="Demoanlage" name="11" />
-      <Gleisabschnitt idx="6" bereich="Demoanlage" name="12" />
-      <Gleisabschnitt idx="7" bereich="Demoanlage" name="1" />
+      <Gleisabschnitt idx="0" bereich="show" name="W1" />
+      <Gleisabschnitt idx="1" bereich="show" name="S" />
+      <Gleisabschnitt idx="2" bereich="show" name="W3" />
+      <Gleisabschnitt idx="3" bereich="show" name="2" />
+      <Gleisabschnitt idx="4" bereich="show" name="W2" />
+      <Gleisabschnitt idx="5" bereich="show" name="11" />
+      <Gleisabschnitt idx="6" bereich="show" name="12" />
+      <Gleisabschnitt idx="7" bereich="show" name="1" />
       <properties>
         <property name="abfallVerzoegerung" value="200" />
         <property name="zeitTakt" value="TAKT_10MS" />
@@ -30,12 +30,12 @@
 
   <Funktionsdecoder>
     <WDMiba3 id="FD-1" adr="80" einbauOrt="neben Trafo">
-      <Weiche idx="1" bereich="Demoanlage" name="3" />
-      <Weiche idx="2" bereich="Demoanlage" name="2" />
-      <Weiche idx="3" bereich="Demoanlage" name="1" />
-      <HauptsignalRtGnGe idx="4" bereich="Demoanlage" name="F" dauer="true" />
-      <HauptsignalRtGe idx="6" bereich="Demoanlage" name="N1" dauer="true" />
-      <HauptsignalRtGn idx="7" bereich="Demoanlage" name="N2" dauer="true" />
+      <Weiche idx="1" bereich="show" name="3" />
+      <Weiche idx="2" bereich="show" name="2" />
+      <Weiche idx="3" bereich="show" name="1" />
+      <HauptsignalRtGnGe idx="4" bereich="show" name="F" dauer="true" />
+      <HauptsignalRtGe idx="6" bereich="show" name="N1" dauer="true" />
+      <HauptsignalRtGn idx="7" bereich="show" name="N2" dauer="true" />
       <properties>
         <property name="impulsDauer" value="500" />
       </properties>
@@ -44,7 +44,7 @@
 
   <Fahrstrassen>
   <!-- Fahrstrassen in Zählrichtung -->
-    <Fahrstrasse bereich="Demoanlage" zaehlrichtung="true">
+    <Fahrstrasse bereich="show" zaehlrichtung="true">
       <Gleisabschnitt name="1" />
       <Weiche name="3" stellung="ABZWEIGEND" />
       <Signal name="N1" stellung="LANGSAMFAHRT" />
@@ -52,7 +52,7 @@
       <Gleisabschnitt name="S" />
     </Fahrstrasse>
 
-    <Fahrstrasse bereich="Demoanlage" zaehlrichtung="true">
+    <Fahrstrasse bereich="show" zaehlrichtung="true">
       <Gleisabschnitt name="2" />
       <Weiche name="3" stellung="GERADE" />
       <Signal name="N2" stellung="FAHRT" />
@@ -60,21 +60,21 @@
       <Gleisabschnitt name="S" />
     </Fahrstrasse>
 
-    <Fahrstrasse bereich="Demoanlage" zaehlrichtung="true">
+    <Fahrstrasse bereich="show" zaehlrichtung="true">
       <Gleisabschnitt name="11" />
       <Weiche name="1" stellung="ABZWEIGEND" />
       <Weiche name="2" stellung="GERADE" schutz="true" />
       <Gleisabschnitt name="1" />
     </Fahrstrasse>
 
-    <Fahrstrasse bereich="Demoanlage" zaehlrichtung="true">
+    <Fahrstrasse bereich="show" zaehlrichtung="true">
       <Gleisabschnitt name="11" />
       <Weiche name="1" stellung="GERADE" />
       <Weiche name="2" stellung="ABZWEIGEND" />
       <Gleisabschnitt name="2" />
     </Fahrstrasse>
 
-    <Fahrstrasse bereich="Demoanlage" zaehlrichtung="true">
+    <Fahrstrasse bereich="show" zaehlrichtung="true">
       <Gleisabschnitt name="12" />
       <Weiche name="2" stellung="GERADE" />
       <Weiche name="1" stellung="ABZWEIGEND" schutz="true" />
@@ -82,24 +82,24 @@
     </Fahrstrasse>
 
 <!-- 
-    <Fahrstrasse bereich="Demoanlage" name="11-1-S" zaehlrichtung="true">
+    <Fahrstrasse bereich="show" name="11-1-S" zaehlrichtung="true">
       <Fahrstrasse name="11-1" />
       <Fahrstrasse name="1-S" />
     </Fahrstrasse>
 
-    <Fahrstrasse bereich="Demoanlage" name="11-2-S" zaehlrichtung="true">
+    <Fahrstrasse bereich="show" name="11-2-S" zaehlrichtung="true">
       <Fahrstrasse name="11-2" />
       <Fahrstrasse name="2-S" />
     </Fahrstrasse>
 
-    <Fahrstrasse bereich="Demoanlage" name="12-2-S" zaehlrichtung="true">
+    <Fahrstrasse bereich="show" name="12-2-S" zaehlrichtung="true">
       <Fahrstrasse name="12-2" />
       <Fahrstrasse name="2-S" />
     </Fahrstrasse>
  -->
 
   <!-- Fahrstrassen entgegen der Zählrichtung -->
-    <Fahrstrasse bereich="Demoanlage" zaehlrichtung="false">
+    <Fahrstrasse bereich="show" zaehlrichtung="false">
       <Gleisabschnitt name="S" />
       <Weiche name="3" stellung="ABZWEIGEND" />
       <Signal name="F" stellung="LANGSAMFAHRT" />
@@ -107,7 +107,7 @@
       <Gleisabschnitt name="1" />
     </Fahrstrasse>
 
-    <Fahrstrasse bereich="Demoanlage" zaehlrichtung="false">
+    <Fahrstrasse bereich="show" zaehlrichtung="false">
       <Gleisabschnitt name="S" />
       <Weiche name="3" stellung="GERADE" />
       <Signal name="F" stellung="FAHRT" />
@@ -115,21 +115,21 @@
       <Gleisabschnitt name="2" />
     </Fahrstrasse>
 
-    <Fahrstrasse bereich="Demoanlage" zaehlrichtung="false">
+    <Fahrstrasse bereich="show" zaehlrichtung="false">
       <Gleisabschnitt name="1" />
       <Weiche name="1" stellung="ABZWEIGEND" />
       <Weiche name="2" stellung="GERADE" schutz="true" />
       <Gleisabschnitt name="11" />
     </Fahrstrasse>
 
-    <Fahrstrasse bereich="Demoanlage" zaehlrichtung="false">
+    <Fahrstrasse bereich="show" zaehlrichtung="false">
       <Gleisabschnitt name="2" />
       <Weiche name="2" stellung="ABZWEIGEND" />
       <Weiche name="1" stellung="GERADE" />
       <Gleisabschnitt name="11" />
     </Fahrstrasse>
 
-    <Fahrstrasse bereich="Demoanlage" zaehlrichtung="false">
+    <Fahrstrasse bereich="show" zaehlrichtung="false">
       <Gleisabschnitt name="2" />
       <Weiche name="2" stellung="GERADE" />
       <Weiche name="1" stellung="ABZWEIGEND" schutz="true" />
@@ -137,17 +137,17 @@
     </Fahrstrasse>
 
 <!-- 
-    <Fahrstrasse bereich="Demoanlage" name="S-1-11" zaehlrichtung="false">
+    <Fahrstrasse bereich="show" name="S-1-11" zaehlrichtung="false">
       <Fahrstrasse name="S-1" />
       <Fahrstrasse name="1-11" />
     </Fahrstrasse>
 
-    <Fahrstrasse bereich="Demoanlage" name="S-2-11" zaehlrichtung="false">
+    <Fahrstrasse bereich="show" name="S-2-11" zaehlrichtung="false">
       <Fahrstrasse name="S-2" />
       <Fahrstrasse name="2-11" />
     </Fahrstrasse>
 
-    <Fahrstrasse bereich="Demoanlage" name="S-2-12" zaehlrichtung="false">
+    <Fahrstrasse bereich="show" name="S-2-12" zaehlrichtung="false">
       <Fahrstrasse name="S-2" />
       <Fahrstrasse name="2-12" />
     </Fahrstrasse>
@@ -155,7 +155,7 @@
   </Fahrstrassen>
 
   <Stellwerke>
-    <Stellwerk bereich="Demoanlage">
+    <Stellwerk bereich="show">
       <Zeile>
         <Element typ="Leer" anzahl="12" />
       </Zeile>

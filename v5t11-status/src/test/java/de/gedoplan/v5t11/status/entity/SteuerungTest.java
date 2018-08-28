@@ -8,9 +8,10 @@ import de.gedoplan.v5t11.status.StatusEventCollector;
 import de.gedoplan.v5t11.status.entity.fahrweg.Geraet;
 import de.gedoplan.v5t11.status.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
-import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal.Stellung;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
 import de.gedoplan.v5t11.status.entity.lok.Lok;
+import de.gedoplan.v5t11.util.domain.SignalStellung;
+import de.gedoplan.v5t11.util.domain.WeichenStellung;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -135,12 +136,12 @@ public class SteuerungTest extends CdiTestBase {
           Weiche weiche = (Weiche) geraet;
 
           // Ist die Weichenstellung korrekt?
-          assertThat("Weichenstellung fuer " + weiche, weiche.getStellung(), is(Weiche.Stellung.getInstance(geraeteWert)));
+          assertThat("Weichenstellung fuer " + weiche, weiche.getStellung(), is(Weiche.getStellungForWert(geraeteWert)));
         } else if (geraet instanceof Signal) {
           Signal signal = (Signal) geraet;
 
           // Ist die Signalstellung korrekt?
-          Stellung stellungForWert = signal.getStellungForWert(geraeteWert);
+          SignalStellung stellungForWert = signal.getStellungForWert(geraeteWert);
           if (stellungForWert != null) {
             assertThat("Signalstellung fuer " + signal, signal.getStellung(), is(stellungForWert));
           } else {
@@ -207,21 +208,21 @@ public class SteuerungTest extends CdiTestBase {
       if (geraet instanceof Weiche) {
         Weiche weiche = (Weiche) geraet;
 
-        Weiche.Stellung oldStellung = weiche.getStellung();
-        Weiche.Stellung stellung = Weiche.Stellung.getInstance(random.nextInt(2));
+        WeichenStellung oldStellung = weiche.getStellung();
+        WeichenStellung stellung = Weiche.getStellungForWert(random.nextInt(2));
 
         weiche.setStellung(stellung);
 
         changed = stellung != oldStellung;
 
-        newWert = (wert & ~mask) | (stellung.getStellungsWert() << anschluss);
+        newWert = (wert & ~mask) | (Weiche.getWertForStellung(stellung) << anschluss);
 
       } else if (geraet instanceof Signal) {
         Signal signal = (Signal) geraet;
 
-        Signal.Stellung oldStellung = signal.getStellung();
-        List<Signal.Stellung> erlaubteStellungen = new ArrayList<>(signal.getErlaubteStellungen());
-        Signal.Stellung stellung = erlaubteStellungen.get(random.nextInt(erlaubteStellungen.size()));
+        SignalStellung oldStellung = signal.getStellung();
+        List<SignalStellung> erlaubteStellungen = new ArrayList<>(signal.getErlaubteStellungen());
+        SignalStellung stellung = erlaubteStellungen.get(random.nextInt(erlaubteStellungen.size()));
 
         signal.setStellung(stellung);
 

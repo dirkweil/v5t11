@@ -2,7 +2,7 @@ package de.gedoplan.v5t11.status.webservice;
 
 import de.gedoplan.v5t11.status.entity.Steuerung;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
-import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal.Stellung;
+import de.gedoplan.v5t11.util.domain.SignalStellung;
 
 import java.util.Set;
 
@@ -28,7 +28,7 @@ public class SignalResource {
   @GET
   @Path("{bereich}/{name}")
   @Produces(MediaType.TEXT_PLAIN + "; qs=1.0")
-  public Stellung getSignalStellung(@PathParam("bereich") String bereich, @PathParam("name") String name) {
+  public SignalStellung getSignalStellung(@PathParam("bereich") String bereich, @PathParam("name") String name) {
 
     return getSignal(bereich, name).getStellung();
   }
@@ -68,18 +68,26 @@ public class SignalResource {
   @PUT
   @Path("{bereich}/{name}")
   @Consumes(MediaType.TEXT_PLAIN)
-  public void putSignalStellung(@PathParam("bereich") String bereich, @PathParam("name") String name, String stellungsName) {
-
-    Stellung stellung = Stellung.valueOf(stellungsName);
-    if (stellung == null) {
-      throw new BadRequestException();
-    }
+  public void putSignalStellung(@PathParam("bereich") String bereich, @PathParam("name") String name, String stellungsAngabe) {
 
     Signal signal = getSignal(bereich, name);
-    if (!signal.getErlaubteStellungen().contains(stellung)) {
-      throw new BadRequestException();
+    if (signal == null) {
+      throw new NotFoundException();
     }
 
-    signal.setStellung(stellung);
+    for (String stellungsName : stellungsAngabe.split("\\s*,\\s*")) {
+
+      SignalStellung stellung = SignalStellung.valueOf(stellungsName);
+      if (stellung == null) {
+        throw new BadRequestException();
+      }
+
+      if (signal.getErlaubteStellungen().contains(stellung)) {
+        signal.setStellung(stellung);
+        return;
+      }
+    }
+
+    throw new BadRequestException();
   }
 }

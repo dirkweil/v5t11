@@ -1,1 +1,1 @@
-jms-queue add --queue-address=V5T11SelectrixMessageTopic --entries=jms/topic/V5T11SelectrixMessage,java:jboss/exported/jms/topic/V5T11SelectrixMessage
+jms-topic add --topic-address=V5T11SelectrixMessageTopic --entries=jms/topic/V5T11SelectrixMessage,java:jboss/exported/jms/topic/V5T11SelectrixMessage

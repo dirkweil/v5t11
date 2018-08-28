@@ -6,6 +6,8 @@ import de.gedoplan.v5t11.status.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
 import de.gedoplan.v5t11.status.entity.lok.Lok;
+import de.gedoplan.v5t11.util.domain.SignalStellung;
+import de.gedoplan.v5t11.util.domain.WeichenStellung;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -80,14 +82,14 @@ public class WebControlModel implements Serializable {
   }
 
   public void weicheGeradeStellen() {
-    weicheStellen(Weiche.Stellung.GERADE);
+    weicheStellen(WeichenStellung.GERADE);
   }
 
   public void weicheAbzweigendStellen() {
-    weicheStellen(Weiche.Stellung.ABZWEIGEND);
+    weicheStellen(WeichenStellung.ABZWEIGEND);
   }
 
-  private void weicheStellen(Weiche.Stellung stellung) {
+  private void weicheStellen(WeichenStellung stellung) {
     Weiche weiche = this.steuerung.getWeiche(this.bereich, this.weichenName);
     if (weiche == null) {
       FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("unbekannte Weiche"));
@@ -97,22 +99,22 @@ public class WebControlModel implements Serializable {
   }
 
   public void signalHaltStellen() {
-    signalStellen(Signal.Stellung.HALT);
+    signalStellen(SignalStellung.HALT);
   }
 
   public void signalFahrtStellen() {
-    signalStellen(Signal.Stellung.FAHRT);
+    signalStellen(SignalStellung.FAHRT);
   }
 
   public void signalLangsamfahrtStellen() {
-    signalStellen(Signal.Stellung.LANGSAMFAHRT);
+    signalStellen(SignalStellung.LANGSAMFAHRT);
   }
 
   public void signalRangierfahrtStellen() {
-    signalStellen(Signal.Stellung.RANGIERFAHRT);
+    signalStellen(SignalStellung.RANGIERFAHRT);
   }
 
-  private void signalStellen(Signal.Stellung stellung) {
+  private void signalStellen(SignalStellung stellung) {
     Signal signal = this.steuerung.getSignal(this.bereich, this.signalName);
     if (signal == null) {
       FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("unbekanntes Signal"));

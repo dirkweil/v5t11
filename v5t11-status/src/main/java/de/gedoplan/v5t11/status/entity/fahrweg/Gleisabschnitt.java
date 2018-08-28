@@ -1,8 +1,8 @@
 package de.gedoplan.v5t11.status.entity.fahrweg;
 
 import de.gedoplan.v5t11.status.entity.baustein.Besetztmelder;
-import de.gedoplan.v5t11.status.jsonb.JsonbInclude;
-import de.gedoplan.v5t11.status.util.EventFirer;
+import de.gedoplan.v5t11.util.cdi.EventFirer;
+import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
 import javax.json.bind.annotation.JsonbTransient;
 import javax.xml.bind.Unmarshaller;
@@ -79,7 +79,7 @@ public class Gleisabschnitt extends Fahrwegelement {
     boolean old = this.besetzt;
     this.besetzt = (this.besetztmelder.getWert() & (1 << this.anschluss)) != 0;
     if (old != this.besetzt) {
-      EventFirer.fire(this);
+      EventFirer.getInstance().fire(this);
     }
   }
 

@@ -3,7 +3,6 @@ package de.gedoplan.v5t11.selectrix.impl;
 import de.gedoplan.v5t11.selectrix.impl.inflow.SelectrixActivation;
 import de.gedoplan.v5t11.selectrix.impl.inflow.SelectrixActivationSpec;
 
-import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.resource.ResourceException;
@@ -21,110 +20,84 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * Resource Adapter zum zum Multichannel-Adapter.
- * 
+ *
  * @author dw
  */
 
 @Connector(reauthenticationSupport = false, transactionSupport = TransactionSupport.TransactionSupportLevel.NoTransaction)
-public class SelectrixResourceAdapter implements ResourceAdapter
-{
-  private static Log                                                      log = LogFactory.getLog(SelectrixResourceAdapter.class);
+public class SelectrixResourceAdapter implements ResourceAdapter {
+  private static Log log = LogFactory.getLog(SelectrixResourceAdapter.class);
 
   private ConcurrentHashMap<SelectrixActivationSpec, SelectrixActivation> activations;
-
-  // private BootstrapContext bootstrapContext;
 
   /**
    * Konstruktor.
    */
-  public SelectrixResourceAdapter()
-  {
+  public SelectrixResourceAdapter() {
     this.activations = new ConcurrentHashMap<SelectrixActivationSpec, SelectrixActivation>();
   }
 
   /**
    * {@inheritDoc}
-   * 
+   *
    * @see javax.resource.spi.ResourceAdapter#endpointActivation(javax.resource.spi.endpoint.MessageEndpointFactory,
    *      javax.resource.spi.ActivationSpec)
    */
   @Override
-  public void endpointActivation(MessageEndpointFactory endpointFactory, ActivationSpec spec) throws ResourceException
-  {
-    if (log.isTraceEnabled())
-    {
+  public void endpointActivation(MessageEndpointFactory endpointFactory, ActivationSpec spec) throws ResourceException {
+    if (log.isTraceEnabled()) {
       log.trace("endpointActivation");
     }
 
-    try
-    {
+    try {
       SelectrixActivation activation = new SelectrixActivation(this, endpointFactory, (SelectrixActivationSpec) spec);
       this.activations.put((SelectrixActivationSpec) spec, activation);
       activation.start();
-    }
-    catch (Exception e)
-    {
+    } catch (Exception e) {
       log.error("Cannot activate endpoint", e);
     }
   }
 
   /**
    * {@inheritDoc}
-   * 
+   *
    * @see javax.resource.spi.ResourceAdapter#endpointDeactivation(javax.resource.spi.endpoint.MessageEndpointFactory,
    *      javax.resource.spi.ActivationSpec)
    */
   @Override
-  public void endpointDeactivation(MessageEndpointFactory endpointFactory, ActivationSpec spec)
-  {
-    if (log.isTraceEnabled())
-    {
+  public void endpointDeactivation(MessageEndpointFactory endpointFactory, ActivationSpec spec) {
+    if (log.isTraceEnabled()) {
       log.trace("endpointDeactivation");
     }
 
     SelectrixActivation activation = this.activations.remove(spec);
-    if (activation != null)
-    {
+    if (activation != null) {
       activation.stop();
     }
   }
 
   /**
    * {@inheritDoc}
-   * 
+   *
    * @see javax.resource.spi.ResourceAdapter#start(javax.resource.spi.BootstrapContext)
    */
   @Override
-  public void start(BootstrapContext bootstrapContext) throws ResourceAdapterInternalException
-  {
-    if (log.isTraceEnabled())
-    {
+  public void start(BootstrapContext bootstrapContext) throws ResourceAdapterInternalException {
+    if (log.isTraceEnabled()) {
       log.trace("start");
     }
 
-    // this.bootstrapContext = bootstrapContext;
-
     Selectrix.getInstance().setMessageListeners(this.activations.values());
-    try
-    {
-      Selectrix.getInstance().start();
-    }
-    catch (IOException e)
-    {
-      throw new ResourceAdapterInternalException("Cannot start Selectrix", e);
-    }
   }
 
   /**
    * {@inheritDoc}
-   * 
+   *
    * @see javax.resource.spi.ResourceAdapter#stop()
    */
   @Override
-  public void stop()
-  {
-    if (log.isTraceEnabled())
-    {
+  public void stop() {
+    if (log.isTraceEnabled()) {
       log.trace("stop");
     }
 
@@ -133,14 +106,12 @@ public class SelectrixResourceAdapter implements ResourceAdapter
 
   /**
    * {@inheritDoc}
-   * 
+   *
    * @see javax.resource.spi.ResourceAdapter#getXAResources(javax.resource.spi.ActivationSpec[])
    */
   @Override
-  public XAResource[] getXAResources(ActivationSpec[] specs) throws ResourceException
-  {
-    if (log.isTraceEnabled())
-    {
+  public XAResource[] getXAResources(ActivationSpec[] specs) throws ResourceException {
+    if (log.isTraceEnabled()) {
       log.trace("getXAResources");
     }
     return null;
@@ -148,33 +119,28 @@ public class SelectrixResourceAdapter implements ResourceAdapter
 
   /**
    * {@inheritDoc}
-   * 
+   *
    * @see java.lang.Object#hashCode()
    */
   @Override
-  public int hashCode()
-  {
+  public int hashCode() {
     return 1;
   }
 
   /**
    * {@inheritDoc}
-   * 
+   *
    * @see java.lang.Object#equals(java.lang.Object)
    */
   @Override
-  public boolean equals(Object obj)
-  {
-    if (this == obj)
-    {
+  public boolean equals(Object obj) {
+    if (this == obj) {
       return true;
     }
-    if (obj == null)
-    {
+    if (obj == null) {
       return false;
     }
-    if (getClass() != obj.getClass())
-    {
+    if (getClass() != obj.getClass()) {
       return false;
     }
     return true;

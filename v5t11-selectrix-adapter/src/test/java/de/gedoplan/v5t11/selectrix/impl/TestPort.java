@@ -13,7 +13,7 @@ import gnu.io.UnsupportedCommOperationException;
 public class TestPort {
 	public static void main(String[] args) throws Exception {
 
-		String portName = "/dev/ttyS0";
+		String portName = "/dev/ttyUSB0";
 
 		int portSpeed = 19200;
 

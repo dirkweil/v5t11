@@ -5,12 +5,13 @@ import de.gedoplan.v5t11.status.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
 import de.gedoplan.v5t11.status.entity.lok.Lok;
-import de.gedoplan.v5t11.status.jsonb.JsonbWithIncludeVisibility;
+import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 
 import javax.annotation.Resource;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
+import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
 import javax.jms.JMSContext;
 
@@ -19,8 +20,8 @@ import org.apache.commons.logging.Log;
 @ApplicationScoped
 public class StatusPublisher {
 
-  @Inject
-  JMSContext jmsContext;
+  @Resource
+  ConnectionFactory connectionFactory;
 
   @Resource(lookup = "java:/jms/topic/v5t11-status")
   Destination destination;
@@ -33,14 +34,11 @@ public class StatusPublisher {
     String json = JsonbWithIncludeVisibility.SHORT.toJson(status);
 
     if (this.log.isDebugEnabled()) {
-      this.log.debug("jmsContext: " + this.jmsContext);
-      this.log.debug("destination: " + this.destination);
-      this.log.debug("category: " + category);
-      this.log.debug("status: " + json);
+      this.log.debug(category + ": " + json);
     }
 
-    try {
-      this.jmsContext
+    try (JMSContext jmsContext = this.connectionFactory.createContext()) {
+      jmsContext
           .createProducer()
           .setTimeToLive(10 * 1000)
           .setProperty("category", category)
@@ -51,22 +49,22 @@ public class StatusPublisher {
   }
 
   void publish(@Observes Gleisabschnitt gleisabschnitt) {
-    publish("gleis", gleisabschnitt);
+    publish("GLEIS", gleisabschnitt);
   }
 
   void publish(@Observes Weiche weiche) {
-    publish("weiche", weiche);
+    publish("WEICHE", weiche);
   }
 
   void publish(@Observes Signal signal) {
-    publish("signal", signal);
+    publish("SIGNAL", signal);
   }
 
   void publish(@Observes Lok lok) {
-    publish("lok", lok);
+    publish("LOK", lok);
   }
 
   void publish(@Observes Kanal kanal) {
-    publish("kanal", kanal);
+    publish("KANAL", kanal);
   }
 }
