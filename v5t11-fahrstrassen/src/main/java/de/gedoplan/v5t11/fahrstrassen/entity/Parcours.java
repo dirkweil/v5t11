@@ -5,10 +5,8 @@ import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Signal;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Weiche;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -209,41 +207,16 @@ public class Parcours {
   }
 
   /**
-   * Freie Fahrstrassen suchen.
-   *
-   * Die angegebenen Gleisabschnitte dürfen belegt sein, alle anderen müssen
-   * frei sein.
+   * Fahrstrassen suchen.
    *
    * @param beginn
    *          Beginn-Gleisabschnitt
-   * @param beginnMussFreiSein
-   *          Beginn-Gleisabschnitt muss frei sein
    * @param ende
    *          Ende-Gleisabschnitt
-   * @param endeMussFreiSein
-   *          Ende-Gleisabschnitt muss frei sein
-   * @return Liste freie Fahrstrassen
+   * @param frei
+   *          <code>true</code>, wenn nur freie Fahrstrassen geliefert werden sollen
+   * @return gefundene Fahrstrassen in aufsteigender Rang-Reihenfolge
    */
-  public List<Fahrstrasse> getFreieFahrstrassen(Gleisabschnitt beginn, boolean beginnMussFreiSein, Gleisabschnitt ende, boolean endeMussFreiSein) {
-    List<Fahrstrasse> freieFahrstrassen = new ArrayList<>();
-    for (Fahrstrasse fahrstrasse : this.fahrstrassen) {
-      if (fahrstrasse.startsWith(beginn) && fahrstrasse.endsWith(ende)) {
-        if (fahrstrasse.isFrei(beginnMussFreiSein, endeMussFreiSein)) {
-          freieFahrstrassen.add(fahrstrasse);
-        }
-      }
-    }
-
-    Collections.sort(freieFahrstrassen, new Comparator<Fahrstrasse>() {
-      @Override
-      public int compare(Fahrstrasse f1, Fahrstrasse f2) {
-        return f1.getRank() - f2.getRank();
-      }
-    });
-
-    return freieFahrstrassen;
-  }
-
   public List<Fahrstrasse> getFahrstrassen(Gleisabschnitt beginn, Gleisabschnitt ende, boolean frei) {
     Stream<Fahrstrasse> stream = this.fahrstrassen.stream();
 
