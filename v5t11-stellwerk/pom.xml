@@ -16,6 +16,34 @@
     <logging.scope>compile</logging.scope>
   </properties>
 
+<!-- Aus unklaren Gründen müssen einige Artemis-Dependencies auf die Version 2.6.2 geklemmt werden -->
+<dependencyManagement>
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.activemq</groupId>
+      <artifactId>artemis-commons</artifactId>
+      <version>2.6.2</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.activemq</groupId>
+      <artifactId>artemis-core-client</artifactId>
+      <version>2.6.2</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.activemq</groupId>
+      <artifactId>artemis-jms-client</artifactId>
+      <version>2.6.2</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.activemq</groupId>
+      <artifactId>artemis-selector</artifactId>
+      <version>2.6.2</version>
+    </dependency>
+  </dependencies>
+</dependencyManagement>
 
   <dependencies>
     <dependency>
