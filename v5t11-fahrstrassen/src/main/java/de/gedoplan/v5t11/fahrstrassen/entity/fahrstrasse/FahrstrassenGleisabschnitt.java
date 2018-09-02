@@ -2,6 +2,7 @@ package de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse;
 
 import de.gedoplan.v5t11.fahrstrassen.entity.Parcours;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleisabschnitt;
+import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -52,5 +53,11 @@ public class FahrstrassenGleisabschnitt extends Fahrstrassenelement {
     if (this.gleisabschnitt != null) {
       this.gleisabschnitt.reserviereFuerFahrstrasse(fahrstrasse, isZaehlrichtung());
     }
+  }
+
+  @Override
+  @JsonbInclude(full = true)
+  public String getTyp() {
+    return "GLEIS";
   }
 }

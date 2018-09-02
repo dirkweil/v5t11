@@ -68,7 +68,7 @@ public class FahrstrasseResource {
       }
     }
 
-    return ResponseFactory.createJsonResponse(this.parcours.getFahrstrassen(start, ende, frei), JsonbWithIncludeVisibility.SHORT);
+    return ResponseFactory.createJsonResponse(this.parcours.getFahrstrassen(start, ende, frei), JsonbWithIncludeVisibility.FULL);
   }
 
   @PUT

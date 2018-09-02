@@ -3,6 +3,7 @@ package de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse;
 import de.gedoplan.v5t11.fahrstrassen.entity.Bereichselement;
 import de.gedoplan.v5t11.fahrstrassen.entity.Parcours;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Fahrwegelement;
+import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -27,6 +28,7 @@ public abstract class Fahrstrassenelement extends Bereichselement {
    *
    * @return <code>true</code>, wenn in Zählrichtung
    */
+  @JsonbInclude(full = true)
   public boolean isZaehlrichtung() {
     return this.zaehlrichtung != null ? this.zaehlrichtung : false;
   }
@@ -113,4 +115,6 @@ public abstract class Fahrstrassenelement extends Bereichselement {
    *          <code>null</code> zum Freigeben, sonst Fahrstrasse
    */
   public abstract void reservieren(Fahrstrasse fahrstrasse);
+
+  public abstract String getTyp();
 }

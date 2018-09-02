@@ -44,7 +44,27 @@ public class FahrstrasseTest extends TestBase {
   }
 
   @Test
-  public void test_02_reservieren() throws Exception {
+  public void test_02_toFullJson() throws Exception {
+
+    Fahrstrasse fahrstrasse = this.parcours.getFahrstrasse("show", "11-1-S");
+
+    String json = JsonbWithIncludeVisibility.FULL.toJson(fahrstrasse);
+
+    this.log.debug("JSON string: " + json);
+
+    assertThat(json, is("{"
+        + "\"bereich\":\"show\""
+        + ",\"elemente\":[{\"bereich\":\"show\",\"name\":\"11\",\"typ\":\"GLEIS\",\"zaehlrichtung\":true},{\"bereich\":\"show\",\"name\":\"1\",\"typ\":\"WEICHE\",\"zaehlrichtung\":true},{\"bereich\":\"show\",\"name\":\"W1\",\"typ\":\"GLEIS\",\"zaehlrichtung\":true},{\"bereich\":\"show\",\"name\":\"2\",\"typ\":\"WEICHE\",\"zaehlrichtung\":true},{\"bereich\":\"show\",\"name\":\"1\",\"typ\":\"GLEIS\",\"zaehlrichtung\":true},{\"bereich\":\"show\",\"name\":\"N1\",\"typ\":\"SIGNAL\",\"zaehlrichtung\":true},{\"bereich\":\"show\",\"name\":\"3\",\"typ\":\"WEICHE\",\"zaehlrichtung\":true},{\"bereich\":\"show\",\"name\":\"W3\",\"typ\":\"GLEIS\",\"zaehlrichtung\":true},{\"bereich\":\"show\",\"name\":\"N2\",\"typ\":\"SIGNAL\",\"zaehlrichtung\":true},{\"bereich\":\"show\",\"name\":\"S\",\"typ\":\"GLEIS\",\"zaehlrichtung\":true}]"
+        + ",\"name\":\"11-1-S\""
+        + ",\"rank\":" + fahrstrasse.getRank()
+        + ",\"reservierungsTyp\":\"" + fahrstrasse.getReservierungsTyp() + "\""
+        + ",\"teilFreigabeAnzahl\":" + fahrstrasse.getTeilFreigabeAnzahl()
+        + ",\"zaehlrichtung\":" + fahrstrasse.isZaehlrichtung()
+        + "}"));
+  }
+
+  @Test
+  public void test_03_reservieren() throws Exception {
 
     Fahrstrasse fahrstrasse = this.parcours.getFahrstrasse("show", "11-1-S");
 
@@ -79,7 +99,7 @@ public class FahrstrasseTest extends TestBase {
   }
 
   @Test
-  public void test_03_komplettFreigeben() throws Exception {
+  public void test_04_komplettFreigeben() throws Exception {
 
     Fahrstrasse fahrstrasse = this.parcours.getFahrstrasse("show", "11-1-S");
 
@@ -113,7 +133,7 @@ public class FahrstrasseTest extends TestBase {
   }
 
   @Test
-  public void test_04_teilFreigeben() throws Exception {
+  public void test_05_teilFreigeben() throws Exception {
 
     Fahrstrasse fahrstrasse = this.parcours.getFahrstrasse("show", "11-1-S");
 

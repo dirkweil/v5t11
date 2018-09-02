@@ -3,6 +3,7 @@ package de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse;
 import de.gedoplan.v5t11.fahrstrassen.entity.Parcours;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Weiche;
 import de.gedoplan.v5t11.util.domain.WeichenStellung;
+import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -70,11 +71,12 @@ public class FahrstrassenWeiche extends FahrstrassenGeraet {
       if (!this.schutz) {
         this.weiche.reserviereFuerFahrstrasse(fahrstrasse, isZaehlrichtung());
       }
-
-      // TODO Stellen in separater Methode
-      // if (fahrstrasse != null) {
-      // this.weiche.setStellung(this.stellung);
-      // }
     }
+  }
+
+  @Override
+  @JsonbInclude(full = true)
+  public String getTyp() {
+    return "WEICHE";
   }
 }
