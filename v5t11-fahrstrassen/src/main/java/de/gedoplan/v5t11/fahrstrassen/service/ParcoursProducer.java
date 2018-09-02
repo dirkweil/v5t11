@@ -7,7 +7,6 @@ import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Weiche;
 import de.gedoplan.v5t11.fahrstrassen.gateway.GleisResourceClient;
 import de.gedoplan.v5t11.fahrstrassen.gateway.SignalResourceClient;
 import de.gedoplan.v5t11.fahrstrassen.gateway.WeicheResourceClient;
-import de.gedoplan.v5t11.util.config.ConfigUtil;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
@@ -17,9 +16,9 @@ public class ParcoursProducer {
 
   @Produces
   @ApplicationScoped
-  Parcours createParcours(GleisResourceClient gleisResourceClient, SignalResourceClient signalResourceClient, WeicheResourceClient weicheResourceClient) {
+  Parcours createParcours(ConfigService configService, GleisResourceClient gleisResourceClient, SignalResourceClient signalResourceClient, WeicheResourceClient weicheResourceClient) {
 
-    Parcours parcours = ConfigUtil.readXmlConfig("_parcours.xml", Parcours.class);
+    Parcours parcours = configService.readXmlConfig("_parcours.xml", Parcours.class);
 
     // Aktuelle Zustände von Gleisabschnitten, Weichen und Signalen holen
     gleisResourceClient.getGleisabschnitte().forEach(other -> {

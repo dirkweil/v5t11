@@ -1,6 +1,6 @@
 package de.gedoplan.v5t11.fahrstrassen;
 
-import de.gedoplan.v5t11.util.config.ConfigUtil;
+import de.gedoplan.v5t11.util.config.ConfigBase;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -13,7 +13,7 @@ public class TestBase {
   @BeforeClass
   public static void initSysProps() {
     System.setProperty("java.util.logging.manager", "org.apache.logging.log4j.jul.LogManager");
-    System.setProperty(ConfigUtil.PROPERTY_ANLAGE, "test");
+    System.setProperty(ConfigBase.PROPERTY_ANLAGE, "test");
   }
 
 }

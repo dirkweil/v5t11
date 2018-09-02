@@ -1,5 +1,9 @@
 package de.gedoplan.v5t11.fahrstrassen.jms;
 
+import de.gedoplan.v5t11.fahrstrassen.service.ConfigService;
+
+import java.util.Properties;
+
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
@@ -18,6 +22,9 @@ import org.apache.commons.logging.Log;
 @ApplicationScoped
 public class JmsAdministerdObjectProducer {
 
+  @Inject
+  ConfigService configService;
+
   private Context ic;
   private ConnectionFactory cf;
   private Topic statusTopic;
@@ -28,7 +35,12 @@ public class JmsAdministerdObjectProducer {
   @PostConstruct
   void postConstruct() {
     try {
-      this.ic = new InitialContext();
+      Properties prop = new Properties();
+      prop.setProperty("java.naming.factory.initial", "org.apache.activemq.artemis.jndi.ActiveMQInitialContextFactory");
+      prop.setProperty("connectionFactory.ConnectionFactory", this.configService.getStatusJmsUrl());
+      prop.setProperty("topic.jms/topic/v5t11-status", "jms.topic.v5t11-status");
+
+      this.ic = new InitialContext(prop);
       this.cf = (ConnectionFactory) this.ic.lookup("ConnectionFactory");
       this.statusTopic = (Topic) this.ic.lookup("jms/topic/v5t11-status");
 
