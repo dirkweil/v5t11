@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Leitstand>
+  <Stellwerk bereich="show">
+    <Zeile>
+      <Element typ="Leer" />
+    </Zeile>
+    <Zeile>
+      <Element typ="Leer" anzahl="2" />
+      <Element typ="GleisAbschnitt" lage="SW,O" name="12" label="true" />
+      <Element typ="GleisAbschnitt" lage="W,O" name="12" />
+      <Element typ="Weiche" lage="W|SW,O" name="2" />
+      <Element typ="GleisAbschnitt" lage="W,O" name="2" label="true" />
+      <Element typ="GleisAbschnitt" lage="W,O" name="2" signal="N2" signalPos="S" />
+      <Element typ="GleisAbschnitt" lage="W,SO" name="2" />
+    </Zeile>
+    <Zeile>
+      <Element typ="Leer" />
+      <Element typ="GleisAbschnitt" lage="SW,NO" name="12" />
+      <Element typ="Leer" />
+      <Element typ="Weiche" lage="SW,NO|O" name="1" />
+      <Element typ="GleisAbschnitt" lage="W,O" name="1" />
+      <Element typ="GleisAbschnitt" lage="W,O" name="1" label="true" />
+      <Element typ="GleisAbschnitt" lage="W,O" name="1" />
+      <Element typ="GleisAbschnitt" lage="W,O" name="1" signal="N1" signalPos="S" />
+      <Element typ="Weiche" lage="NW|W,SO" name="3" />
+    </Zeile>
+    <Zeile>
+      <Element typ="Leer" anzahl="2" />
+      <Element typ="GleisAbschnitt" lage="SW,NO" name="11" label="true" />
+      <Element typ="Leer" anzahl="6" />
+      <Element typ="GleisAbschnitt" lage="NW,SO" name="S" signal="F" signalPos="NO" />
+    </Zeile>
+    <Zeile>
+      <Element typ="Leer" />
+      <Element typ="GleisAbschnitt" lage="SW,NO" name="11" />
+      <Element typ="Leer" anzahl="8" />
+      <Element typ="GleisAbschnitt" lage="NW,S" name="S" label="true" />
+    </Zeile>
+    <Zeile>
+      <Element typ="Leer" />
+    </Zeile>
+  </Stellwerk>
+</Leitstand>
+
