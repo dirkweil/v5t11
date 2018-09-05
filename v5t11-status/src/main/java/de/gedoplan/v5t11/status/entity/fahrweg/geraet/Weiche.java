@@ -26,7 +26,7 @@ public class Weiche extends Geraet {
   /**
    * Aktuelle Stellung der Weiche.
    */
-  @Getter(onMethod = @__(@JsonbInclude))
+  @Getter(onMethod_ = @JsonbInclude)
   private WeichenStellung stellung = WeichenStellung.GERADE;
 
   /**

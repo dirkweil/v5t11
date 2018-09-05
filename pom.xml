@@ -193,7 +193,7 @@
       <dependency>
         <groupId>org.projectlombok</groupId>
         <artifactId>lombok</artifactId>
-        <version>1.16.12</version>
+        <version>1.18.2</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -235,6 +235,7 @@
 
   <modules>
     <module>v5t11-fahrstrassen</module>
+    <module>v5t11-leitstand</module>
     <module>v5t11-selectrix-adapter-api</module>
     <module>v5t11-selectrix-adapter</module>
     <module>v5t11-selectrix-adapter-test</module>

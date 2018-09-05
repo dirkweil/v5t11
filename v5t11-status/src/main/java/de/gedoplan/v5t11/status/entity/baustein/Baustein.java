@@ -33,7 +33,7 @@ public abstract class Baustein extends SingleIdEntity<String> implements Compara
    */
   @Id
   @XmlAttribute(required = true)
-  @Getter(onMethod = @__(@JsonbInclude))
+  @Getter(onMethod_ = @JsonbInclude)
   protected String id;
 
   /**

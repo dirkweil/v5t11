@@ -18,16 +18,16 @@ public class Lok implements Comparable<Lok> {
    */
   public static final int MAX_GESCHWINDIGKEIT = 31;
 
-  @Getter(onMethod = @__(@JsonbInclude))
+  @Getter(onMethod_ = @JsonbInclude)
   private String id;
 
-  @Getter(onMethod = @__(@JsonbInclude))
+  @Getter(onMethod_ = @JsonbInclude)
   private boolean licht;
 
-  @Getter(onMethod = @__(@JsonbInclude))
+  @Getter(onMethod_ = @JsonbInclude)
   private boolean rueckwaerts;
 
-  @Getter(onMethod = @__(@JsonbInclude))
+  @Getter(onMethod_ = @JsonbInclude)
   private int geschwindigkeit;
 
   @Getter

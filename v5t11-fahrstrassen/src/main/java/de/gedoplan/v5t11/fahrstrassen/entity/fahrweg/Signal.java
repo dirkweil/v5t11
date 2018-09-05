@@ -20,7 +20,7 @@ public class Signal extends Geraet {
    * Aktuelle Signalstellung.
    */
   @Getter
-  @Setter(onMethod = @__(@JsonbInclude))
+  @Setter(onMethod_ = @JsonbInclude)
   private volatile SignalStellung stellung = SignalStellung.HALT;
 
   @Getter

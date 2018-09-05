@@ -42,7 +42,7 @@ public abstract class Signal extends Geraet {
   /**
    * Aktuelle Signalstellung.
    */
-  @Getter(onMethod = @__(@JsonbInclude))
+  @Getter(onMethod_ = @JsonbInclude)
   protected SignalStellung stellung = SignalStellung.HALT;
 
   /**

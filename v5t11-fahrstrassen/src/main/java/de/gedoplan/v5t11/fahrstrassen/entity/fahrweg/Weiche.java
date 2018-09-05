@@ -18,7 +18,7 @@ public class Weiche extends Geraet {
    * Aktuelle Signalstellung.
    */
   @Getter
-  @Setter(onMethod = @__(@JsonbInclude))
+  @Setter(onMethod_ = @JsonbInclude)
   private volatile WeichenStellung stellung = WeichenStellung.GERADE;
 
   public Weiche(String bereich, String name) {

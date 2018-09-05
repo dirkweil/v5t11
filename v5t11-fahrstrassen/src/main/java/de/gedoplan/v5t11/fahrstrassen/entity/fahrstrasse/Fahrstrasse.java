@@ -46,7 +46,7 @@ public class Fahrstrasse extends Bereichselement {
    * Dieses Attribut dient nur als Default für die zugehörigen Fahrstrassenelemente.
    */
   @XmlAttribute
-  @Getter(onMethod = @__(@JsonbInclude(full = true)))
+  @Getter(onMethod_ = @JsonbInclude(full = true))
   private boolean zaehlrichtung;
 
   /**
@@ -58,7 +58,7 @@ public class Fahrstrasse extends Bereichselement {
   /**
    * Ranking (für Auswahl aus Alternativen).
    */
-  @Getter(onMethod = @__(@JsonbInclude(full = true)))
+  @Getter(onMethod_ = @JsonbInclude(full = true))
   private int rank;
 
   /**
@@ -70,7 +70,7 @@ public class Fahrstrasse extends Bereichselement {
       @XmlElement(name = "Vorsignal", type = FahrstrassenVorsignal.class),
       @XmlElement(name = "Sperrsignal", type = FahrstrassenSperrsignal.class),
       @XmlElement(name = "Weiche", type = FahrstrassenWeiche.class) })
-  @Getter(onMethod = @__(@JsonbInclude(full = true)))
+  @Getter(onMethod_ = @JsonbInclude(full = true))
   private List<Fahrstrassenelement> elemente = new ArrayList<>();
 
   @Getter
@@ -82,10 +82,10 @@ public class Fahrstrasse extends Bereichselement {
   /**
    * Falls reserviert, Typ der Reservierung, sonst <code>null</code>.
    */
-  @Getter(onMethod = @__(@JsonbInclude))
+  @Getter(onMethod_ = @JsonbInclude)
   private FahrstrassenReservierungsTyp reservierungsTyp = FahrstrassenReservierungsTyp.UNRESERVIERT;
 
-  @Getter(onMethod = @__(@JsonbInclude))
+  @Getter(onMethod_ = @JsonbInclude)
   private int teilFreigabeAnzahl = 0;
 
   /**

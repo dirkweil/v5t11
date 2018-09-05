@@ -13,9 +13,9 @@ import lombok.Getter;
 @XmlAccessorType(XmlAccessType.FIELD)
 @AllArgsConstructor
 public class Kanal {
-  @Getter(onMethod = @__(@JsonbInclude))
+  @Getter(onMethod_ = @JsonbInclude)
   private int adresse;
 
-  @Getter(onMethod = @__(@JsonbInclude))
+  @Getter(onMethod_ = @JsonbInclude)
   private int wert;
 }

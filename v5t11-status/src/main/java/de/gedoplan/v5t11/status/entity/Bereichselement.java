@@ -19,11 +19,11 @@ import lombok.Getter;
 @XmlAccessorType(XmlAccessType.NONE)
 public class Bereichselement implements Comparable<Bereichselement>, Serializable {
   @XmlAttribute
-  @Getter(onMethod = @__(@JsonbInclude))
+  @Getter(onMethod_ = @JsonbInclude)
   protected String bereich;
 
   @XmlAttribute
-  @Getter(onMethod = @__(@JsonbInclude))
+  @Getter(onMethod_ = @JsonbInclude)
   protected String name;
 
   public void setBereich(String bereich) {
