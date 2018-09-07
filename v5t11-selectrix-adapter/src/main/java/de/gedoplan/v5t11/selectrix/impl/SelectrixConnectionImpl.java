@@ -38,6 +38,11 @@ public class SelectrixConnectionImpl implements SelectrixConnection {
     }
   }
 
+  @Override
+  public void addWatchAddress(int address) {
+    Selectrix.getInstance().addWatchAddress(address);
+  }
+
   public void stop() {
     Selectrix.getInstance().stop();
   }

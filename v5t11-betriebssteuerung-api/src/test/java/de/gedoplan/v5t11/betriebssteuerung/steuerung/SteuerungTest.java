@@ -352,4 +352,9 @@ public class SteuerungTest implements SelectrixConnection {
   @Override
   public void stop() {
   }
+
+  @Override
+  public void addWatchAddress(int address) {
+    this.cache.putIfAbsent(address, 0);
+  }
 }

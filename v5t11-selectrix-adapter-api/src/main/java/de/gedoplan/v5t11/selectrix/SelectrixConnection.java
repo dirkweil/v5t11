@@ -15,6 +15,8 @@ public interface SelectrixConnection extends AutoCloseable {
 
   public void stop();
 
+  public void addWatchAddress(int address);
+
   /**
    * Selectrix-Adresswert abfragen.
    *
