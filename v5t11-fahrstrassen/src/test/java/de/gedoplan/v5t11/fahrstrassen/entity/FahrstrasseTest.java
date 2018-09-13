@@ -6,7 +6,7 @@ import static org.junit.Assert.*;
 import de.gedoplan.v5t11.fahrstrassen.TestBase;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrassenelement;
-import de.gedoplan.v5t11.util.domain.FahrstrassenReservierungsTyp;
+import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 
 import java.util.stream.Stream;

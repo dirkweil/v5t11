@@ -18,4 +18,7 @@ import lombok.NoArgsConstructor;
 @MappedSuperclass
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class Fahrwegelement extends Bereichselement {
+  protected Fahrwegelement(String bereich, String name) {
+    super(bereich, name);
+  }
 }

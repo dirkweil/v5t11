@@ -4,7 +4,7 @@ import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrasse.Freigegeben;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.FahrstrassenSignal;
 import de.gedoplan.v5t11.fahrstrassen.gateway.SignalResourceClient;
-import de.gedoplan.v5t11.util.domain.SignalStellung;
+import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
 
 import java.lang.annotation.Annotation;
 

@@ -31,14 +31,14 @@ public class FahrstrassenGleisabschnitt extends Fahrstrassenelement {
   }
 
   public boolean isWeichenGleisabschnitt() {
-    return this.name.startsWith(PREFIX_WEICHEN_GLEISABSCHNITT);
+    return getName().startsWith(PREFIX_WEICHEN_GLEISABSCHNITT);
   }
 
   @Override
   public void linkFahrwegelement(Parcours parcours) {
-    this.gleisabschnitt = parcours.getGleisabschnitt(this.bereich, this.name);
+    this.gleisabschnitt = parcours.getGleisabschnitt(getBereich(), getName());
     if (this.gleisabschnitt == null) {
-      this.gleisabschnitt = new Gleisabschnitt(this.bereich, this.name);
+      this.gleisabschnitt = new Gleisabschnitt(getBereich(), getName());
       parcours.addGleisabschnitt(this.gleisabschnitt);
     }
   }

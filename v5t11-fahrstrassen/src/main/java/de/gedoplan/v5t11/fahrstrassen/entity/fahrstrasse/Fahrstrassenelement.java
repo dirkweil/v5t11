@@ -1,8 +1,8 @@
 package de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse;
 
-import de.gedoplan.v5t11.fahrstrassen.entity.Bereichselement;
 import de.gedoplan.v5t11.fahrstrassen.entity.Parcours;
-import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Fahrwegelement;
+import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.ReservierbaresFahrwegelement;
+import de.gedoplan.v5t11.util.domain.entity.Bereichselement;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -84,7 +84,7 @@ public abstract class Fahrstrassenelement extends Bereichselement {
    *
    * @return Fahrwegelement
    */
-  public abstract Fahrwegelement getFahrwegelement();
+  public abstract ReservierbaresFahrwegelement getFahrwegelement();
 
   /**
    * Rang für Anordnung von Fahrstzrassenvorschlägen liefern.

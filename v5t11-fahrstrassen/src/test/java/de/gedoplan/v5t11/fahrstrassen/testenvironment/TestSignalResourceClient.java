@@ -2,7 +2,7 @@ package de.gedoplan.v5t11.fahrstrassen.testenvironment;
 
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Signal;
 import de.gedoplan.v5t11.fahrstrassen.gateway.SignalResourceClient;
-import de.gedoplan.v5t11.util.domain.SignalStellung;
+import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
 
 import java.util.Set;
 import java.util.stream.Collectors;

@@ -2,7 +2,7 @@ package de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse;
 
 import de.gedoplan.v5t11.fahrstrassen.entity.Parcours;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Weiche;
-import de.gedoplan.v5t11.util.domain.WeichenStellung;
+import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -35,22 +35,23 @@ public class FahrstrassenWeiche extends FahrstrassenGeraet {
      * mit der gleichen Nummer beginnen und einen eindeutigen Suffixbuchstaben haben (z. B. 11a, 11b).
      * Der zugehörige Gleisabschnitt enthält nur den numerischen Teil im Namen.
      */
-    boolean doppelweiche = Character.isAlphabetic(this.name.charAt(this.name.length() - 1));
-    String name;
+    String name = getName();
+    boolean doppelweiche = Character.isAlphabetic(name.charAt(name.length() - 1));
+    String gleisAbschnittName;
     if (doppelweiche) {
-      name = FahrstrassenGleisabschnitt.PREFIX_WEICHEN_GLEISABSCHNITT + this.name.substring(0, this.name.length() - 1);
+      gleisAbschnittName = FahrstrassenGleisabschnitt.PREFIX_WEICHEN_GLEISABSCHNITT + name.substring(0, name.length() - 1);
     } else {
-      name = FahrstrassenGleisabschnitt.PREFIX_WEICHEN_GLEISABSCHNITT + this.name;
+      gleisAbschnittName = FahrstrassenGleisabschnitt.PREFIX_WEICHEN_GLEISABSCHNITT + name;
     }
 
-    return new FahrstrassenGleisabschnitt(this.bereich, name, this.zaehlrichtung);
+    return new FahrstrassenGleisabschnitt(getBereich(), gleisAbschnittName, this.zaehlrichtung);
   }
 
   @Override
   public void linkFahrwegelement(Parcours parcours) {
-    this.weiche = parcours.getWeiche(this.bereich, this.name);
+    this.weiche = parcours.getWeiche(getBereich(), getName());
     if (this.weiche == null) {
-      this.weiche = new Weiche(this.bereich, this.name);
+      this.weiche = new Weiche(getBereich(), getName());
       parcours.addWeiche(this.weiche);
     }
   }

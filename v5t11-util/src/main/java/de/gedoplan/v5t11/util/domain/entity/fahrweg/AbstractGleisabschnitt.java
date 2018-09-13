@@ -28,4 +28,8 @@ public abstract class AbstractGleisabschnitt extends Fahrwegelement {
   @Getter(onMethod_ = @JsonbInclude)
   protected boolean besetzt;
 
+  protected AbstractGleisabschnitt(String bereich, String name) {
+    super(bereich, name);
+  }
+
 }

@@ -1,6 +1,8 @@
 package de.gedoplan.v5t11.fahrstrassen.entity.fahrweg;
 
-import de.gedoplan.v5t11.util.domain.SignalStellung;
+import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrasse;
+import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
+import de.gedoplan.v5t11.util.domain.entity.fahrweg.geraet.AbstractSignal;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
 import java.util.Set;
@@ -14,14 +16,7 @@ import lombok.Setter;
 
 @XmlAccessorType(XmlAccessType.NONE)
 @NoArgsConstructor
-public class Signal extends Geraet {
-
-  /**
-   * Aktuelle Signalstellung.
-   */
-  @Getter
-  @Setter(onMethod_ = @JsonbInclude)
-  private volatile SignalStellung stellung = SignalStellung.HALT;
+public class Signal extends AbstractSignal implements ReservierbaresFahrwegelement {
 
   @Getter
   @Setter
@@ -33,11 +28,18 @@ public class Signal extends Geraet {
   @JsonbInclude
   private String typ;
 
+  /**
+   * Falls dieses Element Teil einer reservierten Fahrstrasse ist, diese Fahrstrasse, sonst <code>null</code>
+   */
+  @Getter
+  @Setter
+  protected Fahrstrasse reserviertefahrstrasse;
+
   public Signal(String bereich, String name) {
     super(bereich, name);
   }
 
-  public void copyStatus(Signal other) {
+  public synchronized void copyStatus(Signal other) {
     this.stellung = other.stellung;
     if (other.erlaubteStellungen != null) {
       this.erlaubteStellungen = other.erlaubteStellungen;
@@ -45,5 +47,10 @@ public class Signal extends Geraet {
     if (other.typ != null) {
       this.typ = other.typ;
     }
+  }
+
+  // TODO Dies ist nur zum Testen; geht das auch eleganter?
+  public void setStellung(SignalStellung stellung) {
+    this.stellung = stellung;
   }
 }

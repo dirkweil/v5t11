@@ -34,14 +34,19 @@ public abstract class Bereichselement extends SingleIdEntity<BereichselementId> 
 
   private transient BereichselementId id;
 
+  protected Bereichselement(String bereich, String name) {
+    this.bereich = bereich;
+    this.name = name;
+  }
+
   @JsonbInclude
-  protected void setBereich(String bereich) {
+  public void setBereich(String bereich) {
     this.bereich = bereich;
     this.id = null;
   }
 
   @JsonbInclude
-  protected void setName(String name) {
+  public void setName(String name) {
     this.name = name;
     this.id = null;
   }

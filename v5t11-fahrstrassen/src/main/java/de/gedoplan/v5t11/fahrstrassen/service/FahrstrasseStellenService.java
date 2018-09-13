@@ -7,8 +7,8 @@ import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.FahrstrassenWeiche;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrassenelement;
 import de.gedoplan.v5t11.fahrstrassen.gateway.SignalResourceClient;
 import de.gedoplan.v5t11.fahrstrassen.gateway.WeicheResourceClient;
-import de.gedoplan.v5t11.util.domain.FahrstrassenReservierungsTyp;
-import de.gedoplan.v5t11.util.domain.SignalStellung;
+import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
+import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
 
 import java.util.List;
 import java.util.stream.Collectors;

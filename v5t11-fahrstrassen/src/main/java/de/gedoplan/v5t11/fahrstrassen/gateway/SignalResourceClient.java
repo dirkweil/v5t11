@@ -1,7 +1,7 @@
 package de.gedoplan.v5t11.fahrstrassen.gateway;
 
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Signal;
-import de.gedoplan.v5t11.util.domain.SignalStellung;
+import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
 
 import java.util.List;
 import java.util.Set;

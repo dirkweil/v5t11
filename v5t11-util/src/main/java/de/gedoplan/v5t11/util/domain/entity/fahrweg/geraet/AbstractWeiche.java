@@ -32,6 +32,10 @@ public abstract class AbstractWeiche extends Geraet {
   @Getter(onMethod_ = @JsonbInclude)
   protected WeichenStellung stellung = WeichenStellung.GERADE;
 
+  protected AbstractWeiche(String bereich, String name) {
+    super(bereich, name);
+  }
+
   @JsonbInclude(full = true)
   public String getGleisabschnittName() {
     String name = getName();

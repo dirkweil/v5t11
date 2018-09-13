@@ -1,7 +1,7 @@
 package de.gedoplan.v5t11.fahrstrassen.gateway;
 
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Weiche;
-import de.gedoplan.v5t11.util.domain.WeichenStellung;
+import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
 
 import java.util.Set;
 

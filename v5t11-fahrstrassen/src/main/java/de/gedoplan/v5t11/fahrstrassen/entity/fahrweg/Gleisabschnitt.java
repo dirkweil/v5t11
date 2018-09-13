@@ -1,6 +1,7 @@
 package de.gedoplan.v5t11.fahrstrassen.entity.fahrweg;
 
-import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
+import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrasse;
+import de.gedoplan.v5t11.util.domain.entity.fahrweg.AbstractGleisabschnitt;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -11,20 +12,26 @@ import lombok.Setter;
 
 @XmlAccessorType(XmlAccessType.NONE)
 @NoArgsConstructor
-public class Gleisabschnitt extends Fahrwegelement {
+public class Gleisabschnitt extends AbstractGleisabschnitt implements ReservierbaresFahrwegelement {
 
   /**
-   * Gleisabschnitt besetzt?
+   * Falls dieses Element Teil einer reservierten Fahrstrasse ist, diese Fahrstrasse, sonst <code>null</code>
    */
   @Getter
-  @Setter(onMethod_ = @JsonbInclude)
-  private volatile boolean besetzt;
+  @Setter
+  protected Fahrstrasse reserviertefahrstrasse;
 
   public Gleisabschnitt(String bereich, String name) {
     super(bereich, name);
   }
 
-  public void copyStatus(Gleisabschnitt other) {
+  public synchronized void copyStatus(Gleisabschnitt other) {
     this.besetzt = other.besetzt;
+  }
+
+  // TODO Dies ist nur zum Testen; geht das auch eleganter?
+  public void setBesetzt(boolean besetzt) {
+    this.besetzt = besetzt;
+
   }
 }

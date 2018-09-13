@@ -28,4 +28,8 @@ public abstract class AbstractSignal extends Geraet {
   @Getter(onMethod_ = @JsonbInclude)
   protected SignalStellung stellung = SignalStellung.HALT;
 
+  protected AbstractSignal(String bereich, String name) {
+    super(bereich, name);
+  }
+
 }

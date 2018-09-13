@@ -3,7 +3,7 @@ package de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse;
 import de.gedoplan.baselibs.utils.exception.BugException;
 import de.gedoplan.v5t11.fahrstrassen.entity.Parcours;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Signal;
-import de.gedoplan.v5t11.util.domain.SignalStellung;
+import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
 import javax.xml.bind.Unmarshaller;
@@ -32,9 +32,9 @@ public abstract class FahrstrassenSignal extends FahrstrassenGeraet implements C
 
   @Override
   public void linkFahrwegelement(Parcours parcours) {
-    this.signal = parcours.getSignal(this.bereich, this.name);
+    this.signal = parcours.getSignal(getBereich(), getName());
     if (this.signal == null) {
-      this.signal = new Signal(this.bereich, this.name);
+      this.signal = new Signal(getBereich(), getName());
       parcours.addSignal(this.signal);
     }
   }
@@ -67,16 +67,6 @@ public abstract class FahrstrassenSignal extends FahrstrassenGeraet implements C
       if (!this.schutz) {
         this.signal.reserviereFuerFahrstrasse(fahrstrasse, isZaehlrichtung());
       }
-
-      // TODO Stellen in separater Methode
-      // if (!isBlocksignal() && !(isVorsignal())) {
-      // if (fahrstrasse != null) {
-      // FahrstrassenReservierungsTyp reservierungsTyp = fahrstrasse.getReservierungsTyp();
-      // this.signal.setStellung(this.stellung, reservierungsTyp);
-      // } else {
-      // this.signal.setStellung(Stellung.HALT);
-      // }
-      // }
     }
   }
 

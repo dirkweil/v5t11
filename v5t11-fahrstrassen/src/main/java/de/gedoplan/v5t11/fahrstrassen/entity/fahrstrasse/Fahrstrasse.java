@@ -3,15 +3,15 @@ package de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse;
 import static java.lang.annotation.ElementType.*;
 import static java.lang.annotation.RetentionPolicy.*;
 
-import de.gedoplan.v5t11.fahrstrassen.entity.Bereichselement;
 import de.gedoplan.v5t11.fahrstrassen.entity.Parcours;
-import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Fahrwegelement;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleisabschnitt;
+import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.ReservierbaresFahrwegelement;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Signal;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
-import de.gedoplan.v5t11.util.domain.FahrstrassenReservierungsTyp;
-import de.gedoplan.v5t11.util.domain.SignalStellung;
-import de.gedoplan.v5t11.util.domain.WeichenStellung;
+import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
+import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
+import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
+import de.gedoplan.v5t11.util.domain.entity.Bereichselement;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
 import java.lang.annotation.Documented;
@@ -107,7 +107,7 @@ public class Fahrstrasse extends Bereichselement {
     // Fuer alle Elemente Defaults übernehmen wenn nötig
     this.elemente.forEach(element -> {
       if (element.getBereich() == null) {
-        element.setBereich(this.bereich);
+        element.setBereich(getBereich());
       }
 
       if (element.zaehlrichtung == null) {
@@ -139,7 +139,7 @@ public class Fahrstrasse extends Bereichselement {
     this.ende = (FahrstrassenGleisabschnitt) this.elemente.get(count - 1);
 
     // Bereich der Stecke und des Startelements müssen gleich sein
-    if (!this.bereich.equals(this.start.getBereich())) {
+    if (!getBereich().equals(this.start.getBereich())) {
       throw new IllegalArgumentException("Erster Gleisabschnitte muss im gleichen Bereich wie die Fahrstrasse liegen");
     }
 
@@ -147,13 +147,13 @@ public class Fahrstrasse extends Bereichselement {
     this.rank = this.elemente.stream().mapToInt(e -> e.getRank()).sum();
 
     // Fahrstrassen-Name aus enthaltenen Gleisabschnitten zusammenstellen
-    this.name = this.elemente
+    setName(this.elemente
         .stream()
         .filter(e -> e instanceof FahrstrassenGleisabschnitt)
         .map(e -> (FahrstrassenGleisabschnitt) e)
         .filter(g -> !g.isWeichenGleisabschnitt())
-        .map(g -> g.getBereich().equals(this.bereich) ? g.getName() : g.getBereich() + "/" + g.getName())
-        .collect(Collectors.joining("-"));
+        .map(g -> g.getBereich().equals(getBereich()) ? g.getName() : g.getBereich() + "/" + g.getName())
+        .collect(Collectors.joining("-")));
   }
 
   /**
@@ -169,7 +169,7 @@ public class Fahrstrasse extends Bereichselement {
    */
   public static Fahrstrasse concat(Fahrstrasse linkeFahrstrasse, Fahrstrasse rechteFahrstrasse) {
     // Wenn verschiedene Bereiche, nicht kombinieren
-    if (!linkeFahrstrasse.bereich.equals(rechteFahrstrasse.bereich)) {
+    if (!linkeFahrstrasse.getBereich().equals(rechteFahrstrasse.getBereich())) {
       return null;
     }
 
@@ -191,8 +191,8 @@ public class Fahrstrasse extends Bereichselement {
     }
 
     Fahrstrasse result = new Fahrstrasse();
-    result.bereich = linkeFahrstrasse.bereich;
-    result.name = createConcatName(linkeFahrstrasse.getName(), rechteFahrstrasse.getName());
+    result.setBereich(linkeFahrstrasse.getBereich());
+    result.setName(createConcatName(linkeFahrstrasse.getName(), rechteFahrstrasse.getName()));
     result.combi = true;
     result.rank = linkeFahrstrasse.rank + rechteFahrstrasse.rank;
     result.zaehlrichtung = linkeFahrstrasse.zaehlrichtung;
@@ -356,7 +356,7 @@ public class Fahrstrasse extends Bereichselement {
       int elementCount = this.elemente.size();
       for (int index = 0; index < elementCount; ++index) {
         Fahrstrassenelement element = this.elemente.get(index);
-        Fahrwegelement fahrwegelement = element.getFahrwegelement();
+        ReservierbaresFahrwegelement fahrwegelement = element.getFahrwegelement();
 
         if (!element.isSchutz() && fahrwegelement.getReserviertefahrstrasse() != null) {
           return false;
