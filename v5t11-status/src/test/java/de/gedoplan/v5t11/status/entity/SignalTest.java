@@ -44,8 +44,8 @@ public class SignalTest extends CdiTestBase {
     assertThat(json, is(
         "{\"bereich\":\"test\""
             + ",\"name\":\"P2\""
-            + ",\"erlaubteStellungen\":[\"HALT\",\"FAHRT\",\"LANGSAMFAHRT\",\"RANGIERFAHRT\"]"
             + ",\"stellung\":\"" + signal.getStellung() + "\""
+            + ",\"erlaubteStellungen\":[\"HALT\",\"FAHRT\",\"LANGSAMFAHRT\",\"RANGIERFAHRT\"]"
             + ",\"typ\":\"Hauptsperrsignal"
             + "\"}"));
   }

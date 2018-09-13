@@ -1,8 +1,9 @@
 package de.gedoplan.v5t11.status.entity.fahrweg.geraet;
 
-import de.gedoplan.v5t11.status.entity.fahrweg.Geraet;
+import de.gedoplan.v5t11.status.entity.baustein.Funktionsdecoder;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
-import de.gedoplan.v5t11.util.domain.SignalStellung;
+import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
+import de.gedoplan.v5t11.util.domain.entity.fahrweg.geraet.AbstractSignal;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
 import java.util.HashMap;
@@ -11,9 +12,10 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import javax.json.bind.annotation.JsonbTransient;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,25 +27,20 @@ import lombok.NoArgsConstructor;
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @NoArgsConstructor
-public abstract class Signal extends Geraet {
+public abstract class Signal extends AbstractSignal implements FunktionsdecoderGeraet {
+
+  @Getter
+  private FunktionsdecoderZuordnung funktionsdecoderZuordnung;
 
   /**
    * Map Stellung -> Stellungswert für alle erlaubten Stellungen.
    */
-  @JsonbTransient
   protected SortedMap<SignalStellung, Long> stellung2wert = new TreeMap<SignalStellung, Long>();
 
   /**
    * Map Stellungswert -> Stellung für alle erlaubten Stellungen.
    */
-  @JsonbTransient
   protected Map<Long, SignalStellung> wert2stellung = new HashMap<Long, SignalStellung>();
-
-  /**
-   * Aktuelle Signalstellung.
-   */
-  @Getter(onMethod_ = @JsonbInclude)
-  protected SignalStellung stellung = SignalStellung.HALT;
 
   /**
    * Konstruktor.
@@ -52,7 +49,7 @@ public abstract class Signal extends Geraet {
    *          Anzahl genutzter Bits
    */
   protected Signal(int bitCount) {
-    super(bitCount);
+    this.funktionsdecoderZuordnung = new FunktionsdecoderZuordnung(bitCount);
   }
 
   /**
@@ -97,10 +94,10 @@ public abstract class Signal extends Geraet {
       this.stellung = stellung;
 
       if (updateInterface) {
-        long fdWert = this.funktionsdecoder.getWert();
-        fdWert &= (~this.bitMaskeAnschluss);
-        fdWert |= getWertForStellung(stellung) << this.anschluss;
-        this.funktionsdecoder.setWert(fdWert);
+        long fdWert = this.funktionsdecoderZuordnung.getFunktionsdecoder().getWert();
+        fdWert &= (~this.funktionsdecoderZuordnung.getBitMaskeAnschluss());
+        fdWert |= getWertForStellung(stellung) << this.funktionsdecoderZuordnung.getAnschluss();
+        this.funktionsdecoderZuordnung.getFunktionsdecoder().setWert(fdWert);
       }
 
       EventFirer.getInstance().fire(this);
@@ -114,7 +111,6 @@ public abstract class Signal extends Geraet {
    *          Stellung
    * @return Stellungswert
    */
-  @JsonbTransient
   public long getWertForStellung(SignalStellung stellung) {
     Long wert = this.stellung2wert.get(stellung);
     return wert != null ? wert : 0;
@@ -127,17 +123,60 @@ public abstract class Signal extends Geraet {
    *          Stellungswert
    * @return Stellung oder null, wenn ungueltiger Stellungswert
    */
-  @JsonbTransient
   public SignalStellung getStellungForWert(long stellungsWert) {
     return this.wert2stellung.get(stellungsWert);
   }
 
   @Override
   public void adjustStatus() {
-    SignalStellung stellungForWert = getStellungForWert((this.funktionsdecoder.getWert() & this.bitMaskeAnschluss) >>> this.anschluss);
+    SignalStellung stellungForWert = getStellungForWert(
+        (this.funktionsdecoderZuordnung.getFunktionsdecoder().getWert() & this.funktionsdecoderZuordnung.getBitMaskeAnschluss()) >>> this.funktionsdecoderZuordnung.getAnschluss());
     if (stellungForWert != null) {
       setStellung(stellungForWert, false);
     }
+  }
+
+  @Override
+  public String toString() {
+    return this.getClass().getSimpleName()
+        + "{"
+        + getBereich()
+        + "/"
+        + getName()
+        + " @ "
+        + this.funktionsdecoderZuordnung.getFunktionsdecoder().getAdressen().get(0)
+        + "/"
+        + this.funktionsdecoderZuordnung.getAnschluss()
+        + "}";
+  }
+
+  /**
+   * Bei JAXB-Unmarshal Attribut idx als anschluss in die Funktionsdecoder-Zuordnung speichern.
+   *
+   * @param idx
+   *          Anschlussnummer
+   */
+  @XmlAttribute
+  public void setIdx(int idx) {
+    this.funktionsdecoderZuordnung.setAnschluss(idx);
+  }
+
+  /**
+   * Nach JAXB-Unmarshal Funktionsdecoder in die Funktionsdecoder-Zuordnung speichern.
+   *
+   * @param unmarshaller
+   *          Unmarshaller
+   * @param parent
+   *          Parent
+   */
+  @SuppressWarnings("unused")
+  private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
+    if (parent instanceof Funktionsdecoder) {
+      this.funktionsdecoderZuordnung.setFunktionsdecoder((Funktionsdecoder) parent);
+    } else {
+      throw new IllegalArgumentException("Illegal parent " + parent);
+    }
+
   }
 
 }

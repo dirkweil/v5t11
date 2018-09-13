@@ -5,13 +5,13 @@ import static org.junit.Assert.*;
 
 import de.gedoplan.v5t11.status.CdiTestBase;
 import de.gedoplan.v5t11.status.StatusEventCollector;
-import de.gedoplan.v5t11.status.entity.fahrweg.Geraet;
 import de.gedoplan.v5t11.status.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
 import de.gedoplan.v5t11.status.entity.lok.Lok;
-import de.gedoplan.v5t11.util.domain.SignalStellung;
-import de.gedoplan.v5t11.util.domain.WeichenStellung;
+import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
+import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
+import de.gedoplan.v5t11.util.domain.entity.fahrweg.Geraet;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -128,17 +128,28 @@ public class SteuerungTest extends CdiTestBase {
       int anschluss = 0;
       for (int i = 0; i < geraete.length; ++i) {
         Geraet geraet = geraete[i];
-        long mask = (1 << (geraet.getBitCount())) - 1;
-        long geraeteWert = (wert >>> anschluss) & mask;
-        long oldGeraeteWert = (oldWert >>> anschluss) & mask;
+        int bitCount;
+        long mask;
+        long geraeteWert;
+        long oldGeraeteWert;
 
         if (geraet instanceof Weiche) {
           Weiche weiche = (Weiche) geraet;
+
+          bitCount = weiche.getFunktionsdecoderZuordnung().getBitCount();
+          mask = (1 << (weiche.getFunktionsdecoderZuordnung().getBitCount())) - 1;
+          geraeteWert = (wert >>> anschluss) & mask;
+          oldGeraeteWert = (oldWert >>> anschluss) & mask;
 
           // Ist die Weichenstellung korrekt?
           assertThat("Weichenstellung fuer " + weiche, weiche.getStellung(), is(Weiche.getStellungForWert(geraeteWert)));
         } else if (geraet instanceof Signal) {
           Signal signal = (Signal) geraet;
+
+          bitCount = signal.getFunktionsdecoderZuordnung().getBitCount();
+          mask = (1 << (signal.getFunktionsdecoderZuordnung().getBitCount())) - 1;
+          geraeteWert = (wert >>> anschluss) & mask;
+          oldGeraeteWert = (oldWert >>> anschluss) & mask;
 
           // Ist die Signalstellung korrekt?
           SignalStellung stellungForWert = signal.getStellungForWert(geraeteWert);
@@ -153,13 +164,13 @@ public class SteuerungTest extends CdiTestBase {
             wert = (wert & ~(mask << anschluss)) | (geraeteWert << anschluss);
           }
         } else {
-          fail("Unbekanntes Geraet: " + geraet);
+          throw new AssertionError("Unbekanntes Geraet: " + geraet);
         }
 
         // Ist bei Zustandswechsel ein Event ausgelöst worden und sonst nicht?
         assertThat("Statuswechselmeldung fuer " + geraet + " erfolgt", this.statusEventCollector.getEvents().contains(geraet), is(geraeteWert != oldGeraeteWert));
 
-        anschluss += geraet.getBitCount();
+        anschluss += bitCount;
       }
     }
 
@@ -200,13 +211,19 @@ public class SteuerungTest extends CdiTestBase {
       long newWert = 0;
 
       Geraet geraet = geraete[random.nextInt(geraete.length)];
-      int anschluss = geraet.getAnschluss();
-      long mask = ((1L << (geraet.getBitCount())) - 1) << anschluss;
+
+      int bitCount;
+      int anschluss;
+      long mask;
 
       boolean changed = false;
 
       if (geraet instanceof Weiche) {
         Weiche weiche = (Weiche) geraet;
+
+        bitCount = weiche.getFunktionsdecoderZuordnung().getBitCount();
+        anschluss = weiche.getFunktionsdecoderZuordnung().getAnschluss();
+        mask = ((1L << bitCount) - 1) << anschluss;
 
         WeichenStellung oldStellung = weiche.getStellung();
         WeichenStellung stellung = Weiche.getStellungForWert(random.nextInt(2));
@@ -220,6 +237,10 @@ public class SteuerungTest extends CdiTestBase {
       } else if (geraet instanceof Signal) {
         Signal signal = (Signal) geraet;
 
+        bitCount = signal.getFunktionsdecoderZuordnung().getBitCount();
+        anschluss = signal.getFunktionsdecoderZuordnung().getAnschluss();
+        mask = ((1L << bitCount) - 1) << anschluss;
+
         SignalStellung oldStellung = signal.getStellung();
         List<SignalStellung> erlaubteStellungen = new ArrayList<>(signal.getErlaubteStellungen());
         SignalStellung stellung = erlaubteStellungen.get(random.nextInt(erlaubteStellungen.size()));
@@ -231,7 +252,7 @@ public class SteuerungTest extends CdiTestBase {
         newWert = (wert & ~mask) | (signal.getWertForStellung(stellung) << anschluss);
 
       } else {
-        fail("Unbekanntes Geraet: " + geraet);
+        throw new AssertionError("Unbekanntes Geraet: " + geraet);
       }
 
       // Ist der Kanalwert passend?
@@ -241,7 +262,7 @@ public class SteuerungTest extends CdiTestBase {
       // Ist bei Zustandswechsel ein Event ausgelöst worden und sonst nicht?
       assertThat("Statuswechselmeldung fuer " + geraet + " erfolgt", this.statusEventCollector.getEvents().contains(geraet), is(changed));
 
-      anschluss += geraet.getBitCount();
+      anschluss += bitCount;
     }
   }
 

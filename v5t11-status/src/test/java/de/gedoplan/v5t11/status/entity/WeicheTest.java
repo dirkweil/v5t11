@@ -44,8 +44,8 @@ public class WeicheTest extends CdiTestBase {
     assertThat(json, is(
         "{\"bereich\":\"test\""
             + ",\"name\":\"10\""
-            + ",\"gleisabschnittName\":\"W10\""
             + ",\"stellung\":\"" + weiche.getStellung() + "\""
+            + ",\"gleisabschnittName\":\"W10\""
             + "}"));
   }
 }

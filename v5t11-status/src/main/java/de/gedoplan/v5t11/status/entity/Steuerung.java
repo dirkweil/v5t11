@@ -23,13 +23,14 @@ import de.gedoplan.v5t11.status.entity.baustein.lokdecoder.Tr66825;
 import de.gedoplan.v5t11.status.entity.baustein.lokdecoder.Tr66830;
 import de.gedoplan.v5t11.status.entity.baustein.lokdecoder.Tr66832;
 import de.gedoplan.v5t11.status.entity.baustein.lokdecoder.Tr66835;
-import de.gedoplan.v5t11.status.entity.fahrweg.Geraet;
 import de.gedoplan.v5t11.status.entity.fahrweg.Gleisabschnitt;
+import de.gedoplan.v5t11.status.entity.fahrweg.geraet.FunktionsdecoderGeraet;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
 import de.gedoplan.v5t11.status.entity.lok.Lok;
 import de.gedoplan.v5t11.status.service.SelectrixGateway;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
+import de.gedoplan.v5t11.util.domain.entity.Bereichselement;
 
 import java.util.Collection;
 import java.util.List;
@@ -307,16 +308,19 @@ public class Steuerung {
      * registrieren.
      */
     for (Funktionsdecoder fd : this.funktionsdecoder) {
-      for (Geraet g : fd.getGeraete()) {
+      for (FunktionsdecoderGeraet g : fd.getGeraete()) {
         if (g instanceof Signal) {
-          this.signale.add((Signal) g);
+          Signal s = (Signal) g;
+          this.signale.add(s);
+          this.bereiche.add(s.getBereich());
         }
 
         if (g instanceof Weiche) {
-          this.weichen.add((Weiche) g);
+          Weiche w = (Weiche) g;
+          this.weichen.add(w);
+          this.bereiche.add(w.getBereich());
         }
 
-        this.bereiche.add(g.getBereich());
       }
 
       registerAdressen(fd);
@@ -391,7 +395,7 @@ public class Steuerung {
 
     for (Funktionsdecoder fd : this.funktionsdecoder) {
       buf.append("\n  ").append(fd);
-      for (Geraet g : fd.getGeraete()) {
+      for (FunktionsdecoderGeraet g : fd.getGeraete()) {
         buf.append("\n    ").append(g);
       }
     }

@@ -1,4 +1,4 @@
-package de.gedoplan.v5t11.util.domain;
+package de.gedoplan.v5t11.util.domain.attribute;
 
 /**
  * Weichenstellung.

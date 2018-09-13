@@ -1,7 +1,7 @@
 package de.gedoplan.v5t11.status.entity.baustein;
 
-import de.gedoplan.v5t11.status.entity.fahrweg.Geraet;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Bahnuebergang;
+import de.gedoplan.v5t11.status.entity.fahrweg.geraet.FunktionsdecoderGeraet;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.HauptsignalRtGe;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.HauptsignalRtGn;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.HauptsignalRtGnGe;
@@ -40,7 +40,7 @@ public abstract class Funktionsdecoder extends Baustein implements Decoder {
       @XmlElement(name = "HauptsignalRtGe", type = HauptsignalRtGe.class), @XmlElement(name = "HauptsignalRtGn", type = HauptsignalRtGn.class),
       @XmlElement(name = "Hauptsperrsignal", type = Hauptsperrsignal.class), @XmlElement(name = "Sperrsignal", type = Sperrsignal.class), @XmlElement(name = "Vorsignal", type = Vorsignal.class),
       @XmlElement(name = "Weiche", type = Weiche.class) })
-  protected SortedSet<Geraet> geraete = new TreeSet<>();
+  protected SortedSet<FunktionsdecoderGeraet> geraete = new TreeSet<>();
 
   /**
    * Konstruktor.
@@ -61,7 +61,7 @@ public abstract class Funktionsdecoder extends Baustein implements Decoder {
 
   @Override
   public void adjustStatus() {
-    this.geraete.forEach(Geraet::adjustStatus);
+    this.geraete.forEach(FunktionsdecoderGeraet::adjustStatus);
   }
 
 }

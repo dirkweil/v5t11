@@ -24,12 +24,12 @@
       <groupId>commons-logging</groupId>
       <artifactId>commons-logging</artifactId>
     </dependency>
+-->
 
     <dependency>
       <groupId>de.gedoplan</groupId>
       <artifactId>baselibs-persistence</artifactId>
     </dependency>
--->
 
     <dependency>
       <groupId>de.gedoplan</groupId>

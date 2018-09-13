@@ -1,7 +1,7 @@
 package de.gedoplan.v5t11.status;
 
-import de.gedoplan.v5t11.status.entity.fahrweg.Fahrwegelement;
 import de.gedoplan.v5t11.status.entity.lok.Lok;
+import de.gedoplan.v5t11.util.domain.entity.Fahrwegelement;
 
 import java.util.Collection;
 import java.util.concurrent.ConcurrentLinkedDeque;

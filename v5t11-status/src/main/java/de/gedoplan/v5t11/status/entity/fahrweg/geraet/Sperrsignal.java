@@ -3,7 +3,7 @@
  */
 package de.gedoplan.v5t11.status.entity.fahrweg.geraet;
 
-import de.gedoplan.v5t11.util.domain.SignalStellung;
+import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
