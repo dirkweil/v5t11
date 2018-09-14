@@ -29,9 +29,4 @@ public class Gleisabschnitt extends AbstractGleisabschnitt implements Reservierb
     this.besetzt = other.besetzt;
   }
 
-  // TODO Dies ist nur zum Testen; geht das auch eleganter?
-  public void setBesetzt(boolean besetzt) {
-    this.besetzt = besetzt;
-
-  }
 }

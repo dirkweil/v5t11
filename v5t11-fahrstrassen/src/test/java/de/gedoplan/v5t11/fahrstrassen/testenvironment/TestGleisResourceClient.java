@@ -2,7 +2,9 @@ package de.gedoplan.v5t11.fahrstrassen.testenvironment;
 
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.fahrstrassen.gateway.GleisResourceClient;
+import de.gedoplan.v5t11.util.domain.entity.fahrweg.AbstractGleisabschnitt;
 
+import java.lang.reflect.Field;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -31,9 +33,17 @@ public class TestGleisResourceClient extends GleisResourceClient {
   }
 
   private static Gleisabschnitt createTestGleisabschnitt(String bereich, String name, boolean besetzt) {
-    Gleisabschnitt gleisabschnitt = new Gleisabschnitt(bereich, name);
-    gleisabschnitt.setBesetzt(besetzt);
-    return gleisabschnitt;
+    try {
+      Gleisabschnitt gleisabschnitt = new Gleisabschnitt(bereich, name);
+
+      // Gleisabschnitt.besetzt ist private; daher per Reflection setzen
+      Field besetztField = AbstractGleisabschnitt.class.getDeclaredField("besetzt");
+      besetztField.setAccessible(true);
+      besetztField.set(gleisabschnitt, besetzt);
+      return gleisabschnitt;
+    } catch (Exception e) {
+      throw new RuntimeException("Cannot create test data", e);
+    }
   }
 
 }

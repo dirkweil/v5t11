@@ -1,7 +1,6 @@
 package de.gedoplan.v5t11.fahrstrassen.entity.fahrweg;
 
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrasse;
-import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
 import de.gedoplan.v5t11.util.domain.entity.fahrweg.geraet.AbstractWeiche;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -30,8 +29,4 @@ public class Weiche extends AbstractWeiche implements ReservierbaresFahrwegeleme
     this.stellung = other.stellung;
   }
 
-  // TODO Dies ist nur zum Testen; geht das auch eleganter?
-  public void setStellung(WeichenStellung stellung) {
-    this.stellung = stellung;
-  }
 }

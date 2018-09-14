@@ -3,7 +3,9 @@ package de.gedoplan.v5t11.fahrstrassen.testenvironment;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Signal;
 import de.gedoplan.v5t11.fahrstrassen.gateway.SignalResourceClient;
 import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
+import de.gedoplan.v5t11.util.domain.entity.fahrweg.geraet.AbstractSignal;
 
+import java.lang.reflect.Field;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -27,11 +29,19 @@ public class TestSignalResourceClient extends SignalResourceClient {
   }
 
   private static Signal createTestSignal(String bereich, String name, String typ, SignalStellung... stellung) {
-    Signal signal = new Signal(bereich, name);
-    signal.setTyp(typ);
-    signal.setStellung(stellung[0]);
-    signal.setErlaubteStellungen(Stream.of(stellung).collect(Collectors.toSet()));
-    return signal;
+    try {
+      Signal signal = new Signal(bereich, name);
+      signal.setTyp(typ);
+      signal.setErlaubteStellungen(Stream.of(stellung).collect(Collectors.toSet()));
+
+      // Signal.stellung ist private; daher per Reflection setzen
+      Field besetztField = AbstractSignal.class.getDeclaredField("stellung");
+      besetztField.setAccessible(true);
+      besetztField.set(signal, stellung[0]);
+      return signal;
+    } catch (Exception e) {
+      throw new RuntimeException("Cannot create test data", e);
+    }
   }
 
 }

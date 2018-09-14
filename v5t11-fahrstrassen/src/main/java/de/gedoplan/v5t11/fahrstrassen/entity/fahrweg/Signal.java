@@ -49,8 +49,4 @@ public class Signal extends AbstractSignal implements ReservierbaresFahrwegeleme
     }
   }
 
-  // TODO Dies ist nur zum Testen; geht das auch eleganter?
-  public void setStellung(SignalStellung stellung) {
-    this.stellung = stellung;
-  }
 }
