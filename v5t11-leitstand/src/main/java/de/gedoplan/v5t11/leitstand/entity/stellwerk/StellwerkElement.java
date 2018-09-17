@@ -1,5 +1,7 @@
 package de.gedoplan.v5t11.leitstand.entity.stellwerk;
 
+import de.gedoplan.v5t11.leitstand.entity.Leitstand;
+
 import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -10,19 +12,12 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Stellwerk.
+ * Stellwerkselement.
  *
  * @author dw
  */
 @XmlAccessorType(XmlAccessType.NONE)
-public class StellwerkElement implements Serializable {
-  @XmlAttribute
-  @Getter
-  String typ = "Leer";
-
-  @XmlAttribute
-  @Getter
-  String lage;
+public abstract class StellwerkElement implements Serializable {
 
   @XmlAttribute
   @Getter
@@ -35,15 +30,7 @@ public class StellwerkElement implements Serializable {
 
   @XmlAttribute
   @Getter
-  boolean label;
-
-  @XmlAttribute(name = "signal")
-  @Getter
-  String signalName;
-
-  @XmlAttribute(name = "signalPos")
-  @Getter
-  String signalPosition;
+  String lage;
 
   @XmlAttribute
   @Getter
@@ -52,8 +39,8 @@ public class StellwerkElement implements Serializable {
 
   @Override
   public String toString() {
-    return "StellwerkElement [typ=" + this.typ + ", lage=" + this.lage + ", bereich=" + this.bereich + ", name=" + this.name + ", signal=" + this.signalName + ", signalPosition="
-        + this.signalPosition + ", anzahl=" + this.anzahl + "]";
+    return getClass().getSimpleName() + " lage=" + this.lage + ", bereich=" + this.bereich + ", name=" + this.name;
   }
 
+  public abstract void linkFahrwegelemente(Leitstand leitstand);
 }

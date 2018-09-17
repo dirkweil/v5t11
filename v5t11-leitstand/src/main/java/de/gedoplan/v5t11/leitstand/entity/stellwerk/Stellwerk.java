@@ -1,5 +1,7 @@
 package de.gedoplan.v5t11.leitstand.entity.stellwerk;
 
+import de.gedoplan.v5t11.leitstand.entity.Leitstand;
+
 import java.io.Serializable;
 import java.util.List;
 import java.util.ListIterator;
@@ -55,6 +57,12 @@ public class Stellwerk implements Serializable, Comparable<Stellwerk> {
   @SuppressWarnings("unused")
   private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
 
+    if (!(parent instanceof Leitstand)) {
+      throw new IllegalArgumentException("Illegal parent " + parent);
+    }
+
+    Leitstand leitstand = (Leitstand) parent;
+
     /*
      * Bereich in Elementen ergänzen, wenn nötig.
      * Zudem Spaltenanzahl feststellen.
@@ -66,6 +74,8 @@ public class Stellwerk implements Serializable, Comparable<Stellwerk> {
         if (element.getBereich() == null) {
           element.setBereich(this.bereich);
         }
+
+        leitstand.getBereiche().add(element.getBereich());
 
         anzahlSpaltenInZeile += element.anzahl;
       }
@@ -90,7 +100,7 @@ public class Stellwerk implements Serializable, Comparable<Stellwerk> {
     }
 
     // Zeilen mit Leerelementen auffüllen.
-    StellwerkElement leerElement = new StellwerkElement();
+    StellwerkElement leerElement = new StellwerkLeer();
     leerElement.setBereich(this.bereich);
     for (StellwerkZeile zeile : this.zeilen) {
       int anzahlSpaltenInZeile = zeile.getElemente().size();
@@ -99,6 +109,9 @@ public class Stellwerk implements Serializable, Comparable<Stellwerk> {
         ++anzahlSpaltenInZeile;
       }
     }
-  }
 
+    // Gleisabschnitte, Weichen und Signale zuordnen
+    this.zeilen.forEach(z -> z.getElemente().forEach(e -> e.linkFahrwegelemente(leitstand)));
+
+  }
 }

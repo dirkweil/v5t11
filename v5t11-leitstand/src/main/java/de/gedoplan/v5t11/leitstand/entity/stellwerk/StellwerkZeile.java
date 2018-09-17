@@ -6,6 +6,7 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElements;
 
 import lombok.Getter;
 
@@ -16,7 +17,11 @@ import lombok.Getter;
  */
 @XmlAccessorType(XmlAccessType.NONE)
 public class StellwerkZeile implements Serializable {
-  @XmlElement(name = "Element")
+  @XmlElements({
+      @XmlElement(name = "Leer", type = StellwerkLeer.class),
+      @XmlElement(name = "Gleisabschnitt", type = StellwerkGleisabschnitt.class),
+      @XmlElement(name = "Weiche", type = StellwerkWeiche.class),
+  })
   @Getter
   private List<StellwerkElement> elemente;
 }
