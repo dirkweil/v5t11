@@ -26,6 +26,8 @@ import lombok.NoArgsConstructor;
 @MappedSuperclass
 public abstract class AbstractWeiche extends Geraet {
 
+  public static final String PREFIX_WEICHEN_GLEISABSCHNITT = "W";
+
   /**
    * Aktuelle Stellung der Weiche.
    */
@@ -41,9 +43,9 @@ public abstract class AbstractWeiche extends Geraet {
     String name = getName();
     boolean doppelweiche = Character.isAlphabetic(name.charAt(name.length() - 1));
     if (doppelweiche) {
-      return "W" + name.substring(0, name.length() - 1);
+      return PREFIX_WEICHEN_GLEISABSCHNITT + name.substring(0, name.length() - 1);
     } else {
-      return "W" + name;
+      return PREFIX_WEICHEN_GLEISABSCHNITT + name;
     }
   }
 

@@ -3,6 +3,7 @@ package de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse;
 import de.gedoplan.v5t11.fahrstrassen.entity.Parcours;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Weiche;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
+import de.gedoplan.v5t11.util.domain.entity.fahrweg.geraet.AbstractWeiche;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -39,9 +40,9 @@ public class FahrstrassenWeiche extends FahrstrassenGeraet {
     boolean doppelweiche = Character.isAlphabetic(name.charAt(name.length() - 1));
     String gleisAbschnittName;
     if (doppelweiche) {
-      gleisAbschnittName = FahrstrassenGleisabschnitt.PREFIX_WEICHEN_GLEISABSCHNITT + name.substring(0, name.length() - 1);
+      gleisAbschnittName = AbstractWeiche.PREFIX_WEICHEN_GLEISABSCHNITT + name.substring(0, name.length() - 1);
     } else {
-      gleisAbschnittName = FahrstrassenGleisabschnitt.PREFIX_WEICHEN_GLEISABSCHNITT + name;
+      gleisAbschnittName = AbstractWeiche.PREFIX_WEICHEN_GLEISABSCHNITT + name;
     }
 
     return new FahrstrassenGleisabschnitt(getBereich(), gleisAbschnittName, this.zaehlrichtung);

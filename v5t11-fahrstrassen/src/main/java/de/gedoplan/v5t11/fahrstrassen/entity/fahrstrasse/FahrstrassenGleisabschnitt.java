@@ -2,6 +2,7 @@ package de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse;
 
 import de.gedoplan.v5t11.fahrstrassen.entity.Parcours;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleisabschnitt;
+import de.gedoplan.v5t11.util.domain.entity.fahrweg.geraet.AbstractWeiche;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -14,8 +15,6 @@ import lombok.Setter;
 @XmlAccessorType(XmlAccessType.NONE)
 @NoArgsConstructor
 public class FahrstrassenGleisabschnitt extends Fahrstrassenelement {
-
-  public static final String PREFIX_WEICHEN_GLEISABSCHNITT = "W";
 
   @Getter
   @Setter
@@ -31,7 +30,7 @@ public class FahrstrassenGleisabschnitt extends Fahrstrassenelement {
   }
 
   public boolean isWeichenGleisabschnitt() {
-    return getName().startsWith(PREFIX_WEICHEN_GLEISABSCHNITT);
+    return getName().startsWith(AbstractWeiche.PREFIX_WEICHEN_GLEISABSCHNITT);
   }
 
   @Override
