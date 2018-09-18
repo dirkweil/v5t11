@@ -1,8 +1,5 @@
 package de.gedoplan.v5t11.status.entity;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
-
 import de.gedoplan.v5t11.status.CdiTestBase;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
@@ -10,6 +7,7 @@ import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 import javax.inject.Inject;
 
 import org.junit.Test;
+import org.skyscreamer.jsonassert.JSONAssert;
 
 public class WeicheTest extends CdiTestBase {
 
@@ -25,11 +23,13 @@ public class WeicheTest extends CdiTestBase {
 
     this.log.debug("JSON string: " + json);
 
-    assertThat(json, is(
+    JSONAssert.assertEquals(
+        json,
         "{\"bereich\":\"test\""
             + ",\"name\":\"10\""
             + ",\"stellung\":\"" + weiche.getStellung() + "\""
-            + "}"));
+            + "}",
+        true);
   }
 
   @Test
@@ -41,11 +41,13 @@ public class WeicheTest extends CdiTestBase {
 
     this.log.debug("JSON string: " + json);
 
-    assertThat(json, is(
+    JSONAssert.assertEquals(
+        json,
         "{\"bereich\":\"test\""
             + ",\"name\":\"10\""
             + ",\"stellung\":\"" + weiche.getStellung() + "\""
             + ",\"gleisabschnittName\":\"W10\""
-            + "}"));
+            + "}",
+        true);
   }
 }

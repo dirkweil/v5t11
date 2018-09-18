@@ -1,8 +1,5 @@
 package de.gedoplan.v5t11.status.entity;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
-
 import de.gedoplan.v5t11.status.CdiTestBase;
 import de.gedoplan.v5t11.status.entity.lok.Lok;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
@@ -10,6 +7,7 @@ import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 import javax.inject.Inject;
 
 import org.junit.Test;
+import org.skyscreamer.jsonassert.JSONAssert;
 
 public class LokTest extends CdiTestBase {
 
@@ -27,12 +25,14 @@ public class LokTest extends CdiTestBase {
 
     this.log.debug("JSON string: " + json);
 
-    assertThat(json, is(
+    JSONAssert.assertEquals(
+        json,
         "{\"geschwindigkeit\":" + lok.getGeschwindigkeit()
             + ",\"id\":\"" + lokId + "\""
             + ",\"licht\":" + lok.isLicht()
             + ",\"rueckwaerts\":" + lok.isRueckwaerts()
-            + "}"));
+            + "}",
+        true);
   }
 
   @Test
@@ -46,13 +46,15 @@ public class LokTest extends CdiTestBase {
 
     this.log.debug("JSON string: " + json);
 
-    assertThat(json, is(
+    JSONAssert.assertEquals(
+        json,
         "{\"geschwindigkeit\":" + lok.getGeschwindigkeit()
             + ",\"id\":\"" + lokId + "\""
             + ",\"licht\":" + lok.isLicht()
             + ",\"lokdecoderAdressen\":[5]"
             + ",\"lokdecoderTyp\":\"Tr66825\""
             + ",\"rueckwaerts\":" + lok.isRueckwaerts()
-            + "}"));
+            + "}",
+        true);
   }
 }

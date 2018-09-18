@@ -1,8 +1,5 @@
 package de.gedoplan.v5t11.status.entity;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
-
 import de.gedoplan.v5t11.status.CdiTestBase;
 import de.gedoplan.v5t11.status.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
@@ -10,6 +7,7 @@ import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 import javax.inject.Inject;
 
 import org.junit.Test;
+import org.skyscreamer.jsonassert.JSONAssert;
 
 public class GleisabschnittTest extends CdiTestBase {
 
@@ -25,10 +23,12 @@ public class GleisabschnittTest extends CdiTestBase {
 
     this.log.debug("JSON string: " + json);
 
-    assertThat(json, is(
+    JSONAssert.assertEquals(
+        json,
         "{\"bereich\":\"test\""
             + ",\"name\":\"1\""
             + ",\"besetzt\":" + gleisabschnitt.isBesetzt()
-            + "}"));
+            + "}",
+        true);
   }
 }
