@@ -19,7 +19,6 @@ import org.junit.BeforeClass;
 
 public abstract class CdiTestBase extends TestBase {
 
-  private static SeContainerInitializer seContainerInitializer = SeContainerInitializer.newInstance();
   protected static SeContainer container;
 
   protected static String cdiProviderName;
@@ -31,14 +30,13 @@ public abstract class CdiTestBase extends TestBase {
 
     cdiProviderName = ApplicationProperties.getProperty("cdi.provider.name");
 
-    if (container == null) {
-      container = seContainerInitializer.initialize();
-    }
+    container = SeContainerInitializer.newInstance().initialize();
   }
 
   @Before
   @SuppressWarnings({ "rawtypes", "unchecked" })
   public void startRequestContextAndHandleInjectsInTestClass() {
+
     ContextControl contextControl = container.select(ContextControl.class).get();
     contextControl.startContext(RequestScoped.class);
 
@@ -58,14 +56,8 @@ public abstract class CdiTestBase extends TestBase {
   }
 
   @AfterClass
-  public static void stopCdiContainer() {
-    // TODO OWB fails if a new container is started per test
-    if (!"owb".equals(cdiProviderName)) {
-      if (container != null) {
-        container.close();
-        container = null;
-      }
-    }
+  public static void stopContainer() {
+    container.close();
   }
 
 }
