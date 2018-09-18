@@ -21,6 +21,11 @@
     <!-- Main dependencies -->
     
     <dependency>
+      <groupId>javax</groupId>
+      <artifactId>javaee-api</artifactId>
+    </dependency>
+
+    <dependency>
       <groupId>de.gedoplan</groupId>
       <artifactId>baselibs-utils</artifactId>
     </dependency>
