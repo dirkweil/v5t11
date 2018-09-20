@@ -11,6 +11,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * Signale.
@@ -26,6 +27,7 @@ public abstract class AbstractSignal extends Geraet {
    * Aktuelle Signalstellung.
    */
   @Getter(onMethod_ = @JsonbInclude)
+  @Setter(onMethod_ = @JsonbInclude)
   protected SignalStellung stellung = SignalStellung.HALT;
 
   protected AbstractSignal(String bereich, String name) {

@@ -14,6 +14,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * Weiche.
@@ -32,6 +33,7 @@ public abstract class AbstractWeiche extends Geraet {
    * Aktuelle Stellung der Weiche.
    */
   @Getter(onMethod_ = @JsonbInclude)
+  @Setter(onMethod_ = @JsonbInclude)
   protected WeichenStellung stellung = WeichenStellung.GERADE;
 
   protected AbstractWeiche(String bereich, String name) {

@@ -11,6 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * Gleisabschnitt.
@@ -26,6 +27,7 @@ public abstract class AbstractGleisabschnitt extends Fahrwegelement {
    * Gleisabschnitt besetzt?
    */
   @Getter(onMethod_ = @JsonbInclude)
+  @Setter(onMethod_ = @JsonbInclude)
   protected boolean besetzt;
 
   protected AbstractGleisabschnitt(String bereich, String name) {
