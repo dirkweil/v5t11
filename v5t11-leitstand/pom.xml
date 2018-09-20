@@ -17,9 +17,29 @@
     <logging.scope>runtime</logging.scope>
   </properties>
 
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.6.0</version>
+        <configuration>
+        <executable>java</executable>
+          <arguments>
+            <argument>-classpath</argument>
+            <!-- automatically creates the classpath using all project dependencies, also adding the project build directory -->
+            <classpath/>
+            <argument>de.gedoplan.v5t11.leitstand.LeitstandMain</argument>
+          </arguments>
+        </configuration>
+      </plugin>
+
+    </plugins>
+  </build>
+
   <dependencies>
     <!-- Main dependencies -->
-    
+
     <dependency>
       <groupId>javax</groupId>
       <artifactId>javaee-api</artifactId>
@@ -52,7 +72,7 @@
     </dependency>
 
     <!-- Test dependencies -->
-    
+
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
