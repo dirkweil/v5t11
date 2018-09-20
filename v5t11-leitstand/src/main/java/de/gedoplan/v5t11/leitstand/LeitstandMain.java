@@ -31,9 +31,9 @@ public class LeitstandMain {
 
       // TODO Meecrowave scheint die Logger beim Shutdown zu schliessen
       if (log.isErrorEnabled()) {
-        log.error("Kann Fahrstrassen-Service nicht starten", e);
+        log.error("Kann Leitstand-Service nicht starten", e);
       } else {
-        System.err.println("Kann Fahrstrassen-Service nicht starten: " + e);
+        System.err.println("Kann Leitstand-Service nicht starten: " + e);
       }
     }
 
