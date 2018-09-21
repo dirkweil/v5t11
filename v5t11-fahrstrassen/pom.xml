@@ -19,7 +19,7 @@
 
   <dependencies>
     <!-- Main dependencies -->
-    
+
     <dependency>
       <groupId>javax</groupId>
       <artifactId>javaee-api</artifactId>
@@ -52,7 +52,7 @@
     </dependency>
 
     <!-- Test dependencies -->
-    
+
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -66,4 +66,18 @@
     </dependency>
 
   </dependencies>
+
+  <build>
+    <plugins>
+      <!-- Konfiguration für mvn exec:java -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <configuration>
+          <mainClass>de.gedoplan.v5t11.fahrstrassen.FahrstrassenMain</mainClass>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
 </project>
