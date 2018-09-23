@@ -8,6 +8,8 @@ import de.gedoplan.v5t11.status.entity.baustein.Lokcontroller;
 import de.gedoplan.v5t11.status.entity.baustein.Lokdecoder;
 import de.gedoplan.v5t11.status.entity.baustein.Zentrale;
 import de.gedoplan.v5t11.status.entity.baustein.besetztmelder.BMMiba3;
+import de.gedoplan.v5t11.status.entity.baustein.besetztmelder.Muet8i;
+import de.gedoplan.v5t11.status.entity.baustein.besetztmelder.Muet8k;
 import de.gedoplan.v5t11.status.entity.baustein.besetztmelder.SXBM1;
 import de.gedoplan.v5t11.status.entity.baustein.funktionsdecoder.SD8;
 import de.gedoplan.v5t11.status.entity.baustein.funktionsdecoder.STRFD1;
@@ -104,6 +106,8 @@ public class Steuerung {
   @XmlElementWrapper(name = "Besetztmelder")
   @XmlElements({
       @XmlElement(name = "BMMiba3", type = BMMiba3.class),
+      @XmlElement(name = "Muet8i", type = Muet8i.class),
+      @XmlElement(name = "Muet8k", type = Muet8k.class),
       @XmlElement(name = "SXBM1", type = SXBM1.class),
   })
   private SortedSet<Besetztmelder> besetztmelder = new TreeSet<>();

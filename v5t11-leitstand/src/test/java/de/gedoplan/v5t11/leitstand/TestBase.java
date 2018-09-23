@@ -13,7 +13,9 @@ public class TestBase {
   @BeforeClass
   public static void initSysProps() {
     System.setProperty("java.util.logging.manager", "org.apache.logging.log4j.jul.LogManager");
-    System.setProperty(ConfigBase.PROPERTY_ANLAGE, "test");
+    if (System.getProperty(ConfigBase.PROPERTY_ANLAGE) == null) {
+      System.setProperty(ConfigBase.PROPERTY_ANLAGE, "test");
+    }
     System.setProperty("UNITTEST", "true");
   }
 
