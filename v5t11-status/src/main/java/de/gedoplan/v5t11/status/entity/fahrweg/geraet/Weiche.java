@@ -42,6 +42,7 @@ public class Weiche extends AbstractWeiche implements FunktionsdecoderGeraet {
    * @param stellung
    *          Wert
    */
+  @Override
   public void setStellung(WeichenStellung stellung) {
     setStellung(stellung, true);
   }
@@ -117,9 +118,7 @@ public class Weiche extends AbstractWeiche implements FunktionsdecoderGeraet {
         + "/"
         + getName()
         + " @ "
-        + this.funktionsdecoderZuordnung.getFunktionsdecoder().getAdressen().get(0)
-        + "/"
-        + this.funktionsdecoderZuordnung.getAnschluss()
+        + this.funktionsdecoderZuordnung
         + "}";
   }
 

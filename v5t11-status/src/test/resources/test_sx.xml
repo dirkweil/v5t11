@@ -48,6 +48,11 @@
       <HauptsignalRtGe idx="14" bereich="test" name="B" />
       <HauptsignalRtGn idx="15" bereich="test" name="C" />
     </SXSD1>
+    
+    <NoFD id="dummy-1">
+      <Weiche idx="0" bereich="test" name="99" />
+      <HauptsignalRtGe idx="1" bereich="test" name="X" />
+    </NoFD>
   </Funktionsdecoder>
 
   <Lokdecoder>

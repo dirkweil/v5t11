@@ -56,4 +56,13 @@ public class FunktionsdecoderZuordnung {
     this.bitMaskeAnschluss = this.bitMaske0 << this.anschluss;
   }
 
+  @Override
+  public String toString() {
+    return this.funktionsdecoder.getAdressen().isEmpty()
+        ? "none"
+        : this.funktionsdecoder.getAdressen().get(0)
+            + "/"
+            + this.anschluss;
+  }
+
 }

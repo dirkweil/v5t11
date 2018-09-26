@@ -82,7 +82,7 @@ public abstract class Baustein extends SingleIdEntity<String> implements Compara
    *          Anzahl belegter Bytes (Adressen)
    */
   protected Baustein(int byteAnzahl) {
-    if (byteAnzahl <= 0 || byteAnzahl > 8) {
+    if (byteAnzahl < 0 || byteAnzahl > 8) {
       throw new IllegalArgumentException("Ungültige Byte-Anzahl: " + byteAnzahl);
     }
 

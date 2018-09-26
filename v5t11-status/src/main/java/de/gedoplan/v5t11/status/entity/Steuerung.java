@@ -11,6 +11,7 @@ import de.gedoplan.v5t11.status.entity.baustein.besetztmelder.BMMiba3;
 import de.gedoplan.v5t11.status.entity.baustein.besetztmelder.Muet8i;
 import de.gedoplan.v5t11.status.entity.baustein.besetztmelder.Muet8k;
 import de.gedoplan.v5t11.status.entity.baustein.besetztmelder.SXBM1;
+import de.gedoplan.v5t11.status.entity.baustein.funktionsdecoder.NoFD;
 import de.gedoplan.v5t11.status.entity.baustein.funktionsdecoder.SD8;
 import de.gedoplan.v5t11.status.entity.baustein.funktionsdecoder.STRFD1;
 import de.gedoplan.v5t11.status.entity.baustein.funktionsdecoder.SXSD1;
@@ -114,6 +115,7 @@ public class Steuerung {
 
   @XmlElementWrapper(name = "Funktionsdecoder")
   @XmlElements({
+      @XmlElement(name = "NoFD", type = NoFD.class),
       @XmlElement(name = "SD8", type = SD8.class),
       @XmlElement(name = "STRFD1", type = STRFD1.class),
       @XmlElement(name = "SXSD1", type = SXSD1.class),

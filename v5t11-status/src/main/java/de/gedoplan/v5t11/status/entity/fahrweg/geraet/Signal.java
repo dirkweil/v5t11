@@ -81,6 +81,7 @@ public abstract class Signal extends AbstractSignal implements FunktionsdecoderG
    * @param stellung
    *          Wert
    */
+  @Override
   public void setStellung(SignalStellung stellung) {
     setStellung(stellung, true);
   }
@@ -144,9 +145,7 @@ public abstract class Signal extends AbstractSignal implements FunktionsdecoderG
         + "/"
         + getName()
         + " @ "
-        + this.funktionsdecoderZuordnung.getFunktionsdecoder().getAdressen().get(0)
-        + "/"
-        + this.funktionsdecoderZuordnung.getAnschluss()
+        + this.funktionsdecoderZuordnung
         + "}";
   }
 
