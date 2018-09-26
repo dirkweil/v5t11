@@ -1,5 +1,7 @@
 package de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse;
 
+import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -15,7 +17,7 @@ public abstract class FahrstrassenGeraet extends Fahrstrassenelement {
    * Elemente mit Schutzfunktion liegen nicht im eigentlichen Fahrweg, sondern schützen ihn nur vor Kollisionen.
    */
   @XmlAttribute
-  @Getter
+  @Getter(onMethod = @__(@JsonbInclude(full = true)))
   protected boolean schutz = false;
 
   @Override

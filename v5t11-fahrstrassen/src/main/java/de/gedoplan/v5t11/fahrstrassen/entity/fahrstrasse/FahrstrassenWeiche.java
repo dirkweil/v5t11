@@ -20,7 +20,7 @@ public class FahrstrassenWeiche extends FahrstrassenGeraet {
   @Getter
   private Weiche weiche;
 
-  @Getter
+  @Getter(onMethod = @__(@JsonbInclude(full = true)))
   @XmlAttribute
   private WeichenStellung stellung;
 
