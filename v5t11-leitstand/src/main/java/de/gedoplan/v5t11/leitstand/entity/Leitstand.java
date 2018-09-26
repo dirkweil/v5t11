@@ -32,6 +32,7 @@ import lombok.Getter;
 public class Leitstand {
 
   @XmlElement(name = "Stellwerk")
+  @Getter
   private SortedSet<Stellwerk> stellwerke = new TreeSet<>();
 
   @Getter
@@ -45,6 +46,15 @@ public class Leitstand {
 
   @Getter
   private SortedSet<Weiche> weichen = new TreeSet<>();
+
+  public Stellwerk getStellwerk(String bereich) {
+    for (Stellwerk stellwerk : this.stellwerke) {
+      if (stellwerk.getBereich().equals(bereich)) {
+        return stellwerk;
+      }
+    }
+    return null;
+  }
 
   /**
    * Gleisabschnitt liefern.
