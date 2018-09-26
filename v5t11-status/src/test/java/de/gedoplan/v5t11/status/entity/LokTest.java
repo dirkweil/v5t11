@@ -25,13 +25,13 @@ public class LokTest extends CdiTestBase {
 
     this.log.debug("JSON string: " + json);
 
-    JSONAssert.assertEquals(
+    JSONAssert.assertEquals(""
+        + "{\"geschwindigkeit\":" + lok.getGeschwindigkeit()
+        + ",\"id\":\"" + lokId + "\""
+        + ",\"licht\":" + lok.isLicht()
+        + ",\"rueckwaerts\":" + lok.isRueckwaerts()
+        + "}",
         json,
-        "{\"geschwindigkeit\":" + lok.getGeschwindigkeit()
-            + ",\"id\":\"" + lokId + "\""
-            + ",\"licht\":" + lok.isLicht()
-            + ",\"rueckwaerts\":" + lok.isRueckwaerts()
-            + "}",
         true);
   }
 
@@ -46,15 +46,15 @@ public class LokTest extends CdiTestBase {
 
     this.log.debug("JSON string: " + json);
 
-    JSONAssert.assertEquals(
+    JSONAssert.assertEquals(""
+        + "{\"geschwindigkeit\":" + lok.getGeschwindigkeit()
+        + ",\"id\":\"" + lokId + "\""
+        + ",\"licht\":" + lok.isLicht()
+        + ",\"lokdecoderAdressen\":[5]"
+        + ",\"lokdecoderTyp\":\"Tr66825\""
+        + ",\"rueckwaerts\":" + lok.isRueckwaerts()
+        + "}",
         json,
-        "{\"geschwindigkeit\":" + lok.getGeschwindigkeit()
-            + ",\"id\":\"" + lokId + "\""
-            + ",\"licht\":" + lok.isLicht()
-            + ",\"lokdecoderAdressen\":[5]"
-            + ",\"lokdecoderTyp\":\"Tr66825\""
-            + ",\"rueckwaerts\":" + lok.isRueckwaerts()
-            + "}",
         true);
   }
 }

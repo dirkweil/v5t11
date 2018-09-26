@@ -23,12 +23,12 @@ public class WeicheTest extends CdiTestBase {
 
     this.log.debug("JSON string: " + json);
 
-    JSONAssert.assertEquals(
+    JSONAssert.assertEquals(""
+        + "{\"bereich\":\"test\""
+        + ",\"name\":\"10\""
+        + ",\"stellung\":\"" + weiche.getStellung() + "\""
+        + "}",
         json,
-        "{\"bereich\":\"test\""
-            + ",\"name\":\"10\""
-            + ",\"stellung\":\"" + weiche.getStellung() + "\""
-            + "}",
         true);
   }
 
@@ -41,13 +41,13 @@ public class WeicheTest extends CdiTestBase {
 
     this.log.debug("JSON string: " + json);
 
-    JSONAssert.assertEquals(
+    JSONAssert.assertEquals(""
+        + "{\"bereich\":\"test\""
+        + ",\"name\":\"10\""
+        + ",\"stellung\":\"" + weiche.getStellung() + "\""
+        + ",\"gleisabschnittName\":\"W10\""
+        + "}",
         json,
-        "{\"bereich\":\"test\""
-            + ",\"name\":\"10\""
-            + ",\"stellung\":\"" + weiche.getStellung() + "\""
-            + ",\"gleisabschnittName\":\"W10\""
-            + "}",
         true);
   }
 }

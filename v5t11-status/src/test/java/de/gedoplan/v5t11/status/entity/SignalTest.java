@@ -23,12 +23,12 @@ public class SignalTest extends CdiTestBase {
 
     this.log.debug("JSON string: " + json);
 
-    JSONAssert.assertEquals(
+    JSONAssert.assertEquals(""
+        + "{\"bereich\":\"test\""
+        + ",\"name\":\"P2\""
+        + ",\"stellung\":\"" + signal.getStellung() + "\""
+        + "}",
         json,
-        "{\"bereich\":\"test\""
-            + ",\"name\":\"P2\""
-            + ",\"stellung\":\"" + signal.getStellung() + "\""
-            + "}",
         true);
   }
 
@@ -41,14 +41,14 @@ public class SignalTest extends CdiTestBase {
 
     this.log.debug("JSON string: " + json);
 
-    JSONAssert.assertEquals(
+    JSONAssert.assertEquals(""
+        + "{\"bereich\":\"test\""
+        + ",\"name\":\"P2\""
+        + ",\"stellung\":\"" + signal.getStellung() + "\""
+        + ",\"erlaubteStellungen\":[\"HALT\",\"FAHRT\",\"LANGSAMFAHRT\",\"RANGIERFAHRT\"]"
+        + ",\"typ\":\"Hauptsperrsignal"
+        + "\"}",
         json,
-        "{\"bereich\":\"test\""
-            + ",\"name\":\"P2\""
-            + ",\"stellung\":\"" + signal.getStellung() + "\""
-            + ",\"erlaubteStellungen\":[\"HALT\",\"FAHRT\",\"LANGSAMFAHRT\",\"RANGIERFAHRT\"]"
-            + ",\"typ\":\"Hauptsperrsignal"
-            + "\"}",
         true);
   }
 }
