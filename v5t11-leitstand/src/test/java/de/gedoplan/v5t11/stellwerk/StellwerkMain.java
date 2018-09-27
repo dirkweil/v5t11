@@ -76,15 +76,15 @@ public class StellwerkMain extends JFrame {
     setVisible(true);
 
     try {
-      TabPanel mainPanel = new TabPanel();
-      getContentPane().add(mainPanel);
-
-      TabPanel gbsPanel = new TabPanel("Stellwerk");
-      for (String bereich : leitstand.getBereiche()) {
-        gbsPanel.addApplicationPanel(new Gbs(bereich));
-      }
-      mainPanel.addApplicationPanel(gbsPanel);
-      validate();
+      // TabPanel mainPanel = new TabPanel();
+      // getContentPane().add(mainPanel);
+      //
+      // TabPanel gbsPanel = new TabPanel("Stellwerk");
+      // for (String bereich : leitstand.getBereiche()) {
+      // gbsPanel.addApplicationPanel(new Gbs(bereich));
+      // }
+      // mainPanel.addApplicationPanel(gbsPanel);
+      // validate();
 
       // mainPanel.addApplicationPanel(new LokCockpit());
       // validate();
