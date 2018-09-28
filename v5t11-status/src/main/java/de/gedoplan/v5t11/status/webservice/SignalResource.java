@@ -75,17 +75,18 @@ public class SignalResource {
       throw new NotFoundException();
     }
 
-    for (String stellungsName : stellungsAngabe.split("\\s*,\\s*")) {
+    try {
+      for (String stellungsName : stellungsAngabe.split("\\s*,\\s*")) {
 
-      SignalStellung stellung = SignalStellung.valueOf(stellungsName);
-      if (stellung == null) {
-        throw new BadRequestException();
-      }
+        SignalStellung stellung = SignalStellung.valueOfLenient(stellungsName);
 
-      if (signal.getErlaubteStellungen().contains(stellung)) {
-        signal.setStellung(stellung);
-        return;
+        if (signal.getErlaubteStellungen().contains(stellung)) {
+          signal.setStellung(stellung);
+          return;
+        }
       }
+    } catch (IllegalArgumentException e) {
+      // Fall through
     }
 
     throw new BadRequestException();

@@ -70,11 +70,10 @@ public class WeicheResource {
   @Consumes(MediaType.TEXT_PLAIN)
   public void putWeichenStellung(@PathParam("bereich") String bereich, @PathParam("name") String name, String stellungsName) {
 
-    WeichenStellung stellung = WeichenStellung.valueOf(stellungsName);
-    if (stellung == null) {
+    try {
+      getWeiche(bereich, name).setStellung(WeichenStellung.valueOfLenient(stellungsName));
+    } catch (IllegalArgumentException e) {
       throw new BadRequestException();
     }
-
-    getWeiche(bereich, name).setStellung(stellung);
   }
 }

@@ -29,6 +29,20 @@ public enum SignalStellung {
   /**
    * Dunkel (Vorsignal am Hauptsignalmast bei Hp0).
    */
-  DUNKEL
+  DUNKEL;
+
+  public static SignalStellung valueOfLenient(String s) {
+    try {
+      return SignalStellung.valueOf(s);
+    } catch (IllegalArgumentException e) {
+      for (SignalStellung value : values()) {
+        if (value.name().startsWith(s)) {
+          return value;
+        }
+      }
+
+      throw e;
+    }
+  }
 
 };

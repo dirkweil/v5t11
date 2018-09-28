@@ -86,9 +86,9 @@ public class FahrstrasseResource {
   @PUT
   @Path("{bereich}/{name}/reservierung")
   @Consumes(MediaType.TEXT_PLAIN)
-  public Response reserviereFahrstrasse(@PathParam("bereich") String bereich, @PathParam("name") String name, FahrstrassenReservierungsTyp reservierungsTyp) {
+  public Response reserviereFahrstrasse(@PathParam("bereich") String bereich, @PathParam("name") String name, String reservierungsTypAsString) {
     if (this.log.isDebugEnabled()) {
-      this.log.debug(String.format("reserviereFahrstrasse: fahrstrasse=%s/%s, reservierungsTyp=%s", bereich, name, reservierungsTyp));
+      this.log.debug(String.format("reserviereFahrstrasse: fahrstrasse=%s/%s, reservierungsTyp=%s", bereich, name, reservierungsTypAsString));
     }
 
     Fahrstrasse fahrstrasse = this.parcours.getFahrstrasse(bereich, name);
@@ -96,8 +96,12 @@ public class FahrstrasseResource {
       return ResponseFactory.createNotFoundResponse();
     }
 
-    if (!fahrstrasse.reservieren(reservierungsTyp)) {
-      return ResponseFactory.createConflictResponse();
+    try {
+      if (!fahrstrasse.reservieren(FahrstrassenReservierungsTyp.valueOfLenient(reservierungsTypAsString))) {
+        return ResponseFactory.createConflictResponse();
+      }
+    } catch (IllegalArgumentException e) {
+      return ResponseFactory.createBadRequestResponse();
     }
 
     return ResponseFactory.createNoContentResponse();

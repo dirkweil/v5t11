@@ -15,6 +15,8 @@ import org.apache.commons.logging.Log;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 
+// TODO Bei Start der Anwendung aktuellen Stand holen
+
 @ApplicationScoped
 public class FahrstrassenManager {
 
