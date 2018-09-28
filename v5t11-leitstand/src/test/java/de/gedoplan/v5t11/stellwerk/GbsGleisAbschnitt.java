@@ -29,13 +29,7 @@ public class GbsGleisAbschnitt extends GbsElement {
 
     this.gleisabschnitt = StellwerkMain.getLeitstand().getGleisabschnitt(stellwerkElement.getBereich(), stellwerkElement.getName());
     if (this.gleisabschnitt != null) {
-      // TODO Refresh
-      // this.gleisabschnitt.addValueChangedListener(new ValueChangedListener() {
-      // @Override
-      // public void valueChanged(ValueChangedEvent event) {
-      // repaint();
-      // }
-      // });
+      StatusDispatcher.addListener(this.gleisabschnitt, this);
     }
 
     this.label = stellwerkElement.isLabel();
