@@ -43,4 +43,24 @@ public abstract class StellwerkElement implements Serializable {
   }
 
   public abstract void linkFahrwegelemente(Leitstand leitstand);
+
+  // TODO Wird das gebraucht?
+  public String getTyp() {
+    return null;
+  }
+
+  // TODO Wird das gebraucht?
+  public String getSignalName() {
+    return null;
+  }
+
+  // TODO Wird das gebraucht?
+  public String getSignalPosition() {
+    return null;
+  }
+
+  // TODO Wird das gebraucht?
+  public boolean isLabel() {
+    return false;
+  }
 }

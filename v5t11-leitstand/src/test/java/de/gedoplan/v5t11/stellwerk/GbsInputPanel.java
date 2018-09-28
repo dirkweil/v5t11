@@ -1,9 +1,11 @@
 package de.gedoplan.v5t11.stellwerk;
 
+import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Signal;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Weiche;
 import de.gedoplan.v5t11.stellwerk.util.GridBagHelper;
+import de.gedoplan.v5t11.stellwerk.util.IconUtil;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
 import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
@@ -17,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ButtonGroup;
+import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
@@ -93,7 +96,8 @@ public class GbsInputPanel extends JPanel {
   public void reset() {
     if (this.fahrstrassen != null) {
       for (Fahrstrasse fahrstrasse : this.fahrstrassen) {
-        fahrstrasse.vorschlagen(false);
+        // TODO FS
+        // fahrstrasse.vorschlagen(false);
       }
     }
 
@@ -115,8 +119,8 @@ public class GbsInputPanel extends JPanel {
 
       for (final SignalStellung stellung : signal.getErlaubteStellungen()) {
         final JRadioButton rb = new JRadioButton();
-        rb.setIcon(stellung.getUnselectedIcon());
-        rb.setSelectedIcon(stellung.getSelectedIcon());
+        rb.setIcon(getUnselectedIcon(stellung));
+        rb.setSelectedIcon(getSelectedIcon(stellung));
         buttonGroup.add(rb);
 
         rb.setSelected(stellung.equals(signal.getStellung()));
@@ -125,7 +129,8 @@ public class GbsInputPanel extends JPanel {
           @Override
           public void itemStateChanged(ItemEvent e) {
             if (rb.isSelected()) {
-              StellwerkMain.getSteuerungRemoteService().setSignalStellung(signal.getBereich(), signal.getName(), stellung);
+              // TODO Action
+              // StellwerkMain.getSteuerungRemoteService().setSignalStellung(signal.getBereich(), signal.getName(), stellung);
               StellwerkMain.setStatusLineText(null);
             }
 
@@ -146,8 +151,8 @@ public class GbsInputPanel extends JPanel {
       }
 
       JCheckBox cb = new JCheckBox(weiche.getName());
-      cb.setIcon(WeichenStellung.GERADE.getIcon());
-      cb.setSelectedIcon(WeichenStellung.ABZWEIGEND.getIcon());
+      cb.setIcon(getIcon(WeichenStellung.GERADE));
+      cb.setSelectedIcon(getIcon(WeichenStellung.ABZWEIGEND));
       cb.setHorizontalTextPosition(SwingConstants.LEFT);
       cb.setModel(new WeichenButtonModel(weiche));
 
@@ -155,10 +160,11 @@ public class GbsInputPanel extends JPanel {
 
       validate();
 
-      Fahrstrasse aktiveFahrstrasse = weiche.getReservierteFahrstrasse();
-      if (aktiveFahrstrasse != null) {
-        showFahrstrasseZurDeaktivierung(aktiveFahrstrasse);
-      }
+      // TODO FS
+      // Fahrstrasse aktiveFahrstrasse = weiche.getReservierteFahrstrasse();
+      // if (aktiveFahrstrasse != null) {
+      // showFahrstrasseZurDeaktivierung(aktiveFahrstrasse);
+      // }
     }
   }
 
@@ -172,40 +178,41 @@ public class GbsInputPanel extends JPanel {
       long now = System.currentTimeMillis();
 
       if (this.fahrstrassenBeginn != null && now - this.fahrstrassenBeginnStamp <= FAHRSTRASSEN_INPUT_MAXDELAY) {
-        this.fahrstrassen = Main.getSteuerung().getFreieFahrstrassen(this.fahrstrassenBeginn, gleisabschnitt);
-        int fahrstrassenAnzahl = this.fahrstrassen.size();
-
-        String fahrstrassenAnzahlText;
-        switch (fahrstrassenAnzahl) {
-        case 0:
-          fahrstrassenAnzahlText = "Keine Fahrstrasse";
-          break;
-
-        case 1:
-          fahrstrassenAnzahlText = "1 Fahrstrasse";
-          break;
-
-        default:
-          fahrstrassenAnzahlText = fahrstrassenAnzahl + " Fahrstrassen";
-          break;
-        }
-        StellwerkMain.setStatusLineText(this.fahrstrassenBeginn.toDisplayString() + " -> " + gleisabschnitt.toDisplayString() + ": " + fahrstrassenAnzahlText);
-
-        if (fahrstrassenAnzahl != 0) {
-          this.fahrstrassenIndex = 0;
-          showFahrstrasseZurAktivierung();
-          validate();
-        }
-
-        if (LOG.isDebugEnabled()) {
-          LOG.debug(fahrstrassenAnzahl + " Fahrstrassen von " + this.fahrstrassenBeginn + " nach " + gleisabschnitt + " gefunden");
-        }
+        // TODO FS
+        // this.fahrstrassen = StellwerkMain.getLeitstand().getFreieFahrstrassen(this.fahrstrassenBeginn, gleisabschnitt);
+        // int fahrstrassenAnzahl = this.fahrstrassen.size();
+        //
+        // String fahrstrassenAnzahlText;
+        // switch (fahrstrassenAnzahl) {
+        // case 0:
+        // fahrstrassenAnzahlText = "Keine Fahrstrasse";
+        // break;
+        //
+        // case 1:
+        // fahrstrassenAnzahlText = "1 Fahrstrasse";
+        // break;
+        //
+        // default:
+        // fahrstrassenAnzahlText = fahrstrassenAnzahl + " Fahrstrassen";
+        // break;
+        // }
+        // StellwerkMain.setStatusLineText(this.fahrstrassenBeginn.toDisplayString() + " -> " + gleisabschnitt.toDisplayString() + ": " + fahrstrassenAnzahlText);
+        //
+        // if (fahrstrassenAnzahl != 0) {
+        // this.fahrstrassenIndex = 0;
+        // showFahrstrasseZurAktivierung();
+        // validate();
+        // }
+        //
+        // if (LOG.isDebugEnabled()) {
+        // LOG.debug(fahrstrassenAnzahl + " Fahrstrassen von " + this.fahrstrassenBeginn + " nach " + gleisabschnitt + " gefunden");
+        // }
 
         this.fahrstrassenBeginnStamp = 0;
       } else if (this.fahrstrassenBeginn == null || now - this.fahrstrassenBeginnStamp > FAHRSTRASSEN_INPUT_MAXDELAY) {
         this.fahrstrassenBeginn = gleisabschnitt;
 
-        Main.setStatusLineText(this.fahrstrassenBeginn.toDisplayString());
+        StellwerkMain.setStatusLineText(this.fahrstrassenBeginn.toDisplayString());
 
         if (LOG.isDebugEnabled()) {
           LOG.debug(gleisabschnitt + " als moeglichen Fahrstrassenbeginn gemerkt");
@@ -213,11 +220,12 @@ public class GbsInputPanel extends JPanel {
 
         this.fahrstrassenBeginnStamp = now;
 
-        Fahrstrasse aktiveFahrstrasse = gleisabschnitt.getReservierteFahrstrasse();
-        if (aktiveFahrstrasse != null) {
-          this.fahrstrassenIndex = 0;
-          showFahrstrasseZurDeaktivierung(aktiveFahrstrasse);
-        }
+        // TODO FS
+        // Fahrstrasse aktiveFahrstrasse = gleisabschnitt.getReservierteFahrstrasse();
+        // if (aktiveFahrstrasse != null) {
+        // this.fahrstrassenIndex = 0;
+        // showFahrstrasseZurDeaktivierung(aktiveFahrstrasse);
+        // }
       }
     }
   }
@@ -242,12 +250,13 @@ public class GbsInputPanel extends JPanel {
   }
 
   private void showFahrstrasseZurAktivierung() {
-    if (LOG.isDebugEnabled()) {
-      LOG.debug("Freie Fahrstrassen:");
-      for (Fahrstrasse fahrstrasse : this.fahrstrassen) {
-        LOG.debug("  " + fahrstrasse.getName() + ", Rank=" + fahrstrasse.getRank());
-      }
-    }
+    // TODO FS
+    // if (LOG.isDebugEnabled()) {
+    // LOG.debug("Freie Fahrstrassen:");
+    // for (Fahrstrasse fahrstrasse : this.fahrstrassen) {
+    // LOG.debug(" " + fahrstrasse.getName() + ", Rank=" + fahrstrasse.getRank());
+    // }
+    // }
 
     this.fahrstrassenPanel.removeAll();
     this.fahrstrassenPanel.add(this.fahrstrassenLabel);
@@ -264,15 +273,17 @@ public class GbsInputPanel extends JPanel {
 
   private void showFahrstrasse(boolean highlight) {
     Fahrstrasse fahrstrasse = this.fahrstrassen.get(this.fahrstrassenIndex);
-    if (highlight) {
-      fahrstrasse.vorschlagen(true);
-    }
-    this.fahrstrassenLabel.setText("Fahrstrasse " + fahrstrasse.getShortName());
+    // TODO FS
+    // if (highlight) {
+    // fahrstrasse.vorschlagen(true);
+    // }
+    // this.fahrstrassenLabel.setText("Fahrstrasse " + fahrstrasse.getShortName());
   }
 
   protected void fahrstrassenNextButtonClicked() {
     Fahrstrasse fahrstrasse = this.fahrstrassen.get(this.fahrstrassenIndex);
-    fahrstrasse.vorschlagen(false);
+    // TODO FS
+    // fahrstrasse.vorschlagen(false);
 
     ++this.fahrstrassenIndex;
     if (this.fahrstrassenIndex >= this.fahrstrassen.size()) {
@@ -282,20 +293,63 @@ public class GbsInputPanel extends JPanel {
     showFahrstrasse(true);
   }
 
-  protected void fahrstrassenReservierungsButtonClicked(Fahrstrasse.ReservierungsTyp reservierungsTyp) {
+  protected void fahrstrassenReservierungsButtonClicked(FahrstrassenReservierungsTyp reservierungsTyp) {
     Fahrstrasse fahrstrasse = this.fahrstrassen.get(this.fahrstrassenIndex);
 
     reset();
     this.fahrstrassenBeginn = null;
     StellwerkMain.setStatusLineText(null);
 
-    StellwerkMain.getSteuerungRemoteService().setFahrstrasseReserviert(fahrstrasse.getBereich(), fahrstrasse.getName(), reservierungsTyp);
+    // TODO Action
+    // StellwerkMain.getSteuerungRemoteService().setFahrstrasseReserviert(fahrstrasse.getBereich(), fahrstrasse.getName(), reservierungsTyp);
   }
 
   protected void abbrechenButtonClicked() {
     reset();
     this.fahrstrassenBeginn = null;
     StellwerkMain.setStatusLineText(null);
+  }
+
+  private static Icon getSelectedIcon(SignalStellung stellung) {
+    switch (stellung) {
+    case DUNKEL:
+      return IconUtil.getIcon("images/signal_dunkel_selektiert.gif");
+    case FAHRT:
+      return IconUtil.getIcon("images/signal_gruen_selektiert.gif");
+    case HALT:
+      return IconUtil.getIcon("images/signal_rot_selektiert.gif");
+    case LANGSAMFAHRT:
+      return IconUtil.getIcon("images/signal_gelb_selektiert.gif");
+    case RANGIERFAHRT:
+      return IconUtil.getIcon("images/signal_weiss_selektiert.gif");
+    }
+    return null;
+  }
+
+  private static Icon getUnselectedIcon(SignalStellung stellung) {
+    switch (stellung) {
+    case DUNKEL:
+      return IconUtil.getIcon("images/signal_dunkel.gif");
+    case FAHRT:
+      return IconUtil.getIcon("images/signal_gruen.gif");
+    case HALT:
+      return IconUtil.getIcon("images/signal_rot.gif");
+    case LANGSAMFAHRT:
+      return IconUtil.getIcon("images/signal_gelb.gif");
+    case RANGIERFAHRT:
+      return IconUtil.getIcon("images/signal_weiss.gif");
+    }
+    return null;
+  }
+
+  private static Icon getIcon(WeichenStellung stellung) {
+    switch (stellung) {
+    case ABZWEIGEND:
+      return IconUtil.getIcon("images/weiche_abzweigend.gif");
+    case GERADE:
+      return IconUtil.getIcon("images/weiche_gerade.gif");
+    }
+    return null;
   }
 
 }

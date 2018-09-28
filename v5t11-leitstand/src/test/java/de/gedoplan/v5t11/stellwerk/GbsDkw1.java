@@ -1,5 +1,6 @@
 package de.gedoplan.v5t11.stellwerk;
 
+import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkElement;
 import de.gedoplan.v5t11.stellwerk.util.GbsFarben;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
@@ -47,27 +48,28 @@ public class GbsDkw1 extends GbsWeicheMit1Antrieb {
 
     // Fahrstrasse drauf zeichen, wenn vorhanden
     if (this.weiche != null) {
-      Fahrstrasse fahrstrasse = this.weiche.getReservierteFahrstrasse();
-      if (fahrstrasse != null) {
-        color = fahrstrasse.getReservierungsTyp().getGbsFarbe();
-      } else {
-        fahrstrasse = this.weiche.getVorgeschlageneneFahrstrasse();
-        if (fahrstrasse != null) {
-          color = GbsFarben.GLEIS_IN_VORGESCHLAGENER_FAHRSTRASSE;
-        }
-      }
-
-      if (fahrstrasse != null) {
-        WeichenStellung stellungFuerFahrstrasse = this.weiche.getStellungFuerFahrstrassenvorschlag();
-        if (stellungFuerFahrstrasse == null) {
-          stellungFuerFahrstrasse = this.weiche.getStellung();
-        }
-        gerade = stellungFuerFahrstrasse == Stellung.GERADE;
-
-        // TODO zählrichtung
-        drawFahrstrassenSegment(g2d, color, gerade ? this.ausfahrtPos1 : this.ausfahrtPos2, false);
-        drawFahrstrassenSegment(g2d, color, gerade ? this.ausfahrtPos2 : this.ausfahrtPos1, false);
-      }
+      // TODO FS
+      // Fahrstrasse fahrstrasse = this.weiche.getReservierteFahrstrasse();
+      // if (fahrstrasse != null) {
+      // color = fahrstrasse.getReservierungsTyp().getGbsFarbe();
+      // } else {
+      // fahrstrasse = this.weiche.getVorgeschlageneneFahrstrasse();
+      // if (fahrstrasse != null) {
+      // color = GbsFarben.GLEIS_IN_VORGESCHLAGENER_FAHRSTRASSE;
+      // }
+      // }
+      //
+      // if (fahrstrasse != null) {
+      // WeichenStellung stellungFuerFahrstrasse = this.weiche.getStellungFuerFahrstrassenvorschlag();
+      // if (stellungFuerFahrstrasse == null) {
+      // stellungFuerFahrstrasse = this.weiche.getStellung();
+      // }
+      // gerade = stellungFuerFahrstrasse == Stellung.GERADE;
+      //
+      // // TODO zählrichtung
+      // drawFahrstrassenSegment(g2d, color, gerade ? this.ausfahrtPos1 : this.ausfahrtPos2, false);
+      // drawFahrstrassenSegment(g2d, color, gerade ? this.ausfahrtPos2 : this.ausfahrtPos1, false);
+      // }
     }
 
     // Basisklasse kümmert sich um Bezeichnung

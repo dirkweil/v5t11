@@ -18,14 +18,15 @@ public class GbsWeicheMit2Antrieben extends GbsWeiche {
     }
 
     for (int i = 0; i < 2; ++i) {
-      this.weiche[i] = StellwerkMain.getSteuerung().getWeiche(stellwerkElement.getBereich(), namen[i]);
+      this.weiche[i] = StellwerkMain.getLeitstand().getWeiche(stellwerkElement.getBereich(), namen[i]);
       if (this.weiche[i] != null) {
-        this.weiche[i].addValueChangedListener(new ValueChangedListener() {
-          @Override
-          public void valueChanged(ValueChangedEvent event) {
-            repaint();
-          }
-        });
+        // TODO Refresh
+        // this.weiche[i].addValueChangedListener(new ValueChangedListener() {
+        // @Override
+        // public void valueChanged(ValueChangedEvent event) {
+        // repaint();
+        // }
+        // });
       }
     }
   }

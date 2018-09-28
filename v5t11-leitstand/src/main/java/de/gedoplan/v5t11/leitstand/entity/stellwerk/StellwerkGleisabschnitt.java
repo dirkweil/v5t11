@@ -51,4 +51,9 @@ public class StellwerkGleisabschnitt extends StellwerkElement {
 
   }
 
+  @Override
+  public String getTyp() {
+    return "GLEIS";
+  }
+
 }

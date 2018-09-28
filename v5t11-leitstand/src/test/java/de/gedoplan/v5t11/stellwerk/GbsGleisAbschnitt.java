@@ -2,7 +2,6 @@ package de.gedoplan.v5t11.stellwerk;
 
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkElement;
-import de.gedoplan.v5t11.stellwerk.util.GbsFarben;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -30,12 +29,13 @@ public class GbsGleisAbschnitt extends GbsElement {
 
     this.gleisabschnitt = StellwerkMain.getLeitstand().getGleisabschnitt(stellwerkElement.getBereich(), stellwerkElement.getName());
     if (this.gleisabschnitt != null) {
-      this.gleisabschnitt.addValueChangedListener(new ValueChangedListener() {
-        @Override
-        public void valueChanged(ValueChangedEvent event) {
-          repaint();
-        }
-      });
+      // TODO Refresh
+      // this.gleisabschnitt.addValueChangedListener(new ValueChangedListener() {
+      // @Override
+      // public void valueChanged(ValueChangedEvent event) {
+      // repaint();
+      // }
+      // });
     }
 
     this.label = stellwerkElement.isLabel();
@@ -63,30 +63,33 @@ public class GbsGleisAbschnitt extends GbsElement {
 
     // Falls relevant, Fahrstrasse zeichnen (dünner Strich in der Gleismitte)
     if (this.gleisabschnitt != null) {
-      Fahrstrasse fahrstrasse = this.gleisabschnitt.getReservierteFahrstrasse();
-      if (fahrstrasse != null) {
-        if (fahrstrasse.getReservierungsTyp() != null) {
-          color = fahrstrasse.getReservierungsTyp().getGbsFarbe();
-        } else {
-          fahrstrasse = null;
-        }
-      }
+      // TODO Reservierte FS
+      // Fahrstrasse fahrstrasse = this.gleisabschnitt.getReservierteFahrstrasse();
+      // if (fahrstrasse != null) {
+      // if (fahrstrasse.getReservierungsTyp() != null) {
+      // color = fahrstrasse.getReservierungsTyp().getGbsFarbe();
+      // } else {
+      // fahrstrasse = null;
+      // }
+      // }
 
-      if (fahrstrasse == null) {
-        fahrstrasse = this.gleisabschnitt.getVorgeschlageneneFahrstrasse();
-        if (fahrstrasse != null) {
-          color = GbsFarben.GLEIS_IN_VORGESCHLAGENER_FAHRSTRASSE;
-        }
-      }
+      // TODO Vorgeschlagene FS
+      // if (fahrstrasse == null) {
+      // fahrstrasse = this.gleisabschnitt.getVorgeschlageneneFahrstrasse();
+      // if (fahrstrasse != null) {
+      // color = GbsFarben.GLEIS_IN_VORGESCHLAGENER_FAHRSTRASSE;
+      // }
+      // }
 
-      if (fahrstrasse != null) {
-        if ("Schattenbahnhof1".equals(this.gleisabschnitt.getBereich()) && "1".equals(this.gleisabschnitt.getName())) {
-          System.out.println("S1/1.zaehlrichtung: " + this.gleisabschnitt.isZaehlrichtung());
-        }
-        boolean zaehlrichtung = this.gleisabschnitt.isZaehlrichtung();
-        drawFahrstrassenSegment(g2d, color, this.segmentPos[0], !zaehlrichtung);
-        drawFahrstrassenSegment(g2d, color, this.segmentPos[1], zaehlrichtung);
-      }
+      // TODO FS/Zählrichtung
+      // if (fahrstrasse != null) {
+      // if ("Schattenbahnhof1".equals(this.gleisabschnitt.getBereich()) && "1".equals(this.gleisabschnitt.getName())) {
+      // System.out.println("S1/1.zaehlrichtung: " + this.gleisabschnitt.isZaehlrichtung());
+      // }
+      // boolean zaehlrichtung = this.gleisabschnitt.isZaehlrichtung();
+      // drawFahrstrassenSegment(g2d, color, this.segmentPos[0], !zaehlrichtung);
+      // drawFahrstrassenSegment(g2d, color, this.segmentPos[1], zaehlrichtung);
+      // }
     }
 
     // Bezeichnung zeichnen, falls vorhanden

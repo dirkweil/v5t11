@@ -57,33 +57,34 @@ public class GbsEinfachWeiche extends GbsWeicheMit1Antrieb {
 
     // Fahrstrasse drauf zeichen, wenn vorhanden
     if (this.weiche != null) {
-      Fahrstrasse fahrstrasse = this.weiche.getReservierteFahrstrasse();
-      if (fahrstrasse != null) {
-        if (fahrstrasse.getReservierungsTyp() != null) {
-          color = fahrstrasse.getReservierungsTyp().getGbsFarbe();
-        } else {
-          fahrstrasse = null;
-        }
-      }
-
-      if (fahrstrasse == null) {
-        fahrstrasse = this.weiche.getVorgeschlageneneFahrstrasse();
-        if (fahrstrasse != null) {
-          color = GbsFarben.GLEIS_IN_VORGESCHLAGENER_FAHRSTRASSE;
-        }
-      }
-
-      if (fahrstrasse != null) {
-        WeichenStellung stellungFuerFahrstrasse = this.weiche.getStellungFuerFahrstrassenvorschlag();
-        if (stellungFuerFahrstrasse == null) {
-          stellungFuerFahrstrasse = this.weiche.getStellung();
-        }
-        gerade = stellungFuerFahrstrasse == WeichenStellung.GERADE;
-
-        boolean rueckwaerts = this.weiche.isZaehlrichtung() ^ this.stammIstEinfahrt;
-        drawFahrstrassenSegment(g2d, color, gerade ? this.geradePos : this.abzweigendPos, !rueckwaerts);
-        drawFahrstrassenSegment(g2d, color, this.stammPos, rueckwaerts);
-      }
+      // TODO FS
+      // Fahrstrasse fahrstrasse = this.weiche.getReservierteFahrstrasse();
+      // if (fahrstrasse != null) {
+      // if (fahrstrasse.getReservierungsTyp() != null) {
+      // color = fahrstrasse.getReservierungsTyp().getGbsFarbe();
+      // } else {
+      // fahrstrasse = null;
+      // }
+      // }
+      //
+      // if (fahrstrasse == null) {
+      // fahrstrasse = this.weiche.getVorgeschlageneneFahrstrasse();
+      // if (fahrstrasse != null) {
+      // color = GbsFarben.GLEIS_IN_VORGESCHLAGENER_FAHRSTRASSE;
+      // }
+      // }
+      //
+      // if (fahrstrasse != null) {
+      // WeichenStellung stellungFuerFahrstrasse = this.weiche.getStellungFuerFahrstrassenvorschlag();
+      // if (stellungFuerFahrstrasse == null) {
+      // stellungFuerFahrstrasse = this.weiche.getStellung();
+      // }
+      // gerade = stellungFuerFahrstrasse == WeichenStellung.GERADE;
+      //
+      // boolean rueckwaerts = this.weiche.isZaehlrichtung() ^ this.stammIstEinfahrt;
+      // drawFahrstrassenSegment(g2d, color, gerade ? this.geradePos : this.abzweigendPos, !rueckwaerts);
+      // drawFahrstrassenSegment(g2d, color, this.stammPos, rueckwaerts);
+      // }
     }
 
     // Basisklasse kümmert sich um Bezeichnung

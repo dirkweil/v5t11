@@ -48,22 +48,23 @@ public class GbsDkw2 extends GbsWeicheMit2Antrieben {
       Color color = null;
       if (this.weiche[i] != null) {
         WeichenStellung stellungFuerFahrstrasse = null;
-        Fahrstrasse fahrstrasse = this.weiche[i].getReservierteFahrstrasse();
-        if (fahrstrasse != null) {
-          color = fahrstrasse.getReservierungsTyp().getGbsFarbe();
-          stellungFuerFahrstrasse = this.weiche[i].getStellung();
-        } else {
-          fahrstrasse = this.weiche[i].getVorgeschlageneneFahrstrasse();
-          if (fahrstrasse != null) {
-            color = GbsFarben.GLEIS_IN_VORGESCHLAGENER_FAHRSTRASSE;
-            stellungFuerFahrstrasse = this.weiche[i].getStellungFuerFahrstrassenvorschlag();
-          }
-        }
-
-        if (fahrstrasse != null) {
-          boolean rueckwaerts = (i == 0) ^ this.weiche[i].isZaehlrichtung();
-          drawFahrstrassenSegment(g2d, color, stellungFuerFahrstrasse == WeichenStellung.GERADE ? this.geradePos[i] : this.abzweigPos[i], rueckwaerts);
-        }
+        // TODO FS
+        // Fahrstrasse fahrstrasse = this.weiche[i].getReservierteFahrstrasse();
+        // if (fahrstrasse != null) {
+        // color = fahrstrasse.getReservierungsTyp().getGbsFarbe();
+        // stellungFuerFahrstrasse = this.weiche[i].getStellung();
+        // } else {
+        // fahrstrasse = this.weiche[i].getVorgeschlageneneFahrstrasse();
+        // if (fahrstrasse != null) {
+        // color = GbsFarben.GLEIS_IN_VORGESCHLAGENER_FAHRSTRASSE;
+        // stellungFuerFahrstrasse = this.weiche[i].getStellungFuerFahrstrassenvorschlag();
+        // }
+        // }
+        //
+        // if (fahrstrasse != null) {
+        // boolean rueckwaerts = (i == 0) ^ this.weiche[i].isZaehlrichtung();
+        // drawFahrstrassenSegment(g2d, color, stellungFuerFahrstrasse == WeichenStellung.GERADE ? this.geradePos[i] : this.abzweigPos[i], rueckwaerts);
+        // }
       }
     }
 

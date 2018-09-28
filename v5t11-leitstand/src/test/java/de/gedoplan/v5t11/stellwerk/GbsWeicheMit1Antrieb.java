@@ -9,14 +9,15 @@ public class GbsWeicheMit1Antrieb extends GbsWeiche {
   public GbsWeicheMit1Antrieb(String bereich, StellwerkElement stellwerkElement) {
     super(bereich, stellwerkElement);
 
-    this.weiche = StellwerkMain.getSteuerung().getWeiche(stellwerkElement.getBereich(), stellwerkElement.getName());
+    this.weiche = StellwerkMain.getLeitstand().getWeiche(stellwerkElement.getBereich(), stellwerkElement.getName());
     if (this.weiche != null) {
-      this.weiche.addValueChangedListener(new ValueChangedListener() {
-        @Override
-        public void valueChanged(ValueChangedEvent event) {
-          repaint();
-        }
-      });
+      // TODO Refresh
+      // this.weiche.addValueChangedListener(new ValueChangedListener() {
+      // @Override
+      // public void valueChanged(ValueChangedEvent event) {
+      // repaint();
+      // }
+      // });
     }
   }
 

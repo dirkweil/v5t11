@@ -30,4 +30,9 @@ public class StellwerkWeiche extends StellwerkElement {
     this.gleisabschnitt = leitstand.getOrCreateGleisabschnitt(this.bereich, this.weiche.getGleisabschnittName());
   }
 
+  @Override
+  public String getTyp() {
+    return "WEICHE";
+  }
+
 }

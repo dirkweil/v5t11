@@ -4,6 +4,8 @@ import de.gedoplan.baselibs.utils.exception.BugException;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Signal;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkElement;
+import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkGleisabschnitt;
+import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkWeiche;
 import de.gedoplan.v5t11.stellwerk.util.GbsFarben;
 
 import java.awt.BasicStroke;
@@ -130,14 +132,15 @@ public abstract class GbsElement extends JPanel {
 
     String signalName = stellwerkElement.getSignalName();
     if (signalName != null) {
-      this.signal = Main.getSteuerung().getSignal(bereich, signalName);
+      this.signal = StellwerkMain.getLeitstand().getSignal(bereich, signalName);
       if (this.signal != null) {
-        this.signal.addValueChangedListener(new ValueChangedListener() {
-          @Override
-          public void valueChanged(ValueChangedEvent event) {
-            repaint();
-          }
-        });
+        // TODO Refresh
+        // this.signal.addValueChangedListener(new ValueChangedListener() {
+        // @Override
+        // public void valueChanged(ValueChangedEvent event) {
+        // repaint();
+        // }
+        // });
       }
 
       this.signalPosition = stellwerkElement.getSignalPosition() != null ? GbsRichtung.valueOf(stellwerkElement.getSignalPosition()) : GbsRichtung.N;
@@ -155,12 +158,6 @@ public abstract class GbsElement extends JPanel {
 
         setCursor(invisibleCursor);
       }
-
-      // @Override
-      // public void mouseEntered(MouseEvent e)
-      // {
-      // Main.setStatusLineText(GbsElement.this.typ + ": " + GbsElement.this.name);
-      // }
     });
 
     addMouseMotionListener(new MouseMotionAdapter() {
@@ -246,7 +243,7 @@ public abstract class GbsElement extends JPanel {
     g2d.setStroke(stroke);
     // g2d.setColor(Color.BLACK);
 
-    Color[] signalFarbe = this.signal.getGBSFarben();
+    Color[] signalFarbe = getSignalFarben(this.signal);
 
     // Zunächst die Umrandungen der Lichter zeichnen, beginnend mit dem obersten
     Point curPoint = new Point(VIRTUAL_SIZE / 4, VIRTUAL_STROKEWIDTH_SIGNAL);
@@ -407,22 +404,21 @@ public abstract class GbsElement extends JPanel {
    * @return GbsElement
    */
   public static GbsElement createInstance(String bereich, StellwerkElement stellwerkElement) {
-    switch (stellwerkElement.getTyp()) {
-    case "Dkw1":
-      return new GbsDkw1(bereich, stellwerkElement);
+    // if (stellwerkElement instanceof StellwerkDkw1)
+    // return new GbsDkw1(bereich, stellwerkElement);
 
-    case "Dkw2":
-      return new GbsDkw2(bereich, stellwerkElement);
+    // if (stellwerkElement instanceof StellwerkDkw2)
+    // return new GbsDkw2(bereich, stellwerkElement);
 
-    case "GleisAbschnitt":
+    if (stellwerkElement instanceof StellwerkGleisabschnitt) {
       return new GbsGleisAbschnitt(bereich, stellwerkElement);
-
-    case "Weiche":
-      return new GbsEinfachWeiche(bereich, stellwerkElement);
-
-    default:
-      return new GbsLeer(bereich, stellwerkElement);
     }
+
+    if (stellwerkElement instanceof StellwerkWeiche) {
+      return new GbsEinfachWeiche(bereich, stellwerkElement);
+    }
+
+    return new GbsLeer(bereich, stellwerkElement);
   }
 
   public static GbsRichtung findBestFreePosition(GbsRichtung... usedPos) {
@@ -473,4 +469,55 @@ public abstract class GbsElement extends JPanel {
 
     return GbsFarben.GLEIS_FREI;
   }
+
+  private static final Color[] FARBEN_HP0 = new Color[] { null, Color.red };
+  private static final Color[] FARBEN_HP00 = new Color[] { null, Color.red };
+  private static final Color[] FARBEN_HP0SH1 = new Color[] { Color.red, Color.white };
+  private static final Color[] FARBEN_HP1 = new Color[] { Color.green, null };
+  private static final Color[] FARBEN_HP2 = new Color[] { Color.green, Color.yellow };
+  private static final Color[] FARBEN_SH0 = new Color[] { Color.red };
+  private static final Color[] FARBEN_SH1 = new Color[] { Color.white };
+  private static final Color[] FARBEN_NULL = new Color[] { null, null };
+
+  @SuppressWarnings("incomplete-switch")
+  private static Color[] getSignalFarben(Signal signal) {
+    switch (signal.getTyp()) {
+    case "HauptsignalRtGe":
+    case "HauptsignalRtGn":
+    case "HauptsignalRtGnGe":
+      switch (signal.getStellung()) {
+      case HALT:
+        return FARBEN_HP0;
+      case FAHRT:
+        return FARBEN_HP1;
+      case LANGSAMFAHRT:
+        return FARBEN_HP2;
+      }
+      break;
+
+    case "Hauptsperrsignal":
+      switch (signal.getStellung()) {
+      case HALT:
+        return FARBEN_HP00;
+      case FAHRT:
+        return FARBEN_HP1;
+      case LANGSAMFAHRT:
+        return FARBEN_HP2;
+      case RANGIERFAHRT:
+        return FARBEN_HP0SH1;
+      }
+      break;
+
+    case "Sperrsignal":
+      switch (signal.getStellung()) {
+      case HALT:
+        return FARBEN_SH0;
+      case RANGIERFAHRT:
+        return FARBEN_SH1;
+      }
+      break;
+    }
+    return FARBEN_NULL;
+  }
+
 }
