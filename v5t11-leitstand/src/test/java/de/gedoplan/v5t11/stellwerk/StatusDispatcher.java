@@ -1,5 +1,6 @@
 package de.gedoplan.v5t11.stellwerk;
 
+import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Signal;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Weiche;
@@ -14,21 +15,31 @@ import com.google.common.collect.SetMultimap;
 @ApplicationScoped
 public class StatusDispatcher {
 
-  private static SetMultimap<Fahrwegelement, GbsElement> listener = MultimapBuilder.hashKeys().hashSetValues().build();
+  private SetMultimap<Fahrwegelement, GbsElement> listener = MultimapBuilder.hashKeys().hashSetValues().build();
 
-  public static void addListener(Fahrwegelement fahrwegelement, GbsElement gbsElement) {
-    listener.get(fahrwegelement).add(gbsElement);
+  public void addListener(Fahrwegelement fahrwegelement, GbsElement gbsElement) {
+    this.listener.get(fahrwegelement).add(gbsElement);
+  }
+
+  void fahrstrasseChanged(@Observes Fahrstrasse fahrstrasse) {
+    fahrstrasse
+        .getElemente()
+        .stream()
+        .map(fse -> fse.getFahrwegelement())
+        .peek(System.out::println)
+        .flatMap(fwe -> this.listener.get(fwe).stream())
+        .forEach(GbsElement::repaint);
   }
 
   void gleisabschnittChanged(@Observes Gleisabschnitt gleisabschnitt) {
-    listener.get(gleisabschnitt).forEach(GbsElement::repaint);
+    this.listener.get(gleisabschnitt).forEach(GbsElement::repaint);
   }
 
   void signalChanged(@Observes Signal signal) {
-    listener.get(signal).forEach(GbsElement::repaint);
+    this.listener.get(signal).forEach(GbsElement::repaint);
   }
 
   void weicheChanged(@Observes Weiche weiche) {
-    listener.get(weiche).forEach(GbsElement::repaint);
+    this.listener.get(weiche).forEach(GbsElement::repaint);
   }
 }

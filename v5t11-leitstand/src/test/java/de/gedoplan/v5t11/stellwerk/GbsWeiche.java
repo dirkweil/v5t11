@@ -15,9 +15,9 @@ public abstract class GbsWeiche extends GbsElement {
   public GbsWeiche(String bereich, StellwerkElement stellwerkElement) {
     super(bereich, stellwerkElement);
 
-    this.gleisabschnitt = StellwerkMain.getLeitstand().getGleisabschnitt(stellwerkElement.getBereich(), "W" + stellwerkElement.getName());
+    this.gleisabschnitt = this.leitstand.getGleisabschnitt(stellwerkElement.getBereich(), "W" + stellwerkElement.getName());
     if (this.gleisabschnitt != null) {
-      StatusDispatcher.addListener(this.gleisabschnitt, this);
+      this.statusDispatcher.addListener(this.gleisabschnitt, this);
     }
 
     this.label = this.name;

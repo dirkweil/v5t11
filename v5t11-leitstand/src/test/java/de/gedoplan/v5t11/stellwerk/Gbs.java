@@ -1,5 +1,7 @@
 package de.gedoplan.v5t11.stellwerk;
 
+import de.gedoplan.baselibs.utils.inject.InjectionUtil;
+import de.gedoplan.v5t11.leitstand.entity.Leitstand;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.Stellwerk;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkElement;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkZeile;
@@ -8,13 +10,19 @@ import de.gedoplan.v5t11.stellwerk.util.GridBagHelper;
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 
+import javax.inject.Inject;
 import javax.swing.JPanel;
 
 public class Gbs extends ApplicationPanel {
   private String bereich;
 
+  @Inject
+  Leitstand leitstand;
+
   public Gbs(String bereich) {
     this.bereich = bereich;
+
+    InjectionUtil.injectFields(this);
 
     setLayout(new BorderLayout());
 
@@ -25,7 +33,7 @@ public class Gbs extends ApplicationPanel {
 
     GridBagHelper gbHelper = new GridBagHelper(gbsPanel);
 
-    Stellwerk stellwerk = StellwerkMain.getLeitstand().getStellwerk(bereich);
+    Stellwerk stellwerk = this.leitstand.getStellwerk(bereich);
     for (StellwerkZeile stellwerkZeile : stellwerk.getZeilen()) {
       JPanel leftFiller = new JPanel();
       // leftFiller.setBackground(Color.GREEN);

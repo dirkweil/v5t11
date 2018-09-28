@@ -1,11 +1,14 @@
 package de.gedoplan.v5t11.stellwerk;
 
 import de.gedoplan.baselibs.utils.exception.BugException;
+import de.gedoplan.baselibs.utils.inject.InjectionUtil;
+import de.gedoplan.v5t11.leitstand.entity.Leitstand;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Signal;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkElement;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkGleisabschnitt;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkWeiche;
+import de.gedoplan.v5t11.leitstand.service.FahrstrassenManager;
 import de.gedoplan.v5t11.stellwerk.util.GbsFarben;
 
 import java.awt.BasicStroke;
@@ -26,6 +29,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.MemoryImageSource;
 
+import javax.inject.Inject;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -116,7 +120,18 @@ public abstract class GbsElement extends JPanel {
 
   protected Log logger = LogFactory.getLog(this.getClass());
 
+  @Inject
+  Leitstand leitstand;
+
+  @Inject
+  FahrstrassenManager fahrstrassenManager;
+
+  @Inject
+  StatusDispatcher statusDispatcher;
+
   public GbsElement(String bereich, StellwerkElement stellwerkElement) {
+    InjectionUtil.injectFields(this);
+
     this.bereich = bereich;
     this.name = stellwerkElement.getName();
     this.typ = stellwerkElement.getTyp();
@@ -132,9 +147,9 @@ public abstract class GbsElement extends JPanel {
 
     String signalName = stellwerkElement.getSignalName();
     if (signalName != null) {
-      this.signal = StellwerkMain.getLeitstand().getSignal(bereich, signalName);
+      this.signal = this.leitstand.getSignal(bereich, signalName);
       if (this.signal != null) {
-        StatusDispatcher.addListener(this.signal, this);
+        this.statusDispatcher.addListener(this.signal, this);
       }
 
       this.signalPosition = stellwerkElement.getSignalPosition() != null ? GbsRichtung.valueOf(stellwerkElement.getSignalPosition()) : GbsRichtung.N;
