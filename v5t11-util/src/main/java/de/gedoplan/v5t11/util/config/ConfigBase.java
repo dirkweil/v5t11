@@ -31,6 +31,15 @@ public abstract class ConfigBase {
 
   public static final String DEFAULT_ANLAGE = "show";
 
+  public static final String PROPERTY_STATUS_REST_URL = "v5t11.statusRestUrl";
+  public static final String DEFAULT_STATUS_REST_URL = "http://v5t11-status:8080/rs";
+
+  public static final String PROPERTY_STATUS_JMS_URL = "v5t11.statusJmsUrl";
+  public static final String DEFAULT_STATUS_JMS_URL = "tcp://v5t11-status:5445";
+
+  public static final String PROPERTY_FAHRSTRASSEN_REST_URL = "v5t11.fahrstrassenRestUrl";
+  public static final String DEFAULT_FAHRSTRASSEN_REST_URL = "http://v5t11-fahrstrassen:8080/rs";
+
   private Properties v5t11Properties;
 
   public ConfigBase() {
@@ -44,7 +53,7 @@ public abstract class ConfigBase {
 
   /**
    * Konfigurationswert liefern.
-   * 
+   *
    * @param name
    *          Name der Property
    * @param defaultValue
@@ -67,7 +76,7 @@ public abstract class ConfigBase {
 
   /**
    * Konfigurationsverzeichnis liefern.
-   * 
+   *
    * @return Verzeichnis
    */
   public String getConfigDir() {
@@ -80,7 +89,7 @@ public abstract class ConfigBase {
 
   /**
    * Anlagenname liefern.
-   * 
+   *
    * @return Anlagenname
    */
   public String getAnlage() {
@@ -117,4 +126,17 @@ public abstract class ConfigBase {
       throw new CreationException("Kann Konfiguration " + fileName + " nicht lesen", e);
     }
   }
+
+  public String getStatusRestUrl() {
+    return getProperty(PROPERTY_STATUS_REST_URL, DEFAULT_STATUS_REST_URL);
+  }
+
+  public String getStatusJmsUrl() {
+    return getProperty(PROPERTY_STATUS_JMS_URL, DEFAULT_STATUS_JMS_URL);
+  }
+
+  public String getFahrstrassenRestUrl() {
+    return getProperty(PROPERTY_FAHRSTRASSEN_REST_URL, DEFAULT_FAHRSTRASSEN_REST_URL);
+  }
+
 }

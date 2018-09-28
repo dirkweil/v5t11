@@ -32,6 +32,18 @@ public class FahrstrasseResource {
   Log log;
 
   @GET
+  @Path("{bereich}/{name}")
+  @Produces(MediaType.APPLICATION_JSON)
+  public Response getFahrstrasse(@PathParam("bereich") String bereich, @PathParam("name") String name) {
+    Fahrstrasse fahrstrasse = this.parcours.getFahrstrasse(bereich, name);
+    if (fahrstrasse == null) {
+      return ResponseFactory.createNotFoundResponse();
+    }
+
+    return ResponseFactory.createJsonResponse(fahrstrasse, JsonbWithIncludeVisibility.FULL);
+  }
+
+  @GET
   @Produces(MediaType.APPLICATION_JSON)
   public Response getFahrstrassen(
       @QueryParam("startBereich") String startBereich,

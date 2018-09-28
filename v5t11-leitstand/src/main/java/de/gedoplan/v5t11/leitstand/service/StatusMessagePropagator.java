@@ -38,6 +38,9 @@ public class StatusMessagePropagator {
   Leitstand leitstand;
 
   @Inject
+  FahrstrassenManager fahrstrassenManager;
+
+  @Inject
   EventFirer eventFirer;
 
   @Inject
@@ -66,6 +69,11 @@ public class StatusMessagePropagator {
         Fahrstrasse statusFahrstrasse = JsonbWithIncludeVisibility.SHORT.fromJson(text, Fahrstrasse.class);
         if (this.log.isDebugEnabled()) {
           this.log.debug(statusFahrstrasse);
+        }
+
+        Fahrstrasse fahrstrasse = this.fahrstrassenManager.updateFahrstrasse(statusFahrstrasse);
+        if (fahrstrasse != null) {
+          this.eventFirer.fire(fahrstrasse);
         }
         break;
 
