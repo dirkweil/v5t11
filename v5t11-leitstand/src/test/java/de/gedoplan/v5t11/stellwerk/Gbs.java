@@ -34,7 +34,7 @@ public class Gbs extends ApplicationPanel {
       for (StellwerkElement stellwerkElement : stellwerkZeile.getElemente()) {
         for (int i = 0; i < stellwerkElement.getAnzahl(); ++i) {
           GbsElement gbsElement = GbsElement.createInstance(bereich, stellwerkElement);
-          // gbsElement.setInputPanel(inputPanel);
+          gbsElement.setInputPanel(inputPanel);
 
           gbHelper.add(gbsElement, 1, 1, 0, 0, GridBagConstraints.BOTH, GridBagConstraints.CENTER);
         }
