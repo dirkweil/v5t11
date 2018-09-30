@@ -5,7 +5,9 @@ import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Signal;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Weiche;
+import de.gedoplan.v5t11.leitstand.gateway.FahrstrasseResourceClient;
 import de.gedoplan.v5t11.leitstand.gateway.SignalResourceClient;
+import de.gedoplan.v5t11.leitstand.service.FahrstrassenManager;
 import de.gedoplan.v5t11.stellwerk.util.GridBagHelper;
 import de.gedoplan.v5t11.stellwerk.util.IconUtil;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
@@ -53,6 +55,12 @@ public class GbsInputPanel extends JPanel {
   private JButton abbrechenButton = new JButton("abbrechen");
 
   @Inject
+  FahrstrassenManager fahrstrassenManager;
+
+  @Inject
+  FahrstrasseResourceClient fahrstrasseResourceClient;
+
+  @Inject
   SignalResourceClient signalResourceClient;
 
   private static final Log LOG = LogFactory.getLog(GbsInputPanel.class);
@@ -89,7 +97,7 @@ public class GbsInputPanel extends JPanel {
     this.fahrstrassenFreigabeButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        fahrstrassenReservierungsButtonClicked(null);
+        fahrstrassenReservierungsButtonClicked(FahrstrassenReservierungsTyp.UNRESERVIERT);
       }
     });
 
@@ -102,12 +110,11 @@ public class GbsInputPanel extends JPanel {
   }
 
   public void reset() {
-    if (this.fahrstrassen != null) {
-      for (Fahrstrasse fahrstrasse : this.fahrstrassen) {
-        // TODO FS
-        // fahrstrasse.vorschlagen(false);
-      }
-    }
+    // if (this.fahrstrassen != null) {
+    // this.fahrstrassen.clear();
+    // }
+
+    this.fahrstrassen = null;
 
     this.fahrstrassenPanel.removeAll();
     this.geraetePanel.removeAll();
@@ -168,7 +175,7 @@ public class GbsInputPanel extends JPanel {
       validate();
 
       // TODO FS
-      // Fahrstrasse aktiveFahrstrasse = weiche.getReservierteFahrstrasse();
+      // Fahrstrasse aktiveFahrstrasse = fahrstrassenManager.getReservierteFahrstrasse(weiche.getGleisabschnitt());
       // if (aktiveFahrstrasse != null) {
       // showFahrstrasseZurDeaktivierung(aktiveFahrstrasse);
       // }
@@ -185,35 +192,37 @@ public class GbsInputPanel extends JPanel {
       long now = System.currentTimeMillis();
 
       if (this.fahrstrassenBeginn != null && now - this.fahrstrassenBeginnStamp <= FAHRSTRASSEN_INPUT_MAXDELAY) {
-        // TODO FS
-        // this.fahrstrassen = StellwerkMain.getLeitstand().getFreieFahrstrassen(this.fahrstrassenBeginn, gleisabschnitt);
-        // int fahrstrassenAnzahl = this.fahrstrassen.size();
-        //
-        // String fahrstrassenAnzahlText;
-        // switch (fahrstrassenAnzahl) {
-        // case 0:
-        // fahrstrassenAnzahlText = "Keine Fahrstrasse";
-        // break;
-        //
-        // case 1:
-        // fahrstrassenAnzahlText = "1 Fahrstrasse";
-        // break;
-        //
-        // default:
-        // fahrstrassenAnzahlText = fahrstrassenAnzahl + " Fahrstrassen";
-        // break;
-        // }
-        // StellwerkMain.setStatusLineText(this.fahrstrassenBeginn.toDisplayString() + " -> " + gleisabschnitt.toDisplayString() + ": " + fahrstrassenAnzahlText);
-        //
-        // if (fahrstrassenAnzahl != 0) {
-        // this.fahrstrassenIndex = 0;
-        // showFahrstrasseZurAktivierung();
-        // validate();
-        // }
-        //
-        // if (LOG.isDebugEnabled()) {
-        // LOG.debug(fahrstrassenAnzahl + " Fahrstrassen von " + this.fahrstrassenBeginn + " nach " + gleisabschnitt + " gefunden");
-        // }
+        this.fahrstrassen = this.fahrstrasseResourceClient.getFahrstrassen(
+            this.fahrstrassenBeginn.getBereich(), this.fahrstrassenBeginn.getName(),
+            gleisabschnitt.getBereich(), gleisabschnitt.getName(),
+            true);
+        int fahrstrassenAnzahl = this.fahrstrassen.size();
+
+        String fahrstrassenAnzahlText;
+        switch (fahrstrassenAnzahl) {
+        case 0:
+          fahrstrassenAnzahlText = "Keine Fahrstrasse";
+          break;
+
+        case 1:
+          fahrstrassenAnzahlText = "1 Fahrstrasse";
+          break;
+
+        default:
+          fahrstrassenAnzahlText = fahrstrassenAnzahl + " Fahrstrassen";
+          break;
+        }
+        StellwerkMain.setStatusLineText(this.fahrstrassenBeginn.toDisplayString() + " -> " + gleisabschnitt.toDisplayString() + ": " + fahrstrassenAnzahlText);
+
+        if (fahrstrassenAnzahl != 0) {
+          this.fahrstrassenIndex = 0;
+          showFahrstrasseZurAktivierung();
+          validate();
+        }
+
+        if (LOG.isDebugEnabled()) {
+          LOG.debug(fahrstrassenAnzahl + " Fahrstrassen von " + this.fahrstrassenBeginn + " nach " + gleisabschnitt + " gefunden");
+        }
 
         this.fahrstrassenBeginnStamp = 0;
       } else if (this.fahrstrassenBeginn == null || now - this.fahrstrassenBeginnStamp > FAHRSTRASSEN_INPUT_MAXDELAY) {
@@ -227,12 +236,11 @@ public class GbsInputPanel extends JPanel {
 
         this.fahrstrassenBeginnStamp = now;
 
-        // TODO FS
-        // Fahrstrasse aktiveFahrstrasse = gleisabschnitt.getReservierteFahrstrasse();
-        // if (aktiveFahrstrasse != null) {
-        // this.fahrstrassenIndex = 0;
-        // showFahrstrasseZurDeaktivierung(aktiveFahrstrasse);
-        // }
+        Fahrstrasse aktiveFahrstrasse = this.fahrstrassenManager.getReservierteFahrstrasse(gleisabschnitt);
+        if (aktiveFahrstrasse != null) {
+          this.fahrstrassenIndex = 0;
+          showFahrstrasseZurDeaktivierung(aktiveFahrstrasse);
+        }
       }
     }
   }
@@ -257,13 +265,12 @@ public class GbsInputPanel extends JPanel {
   }
 
   private void showFahrstrasseZurAktivierung() {
-    // TODO FS
-    // if (LOG.isDebugEnabled()) {
-    // LOG.debug("Freie Fahrstrassen:");
-    // for (Fahrstrasse fahrstrasse : this.fahrstrassen) {
-    // LOG.debug(" " + fahrstrasse.getName() + ", Rank=" + fahrstrasse.getRank());
-    // }
-    // }
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("Freie Fahrstrassen:");
+      for (Fahrstrasse fahrstrasse : this.fahrstrassen) {
+        LOG.debug(" " + fahrstrasse.getName());
+      }
+    }
 
     this.fahrstrassenPanel.removeAll();
     this.fahrstrassenPanel.add(this.fahrstrassenLabel);
@@ -284,7 +291,7 @@ public class GbsInputPanel extends JPanel {
     // if (highlight) {
     // fahrstrasse.vorschlagen(true);
     // }
-    // this.fahrstrassenLabel.setText("Fahrstrasse " + fahrstrasse.getShortName());
+    this.fahrstrassenLabel.setText("Fahrstrasse " + fahrstrasse.getShortName());
   }
 
   protected void fahrstrassenNextButtonClicked() {
@@ -307,8 +314,7 @@ public class GbsInputPanel extends JPanel {
     this.fahrstrassenBeginn = null;
     StellwerkMain.setStatusLineText(null);
 
-    // TODO Action
-    // StellwerkMain.getSteuerungRemoteService().setFahrstrasseReserviert(fahrstrasse.getBereich(), fahrstrasse.getName(), reservierungsTyp);
+    this.fahrstrasseResourceClient.reserviereFahrstrasse(fahrstrasse.getBereich(), fahrstrasse.getName(), reservierungsTyp);
   }
 
   protected void abbrechenButtonClicked() {

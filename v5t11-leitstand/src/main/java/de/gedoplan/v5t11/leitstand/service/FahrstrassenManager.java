@@ -63,13 +63,13 @@ public class FahrstrassenManager {
   }
 
   // TODO Werte cachen?
-  public FahrstrassenReservierungsTyp getGleisabschnittReservierung(Gleisabschnitt gleisabschnitt) {
+  public Fahrstrasse getReservierteFahrstrasse(Gleisabschnitt gleisabschnitt) {
     for (Fahrstrasse fahrstrasse : this.aktiveFahrstrassen.values()) {
       int idx = 0;
       for (Fahrstrassenelement fe : fahrstrasse.getElemente()) {
         if (idx >= fahrstrasse.getTeilFreigabeAnzahl()) {
           if (gleisabschnitt.equals(fe.getFahrwegelement())) {
-            return fahrstrasse.getReservierungsTyp();
+            return fahrstrasse;
           }
         }
 
@@ -77,7 +77,12 @@ public class FahrstrassenManager {
       }
     }
 
-    return FahrstrassenReservierungsTyp.UNRESERVIERT;
+    return null;
+  }
+
+  public FahrstrassenReservierungsTyp getGleisabschnittReservierung(Gleisabschnitt gleisabschnitt) {
+    Fahrstrasse fahrstrasse = getReservierteFahrstrasse(gleisabschnitt);
+    return fahrstrasse != null ? fahrstrasse.getReservierungsTyp() : FahrstrassenReservierungsTyp.UNRESERVIERT;
   }
 
 }

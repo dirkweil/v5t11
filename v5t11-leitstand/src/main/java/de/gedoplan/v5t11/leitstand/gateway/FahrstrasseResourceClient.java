@@ -3,10 +3,15 @@ package de.gedoplan.v5t11.leitstand.gateway;
 import de.gedoplan.v5t11.leitstand.entity.Leitstand;
 import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.leitstand.service.ConfigService;
+import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
 import de.gedoplan.v5t11.util.webservice.ResourceClientBase;
+
+import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 
 import lombok.AccessLevel;
@@ -37,4 +42,33 @@ public class FahrstrasseResourceClient extends ResourceClientBase {
 
     return fahrstrasse;
   }
+
+  public List<Fahrstrasse> getFahrstrassen(String startBereich, String startName, String endeBereich, String endeName, boolean frei) {
+    List<Fahrstrasse> fahrstrassen = this.baseTarget
+        .queryParam("startBereich", startBereich)
+        .queryParam("startName", startName)
+        .queryParam("endeBereich", endeBereich)
+        .queryParam("endeName", endeName)
+        .queryParam("frei", frei)
+        .request()
+        .accept(MediaType.APPLICATION_JSON)
+        .get(new GenericType<List<Fahrstrasse>>() {});
+
+    // Fahrstrassen mit Fahrwegelementen im Leitstand verknüpfen
+    fahrstrassen.stream()
+        .flatMap(fs -> fs.getElemente().stream())
+        .forEach(fse -> fse.linkFahrwegelement(this.leitstand));
+
+    return fahrstrassen;
+  }
+
+  public void reserviereFahrstrasse(String bereich, String name, FahrstrassenReservierungsTyp reservierungsTyp) {
+    this.baseTarget
+        .path(bereich)
+        .path(name)
+        .path("reservierung")
+        .request()
+        .put(Entity.text(reservierungsTyp));
+  }
+
 }

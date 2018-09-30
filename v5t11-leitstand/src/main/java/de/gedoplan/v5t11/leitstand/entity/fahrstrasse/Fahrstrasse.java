@@ -37,4 +37,8 @@ public class Fahrstrasse extends Bereichselement {
   @Setter(onMethod_ = @JsonbInclude)
   private int teilFreigabeAnzahl = 0;
 
+  public String getShortName() {
+    return getName().replaceAll("-W\\d+", "");
+  }
+
 }
