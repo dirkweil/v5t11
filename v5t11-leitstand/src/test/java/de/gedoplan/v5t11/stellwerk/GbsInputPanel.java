@@ -158,7 +158,7 @@ public class GbsInputPanel extends JPanel {
     }
   }
 
-  public void addWeiche(Weiche weiche) {
+  public void addWeiche(Weiche weiche, Gleisabschnitt gleisabschnitt) {
     if (weiche != null) {
       if (LOG.isTraceEnabled()) {
         LOG.trace("addWeiche: " + weiche);
@@ -174,11 +174,10 @@ public class GbsInputPanel extends JPanel {
 
       validate();
 
-      // TODO FS
-      // Fahrstrasse aktiveFahrstrasse = fahrstrassenManager.getReservierteFahrstrasse(weiche.getGleisabschnitt());
-      // if (aktiveFahrstrasse != null) {
-      // showFahrstrasseZurDeaktivierung(aktiveFahrstrasse);
-      // }
+      Fahrstrasse aktiveFahrstrasse = this.fahrstrassenManager.getReservierteFahrstrasse(gleisabschnitt);
+      if (aktiveFahrstrasse != null) {
+        showFahrstrasseZurDeaktivierung(aktiveFahrstrasse);
+      }
     }
   }
 
