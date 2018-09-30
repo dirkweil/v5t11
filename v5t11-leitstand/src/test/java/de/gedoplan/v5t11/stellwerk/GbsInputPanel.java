@@ -1,9 +1,11 @@
 package de.gedoplan.v5t11.stellwerk;
 
+import de.gedoplan.baselibs.utils.inject.InjectionUtil;
 import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Signal;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Weiche;
+import de.gedoplan.v5t11.leitstand.gateway.SignalResourceClient;
 import de.gedoplan.v5t11.stellwerk.util.GridBagHelper;
 import de.gedoplan.v5t11.stellwerk.util.IconUtil;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
@@ -18,6 +20,7 @@ import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.swing.ButtonGroup;
 import javax.swing.Icon;
 import javax.swing.JButton;
@@ -49,9 +52,14 @@ public class GbsInputPanel extends JPanel {
   private JButton fahrstrassenFreigabeButton = new JButton("freigeben");
   private JButton abbrechenButton = new JButton("abbrechen");
 
+  @Inject
+  SignalResourceClient signalResourceClient;
+
   private static final Log LOG = LogFactory.getLog(GbsInputPanel.class);
 
   public GbsInputPanel(String bereich) {
+    InjectionUtil.injectFields(this);
+
     GridBagHelper gbHelper = new GridBagHelper(this);
     gbHelper.add(this.fahrstrassenPanel, 1, 1, 0, 1, GridBagConstraints.NONE, GridBagConstraints.CENTER);
     gbHelper.newRow();
@@ -129,8 +137,7 @@ public class GbsInputPanel extends JPanel {
           @Override
           public void itemStateChanged(ItemEvent e) {
             if (rb.isSelected()) {
-              // TODO Action
-              // StellwerkMain.getSteuerungRemoteService().setSignalStellung(signal.getBereich(), signal.getName(), stellung);
+              GbsInputPanel.this.signalResourceClient.signalStellen(signal, stellung);
               StellwerkMain.setStatusLineText(null);
             }
 
