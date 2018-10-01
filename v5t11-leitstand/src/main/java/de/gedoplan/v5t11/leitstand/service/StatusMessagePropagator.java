@@ -1,6 +1,7 @@
 package de.gedoplan.v5t11.leitstand.service;
 
 import de.gedoplan.v5t11.leitstand.entity.Leitstand;
+import de.gedoplan.v5t11.leitstand.entity.baustein.Zentrale;
 import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Signal;
@@ -25,7 +26,7 @@ import org.apache.commons.logging.Log;
 public class StatusMessagePropagator {
 
   private static enum Category {
-    FAHRSTRASSE, GLEIS, SIGNAL, WEICHE
+    FAHRSTRASSE, GLEIS, SIGNAL, WEICHE, ZENTRALE
   };
 
   @Inject
@@ -111,6 +112,16 @@ public class StatusMessagePropagator {
           weiche.copyStatus(statusWeiche);
           this.eventFirer.fire(weiche);
         }
+        break;
+
+      case ZENTRALE:
+        Zentrale statusZentrale = JsonbWithIncludeVisibility.SHORT.fromJson(text, Zentrale.class);
+        if (this.log.isDebugEnabled()) {
+          this.log.debug(statusZentrale);
+        }
+
+        this.leitstand.getZentrale().copyStatus(statusZentrale);
+        this.eventFirer.fire(this.leitstand.getZentrale());
         break;
 
       default:

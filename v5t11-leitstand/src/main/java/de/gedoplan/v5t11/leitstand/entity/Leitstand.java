@@ -1,5 +1,6 @@
 package de.gedoplan.v5t11.leitstand.entity;
 
+import de.gedoplan.v5t11.leitstand.entity.baustein.Zentrale;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Signal;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Weiche;
@@ -40,6 +41,9 @@ public class Leitstand {
 
   @Getter
   private SortedSet<Gleisabschnitt> gleisabschnitte = new TreeSet<>();
+
+  @Getter
+  private Zentrale zentrale = new Zentrale();
 
   @Getter
   private SortedSet<Signal> signale = new TreeSet<>();
