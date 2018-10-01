@@ -1,11 +1,15 @@
 package de.gedoplan.v5t11.status.entity.baustein;
 
+import de.gedoplan.v5t11.util.cdi.EventFirer;
+import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
+
 import java.util.Arrays;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import lombok.Getter;
 
 /**
  * Selectrix-Zentrale.
@@ -19,6 +23,12 @@ public class Zentrale extends Baustein {
   private static final long MASK_AKTIV /* .......... */ = 0b1000_0000_0000_0000_0000_0000_0000_0000_0000_0000L;
   private static final long MASK_KURZSCHLUSS /* .... */ = 0b0000_0000_0001_0000_0000_0000_0000_0000_0000_0000L;
 
+  @Getter(onMethod_ = @JsonbInclude)
+  private boolean aktiv;
+
+  @Getter(onMethod_ = @JsonbInclude)
+  private boolean kurzschluss;
+
   /**
    * Konstruktor.
    */
@@ -30,37 +40,21 @@ public class Zentrale extends Baustein {
   }
 
   /**
-   * Ist die Zentrale aktiv (Gleisspannung an)?
-   *
-   * @return <code>true</code>, wenn Zentrale aktiv
-   */
-  @XmlElement
-  public boolean isAktiv() {
-    return (getWert() & MASK_AKTIV) != 0;
-  }
-
-  /**
    * Zentrale ein/ausschalten.
    *
    * @param aktiv
    *          <code>true</code> zum Einschalten
    */
   public void setAktiv(boolean aktiv) {
-    long wert = getWert() & ~MASK_AKTIV;
-    if (aktiv) {
-      wert |= MASK_AKTIV;
-    }
-    setWert(wert);
-  }
+    if (this.aktiv != aktiv) {
+      long wert = getWert() & ~MASK_AKTIV;
+      if (aktiv) {
+        wert |= MASK_AKTIV;
+      }
+      setWert(wert);
 
-  /**
-   * Kurzschluss?
-   *
-   * @return <code>true</code> bei Kurzschluss
-   */
-  @XmlElement
-  public boolean isKurzschluss() {
-    return (getWert() & MASK_KURZSCHLUSS) != 0;
+      EventFirer.getInstance().fire(this);
+    }
   }
 
   @Override
@@ -75,7 +69,7 @@ public class Zentrale extends Baustein {
 
   @Override
   public void adjustStatus() {
-    // Nichts zu tun, da kein expliziter Status vorhanden
-    // TODO Notifications?
+    this.aktiv = (getWert() & MASK_AKTIV) != 0;
+    this.kurzschluss = (getWert() & MASK_KURZSCHLUSS) != 0;
   }
 }

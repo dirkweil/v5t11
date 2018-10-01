@@ -2,6 +2,7 @@ package de.gedoplan.v5t11.status.service;
 
 import de.gedoplan.v5t11.status.entity.Kanal;
 import de.gedoplan.v5t11.status.entity.baustein.Lokcontroller;
+import de.gedoplan.v5t11.status.entity.baustein.Zentrale;
 import de.gedoplan.v5t11.status.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
@@ -47,6 +48,10 @@ public class StatusPublisher {
     } catch (Exception e) {
       this.log.error("Cannot send status message", e);
     }
+  }
+
+  void publish(@Observes Zentrale zentrale) {
+    publish("ZENTRALE", zentrale);
   }
 
   void publish(@Observes Gleisabschnitt gleisabschnitt) {

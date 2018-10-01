@@ -23,6 +23,7 @@ public class RestApplication extends Application {
         LokcontrollerResource.class,
         SignalResource.class,
         WeicheResource.class,
+        ZentraleResource.class,
 
         // Provider
         JsonMessageBodyReader.FULL.class,
