@@ -48,28 +48,36 @@ public class GbsDkw1 extends GbsWeicheMit1Antrieb {
 
     // Fahrstrasse drauf zeichen, wenn vorhanden
     if (this.weiche != null) {
-      // TODO FS
-      // Fahrstrasse fahrstrasse = this.weiche.getReservierteFahrstrasse();
-      // if (fahrstrasse != null) {
-      // color = fahrstrasse.getReservierungsTyp().getGbsFarbe();
-      // } else {
-      // fahrstrasse = this.weiche.getVorgeschlageneneFahrstrasse();
-      // if (fahrstrasse != null) {
-      // color = GbsFarben.GLEIS_IN_VORGESCHLAGENER_FAHRSTRASSE;
-      // }
-      // }
-      //
-      // if (fahrstrasse != null) {
-      // WeichenStellung stellungFuerFahrstrasse = this.weiche.getStellungFuerFahrstrassenvorschlag();
-      // if (stellungFuerFahrstrasse == null) {
-      // stellungFuerFahrstrasse = this.weiche.getStellung();
-      // }
-      // gerade = stellungFuerFahrstrasse == Stellung.GERADE;
-      //
-      // // TODO zählrichtung
-      // drawFahrstrassenSegment(g2d, color, gerade ? this.ausfahrtPos1 : this.ausfahrtPos2, false);
-      // drawFahrstrassenSegment(g2d, color, gerade ? this.ausfahrtPos2 : this.ausfahrtPos1, false);
-      // }
+      Fahrstrasse fahrstrasseZuZeichnen = this.fahrstrassenManager.getReservierteFahrstrasse(this.gleisabschnitt);
+      if (fahrstrasseZuZeichnen != null) {
+        switch (fahrstrasseZuZeichnen.getReservierungsTyp()) {
+        case ZUGFAHRT:
+          color = GbsFarben.GLEIS_IN_ZUGFAHRSTRASSE;
+          break;
+
+        case RANGIERFAHRT:
+          color = GbsFarben.GLEIS_IN_RANGIERFAHRSTRASSE;
+          break;
+
+        default:
+        }
+      } else {
+        fahrstrasseZuZeichnen = this.inputPanel.getVorgeschlageneFahrstrasse();
+        if (fahrstrasseZuZeichnen != null && fahrstrasseZuZeichnen.getElement(this.weiche, false) != null) {
+          color = GbsFarben.GLEIS_IN_VORGESCHLAGENER_FAHRSTRASSE;
+        } else {
+          fahrstrasseZuZeichnen = null;
+        }
+      }
+
+      if (fahrstrasseZuZeichnen != null) {
+        WeichenStellung stellungFuerFahrstrasse = fahrstrasseZuZeichnen.getElement(this.weiche, false).getWeichenstellung();
+        gerade = stellungFuerFahrstrasse == WeichenStellung.GERADE;
+
+        // TODO Zählrichtung
+        drawFahrstrassenSegment(g2d, color, gerade ? this.ausfahrtPos1 : this.ausfahrtPos2, false);
+        drawFahrstrassenSegment(g2d, color, gerade ? this.ausfahrtPos2 : this.ausfahrtPos1, false);
+      }
     }
 
     // Basisklasse kümmert sich um Bezeichnung

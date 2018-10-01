@@ -292,20 +292,12 @@ public class GbsInputPanel extends JPanel {
 
   private void showFahrstrasse(boolean highlight) {
     Fahrstrasse fahrstrasse = this.fahrstrassen.get(this.fahrstrassenIndex);
-    // TODO FS
-    // if (highlight) {
-    // fahrstrasse.vorschlagen(true);
-    // }
     this.fahrstrassenLabel.setText("Fahrstrasse " + fahrstrasse.getShortName());
 
     this.gbs.repaint();
   }
 
   protected void fahrstrassenNextButtonClicked() {
-    Fahrstrasse fahrstrasse = this.fahrstrassen.get(this.fahrstrassenIndex);
-    // TODO FS
-    // fahrstrasse.vorschlagen(false);
-
     ++this.fahrstrassenIndex;
     if (this.fahrstrassenIndex >= this.fahrstrassen.size()) {
       this.fahrstrassenIndex = 0;

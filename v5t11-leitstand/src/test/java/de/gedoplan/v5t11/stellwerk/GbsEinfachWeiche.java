@@ -1,7 +1,6 @@
 package de.gedoplan.v5t11.stellwerk;
 
 import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrasse;
-import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrassenelement;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkElement;
 import de.gedoplan.v5t11.stellwerk.util.GbsFarben;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
@@ -59,7 +58,7 @@ public class GbsEinfachWeiche extends GbsWeicheMit1Antrieb {
 
     // Fahrstrasse drauf zeichen, wenn vorhanden
     if (this.weiche != null) {
-      Fahrstrasse fahrstrasseZuZeichnen = this.fahrstrassenManager.getReservierteFahrstrasse(this.gleisabschnitt);
+      Fahrstrasse fahrstrasseZuZeichnen = this.fahrstrassenManager.getReservierteFahrstrasse(this.weiche);
       if (fahrstrasseZuZeichnen != null) {
         switch (fahrstrasseZuZeichnen.getReservierungsTyp()) {
         case ZUGFAHRT:
@@ -74,7 +73,7 @@ public class GbsEinfachWeiche extends GbsWeicheMit1Antrieb {
         }
       } else {
         fahrstrasseZuZeichnen = this.inputPanel.getVorgeschlageneFahrstrasse();
-        if (fahrstrasseZuZeichnen != null && fahrstrasseZuZeichnen.contains(this.gleisabschnitt, false)) {
+        if (fahrstrasseZuZeichnen != null && fahrstrasseZuZeichnen.getElement(this.weiche, false) != null) {
           color = GbsFarben.GLEIS_IN_VORGESCHLAGENER_FAHRSTRASSE;
         } else {
           fahrstrasseZuZeichnen = null;
@@ -82,11 +81,10 @@ public class GbsEinfachWeiche extends GbsWeicheMit1Antrieb {
       }
 
       if (fahrstrasseZuZeichnen != null) {
-        Fahrstrassenelement fahrstrassenelement = fahrstrasseZuZeichnen.getElement(this.weiche, false);
-        WeichenStellung stellungFuerFahrstrasse = WeichenStellung.valueOf(fahrstrassenelement.getStellung());
+        WeichenStellung stellungFuerFahrstrasse = fahrstrasseZuZeichnen.getElement(this.weiche, false).getWeichenstellung();
         gerade = stellungFuerFahrstrasse == WeichenStellung.GERADE;
 
-        // TODO FS
+        // TODO Zählrichtung
         // boolean rueckwaerts = this.weiche.isZaehlrichtung() ^ this.stammIstEinfahrt;
         boolean rueckwaerts = false;
         drawFahrstrassenSegment(g2d, color, gerade ? this.geradePos : this.abzweigendPos, !rueckwaerts);

@@ -1,6 +1,5 @@
 package de.gedoplan.v5t11.leitstand.entity.fahrstrasse;
 
-import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
 import de.gedoplan.v5t11.util.domain.entity.Bereichselement;
 import de.gedoplan.v5t11.util.domain.entity.Fahrwegelement;
@@ -50,9 +49,11 @@ public class Fahrstrasse extends Bereichselement {
 
     int idx = 0;
     for (Fahrstrassenelement fe : getElemente()) {
-      if (!nurReserviert || idx >= this.teilFreigabeAnzahl) {
-        if (fahrwegelement.equals(fe.getFahrwegelement())) {
-          return fe;
+      if (!fe.isSchutz()) {
+        if (!nurReserviert || idx >= this.teilFreigabeAnzahl) {
+          if (fahrwegelement.equals(fe.getFahrwegelement())) {
+            return fe;
+          }
         }
       }
 
@@ -62,22 +63,22 @@ public class Fahrstrasse extends Bereichselement {
     return null;
   }
 
-  public boolean contains(Gleisabschnitt gleisabschnitt, boolean nurReserviert) {
-    if (nurReserviert && this.reservierungsTyp == FahrstrassenReservierungsTyp.UNRESERVIERT) {
-      return false;
-    }
-
-    int idx = 0;
-    for (Fahrstrassenelement fe : getElemente()) {
-      if (!nurReserviert || idx >= this.teilFreigabeAnzahl) {
-        if (gleisabschnitt.equals(fe.getFahrwegelement())) {
-          return true;
-        }
-      }
-
-      ++idx;
-    }
-
-    return false;
-  }
+  // public boolean contains(Gleisabschnitt gleisabschnitt, boolean nurReserviert) {
+  // if (nurReserviert && this.reservierungsTyp == FahrstrassenReservierungsTyp.UNRESERVIERT) {
+  // return false;
+  // }
+  //
+  // int idx = 0;
+  // for (Fahrstrassenelement fe : getElemente()) {
+  // if (!nurReserviert || idx >= this.teilFreigabeAnzahl) {
+  // if (gleisabschnitt.equals(fe.getFahrwegelement())) {
+  // return true;
+  // }
+  // }
+  //
+  // ++idx;
+  // }
+  //
+  // return false;
+  // }
 }

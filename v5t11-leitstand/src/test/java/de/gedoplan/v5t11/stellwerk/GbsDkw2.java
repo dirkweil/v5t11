@@ -1,5 +1,6 @@
 package de.gedoplan.v5t11.stellwerk;
 
+import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkElement;
 import de.gedoplan.v5t11.stellwerk.util.GbsFarben;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
@@ -47,24 +48,37 @@ public class GbsDkw2 extends GbsWeicheMit2Antrieben {
     for (int i = 0; i < 2; ++i) {
       Color color = null;
       if (this.weiche[i] != null) {
-        WeichenStellung stellungFuerFahrstrasse = null;
-        // TODO FS
-        // Fahrstrasse fahrstrasse = this.weiche[i].getReservierteFahrstrasse();
-        // if (fahrstrasse != null) {
-        // color = fahrstrasse.getReservierungsTyp().getGbsFarbe();
-        // stellungFuerFahrstrasse = this.weiche[i].getStellung();
-        // } else {
-        // fahrstrasse = this.weiche[i].getVorgeschlageneneFahrstrasse();
-        // if (fahrstrasse != null) {
-        // color = GbsFarben.GLEIS_IN_VORGESCHLAGENER_FAHRSTRASSE;
-        // stellungFuerFahrstrasse = this.weiche[i].getStellungFuerFahrstrassenvorschlag();
-        // }
-        // }
-        //
-        // if (fahrstrasse != null) {
-        // boolean rueckwaerts = (i == 0) ^ this.weiche[i].isZaehlrichtung();
-        // drawFahrstrassenSegment(g2d, color, stellungFuerFahrstrasse == WeichenStellung.GERADE ? this.geradePos[i] : this.abzweigPos[i], rueckwaerts);
-        // }
+        Fahrstrasse fahrstrasseZuZeichnen = this.fahrstrassenManager.getReservierteFahrstrasse(this.gleisabschnitt);
+        if (fahrstrasseZuZeichnen != null) {
+          switch (fahrstrasseZuZeichnen.getReservierungsTyp()) {
+          case ZUGFAHRT:
+            color = GbsFarben.GLEIS_IN_ZUGFAHRSTRASSE;
+            break;
+
+          case RANGIERFAHRT:
+            color = GbsFarben.GLEIS_IN_RANGIERFAHRSTRASSE;
+            break;
+
+          default:
+          }
+        } else {
+          fahrstrasseZuZeichnen = this.inputPanel.getVorgeschlageneFahrstrasse();
+          if (fahrstrasseZuZeichnen != null && fahrstrasseZuZeichnen.getElement(this.weiche[i], false) != null) {
+            color = GbsFarben.GLEIS_IN_VORGESCHLAGENER_FAHRSTRASSE;
+          } else {
+            fahrstrasseZuZeichnen = null;
+          }
+        }
+
+        if (fahrstrasseZuZeichnen != null) {
+          WeichenStellung stellungFuerFahrstrasse = fahrstrasseZuZeichnen.getElement(this.weiche[i], false).getWeichenstellung();
+          gerade[i] = stellungFuerFahrstrasse == WeichenStellung.GERADE;
+
+          // TODO Zählrichtung
+          // boolean rueckwaerts = (i == 0) ^ this.weiche[i].isZaehlrichtung();
+          boolean rueckwaerts = false;
+          drawFahrstrassenSegment(g2d, color, stellungFuerFahrstrasse == WeichenStellung.GERADE ? this.geradePos[i] : this.abzweigPos[i], rueckwaerts);
+        }
       }
     }
 

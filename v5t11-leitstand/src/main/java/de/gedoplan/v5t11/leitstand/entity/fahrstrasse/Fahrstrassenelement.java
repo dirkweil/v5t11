@@ -1,6 +1,8 @@
 package de.gedoplan.v5t11.leitstand.entity.fahrstrasse;
 
 import de.gedoplan.v5t11.leitstand.entity.Leitstand;
+import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
+import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
 import de.gedoplan.v5t11.util.domain.entity.Bereichselement;
 import de.gedoplan.v5t11.util.domain.entity.Fahrwegelement;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
@@ -59,4 +61,23 @@ public class Fahrstrassenelement extends Bereichselement {
         + ", zaehlrichtung=" + this.zaehlrichtung + ", schutz=" + this.schutz + ", stellung=" + this.stellung;
   }
 
+  /**
+   * Conveniance-Methode: Zugeordnete Weichenstellung liefern.
+   * Darf nur aufgerufen werden, wenn es sich um ein Weichenelement handelt!
+   *
+   * @return Weichenstellung
+   */
+  public WeichenStellung getWeichenstellung() {
+    return WeichenStellung.valueOf(this.stellung);
+  }
+
+  /**
+   * Conveniance-Methode: Zugeordnete Signalstellung liefern.
+   * Darf nur aufgerufen werden, wenn es sich um ein Signalelement handelt!
+   *
+   * @return Signalstellung
+   */
+  public SignalStellung getSignalstellung() {
+    return SignalStellung.valueOf(this.stellung);
+  }
 }

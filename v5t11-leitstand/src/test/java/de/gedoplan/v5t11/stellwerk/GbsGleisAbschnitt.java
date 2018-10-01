@@ -59,31 +59,30 @@ public class GbsGleisAbschnitt extends GbsElement {
 
     // Falls relevant, Fahrstrasse zeichnen (dünner Strich in der Gleismitte)
     if (this.gleisabschnitt != null) {
-      boolean zeichneFahrstrasse = false;
+      Fahrstrasse fahrstrasseZuZeichnen = this.fahrstrassenManager.getReservierteFahrstrasse(this.gleisabschnitt);
+      if (fahrstrasseZuZeichnen != null) {
+        switch (fahrstrasseZuZeichnen.getReservierungsTyp()) {
+        case ZUGFAHRT:
+          color = GbsFarben.GLEIS_IN_ZUGFAHRSTRASSE;
+          break;
 
-      switch (this.fahrstrassenManager.getGleisabschnittReservierung(this.gleisabschnitt)) {
-      case ZUGFAHRT:
-        color = GbsFarben.GLEIS_IN_ZUGFAHRSTRASSE;
-        zeichneFahrstrasse = true;
-        break;
+        case RANGIERFAHRT:
+          color = GbsFarben.GLEIS_IN_RANGIERFAHRSTRASSE;
+          break;
 
-      case RANGIERFAHRT:
-        color = GbsFarben.GLEIS_IN_RANGIERFAHRSTRASSE;
-        zeichneFahrstrasse = true;
-        break;
-
-      default:
-        Fahrstrasse vorgeschlageneFahrstrasse = this.inputPanel.getVorgeschlageneFahrstrasse();
-        if (vorgeschlageneFahrstrasse != null) {
-          if (vorgeschlageneFahrstrasse.contains(this.gleisabschnitt, false)) {
-            color = GbsFarben.GLEIS_IN_VORGESCHLAGENER_FAHRSTRASSE;
-            zeichneFahrstrasse = true;
-          }
+        default:
+        }
+      } else {
+        fahrstrasseZuZeichnen = this.inputPanel.getVorgeschlageneFahrstrasse();
+        if (fahrstrasseZuZeichnen != null && fahrstrasseZuZeichnen.getElement(this.gleisabschnitt, false) != null) {
+          color = GbsFarben.GLEIS_IN_VORGESCHLAGENER_FAHRSTRASSE;
+        } else {
+          fahrstrasseZuZeichnen = null;
         }
       }
 
-      if (zeichneFahrstrasse) {
-        // TODO FS
+      if (fahrstrasseZuZeichnen != null) {
+        // TODO Zählrichtung
         // boolean zaehlrichtung = this.gleisabschnitt.isZaehlrichtung();
         boolean zaehlrichtung = false;
         drawFahrstrassenSegment(g2d, color, this.segmentPos[0], !zaehlrichtung);
