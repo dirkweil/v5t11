@@ -38,6 +38,8 @@ import org.apache.commons.logging.LogFactory;
 public class GbsInputPanel extends JPanel {
   private static final long FAHRSTRASSEN_INPUT_MAXDELAY = 5000;
 
+  private Gbs gbs;
+
   private Gleisabschnitt fahrstrassenBeginn = null;
   private long fahrstrassenBeginnStamp = 0;
   private List<Fahrstrasse> fahrstrassen;
@@ -65,8 +67,10 @@ public class GbsInputPanel extends JPanel {
 
   private static final Log LOG = LogFactory.getLog(GbsInputPanel.class);
 
-  public GbsInputPanel(String bereich) {
+  public GbsInputPanel(String bereich, Gbs gbs) {
     InjectionUtil.injectFields(this);
+
+    this.gbs = gbs;
 
     GridBagHelper gbHelper = new GridBagHelper(this);
     gbHelper.add(this.fahrstrassenPanel, 1, 1, 0, 1, GridBagConstraints.NONE, GridBagConstraints.CENTER);
@@ -120,6 +124,8 @@ public class GbsInputPanel extends JPanel {
     this.geraetePanel.removeAll();
 
     validate();
+
+    this.gbs.repaint();
   }
 
   public void addSignal(final Signal signal) {
@@ -291,6 +297,8 @@ public class GbsInputPanel extends JPanel {
     // fahrstrasse.vorschlagen(true);
     // }
     this.fahrstrassenLabel.setText("Fahrstrasse " + fahrstrasse.getShortName());
+
+    this.gbs.repaint();
   }
 
   protected void fahrstrassenNextButtonClicked() {
@@ -304,6 +312,8 @@ public class GbsInputPanel extends JPanel {
     }
 
     showFahrstrasse(true);
+
+    this.gbs.repaint();
   }
 
   protected void fahrstrassenReservierungsButtonClicked(FahrstrassenReservierungsTyp reservierungsTyp) {
@@ -314,12 +324,22 @@ public class GbsInputPanel extends JPanel {
     StellwerkMain.setStatusLineText(null);
 
     this.fahrstrasseResourceClient.reserviereFahrstrasse(fahrstrasse.getBereich(), fahrstrasse.getName(), reservierungsTyp);
+
+    this.gbs.repaint();
   }
 
   protected void abbrechenButtonClicked() {
     reset();
     this.fahrstrassenBeginn = null;
     StellwerkMain.setStatusLineText(null);
+  }
+
+  public Fahrstrasse getVorgeschlageneFahrstrasse() {
+    if (this.fahrstrassen == null || this.fahrstrassenIndex >= this.fahrstrassen.size()) {
+      return null;
+    }
+
+    return this.fahrstrassen.get(this.fahrstrassenIndex);
   }
 
   private static Icon getSelectedIcon(SignalStellung stellung) {

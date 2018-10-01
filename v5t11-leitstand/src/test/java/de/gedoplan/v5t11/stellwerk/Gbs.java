@@ -29,7 +29,7 @@ public class Gbs extends ApplicationPanel {
     JPanel gbsPanel = new JPanel();
     add(gbsPanel, BorderLayout.NORTH);
 
-    GbsInputPanel inputPanel = new GbsInputPanel(bereich);
+    GbsInputPanel inputPanel = new GbsInputPanel(bereich, this);
 
     GridBagHelper gbHelper = new GridBagHelper(gbsPanel);
 

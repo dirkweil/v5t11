@@ -1,5 +1,6 @@
 package de.gedoplan.v5t11.stellwerk;
 
+import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkElement;
 import de.gedoplan.v5t11.stellwerk.util.GbsFarben;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
@@ -64,19 +65,19 @@ public class GbsEinfachWeiche extends GbsWeicheMit1Antrieb {
         color = GbsFarben.GLEIS_IN_ZUGFAHRSTRASSE;
         zeichneFahrstrasse = true;
         break;
+
       case RANGIERFAHRT:
         color = GbsFarben.GLEIS_IN_RANGIERFAHRSTRASSE;
         zeichneFahrstrasse = true;
         break;
-      }
 
-      // TODO FS
-      // if (fahrstrasse == null) {
-      // fahrstrasse = this.weiche.getVorgeschlageneneFahrstrasse();
-      // if (fahrstrasse != null) {
-      // color = GbsFarben.GLEIS_IN_VORGESCHLAGENER_FAHRSTRASSE;
-      // }
-      // }
+      default:
+        Fahrstrasse vorgeschlageneFahrstrasse = this.inputPanel.getVorgeschlageneFahrstrasse();
+        if (vorgeschlageneFahrstrasse != null && vorgeschlageneFahrstrasse.contains(this.gleisabschnitt, false)) {
+          color = GbsFarben.GLEIS_IN_VORGESCHLAGENER_FAHRSTRASSE;
+          zeichneFahrstrasse = true;
+        }
+      }
 
       if (zeichneFahrstrasse) {
         // TODO FS
