@@ -11,7 +11,7 @@ public class GbsWeicheMit1Antrieb extends GbsWeiche {
 
     this.weiche = this.leitstand.getWeiche(stellwerkElement.getBereich(), stellwerkElement.getName());
     if (this.weiche != null) {
-      this.statusDispatcher.addListener(this.weiche, this);
+      this.statusDispatcher.addListener(this.weiche, this::repaint);
     }
   }
 

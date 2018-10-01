@@ -31,7 +31,7 @@ public class GbsGleisAbschnitt extends GbsElement {
 
     this.gleisabschnitt = this.leitstand.getGleisabschnitt(stellwerkElement.getBereich(), stellwerkElement.getName());
     if (this.gleisabschnitt != null) {
-      this.statusDispatcher.addListener(this.gleisabschnitt, this);
+      this.statusDispatcher.addListener(this.gleisabschnitt, this::repaint);
     }
 
     this.label = stellwerkElement.isLabel();

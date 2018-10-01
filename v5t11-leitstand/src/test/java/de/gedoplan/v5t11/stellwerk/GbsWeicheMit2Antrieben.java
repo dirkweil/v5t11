@@ -20,7 +20,7 @@ public class GbsWeicheMit2Antrieben extends GbsWeiche {
     for (int i = 0; i < 2; ++i) {
       this.weiche[i] = this.leitstand.getWeiche(stellwerkElement.getBereich(), namen[i]);
       if (this.weiche[i] != null) {
-        this.statusDispatcher.addListener(this.weiche[i], this);
+        this.statusDispatcher.addListener(this.weiche[i], this::repaint);
       }
     }
   }

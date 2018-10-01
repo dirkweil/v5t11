@@ -1,9 +1,7 @@
 package de.gedoplan.v5t11.stellwerk;
 
+import de.gedoplan.v5t11.leitstand.entity.baustein.Zentrale;
 import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrasse;
-import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleisabschnitt;
-import de.gedoplan.v5t11.leitstand.entity.fahrweg.Signal;
-import de.gedoplan.v5t11.leitstand.entity.fahrweg.Weiche;
 import de.gedoplan.v5t11.util.domain.entity.Fahrwegelement;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -15,31 +13,27 @@ import com.google.common.collect.SetMultimap;
 @ApplicationScoped
 public class StatusDispatcher {
 
-  private SetMultimap<Fahrwegelement, GbsElement> listener = MultimapBuilder.hashKeys().hashSetValues().build();
+  private SetMultimap<Object, Runnable> listener = MultimapBuilder.hashKeys().hashSetValues().build();
 
-  public void addListener(Fahrwegelement fahrwegelement, GbsElement gbsElement) {
-    this.listener.get(fahrwegelement).add(gbsElement);
+  public void addListener(Object observed, Runnable action) {
+    this.listener.get(observed).add(action);
   }
 
-  void fahrstrasseChanged(@Observes Fahrstrasse fahrstrasse) {
+  void changed(@Observes Fahrstrasse fahrstrasse) {
     fahrstrasse
         .getElemente()
         .stream()
         .map(fse -> fse.getFahrwegelement())
         .peek(System.out::println)
         .flatMap(fwe -> this.listener.get(fwe).stream())
-        .forEach(GbsElement::repaint);
+        .forEach(x -> x.run());
   }
 
-  void gleisabschnittChanged(@Observes Gleisabschnitt gleisabschnitt) {
-    this.listener.get(gleisabschnitt).forEach(GbsElement::repaint);
+  void changed(@Observes Fahrwegelement fahrwegelement) {
+    this.listener.get(fahrwegelement).forEach(x -> x.run());
   }
 
-  void signalChanged(@Observes Signal signal) {
-    this.listener.get(signal).forEach(GbsElement::repaint);
-  }
-
-  void weicheChanged(@Observes Weiche weiche) {
-    this.listener.get(weiche).forEach(GbsElement::repaint);
+  void changed(@Observes Zentrale zentrale) {
+    this.listener.get(zentrale).forEach(x -> x.run());
   }
 }

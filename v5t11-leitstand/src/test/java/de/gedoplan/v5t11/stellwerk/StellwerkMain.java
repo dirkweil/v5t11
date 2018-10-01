@@ -1,8 +1,10 @@
 package de.gedoplan.v5t11.stellwerk;
 
+import de.gedoplan.baselibs.utils.inject.InjectionUtil;
 import de.gedoplan.baselibs.utils.util.ApplicationProperties;
 import de.gedoplan.v5t11.leitstand.LeitstandMain;
 import de.gedoplan.v5t11.leitstand.entity.Leitstand;
+import de.gedoplan.v5t11.leitstand.gateway.ZentraleResourceClient;
 import de.gedoplan.v5t11.stellwerk.util.IconUtil;
 import de.gedoplan.v5t11.util.config.ConfigBase;
 
@@ -11,10 +13,13 @@ import java.awt.Dimension;
 import java.awt.GraphicsConfiguration;
 import java.awt.Insets;
 import java.awt.Toolkit;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import javax.enterprise.inject.spi.CDI;
+import javax.inject.Inject;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.JFrame;
@@ -46,7 +51,14 @@ public class StellwerkMain extends JFrame {
   @Getter
   private static Leitstand leitstand;
 
+  @Inject
+  StatusDispatcher statusDispatcher;
+
+  @Inject
+  ZentraleResourceClient zentraleResourceClient;
+
   private StellwerkMain() {
+    InjectionUtil.injectFields(this);
 
     String applicationVersion = ApplicationProperties.getProperty("application.version");
     setTitle("v5t11 " + applicationVersion);
@@ -90,28 +102,16 @@ public class StellwerkMain extends JFrame {
       // mainPanel.addApplicationPanel(new LokCockpit());
       // validate();
 
-      // TODO PowerButton
-      // refreshPowerButton();
-      //
-      // steuerung.getZentrale().addValueChangedListener(new ValueChangedListener() {
-      // @Override
-      // public void valueChanged(ValueChangedEvent event) {
-      // refreshPowerButton();
-      // }
-      // });
-      //
-      // powerButton.addMouseListener(new MouseAdapter() {
-      //
-      // /**
-      // * {@inheritDoc}
-      // *
-      // * @see java.awt.event.MouseAdapter#mousePressed(java.awt.event.MouseEvent)
-      // */
-      // @Override
-      // public void mousePressed(MouseEvent e) {
-      // powerButtonClicked();
-      // }
-      // });
+      refreshPowerButton();
+
+      this.statusDispatcher.addListener(leitstand.getZentrale(), this::refreshPowerButton);
+
+      powerButton.addMouseListener(new MouseAdapter() {
+        @Override
+        public void mousePressed(MouseEvent e) {
+          powerButtonClicked();
+        }
+      });
 
       validate();
 
@@ -120,6 +120,20 @@ public class StellwerkMain extends JFrame {
       terminate();
     }
 
+  }
+
+  private void refreshPowerButton() {
+    boolean aktiv = leitstand.getZentrale().isAktiv();
+    if (aktiv) {
+      boolean kurzschluss = leitstand.getZentrale().isKurzschluss();
+      powerButton.setIcon(kurzschluss ? ICON_KURZSCHLUSS : ICON_SCHALTER_EIN);
+    } else {
+      powerButton.setIcon(ICON_SCHALTER_AUS);
+    }
+  }
+
+  private void powerButtonClicked() {
+    this.zentraleResourceClient.putZentraleIsAktiv(!leitstand.getZentrale().isAktiv());
   }
 
   private void terminate() {

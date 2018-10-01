@@ -149,7 +149,7 @@ public abstract class GbsElement extends JPanel {
     if (signalName != null) {
       this.signal = this.leitstand.getSignal(bereich, signalName);
       if (this.signal != null) {
-        this.statusDispatcher.addListener(this.signal, this);
+        this.statusDispatcher.addListener(this.signal, this::repaint);
       }
 
       this.signalPosition = stellwerkElement.getSignalPosition() != null ? GbsRichtung.valueOf(stellwerkElement.getSignalPosition()) : GbsRichtung.N;
