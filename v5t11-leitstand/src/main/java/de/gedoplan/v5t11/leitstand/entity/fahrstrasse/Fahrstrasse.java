@@ -3,6 +3,7 @@ package de.gedoplan.v5t11.leitstand.entity.fahrstrasse;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
 import de.gedoplan.v5t11.util.domain.entity.Bereichselement;
+import de.gedoplan.v5t11.util.domain.entity.Fahrwegelement;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
 import java.util.ArrayList;
@@ -40,6 +41,25 @@ public class Fahrstrasse extends Bereichselement {
 
   public String getShortName() {
     return getName().replaceAll("-W\\d+", "");
+  }
+
+  public Fahrstrassenelement getElement(Fahrwegelement fahrwegelement, boolean nurReserviert) {
+    if (nurReserviert && this.reservierungsTyp == FahrstrassenReservierungsTyp.UNRESERVIERT) {
+      return null;
+    }
+
+    int idx = 0;
+    for (Fahrstrassenelement fe : getElemente()) {
+      if (!nurReserviert || idx >= this.teilFreigabeAnzahl) {
+        if (fahrwegelement.equals(fe.getFahrwegelement())) {
+          return fe;
+        }
+      }
+
+      ++idx;
+    }
+
+    return null;
   }
 
   public boolean contains(Gleisabschnitt gleisabschnitt, boolean nurReserviert) {

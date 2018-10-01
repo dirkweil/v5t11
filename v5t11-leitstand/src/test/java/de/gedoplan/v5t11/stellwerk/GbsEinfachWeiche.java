@@ -1,6 +1,7 @@
 package de.gedoplan.v5t11.stellwerk;
 
 import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrasse;
+import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrassenelement;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkElement;
 import de.gedoplan.v5t11.stellwerk.util.GbsFarben;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
@@ -58,34 +59,31 @@ public class GbsEinfachWeiche extends GbsWeicheMit1Antrieb {
 
     // Fahrstrasse drauf zeichen, wenn vorhanden
     if (this.weiche != null) {
-      boolean zeichneFahrstrasse = false;
+      Fahrstrasse fahrstrasseZuZeichnen = this.fahrstrassenManager.getReservierteFahrstrasse(this.gleisabschnitt);
+      if (fahrstrasseZuZeichnen != null) {
+        switch (fahrstrasseZuZeichnen.getReservierungsTyp()) {
+        case ZUGFAHRT:
+          color = GbsFarben.GLEIS_IN_ZUGFAHRSTRASSE;
+          break;
 
-      switch (this.fahrstrassenManager.getGleisabschnittReservierung(this.gleisabschnitt)) {
-      case ZUGFAHRT:
-        color = GbsFarben.GLEIS_IN_ZUGFAHRSTRASSE;
-        zeichneFahrstrasse = true;
-        break;
+        case RANGIERFAHRT:
+          color = GbsFarben.GLEIS_IN_RANGIERFAHRSTRASSE;
+          break;
 
-      case RANGIERFAHRT:
-        color = GbsFarben.GLEIS_IN_RANGIERFAHRSTRASSE;
-        zeichneFahrstrasse = true;
-        break;
-
-      default:
-        Fahrstrasse vorgeschlageneFahrstrasse = this.inputPanel.getVorgeschlageneFahrstrasse();
-        if (vorgeschlageneFahrstrasse != null && vorgeschlageneFahrstrasse.contains(this.gleisabschnitt, false)) {
+        default:
+        }
+      } else {
+        fahrstrasseZuZeichnen = this.inputPanel.getVorgeschlageneFahrstrasse();
+        if (fahrstrasseZuZeichnen != null && fahrstrasseZuZeichnen.contains(this.gleisabschnitt, false)) {
           color = GbsFarben.GLEIS_IN_VORGESCHLAGENER_FAHRSTRASSE;
-          zeichneFahrstrasse = true;
+        } else {
+          fahrstrasseZuZeichnen = null;
         }
       }
 
-      if (zeichneFahrstrasse) {
-        // TODO FS
-        // WeichenStellung stellungFuerFahrstrasse = this.weiche.getStellungFuerFahrstrassenvorschlag();
-        WeichenStellung stellungFuerFahrstrasse = null;
-        if (stellungFuerFahrstrasse == null) {
-          stellungFuerFahrstrasse = this.weiche.getStellung();
-        }
+      if (fahrstrasseZuZeichnen != null) {
+        Fahrstrassenelement fahrstrassenelement = fahrstrasseZuZeichnen.getElement(this.weiche, false);
+        WeichenStellung stellungFuerFahrstrasse = WeichenStellung.valueOf(fahrstrassenelement.getStellung());
         gerade = stellungFuerFahrstrasse == WeichenStellung.GERADE;
 
         // TODO FS
