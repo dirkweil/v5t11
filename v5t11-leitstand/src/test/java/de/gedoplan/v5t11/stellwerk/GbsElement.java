@@ -108,7 +108,6 @@ public abstract class GbsElement extends JPanel {
 
   protected String bereich;
   protected String name;
-  protected String typ;
 
   private static Cursor invisibleCursor = Toolkit.getDefaultToolkit().createCustomCursor(
       Toolkit.getDefaultToolkit().createImage(new MemoryImageSource(16, 16, new int[16 * 16], 0, 16)), new Point(0, 0), "noCursor");
@@ -134,7 +133,6 @@ public abstract class GbsElement extends JPanel {
 
     this.bereich = bereich;
     this.name = stellwerkElement.getName();
-    this.typ = stellwerkElement.getTyp();
 
     setBackground(Color.lightGray.brighter());
     setBorder(BorderFactory.createLineBorder(Color.gray, 1));
