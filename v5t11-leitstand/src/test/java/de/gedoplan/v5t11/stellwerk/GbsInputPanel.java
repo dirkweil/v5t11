@@ -10,6 +10,7 @@ import de.gedoplan.v5t11.leitstand.gateway.SignalResourceClient;
 import de.gedoplan.v5t11.leitstand.service.FahrstrassenManager;
 import de.gedoplan.v5t11.stellwerk.util.GridBagHelper;
 import de.gedoplan.v5t11.stellwerk.util.IconUtil;
+import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenFilter;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
 import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
@@ -200,7 +201,7 @@ public class GbsInputPanel extends JPanel {
         this.fahrstrassen = this.fahrstrasseResourceClient.getFahrstrassen(
             this.fahrstrassenBeginn.getBereich(), this.fahrstrassenBeginn.getName(),
             gleisabschnitt.getBereich(), gleisabschnitt.getName(),
-            true);
+            FahrstrassenFilter.FREI);
         int fahrstrassenAnzahl = this.fahrstrassen.size();
 
         String fahrstrassenAnzahlText;

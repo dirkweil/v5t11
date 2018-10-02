@@ -4,6 +4,8 @@ import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Signal;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Weiche;
+import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenFilter;
+import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
 import de.gedoplan.v5t11.util.domain.entity.Bereichselement;
 
 import java.util.Collection;
@@ -214,11 +216,11 @@ public class Parcours {
    *          Beginn-Gleisabschnitt
    * @param ende
    *          Ende-Gleisabschnitt
-   * @param frei
+   * @param filter
    *          <code>true</code>, wenn nur freie Fahrstrassen geliefert werden sollen
    * @return gefundene Fahrstrassen in aufsteigender Rang-Reihenfolge
    */
-  public List<Fahrstrasse> getFahrstrassen(Gleisabschnitt beginn, Gleisabschnitt ende, boolean frei) {
+  public List<Fahrstrasse> getFahrstrassen(Gleisabschnitt beginn, Gleisabschnitt ende, FahrstrassenFilter filter) {
     Stream<Fahrstrasse> stream = this.fahrstrassen.stream();
 
     if (beginn != null) {
@@ -229,8 +231,10 @@ public class Parcours {
       stream = stream.filter(fs -> fs.endsWith(ende));
     }
 
-    if (frei) {
+    if (filter == FahrstrassenFilter.FREI) {
       stream = stream.filter(fs -> fs.isFrei(false, true));
+    } else if (filter == FahrstrassenFilter.RESERVIERT) {
+      stream = stream.filter(fs -> fs.getReservierungsTyp() != FahrstrassenReservierungsTyp.UNRESERVIERT);
     }
 
     return stream.sorted((fs1, fs2) -> fs1.getRank() - fs2.getRank()).collect(Collectors.toList());

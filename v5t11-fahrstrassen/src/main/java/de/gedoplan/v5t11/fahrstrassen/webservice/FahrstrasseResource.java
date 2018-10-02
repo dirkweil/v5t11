@@ -3,6 +3,7 @@ package de.gedoplan.v5t11.fahrstrassen.webservice;
 import de.gedoplan.v5t11.fahrstrassen.entity.Parcours;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleisabschnitt;
+import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenFilter;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 import de.gedoplan.v5t11.util.webservice.ResponseFactory;
@@ -50,10 +51,12 @@ public class FahrstrasseResource {
       @QueryParam("startName") String startName,
       @QueryParam("endeBereich") String endeBereich,
       @QueryParam("endeName") String endeName,
-      @QueryParam("frei") boolean frei) {
+      @QueryParam("filter") String filterAsString) {
+
+    FahrstrassenFilter filter = filterAsString != null ? FahrstrassenFilter.valueOfLenient(filterAsString) : null;
 
     if (this.log.isDebugEnabled()) {
-      this.log.debug(String.format("getFahrstrassen: start=%s/%s, ende=%s/%s, frei=%b", startBereich, startName, endeBereich, endeName, frei));
+      this.log.debug(String.format("getFahrstrassen: start=%s/%s, ende=%s/%s, filter=%s", startBereich, startName, endeBereich, endeName, filter));
     }
 
     Gleisabschnitt start = null;
@@ -80,7 +83,7 @@ public class FahrstrasseResource {
       }
     }
 
-    return ResponseFactory.createJsonResponse(this.parcours.getFahrstrassen(start, ende, frei), JsonbWithIncludeVisibility.FULL);
+    return ResponseFactory.createJsonResponse(this.parcours.getFahrstrassen(start, ende, filter), JsonbWithIncludeVisibility.FULL);
   }
 
   @PUT

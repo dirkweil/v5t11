@@ -3,9 +3,11 @@ package de.gedoplan.v5t11.leitstand.service;
 import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.leitstand.gateway.FahrstrasseResourceClient;
+import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenFilter;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
 import de.gedoplan.v5t11.util.domain.entity.Fahrwegelement;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.NotFoundException;
@@ -14,8 +16,6 @@ import org.apache.commons.logging.Log;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
-
-// TODO Bei Start der Anwendung aktuellen Stand holen
 
 @ApplicationScoped
 public class FahrstrassenManager {
@@ -27,6 +27,15 @@ public class FahrstrassenManager {
   Log log;
 
   private Table<String, String, Fahrstrasse> aktiveFahrstrassen = HashBasedTable.create();
+
+  @PostConstruct
+  void postConstruct() {
+    this.fahrstrasseResourceClient.getFahrstrassen(
+        null, null,
+        null, null,
+        FahrstrassenFilter.RESERVIERT)
+        .forEach(fs -> this.aktiveFahrstrassen.put(fs.getBereich(), fs.getName(), fs));
+  }
 
   public Fahrstrasse updateFahrstrasse(Fahrstrasse statusFahrstrasse) {
     Fahrstrasse fahrstrasse = this.aktiveFahrstrassen.get(statusFahrstrasse.getBereich(), statusFahrstrasse.getName());

@@ -3,6 +3,7 @@ package de.gedoplan.v5t11.leitstand.gateway;
 import de.gedoplan.v5t11.leitstand.entity.Leitstand;
 import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.leitstand.service.ConfigService;
+import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenFilter;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
 import de.gedoplan.v5t11.util.webservice.ResourceClientBase;
 
@@ -11,6 +12,7 @@ import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 
@@ -43,13 +45,19 @@ public class FahrstrasseResourceClient extends ResourceClientBase {
     return fahrstrasse;
   }
 
-  public List<Fahrstrasse> getFahrstrassen(String startBereich, String startName, String endeBereich, String endeName, boolean frei) {
-    List<Fahrstrasse> fahrstrassen = this.baseTarget
+  public List<Fahrstrasse> getFahrstrassen(String startBereich, String startName, String endeBereich, String endeName, FahrstrassenFilter filter) {
+    WebTarget target = this.baseTarget
         .queryParam("startBereich", startBereich)
         .queryParam("startName", startName)
         .queryParam("endeBereich", endeBereich)
-        .queryParam("endeName", endeName)
-        .queryParam("frei", frei)
+        .queryParam("endeName", endeName);
+
+    if (filter != null) {
+      target = target
+          .queryParam("filter", filter);
+    }
+
+    List<Fahrstrasse> fahrstrassen = target
         .request()
         .accept(MediaType.APPLICATION_JSON)
         .get(new GenericType<List<Fahrstrasse>>() {});
