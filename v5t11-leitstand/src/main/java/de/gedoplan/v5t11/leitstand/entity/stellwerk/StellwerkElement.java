@@ -1,6 +1,7 @@
 package de.gedoplan.v5t11.leitstand.entity.stellwerk;
 
 import de.gedoplan.v5t11.leitstand.entity.Leitstand;
+import de.gedoplan.v5t11.leitstand.entity.fahrweg.Signal;
 
 import java.io.Serializable;
 
@@ -32,6 +33,17 @@ public abstract class StellwerkElement implements Serializable {
   @Getter
   String lage;
 
+  @XmlAttribute(name = "signal")
+  @Getter
+  String signalName;
+
+  @XmlAttribute(name = "signalPos")
+  @Getter
+  String signalPosition;
+
+  @Getter
+  private Signal signal;
+
   @XmlAttribute
   @Getter
   @Setter
@@ -39,17 +51,14 @@ public abstract class StellwerkElement implements Serializable {
 
   @Override
   public String toString() {
-    return getClass().getSimpleName() + " lage=" + this.lage + ", bereich=" + this.bereich + ", name=" + this.name;
+    return getClass().getSimpleName() + " lage=" + this.lage + ", bereich=" + this.bereich + ", name=" + this.name + ", signalName=" + this.signalName + ", signalPosition=" + this.signalPosition;
   }
 
-  public abstract void linkFahrwegelemente(Leitstand leitstand);
+  public void linkFahrwegelemente(Leitstand leitstand) {
 
-  public String getSignalName() {
-    return null;
-  }
-
-  public String getSignalPosition() {
-    return null;
+    if (this.signalName != null) {
+      this.signal = leitstand.getOrCreateSignal(this.bereich, this.signalName);
+    }
   }
 
   public boolean isLabel() {

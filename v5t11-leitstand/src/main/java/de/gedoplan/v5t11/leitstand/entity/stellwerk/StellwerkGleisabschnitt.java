@@ -2,7 +2,6 @@ package de.gedoplan.v5t11.leitstand.entity.stellwerk;
 
 import de.gedoplan.v5t11.leitstand.entity.Leitstand;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleisabschnitt;
-import de.gedoplan.v5t11.leitstand.entity.fahrweg.Signal;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -22,33 +21,18 @@ public class StellwerkGleisabschnitt extends StellwerkElement {
   @Getter
   boolean label;
 
-  @XmlAttribute(name = "signal")
-  @Getter
-  String signalName;
-
-  @XmlAttribute(name = "signalPos")
-  @Getter
-  String signalPosition;
-
   @Getter
   private Gleisabschnitt gleisabschnitt;
 
-  @Getter
-  private Signal signal;
-
   @Override
   public String toString() {
-    return super.toString() + " label=" + this.label + ", signalName=" + this.signalName + ", signalPosition=" + this.signalPosition;
+    return super.toString() + " label=" + this.label;
   }
 
   @Override
   public void linkFahrwegelemente(Leitstand leitstand) {
+    super.linkFahrwegelemente(leitstand);
     this.gleisabschnitt = leitstand.getOrCreateGleisabschnitt(this.bereich, this.name);
-
-    if (this.signalName != null) {
-      this.signal = leitstand.getOrCreateSignal(this.bereich, this.signalName);
-    }
-
   }
 
 }

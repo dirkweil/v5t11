@@ -25,8 +25,8 @@ public class StellwerkWeiche extends StellwerkElement {
 
   @Override
   public void linkFahrwegelemente(Leitstand leitstand) {
+    super.linkFahrwegelemente(leitstand);
     this.weiche = leitstand.getOrCreateWeiche(this.bereich, this.name);
-
     this.gleisabschnitt = leitstand.getOrCreateGleisabschnitt(this.bereich, this.weiche.getGleisabschnittName());
   }
 
