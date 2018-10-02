@@ -1,6 +1,6 @@
 package de.gedoplan.v5t11.leitstand.gateway;
 
-import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleisabschnitt;
+import de.gedoplan.v5t11.leitstand.entity.lok.Lok;
 import de.gedoplan.v5t11.leitstand.service.ConfigService;
 import de.gedoplan.v5t11.util.webservice.ResourceClientBase;
 
@@ -16,18 +16,18 @@ import lombok.NoArgsConstructor;
 
 @ApplicationScoped
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class GleisResourceClient extends ResourceClientBase {
+public class LokResourceClient extends ResourceClientBase {
 
   @Inject
-  public GleisResourceClient(ConfigService configService) {
-    super(configService.getStatusRestUrl(), "gleis");
+  public LokResourceClient(ConfigService configService) {
+    super(configService.getStatusRestUrl(), "lok");
   }
 
-  public Set<Gleisabschnitt> getGleisabschnitte() {
-    Set<Gleisabschnitt> gleisabschnitte = this.baseTarget
+  public Set<Lok> getLoks() {
+    return this.baseTarget
         .request()
         .accept(MediaType.APPLICATION_JSON)
-        .get(new GenericType<Set<Gleisabschnitt>>() {});
-    return gleisabschnitte;
+        .get(new GenericType<Set<Lok>>() {});
   }
+
 }

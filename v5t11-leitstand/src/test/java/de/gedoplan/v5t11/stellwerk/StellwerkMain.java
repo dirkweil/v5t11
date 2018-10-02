@@ -98,9 +98,8 @@ public class StellwerkMain extends JFrame {
       mainPanel.addApplicationPanel(gbsPanel);
       validate();
 
-      // TODO LokCockpit
-      // mainPanel.addApplicationPanel(new LokCockpit());
-      // validate();
+      mainPanel.addApplicationPanel(new LokCockpit());
+      validate();
 
       refreshPowerButton();
 

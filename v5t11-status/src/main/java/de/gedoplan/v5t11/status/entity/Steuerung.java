@@ -355,7 +355,7 @@ public class Steuerung {
     }
 
     Lok lok = null;
-    if (lokId != null && !lokId.equals("none")) {
+    if (lokId != null) {
       lok = getLok(lokId);
       if (lok == null) {
         throw new IllegalArgumentException("Lok nicht gefunden: " + lokId);

@@ -18,8 +18,6 @@ import javax.ws.rs.core.MediaType;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
-//TODO Dies ist eine exakte Kopie aus v5t11-fahrstrassen; geht das eleganter?
-
 @ApplicationScoped
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class SignalResourceClient extends ResourceClientBase {

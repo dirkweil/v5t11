@@ -1,9 +1,11 @@
 package de.gedoplan.v5t11.leitstand.entity;
 
+import de.gedoplan.v5t11.leitstand.entity.baustein.LokController;
 import de.gedoplan.v5t11.leitstand.entity.baustein.Zentrale;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Signal;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Weiche;
+import de.gedoplan.v5t11.leitstand.entity.lok.Lok;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.Stellwerk;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkElement;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkZeile;
@@ -51,6 +53,12 @@ public class Leitstand {
   @Getter
   private SortedSet<Weiche> weichen = new TreeSet<>();
 
+  @Getter
+  private SortedSet<Lok> loks = new TreeSet<>();
+
+  @Getter
+  private SortedSet<LokController> lokController = new TreeSet<>();
+
   public Stellwerk getStellwerk(String bereich) {
     for (Stellwerk stellwerk : this.stellwerke) {
       if (stellwerk.getBereich().equals(bereich)) {
@@ -84,6 +92,21 @@ public class Leitstand {
    */
   public Gleisabschnitt getOrCreateGleisabschnitt(String bereich, String name) {
     return getOrCreateBereichselement(bereich, name, this.gleisabschnitte, Gleisabschnitt::new);
+  }
+
+  /**
+   * Lok-Controller liefern.
+   *
+   * @param id
+   *          Id
+   * @return gefundener Lok-Controller oder <code>null</code>
+   */
+  public LokController getLokController(String id) {
+    return this.lokController
+        .stream()
+        .filter(lc -> lc.getId().equals(id))
+        .findFirst()
+        .orElse(null);
   }
 
   /**
@@ -172,4 +195,5 @@ public class Leitstand {
 
     return buf.toString();
   }
+
 }

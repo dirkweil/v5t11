@@ -1,5 +1,6 @@
 package de.gedoplan.v5t11.stellwerk;
 
+import de.gedoplan.v5t11.leitstand.entity.baustein.LokController;
 import de.gedoplan.v5t11.leitstand.entity.baustein.Zentrale;
 import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.util.domain.entity.Fahrwegelement;
@@ -31,6 +32,10 @@ public class StatusDispatcher {
 
   void changed(@Observes Fahrwegelement fahrwegelement) {
     this.listener.get(fahrwegelement).forEach(x -> x.run());
+  }
+
+  void changed(@Observes LokController lokController) {
+    this.listener.get(lokController).forEach(x -> x.run());
   }
 
   void changed(@Observes Zentrale zentrale) {

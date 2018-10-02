@@ -42,7 +42,7 @@ public class LokcontrollerResource {
     }
 
     Lok lok = lokcontroller.getLok();
-    return lok != null ? lok.getId() : "none";
+    return lok != null ? lok.getId() : "null";
   }
 
   @GET
@@ -62,6 +62,10 @@ public class LokcontrollerResource {
   @Path("{id}")
   @Consumes(MediaType.TEXT_PLAIN)
   public void setLok(@PathParam("id") String id, String lokId) {
+
+    if ("null".equals(lokId)) {
+      lokId = null;
+    }
 
     try {
       this.steuerung.assignLokcontroller(id, lokId);

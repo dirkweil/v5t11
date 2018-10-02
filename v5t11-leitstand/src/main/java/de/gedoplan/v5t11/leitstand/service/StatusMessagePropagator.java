@@ -1,6 +1,7 @@
 package de.gedoplan.v5t11.leitstand.service;
 
 import de.gedoplan.v5t11.leitstand.entity.Leitstand;
+import de.gedoplan.v5t11.leitstand.entity.baustein.LokController;
 import de.gedoplan.v5t11.leitstand.entity.baustein.Zentrale;
 import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleisabschnitt;
@@ -26,7 +27,7 @@ import org.apache.commons.logging.Log;
 public class StatusMessagePropagator {
 
   private static enum Category {
-    FAHRSTRASSE, GLEIS, SIGNAL, WEICHE, ZENTRALE
+    FAHRSTRASSE, GLEIS, LOKCONTROLLER, SIGNAL, WEICHE, ZENTRALE
   };
 
   @Inject
@@ -87,6 +88,18 @@ public class StatusMessagePropagator {
         if (gleisabschnitt != null) {
           gleisabschnitt.copyStatus(statusGleisabschnitt);
           this.eventFirer.fire(gleisabschnitt);
+        }
+        break;
+
+      case LOKCONTROLLER:
+        LokController statusLokController = JsonbWithIncludeVisibility.SHORT.fromJson(text, LokController.class);
+        if (this.log.isDebugEnabled()) {
+          this.log.debug(statusLokController);
+        }
+        LokController lokController = this.leitstand.getLokController(statusLokController.getId());
+        if (lokController != null) {
+          lokController.copyStatus(statusLokController);
+          this.eventFirer.fire(lokController);
         }
         break;
 

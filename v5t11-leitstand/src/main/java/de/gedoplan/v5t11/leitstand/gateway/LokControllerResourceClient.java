@@ -1,8 +1,7 @@
 package de.gedoplan.v5t11.leitstand.gateway;
 
-import de.gedoplan.v5t11.leitstand.entity.fahrweg.Weiche;
+import de.gedoplan.v5t11.leitstand.entity.baustein.LokController;
 import de.gedoplan.v5t11.leitstand.service.ConfigService;
-import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
 import de.gedoplan.v5t11.util.webservice.ResourceClientBase;
 
 import java.util.Set;
@@ -18,26 +17,25 @@ import lombok.NoArgsConstructor;
 
 @ApplicationScoped
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class WeicheResourceClient extends ResourceClientBase {
+public class LokControllerResourceClient extends ResourceClientBase {
 
   @Inject
-  public WeicheResourceClient(ConfigService configService) {
-    super(configService.getStatusRestUrl(), "weiche");
+  public LokControllerResourceClient(ConfigService configService) {
+    super(configService.getStatusRestUrl(), "lokcontroller");
   }
 
-  public Set<Weiche> getWeichen() {
+  public Set<LokController> getLokController() {
     return this.baseTarget
         .request()
         .accept(MediaType.APPLICATION_JSON)
-        .get(new GenericType<Set<Weiche>>() {});
+        .get(new GenericType<Set<LokController>>() {});
   }
 
-  public void weicheStellen(Weiche weiche, WeichenStellung stellung) {
+  public void setLok(String id, String lokId) {
     this.baseTarget
-        .path(weiche.getBereich())
-        .path(weiche.getName())
+        .path(id)
         .request()
-        .put(Entity.text(stellung));
+        .put(Entity.text(lokId != null ? lokId : "null"));
   }
 
 }
