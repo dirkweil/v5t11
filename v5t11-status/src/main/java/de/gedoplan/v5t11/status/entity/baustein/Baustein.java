@@ -140,7 +140,7 @@ public abstract class Baustein extends SingleIdEntity<String> implements Compara
    */
   @Override
   public int compareTo(Baustein other) {
-    return this.adresse - other.adresse;
+    return this.id.compareTo(other.id);
   }
 
   /**

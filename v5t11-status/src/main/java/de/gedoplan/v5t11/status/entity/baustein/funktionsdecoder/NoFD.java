@@ -2,6 +2,8 @@ package de.gedoplan.v5t11.status.entity.baustein.funktionsdecoder;
 
 import de.gedoplan.v5t11.status.entity.baustein.Funktionsdecoder;
 
+import java.util.UUID;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
@@ -16,5 +18,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 public class NoFD extends Funktionsdecoder {
   protected NoFD() {
     super(0);
+    this.id = UUID.randomUUID().toString();
   }
+
 }
