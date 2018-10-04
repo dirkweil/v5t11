@@ -15,6 +15,7 @@ import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
 import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
 
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -73,6 +74,11 @@ public class GbsInputPanel extends JPanel {
 
     this.gbs = gbs;
 
+    Dimension dim = new Dimension(200, 100);
+    setPreferredSize(dim);
+    setMaximumSize(dim);
+    setMinimumSize(dim);
+
     GridBagHelper gbHelper = new GridBagHelper(this);
     gbHelper.add(this.fahrstrassenPanel, 1, 1, 0, 1, GridBagConstraints.NONE, GridBagConstraints.CENTER);
     gbHelper.newRow();
@@ -112,6 +118,8 @@ public class GbsInputPanel extends JPanel {
         abbrechenButtonClicked();
       }
     });
+
+    this.validate();
   }
 
   public void reset() {

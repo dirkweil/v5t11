@@ -7,7 +7,7 @@ import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkElement;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkZeile;
 import de.gedoplan.v5t11.stellwerk.util.GridBagHelper;
 
-import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 
 import javax.inject.Inject;
@@ -24,10 +24,10 @@ public class Gbs extends ApplicationPanel {
 
     InjectionUtil.injectFields(this);
 
-    setLayout(new BorderLayout());
+    setLayout(new FlowLayout());
 
     JPanel gbsPanel = new JPanel();
-    add(gbsPanel, BorderLayout.NORTH);
+    add(gbsPanel);
 
     GbsInputPanel inputPanel = new GbsInputPanel(bereich, this);
 
@@ -55,7 +55,9 @@ public class Gbs extends ApplicationPanel {
       gbHelper.newRow();
     }
 
-    add(inputPanel, BorderLayout.CENTER);
+    add(inputPanel);
+
+    validate();
   }
 
   @Override
