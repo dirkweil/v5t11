@@ -6,7 +6,6 @@ import de.gedoplan.v5t11.leitstand.LeitstandMain;
 import de.gedoplan.v5t11.leitstand.entity.Leitstand;
 import de.gedoplan.v5t11.leitstand.gateway.ZentraleResourceClient;
 import de.gedoplan.v5t11.stellwerk.util.IconUtil;
-import de.gedoplan.v5t11.util.config.ConfigBase;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -159,9 +158,6 @@ public class StellwerkMain extends JFrame {
     System.setProperty("java.util.logging.manager", "org.apache.logging.log4j.jul.LogManager");
     log = LogFactory.getLog(LeitstandMain.class);
 
-    if (System.getProperty(ConfigBase.PROPERTY_ANLAGE) == null) {
-      System.setProperty(ConfigBase.PROPERTY_ANLAGE, "show");
-    }
     System.setProperty("UNITTEST", "false");
 
     try {

@@ -93,7 +93,7 @@ public class GbsGleisAbschnitt extends GbsElement {
     // Bezeichnung zeichnen, falls vorhanden
     if (this.label) {
       g2d.setColor(Color.BLACK);
-      int labelSize = VIRTUAL_SIZE / 3;
+      int labelSize = VIRTUAL_SIZE / 2;
       g2d.fillRect(VIRTUAL_SIZE / 2 - labelSize / 2, VIRTUAL_SIZE / 2 - labelSize / 2, labelSize, labelSize);
 
       drawString(g2d, Color.WHITE, VIRTUAL_FONTSIZE_GLEIS, this.name, VIRTUAL_SIZE / 2, VIRTUAL_SIZE / 2);
