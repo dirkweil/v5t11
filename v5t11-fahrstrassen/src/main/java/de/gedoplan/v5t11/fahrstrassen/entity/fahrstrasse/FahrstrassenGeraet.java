@@ -17,7 +17,7 @@ public abstract class FahrstrassenGeraet extends Fahrstrassenelement {
    * Elemente mit Schutzfunktion liegen nicht im eigentlichen Fahrweg, sondern schützen ihn nur vor Kollisionen.
    */
   @XmlAttribute
-  @Getter(onMethod = @__(@JsonbInclude(full = true)))
+  @Getter(onMethod_ = @JsonbInclude(full = true))
   protected boolean schutz = false;
 
   @Override

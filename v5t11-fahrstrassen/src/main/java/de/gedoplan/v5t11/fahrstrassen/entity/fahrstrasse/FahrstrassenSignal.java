@@ -21,7 +21,7 @@ public abstract class FahrstrassenSignal extends FahrstrassenGeraet implements C
   @Getter
   private Signal signal;
 
-  @Getter(onMethod = @__(@JsonbInclude(full = true)))
+  @Getter(onMethod_ = @JsonbInclude(full = true))
   @XmlAttribute
   private SignalStellung stellung;
 
