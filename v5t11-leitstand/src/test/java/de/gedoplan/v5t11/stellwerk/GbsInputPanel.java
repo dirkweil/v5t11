@@ -74,7 +74,7 @@ public class GbsInputPanel extends JPanel {
 
     this.gbs = gbs;
 
-    Dimension dim = new Dimension(200, 100);
+    Dimension dim = new Dimension(400, 200);
     setPreferredSize(dim);
     setMaximumSize(dim);
     setMinimumSize(dim);
