@@ -8,10 +8,14 @@ import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 import de.gedoplan.v5t11.util.webservice.ResponseFactory;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -45,13 +49,43 @@ public class FahrstrasseResource {
   }
 
   @GET
-  @Produces(MediaType.APPLICATION_JSON)
-  public Response getFahrstrassen(
+  @Produces(MediaType.APPLICATION_JSON + "; qs=1.0")
+  public Response getFahrstrassenAsJson(
       @QueryParam("startBereich") String startBereich,
       @QueryParam("startName") String startName,
       @QueryParam("endeBereich") String endeBereich,
       @QueryParam("endeName") String endeName,
       @QueryParam("filter") String filterAsString) {
+
+    List<Fahrstrasse> fahrstrassen = getFahrstrassen(startBereich, startName, endeBereich, endeName, filterAsString);
+    return fahrstrassen != null
+        ? ResponseFactory.createJsonResponse(fahrstrassen, JsonbWithIncludeVisibility.FULL)
+        : ResponseFactory.createNotFoundResponse();
+  }
+
+  @GET
+  @Produces(MediaType.TEXT_PLAIN + "; qs=0.7")
+  public List<String> getFahrstrassenIds(
+      @QueryParam("startBereich") String startBereich,
+      @QueryParam("startName") String startName,
+      @QueryParam("endeBereich") String endeBereich,
+      @QueryParam("endeName") String endeName,
+      @QueryParam("filter") String filterAsString) {
+
+    List<Fahrstrasse> fahrstrassen = getFahrstrassen(startBereich, startName, endeBereich, endeName, filterAsString);
+    if (fahrstrassen == null) {
+      throw new NotFoundException();
+    }
+
+    return fahrstrassen.stream().map(fs -> fs.getId().getBereich() + "/" + fs.getId().getName()).collect(Collectors.toList());
+  }
+
+  private List<Fahrstrasse> getFahrstrassen(
+      String startBereich,
+      String startName,
+      String endeBereich,
+      String endeName,
+      String filterAsString) {
 
     FahrstrassenFilter filter = filterAsString != null ? FahrstrassenFilter.valueOfLenient(filterAsString) : null;
 
@@ -67,7 +101,7 @@ public class FahrstrasseResource {
 
       start = this.parcours.getGleisabschnitt(startBereich, startName);
       if (start == null) {
-        return ResponseFactory.createNotFoundResponse();
+        return null;
       }
     }
 
@@ -79,11 +113,11 @@ public class FahrstrasseResource {
 
       ende = this.parcours.getGleisabschnitt(endeBereich, endeName);
       if (ende == null) {
-        return ResponseFactory.createNotFoundResponse();
+        return null;
       }
     }
 
-    return ResponseFactory.createJsonResponse(this.parcours.getFahrstrassen(start, ende, filter), JsonbWithIncludeVisibility.FULL);
+    return this.parcours.getFahrstrassen(start, ende, filter);
   }
 
   @PUT
