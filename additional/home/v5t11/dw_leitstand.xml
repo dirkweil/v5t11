@@ -14,7 +14,7 @@
     </Zeile>
     <Zeile>
       <Leer anzahl="2" />
-      <Weiche lage="O|NO,SW" name="30" />
+      <Weiche lage="NO|O,SW" name="30" />
       <Weiche lage="O|SO,W" name="28" />
       <Gleisabschnitt lage="O,W" name="2b" anzahl="3" />
       <Gleisabschnitt lage="O,W" name="2b" label="true" />
@@ -28,7 +28,7 @@
       <Leer />
       <Gleisabschnitt lage="NO,SW" name="202" />
       <Leer anzahl="2" />
-      <Weiche lage="O|SO,NW" name="26" />
+      <Weiche lage="SO|O,NW" name="26" />
       <Gleisabschnitt lage="O,W" name="3b" anzahl="3" />
       <Gleisabschnitt lage="O,W" name="3b" label="true" />
       <Gleisabschnitt lage="O,W" name="3b" anzahl="3" />
@@ -40,7 +40,7 @@
     <Zeile>
       <Gleisabschnitt lage="NO,S" name="202" />
       <Leer anzahl="4" />
-      <Weiche lage="O|SO,NW" name="24" />
+      <Weiche lage="SO|O,NW" name="24" />
       <Gleisabschnitt lage="O,W" name="4b" anzahl="3" />
       <Gleisabschnitt lage="O,W" name="4b" label="true" />
       <Gleisabschnitt lage="O,W" name="4b" anzahl="3" />
@@ -52,7 +52,7 @@
     <Zeile>
       <Gleisabschnitt lage="N,S" name="202" />
       <Leer anzahl="5" />
-      <Weiche lage="O|SO,NW" name="22" />
+      <Weiche lage="SO|O,NW" name="22" />
       <Gleisabschnitt lage="O,W" name="5b" anzahl="3" />
       <Gleisabschnitt lage="O,W" name="5b" label="true" />
       <Gleisabschnitt lage="O,W" name="5b" anzahl="3" />
@@ -64,7 +64,7 @@
     <Zeile>
       <Gleisabschnitt lage="N,S" name="202" />
       <Leer anzahl="6" />
-      <Weiche lage="O|SO,NW" name="20" />
+      <Weiche lage="SO|O,NW" name="20" />
       <Gleisabschnitt lage="O,W" name="6b" anzahl="3" />
       <Gleisabschnitt lage="O,W" name="6b" label="true" />
       <Gleisabschnitt lage="O,W" name="6b" anzahl="3" />
@@ -76,7 +76,7 @@
     <Zeile>
       <Gleisabschnitt lage="N,S" name="202" />
       <Leer anzahl="7" />
-      <Weiche lage="O|SO,NW" name="18" />
+      <Weiche lage="SO|O,NW" name="18" />
       <Gleisabschnitt lage="O,W" name="7b" anzahl="3" />
       <Gleisabschnitt lage="O,W" name="7b" label="true" />
       <Gleisabschnitt lage="O,W" name="7b" anzahl="3" />
