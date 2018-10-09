@@ -270,9 +270,9 @@ public class GbsInputPanel extends JPanel {
 
   private void showFahrstrasseZurDeaktivierung() {
     this.fahrstrassenPanel.removeAll();
-    this.fahrstrassenPanel.add(this.fahrstrassenLabel);
     this.fahrstrassenPanel.add(this.fahrstrassenFreigabeButton);
     this.fahrstrassenPanel.add(this.abbrechenButton);
+    this.fahrstrassenPanel.add(this.fahrstrassenLabel);
     validate();
 
     showFahrstrasse(false);
@@ -287,11 +287,11 @@ public class GbsInputPanel extends JPanel {
     }
 
     this.fahrstrassenPanel.removeAll();
-    this.fahrstrassenPanel.add(this.fahrstrassenLabel);
     this.fahrstrassenPanel.add(this.fahrstrassenNextButton);
     this.fahrstrassenPanel.add(this.fahrstrassenZugfahrtButton);
     this.fahrstrassenPanel.add(this.fahrstrassenRangierfahrtButton);
     this.fahrstrassenPanel.add(this.abbrechenButton);
+    this.fahrstrassenPanel.add(this.fahrstrassenLabel);
     validate();
 
     this.fahrstrassenNextButton.setEnabled(this.fahrstrassen.size() > 1);
