@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
@@ -143,6 +144,7 @@ public class Parcours {
   }
 
   private Map<Gleisabschnitt, SortedSet<Fahrstrasse>> mapStartToFahrstrassen = new HashMap<>();
+  // private SetMultimap<Gleisabschnitt, Fahrstrasse> mapStartToFahrstrassen = MultimapBuilder.hashKeys().treeSetValues().build();
 
   public SortedSet<Fahrstrasse> getFahrstrassenMitStart(Gleisabschnitt gleisabschnitt) {
     SortedSet<Fahrstrasse> fahrstrassen = this.mapStartToFahrstrassen.get(gleisabschnitt);
@@ -153,11 +155,11 @@ public class Parcours {
     }
   }
 
-  private void add2MapStartToFahrstrassen(Iterable<Fahrstrasse> fahrstrassen) {
-    fahrstrassen.forEach(f -> add2MapStartToFahrstrassen(f));
+  private void mapStartToFahrstrassenAdd(Iterable<Fahrstrasse> fahrstrassen) {
+    fahrstrassen.forEach(f -> mapStartToFahrstrassenAdd(f));
   }
 
-  private void add2MapStartToFahrstrassen(Fahrstrasse fahrstrasse) {
+  private void mapStartToFahrstrassenAdd(Fahrstrasse fahrstrasse) {
     Gleisabschnitt start = fahrstrasse.getStart().getFahrwegelement();
 
     SortedSet<Fahrstrasse> fahrstrassen = this.mapStartToFahrstrassen.get(start);
@@ -167,6 +169,22 @@ public class Parcours {
     }
 
     fahrstrassen.add(fahrstrasse);
+  }
+
+  private void mapStartToFahrstrassenRemove(Iterable<Fahrstrasse> fahrstrassen) {
+    fahrstrassen.forEach(f -> mapStartToFahrstrassenRemove(f));
+  }
+
+  private void mapStartToFahrstrassenRemove(Fahrstrasse fahrstrasse) {
+    Gleisabschnitt start = fahrstrasse.getStart().getFahrwegelement();
+
+    SortedSet<Fahrstrasse> fahrstrassen = this.mapStartToFahrstrassen.get(start);
+    if (fahrstrassen != null) {
+      fahrstrassen.remove(fahrstrasse);
+      if (fahrstrassen.isEmpty()) {
+        this.mapStartToFahrstrassen.remove(start);
+      }
+    }
   }
 
   /**
@@ -183,7 +201,7 @@ public class Parcours {
     this.fahrstrassen.addAll(umkehrFahrstrassen);
 
     // Fahrstrassen kombinieren
-    add2MapStartToFahrstrassen(this.fahrstrassen);
+    mapStartToFahrstrassenAdd(this.fahrstrassen);
 
     SortedSet<Fahrstrasse> zuPruefendeFahrstrassen = this.fahrstrassen;
     while (true) {
@@ -202,7 +220,7 @@ public class Parcours {
       }
 
       this.fahrstrassen.addAll(weitereFahrstrassen);
-      add2MapStartToFahrstrassen(weitereFahrstrassen);
+      mapStartToFahrstrassenAdd(weitereFahrstrassen);
 
       zuPruefendeFahrstrassen = weitereFahrstrassen;
     }
@@ -212,6 +230,13 @@ public class Parcours {
       f.removeDoppeleintraege();
       f.adjustLangsamfahrt();
     });
+
+    // Fahrstrassen entfernen, wenn sie mit einem Weichengleisabschnitt starten oder enden
+    Set<Fahrstrasse> ungueltigeFahrstrassen = this.fahrstrassen.stream()
+        .filter(fs -> fs.getStart().isWeichenGleisabschnitt() || fs.getEnde().isWeichenGleisabschnitt())
+        .collect(Collectors.toSet());
+    this.fahrstrassen.removeAll(ungueltigeFahrstrassen);
+    mapStartToFahrstrassenRemove(ungueltigeFahrstrassen);
   }
 
   /**
