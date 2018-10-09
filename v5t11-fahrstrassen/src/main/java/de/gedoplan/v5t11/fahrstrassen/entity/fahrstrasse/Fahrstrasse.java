@@ -50,6 +50,13 @@ public class Fahrstrasse extends Bereichselement {
   private boolean zaehlrichtung;
 
   /**
+   * Kann diese Fahrstrasse umgekehrt genutzt werden?
+   */
+  @XmlAttribute
+  @Getter
+  private boolean umkehrbar;
+
+  /**
    * Aus anderen Fahrstrassen kombiniert?
    */
   @Getter
@@ -146,7 +153,13 @@ public class Fahrstrasse extends Bereichselement {
     // Ranking berechnen
     this.rank = this.elemente.stream().mapToInt(e -> e.getRank()).sum();
 
-    // Fahrstrassen-Name aus enthaltenen Gleisabschnitten zusammenstellen
+    createName();
+  }
+
+  /*
+   * Fahrstrassen-Name aus enthaltenen Gleisabschnitten zusammenstellen.
+   */
+  private void createName() {
     setName(this.elemente
         .stream()
         .filter(e -> e instanceof FahrstrassenGleisabschnitt)
@@ -496,5 +509,30 @@ public class Fahrstrasse extends Bereichselement {
         return this.neu;
       }
     }
+  }
+
+  /**
+   * Umgekehrte Fahrstrasse erzeugen.
+   *
+   * Es wird eine Fahrstrasse mit umgekehrten Elementen in umgekehrter Reihung erzeugt.
+   * 
+   * @return umgekehrte Fahrstrasse
+   */
+  public Fahrstrasse createUmkehrung() {
+    Fahrstrasse fahrstrasse = new Fahrstrasse();
+
+    this.elemente.forEach(fse -> fahrstrasse.elemente.add(0, fse.createUmkehrung()));
+
+    fahrstrasse.rank = this.rank;
+
+    fahrstrasse.zaehlrichtung = !this.zaehlrichtung;
+
+    fahrstrasse.start = (FahrstrassenGleisabschnitt) fahrstrasse.elemente.get(0);
+    fahrstrasse.ende = (FahrstrassenGleisabschnitt) fahrstrasse.elemente.get(fahrstrasse.elemente.size() - 1);
+
+    fahrstrasse.setBereich(fahrstrasse.start.getBereich());
+    fahrstrasse.createName();
+
+    return fahrstrasse;
   }
 }

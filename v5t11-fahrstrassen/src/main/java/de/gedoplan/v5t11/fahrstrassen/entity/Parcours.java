@@ -177,6 +177,11 @@ public class Parcours {
    * - Doppeleinträge entfernen.
    */
   public void completeFahrstrassen() {
+    // Umkehrbare Fahrstrassen invers duplizieren
+    SortedSet<Fahrstrasse> umkehrFahrstrassen = new TreeSet<>();
+    this.fahrstrassen.stream().filter(Fahrstrasse::isUmkehrbar).forEach(fs -> umkehrFahrstrassen.add(fs.createUmkehrung()));
+    this.fahrstrassen.addAll(umkehrFahrstrassen);
+
     // Fahrstrassen kombinieren
     add2MapStartToFahrstrassen(this.fahrstrassen);
 

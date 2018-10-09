@@ -1,5 +1,6 @@
 package de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse;
 
+import de.gedoplan.baselibs.utils.exception.BugException;
 import de.gedoplan.v5t11.fahrstrassen.entity.Parcours;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.ReservierbaresFahrwegelement;
 import de.gedoplan.v5t11.util.domain.entity.Bereichselement;
@@ -13,7 +14,7 @@ import lombok.NoArgsConstructor;
 
 @XmlAccessorType(XmlAccessType.NONE)
 @NoArgsConstructor
-public abstract class Fahrstrassenelement extends Bereichselement {
+public abstract class Fahrstrassenelement extends Bereichselement implements Cloneable {
 
   @XmlAttribute
   protected Boolean zaehlrichtung;
@@ -117,4 +118,24 @@ public abstract class Fahrstrassenelement extends Bereichselement {
   public abstract void reservieren(Fahrstrasse fahrstrasse);
 
   public abstract String getTyp();
+
+  /**
+   * Umgekehrtes Element erzeugen.
+   *
+   * Es wird eine Kopie des Elemtes erzeugt und die gegenteilige Richtung eingetragen.
+   *
+   * @return umgekehrtes Element
+   */
+  public Fahrstrassenelement createUmkehrung() {
+
+    try {
+      Fahrstrassenelement fahrstrassenelement = (Fahrstrassenelement) this.clone();
+
+      fahrstrassenelement.zaehlrichtung = !fahrstrassenelement.isZaehlrichtung();
+
+      return fahrstrassenelement;
+    } catch (CloneNotSupportedException e) {
+      throw new BugException(e);
+    }
+  }
 }
