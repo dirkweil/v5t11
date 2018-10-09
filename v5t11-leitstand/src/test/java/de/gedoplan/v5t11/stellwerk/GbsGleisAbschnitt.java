@@ -1,6 +1,7 @@
 package de.gedoplan.v5t11.stellwerk;
 
 import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrasse;
+import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrassenelement;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkElement;
 import de.gedoplan.v5t11.stellwerk.util.GbsFarben;
@@ -59,8 +60,11 @@ public class GbsGleisAbschnitt extends GbsElement {
 
     // Falls relevant, Fahrstrasse zeichnen (dünner Strich in der Gleismitte)
     if (this.gleisabschnitt != null) {
+      Fahrstrassenelement fahrstrassenelementZuZeichnen = null;
       Fahrstrasse fahrstrasseZuZeichnen = this.fahrstrassenManager.getReservierteFahrstrasse(this.gleisabschnitt);
       if (fahrstrasseZuZeichnen != null) {
+        fahrstrassenelementZuZeichnen = fahrstrasseZuZeichnen.getElement(this.gleisabschnitt, true);
+
         switch (fahrstrasseZuZeichnen.getReservierungsTyp()) {
         case ZUGFAHRT:
           color = GbsFarben.GLEIS_IN_ZUGFAHRSTRASSE;
@@ -72,19 +76,20 @@ public class GbsGleisAbschnitt extends GbsElement {
 
         default:
         }
+
       } else {
+
         fahrstrasseZuZeichnen = this.inputPanel.getVorgeschlageneFahrstrasse();
-        if (fahrstrasseZuZeichnen != null && fahrstrasseZuZeichnen.getElement(this.gleisabschnitt, false) != null) {
-          color = GbsFarben.GLEIS_IN_VORGESCHLAGENER_FAHRSTRASSE;
-        } else {
-          fahrstrasseZuZeichnen = null;
+        if (fahrstrasseZuZeichnen != null) {
+          fahrstrassenelementZuZeichnen = fahrstrasseZuZeichnen.getElement(this.gleisabschnitt, false);
+          if (fahrstrassenelementZuZeichnen != null) {
+            color = GbsFarben.GLEIS_IN_VORGESCHLAGENER_FAHRSTRASSE;
+          }
         }
       }
 
-      if (fahrstrasseZuZeichnen != null) {
-        // TODO Zählrichtung
-        // boolean zaehlrichtung = this.gleisabschnitt.isZaehlrichtung();
-        boolean zaehlrichtung = false;
+      if (fahrstrassenelementZuZeichnen != null) {
+        boolean zaehlrichtung = fahrstrassenelementZuZeichnen.isZaehlrichtung();
         drawFahrstrassenSegment(g2d, color, this.segmentPos[0], !zaehlrichtung);
         drawFahrstrassenSegment(g2d, color, this.segmentPos[1], zaehlrichtung);
       }

@@ -1,6 +1,7 @@
 package de.gedoplan.v5t11.stellwerk;
 
 import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrasse;
+import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrassenelement;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkElement;
 import de.gedoplan.v5t11.stellwerk.util.GbsFarben;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
@@ -48,8 +49,11 @@ public class GbsDkw1 extends GbsWeicheMit1Antrieb {
 
     // Fahrstrasse drauf zeichen, wenn vorhanden
     if (this.weiche != null) {
+      Fahrstrassenelement fahrstrassenelementZuZeichnen = null;
       Fahrstrasse fahrstrasseZuZeichnen = this.fahrstrassenManager.getReservierteFahrstrasse(this.gleisabschnitt);
       if (fahrstrasseZuZeichnen != null) {
+        fahrstrassenelementZuZeichnen = fahrstrasseZuZeichnen.getElement(this.weiche, true);
+
         switch (fahrstrasseZuZeichnen.getReservierungsTyp()) {
         case ZUGFAHRT:
           color = GbsFarben.GLEIS_IN_ZUGFAHRSTRASSE;
@@ -62,17 +66,18 @@ public class GbsDkw1 extends GbsWeicheMit1Antrieb {
         default:
         }
       } else {
+
         fahrstrasseZuZeichnen = this.inputPanel.getVorgeschlageneFahrstrasse();
-        if (fahrstrasseZuZeichnen != null && fahrstrasseZuZeichnen.getElement(this.weiche, false) != null) {
-          color = GbsFarben.GLEIS_IN_VORGESCHLAGENER_FAHRSTRASSE;
-        } else {
-          fahrstrasseZuZeichnen = null;
+        if (fahrstrasseZuZeichnen != null) {
+          fahrstrassenelementZuZeichnen = fahrstrasseZuZeichnen.getElement(this.weiche, false);
+          if (fahrstrassenelementZuZeichnen != null) {
+            color = GbsFarben.GLEIS_IN_VORGESCHLAGENER_FAHRSTRASSE;
+          }
         }
       }
 
-      if (fahrstrasseZuZeichnen != null) {
-        WeichenStellung stellungFuerFahrstrasse = fahrstrasseZuZeichnen.getElement(this.weiche, false).getWeichenstellung();
-        gerade = stellungFuerFahrstrasse == WeichenStellung.GERADE;
+      if (fahrstrassenelementZuZeichnen != null) {
+        gerade = fahrstrasseZuZeichnen.getElement(this.weiche, false).getWeichenstellung() == WeichenStellung.GERADE;
 
         // TODO Zählrichtung
         drawFahrstrassenSegment(g2d, color, gerade ? this.ausfahrtPos1 : this.ausfahrtPos2, false);
