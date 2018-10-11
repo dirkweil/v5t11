@@ -43,6 +43,9 @@ public class SteuerungProducer {
     for (int i = 0; i <= 9; ++i) {
       adressen.add(i);
     }
+    for (int i = 40; i <= 51; ++i) {
+      adressen.add(i);
+    }
 
     this.selectrixGateway.start(
         System.getProperty("v5t11.portName", "none"),
