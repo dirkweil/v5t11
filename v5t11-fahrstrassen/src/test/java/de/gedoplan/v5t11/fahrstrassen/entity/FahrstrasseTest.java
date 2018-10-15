@@ -24,13 +24,16 @@ import org.skyscreamer.jsonassert.JSONAssert;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class FahrstrasseTest extends TestBase {
 
+  private static final String FS_BEREICH = "show";
+  private static final String FS_NAME = "11-W1-1-W3-S";
+
   @Inject
   Parcours parcours;
 
   @Test
   public void test_01_toShortJson() throws Exception {
 
-    Fahrstrasse fahrstrasse = this.parcours.getFahrstrasse("show", "11-1-S");
+    Fahrstrasse fahrstrasse = this.parcours.getFahrstrasse(FS_BEREICH, FS_NAME);
 
     String json = JsonbWithIncludeVisibility.SHORT.toJson(fahrstrasse);
 
@@ -38,7 +41,7 @@ public class FahrstrasseTest extends TestBase {
 
     assertThat(json, is("{"
         + "\"bereich\":\"show\""
-        + ",\"name\":\"11-1-S\""
+        + ",\"name\":\"11-W1-1-W3-S\""
         + ",\"reservierungsTyp\":\"" + fahrstrasse.getReservierungsTyp() + "\""
         + ",\"teilFreigabeAnzahl\":" + fahrstrasse.getTeilFreigabeAnzahl()
         + "}"));
@@ -47,7 +50,7 @@ public class FahrstrasseTest extends TestBase {
   @Test
   public void test_02_toFullJson() throws Exception {
 
-    Fahrstrasse fahrstrasse = this.parcours.getFahrstrasse("show", "11-1-S");
+    Fahrstrasse fahrstrasse = this.parcours.getFahrstrasse(FS_BEREICH, FS_NAME);
 
     String json = JsonbWithIncludeVisibility.FULL.toJson(fahrstrasse);
 
@@ -57,7 +60,7 @@ public class FahrstrasseTest extends TestBase {
         + "{"
         + "\"bereich\":\"show\""
         + ",\"elemente\":[{\"bereich\":\"show\",\"name\":\"11\",\"typ\":\"GLEIS\",\"zaehlrichtung\":true},{\"bereich\":\"show\",\"name\":\"1\",\"schutz\":false,\"stellung\":\"ABZWEIGEND\",\"typ\":\"WEICHE\",\"zaehlrichtung\":true},{\"bereich\":\"show\",\"name\":\"W1\",\"typ\":\"GLEIS\",\"zaehlrichtung\":true},{\"bereich\":\"show\",\"name\":\"2\",\"schutz\":true,\"stellung\":\"GERADE\",\"typ\":\"WEICHE\",\"zaehlrichtung\":true},{\"bereich\":\"show\",\"name\":\"1\",\"typ\":\"GLEIS\",\"zaehlrichtung\":true},{\"bereich\":\"show\",\"name\":\"N1\",\"schutz\":false,\"stellung\":\"LANGSAMFAHRT\",\"typ\":\"SIGNAL\",\"zaehlrichtung\":true},{\"bereich\":\"show\",\"name\":\"3\",\"schutz\":false,\"stellung\":\"ABZWEIGEND\",\"typ\":\"WEICHE\",\"zaehlrichtung\":true},{\"bereich\":\"show\",\"name\":\"W3\",\"typ\":\"GLEIS\",\"zaehlrichtung\":true},{\"bereich\":\"show\",\"name\":\"N2\",\"schutz\":true,\"stellung\":\"HALT\",\"typ\":\"SIGNAL\",\"zaehlrichtung\":true},{\"bereich\":\"show\",\"name\":\"S\",\"typ\":\"GLEIS\",\"zaehlrichtung\":true}]"
-        + ",\"name\":\"11-1-S\""
+        + ",\"name\":\"11-W1-1-W3-S\""
         + ",\"rank\":" + fahrstrasse.getRank()
         + ",\"reservierungsTyp\":\"" + fahrstrasse.getReservierungsTyp() + "\""
         + ",\"teilFreigabeAnzahl\":" + fahrstrasse.getTeilFreigabeAnzahl()
@@ -70,7 +73,7 @@ public class FahrstrasseTest extends TestBase {
   @Test
   public void test_03_reservieren() throws Exception {
 
-    Fahrstrasse fahrstrasse = this.parcours.getFahrstrasse("show", "11-1-S");
+    Fahrstrasse fahrstrasse = this.parcours.getFahrstrasse(FS_BEREICH, FS_NAME);
 
     assertThat("Fahrstrassenreservierung zu Beginn", fahrstrasse.getReservierungsTyp(), is(FahrstrassenReservierungsTyp.UNRESERVIERT));
 
@@ -105,7 +108,7 @@ public class FahrstrasseTest extends TestBase {
   @Test
   public void test_04_komplettFreigeben() throws Exception {
 
-    Fahrstrasse fahrstrasse = this.parcours.getFahrstrasse("show", "11-1-S");
+    Fahrstrasse fahrstrasse = this.parcours.getFahrstrasse(FS_BEREICH, FS_NAME);
 
     assertThat("Fahrstrassenreservierung zu Beginn", fahrstrasse.getReservierungsTyp(), is(FahrstrassenReservierungsTyp.UNRESERVIERT));
 
@@ -139,7 +142,7 @@ public class FahrstrasseTest extends TestBase {
   @Test
   public void test_05_teilFreigeben() throws Exception {
 
-    Fahrstrasse fahrstrasse = this.parcours.getFahrstrasse("show", "11-1-S");
+    Fahrstrasse fahrstrasse = this.parcours.getFahrstrasse(FS_BEREICH, FS_NAME);
 
     assertThat("Fahrstrassenreservierung zu Beginn", fahrstrasse.getReservierungsTyp(), is(FahrstrassenReservierungsTyp.UNRESERVIERT));
 
@@ -147,7 +150,7 @@ public class FahrstrasseTest extends TestBase {
       // Fahrstrasse reservieren
       fahrstrasse.reservieren(FahrstrassenReservierungsTyp.ZUGFAHRT);
 
-      Stream.of(this.parcours.getGleisabschnitt("show", "11"), this.parcours.getGleisabschnitt("show", "1"), this.parcours.getGleisabschnitt("show", "S"))
+      Stream.of(this.parcours.getGleisabschnitt(FS_BEREICH, "11"), this.parcours.getGleisabschnitt(FS_BEREICH, "1"), this.parcours.getGleisabschnitt(FS_BEREICH, "S"))
           .forEach(g -> {
             // Fahrstrasse teilweise freigeben (aktueller Gleisabschnitt ist erstes *nicht* freigegebenes Element)
             fahrstrasse.freigeben(g);
