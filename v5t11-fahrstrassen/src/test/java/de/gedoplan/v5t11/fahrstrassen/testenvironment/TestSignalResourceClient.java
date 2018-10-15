@@ -18,9 +18,9 @@ import javax.enterprise.inject.Specializes;
 public class TestSignalResourceClient extends SignalResourceClient {
 
   private static final Signal[] TEST_SIGNALE = {
-      createTestSignal("show", "F", "HauptsignalRtGnGe", SignalStellung.HALT, SignalStellung.FAHRT, SignalStellung.LANGSAMFAHRT),
-      createTestSignal("show", "N1", "HauptsignalRtGe", SignalStellung.HALT, SignalStellung.LANGSAMFAHRT),
-      createTestSignal("show", "N2", "HauptsignalRtGn", SignalStellung.HALT, SignalStellung.FAHRT)
+      createTestSignal("show", "F", SignalStellung.HALT),
+      createTestSignal("show", "N1", SignalStellung.HALT),
+      createTestSignal("show", "N2", SignalStellung.HALT)
   };
 
   @Override
@@ -28,16 +28,14 @@ public class TestSignalResourceClient extends SignalResourceClient {
     return Stream.of(TEST_SIGNALE).collect(Collectors.toSet());
   }
 
-  private static Signal createTestSignal(String bereich, String name, String typ, SignalStellung... stellung) {
+  private static Signal createTestSignal(String bereich, String name, SignalStellung stellung) {
     try {
       Signal signal = new Signal(bereich, name);
-      signal.setTyp(typ);
-      signal.setErlaubteStellungen(Stream.of(stellung).collect(Collectors.toSet()));
 
       // Signal.stellung ist private; daher per Reflection setzen
       Field besetztField = AbstractSignal.class.getDeclaredField("stellung");
       besetztField.setAccessible(true);
-      besetztField.set(signal, stellung[0]);
+      besetztField.set(signal, stellung);
       return signal;
     } catch (Exception e) {
       throw new RuntimeException("Cannot create test data", e);
