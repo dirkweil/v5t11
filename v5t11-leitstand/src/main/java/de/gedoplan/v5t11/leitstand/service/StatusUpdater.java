@@ -7,37 +7,50 @@ import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Signal;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Weiche;
+import de.gedoplan.v5t11.leitstand.gateway.GleisResourceClient;
+import de.gedoplan.v5t11.leitstand.gateway.JmsClient;
+import de.gedoplan.v5t11.leitstand.gateway.LokControllerResourceClient;
+import de.gedoplan.v5t11.leitstand.gateway.LokResourceClient;
+import de.gedoplan.v5t11.leitstand.gateway.SignalResourceClient;
+import de.gedoplan.v5t11.leitstand.gateway.WeicheResourceClient;
+import de.gedoplan.v5t11.util.cdi.Created;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
+import de.gedoplan.v5t11.util.jms.MessageCategory;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.Initialized;
-import javax.enterprise.event.Observes;
+import javax.enterprise.event.ObservesAsync;
 import javax.inject.Inject;
-import javax.jms.JMSContext;
+import javax.jms.JMSException;
 import javax.jms.Message;
-import javax.jms.Topic;
+import javax.naming.NamingException;
 
 import org.apache.commons.logging.Log;
 
 @ApplicationScoped
-public class StatusMessagePropagator {
-
-  private static enum Category {
-    FAHRSTRASSE, GLEIS, LOKCONTROLLER, SIGNAL, WEICHE, ZENTRALE
-  };
+public class StatusUpdater {
+  private static final long RETRY_MILLIS = 10000;
 
   @Inject
-  JMSContext jmsContext;
+  ConfigService configService;
 
   @Inject
-  Topic statusTopic;
+  GleisResourceClient gleisResourceClient;
 
   @Inject
-  Leitstand leitstand;
+  SignalResourceClient signalResourceClient;
+
+  @Inject
+  WeicheResourceClient weicheResourceClient;
+
+  @Inject
+  LokResourceClient lokResourceClient;
+
+  @Inject
+  LokControllerResourceClient lokControllerResourceClient;
+
+  @Inject
+  JmsClient jmsClient;
 
   @Inject
   FahrstrassenManager fahrstrassenManager;
@@ -48,25 +61,80 @@ public class StatusMessagePropagator {
   @Inject
   Log log;
 
-  protected void startListener(@Observes @Initialized(ApplicationScoped.class) Object obj) {
-    String selector = Stream.of(Category.values())
-        .map(Object::toString)
-        .collect(Collectors.joining("','", "category in ('", "')"));
+  private Leitstand leitstand;
 
-    if (this.log.isDebugEnabled()) {
-      this.log.debug("selector: " + selector);
+  protected void run(@ObservesAsync @Created Leitstand leitstand) {
+    this.leitstand = leitstand;
+
+    while (true) {
+      try {
+        initializeStatus();
+
+        propagateStatus();
+      } catch (Exception e) {
+        String msg = "Fehler beim Status-Update (Status/Fahrstrassen-Service down?)";
+        if (this.log.isTraceEnabled()) {
+          this.log.warn(msg, e);
+        } else {
+          this.log.warn(msg);
+        }
+      }
+
+      try {
+        Thread.sleep(RETRY_MILLIS);
+      } catch (InterruptedException ie) {}
     }
-
-    this.jmsContext
-        .createConsumer(this.statusTopic, selector)
-        .setMessageListener(this::propagateMessage);
   }
 
-  void propagateMessage(Message message) {
-    try {
+  /*
+   * Aktuelle Zustände von Gleisabschnitten holen
+   */
+  private void initializeStatus() {
+    if (this.log.isDebugEnabled()) {
+      this.log.debug("Status initialisieren");
+    }
+
+    this.gleisResourceClient.getGleisabschnitte().forEach(other -> {
+      Gleisabschnitt gleisabschnitt = this.leitstand.getGleisabschnitt(other.getBereich(), other.getName());
+      if (gleisabschnitt != null) {
+        gleisabschnitt.copyStatus(other);
+      }
+    });
+
+    this.signalResourceClient.getSignale().forEach(other -> {
+      Signal signal = this.leitstand.getSignal(other.getBereich(), other.getName());
+      if (signal != null) {
+        signal.copyStatus(other);
+      }
+    });
+
+    this.weicheResourceClient.getWeichen().forEach(other -> {
+      Weiche weiche = this.leitstand.getWeiche(other.getBereich(), other.getName());
+      if (weiche != null) {
+        weiche.copyStatus(other);
+      }
+    });
+
+    this.leitstand.getLoks().clear();
+    this.leitstand.getLoks().addAll(this.lokResourceClient.getLoks());
+
+    this.leitstand.getLokController().clear();
+    this.leitstand.getLokController().addAll(this.lokControllerResourceClient.getLokController());
+  }
+
+  /*
+   * JMS-Meldungen zu Gleisbelegungsänderungen verarbeiten
+   */
+  private void propagateStatus() throws NamingException, JMSException {
+    if (this.log.isDebugEnabled()) {
+      this.log.debug("Status-Änderungen überwachen");
+    }
+
+    while (true) {
+      Message message = this.jmsClient.receive();
       String text = message.getBody(String.class);
-      String category = message.getStringProperty("category");
-      switch (Category.valueOf(category)) {
+      MessageCategory category = MessageCategory.valueOf(message.getStringProperty("category"));
+      switch (category) {
       case FAHRSTRASSE:
         Fahrstrasse statusFahrstrasse = JsonbWithIncludeVisibility.SHORT.fromJson(text, Fahrstrasse.class);
         if (this.log.isDebugEnabled()) {
@@ -140,8 +208,7 @@ public class StatusMessagePropagator {
       default:
         this.log.warn("Status-Message mit unbekannter Category wird ignoriert: " + message);
       }
-    } catch (Exception e) {
-      this.log.error("Kann Meldung nicht verarbeiten: " + e);
     }
   }
+
 }
