@@ -26,7 +26,7 @@ public class Gleisabschnitt extends AbstractGleisabschnitt implements Reservierb
   }
 
   public synchronized void copyStatus(Gleisabschnitt other) {
-    this.besetzt = other.besetzt;
+    setBesetzt(other.isBesetzt());
   }
 
 }

@@ -67,9 +67,10 @@ public class Gleisabschnitt extends AbstractGleisabschnitt {
   }
 
   public void adjustStatus() {
-    boolean old = this.besetzt;
-    this.besetzt = (this.besetztmelder.getWert() & (1 << this.anschluss)) != 0;
-    if (old != this.besetzt) {
+    boolean alt = isBesetzt();
+    boolean neu = (this.besetztmelder.getWert() & (1 << this.anschluss)) != 0;
+    if (alt != neu) {
+      setBesetzt(neu);
       EventFirer.getInstance().fire(this);
     }
   }

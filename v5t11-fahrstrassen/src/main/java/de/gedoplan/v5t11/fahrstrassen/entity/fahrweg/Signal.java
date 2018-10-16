@@ -26,7 +26,7 @@ public class Signal extends AbstractSignal implements ReservierbaresFahrwegeleme
   }
 
   public synchronized void copyStatus(Signal other) {
-    this.stellung = other.stellung;
+    setStellung(other.getStellung());
   }
 
 }

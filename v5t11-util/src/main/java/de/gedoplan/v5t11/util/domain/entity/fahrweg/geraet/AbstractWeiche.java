@@ -34,7 +34,7 @@ public abstract class AbstractWeiche extends Geraet {
    */
   @Getter(onMethod_ = @JsonbInclude)
   @Setter(onMethod_ = @JsonbInclude)
-  protected WeichenStellung stellung = WeichenStellung.GERADE;
+  private WeichenStellung stellung = WeichenStellung.GERADE;
 
   protected AbstractWeiche(String bereich, String name) {
     super(bereich, name);

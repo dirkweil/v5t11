@@ -16,7 +16,7 @@ public class Weiche extends AbstractWeiche {
   }
 
   public synchronized void copyStatus(Weiche other) {
-    this.stellung = other.stellung;
+    setStellung(other.getStellung());
   }
 
 }

@@ -26,7 +26,7 @@ public class Weiche extends AbstractWeiche implements ReservierbaresFahrwegeleme
   }
 
   public synchronized void copyStatus(Weiche other) {
-    this.stellung = other.stellung;
+    setStellung(other.getStellung());
   }
 
 }

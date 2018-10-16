@@ -87,12 +87,12 @@ public abstract class Signal extends AbstractSignal implements FunktionsdecoderG
   }
 
   protected void setStellung(SignalStellung stellung, boolean updateInterface) {
-    if (this.stellung != stellung) {
+    if (getStellung() != stellung) {
       if (!this.stellung2wert.containsKey(stellung)) {
         throw new IllegalArgumentException("Ungueltige Signalstellung)");
       }
 
-      this.stellung = stellung;
+      super.setStellung(stellung);
 
       if (updateInterface) {
         long fdWert = this.funktionsdecoderZuordnung.getFunktionsdecoder().getWert();
