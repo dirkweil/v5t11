@@ -8,7 +8,7 @@
   </Appenders>
 
   <Loggers>
-    <Root level="info">
+    <Root level="ERROR">
       <AppenderRef ref="STDOUT" />
     </Root>
 
