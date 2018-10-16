@@ -2,8 +2,6 @@ package de.gedoplan.v5t11.fahrstrassen.service;
 
 import de.gedoplan.v5t11.fahrstrassen.entity.Parcours;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleisabschnitt;
-import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Signal;
-import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Weiche;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 
@@ -24,7 +22,7 @@ import org.apache.commons.logging.Log;
 public class StatusMessagePropagator {
 
   private static enum Category {
-    GLEIS, SIGNAL, WEICHE
+    GLEIS
   };
 
   @Inject
@@ -70,30 +68,6 @@ public class StatusMessagePropagator {
         if (gleisabschnitt != null) {
           gleisabschnitt.copyStatus(statusGleisabschnitt);
           this.eventFirer.fire(gleisabschnitt);
-        }
-        break;
-
-      case SIGNAL:
-        Signal statusSignal = JsonbWithIncludeVisibility.SHORT.fromJson(text, Signal.class);
-        if (this.log.isDebugEnabled()) {
-          this.log.debug(statusSignal + " -> " + statusSignal.getStellung());
-        }
-        Signal signal = this.parcours.getSignal(statusSignal.getBereich(), statusSignal.getName());
-        if (signal != null) {
-          signal.copyStatus(statusSignal);
-          this.eventFirer.fire(signal);
-        }
-        break;
-
-      case WEICHE:
-        Weiche statusWeiche = JsonbWithIncludeVisibility.SHORT.fromJson(text, Weiche.class);
-        if (this.log.isDebugEnabled()) {
-          this.log.debug(statusWeiche + " -> " + statusWeiche.getStellung());
-        }
-        Weiche weiche = this.parcours.getWeiche(statusWeiche.getBereich(), statusWeiche.getName());
-        if (weiche != null) {
-          weiche.copyStatus(statusWeiche);
-          this.eventFirer.fire(weiche);
         }
         break;
 
