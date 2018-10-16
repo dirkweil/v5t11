@@ -5,7 +5,7 @@
   <parent>
     <groupId>de.gedoplan</groupId>
     <artifactId>v5t11</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0-VT-6_Resilience-SNAPSHOT</version>
   </parent>
 
   <artifactId>v5t11-betriebssteuerung</artifactId>
@@ -42,13 +42,13 @@
     <dependency>
       <groupId>de.gedoplan</groupId>
       <artifactId>v5t11-selectrix-adapter-api</artifactId>
-      <version>1.0.0-SNAPSHOT</version>
+      <version>1.0.0-VT-6_Resilience-SNAPSHOT</version>
     </dependency>
 
     <dependency>
       <groupId>de.gedoplan</groupId>
       <artifactId>v5t11-betriebssteuerung-api</artifactId>
-      <version>1.0.0-SNAPSHOT</version>
+      <version>1.0.0-VT-6_Resilience-SNAPSHOT</version>
     </dependency>
 
     <dependency>
