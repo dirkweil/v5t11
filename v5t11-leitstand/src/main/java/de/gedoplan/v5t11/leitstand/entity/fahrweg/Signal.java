@@ -15,7 +15,7 @@ import lombok.Setter;
 
 @XmlAccessorType(XmlAccessType.NONE)
 @NoArgsConstructor
-public class Signal extends AbstractSignal {
+public class Signal extends AbstractSignal implements StatusUpdateable<Signal> {
 
   @Getter
   @Setter

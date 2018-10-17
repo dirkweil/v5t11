@@ -6,17 +6,22 @@ import de.gedoplan.v5t11.leitstand.entity.baustein.Zentrale;
 import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Signal;
+import de.gedoplan.v5t11.leitstand.entity.fahrweg.StatusUpdateable;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Weiche;
+import de.gedoplan.v5t11.leitstand.entity.lok.Lok;
 import de.gedoplan.v5t11.leitstand.gateway.GleisResourceClient;
 import de.gedoplan.v5t11.leitstand.gateway.JmsClient;
 import de.gedoplan.v5t11.leitstand.gateway.LokControllerResourceClient;
 import de.gedoplan.v5t11.leitstand.gateway.LokResourceClient;
 import de.gedoplan.v5t11.leitstand.gateway.SignalResourceClient;
 import de.gedoplan.v5t11.leitstand.gateway.WeicheResourceClient;
+import de.gedoplan.v5t11.leitstand.gateway.ZentraleResourceClient;
 import de.gedoplan.v5t11.util.cdi.Created;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.jms.MessageCategory;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
+
+import java.util.Set;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.ObservesAsync;
@@ -48,6 +53,9 @@ public class StatusUpdater {
 
   @Inject
   LokControllerResourceClient lokControllerResourceClient;
+
+  @Inject
+  ZentraleResourceClient zentraleResourceClient;
 
   @Inject
   JmsClient jmsClient;
@@ -94,32 +102,51 @@ public class StatusUpdater {
       this.log.debug("Status initialisieren");
     }
 
-    this.gleisResourceClient.getGleisabschnitte().forEach(other -> {
-      Gleisabschnitt gleisabschnitt = this.leitstand.getGleisabschnitt(other.getBereich(), other.getName());
+    this.gleisResourceClient.getGleisabschnitte().forEach(statusGleisabschnitt -> {
+      Gleisabschnitt gleisabschnitt = this.leitstand.getGleisabschnitt(statusGleisabschnitt.getBereich(), statusGleisabschnitt.getName());
       if (gleisabschnitt != null) {
-        gleisabschnitt.copyStatus(other);
+        updateStatus(gleisabschnitt, statusGleisabschnitt);
       }
     });
 
-    this.signalResourceClient.getSignale().forEach(other -> {
-      Signal signal = this.leitstand.getSignal(other.getBereich(), other.getName());
+    this.signalResourceClient.getSignale().forEach(statusSignal -> {
+      Signal signal = this.leitstand.getSignal(statusSignal.getBereich(), statusSignal.getName());
       if (signal != null) {
-        signal.copyStatus(other);
+        updateStatus(signal, statusSignal);
       }
     });
 
-    this.weicheResourceClient.getWeichen().forEach(other -> {
-      Weiche weiche = this.leitstand.getWeiche(other.getBereich(), other.getName());
+    this.weicheResourceClient.getWeichen().forEach(statusWeiche -> {
+      Weiche weiche = this.leitstand.getWeiche(statusWeiche.getBereich(), statusWeiche.getName());
       if (weiche != null) {
-        weiche.copyStatus(other);
+        updateStatus(weiche, statusWeiche);
       }
     });
 
-    this.leitstand.getLoks().clear();
-    this.leitstand.getLoks().addAll(this.lokResourceClient.getLoks());
+    Zentrale statusZentrale = this.zentraleResourceClient.getZentrale();
+    updateStatus(this.leitstand.getZentrale(), statusZentrale);
 
-    this.leitstand.getLokController().clear();
-    this.leitstand.getLokController().addAll(this.lokControllerResourceClient.getLokController());
+    Set<Lok> statusLoks = this.lokResourceClient.getLoks();
+    this.leitstand.getLoks().retainAll(statusLoks);
+    statusLoks.forEach(statusLok -> {
+      Lok lok = this.leitstand.getLok(statusLok.getId());
+      if (lok == null) {
+        this.leitstand.getLoks().add(statusLok);
+        lok = statusLok;
+      }
+      updateStatus(lok, statusLok);
+    });
+
+    Set<LokController> statusLokControllers = this.lokControllerResourceClient.getLokController();
+    this.leitstand.getLokController().retainAll(statusLokControllers);
+    statusLokControllers.forEach(statusLokController -> {
+      LokController lokController = this.leitstand.getLokController(statusLokController.getId());
+      if (lokController == null) {
+        this.leitstand.getLokController().add(statusLokController);
+        lokController = statusLokController;
+      }
+      updateStatus(lokController, statusLokController);
+    });
   }
 
   /*
@@ -137,78 +164,66 @@ public class StatusUpdater {
       switch (category) {
       case FAHRSTRASSE:
         Fahrstrasse statusFahrstrasse = JsonbWithIncludeVisibility.SHORT.fromJson(text, Fahrstrasse.class);
-        if (this.log.isDebugEnabled()) {
-          this.log.debug(statusFahrstrasse);
-        }
-
         Fahrstrasse fahrstrasse = this.fahrstrassenManager.updateFahrstrasse(statusFahrstrasse);
         if (fahrstrasse != null) {
+          if (this.log.isDebugEnabled()) {
+            this.log.debug(statusFahrstrasse);
+          }
           this.eventFirer.fire(fahrstrasse);
         }
         break;
 
       case GLEIS:
         Gleisabschnitt statusGleisabschnitt = JsonbWithIncludeVisibility.SHORT.fromJson(text, Gleisabschnitt.class);
-        if (this.log.isDebugEnabled()) {
-          this.log.debug(statusGleisabschnitt + " -> " + (statusGleisabschnitt.isBesetzt() ? "besetzt" : "frei"));
-        }
         Gleisabschnitt gleisabschnitt = this.leitstand.getGleisabschnitt(statusGleisabschnitt.getBereich(), statusGleisabschnitt.getName());
         if (gleisabschnitt != null) {
-          gleisabschnitt.copyStatus(statusGleisabschnitt);
-          this.eventFirer.fire(gleisabschnitt);
+          updateStatus(gleisabschnitt, statusGleisabschnitt);
         }
         break;
 
       case LOKCONTROLLER:
         LokController statusLokController = JsonbWithIncludeVisibility.SHORT.fromJson(text, LokController.class);
-        if (this.log.isDebugEnabled()) {
-          this.log.debug(statusLokController);
-        }
         LokController lokController = this.leitstand.getLokController(statusLokController.getId());
         if (lokController != null) {
-          lokController.copyStatus(statusLokController);
-          this.eventFirer.fire(lokController);
+          updateStatus(lokController, statusLokController);
         }
         break;
 
       case SIGNAL:
         Signal statusSignal = JsonbWithIncludeVisibility.SHORT.fromJson(text, Signal.class);
-        if (this.log.isDebugEnabled()) {
-          this.log.debug(statusSignal + " -> " + statusSignal.getStellung());
-        }
         Signal signal = this.leitstand.getSignal(statusSignal.getBereich(), statusSignal.getName());
         if (signal != null) {
-          signal.copyStatus(statusSignal);
-          this.eventFirer.fire(signal);
+          updateStatus(signal, statusSignal);
         }
         break;
 
       case WEICHE:
         Weiche statusWeiche = JsonbWithIncludeVisibility.SHORT.fromJson(text, Weiche.class);
-        if (this.log.isDebugEnabled()) {
-          this.log.debug(statusWeiche + " -> " + statusWeiche.getStellung());
-        }
         Weiche weiche = this.leitstand.getWeiche(statusWeiche.getBereich(), statusWeiche.getName());
         if (weiche != null) {
-          weiche.copyStatus(statusWeiche);
-          this.eventFirer.fire(weiche);
+          updateStatus(weiche, statusWeiche);
         }
         break;
 
       case ZENTRALE:
         Zentrale statusZentrale = JsonbWithIncludeVisibility.SHORT.fromJson(text, Zentrale.class);
-        if (this.log.isDebugEnabled()) {
-          this.log.debug(statusZentrale);
-        }
-
-        this.leitstand.getZentrale().copyStatus(statusZentrale);
-        this.eventFirer.fire(this.leitstand.getZentrale());
+        updateStatus(this.leitstand.getZentrale(), statusZentrale);
         break;
 
       default:
         this.log.warn("Status-Message mit unbekannter Category wird ignoriert: " + message);
       }
     }
+  }
+
+  private <T extends StatusUpdateable<T>> void updateStatus(T object, T statusObject) {
+    if (this.log.isDebugEnabled()) {
+      this.log.debug(statusObject);
+    }
+    if (object != statusObject) {
+      object.copyStatus(statusObject);
+    }
+    this.eventFirer.fire(object);
   }
 
 }

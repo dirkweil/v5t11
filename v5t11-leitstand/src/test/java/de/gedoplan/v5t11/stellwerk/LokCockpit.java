@@ -37,6 +37,7 @@ public class LokCockpit extends ApplicationPanel {
   private static final Color COLOR_UNSELECTED = Color.LIGHT_GRAY;
 
   private JTable table;
+  private MyTableModel tableModel;
 
   @Inject
   Leitstand leitstand;
@@ -52,9 +53,21 @@ public class LokCockpit extends ApplicationPanel {
 
     setLayout(new BorderLayout());
 
+    this.statusDispatcher.addListener(LokController.class, () -> {
+      if (this.tableModel != null) {
+        this.tableModel.setAssignButtonSelections();
+        this.tableModel.fireTableDataChanged();
+      }
+    });
+
+  }
+
+  @Override
+  public void start() {
     Set<Lok> loks = this.leitstand.getLoks();
     SortedSet<LokController> lokController = this.leitstand.getLokController();
-    this.table = new JTable(new MyTableModel(new ArrayList<>(loks), new ArrayList<>(lokController)));
+    this.tableModel = new MyTableModel(new ArrayList<>(loks), new ArrayList<>(lokController));
+    this.table = new JTable(this.tableModel);
     this.table.getColumnModel().getColumn(COL_ICON).setCellRenderer(new IconCellRenderer());
     ButtonCellRenderer buttonCellRenderer = new ButtonCellRenderer();
     for (int i = 0; i < lokController.size(); ++i) {
@@ -64,6 +77,16 @@ public class LokCockpit extends ApplicationPanel {
     this.table.setRowHeight(100);
     this.table.setRowSelectionAllowed(false);
     add(new JScrollPane(this.table));
+
+  }
+
+  @Override
+  public boolean stop() {
+    removeAll();
+    this.tableModel = null;
+    this.table = null;
+
+    return true;
   }
 
   @Override
@@ -113,12 +136,6 @@ public class LokCockpit extends ApplicationPanel {
 
       setAssignButtonSelections();
 
-      for (LokController lokController : lokcontrollerListe) {
-        LokCockpit.this.statusDispatcher.addListener(lokController, () -> {
-          setAssignButtonSelections();
-          fireTableDataChanged();
-        });
-      }
     }
 
     private void setAssignButtonSelections() {

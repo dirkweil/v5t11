@@ -20,25 +20,32 @@ public class StatusDispatcher {
     this.listener.get(observed).add(action);
   }
 
+  /*
+   * Bei Fahrstrassenänderungen werden (nur) die Actions zu darin enthaltenen Fahrwegelementen aufgerufen.
+   */
   void changed(@Observes Fahrstrasse fahrstrasse) {
     fahrstrasse
         .getElemente()
         .stream()
         .map(fse -> fse.getFahrwegelement())
-        .peek(System.out::println)
         .flatMap(fwe -> this.listener.get(fwe).stream())
         .forEach(x -> x.run());
   }
 
   void changed(@Observes Fahrwegelement fahrwegelement) {
-    this.listener.get(fahrwegelement).forEach(x -> x.run());
+    runActions(fahrwegelement);
   }
 
   void changed(@Observes LokController lokController) {
-    this.listener.get(lokController).forEach(x -> x.run());
+    runActions(lokController);
   }
 
   void changed(@Observes Zentrale zentrale) {
-    this.listener.get(zentrale).forEach(x -> x.run());
+    runActions(zentrale);
+  }
+
+  void runActions(Object observed) {
+    this.listener.get(observed).forEach(x -> x.run());
+    this.listener.get(observed.getClass()).forEach(x -> x.run());
   }
 }
