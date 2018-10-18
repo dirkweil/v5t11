@@ -9,14 +9,14 @@ import lombok.NoArgsConstructor;
 
 @XmlAccessorType(XmlAccessType.NONE)
 @NoArgsConstructor
-public class Weiche extends AbstractWeiche {
+public class Weiche extends AbstractWeiche implements StatusUpdateable<Weiche> {
 
   public Weiche(String bereich, String name) {
     super(bereich, name);
   }
 
   public synchronized void copyStatus(Weiche other) {
-    this.stellung = other.stellung;
+    setStellung(other.getStellung());
   }
 
 }

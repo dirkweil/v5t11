@@ -1,6 +1,7 @@
 package de.gedoplan.v5t11.fahrstrassen.entity.fahrweg;
 
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrasse;
+import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
 import de.gedoplan.v5t11.util.domain.entity.fahrweg.geraet.AbstractWeiche;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -25,8 +26,14 @@ public class Weiche extends AbstractWeiche implements ReservierbaresFahrwegeleme
     super(bereich, name);
   }
 
-  public synchronized void copyStatus(Weiche other) {
-    this.stellung = other.stellung;
+  @Override
+  public WeichenStellung getStellung() {
+    throw new UnsupportedOperationException("Stellung wird nicht mit v5t11-status synchroniert");
+  }
+
+  @Override
+  public void setStellung(WeichenStellung stellung) {
+    throw new UnsupportedOperationException("Stellung wird nicht mit v5t11-status synchroniert");
   }
 
 }

@@ -95,6 +95,21 @@ public class Leitstand {
   }
 
   /**
+   * Lok liefern.
+   *
+   * @param id
+   *          Id
+   * @return gefundene Lok oder <code>null</code>
+   */
+  public Lok getLok(String id) {
+    return this.loks
+        .stream()
+        .filter(lc -> lc.getId().equals(id))
+        .findFirst()
+        .orElse(null);
+  }
+
+  /**
    * Lok-Controller liefern.
    *
    * @param id

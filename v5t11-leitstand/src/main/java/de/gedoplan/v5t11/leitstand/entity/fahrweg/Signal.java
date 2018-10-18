@@ -15,7 +15,7 @@ import lombok.Setter;
 
 @XmlAccessorType(XmlAccessType.NONE)
 @NoArgsConstructor
-public class Signal extends AbstractSignal {
+public class Signal extends AbstractSignal implements StatusUpdateable<Signal> {
 
   @Getter
   @Setter
@@ -32,7 +32,7 @@ public class Signal extends AbstractSignal {
   }
 
   public synchronized void copyStatus(Signal other) {
-    this.stellung = other.stellung;
+    setStellung(other.getStellung());
     if (other.erlaubteStellungen != null) {
       this.erlaubteStellungen = other.erlaubteStellungen;
     }

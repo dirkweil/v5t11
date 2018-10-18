@@ -48,8 +48,8 @@ public class Weiche extends AbstractWeiche implements FunktionsdecoderGeraet {
   }
 
   protected void setStellung(WeichenStellung stellung, boolean updateInterface) {
-    if (this.stellung != stellung) {
-      this.stellung = stellung;
+    if (getStellung() != stellung) {
+      super.setStellung(stellung);
 
       if (updateInterface) {
         long fdWert = this.funktionsdecoderZuordnung.getFunktionsdecoder().getWert();

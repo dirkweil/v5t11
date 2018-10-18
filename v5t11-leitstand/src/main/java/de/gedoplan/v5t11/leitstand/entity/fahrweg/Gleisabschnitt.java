@@ -9,14 +9,14 @@ import lombok.NoArgsConstructor;
 
 @XmlAccessorType(XmlAccessType.NONE)
 @NoArgsConstructor
-public class Gleisabschnitt extends AbstractGleisabschnitt {
+public class Gleisabschnitt extends AbstractGleisabschnitt implements StatusUpdateable<Gleisabschnitt> {
 
   public Gleisabschnitt(String bereich, String name) {
     super(bereich, name);
   }
 
   public synchronized void copyStatus(Gleisabschnitt other) {
-    this.besetzt = other.besetzt;
+    setBesetzt(other.isBesetzt());
   }
 
 }

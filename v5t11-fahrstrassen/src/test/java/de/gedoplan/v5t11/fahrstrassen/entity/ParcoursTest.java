@@ -24,8 +24,8 @@ public class ParcoursTest extends TestBase {
   public void test_01_produce() {
     System.out.println(this.parcours);
     this.parcours.getGleisabschnitte().forEach(g -> System.out.printf("%s isBesetzt=%b\n", g, g.isBesetzt()));
-    this.parcours.getSignale().forEach(s -> System.out.printf("%s stellung=%s\n", s, s.getStellung()));
-    this.parcours.getWeichen().forEach(w -> System.out.printf("%s stellung=%s\n", w, w.getStellung()));
+    this.parcours.getSignale().forEach(System.out::println);
+    this.parcours.getWeichen().forEach(System.out::println);
   }
 
 }

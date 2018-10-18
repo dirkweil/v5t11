@@ -5,13 +5,9 @@ import de.gedoplan.v5t11.fahrstrassen.service.ConfigService;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
 import de.gedoplan.v5t11.util.webservice.ResourceClientBase;
 
-import java.util.Set;
-
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.MediaType;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -25,12 +21,12 @@ public class WeicheResourceClient extends ResourceClientBase {
     super(configService.getStatusRestUrl(), "weiche");
   }
 
-  public Set<Weiche> getWeichen() {
-    return this.baseTarget
-        .request()
-        .accept(MediaType.APPLICATION_JSON)
-        .get(new GenericType<Set<Weiche>>() {});
-  }
+  // public Set<Weiche> getWeichen() {
+  // return this.baseTarget
+  // .request()
+  // .accept(MediaType.APPLICATION_JSON)
+  // .get(new GenericType<Set<Weiche>>() {});
+  // }
 
   public void weicheStellen(Weiche weiche, WeichenStellung stellung) {
     this.baseTarget
