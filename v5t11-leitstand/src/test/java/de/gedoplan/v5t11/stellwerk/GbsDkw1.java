@@ -52,7 +52,7 @@ public class GbsDkw1 extends GbsWeicheMit1Antrieb {
       Fahrstrassenelement fahrstrassenelementZuZeichnen = null;
       Fahrstrasse fahrstrasseZuZeichnen = this.fahrstrassenManager.getReservierteFahrstrasse(this.gleisabschnitt);
       if (fahrstrasseZuZeichnen != null) {
-        fahrstrassenelementZuZeichnen = fahrstrasseZuZeichnen.getElement(this.weiche, true);
+        fahrstrassenelementZuZeichnen = fahrstrasseZuZeichnen.getElement(this.weiche, false);
 
         switch (fahrstrasseZuZeichnen.getReservierungsTyp()) {
         case ZUGFAHRT:

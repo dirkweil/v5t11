@@ -60,9 +60,9 @@ public class GbsEinfachWeiche extends GbsWeicheMit1Antrieb {
     // Fahrstrasse drauf zeichen, wenn vorhanden
     if (this.weiche != null) {
       Fahrstrassenelement fahrstrassenelementZuZeichnen = null;
-      Fahrstrasse fahrstrasseZuZeichnen = this.fahrstrassenManager.getReservierteFahrstrasse(this.weiche);
+      Fahrstrasse fahrstrasseZuZeichnen = this.fahrstrassenManager.getReservierteFahrstrasse(this.gleisabschnitt);
       if (fahrstrasseZuZeichnen != null) {
-        fahrstrassenelementZuZeichnen = fahrstrasseZuZeichnen.getElement(this.weiche, true);
+        fahrstrassenelementZuZeichnen = fahrstrasseZuZeichnen.getElement(this.weiche, false);
 
         switch (fahrstrasseZuZeichnen.getReservierungsTyp()) {
         case ZUGFAHRT:
@@ -90,7 +90,6 @@ public class GbsEinfachWeiche extends GbsWeicheMit1Antrieb {
       if (fahrstrassenelementZuZeichnen != null) {
         gerade = fahrstrassenelementZuZeichnen.getWeichenstellung() == WeichenStellung.GERADE;
 
-        // TODO Zählrichtung
         boolean rueckwaerts = fahrstrassenelementZuZeichnen.isZaehlrichtung() ^ this.stammIstEinfahrt;
         drawFahrstrassenSegment(g2d, color, gerade ? this.geradePos : this.abzweigendPos, !rueckwaerts);
         drawFahrstrassenSegment(g2d, color, this.stammPos, rueckwaerts);
