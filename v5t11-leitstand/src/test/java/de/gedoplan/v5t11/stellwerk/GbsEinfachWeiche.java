@@ -4,6 +4,7 @@ import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrassenelement;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkElement;
 import de.gedoplan.v5t11.stellwerk.util.GbsFarben;
+import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
 
 import java.awt.Color;
@@ -79,7 +80,7 @@ public class GbsEinfachWeiche extends GbsWeicheMit1Antrieb {
       } else {
 
         fahrstrasseZuZeichnen = this.inputPanel.getVorgeschlageneFahrstrasse();
-        if (fahrstrasseZuZeichnen != null) {
+        if (fahrstrasseZuZeichnen != null && fahrstrasseZuZeichnen.getReservierungsTyp() == FahrstrassenReservierungsTyp.UNRESERVIERT) {
           fahrstrassenelementZuZeichnen = fahrstrasseZuZeichnen.getElement(this.weiche, false);
           if (fahrstrassenelementZuZeichnen != null) {
             color = GbsFarben.GLEIS_IN_VORGESCHLAGENER_FAHRSTRASSE;

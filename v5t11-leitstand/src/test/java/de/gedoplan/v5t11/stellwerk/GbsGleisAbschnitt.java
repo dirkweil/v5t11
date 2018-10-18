@@ -5,6 +5,7 @@ import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrassenelement;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkElement;
 import de.gedoplan.v5t11.stellwerk.util.GbsFarben;
+import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -80,7 +81,7 @@ public class GbsGleisAbschnitt extends GbsElement {
       } else {
 
         fahrstrasseZuZeichnen = this.inputPanel.getVorgeschlageneFahrstrasse();
-        if (fahrstrasseZuZeichnen != null) {
+        if (fahrstrasseZuZeichnen != null && fahrstrasseZuZeichnen.getReservierungsTyp() == FahrstrassenReservierungsTyp.UNRESERVIERT) {
           fahrstrassenelementZuZeichnen = fahrstrasseZuZeichnen.getElement(this.gleisabschnitt, false);
           if (fahrstrassenelementZuZeichnen != null) {
             color = GbsFarben.GLEIS_IN_VORGESCHLAGENER_FAHRSTRASSE;
