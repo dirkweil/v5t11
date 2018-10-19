@@ -87,9 +87,9 @@ public class FahrstrasseMonitor {
 
     // Status aktualisieren
     gleisabschnittStatus.update(gleisabschnitt);
-    if (!gleisabschnittStatus.isDurchfahren()) {
-      return;
-    }
+    // if (!gleisabschnittStatus.isDurchfahren()) {
+    // return;
+    // }
 
     checkFreigabe(gleisabschnitt.getReserviertefahrstrasse());
   }
@@ -118,15 +118,20 @@ public class FahrstrasseMonitor {
     }
 
     /*
-     * Sind ab dort nur besetzte Gleisabschnitte, kann die Fahrstrasse komplett freigegeben werden
+     * Sind ab dort nur besetzte Gleisabschnitte (und keine Nicht-Schutz-Weichen oder -Signale), kann die Fahrstrasse komplett freigegeben werden
      */
     boolean totalFreigabe = true;
     while (i < elementAnzahl) {
       Fahrstrassenelement fe = fahrstrasse.getElemente().get(i);
       if (fe instanceof FahrstrassenGleisabschnitt) {
-        Gleisabschnitt g = ((FahrstrassenGleisabschnitt) fe).getFahrwegelement();
-
-        if (!g.isBesetzt()) {
+        // fe ist Gleisabschnitt; wenn der nicht besetzt ist, kann nicht komplett freigebeben werden
+        if (!((FahrstrassenGleisabschnitt) fe).getFahrwegelement().isBesetzt()) {
+          totalFreigabe = false;
+          break;
+        }
+      } else {
+        // fe ist ein Signal oder eine Weiche; wenn dies nicht nur ein Schutz-Element ist, kann nicht komplett freigebeben werden
+        if (!fe.isSchutz()) {
           totalFreigabe = false;
           break;
         }
