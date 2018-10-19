@@ -1,1 +1,0 @@
-Dieses Verzeichnis repräsentiert das Home-Verzeichnis des Benutzers
