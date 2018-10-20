@@ -118,14 +118,17 @@ public class FahrstrasseMonitor {
     }
 
     /*
-     * Sind ab dort nur besetzte Gleisabschnitte (und keine Nicht-Schutz-Weichen oder -Signale), kann die Fahrstrasse komplett freigegeben werden
+     * Sind ab dort nur besetzte normale (Nicht-Weichen-) Gleisabschnitte (und keine Nicht-Schutz-Weichen oder -Signale),
+     * kann die Fahrstrasse komplett freigegeben werden
      */
     boolean totalFreigabe = true;
     while (i < elementAnzahl) {
       Fahrstrassenelement fe = fahrstrasse.getElemente().get(i);
       if (fe instanceof FahrstrassenGleisabschnitt) {
-        // fe ist Gleisabschnitt; wenn der nicht besetzt ist, kann nicht komplett freigebeben werden
-        if (!((FahrstrassenGleisabschnitt) fe).getFahrwegelement().isBesetzt()) {
+        // fe ist Gleisabschnitt; wenn der ein Weichen-Gleisabschnitt ist oder nicht besetzt ist,
+        // kann nicht komplett freigebeben werden
+        Gleisabschnitt g = ((FahrstrassenGleisabschnitt) fe).getFahrwegelement();
+        if (g.isWeichenGleisabschnitt() || !g.isBesetzt()) {
           totalFreigabe = false;
           break;
         }
