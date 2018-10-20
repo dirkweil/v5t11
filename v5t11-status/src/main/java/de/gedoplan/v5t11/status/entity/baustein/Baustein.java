@@ -6,6 +6,7 @@ import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
 
 import javax.persistence.Id;
@@ -153,7 +154,7 @@ public abstract class Baustein extends SingleIdEntity<String> implements Compara
    */
   public void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
     if (this.id == null) {
-      throw new IllegalArgumentException("Id darf nicht null sein: " + this);
+      this.id = UUID.randomUUID().toString();
     }
 
     if (parent instanceof Steuerung) {

@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.swing.AbstractCellEditor;
@@ -97,12 +98,27 @@ public class LokCockpit extends ApplicationPanel {
   public void assignLokController(LokController lokController, Lok lok, boolean selected) {
     this.logger.debug("assignLokController: " + lokController + ", " + lok + ", " + selected);
 
-    this.lokControllerResourceClient.setLok(lokController.getId(), lok.getId());
+    this.lokControllerResourceClient.setLok(lokController.getId(), selected ? lok.getId() : null);
+  }
+
+  private static Icon getIcon(Lok lok) {
+    String name = lok.getId().replaceAll("\\s+", "_");
+    while (!name.isEmpty()) {
+      Icon icon = IconUtil.getIcon("images/loks/" + name + ".png", -1, 70);
+      if (icon != null) {
+        return icon;
+      }
+
+      name = name.substring(0, name.length() - 1);
+    }
+
+    return IconUtil.getIcon("images/loks/none.png", -1, 35);
   }
 
   private class MyTableModel extends AbstractTableModel {
 
     private List<Lok> lokListe;
+    private List<Icon> lokImageListe;
     private List<LokController> lokcontrollerListe;
 
     private int lokCount;
@@ -112,6 +128,7 @@ public class LokCockpit extends ApplicationPanel {
 
     public MyTableModel(List<Lok> lokListe, List<LokController> lokcontrollerListe) {
       this.lokListe = lokListe;
+      this.lokImageListe = lokListe.stream().map(LokCockpit::getIcon).collect(Collectors.toList());
       this.lokcontrollerListe = lokcontrollerListe;
 
       this.lokCount = lokListe.size();
@@ -167,16 +184,16 @@ public class LokCockpit extends ApplicationPanel {
 
     @Override
     public Object getValueAt(int row, int col) {
-      Lok lokDecoder = this.lokListe.get(row);
+      Lok lok = this.lokListe.get(row);
       switch (col) {
       case -1:
-        return lokDecoder;
+        return lok;
 
       case COL_ICON:
-        return IconUtil.getIcon("images/loks/" + lokDecoder.getBildFileName(), -1, 35);
+        return this.lokImageListe.get(row);
 
       case COL_ID:
-        return lokDecoder.getId();
+        return lok.getId();
 
       default:
         return this.assignButton[row][col - COL_FIRST_CONTROLLER];
