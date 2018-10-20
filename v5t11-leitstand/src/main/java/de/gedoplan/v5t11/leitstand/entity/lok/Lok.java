@@ -13,10 +13,6 @@ public class Lok extends SingleIdEntity<String> implements Comparable<Lok>, Stat
   @Setter(onMethod_ = @JsonbInclude)
   private String id;
 
-  public String getBildFileName() {
-    return this.id.replaceAll(" ", "_") + ".png";
-  }
-
   @Override
   public int compareTo(Lok o) {
     return this.id.compareTo(o.id);
