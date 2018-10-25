@@ -293,6 +293,11 @@
     <Gleisabschnitt name="17c" />
   </Fahrstrasse>
 
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="17c" />
+    <Gleisabschnitt name="17d" />
+  </Fahrstrasse>
+
   <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true">
     <Gleisabschnitt name="1b" />
     <Weiche name="30" stellung="GERADE"/>
@@ -431,7 +436,7 @@
   </Fahrstrasse>
 
   <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true">
-    <Gleisabschnitt name="17c" />
+    <Gleisabschnitt name="17d" />
     <Weiche name="32" stellung="ABZWEIGEND"/>
     <Gleisabschnitt name="W32" />
   </Fahrstrasse>

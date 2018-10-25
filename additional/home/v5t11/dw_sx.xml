@@ -41,26 +41,26 @@
 
     <!-- Check OK -->
     <SXBM1 id="BM-2014-1" adr="45" einbauOrt="Schattenbahnhof Gleis 4b (mit SX-KS-1)">
-      <!-- TODO --> <Gleisabschnitt idx="0" bereich="Schattenbahnhof" name="3b" /> 
+      <Gleisabschnitt idx="0" bereich="Schattenbahnhof" name="17b" /> 
       <Gleisabschnitt idx="1" bereich="Schattenbahnhof" name="18c" />
       <Gleisabschnitt idx="2" bereich="Schattenbahnhof" name="18b" />
       <Gleisabschnitt idx="3" bereich="Schattenbahnhof" name="18a" />
       <Gleisabschnitt idx="4" bereich="Schattenbahnhof" name="17a" />
-      <Gleisabschnitt idx="5" bereich="Schattenbahnhof" name="17b" />
-      <Gleisabschnitt idx="6" bereich="Schattenbahnhof" name="17c" />
+      <Gleisabschnitt idx="5" bereich="Schattenbahnhof" name="17c" />
+      <Gleisabschnitt idx="6" bereich="Schattenbahnhof" name="17d" />
       <Gleisabschnitt idx="7" bereich="Schattenbahnhof" name="109" />
     </SXBM1>
 
     <!-- Check OK -->
     <SXBM1 id="BM-2014-3" adr="46" einbauOrt="Schattenbahnhof Gleis 4a">
-      <!-- TODO --> <Gleisabschnitt idx="0" bereich="Schattenbahnhof" name="4b" /> 
-      <!-- TODO --> <Gleisabschnitt idx="1" bereich="Schattenbahnhof" name="5b" /> 
-      <!-- TODO --> <Gleisabschnitt idx="2" bereich="Schattenbahnhof" name="6b" /> 
-      <!-- TODO --> <Gleisabschnitt idx="3" bereich="Schattenbahnhof" name="7b" /> 
-      <!-- TODO --> <Gleisabschnitt idx="4" bereich="Schattenbahnhof" name="8b" /> 
-      <!-- TODO --> <Gleisabschnitt idx="5" bereich="Schattenbahnhof" name="9b" /> 
-      <!-- TODO --> <Gleisabschnitt idx="6" bereich="Schattenbahnhof" name="10b" /> 
-      <!-- TODO --> <Gleisabschnitt idx="7" bereich="Schattenbahnhof" name="11b" /> 
+      <!-- TODO --> <Gleisabschnitt idx="0" bereich="Schattenbahnhof" name="3b" /> 
+      <!-- TODO --> <Gleisabschnitt idx="1" bereich="Schattenbahnhof" name="4b" /> 
+      <!-- TODO --> <Gleisabschnitt idx="2" bereich="Schattenbahnhof" name="5b" /> 
+      <!-- TODO --> <Gleisabschnitt idx="3" bereich="Schattenbahnhof" name="6b" /> 
+      <!-- TODO --> <Gleisabschnitt idx="4" bereich="Schattenbahnhof" name="7b" /> 
+      <!-- TODO --> <Gleisabschnitt idx="5" bereich="Schattenbahnhof" name="8b" /> 
+      <!-- TODO --> <Gleisabschnitt idx="6" bereich="Schattenbahnhof" name="9b" /> 
+      <!-- TODO --> <Gleisabschnitt idx="7" bereich="Schattenbahnhof" name="10b" /> 
     </SXBM1>
 
     <!-- Check OK -->
@@ -68,35 +68,35 @@
       <Gleisabschnitt idx="0" bereich="Schattenbahnhof" name="2a" />
       <Gleisabschnitt idx="1" bereich="Schattenbahnhof" name="1a" /> 
       <!-- TODO --> <Gleisabschnitt idx="2" bereich="Schattenbahnhof" name="3a" /> 
-      <!-- TODO --> <Gleisabschnitt idx="3" bereich="Schattenbahnhof" name="12b" /> 
-      <!-- TODO --> <Gleisabschnitt idx="4" bereich="Schattenbahnhof" name="13b" /> 
-      <!-- TODO --> <Gleisabschnitt idx="5" bereich="Schattenbahnhof" name="14b" /> 
-      <!-- TODO --> <Gleisabschnitt idx="6" bereich="Schattenbahnhof" name="15b" /> 
-      <!-- TODO --> <Gleisabschnitt idx="7" bereich="Schattenbahnhof" name="16b" /> 
+      <!-- TODO --> <Gleisabschnitt idx="3" bereich="Schattenbahnhof" name="11b" /> 
+      <!-- TODO --> <Gleisabschnitt idx="4" bereich="Schattenbahnhof" name="12b" /> 
+      <!-- TODO --> <Gleisabschnitt idx="5" bereich="Schattenbahnhof" name="13b" /> 
+      <!-- TODO --> <Gleisabschnitt idx="6" bereich="Schattenbahnhof" name="14b" /> 
+      <!-- TODO --> <Gleisabschnitt idx="7" bereich="Schattenbahnhof" name="15b" /> 
     </SXBM1>
 
     <!-- Check OK -->
     <SXBM1 id="BM-2003-6" adr="48" einbauOrt="Schattenbahnhof Gleis 4a">
-      <!-- TODO --> <Gleisabschnitt idx="0" bereich="Schattenbahnhof" name="4a" /> 
-      <!-- TODO --> <Gleisabschnitt idx="1" bereich="Schattenbahnhof" name="5a" /> 
-      <!-- TODO --> <Gleisabschnitt idx="2" bereich="Schattenbahnhof" name="6a" /> 
-      <!-- TODO --> <Gleisabschnitt idx="3" bereich="Schattenbahnhof" name="7a" /> 
-      <!-- TODO --> <Gleisabschnitt idx="4" bereich="Schattenbahnhof" name="8a" /> 
-      <!-- TODO --> <Gleisabschnitt idx="5" bereich="Schattenbahnhof" name="9a" /> 
-      <!-- TODO --> <Gleisabschnitt idx="6" bereich="Schattenbahnhof" name="10a" /> 
-      <!-- TODO --> <Gleisabschnitt idx="7" bereich="Schattenbahnhof" name="11a" /> 
+      <!-- TODO --> <Gleisabschnitt idx="0" bereich="Schattenbahnhof" name="16b" /> 
+      <!-- TODO --> <Gleisabschnitt idx="1" bereich="Schattenbahnhof" name="4a" /> 
+      <!-- TODO --> <Gleisabschnitt idx="2" bereich="Schattenbahnhof" name="5a" /> 
+      <!-- TODO --> <Gleisabschnitt idx="3" bereich="Schattenbahnhof" name="6a" /> 
+      <!-- TODO --> <Gleisabschnitt idx="4" bereich="Schattenbahnhof" name="7a" /> 
+      <!-- TODO --> <Gleisabschnitt idx="5" bereich="Schattenbahnhof" name="8a" /> 
+      <!-- TODO --> <Gleisabschnitt idx="6" bereich="Schattenbahnhof" name="9a" /> 
+      <!-- TODO --> <Gleisabschnitt idx="7" bereich="Schattenbahnhof" name="10a" /> 
     </SXBM1>
 
     <!-- Check OK -->
     <SXBM1 id="BM-2003-4" adr="49" einbauOrt="Schattenbahnhof Gleis 4a"> 
-      <!-- TODO --> <Gleisabschnitt idx="0" bereich="Schattenbahnhof" name="12a" /> 
-      <!-- TODO --> <Gleisabschnitt idx="1" bereich="Schattenbahnhof" name="13a" /> 
-      <!-- TODO --> <Gleisabschnitt idx="2" bereich="Schattenbahnhof" name="14a" /> 
-      <!-- TODO --> <Gleisabschnitt idx="3" bereich="Schattenbahnhof" name="15a" /> 
-      <!-- TODO --> <Gleisabschnitt idx="4" bereich="Schattenbahnhof" name="16a" /> 
-      <!-- TODO --> <Gleisabschnitt idx="5" bereich="Schattenbahnhof" name="W13" />
-      <!-- TODO --> <Gleisabschnitt idx="6" bereich="Schattenbahnhof" name="W15" />
-      <!-- TODO --> <Gleisabschnitt idx="7" bereich="Schattenbahnhof" name="W17" />
+      <!-- TODO --> <Gleisabschnitt idx="0" bereich="Schattenbahnhof" name="11a" /> 
+      <!-- TODO --> <Gleisabschnitt idx="1" bereich="Schattenbahnhof" name="12a" /> 
+      <!-- TODO --> <Gleisabschnitt idx="2" bereich="Schattenbahnhof" name="13a" /> 
+      <!-- TODO --> <Gleisabschnitt idx="3" bereich="Schattenbahnhof" name="14a" /> 
+      <!-- TODO --> <Gleisabschnitt idx="4" bereich="Schattenbahnhof" name="15a" /> 
+      <!-- TODO --> <Gleisabschnitt idx="5" bereich="Schattenbahnhof" name="16a" /> 
+      <!-- TODO --> <Gleisabschnitt idx="6" bereich="Schattenbahnhof" name="W13" />
+      <!-- TODO --> <Gleisabschnitt idx="7" bereich="Schattenbahnhof" name="W15" />
     </SXBM1>
 
     <!-- Check OK -->
@@ -121,6 +121,10 @@
       <!-- TODO --> <Gleisabschnitt idx="5" bereich="Schattenbahnhof" name="W11" />
       <Gleisabschnitt idx="6" bereich="Schattenbahnhof" name="1001" />
       <Gleisabschnitt idx="7" bereich="Schattenbahnhof" name="W1" />
+    </SXBM1>
+
+    <SXBM1 id="BM-2003-7" adr="52" einbauOrt="Einfahrt Schattenbahnhof">
+      <!-- TODO --> <Gleisabschnitt idx="0" bereich="Schattenbahnhof" name="W17" />
     </SXBM1>
 
   </Besetztmelder>

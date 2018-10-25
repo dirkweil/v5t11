@@ -219,15 +219,18 @@
     <Zeile>
       <Gleisabschnitt lage="N,S" name="202" />
       <Weiche lage="NO|O,SW" name="32" />
+      <Gleisabschnitt lage="O,W" name="17d" anzahl="2" />
+      <Gleisabschnitt lage="O,W" name="17d" label="true" />
+      <Gleisabschnitt lage="O,W" name="17d" anzahl="2" />
       <Gleisabschnitt lage="O,W" name="17c" anzahl="3" />
       <Gleisabschnitt lage="O,W" name="17c" label="true" />
       <Gleisabschnitt lage="O,W" name="17c" anzahl="3" />
-      <Gleisabschnitt lage="O,W" name="17b" anzahl="3" />
+      <Gleisabschnitt lage="O,W" name="17b" anzahl="2" />
       <Gleisabschnitt lage="O,W" name="17b" label="true" />
-      <Gleisabschnitt lage="O,W" name="17b" anzahl="3" />
-      <Gleisabschnitt lage="O,W" name="17a" anzahl="3" />
+      <Gleisabschnitt lage="O,W" name="17b" anzahl="2" />
+      <Gleisabschnitt lage="O,W" name="17a" anzahl="2" />
       <Gleisabschnitt lage="O,W" name="17a" label="true" />
-      <Gleisabschnitt lage="O,W" name="17a" anzahl="3" />
+      <Gleisabschnitt lage="O,W" name="17a" anzahl="1" />
       <Gleisabschnitt lage="NO,W" name="17a" />
       <Leer anzahl="3" />
       <Gleisabschnitt lage="S,N" name="108" />

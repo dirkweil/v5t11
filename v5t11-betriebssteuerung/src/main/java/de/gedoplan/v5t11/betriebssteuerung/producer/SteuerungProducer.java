@@ -43,7 +43,7 @@ public class SteuerungProducer {
     for (int i = 0; i <= 9; ++i) {
       adressen.add(i);
     }
-    for (int i = 40; i <= 51; ++i) {
+    for (int i = 40; i <= 73; ++i) {
       adressen.add(i);
     }
 
