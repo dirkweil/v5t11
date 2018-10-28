@@ -131,29 +131,30 @@
   
   <Funktionsdecoder>
     <WDMiba id="FD-2003-1" adr="70" einbauOrt="Einfahrt Schattenbahnhof">
-      <!-- TODO --> <Weiche idx="1" bereich="Schattenbahnhof" name="2" />
-      <!-- TODO --> <Weiche idx="2" bereich="Schattenbahnhof" name="3" />
-      <!-- TODO --> <Weiche idx="3" bereich="Schattenbahnhof" name="4" />
-      <!-- TODO --> <Weiche idx="4" bereich="Schattenbahnhof" name="5" />
-      <!-- TODO --> <Weiche idx="5" bereich="Schattenbahnhof" name="6" />
-      <!-- TODO --> <Weiche idx="6" bereich="Schattenbahnhof" name="7" />
-      <!-- TODO --> <Weiche idx="7" bereich="Schattenbahnhof" name="8" />
+      <Weiche idx="0" bereich="Schattenbahnhof" name="15" />
+      <Weiche idx="1" bereich="Schattenbahnhof" name="17" />
+      <Weiche idx="2" bereich="Schattenbahnhof" name="13" />
+      <!-- TODO --> <Weiche idx="4" bereich="Schattenbahnhof" name="34" />
+      <Weiche idx="5" bereich="Schattenbahnhof" name="12" />
+      <Weiche idx="6" bereich="Schattenbahnhof" name="16" />
+      <Weiche idx="7" bereich="Schattenbahnhof" name="14" />
     </WDMiba>
 
     <WDMiba id="FD-2003-2" adr="71" einbauOrt="Einfahrt Schattenbahnhof">
-      <!-- TODO --> <Weiche idx="0" bereich="Schattenbahnhof" name="9" />
-      <!-- TODO --> <Weiche idx="1" bereich="Schattenbahnhof" name="10" />
-      <!-- TODO --> <Weiche idx="2" bereich="Schattenbahnhof" name="11" />
-      <!-- TODO --> <Weiche idx="3" bereich="Schattenbahnhof" name="12" />
-      <!-- TODO --> <Weiche idx="4" bereich="Schattenbahnhof" name="13" />
-      <!-- TODO --> <Weiche idx="5" bereich="Schattenbahnhof" name="14" />
-      <!-- TODO --> <Weiche idx="6" bereich="Schattenbahnhof" name="15" />
-      <!-- TODO --> <Weiche idx="7" bereich="Schattenbahnhof" name="16" />
+      <Weiche idx="0" bereich="Schattenbahnhof" name="7" />
+      <!-- Ausgang idx="1" scheint defekt (kaum Leistung) -->
+      <Weiche idx="2" bereich="Schattenbahnhof" name="9" />
+      <Weiche idx="3" bereich="Schattenbahnhof" name="11" />
+      <Weiche idx="4" bereich="Schattenbahnhof" name="10" />
+      <Weiche idx="5" bereich="Schattenbahnhof" name="8" />
+      <Weiche idx="6" bereich="Schattenbahnhof" name="3" />
     </WDMiba>
 
     <WDMiba id="FD-2003-3" adr="72" einbauOrt="Einfahrt Schattenbahnhof">
-      <!-- TODO --> <Weiche idx="0" bereich="Schattenbahnhof" name="17" />
-      <!-- TODO --> <Weiche idx="7" bereich="Schattenbahnhof" name="34" />
+      <Weiche idx="0" bereich="Schattenbahnhof" name="5" />
+      <Weiche idx="5" bereich="Schattenbahnhof" name="6" />
+      <Weiche idx="6" bereich="Schattenbahnhof" name="4" />
+      <Weiche idx="7" bereich="Schattenbahnhof" name="2" />
     </WDMiba>
 
     <NoFD>
