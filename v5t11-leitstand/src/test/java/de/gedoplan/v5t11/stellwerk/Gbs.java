@@ -7,6 +7,7 @@ import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkElement;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkZeile;
 import de.gedoplan.v5t11.stellwerk.util.GridBagHelper;
 
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 
@@ -27,9 +28,11 @@ public class Gbs extends ApplicationPanel {
     setLayout(new FlowLayout());
 
     JPanel gbsPanel = new JPanel();
+    gbsPanel.setBackground(Color.orange);
     add(gbsPanel);
 
     GbsInputPanel inputPanel = new GbsInputPanel(bereich, this);
+    inputPanel.setBackground(Color.green);
 
     GridBagHelper gbHelper = new GridBagHelper(gbsPanel);
 

@@ -69,7 +69,11 @@ public class StellwerkMain extends JFrame {
     Insets screenInsets = defaultToolkit.getScreenInsets(config);
     int width = screenSize.width - screenInsets.left - screenInsets.right;
     int height = screenSize.height - screenInsets.top - screenInsets.bottom;
+    width = 1600;
+    height = 900;
     setSize(width, height);
+
+    GbsElement.setDimensions(width, height);
 
     addWindowListener(new WindowAdapter() {
       @Override

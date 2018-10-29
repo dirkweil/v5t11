@@ -45,6 +45,14 @@ import org.apache.commons.logging.LogFactory;
  * @author dw
  */
 public abstract class GbsElement extends JPanel {
+  /*
+   * Tatsächliche Größe des GBS-Elements;
+   */
+  private static int width;
+  private static int height;
+
+  private static double WIDTH_HEIGHT_RATIO = 5.0 / 4.0;
+
   /**
    * Virtuelle Größe eines GBS-Elements (Breite und Höhe).
    */
@@ -101,11 +109,6 @@ public abstract class GbsElement extends JPanel {
    */
   public static final int VIRTUAL_FONTSIZE_WEICHE = VIRTUAL_SIZE / 5;
 
-  /**
-   * Maximale Größe des Elements (Breite = Höhe).
-   */
-  private static int maxSize = 45;
-
   protected String bereich;
   protected String name;
 
@@ -137,7 +140,7 @@ public abstract class GbsElement extends JPanel {
     setBackground(Color.lightGray.brighter());
     setBorder(BorderFactory.createLineBorder(Color.gray, 1));
 
-    Dimension dim = new Dimension(maxSize, maxSize);
+    Dimension dim = new Dimension(width, height);
     setPreferredSize(dim);
     setMaximumSize(dim);
     // REVIEW: Das sollte nicht nötig sein
@@ -175,26 +178,16 @@ public abstract class GbsElement extends JPanel {
     });
   }
 
-  /**
-   * Wert setzen: {@link #maxSize}.
-   *
-   * @param maxSize
-   *          Wert
-   */
-  public static void setMaxSize(int maxSize) {
-    GbsElement.maxSize = maxSize;
-  }
-
-  @Override
-  public void setBounds(int x, int y, int width, int height) {
-    if (width > height) {
-      width = height;
-    }
-    if (height > width) {
-      height = width;
-    }
-    super.setBounds(x, y, width, height);
-  }
+  // @Override
+  // public void setBounds(int x, int y, int width, int height) {
+  // if (width > height) {
+  // width = height;
+  // }
+  // if (height > width) {
+  // height = width;
+  // }
+  // super.setBounds(x, y, width, height);
+  // }
 
   @Override
   public void setBounds(Rectangle r) {
@@ -525,6 +518,21 @@ public abstract class GbsElement extends JPanel {
       break;
     }
     return FARBEN_NULL;
+  }
+
+  public static void setDimensions(int screenWidth, int screenHeight) {
+    width = screenWidth / 38;
+    height = screenHeight / 27;
+
+    int w = (int) (height * WIDTH_HEIGHT_RATIO);
+    if (width > w) {
+      width = w;
+    }
+
+    int h = (int) (width / WIDTH_HEIGHT_RATIO);
+    if (height > h) {
+      height = h;
+    }
   }
 
 }
