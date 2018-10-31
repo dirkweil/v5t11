@@ -30,11 +30,15 @@ public class FahrstrassenManager {
 
   @PostConstruct
   void postConstruct() {
-    this.fahrstrasseResourceClient.getFahrstrassen(
-        null, null,
-        null, null,
-        FahrstrassenFilter.RESERVIERT)
-        .forEach(fs -> this.aktiveFahrstrassen.put(fs.getBereich(), fs.getName(), fs));
+    try {
+      this.fahrstrasseResourceClient.getFahrstrassen(
+          null, null,
+          null, null,
+          FahrstrassenFilter.RESERVIERT)
+          .forEach(fs -> this.aktiveFahrstrassen.put(fs.getBereich(), fs.getName(), fs));
+    } catch (Exception e) {
+      this.log.warn("Kann aktive Fahrstrassen nicht ermitteln", e);
+    }
   }
 
   public Fahrstrasse updateFahrstrasse(Fahrstrasse statusFahrstrasse) {
