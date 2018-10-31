@@ -150,26 +150,28 @@ public class GbsInputPanel extends JPanel {
 
       ButtonGroup buttonGroup = new ButtonGroup();
 
-      for (final SignalStellung stellung : signal.getErlaubteStellungen()) {
-        final JRadioButton rb = new JRadioButton();
-        rb.setIcon(getUnselectedIcon(stellung));
-        rb.setSelectedIcon(getSelectedIcon(stellung));
-        buttonGroup.add(rb);
+      for (SignalStellung stellung : SignalStellung.values()) {
+        if (signal.getErlaubteStellungen() == null || signal.getErlaubteStellungen().isEmpty() || signal.getErlaubteStellungen().contains(stellung)) {
+          final JRadioButton rb = new JRadioButton();
+          rb.setIcon(getUnselectedIcon(stellung));
+          rb.setSelectedIcon(getSelectedIcon(stellung));
+          buttonGroup.add(rb);
 
-        rb.setSelected(stellung.equals(signal.getStellung()));
+          rb.setSelected(stellung.equals(signal.getStellung()));
 
-        rb.addItemListener(new ItemListener() {
-          @Override
-          public void itemStateChanged(ItemEvent e) {
-            if (rb.isSelected()) {
-              GbsInputPanel.this.signalResourceClient.signalStellen(signal, stellung);
-              StellwerkMain.setStatusLineText(null);
+          rb.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+              if (rb.isSelected()) {
+                GbsInputPanel.this.signalResourceClient.signalStellen(signal, stellung);
+                StellwerkMain.setStatusLineText(null);
+              }
+
             }
+          });
 
-          }
-        });
-
-        this.geraetePanel.add(rb);
+          this.geraetePanel.add(rb);
+        }
       }
 
       validate();
