@@ -80,9 +80,11 @@ public class GbsInputPanel extends JPanel {
     setMinimumSize(dim);
 
     GridBagHelper gbHelper = new GridBagHelper(this);
-    gbHelper.add(this.fahrstrassenPanel, 1, 1, 0, 1, GridBagConstraints.NONE, GridBagConstraints.CENTER);
+    gbHelper.add(this.fahrstrassenLabel, 1, 1, 0, 1, GridBagConstraints.BOTH, GridBagConstraints.WEST);
     gbHelper.newRow();
-    gbHelper.add(this.geraetePanel, 1, 1, 0, 1, GridBagConstraints.NONE, GridBagConstraints.CENTER);
+    gbHelper.add(this.fahrstrassenPanel, 1, 1, 0, 1, GridBagConstraints.NONE, GridBagConstraints.WEST);
+    gbHelper.newRow();
+    gbHelper.add(this.geraetePanel, 1, 1, 0, 1, GridBagConstraints.NONE, GridBagConstraints.WEST);
 
     this.fahrstrassenNextButton.addActionListener(new ActionListener() {
       @Override
@@ -129,6 +131,7 @@ public class GbsInputPanel extends JPanel {
 
     this.fahrstrassen = null;
 
+    this.fahrstrassenLabel.setText(null);
     this.fahrstrassenPanel.removeAll();
     this.geraetePanel.removeAll();
 
@@ -272,7 +275,6 @@ public class GbsInputPanel extends JPanel {
     this.fahrstrassenPanel.removeAll();
     this.fahrstrassenPanel.add(this.fahrstrassenFreigabeButton);
     this.fahrstrassenPanel.add(this.abbrechenButton);
-    this.fahrstrassenPanel.add(this.fahrstrassenLabel);
     validate();
 
     showFahrstrasse(false);
@@ -291,7 +293,6 @@ public class GbsInputPanel extends JPanel {
     this.fahrstrassenPanel.add(this.fahrstrassenZugfahrtButton);
     this.fahrstrassenPanel.add(this.fahrstrassenRangierfahrtButton);
     this.fahrstrassenPanel.add(this.abbrechenButton);
-    this.fahrstrassenPanel.add(this.fahrstrassenLabel);
     validate();
 
     this.fahrstrassenNextButton.setEnabled(this.fahrstrassen.size() > 1);
