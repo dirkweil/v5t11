@@ -100,11 +100,14 @@
     </SXBM1>
 
     <SXBM1 id="BM-2003-7" adr="52" einbauOrt="Schattenbahnhof Gleis 4a">
-      <!-- TODO --> <Gleisabschnitt idx="0" bereich="Schattenbahnhof" name="W17" />
+      <Gleisabschnitt idx="0" bereich="Strecke10xx" name="1006" />
+      <Gleisabschnitt idx="1" bereich="Strecke10xx" name="1004" />
+      <Gleisabschnitt idx="2" bereich="Strecke10xx" name="W1005" />
+      <!-- TODO --> <Gleisabschnitt idx="7" bereich="Schattenbahnhof" name="W17" />
     </SXBM1>
 
     <!-- Check OK -->
-    <SXBM1 id="BM-2003-8" adr="50" einbauOrt="Einfahrt Schattenbahnhof"> <!-- TODO Adresse -->
+    <SXBM1 id="BM-2003-8" adr="50" einbauOrt="Einfahrt Schattenbahnhof">
       <Gleisabschnitt idx="0" bereich="Schattenbahnhof" name="W6" />
       <Gleisabschnitt idx="1" bereich="Schattenbahnhof" name="W8" />
       <Gleisabschnitt idx="2" bereich="Schattenbahnhof" name="W16" />
@@ -123,7 +126,7 @@
       <Gleisabschnitt idx="3" bereich="Schattenbahnhof" name="W12" />
       <!-- TODO --> <Gleisabschnitt idx="4" bereich="Schattenbahnhof" name="W9" />
       <!-- TODO --> <Gleisabschnitt idx="5" bereich="Schattenbahnhof" name="W11" />
-      <Gleisabschnitt idx="6" bereich="Schattenbahnhof" name="1001" />
+      <Gleisabschnitt idx="6" bereich="Strecke10xx" name="1007" />
       <Gleisabschnitt idx="7" bereich="Schattenbahnhof" name="W1" />
     </SXBM1>
 

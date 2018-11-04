@@ -1,11 +1,51 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Parcours>
-  <!-- Fahrstrassen in Zählrichtung -->
-  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
+  <!-- Fahrstrassen im Bereich Strecke10xx -->
+  <Fahrstrasse bereich="Strecke10xx" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="1001" />
-    <Gleisabschnitt name="W1" />
+    <Weiche name="1003" stellung="GERADE" />
+    <Gleisabschnitt name="W1003"/>
   </Fahrstrasse>
 
+  <Fahrstrasse bereich="Strecke10xx" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="1002" />
+    <Weiche name="1003" stellung="ABZWEIGEND" />
+    <Gleisabschnitt name="W1003"/>
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Strecke10xx" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="W1003"/>
+    <Gleisabschnitt name="1004" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Strecke10xx" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="1004" />
+    <Weiche name="1004" stellung="ABZWEIGEND" />
+    <Gleisabschnitt name="W1004"/>
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Strecke10xx" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="W1004"/>
+    <Gleisabschnitt name="1005" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Strecke10xx" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="1005"/>
+    <Gleisabschnitt name="1006" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Strecke10xx" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="1006"/>
+    <Gleisabschnitt name="1007" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Strecke10xx" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="1007" />
+    <Gleisabschnitt name="W1" bereich="Schattenbahnhof"/>
+  </Fahrstrasse>
+
+  <!-- Fahrstrassen im Bereich Schattenbahnhof -->
+  <!-- Fahrstrassen in Zählrichtung -->
   <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="W1" />
     <Weiche name="1" stellung="GERADE" />

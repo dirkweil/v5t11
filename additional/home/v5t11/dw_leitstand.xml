@@ -261,12 +261,12 @@
       <Gleisabschnitt lage="W,O" name="18c" label="true"/>
       <Gleisabschnitt lage="W,NO" name="18c"/>
       <Leer anzahl="23"/>
-      <Gleisabschnitt lage="S,N" name="1001" />
+      <Gleisabschnitt lage="S,N" name="1007" bereich="Strecke10xx" />
     </Zeile>
     <Zeile>
       <Gleisabschnitt lage="N,S" name="2001" label="true"/>
       <Leer anzahl="26"/>
-      <Gleisabschnitt lage="S,N" name="1001" label="true"/>
+      <Gleisabschnitt lage="S,N" name="1007" bereich="Strecke10xx" label="true"/>
     </Zeile>
   </Stellwerk>
 </Leitstand>
