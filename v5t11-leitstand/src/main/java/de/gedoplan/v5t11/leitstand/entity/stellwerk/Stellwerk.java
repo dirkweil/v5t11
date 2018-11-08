@@ -28,7 +28,7 @@ public class Stellwerk implements Serializable, Comparable<Stellwerk> {
    *
    * Dient auch als ID.
    */
-  @XmlAttribute
+  @XmlAttribute(required = true)
   @Getter
   private String bereich;
 
@@ -63,6 +63,8 @@ public class Stellwerk implements Serializable, Comparable<Stellwerk> {
 
     Leitstand leitstand = (Leitstand) parent;
 
+    leitstand.getBereiche().add(this.bereich);
+
     /*
      * Bereich in Elementen ergänzen, wenn nötig.
      * Zudem Spaltenanzahl feststellen.
@@ -74,8 +76,6 @@ public class Stellwerk implements Serializable, Comparable<Stellwerk> {
         if (element.getBereich() == null) {
           element.setBereich(this.bereich);
         }
-
-        leitstand.getBereiche().add(element.getBereich());
 
         anzahlSpaltenInZeile += element.anzahl;
       }

@@ -107,7 +107,7 @@ public class FahrstrasseResource {
 
     Gleisabschnitt ende = null;
     if (endeBereich != null || endeName != null) {
-      if (endeName != null) {
+      if (endeBereich == null) {
         endeBereich = startBereich;
       }
 

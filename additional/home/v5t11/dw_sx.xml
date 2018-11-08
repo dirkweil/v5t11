@@ -155,6 +155,8 @@
 
     <WDMiba id="FD-2003-3" adr="72" einbauOrt="Einfahrt Schattenbahnhof">
       <Weiche idx="0" bereich="Schattenbahnhof" name="5" />
+      <!-- TODO --><Weiche idx="4" bereich="Strecke10xx" name="1005" />
+      <Weiche idx="5" bereich="Schattenbahnhof" name="6" />
       <Weiche idx="5" bereich="Schattenbahnhof" name="6" />
       <Weiche idx="6" bereich="Schattenbahnhof" name="4" />
       <Weiche idx="7" bereich="Schattenbahnhof" name="2" />
@@ -178,6 +180,7 @@
       <Weiche bereich="Schattenbahnhof" name="31" />
       <Weiche bereich="Schattenbahnhof" name="32" />
       <Weiche bereich="Schattenbahnhof" name="33" />
+      <Weiche bereich="Strecke10xx" name="1003" />
     </NoFD>
     
   </Funktionsdecoder>

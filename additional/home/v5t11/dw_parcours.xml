@@ -20,17 +20,12 @@
 
   <Fahrstrasse bereich="Strecke10xx" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="1004" />
-    <Weiche name="1004" stellung="ABZWEIGEND" />
-    <Gleisabschnitt name="W1004"/>
+    <Weiche name="1005" stellung="ABZWEIGEND" />
+    <Gleisabschnitt name="W1005"/>
   </Fahrstrasse>
 
   <Fahrstrasse bereich="Strecke10xx" zaehlrichtung="true" umkehrbar="true">
-    <Gleisabschnitt name="W1004"/>
-    <Gleisabschnitt name="1005" />
-  </Fahrstrasse>
-
-  <Fahrstrasse bereich="Strecke10xx" zaehlrichtung="true" umkehrbar="true">
-    <Gleisabschnitt name="1005"/>
+    <Gleisabschnitt name="W1005"/>
     <Gleisabschnitt name="1006" />
   </Fahrstrasse>
 

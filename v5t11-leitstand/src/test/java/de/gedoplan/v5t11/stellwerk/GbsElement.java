@@ -97,7 +97,7 @@ public abstract class GbsElement extends JPanel {
   /**
    * Fontgröße der Gleisnummern.
    */
-  public static final int VIRTUAL_FONTSIZE_GLEIS = VIRTUAL_SIZE / 5;
+  public static final int VIRTUAL_FONTSIZE_GLEIS = VIRTUAL_SIZE / 4;
 
   /**
    * Fontgröße der Signalbezeichnungen.
