@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<sx>
+<!--   <Interface typ="rautenhaus" speed="19200" /> -->
+
+  <Besetztmelder>
+    <!-- Check OK -->
+    <Muet8i id="BM-2018-1" adr="40" einbauOrt="Ausfahrt Schattenbahnhof">
+      <Gleisabschnitt idx="0" bereich="Schattenbahnhof" name="2002" />
+      <Gleisabschnitt idx="1" bereich="Schattenbahnhof" name="2003" />
+      <Gleisabschnitt idx="2" bereich="Schattenbahnhof" name="W2001" />
+      <Gleisabschnitt idx="3" bereich="Schattenbahnhof" name="2001" />
+      <Gleisabschnitt idx="4" bereich="Schattenbahnhof" name="W34" />
+      <Gleisabschnitt idx="5" bereich="Schattenbahnhof" name="W33" />
+      <Gleisabschnitt idx="6" bereich="Schattenbahnhof" name="W32" />
+      <Gleisabschnitt idx="7" bereich="Schattenbahnhof" name="202" />
+    </Muet8i>
+
+    <!-- Check OK -->
+    <Muet8k id="BM-2018-2" adr="43" einbauOrt="Ausfahrt Schattenbahnhof">
+      <!-- TODO --> <Gleisabschnitt idx="0" bereich="Schattenbahnhof" name="W27" /> 
+      <!-- TODO --> <Gleisabschnitt idx="1" bereich="Schattenbahnhof" name="W26" /> 
+      <!-- TODO --> <Gleisabschnitt idx="2" bereich="Schattenbahnhof" name="W24" /> 
+      <Gleisabschnitt idx="3" bereich="Schattenbahnhof" name="W30" />
+      <Gleisabschnitt idx="4" bereich="Schattenbahnhof" name="W28" />
+      <Gleisabschnitt idx="5" bereich="Schattenbahnhof" name="W31" />
+      <Gleisabschnitt idx="6" bereich="Schattenbahnhof" name="W29" />
+      <!-- TODO --> <Gleisabschnitt idx="7" bereich="Schattenbahnhof" name="W22" /> 
+    </Muet8k>
+
+    <!-- Check OK -->
+    <SXBM1 id="BM-2003-9" adr="44" einbauOrt="Schattenbahnhof Gleis 4b">
+      <!-- TODO --> <Gleisabschnitt idx="0" bereich="Schattenbahnhof" name="W25" /> 
+      <!-- TODO --> <Gleisabschnitt idx="1" bereich="Schattenbahnhof" name="W23" /> 
+      <Gleisabschnitt idx="2" bereich="Schattenbahnhof" name="1b" />
+      <Gleisabschnitt idx="3" bereich="Schattenbahnhof" name="2b" />
+      <!-- TODO --> <Gleisabschnitt idx="4" bereich="Schattenbahnhof" name="W21" /> 
+      <!-- TODO --> <Gleisabschnitt idx="5" bereich="Schattenbahnhof" name="W19" /> 
+      <!-- TODO --> <Gleisabschnitt idx="6" bereich="Schattenbahnhof" name="W20" /> 
+      <!-- TODO --> <Gleisabschnitt idx="7" bereich="Schattenbahnhof" name="W18" /> 
+    </SXBM1>
+
+    <!-- Check OK -->
+    <SXBM1 id="BM-2014-1" adr="45" einbauOrt="Schattenbahnhof Gleis 4b (mit SX-KS-1)">
+      <Gleisabschnitt idx="0" bereich="Schattenbahnhof" name="17b" /> 
+      <Gleisabschnitt idx="1" bereich="Schattenbahnhof" name="18c" />
+      <Gleisabschnitt idx="2" bereich="Schattenbahnhof" name="18b" />
+      <Gleisabschnitt idx="3" bereich="Schattenbahnhof" name="18a" />
+      <Gleisabschnitt idx="4" bereich="Schattenbahnhof" name="17a" />
+      <Gleisabschnitt idx="5" bereich="Schattenbahnhof" name="17c" />
+      <Gleisabschnitt idx="6" bereich="Schattenbahnhof" name="17d" />
+      <Gleisabschnitt idx="7" bereich="Schattenbahnhof" name="109" />
+    </SXBM1>
+
+    <!-- Check OK -->
+    <SXBM1 id="BM-2014-3" adr="46" einbauOrt="Schattenbahnhof Gleis 4a">
+      <!-- TODO --> <Gleisabschnitt idx="0" bereich="Schattenbahnhof" name="3b" /> 
+      <!-- TODO --> <Gleisabschnitt idx="1" bereich="Schattenbahnhof" name="4b" /> 
+      <!-- TODO --> <Gleisabschnitt idx="2" bereich="Schattenbahnhof" name="5b" /> 
+      <!-- TODO --> <Gleisabschnitt idx="3" bereich="Schattenbahnhof" name="6b" /> 
+      <!-- TODO --> <Gleisabschnitt idx="4" bereich="Schattenbahnhof" name="7b" /> 
+      <!-- TODO --> <Gleisabschnitt idx="5" bereich="Schattenbahnhof" name="8b" /> 
+      <!-- TODO --> <Gleisabschnitt idx="6" bereich="Schattenbahnhof" name="9b" /> 
+      <!-- TODO --> <Gleisabschnitt idx="7" bereich="Schattenbahnhof" name="10b" /> 
+    </SXBM1>
+
+    <!-- Check OK -->
+    <SXBM1 id="BM-2003-3" adr="47" einbauOrt="Schattenbahnhof Gleis 4a">
+      <Gleisabschnitt idx="0" bereich="Schattenbahnhof" name="2a" />
+      <Gleisabschnitt idx="1" bereich="Schattenbahnhof" name="1a" /> 
+      <!-- TODO --> <Gleisabschnitt idx="2" bereich="Schattenbahnhof" name="3a" /> 
+      <!-- TODO --> <Gleisabschnitt idx="3" bereich="Schattenbahnhof" name="11b" /> 
+      <!-- TODO --> <Gleisabschnitt idx="4" bereich="Schattenbahnhof" name="12b" /> 
+      <!-- TODO --> <Gleisabschnitt idx="5" bereich="Schattenbahnhof" name="13b" /> 
+      <!-- TODO --> <Gleisabschnitt idx="6" bereich="Schattenbahnhof" name="14b" /> 
+      <!-- TODO --> <Gleisabschnitt idx="7" bereich="Schattenbahnhof" name="15b" /> 
+    </SXBM1>
+
+    <!-- Check OK -->
+    <SXBM1 id="BM-2003-6" adr="48" einbauOrt="Schattenbahnhof Gleis 4a">
+      <!-- TODO --> <Gleisabschnitt idx="0" bereich="Schattenbahnhof" name="16b" /> 
+      <!-- TODO --> <Gleisabschnitt idx="1" bereich="Schattenbahnhof" name="4a" /> 
+      <!-- TODO --> <Gleisabschnitt idx="2" bereich="Schattenbahnhof" name="5a" /> 
+      <!-- TODO --> <Gleisabschnitt idx="3" bereich="Schattenbahnhof" name="6a" /> 
+      <!-- TODO --> <Gleisabschnitt idx="4" bereich="Schattenbahnhof" name="7a" /> 
+      <!-- TODO --> <Gleisabschnitt idx="5" bereich="Schattenbahnhof" name="8a" /> 
+      <!-- TODO --> <Gleisabschnitt idx="6" bereich="Schattenbahnhof" name="9a" /> 
+      <!-- TODO --> <Gleisabschnitt idx="7" bereich="Schattenbahnhof" name="10a" /> 
+    </SXBM1>
+
+    <!-- Check OK -->
+    <SXBM1 id="BM-2003-4" adr="49" einbauOrt="Schattenbahnhof Gleis 4a"> 
+      <!-- TODO --> <Gleisabschnitt idx="0" bereich="Schattenbahnhof" name="11a" /> 
+      <!-- TODO --> <Gleisabschnitt idx="1" bereich="Schattenbahnhof" name="12a" /> 
+      <!-- TODO --> <Gleisabschnitt idx="2" bereich="Schattenbahnhof" name="13a" /> 
+      <!-- TODO --> <Gleisabschnitt idx="3" bereich="Schattenbahnhof" name="14a" /> 
+      <!-- TODO --> <Gleisabschnitt idx="4" bereich="Schattenbahnhof" name="15a" /> 
+      <!-- TODO --> <Gleisabschnitt idx="5" bereich="Schattenbahnhof" name="16a" /> 
+      <!-- TODO --> <Gleisabschnitt idx="6" bereich="Schattenbahnhof" name="W13" />
+      <!-- TODO --> <Gleisabschnitt idx="7" bereich="Schattenbahnhof" name="W15" />
+    </SXBM1>
+
+    <SXBM1 id="BM-2003-7" adr="52" einbauOrt="Schattenbahnhof Gleis 4a">
+      <Gleisabschnitt idx="0" bereich="Strecke10xx" name="1006" />
+      <Gleisabschnitt idx="1" bereich="Strecke10xx" name="1004" />
+      <Gleisabschnitt idx="2" bereich="Strecke10xx" name="W1005" />
+      <!-- TODO --> <Gleisabschnitt idx="7" bereich="Schattenbahnhof" name="W17" />
+    </SXBM1>
+
+    <!-- Check OK -->
+    <SXBM1 id="BM-2003-8" adr="50" einbauOrt="Einfahrt Schattenbahnhof">
+      <Gleisabschnitt idx="0" bereich="Schattenbahnhof" name="W6" />
+      <Gleisabschnitt idx="1" bereich="Schattenbahnhof" name="W8" />
+      <Gleisabschnitt idx="2" bereich="Schattenbahnhof" name="W16" />
+      <Gleisabschnitt idx="3" bereich="Schattenbahnhof" name="W14" />
+      <!-- TODO --> <Gleisabschnitt idx="4" bereich="Schattenbahnhof" name="W5" />
+      <!-- TODO --> <Gleisabschnitt idx="5" bereich="Schattenbahnhof" name="W7" />
+      <Gleisabschnitt idx="6" bereich="Schattenbahnhof" name="108" />
+      <Gleisabschnitt idx="7" bereich="Schattenbahnhof" name="W4" />
+    </SXBM1>
+
+    <!-- Check OK -->
+    <SXBM1 id="BM-2014-2" adr="51" einbauOrt="Einfahrt Schattenbahnhof">
+      <Gleisabschnitt idx="0" bereich="Schattenbahnhof" name="W10" />
+      <Gleisabschnitt idx="1" bereich="Schattenbahnhof" name="W2" />
+      <Gleisabschnitt idx="2" bereich="Schattenbahnhof" name="W3" />
+      <Gleisabschnitt idx="3" bereich="Schattenbahnhof" name="W12" />
+      <!-- TODO --> <Gleisabschnitt idx="4" bereich="Schattenbahnhof" name="W9" />
+      <!-- TODO --> <Gleisabschnitt idx="5" bereich="Schattenbahnhof" name="W11" />
+      <Gleisabschnitt idx="6" bereich="Strecke10xx" name="1007" />
+      <Gleisabschnitt idx="7" bereich="Schattenbahnhof" name="W1" />
+    </SXBM1>
+
+  </Besetztmelder>
+  
+  <Funktionsdecoder>
+    <WDMiba id="FD-2003-1" adr="70" einbauOrt="Einfahrt Schattenbahnhof">
+      <Weiche idx="0" bereich="Schattenbahnhof" name="15" />
+      <Weiche idx="1" bereich="Schattenbahnhof" name="17" />
+      <Weiche idx="2" bereich="Schattenbahnhof" name="13" />
+      <!-- TODO --> <Weiche idx="4" bereich="Schattenbahnhof" name="34" />
+      <Weiche idx="5" bereich="Schattenbahnhof" name="12" />
+      <Weiche idx="6" bereich="Schattenbahnhof" name="16" />
+      <Weiche idx="7" bereich="Schattenbahnhof" name="14" />
+    </WDMiba>
+
+    <WDMiba id="FD-2003-2" adr="71" einbauOrt="Einfahrt Schattenbahnhof">
+      <Weiche idx="0" bereich="Schattenbahnhof" name="7" />
+      <!-- Ausgang idx="1" scheint defekt (kaum Leistung) -->
+      <Weiche idx="2" bereich="Schattenbahnhof" name="9" />
+      <Weiche idx="3" bereich="Schattenbahnhof" name="11" />
+      <Weiche idx="4" bereich="Schattenbahnhof" name="10" />
+      <Weiche idx="5" bereich="Schattenbahnhof" name="8" />
+      <Weiche idx="6" bereich="Schattenbahnhof" name="3" />
+    </WDMiba>
+
+    <WDMiba id="FD-2003-3" adr="72" einbauOrt="Einfahrt Schattenbahnhof">
+      <Weiche idx="0" bereich="Schattenbahnhof" name="5" />
+      <!-- TODO --><Weiche idx="4" bereich="Strecke10xx" name="1005" />
+      <Weiche idx="5" bereich="Schattenbahnhof" name="6" />
+      <Weiche idx="5" bereich="Schattenbahnhof" name="6" />
+      <Weiche idx="6" bereich="Schattenbahnhof" name="4" />
+      <Weiche idx="7" bereich="Schattenbahnhof" name="2" />
+    </WDMiba>
+
+    <NoFD>
+      <Weiche bereich="Schattenbahnhof" name="1" />
+      <Weiche bereich="Schattenbahnhof" name="18" />
+      <Weiche bereich="Schattenbahnhof" name="19" />
+      <Weiche bereich="Schattenbahnhof" name="20" />
+      <Weiche bereich="Schattenbahnhof" name="21" />
+      <Weiche bereich="Schattenbahnhof" name="22" />
+      <Weiche bereich="Schattenbahnhof" name="23" />
+      <Weiche bereich="Schattenbahnhof" name="24" />
+      <Weiche bereich="Schattenbahnhof" name="25" />
+      <Weiche bereich="Schattenbahnhof" name="26" />
+      <Weiche bereich="Schattenbahnhof" name="27" />
+      <Weiche bereich="Schattenbahnhof" name="28" />
+      <Weiche bereich="Schattenbahnhof" name="29" />
+      <Weiche bereich="Schattenbahnhof" name="30" />
+      <Weiche bereich="Schattenbahnhof" name="31" />
+      <Weiche bereich="Schattenbahnhof" name="32" />
+      <Weiche bereich="Schattenbahnhof" name="33" />
+      <Weiche bereich="Strecke10xx" name="1003" />
+    </NoFD>
+    
+  </Funktionsdecoder>
+
+  <Lokdecoder>
+    <DHL100 lok="103 118-6" adr="1" />
+    <DHL100 lok="111 205-1" adr="2" />
+    <DHL100 lok="110 222-7" adr="3" />
+  </Lokdecoder>
+
+  <Lokcontroller>
+    <SxLokControl id="LokControl 1" adr="30" />
+    <SxLokControl id="LokControl 2" adr="31" />
+  </Lokcontroller>
+</sx>
+

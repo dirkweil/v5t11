@@ -1,3 +1,0 @@
-jms-topic add --topic-address=v5t11-status --entries=jms/topic/v5t11-status,java:jboss/exported/jms/topic/v5t11-status
-/socket-binding-group=standard-sockets/socket-binding=messaging:add(port=5445)
-/subsystem=messaging-activemq/server=default/remote-acceptor=netty:add(socket-binding=messaging)
