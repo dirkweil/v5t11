@@ -103,6 +103,9 @@
       <Gleisabschnitt idx="0" bereich="Strecke10xx" name="1006" />
       <Gleisabschnitt idx="1" bereich="Strecke10xx" name="1004" />
       <Gleisabschnitt idx="2" bereich="Strecke10xx" name="W1005" />
+      <Gleisabschnitt idx="4" bereich="Strecke10xx" name="1001" />
+      <Gleisabschnitt idx="5" bereich="Strecke10xx" name="1002" />
+      <Gleisabschnitt idx="6" bereich="Strecke10xx" name="W1003" />
       <!-- TODO --> <Gleisabschnitt idx="7" bereich="Schattenbahnhof" name="W17" />
     </SXBM1>
 
