@@ -18,7 +18,7 @@
     <!-- Check OK -->
     <Muet8k id="BM-2018-2" adr="43" einbauOrt="Ausfahrt Schattenbahnhof">
       <!-- TODO --> <Gleisabschnitt idx="0" bereich="Schattenbahnhof" name="W27" /> 
-      <!-- TODO --> <Gleisabschnitt idx="1" bereich="Schattenbahnhof" name="W26" /> 
+      <Gleisabschnitt idx="1" bereich="Schattenbahnhof" name="W26" /> 
       <!-- TODO --> <Gleisabschnitt idx="2" bereich="Schattenbahnhof" name="W24" /> 
       <Gleisabschnitt idx="3" bereich="Schattenbahnhof" name="W30" />
       <Gleisabschnitt idx="4" bereich="Schattenbahnhof" name="W28" />
@@ -53,7 +53,7 @@
 
     <!-- Check OK -->
     <SXBM1 id="BM-2014-3" adr="46" einbauOrt="Schattenbahnhof Gleis 4a">
-      <!-- TODO --> <Gleisabschnitt idx="0" bereich="Schattenbahnhof" name="3b" /> 
+      <Gleisabschnitt idx="0" bereich="Schattenbahnhof" name="3b" /> 
       <!-- TODO --> <Gleisabschnitt idx="1" bereich="Schattenbahnhof" name="4b" /> 
       <!-- TODO --> <Gleisabschnitt idx="2" bereich="Schattenbahnhof" name="5b" /> 
       <!-- TODO --> <Gleisabschnitt idx="3" bereich="Schattenbahnhof" name="6b" /> 
@@ -67,7 +67,7 @@
     <SXBM1 id="BM-2003-3" adr="47" einbauOrt="Schattenbahnhof Gleis 4a">
       <Gleisabschnitt idx="0" bereich="Schattenbahnhof" name="2a" />
       <Gleisabschnitt idx="1" bereich="Schattenbahnhof" name="1a" /> 
-      <!-- TODO --> <Gleisabschnitt idx="2" bereich="Schattenbahnhof" name="3a" /> 
+      <Gleisabschnitt idx="2" bereich="Schattenbahnhof" name="3a" /> 
       <!-- TODO --> <Gleisabschnitt idx="3" bereich="Schattenbahnhof" name="11b" /> 
       <!-- TODO --> <Gleisabschnitt idx="4" bereich="Schattenbahnhof" name="12b" /> 
       <!-- TODO --> <Gleisabschnitt idx="5" bereich="Schattenbahnhof" name="13b" /> 
