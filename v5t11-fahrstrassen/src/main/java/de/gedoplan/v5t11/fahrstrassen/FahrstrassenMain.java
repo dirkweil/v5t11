@@ -2,7 +2,7 @@ package de.gedoplan.v5t11.fahrstrassen;
 
 import de.gedoplan.v5t11.fahrstrassen.entity.Parcours;
 
-import java.util.Scanner;
+import java.util.concurrent.Semaphore;
 
 import javax.enterprise.inject.spi.CDI;
 
@@ -24,9 +24,7 @@ public class FahrstrassenMain {
       Parcours parcours = CDI.current().select(Parcours.class).get();
       log.info("Fahrstrassen-Service gestartet für Bereiche " + parcours.getBereiche());
 
-      // TODO Wait for \n in stdin before terminating
-      new Scanner(System.in).nextLine();
-
+      new Semaphore(-1).acquire();
     } catch (Exception e) {
 
       // TODO Meecrowave scheint die Logger beim Shutdown zu schliessen
