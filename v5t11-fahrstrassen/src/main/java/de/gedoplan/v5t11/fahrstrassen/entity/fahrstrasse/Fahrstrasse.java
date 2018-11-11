@@ -181,6 +181,7 @@ public class Fahrstrasse extends Bereichselement {
    * @return Kombi-Fahrstrasse, wenn Kombination möglich, sonst <code>null</code>
    */
   public static Fahrstrasse concat(Fahrstrasse linkeFahrstrasse, Fahrstrasse rechteFahrstrasse) {
+    // TODO Können sämtliche FS kombiniert werden (über Bereiche hinweg) oder wird das zuviel?
     // Wenn verschiedene Bereiche, nicht kombinieren
     if (!linkeFahrstrasse.getBereich().equals(rechteFahrstrasse.getBereich())) {
       return null;
@@ -515,7 +516,7 @@ public class Fahrstrasse extends Bereichselement {
    * Umgekehrte Fahrstrasse erzeugen.
    *
    * Es wird eine Fahrstrasse mit umgekehrten Elementen in umgekehrter Reihung erzeugt.
-   * 
+   *
    * @return umgekehrte Fahrstrasse
    */
   public Fahrstrasse createUmkehrung() {
