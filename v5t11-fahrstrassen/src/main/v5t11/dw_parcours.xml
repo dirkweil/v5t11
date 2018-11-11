@@ -31,16 +31,15 @@
 
   <Fahrstrasse bereich="Strecke10xx" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="1006"/>
-    <Gleisabschnitt name="1007" />
-  </Fahrstrasse>
-
-  <Fahrstrasse bereich="Strecke10xx" zaehlrichtung="true" umkehrbar="true">
-    <Gleisabschnitt name="1007" />
-    <Gleisabschnitt name="W1" bereich="Schattenbahnhof"/>
+    <Gleisabschnitt name="308" bereich="Schattenbahnhof"/>
   </Fahrstrasse>
 
   <!-- Fahrstrassen im Bereich Schattenbahnhof -->
-  <!-- Fahrstrassen in Zählrichtung -->
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="308" />
+    <Gleisabschnitt name="W1"/>
+  </Fahrstrasse>
+
   <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="W1" />
     <Weiche name="1" stellung="GERADE" />

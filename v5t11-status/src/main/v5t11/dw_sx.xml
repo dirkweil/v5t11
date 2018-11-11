@@ -129,7 +129,7 @@
       <Gleisabschnitt idx="3" bereich="Schattenbahnhof" name="W12" />
       <!-- TODO --> <Gleisabschnitt idx="4" bereich="Schattenbahnhof" name="W9" />
       <!-- TODO --> <Gleisabschnitt idx="5" bereich="Schattenbahnhof" name="W11" />
-      <Gleisabschnitt idx="6" bereich="Strecke10xx" name="1007" />
+      <Gleisabschnitt idx="6" bereich="Schattenbahnhof" name="308" />
       <Gleisabschnitt idx="7" bereich="Schattenbahnhof" name="W1" />
     </SXBM1>
 
