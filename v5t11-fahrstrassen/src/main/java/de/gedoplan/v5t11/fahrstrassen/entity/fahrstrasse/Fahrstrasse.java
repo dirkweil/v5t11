@@ -181,7 +181,6 @@ public class Fahrstrasse extends Bereichselement {
    * @return Kombi-Fahrstrasse, wenn Kombination möglich, sonst <code>null</code>
    */
   public static Fahrstrasse concat(Fahrstrasse linkeFahrstrasse, Fahrstrasse rechteFahrstrasse) {
-    // TODO Können sämtliche FS kombiniert werden (über Bereiche hinweg) oder wird das zuviel?
     // Wenn verschiedene Bereiche, nicht kombinieren
     if (!linkeFahrstrasse.getBereich().equals(rechteFahrstrasse.getBereich())) {
       return null;
@@ -199,9 +198,17 @@ public class Fahrstrasse extends Bereichselement {
       return null;
     }
 
-    // Wenn Ende rechts schon Teil der linken Fahrstrasse, nicht kombinieren
-    if (linkeFahrstrasse.elemente.contains(rechteFahrstrasse.getEnde())) {
-      return null;
+    // Wenn Zyklen entstehen würden, nicht kombinieren
+    Set<Fahrstrassenelement> rechteFahrstrassenGleisabschnitte = rechteFahrstrasse
+        .getElemente()
+        .stream()
+        .skip(1)
+        .filter(e -> e instanceof FahrstrassenGleisabschnitt)
+        .collect(Collectors.toSet());
+    for (Fahrstrassenelement fe : linkeFahrstrasse.getElemente()) {
+      if (rechteFahrstrassenGleisabschnitte.contains(fe)) {
+        return null;
+      }
     }
 
     Fahrstrasse result = new Fahrstrasse();
