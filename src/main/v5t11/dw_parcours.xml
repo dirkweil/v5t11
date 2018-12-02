@@ -1,0 +1,577 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Parcours>
+  <!-- Fahrstrassen im Bereich Strecke10xx -->
+  <Fahrstrasse bereich="Strecke10xx" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="1001" />
+    <Weiche name="1003" stellung="GERADE" />
+    <Gleisabschnitt name="W1003"/>
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Strecke10xx" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="1002" />
+    <Weiche name="1003" stellung="ABZWEIGEND" />
+    <Gleisabschnitt name="W1003"/>
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Strecke10xx" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="W1003"/>
+    <Gleisabschnitt name="1004" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Strecke10xx" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="1004" />
+    <Weiche name="1005" stellung="ABZWEIGEND" />
+    <Gleisabschnitt name="W1005"/>
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Strecke10xx" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="W1005"/>
+    <Gleisabschnitt name="1006" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Strecke10xx" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="1006"/>
+    <Gleisabschnitt name="308" bereich="Schattenbahnhof"/>
+  </Fahrstrasse>
+
+  <!-- Fahrstrassen im Bereich Schattenbahnhof -->
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="308" />
+    <Gleisabschnitt name="W1"/>
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="W1" />
+    <Weiche name="1" stellung="GERADE" />
+    <Gleisabschnitt name="108" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="108" />
+    <Weiche name="2" stellung="GERADE" />
+    <Gleisabschnitt name="W2" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="W2" />
+    <Gleisabschnitt name="W3" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="W3" />
+    <Weiche name="3" stellung="GERADE" />
+    <Gleisabschnitt name="W4" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="W4" />
+    <Weiche name="4" stellung="GERADE" />
+    <Gleisabschnitt name="W6" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="W6" />
+    <Weiche name="6" stellung="GERADE" />
+    <Gleisabschnitt name="W8" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="W8" />
+    <Weiche name="8" stellung="GERADE" />
+    <Gleisabschnitt name="W10" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="W10" />
+    <Weiche name="10" stellung="GERADE" />
+    <Gleisabschnitt name="W12" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="W12" />
+    <Weiche name="12" stellung="GERADE" />
+    <Gleisabschnitt name="W14" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="W14" />
+    <Weiche name="14" stellung="GERADE" />
+    <Gleisabschnitt name="W16" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="W16" />
+    <Weiche name="16" stellung="GERADE" />
+    <Gleisabschnitt name="1a" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="W16" />
+    <Weiche name="16" stellung="ABZWEIGEND" />
+    <Gleisabschnitt name="2a" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="W14" />
+    <Weiche name="14" stellung="ABZWEIGEND" />
+    <Gleisabschnitt name="3a" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="W12" />
+    <Weiche name="12" stellung="ABZWEIGEND" />
+    <Gleisabschnitt name="4a" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="W10" />
+    <Weiche name="10" stellung="ABZWEIGEND" />
+    <Gleisabschnitt name="5a" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="W8" />
+    <Weiche name="8" stellung="ABZWEIGEND" />
+    <Gleisabschnitt name="6a" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="W6" />
+    <Weiche name="6" stellung="ABZWEIGEND" />
+    <Gleisabschnitt name="7a" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="W4" />
+    <Weiche name="4" stellung="ABZWEIGEND" />
+    <Gleisabschnitt name="8a" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="W3" />
+    <Weiche name="3" stellung="ABZWEIGEND" />
+    <Gleisabschnitt name="W5" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="W5" />
+    <Weiche name="5" stellung="GERADE" />
+    <Gleisabschnitt name="9a" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="W5" />
+    <Weiche name="5" stellung="ABZWEIGEND" />
+    <Gleisabschnitt name="W7" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="W7" />
+    <Weiche name="7" stellung="GERADE" />
+    <Gleisabschnitt name="W9" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="W9" />
+    <Weiche name="9" stellung="GERADE" />
+    <Gleisabschnitt name="W11" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="W11" />
+    <Weiche name="11" stellung="GERADE" />
+    <Gleisabschnitt name="W13" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="W13" />
+    <Weiche name="13" stellung="GERADE" />
+    <Gleisabschnitt name="W15" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="W15" />
+    <Weiche name="15" stellung="GERADE" />
+    <Gleisabschnitt name="W17" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="W17" />
+    <Weiche name="17" stellung="GERADE" />
+    <Gleisabschnitt name="16a" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="W17" />
+    <Weiche name="17" stellung="ABZWEIGEND" />
+    <Gleisabschnitt name="15a" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="W15" />
+    <Weiche name="15" stellung="ABZWEIGEND" />
+    <Gleisabschnitt name="14a" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="W13" />
+    <Weiche name="13" stellung="ABZWEIGEND" />
+    <Gleisabschnitt name="13a" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="W11" />
+    <Weiche name="11" stellung="ABZWEIGEND" />
+    <Gleisabschnitt name="12a" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="W9" />
+    <Weiche name="9" stellung="ABZWEIGEND" />
+    <Gleisabschnitt name="11a" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="W7" />
+    <Weiche name="7" stellung="ABZWEIGEND" />
+    <Gleisabschnitt name="10a" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="1a" />
+    <Gleisabschnitt name="1b" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="2a" />
+    <Gleisabschnitt name="2b" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="3a" />
+    <Gleisabschnitt name="3b" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="4a" />
+    <Gleisabschnitt name="4b" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="5a" />
+    <Gleisabschnitt name="5b" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="6a" />
+    <Gleisabschnitt name="6b" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="7a" />
+    <Gleisabschnitt name="7b" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="8a" />
+    <Gleisabschnitt name="8b" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="9a" />
+    <Gleisabschnitt name="9b" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="10a" />
+    <Gleisabschnitt name="10b" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="11a" />
+    <Gleisabschnitt name="11b" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="12a" />
+    <Gleisabschnitt name="12b" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="13a" />
+    <Gleisabschnitt name="13b" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="14a" />
+    <Gleisabschnitt name="14b" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="15a" />
+    <Gleisabschnitt name="15b" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="16a" />
+    <Gleisabschnitt name="16b" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="17a" />
+    <Gleisabschnitt name="17b" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="17b" />
+    <Gleisabschnitt name="17c" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="17c" />
+    <Gleisabschnitt name="17d" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true">
+    <Gleisabschnitt name="1b" />
+    <Weiche name="30" stellung="GERADE"/>
+    <Gleisabschnitt name="W30" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true">
+    <Gleisabschnitt name="2b" />
+    <Weiche name="28" stellung="GERADE"/>
+    <Gleisabschnitt name="W28" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true">
+    <Gleisabschnitt name="3b" />
+    <Weiche name="26" stellung="ABZWEIGEND"/>
+    <Gleisabschnitt name="W26" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true">
+    <Gleisabschnitt name="4b" />
+    <Weiche name="24" stellung="ABZWEIGEND"/>
+    <Gleisabschnitt name="W24" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true">
+    <Gleisabschnitt name="5b" />
+    <Weiche name="22" stellung="ABZWEIGEND"/>
+    <Gleisabschnitt name="W22" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true">
+    <Gleisabschnitt name="6b" />
+    <Weiche name="20" stellung="ABZWEIGEND"/>
+    <Gleisabschnitt name="W20" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true">
+    <Gleisabschnitt name="7b" />
+    <Weiche name="18" stellung="ABZWEIGEND"/>
+    <Gleisabschnitt name="W18" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true">
+    <Gleisabschnitt name="8b" />
+    <Weiche name="18" stellung="GERADE"/>
+    <Gleisabschnitt name="W18" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true">
+    <Gleisabschnitt name="W18" />
+    <Weiche name="20" stellung="GERADE"/>
+    <Gleisabschnitt name="W20" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true">
+    <Gleisabschnitt name="W20" />
+    <Weiche name="22" stellung="GERADE"/>
+    <Gleisabschnitt name="W22" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true">
+    <Gleisabschnitt name="W22" />
+    <Weiche name="24" stellung="GERADE"/>
+    <Gleisabschnitt name="W24" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true">
+    <Gleisabschnitt name="W24" />
+    <Weiche name="26" stellung="GERADE"/>
+    <Gleisabschnitt name="W26" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true">
+    <Gleisabschnitt name="W26" />
+    <Weiche name="28" stellung="ABZWEIGEND"/>
+    <Gleisabschnitt name="W28" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true">
+    <Gleisabschnitt name="W28" />
+    <Weiche name="30" stellung="ABZWEIGEND"/>
+    <Gleisabschnitt name="W30" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true">
+    <Gleisabschnitt name="W30" />
+    <Gleisabschnitt name="202" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true">
+    <Gleisabschnitt name="9b" />
+    <Weiche name="19" stellung="GERADE"/>
+    <Gleisabschnitt name="W19" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true">
+    <Gleisabschnitt name="10b" />
+    <Weiche name="19" stellung="ABZWEIGEND"/>
+    <Gleisabschnitt name="W19" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true">
+    <Gleisabschnitt name="11b" />
+    <Weiche name="21" stellung="ABZWEIGEND"/>
+    <Gleisabschnitt name="W21" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true">
+    <Gleisabschnitt name="12b" />
+    <Weiche name="23" stellung="ABZWEIGEND"/>
+    <Gleisabschnitt name="W23" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true">
+    <Gleisabschnitt name="13b" />
+    <Weiche name="25" stellung="ABZWEIGEND"/>
+    <Gleisabschnitt name="W25" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true">
+    <Gleisabschnitt name="14b" />
+    <Weiche name="27" stellung="ABZWEIGEND"/>
+    <Gleisabschnitt name="W27" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true">
+    <Gleisabschnitt name="15b" />
+    <Weiche name="29" stellung="ABZWEIGEND"/>
+    <Gleisabschnitt name="W29" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true">
+    <Gleisabschnitt name="16b" />
+    <Weiche name="31" stellung="ABZWEIGEND"/>
+    <Gleisabschnitt name="W31" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true">
+    <Gleisabschnitt name="17d" />
+    <Weiche name="32" stellung="ABZWEIGEND"/>
+    <Gleisabschnitt name="W32" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true">
+    <Gleisabschnitt name="W19" />
+    <Weiche name="21" stellung="GERADE"/>
+    <Gleisabschnitt name="W21" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true">
+    <Gleisabschnitt name="W21" />
+    <Weiche name="23" stellung="GERADE"/>
+    <Gleisabschnitt name="W23" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true">
+    <Gleisabschnitt name="W23" />
+    <Weiche name="25" stellung="GERADE"/>
+    <Gleisabschnitt name="W25" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true">
+    <Gleisabschnitt name="W25" />
+    <Weiche name="27" stellung="GERADE"/>
+    <Gleisabschnitt name="W27" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true">
+    <Gleisabschnitt name="W27" />
+    <Weiche name="29" stellung="GERADE"/>
+    <Gleisabschnitt name="W29" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true">
+    <Gleisabschnitt name="W29" />
+    <Weiche name="31" stellung="GERADE"/>
+    <Gleisabschnitt name="W31" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true">
+    <Gleisabschnitt name="W31" />
+    <Weiche name="32" stellung="GERADE"/>
+    <Gleisabschnitt name="W32" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true">
+    <Gleisabschnitt name="202" />
+    <Weiche name="33" stellung="GERADE"/>
+    <Gleisabschnitt name="W33" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="W32" />
+    <Weiche name="33" stellung="ABZWEIGEND"/>
+    <Gleisabschnitt name="W33" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="W33" />
+    <Gleisabschnitt name="W34" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="W34" />
+    <Weiche name="34" stellung="GERADE"/>
+    <Gleisabschnitt name="2001" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" >
+    <Gleisabschnitt name="W34" />
+    <Weiche name="34" stellung="ABZWEIGEND"/>
+    <Gleisabschnitt name="18c" zaehlrichtung="false" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="false" >
+    <Gleisabschnitt name="18c" />
+    <Gleisabschnitt name="18b" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="false" >
+    <Gleisabschnitt name="18b" />
+    <Gleisabschnitt name="18a" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="false" >
+    <Gleisabschnitt name="18a" />
+    <Weiche name="1" stellung="ABZWEIGEND"/>
+    <Gleisabschnitt name="W1" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="false" umkehrbar="true" >
+    <Gleisabschnitt name="17a" />
+    <Gleisabschnitt name="109" zaehlrichtung="true" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="Schattenbahnhof" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="109" />
+    <Weiche name="2" stellung="ABZWEIGEND"/>
+    <Gleisabschnitt name="W2" />
+  </Fahrstrasse>
+
+</Parcours>
+
