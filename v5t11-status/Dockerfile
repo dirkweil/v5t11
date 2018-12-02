@@ -13,9 +13,6 @@ RUN cd /opt/jboss/wildfly-setup \
     && sh $JBOSS_HOME/bin/add-user.sh -a -sc $JBOSS_HOME/standalone/configuration -u anonymous -p anonymous_123 -g guest -s \
     && sh $JBOSS_HOME/bin/add-user.sh -sc $JBOSS_HOME/standalone/configuration -u admin -p admin_123 -s
 
-# v5t11-Konfiguration    
-COPY src/main/v5t11 v5t11/
-
 EXPOSE 5445 8080 9990
 
 # Start WildFly in full profile
