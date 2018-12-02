@@ -5,6 +5,8 @@ import de.gedoplan.baselibs.naming.LookupHelper;
 import de.gedoplan.v5t11.fahrstrassen.service.ConfigService;
 import de.gedoplan.v5t11.util.jms.MessageCategory;
 
+import java.util.Properties;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.jms.ConnectionFactory;
@@ -15,6 +17,7 @@ import javax.jms.JMSRuntimeException;
 import javax.jms.Message;
 import javax.jms.Topic;
 import javax.naming.Context;
+import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 import org.apache.commons.logging.Log;
@@ -67,11 +70,27 @@ public class JmsClient {
   private void init() {
 
     Context jndiContext = null;
+    ConnectionFactory connectionFactory = null;
     try {
+      String statusJmsUrl = this.configService.getStatusJmsUrl();
+      if (statusJmsUrl.startsWith("http-remoting")) {
 
-      jndiContext = JNDIContextFactory.getInitialContext(this.configService.getStatusJmsUrl(), null, null);
+        // Verbindung über WildFly
+        jndiContext = JNDIContextFactory.getInitialContext(this.configService.getStatusJmsUrl(), null, null);
+        connectionFactory = (ConnectionFactory) jndiContext.lookup(LookupHelper.getDefaultJmsConnectionFactoryLookupName());
 
-      ConnectionFactory connectionFactory = (ConnectionFactory) jndiContext.lookup(LookupHelper.getDefaultJmsConnectionFactoryLookupName());
+      } else {
+
+        // Direkte Verbindung zu Artemis
+        Properties prop = new Properties();
+        prop.setProperty("java.naming.factory.initial", "org.apache.activemq.artemis.jndi.ActiveMQInitialContextFactory");
+        prop.setProperty("connectionFactory.ConnectionFactory", statusJmsUrl);
+        prop.setProperty("topic.jms/topic/v5t11-status", "jms.topic.v5t11-status");
+
+        jndiContext = new InitialContext(prop);
+        connectionFactory = (ConnectionFactory) jndiContext.lookup("ConnectionFactory");
+      }
+
       this.topic = (Topic) jndiContext.lookup("jms/topic/v5t11-status");
 
       if (this.log.isTraceEnabled()) {
