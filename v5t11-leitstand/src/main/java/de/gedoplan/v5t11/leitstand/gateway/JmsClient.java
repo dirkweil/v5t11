@@ -1,9 +1,10 @@
 package de.gedoplan.v5t11.leitstand.gateway;
 
+import de.gedoplan.baselibs.naming.JNDIContextFactory;
+import de.gedoplan.baselibs.naming.LookupHelper;
 import de.gedoplan.v5t11.leitstand.service.ConfigService;
 import de.gedoplan.v5t11.util.jms.MessageCategory;
 
-import java.util.Properties;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -16,7 +17,7 @@ import javax.jms.JMSContext;
 import javax.jms.JMSRuntimeException;
 import javax.jms.Message;
 import javax.jms.Topic;
-import javax.naming.InitialContext;
+import javax.naming.Context;
 import javax.naming.NamingException;
 
 import org.apache.commons.logging.Log;
@@ -77,15 +78,11 @@ public class JmsClient {
 
   private void init() {
 
-    InitialContext jndiContext = null;
+    Context jndiContext = null;
     try {
-      Properties prop = new Properties();
-      prop.setProperty("java.naming.factory.initial", "org.apache.activemq.artemis.jndi.ActiveMQInitialContextFactory");
-      prop.setProperty("connectionFactory.ConnectionFactory", this.configService.getStatusJmsUrl());
-      prop.setProperty("topic.jms/topic/v5t11-status", "jms.topic.v5t11-status");
+      jndiContext = JNDIContextFactory.getInitialContext(this.configService.getStatusJmsUrl(), null, null);
 
-      jndiContext = new InitialContext(prop);
-      ConnectionFactory connectionFactory = (ConnectionFactory) jndiContext.lookup("ConnectionFactory");
+      ConnectionFactory connectionFactory = (ConnectionFactory) jndiContext.lookup(LookupHelper.getDefaultJmsConnectionFactoryLookupName());
       this.topic = (Topic) jndiContext.lookup("jms/topic/v5t11-status");
 
       String selector = Stream.of(CATEGORIES)
