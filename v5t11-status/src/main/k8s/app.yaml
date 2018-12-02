@@ -63,7 +63,7 @@ spec:
   - host: v5t11-status.local
     http:
       paths:
-      - path: /rs/status
+      - path: /
         backend:
           serviceName: v5t11-status
           servicePort: 8080
