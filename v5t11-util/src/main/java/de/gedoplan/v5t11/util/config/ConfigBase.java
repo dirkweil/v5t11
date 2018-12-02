@@ -35,7 +35,7 @@ public abstract class ConfigBase {
   public static final String DEFAULT_STATUS_REST_URL = "http://v5t11-status:8080/rs";
 
   public static final String PROPERTY_STATUS_JMS_URL = "v5t11.statusJmsUrl";
-  public static final String DEFAULT_STATUS_JMS_URL = "tcp://v5t11-status:5445";
+  public static final String DEFAULT_STATUS_JMS_URL = "http-remoting://v5t11-status:8080";
 
   public static final String PROPERTY_FAHRSTRASSEN_REST_URL = "v5t11.fahrstrassenRestUrl";
   public static final String DEFAULT_FAHRSTRASSEN_REST_URL = "http://v5t11-fahrstrassen:8080/rs";
