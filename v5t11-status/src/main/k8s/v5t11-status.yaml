@@ -23,8 +23,10 @@ spec:
         # Use IfNotPresent for local demo only; omit imagePullPolicy otherwise
         imagePullPolicy: IfNotPresent
         ports:
-        - containerPort: 8080
-          protocol: TCP
+        - name: http
+          containerPort: 8080
+        - name: mq
+          containerPort: 5445
         volumeMounts:
         - name: v5t11
           mountPath: /opt/jboss/v5t11
@@ -44,8 +46,12 @@ metadata:
     comp: v5t11-status
 spec:
   ports:
-  - port: 8080
-    targetPort: 8080
+  - name: http
+    port: 8080
+    targetPort: http
+  - name: mq
+    port: 5445
+    targetPort: mq
   selector:
     app: v5t11
     comp: v5t11-status
@@ -66,4 +72,4 @@ spec:
       - path: /
         backend:
           serviceName: v5t11-status
-          servicePort: 8080
+          servicePort: http
