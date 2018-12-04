@@ -43,9 +43,11 @@ metadata:
     app: v5t11
     comp: v5t11-fahrstrassen
 spec:
+  type: NodePort
   ports:
   - name: http
     port: 8080
+    nodePort: 30081
     targetPort: http
   selector:
     app: v5t11

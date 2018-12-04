@@ -45,12 +45,15 @@ metadata:
     app: v5t11
     comp: v5t11-status
 spec:
+  type: NodePort
   ports:
   - name: http
     port: 8080
+    nodePort: 30080
     targetPort: http
   - name: mq
     port: 5445
+    nodePort: 30445
     targetPort: mq
   selector:
     app: v5t11
