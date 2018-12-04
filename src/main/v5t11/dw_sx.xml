@@ -68,23 +68,23 @@
       <Gleisabschnitt idx="0" bereich="Schattenbahnhof" name="2a" />
       <Gleisabschnitt idx="1" bereich="Schattenbahnhof" name="1a" /> 
       <Gleisabschnitt idx="2" bereich="Schattenbahnhof" name="3a" /> 
-      <!-- TODO --> <Gleisabschnitt idx="3" bereich="Schattenbahnhof" name="11b" /> 
-      <!-- TODO --> <Gleisabschnitt idx="4" bereich="Schattenbahnhof" name="12b" /> 
-      <!-- TODO --> <Gleisabschnitt idx="5" bereich="Schattenbahnhof" name="13b" /> 
-      <!-- TODO --> <Gleisabschnitt idx="6" bereich="Schattenbahnhof" name="14b" /> 
-      <!-- TODO --> <Gleisabschnitt idx="7" bereich="Schattenbahnhof" name="15b" /> 
+      <Gleisabschnitt idx="3" bereich="Schattenbahnhof" name="11b" /> 
+      <Gleisabschnitt idx="4" bereich="Schattenbahnhof" name="12b" /> 
+      <Gleisabschnitt idx="5" bereich="Schattenbahnhof" name="13b" /> 
+      <Gleisabschnitt idx="6" bereich="Schattenbahnhof" name="14b" /> 
+      <Gleisabschnitt idx="7" bereich="Schattenbahnhof" name="15b" /> 
     </SXBM1>
 
     <!-- Check OK -->
     <SXBM1 id="BM-2003-6" adr="48" einbauOrt="Schattenbahnhof Gleis 4a">
-      <!-- TODO --> <Gleisabschnitt idx="0" bereich="Schattenbahnhof" name="16b" /> 
-      <!-- TODO --> <Gleisabschnitt idx="1" bereich="Schattenbahnhof" name="4a" /> 
-      <!-- TODO --> <Gleisabschnitt idx="2" bereich="Schattenbahnhof" name="5a" /> 
-      <!-- TODO --> <Gleisabschnitt idx="3" bereich="Schattenbahnhof" name="6a" /> 
-      <!-- TODO --> <Gleisabschnitt idx="4" bereich="Schattenbahnhof" name="7a" /> 
-      <!-- TODO --> <Gleisabschnitt idx="5" bereich="Schattenbahnhof" name="8a" /> 
-      <!-- TODO --> <Gleisabschnitt idx="6" bereich="Schattenbahnhof" name="9a" /> 
-      <!-- TODO --> <Gleisabschnitt idx="7" bereich="Schattenbahnhof" name="10a" /> 
+      <Gleisabschnitt idx="0" bereich="Schattenbahnhof" name="16b" /> 
+      <Gleisabschnitt idx="1" bereich="Schattenbahnhof" name="4a" /> 
+      <Gleisabschnitt idx="2" bereich="Schattenbahnhof" name="5a" /> 
+      <Gleisabschnitt idx="3" bereich="Schattenbahnhof" name="6a" /> 
+      <Gleisabschnitt idx="4" bereich="Schattenbahnhof" name="7a" /> 
+      <Gleisabschnitt idx="5" bereich="Schattenbahnhof" name="8a" /> 
+      <Gleisabschnitt idx="6" bereich="Schattenbahnhof" name="9a" /> 
+      <Gleisabschnitt idx="7" bereich="Schattenbahnhof" name="10a" /> 
     </SXBM1>
 
     <!-- Check OK -->
