@@ -27,8 +27,11 @@
   </Funktionsdecoder>
 
   <Lokdecoder>
-    <Tr66825 id="LD-1" adr="5" lok="212 216-6" />
-    <DHL100 id="LD-2" adr="6" lok="VT 98.9731" />
+    <DHL100 lok="103 118-6" adr="1" />
+    <DHL100 lok="111 205-1" adr="2" />
+    <DHL100 lok="110 222-7" adr="3" />
+    <Tr66825 lok="212 216-6" adr="5" />
+    <DHL100 lok="VT 98.9731" adr="6" />
   </Lokdecoder>
 
   <Lokcontroller>
