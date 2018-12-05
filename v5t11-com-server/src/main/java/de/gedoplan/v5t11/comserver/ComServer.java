@@ -32,6 +32,8 @@ public class ComServer {
 
   private static ExecutorService threadPool = Executors.newCachedThreadPool();
 
+  private static volatile boolean stopTransfer;
+
   public static void main(String[] args) {
     try {
       for (String arg : args) {
@@ -87,7 +89,9 @@ public class ComServer {
         socket = serverSocket.accept();
 
         if (!"none".equals(serialDevName)) {
+          stopTransfer = false;
           connect();
+          stopTransfer = true;
         } else {
           simulate();
         }
@@ -147,24 +151,37 @@ public class ComServer {
   }
 
   private static void transfer(String name, InputStream inputStream, OutputStream outputStream) {
+    byte[] buf = new byte[2];
     try {
-      while (true) {
-        int b = inputStream.read();
-        if (b < 0) {
+      while (!stopTransfer) {
+        int count = inputStream.read(buf);
+        if (count < 0) {
           break;
         }
 
-        if (log.isTraceEnabled()) {
-          log.trace(name + ": " + to8BitString(b) + " (" + b + ")");
-        }
+        if (count > 0) {
+          if (log.isTraceEnabled()) {
+            StringBuilder sb = new StringBuilder(name);
+            sb.append(": ");
+            for (int i = 0; i < count; ++i) {
+              sb.append(to8BitString(buf[i]));
+              sb.append("/");
+              sb.append(buf[i]);
+              sb.append(" ");
+            }
 
-        outputStream.write(b);
-        outputStream.flush();
+            log.trace(sb);
+          }
+
+          outputStream.write(buf, 0, count);
+          outputStream.flush();
+        }
       }
     } catch (IOException e) {
       log.error(e);
     }
 
+    stopTransfer = true;
   }
 
   private static void simulate() throws IOException {
