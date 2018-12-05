@@ -7,10 +7,14 @@ import de.gedoplan.v5t11.selectrix.SelectrixMessageListener;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.concurrent.atomic.AtomicIntegerArray;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -32,7 +36,8 @@ public final class Selectrix implements SelectrixMessageListener {
 
   private Collection<? extends SelectrixMessageListener> messageListeners = Collections.emptyList();
 
-  private SerialPort port;
+  // TODO Q&D-Hack: Device kann ein SerialPort oder ein Socket sein
+  private Object device;
 
   private InputStream in;
 
@@ -76,7 +81,7 @@ public final class Selectrix implements SelectrixMessageListener {
 
     openPort(serialPortName, serialPortSpeed);
 
-    if (this.port != null) {
+    if (this.device != null) {
       startReader(interfaceTyp);
     }
 
@@ -99,7 +104,7 @@ public final class Selectrix implements SelectrixMessageListener {
    * Lesethread stoppen und Verbindung zum Selectrix-System schliessen.
    */
   public void stop() {
-    if (this.port != null) {
+    if (this.device != null) {
       stopReader();
       closePort();
     }
@@ -209,8 +214,30 @@ public final class Selectrix implements SelectrixMessageListener {
       portName = selectFirstSerialPort();
     }
 
+    Pattern pattern = Pattern.compile("(?<host>\\S+):(?<port>\\d+)");
+    Matcher matcher = pattern.matcher(portName);
+    if (matcher.matches()) {
+      openSocket(matcher.group("host"), Integer.parseInt(matcher.group("port")));
+    } else {
+      openSerialPort(portName, portSpeed);
+    }
+  }
+
+  private void openSocket(String host, int port) throws UnknownHostException, IOException {
     if (LOGGER.isDebugEnabled()) {
-      LOGGER.debug("Init: comPort=" + portName + ", portSpeed=" + portSpeed);
+      LOGGER.debug("openSocket(" + host + "," + port + ")");
+    }
+
+    Socket socket = new Socket(host, port);
+    this.device = socket;
+    this.in = socket.getInputStream();
+    this.out = socket.getOutputStream();
+  }
+
+  private void openSerialPort(String portName, int portSpeed) throws IOException {
+
+    if (LOGGER.isDebugEnabled()) {
+      LOGGER.debug("openSerialPort(" + portName + ", " + portSpeed + ")");
     }
 
     if (portName != null && !"none".equalsIgnoreCase(portName)) {
@@ -225,23 +252,24 @@ public final class Selectrix implements SelectrixMessageListener {
         throw new IOException("Port " + portName + " ist keine Serienschnittstelle");
       }
 
-      this.port = null;
+      SerialPort port = null;
       try {
-        this.port = portId.open("SxInterface", 2000);
+        port = portId.open("SxInterface", 2000);
       } catch (PortInUseException ex) {
         throw new IOException("Port " + portName + " ist bereits belegt");
       }
+      this.device = port;
 
       this.in = null;
       this.out = null;
       try {
-        this.port.setSerialPortParams(portSpeed, SerialPort.DATABITS_8, SerialPort.STOPBITS_2, SerialPort.PARITY_NONE);
-        this.port.setFlowControlMode(SerialPort.FLOWCONTROL_NONE);
-        this.port.enableReceiveTimeout(PORT_RECEIVE_TIMEOUT_MILLIS);
-        this.port.enableReceiveThreshold(1);
+        port.setSerialPortParams(portSpeed, SerialPort.DATABITS_8, SerialPort.STOPBITS_2, SerialPort.PARITY_NONE);
+        port.setFlowControlMode(SerialPort.FLOWCONTROL_NONE);
+        port.enableReceiveTimeout(PORT_RECEIVE_TIMEOUT_MILLIS);
+        port.enableReceiveThreshold(1);
 
-        this.in = this.port.getInputStream();
-        this.out = this.port.getOutputStream();
+        this.in = port.getInputStream();
+        this.out = port.getOutputStream();
       } catch (UnsupportedCommOperationException ex) {
         closePort();
         throw new IOException("Port " + portName + " kann nicht initialisiert werden");
@@ -279,7 +307,12 @@ public final class Selectrix implements SelectrixMessageListener {
     }
 
     try {
-      this.port.close();
+      // TODO Q&D-Hack: Device kann ein SerialPort oder ein Socket sein
+      if (this.device instanceof Socket) {
+        ((Socket) this.device).close();
+      } else {
+        ((SerialPort) this.device).close();
+      }
     } catch (Exception e) {
       // ignore
     }
