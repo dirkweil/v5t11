@@ -71,5 +71,7 @@ public class Zentrale extends Baustein {
   public void adjustStatus() {
     this.aktiv = (getWert() & MASK_AKTIV) != 0;
     this.kurzschluss = (getWert() & MASK_KURZSCHLUSS) != 0;
+
+    EventFirer.getInstance().fire(this);
   }
 }
