@@ -81,7 +81,7 @@ public class ComServer {
 
       while (true) {
         if (log.isDebugEnabled()) {
-          log.debug("Waiting for incoming conection on port " + port);
+          log.debug("Waiting for incoming connection on port " + port);
         }
 
         socket = serverSocket.accept();
@@ -131,18 +131,22 @@ public class ComServer {
   }
 
   private static void connect() throws IOException {
+    if (log.isDebugEnabled()) {
+      log.debug(String.format("Starting data transfer %s <-> %s", socket.getInetAddress(), serialDevName));
+    }
+
     InputStream serialDevInputStream = serialDev.getInputStream();
     OutputStream serialDevOutputStream = serialDev.getOutputStream();
 
     InputStream socketInputStream = socket.getInputStream();
     OutputStream socketOutputStream = socket.getOutputStream();
 
-    threadPool.execute(() -> transfer(serialDevInputStream, socketOutputStream));
+    threadPool.execute(() -> transfer(String.format("from %s", serialDevName), serialDevInputStream, socketOutputStream));
 
-    transfer(socketInputStream, serialDevOutputStream);
+    transfer(String.format("to   %s", serialDevName), socketInputStream, serialDevOutputStream);
   }
 
-  private static void transfer(InputStream inputStream, OutputStream outputStream) {
+  private static void transfer(String name, InputStream inputStream, OutputStream outputStream) {
     try {
       while (true) {
         int b = inputStream.read();
@@ -150,7 +154,12 @@ public class ComServer {
           break;
         }
 
+        if (log.isTraceEnabled()) {
+          log.trace(name + ": " + to8BitString(b) + " (" + b + ")");
+        }
+
         outputStream.write(b);
+        outputStream.flush();
       }
     } catch (IOException e) {
       log.error(e);
@@ -159,6 +168,10 @@ public class ComServer {
   }
 
   private static void simulate() throws IOException {
+    if (log.isDebugEnabled()) {
+      log.debug(String.format("Starting SX simulation %s <-> SX", socket.getInetAddress()));
+    }
+
     InputStream socketInputStream = socket.getInputStream();
     OutputStream socketOutputStream = socket.getOutputStream();
 
@@ -182,17 +195,25 @@ public class ComServer {
         byte value = (byte) i;
         values[adr] = value;
 
-        if (log.isDebugEnabled()) {
-          log.debug(String.format("write(%d): %d", adr, value));
+        if (log.isTraceEnabled()) {
+          log.trace(String.format("write(%3d): %s", adr, to8BitString(value)));
         }
       } else {
         byte value = values[adr];
-        if (log.isDebugEnabled()) {
-          log.debug(String.format("read(%d): %d", adr, value));
+        if (log.isTraceEnabled()) {
+          log.trace(String.format("read(%3d): %s", adr, to8BitString(value)));
         }
         socketOutputStream.write(value);
       }
     }
+  }
+
+  private static CharSequence to8BitString(int b) {
+    StringBuilder sb = new StringBuilder();
+    for (int mask = 0x80; mask != 0; mask >>= 1) {
+      sb.append((b & mask) != 0 ? '1' : '0');
+    }
+    return sb;
   }
 
 }

@@ -3,7 +3,7 @@
 
   <Appenders>
     <Console name="STDOUT">
-      <PatternLayout pattern="%d{ABSOLUTE} %-5p [%c] (%t) %m%n" />
+      <PatternLayout pattern="%d{ABSOLUTE} %-5p [%c] (%-18t) %m%n" />
     </Console>
   </Appenders>
 
@@ -13,5 +13,6 @@
     </Root>
 
     <Logger name="de.gedoplan" level="debug"/>
+    <Logger name="de.gedoplan.v5t11.comserver" level="trace"/>
   </Loggers>
 </Configuration>
