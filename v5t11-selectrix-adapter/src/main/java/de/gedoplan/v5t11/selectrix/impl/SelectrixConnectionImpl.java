@@ -31,11 +31,11 @@ public class SelectrixConnectionImpl implements SelectrixConnection {
   }
 
   public void start(String serialPortName, int serialPortSpeed, String interfaceTyp, Collection<Integer> adressen) {
-    try {
-      Selectrix.getInstance().start(serialPortName, serialPortSpeed, interfaceTyp, adressen);
-    } catch (IOException e) {
-      throw new SelectrixException("Cannot start Selectrix", e);
-    }
+    // try {
+    Selectrix.getInstance().start(serialPortName, serialPortSpeed, interfaceTyp, adressen);
+    // } catch (IOException e) {
+    // throw new SelectrixException("Cannot start Selectrix", e);
+    // }
   }
 
   @Override

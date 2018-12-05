@@ -45,6 +45,14 @@ public final class Selectrix implements SelectrixMessageListener {
 
   private SelectrixWorker selectrixWorker;
 
+  private String serialPortName;
+
+  private int serialPortSpeed;
+
+  private String interfaceTyp;
+
+  private Collection<Integer> adressen;
+
   public static Selectrix getInstance() {
     return INSTANCE;
   }
@@ -73,19 +81,41 @@ public final class Selectrix implements SelectrixMessageListener {
    * @throws IOException
    *           bei Fehlern
    */
-  public void start(String serialPortName, int serialPortSpeed, String interfaceTyp, Collection<Integer> adressen) throws IOException {
+  public void start(String serialPortName, int serialPortSpeed, String interfaceTyp, Collection<Integer> adressen) {
+    this.serialPortName = serialPortName;
+    this.serialPortSpeed = serialPortSpeed;
+    this.interfaceTyp = interfaceTyp;
+    this.adressen = adressen;
 
-    if (serialPortSpeed <= 0) {
-      serialPortSpeed = "rautenhaus".equalsIgnoreCase(interfaceTyp) ? 19200 : 9600;
+    restart();
+  }
+
+  public void restart() {
+    while (true) {
+      try {
+        start();
+        return;
+      } catch (IOException e) {
+        try {
+          Thread.sleep(1000);
+        } catch (InterruptedException ignore) {}
+      }
+    }
+  }
+
+  private void start() throws IOException {
+
+    if (this.serialPortSpeed <= 0) {
+      this.serialPortSpeed = "rautenhaus".equalsIgnoreCase(this.interfaceTyp) ? 19200 : 9600;
     }
 
-    openPort(serialPortName, serialPortSpeed);
+    openPort(this.serialPortName, this.serialPortSpeed);
 
     if (this.device != null) {
-      startReader(interfaceTyp);
+      startReader(this.interfaceTyp);
     }
 
-    for (int adr : adressen) {
+    for (int adr : this.adressen) {
       addWatchAddress(adr);
     }
   }
@@ -147,7 +177,14 @@ public final class Selectrix implements SelectrixMessageListener {
     assert adresse >= 0 && adresse <= SelectrixConnection.MAX_ADDRESSE : "Ungueltige Adresse: " + adresse;
 
     if (refresh && this.selectrixWorker != null) {
-      return this.selectrixWorker.read(adresse);
+      while (true) {
+        try {
+          return this.selectrixWorker.read(adresse);
+        } catch (IOException e) {
+          stop();
+          restart();
+        }
+      }
     }
 
     return this.cache.get(adresse);
@@ -183,7 +220,15 @@ public final class Selectrix implements SelectrixMessageListener {
 
     if (this.cache.getAndSet(adresse, wert) != wert) {
       if (updateInterface && this.selectrixWorker != null) {
-        this.selectrixWorker.write(adresse, wert);
+        while (true) {
+          try {
+            this.selectrixWorker.write(adresse, wert);
+            return;
+          } catch (IOException e) {
+            stop();
+            restart();
+          }
+        }
       }
 
       // Send message

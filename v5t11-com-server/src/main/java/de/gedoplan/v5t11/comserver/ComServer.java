@@ -166,7 +166,7 @@ public class ComServer {
             for (int i = 0; i < count; ++i) {
               sb.append(to8BitString(buf[i]));
               sb.append("/");
-              sb.append(buf[i]);
+              sb.append((buf[i]) & 0xff);
               sb.append(" ");
             }
 
