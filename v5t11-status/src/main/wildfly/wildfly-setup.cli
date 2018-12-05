@@ -9,7 +9,9 @@ jms-topic add --topic-address=v5t11-status --entries=jms/topic/v5t11-status,java
 
 # Logging einstellen
 /subsystem=logging/root-logger=ROOT:write-attribute(name=handlers, value=[CONSOLE])
+/subsystem=logging/root-logger=ROOT:write-attribute(name=level, value=WARN)
 /subsystem=logging/periodic-rotating-file-handler=FILE:remove
+/subsystem=logging/console-handler=CONSOLE:write-attribute(name=level, value=ALL)
 /subsystem=logging/logger=org.jboss.as.config:remove
 /subsystem=logging/logger=de.gedoplan:add(level=DEBUG)
 
