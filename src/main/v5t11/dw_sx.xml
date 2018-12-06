@@ -89,12 +89,12 @@
 
     <!-- Check OK -->
     <SXBM1 id="BM-2003-4" adr="49" einbauOrt="Schattenbahnhof Gleis 4a"> 
-      <!-- TODO --> <Gleisabschnitt idx="0" bereich="Schattenbahnhof" name="11a" /> 
-      <!-- TODO --> <Gleisabschnitt idx="1" bereich="Schattenbahnhof" name="12a" /> 
-      <!-- TODO --> <Gleisabschnitt idx="2" bereich="Schattenbahnhof" name="13a" /> 
-      <!-- TODO --> <Gleisabschnitt idx="3" bereich="Schattenbahnhof" name="14a" /> 
-      <!-- TODO --> <Gleisabschnitt idx="4" bereich="Schattenbahnhof" name="15a" /> 
-      <!-- TODO --> <Gleisabschnitt idx="5" bereich="Schattenbahnhof" name="16a" /> 
+      <Gleisabschnitt idx="0" bereich="Schattenbahnhof" name="11a" /> 
+      <Gleisabschnitt idx="1" bereich="Schattenbahnhof" name="12a" /> 
+      <Gleisabschnitt idx="2" bereich="Schattenbahnhof" name="13a" /> 
+      <Gleisabschnitt idx="3" bereich="Schattenbahnhof" name="14a" /> 
+      <Gleisabschnitt idx="4" bereich="Schattenbahnhof" name="15a" /> 
+      <Gleisabschnitt idx="5" bereich="Schattenbahnhof" name="16a" /> 
       <!-- TODO --> <Gleisabschnitt idx="6" bereich="Schattenbahnhof" name="W13" />
       <!-- TODO --> <Gleisabschnitt idx="7" bereich="Schattenbahnhof" name="W15" />
     </SXBM1>
