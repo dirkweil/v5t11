@@ -1,1 +1,1 @@
-module add --name=com.neuronrobotics.nrjavaserial --resources=nrjavaserial-3.12.1.jar
+module add --name=com.neuronrobotics.nrjavaserial --resources=nrjavaserial-3.15.0.jar
