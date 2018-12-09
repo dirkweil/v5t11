@@ -104,9 +104,9 @@
       <Gleisabschnitt idx="2" bereich="Strecke10xx" name="W1005" />
       <Gleisabschnitt idx="3" bereich="Schattenbahnhof" name="W15" />
       <Gleisabschnitt idx="4" bereich="Schattenbahnhof" name="W17" />
-      <Gleisabschnitt idx="5" bereich="Strecke10xx" name="1002" />
+      <Gleisabschnitt idx="5" bereich="Strecke10xx" name="1001" />
       <Gleisabschnitt idx="6" bereich="Strecke10xx" name="W1003" />
-      <Gleisabschnitt idx="7" bereich="Strecke10xx" name="1001" />
+      <Gleisabschnitt idx="7" bereich="Strecke10xx" name="1002" />
     </SXBM1>
 
     <!-- Check OK -->
@@ -129,7 +129,7 @@
       <Gleisabschnitt idx="3" bereich="Schattenbahnhof" name="W12" />
       <Gleisabschnitt idx="4" bereich="Schattenbahnhof" name="W9" />
       <Gleisabschnitt idx="5" bereich="Schattenbahnhof" name="W11" />
-      <Gleisabschnitt idx="6" bereich="Strecke10xx" name="1007" />
+      <Gleisabschnitt idx="6" bereich="Schattenbahnhof" name="308" />
       <Gleisabschnitt idx="7" bereich="Schattenbahnhof" name="W1" />
     </SXBM1>
 
