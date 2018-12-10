@@ -7,7 +7,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 public class TrixFormatWorker extends SelectrixWorker {
-  private static final int LOOP_INTERVAL_MILLIS = 500;
+  private static final int LOOP_INTERVAL_MILLIS = 250;
 
   public TrixFormatWorker(InputStream in, OutputStream out) {
     super(in, out);
