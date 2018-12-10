@@ -1,3 +1,4 @@
+# TODO Create custom image for ARM
 FROM jboss/wildfly:14.0.1.Final
 
 # Add deployment
