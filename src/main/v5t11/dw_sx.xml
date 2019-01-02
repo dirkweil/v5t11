@@ -133,6 +133,30 @@
       <Gleisabschnitt idx="7" bereich="Schattenbahnhof" name="W1" />
     </SXBM1>
 
+    <!-- Check ? -->
+    <BMMiba3 id="BM-2018-1" adr="52" einbauOrt="??? NBhf">
+      <Gleisabschnitt idx="0" bereich="NBhf" name="102" />
+      <Gleisabschnitt idx="1" bereich="NBhf" name="W1" />
+      <Gleisabschnitt idx="2" bereich="NBhf" name="W2" />
+      <Gleisabschnitt idx="3" bereich="NBhf" name="W3" />
+      <Gleisabschnitt idx="4" bereich="NBhf" name="W4" />
+      <Gleisabschnitt idx="5" bereich="NBhf" name="11" />
+      <Gleisabschnitt idx="6" bereich="NBhf" name="13" />
+      <Gleisabschnitt idx="7" bereich="NBhf" name="4" />
+    </BMMiba3>
+
+    <!-- Check ? -->
+    <BMMiba3 id="BM-2018-2" adr="53" einbauOrt="??? NBhf">
+      <Gleisabschnitt idx="0" bereich="NBhf" name="1" />
+      <Gleisabschnitt idx="1" bereich="NBhf" name="2" />
+      <Gleisabschnitt idx="2" bereich="NBhf" name="3" />
+      <Gleisabschnitt idx="3" bereich="NBhf" name="W5" />
+      <Gleisabschnitt idx="4" bereich="NBhf" name="W6" />
+      <Gleisabschnitt idx="5" bereich="NBhf" name="W7" />
+      <Gleisabschnitt idx="6" bereich="NBhf" name="23" />
+      <Gleisabschnitt idx="7" bereich="NBhf" name="202" />
+    </BMMiba3>
+
   </Besetztmelder>
   
   <Funktionsdecoder>
@@ -164,6 +188,20 @@
       <Weiche idx="6" bereich="Schattenbahnhof" name="4" />
       <Weiche idx="7" bereich="Schattenbahnhof" name="2" />
     </WDMiba>
+
+    <SD8 id="FD-20xx-1" adr="73" einbauOrt="??? NBhf">
+      <!-- TODO --><Weiche idx="0" bereich="NBhf" name="1" />
+      <!-- TODO --><Weiche idx="0" bereich="NBhf" name="4" />
+      <!-- TODO --><Weiche idx="1" bereich="NBhf" name="2" />
+      <!-- TODO --><Weiche idx="1" bereich="NBhf" name="3" />
+      <!-- TODO --><Weiche idx="2" bereich="NBhf" name="5a" />
+      <!-- TODO --><Weiche idx="3" bereich="NBhf" name="5b" />
+      <!-- TODO --><Weiche idx="3" bereich="NBhf" name="6" />
+      <!-- TODO --><Weiche idx="4" bereich="NBhf" name="7" />
+      <!-- TODO --><HauptsignalRtGe idx="5" bereich="NBhf" name="A" />
+      <!-- TODO --><HauptsignalRtGe idx="6" bereich="NBhf" name="P1-3" />
+      <!-- TODO --><HauptsignalRtGe idx="7" bereich="NBhf" name="N1-4" />
+    </SD8>
 
     <NoFD>
       <Weiche bereich="Schattenbahnhof" name="1" />

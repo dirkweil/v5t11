@@ -306,7 +306,7 @@
     </Zeile>
     <Zeile>
       <Leer anzahl="2" />
-      <Gleisabschnitt lage="S,N" name="666" bereich="NBhf" label="true" />
+      <Gleisabschnitt lage="S,N" name="202" bereich="NBhf" label="true" />
       <Gleisabschnitt lage="NW,SO" name="1004" bereich="Strecke10xx" label="true" />
       <Leer anzahl="2" />
       <Gleisabschnitt lage="SW,N" name="1002" bereich="Strecke10xx" />
@@ -325,5 +325,52 @@
       <Gleisabschnitt lage="W,NO" name="1001" bereich="Strecke10xx" />
     </Zeile>
   </Stellwerk>
+
+  <Stellwerk bereich="NBhf">
+    <Zeile>
+      <Gleisabschnitt lage="NW,SO" name="102" bereich="NBhf" label="true" />
+      <Gleisabschnitt lage="NW,SO" name="11" bereich="NBhf" label="true" />
+      <Leer anzahl="10" />
+      <Gleisabschnitt lage="SW,NO" name="202" bereich="NBhf" label="true" />
+    </Zeile>
+    <Zeile>
+      <Leer anzahl="1" />
+      <Weiche lage="NW,SO|O" name="1" bereich="NBhf" />
+      <Weiche lage="NW|W,O" name="4" bereich="NBhf" />
+      <Gleisabschnitt lage="W,O" name="1" bereich="NBhf" anzahl="3" />
+      <Gleisabschnitt lage="W,O" name="1" bereich="NBhf" label="true" />
+      <Gleisabschnitt lage="W,O" name="1" bereich="NBhf" anzahl="4" />
+      <Weiche lage="SW|W,NO" name="7" bereich="NBhf" />
+    </Zeile>
+    <Zeile>
+      <Leer anzahl="2" />
+      <Weiche lage="NW,SO|O" name="2" bereich="NBhf" />
+      <Gleisabschnitt lage="W,O" name="2" bereich="NBhf" anzahl="3" />
+      <Gleisabschnitt lage="W,O" name="2" bereich="NBhf" label="true" />
+      <Gleisabschnitt lage="W,O" name="2" bereich="NBhf" anzahl="3" />
+      <Weiche lage="SW|W,NO" name="6" bereich="NBhf" />
+    </Zeile>
+    <Zeile>
+      <Leer anzahl="1" />
+      <Gleisabschnitt lage="W,O" name="13" bereich="NBhf" label="true" />
+      <Gleisabschnitt lage="W,O" name="13" bereich="NBhf" />
+      <Weiche lage="W|NW,O" name="3" bereich="NBhf" />
+      <Gleisabschnitt lage="W,O" name="3" bereich="NBhf" anzahl="2" />
+      <Gleisabschnitt lage="W,O" name="3" bereich="NBhf" label="true" />
+      <Gleisabschnitt lage="W,O" name="3" bereich="NBhf" anzahl="2" />
+      <Weiche lage="W|SW,NO" name="5" bereich="NBhf" />
+      <!-- <Dkw2 lage="W|SW,O|NO" name="5" bereich="NBhf" /> -->
+      <Gleisabschnitt lage="W,O" name="23" bereich="NBhf" />
+      <Gleisabschnitt lage="W,O" name="23" bereich="NBhf" label="true" />
+    </Zeile>
+    <Zeile>
+      <Leer anzahl="2" />
+      <Gleisabschnitt lage="W,O" name="4" bereich="NBhf" anzahl="4"/>
+      <Gleisabschnitt lage="W,O" name="4" bereich="NBhf" label="true" />
+      <Gleisabschnitt lage="W,O" name="4" bereich="NBhf" />
+      <Gleisabschnitt lage="W,NO" name="4" bereich="NBhf" />
+    </Zeile>
+  </Stellwerk>
+
 </Leitstand>
 
