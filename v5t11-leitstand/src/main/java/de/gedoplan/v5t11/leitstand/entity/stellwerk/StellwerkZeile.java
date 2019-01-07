@@ -21,6 +21,7 @@ public class StellwerkZeile implements Serializable {
       @XmlElement(name = "Leer", type = StellwerkLeer.class),
       @XmlElement(name = "Gleisabschnitt", type = StellwerkGleisabschnitt.class),
       @XmlElement(name = "Weiche", type = StellwerkWeiche.class),
+      @XmlElement(name = "Dkw2", type = StellwerkDkw2.class),
   })
   @Getter
   private List<StellwerkElement> elemente;

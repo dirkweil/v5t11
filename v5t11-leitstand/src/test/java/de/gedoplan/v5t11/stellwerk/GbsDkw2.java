@@ -9,24 +9,27 @@ import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class GbsDkw2 extends GbsWeicheMit2Antrieben {
+  private static final Pattern PATTERN = Pattern.compile("(\\w+)\\|(\\w+),(\\w+)\\|(\\w+)");
+
   private GbsRichtung[] geradePos = new GbsRichtung[2];
   private GbsRichtung[] abzweigPos = new GbsRichtung[2];
 
   public GbsDkw2(String bereich, StellwerkElement stellwerkElement) {
     super(bereich, stellwerkElement);
 
-    String[] segmente = stellwerkElement.getLage().split(",");
-    if (segmente.length != 2) {
-      throw new IllegalArgumentException("Lage muss bei Dkw2 2-teilig sein");
+    Matcher matcher = PATTERN.matcher(stellwerkElement.getLage());
+    if (matcher.matches()) {
+      this.geradePos[0] = GbsRichtung.valueOf(matcher.group(1));
+      this.abzweigPos[0] = GbsRichtung.valueOf(matcher.group(2));
+      this.geradePos[1] = GbsRichtung.valueOf(matcher.group(3));
+      this.abzweigPos[1] = GbsRichtung.valueOf(matcher.group(4));
+    } else {
+      throw new IllegalArgumentException("Lage muss bei Dkw das Format g|a,g|a haben");
     }
-
-    this.geradePos[0] = GbsRichtung.valueOf(segmente[0]);
-    this.abzweigPos[0] = GbsRichtung.valueOf(segmente[1]);
-
-    this.geradePos[1] = this.geradePos[0].getOpposite();
-    this.abzweigPos[1] = this.abzweigPos[0].getOpposite();
 
     this.labelPos = findBestFreePosition(this.geradePos[0], this.geradePos[1], this.abzweigPos[0], this.abzweigPos[1]);
   }

@@ -5,6 +5,7 @@ import de.gedoplan.baselibs.utils.inject.InjectionUtil;
 import de.gedoplan.v5t11.leitstand.entity.Leitstand;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Signal;
+import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkDkw2;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkElement;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkGleisabschnitt;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkWeiche;
@@ -407,8 +408,9 @@ public abstract class GbsElement extends JPanel {
     // if (stellwerkElement instanceof StellwerkDkw1)
     // return new GbsDkw1(bereich, stellwerkElement);
 
-    // if (stellwerkElement instanceof StellwerkDkw2)
-    // return new GbsDkw2(bereich, stellwerkElement);
+    if (stellwerkElement instanceof StellwerkDkw2) {
+      return new GbsDkw2(bereich, stellwerkElement);
+    }
 
     if (stellwerkElement instanceof StellwerkGleisabschnitt) {
       return new GbsGleisAbschnitt(bereich, stellwerkElement);
