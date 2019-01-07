@@ -358,8 +358,7 @@
       <Gleisabschnitt lage="W,O" name="3" bereich="NBhf" anzahl="2" />
       <Gleisabschnitt lage="W,O" name="3" bereich="NBhf" label="true" />
       <Gleisabschnitt lage="W,O" name="3" bereich="NBhf" anzahl="2" />
-      <Weiche lage="W|SW,NO" name="5" bereich="NBhf" />
-      <!-- <Dkw2 lage="W|SW,O|NO" name="5" bereich="NBhf" /> -->
+      <Dkw2 lage="W|SW,O|NO" name="5" bereich="NBhf" />
       <Gleisabschnitt lage="W,O" name="23" bereich="NBhf" />
       <Gleisabschnitt lage="W,O" name="23" bereich="NBhf" label="true" />
     </Zeile>
