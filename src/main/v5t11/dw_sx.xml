@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <sx>
 <!--   <Interface typ="rautenhaus" speed="19200" /> -->
+  <Interface typ="selectrix" speed="19200" />
 
   <Besetztmelder>
     <!-- Check OK -->
@@ -134,7 +135,7 @@
     </SXBM1>
 
     <!-- Check ? -->
-    <BMMiba3 id="BM-2018-1" adr="52" einbauOrt="??? NBhf">
+    <BMMiba3 id="BM-2003-2" adr="55" einbauOrt="Mitte links NBhf">
       <Gleisabschnitt idx="0" bereich="NBhf" name="102" />
       <Gleisabschnitt idx="1" bereich="NBhf" name="W1" />
       <Gleisabschnitt idx="2" bereich="NBhf" name="W2" />
@@ -146,7 +147,7 @@
     </BMMiba3>
 
     <!-- Check ? -->
-    <BMMiba3 id="BM-2018-2" adr="53" einbauOrt="??? NBhf">
+    <BMMiba3 id="BM-2013-1" adr="56" einbauOrt="Mitte rechts NBhf">
       <Gleisabschnitt idx="0" bereich="NBhf" name="1" />
       <Gleisabschnitt idx="1" bereich="NBhf" name="2" />
       <Gleisabschnitt idx="2" bereich="NBhf" name="3" />
@@ -182,14 +183,13 @@
 
     <WDMiba id="FD-2003-3" adr="72" einbauOrt="Einfahrt Schattenbahnhof">
       <Weiche idx="0" bereich="Schattenbahnhof" name="5" />
-      <!-- TODO --><Weiche idx="4" bereich="Strecke10xx" name="1005" />
-      <Weiche idx="5" bereich="Schattenbahnhof" name="6" />
+      <Weiche idx="4" bereich="Strecke10xx" name="1005" />
       <Weiche idx="5" bereich="Schattenbahnhof" name="6" />
       <Weiche idx="6" bereich="Schattenbahnhof" name="4" />
       <Weiche idx="7" bereich="Schattenbahnhof" name="2" />
     </WDMiba>
 
-    <SD8 id="FD-20xx-1" adr="73" einbauOrt="??? NBhf">
+    <SD8 id="FD-2013-2" adr="76" einbauOrt="Ausfahrt rechts NBhf">
       <!-- TODO --><Weiche idx="0" bereich="NBhf" name="1" />
       <!-- TODO --><Weiche idx="0" bereich="NBhf" name="4" />
       <!-- TODO --><Weiche idx="1" bereich="NBhf" name="2" />
