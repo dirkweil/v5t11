@@ -6,6 +6,7 @@ package de.gedoplan.v5t11.util.domain.attribute;
  * @author dw
  */
 public enum WeichenStellung {
+  // Achtung: Die Reihenfolge der beiden Konstanten muss erhalten bleiben, da die Ordinalwerte als Stellungswerte genutzt werden!
   GERADE, ABZWEIGEND;
 
   public static WeichenStellung valueOfLenient(String s) {

@@ -3,7 +3,6 @@
  */
 package de.gedoplan.v5t11.status.entity.fahrweg.geraet;
 
-import de.gedoplan.baselibs.utils.exception.BugException;
 import de.gedoplan.v5t11.status.entity.baustein.Funktionsdecoder;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
@@ -28,6 +27,9 @@ public class Weiche extends AbstractWeiche implements FunktionsdecoderGeraet {
 
   @Getter
   private FunktionsdecoderZuordnung funktionsdecoderZuordnung;
+
+  @XmlAttribute
+  private boolean invertiert;
 
   /**
    * Konstruktor.
@@ -69,16 +71,12 @@ public class Weiche extends AbstractWeiche implements FunktionsdecoderGeraet {
    *          Stellung
    * @return Stellungswert
    */
-  public static long getWertForStellung(WeichenStellung stellung) {
-    switch (stellung) {
-    case GERADE:
-      return 0;
-
-    case ABZWEIGEND:
-      return 1;
+  public long getWertForStellung(WeichenStellung stellung) {
+    int wert = stellung.ordinal();
+    if (this.invertiert) {
+      wert = 1 - wert;
     }
-
-    throw new BugException("Unbekannte Weichenstellung: " + stellung);
+    return wert;
   }
 
   /**
@@ -88,8 +86,12 @@ public class Weiche extends AbstractWeiche implements FunktionsdecoderGeraet {
    *          Stellungswert
    * @return Stellung
    */
-  public static WeichenStellung getStellungForWert(long stellungsWert) {
-    return stellungsWert == 0 ? WeichenStellung.GERADE : WeichenStellung.ABZWEIGEND;
+  public WeichenStellung getStellungForWert(long stellungsWert) {
+    int wert = (int) stellungsWert;
+    if (this.invertiert) {
+      wert = 1 - wert;
+    }
+    return WeichenStellung.values()[wert];
   }
 
   @Override

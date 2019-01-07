@@ -193,9 +193,9 @@
       <!-- TODO --><Weiche idx="0" bereich="NBhf" name="1" />
       <!-- TODO --><Weiche idx="0" bereich="NBhf" name="4" />
       <!-- TODO --><Weiche idx="1" bereich="NBhf" name="2" />
-      <!-- TODO --><Weiche idx="1" bereich="NBhf" name="3" />
+      <!-- TODO --><Weiche idx="1" bereich="NBhf" name="3" invertiert="true" />
       <!-- TODO --><Weiche idx="2" bereich="NBhf" name="5a" />
-      <!-- TODO --><Weiche idx="3" bereich="NBhf" name="5b" />
+      <!-- TODO --><Weiche idx="3" bereich="NBhf" name="5b" invertiert="true" />
       <!-- TODO --><Weiche idx="3" bereich="NBhf" name="6" />
       <Weiche idx="4" bereich="NBhf" name="7" />
       <!-- TODO --><HauptsignalRtGe idx="5" bereich="NBhf" name="A" />
