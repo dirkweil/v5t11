@@ -23,7 +23,7 @@ import lombok.Getter;
 @Programmierfamilie(SD8.class)
 public class SD8RuntimeService extends ConfigurationRuntimeService {
   // TODO Kann das verkürzt werden?
-  private static final int WAIT_MILLIS = 1000;
+  private static final int WAIT_MILLIS = 100;
 
   @Getter
   private SD8ConfigurationAdapter configuration;
@@ -44,7 +44,7 @@ public class SD8RuntimeService extends ConfigurationRuntimeService {
     this.configuration.clearAdresseDirty();
 
     for (ServoConfiguration servo : this.configuration.getServoConfiguration()) {
-      int parameterNummer = servo.getServoNummer() * 3 - 1;
+      int parameterNummer = (servo.getServoNummer() + 1) * 3 - 1;
       servo.getStart().setIst(getParameter(parameterNummer));
       servo.getStart().clearDirty();
       servo.getEnde().setIst(getParameter(parameterNummer + 1));
@@ -63,15 +63,15 @@ public class SD8RuntimeService extends ConfigurationRuntimeService {
   }
 
   public void setRuntimeValues(SD8ConfigurationAdapter configuration, int servoNummer) {
-    if (servoNummer == 0) {
+    if (servoNummer < 0) {
       setParameter(0, configuration.getAdresseIst());
       setParameter(1, 255);
       configuration.clearAdresseDirty();
     }
 
     for (ServoConfiguration servo : configuration.getServoConfiguration()) {
-      if (servoNummer == 0 || servoNummer == servo.getServoNummer()) {
-        int parameterNummer = servo.getServoNummer() * 3 - 1;
+      if (servoNummer < 0 || servoNummer == servo.getServoNummer()) {
+        int parameterNummer = (servo.getServoNummer() + 1) * 3 - 1;
         if (servo.getStart().isDirty()) {
           setParameter(parameterNummer, servo.getStart().getIst());
           servo.getStart().clearDirty();

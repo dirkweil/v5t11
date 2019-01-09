@@ -25,8 +25,8 @@ public class SD8ConfigurationAdapter extends ConfigurationAdapter {
     super(istConfiguration, sollConfiguration);
 
     this.servoConfiguration = new ServoConfiguration[8];
-    for (int servoNummer = 1; servoNummer <= 8; ++servoNummer) {
-      this.servoConfiguration[servoNummer - 1] = new ServoConfiguration(servoNummer, this.istProperties, this.sollProperties);
+    for (int servoNummer = 0; servoNummer < 8; ++servoNummer) {
+      this.servoConfiguration[servoNummer] = new ServoConfiguration(servoNummer, this.istProperties, this.sollProperties);
     }
 
     this.abschaltZeit = new ConfigurationPropertyAdapter<>(this.istProperties, "abschaltZeit", 0, this.sollProperties, Integer.class);
