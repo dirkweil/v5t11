@@ -1,0 +1,48 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:c="http://java.sun.com/jsp/jstl/core"
+  xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:prime="http://primefaces.org/ui">
+
+<h:head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <title>V5T11: Baustein-Programmierung</title>
+</h:head>
+
+<h:body>
+
+  <h:form>
+    <prime:tabView>
+
+      <prime:tab title="Vorkonfigurierte Bausteine">
+        <prime:dataTable value="#{bausteinProgrammierungModel.konfigurierteBausteine}" var="baustein" sortBy="#{baustein.label}">
+          <prime:column sortBy="#{baustein.label}">
+            <f:facet name="header">Id</f:facet>
+            <prime:commandButton value="#{baustein.label}" action="#{bausteinProgrammierungModel.selectBaustein(baustein)}" ajax="false" />
+          </prime:column>
+          <prime:column>
+            <f:facet name="header">Typ</f:facet>
+            #{baustein.class.simpleName}
+          </prime:column>
+          <prime:column sortBy="#{baustein.adresse}">
+            <f:facet name="header">Adresse</f:facet>
+            #{baustein.adresse}
+          </prime:column>
+          <prime:column>
+            <f:facet name="header">Einbauort</f:facet>
+            #{baustein.einbauOrt}
+          </prime:column>
+        </prime:dataTable>
+      </prime:tab>
+
+      <prime:tab title="Neue Bausteine">
+        <prime:dataTable value="#{bausteinProgrammierungModel.neueBausteine}" var="baustein" sortBy="#{baustein.label}">
+          <prime:column sortBy="#{baustein.label}">
+            <f:facet name="header">Typ</f:facet>
+            <prime:commandButton value="#{baustein.label}" action="#{bausteinProgrammierungModel.selectBaustein(baustein)}" ajax="false" />
+          </prime:column>
+        </prime:dataTable>
+      </prime:tab>
+
+    </prime:tabView>
+  </h:form>
+
+</h:body>
+</html>

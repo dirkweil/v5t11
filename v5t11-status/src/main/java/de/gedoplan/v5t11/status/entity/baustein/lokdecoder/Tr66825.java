@@ -13,9 +13,4 @@ public class Tr66825 extends SxLokdecoder {
   public Tr66825() {
     super(1);
   }
-
-  @Override
-  public Class<?> getProgrammierfamilie() {
-    return null;
-  }
 }

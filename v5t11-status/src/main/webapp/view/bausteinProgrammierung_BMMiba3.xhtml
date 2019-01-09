@@ -1,0 +1,72 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/templates/bausteinProgrammierung.xhtml">
+  <ui:define name="properties">
+    <h:panelGrid columns="5">
+      <h:panelGroup />
+      <h:outputText value="Soll" />
+      <h:panelGroup />
+      <h:outputText value="Ist" />
+      <h:panelGroup />
+
+      <h:outputText value="Adresse: " />
+      <p:inputText value="#{bausteinProgrammierungModel.configuration.adresseSoll}" readonly="true" />
+      <p:commandButton value=">" action="#{bausteinProgrammierungModel.configuration.adresseResetToSoll()}" ajax="false" />
+      <p:inputText value="#{bausteinProgrammierungModel.configuration.adresseIst}" id="istAdresse" />
+      <p:message for="istAdresse" />
+
+      <h:outputText value="Ansprechverzögerung: " />
+      <p:inputText value="#{bausteinProgrammierungModel.configuration.ansprechVerzoegerung.soll}" readonly="true" />
+      <p:commandButton value=">" action="#{bausteinProgrammierungModel.configuration.ansprechVerzoegerung.resetToSoll()}" ajax="false" />
+      <p:inputText value="#{bausteinProgrammierungModel.configuration.ansprechVerzoegerung.ist}" id="istAnsprechVerzoegerung" />
+      <p:message for="istAnsprechVerzoegerung" />
+
+      <h:outputText value="Abfallverzögerung: " />
+      <p:inputText value="#{bausteinProgrammierungModel.configuration.abfallVerzoegerung.soll}" readonly="true" />
+      <p:commandButton value=">" action="#{bausteinProgrammierungModel.configuration.abfallVerzoegerung.resetToSoll()}" ajax="false" />
+      <p:inputText value="#{bausteinProgrammierungModel.configuration.abfallVerzoegerung.ist}" id="istAbfallVerzoegerung" />
+      <p:message for="istAbfallVerzoegerung" />
+
+      <h:outputText value="Zeittakt für Verzögerungen: " />
+      <p:inputText value="#{bausteinProgrammierungModel.configuration.zeittakt.soll}" readonly="true" />
+      <p:commandButton value=">" action="#{bausteinProgrammierungModel.configuration.zeittakt.resetToSoll()}" ajax="false" />
+      <p:selectOneMenu value="#{bausteinProgrammierungModel.configuration.zeittakt.ist}" id="istZeittakt">
+        <f:selectItems value="#{bausteinProgrammierungModel.configuration.zeittakt.values}" />
+      </p:selectOneMenu>
+      <p:message for="istZeittakt" />
+
+      <h:outputText value="Belegtmeldung bei ZE Stopp: " />
+      <p:inputText value="#{bausteinProgrammierungModel.configuration.meldungBeiZeStopp.soll}" readonly="true" />
+      <p:commandButton value=">" action="#{bausteinProgrammierungModel.configuration.meldungBeiZeStopp.resetToSoll()}" ajax="false" />
+      <p:selectOneMenu value="#{bausteinProgrammierungModel.configuration.meldungBeiZeStopp.ist}" id="istBelegtmeldungBeiZeStopp">
+        <f:selectItems value="#{bausteinProgrammierungModel.configuration.meldungBeiZeStopp.values}" />
+      </p:selectOneMenu>
+      <p:message for="istBelegtmeldungBeiZeStopp" />
+
+      <h:outputText value="Belegtmeldung bei fehlendem Fahrstrom: " />
+      <p:inputText value="#{bausteinProgrammierungModel.configuration.meldungBeiFehlendemFahrstrom.soll}" readonly="true" />
+      <p:commandButton value=">" action="#{bausteinProgrammierungModel.configuration.meldungBeiFehlendemFahrstrom.resetToSoll()}" ajax="false" />
+      <p:selectOneMenu value="#{bausteinProgrammierungModel.configuration.meldungBeiFehlendemFahrstrom.ist}" id="istBelegtmeldungBeiFehlendemFahrstrom">
+        <f:selectItems value="#{bausteinProgrammierungModel.configuration.meldungBeiFehlendemFahrstrom.values}" />
+      </p:selectOneMenu>
+      <p:message for="istBelegtmeldungBeiFehlendemFahrstrom" />
+
+      <h:outputText value="Meldungs-Negation: " />
+      <p:selectBooleanCheckbox value="#{bausteinProgrammierungModel.configuration.meldungsNegation.soll}" disabled="true" />
+      <p:commandButton value=">" action="#{bausteinProgrammierungModel.configuration.meldungsNegation.resetToSoll()}" ajax="false" />
+      <p:selectBooleanCheckbox value="#{bausteinProgrammierungModel.configuration.meldungsNegation.ist}" id="istMeldungsNegation" />
+      <p:message for="istMeldungsNegation" />
+
+      <h:outputText value="Meldungs-Speicherung " />
+      <p:inputText value="#{bausteinProgrammierungModel.configuration.meldungsSpeicherung.soll}" readonly="true" />
+      <p:commandButton value=">" action="#{bausteinProgrammierungModel.configuration.meldungsSpeicherung.resetToSoll()}" ajax="false" />
+      <p:selectOneMenu value="#{bausteinProgrammierungModel.configuration.meldungsSpeicherung.ist}" id="istMeldungsSpeicherung">
+        <f:selectItems value="#{bausteinProgrammierungModel.configuration.meldungsSpeicherung.values}" />
+      </p:selectOneMenu>
+      <p:message for="istMeldungsSpeicherung" />
+
+    </h:panelGrid>
+  </ui:define>
+</ui:composition>
+</html>

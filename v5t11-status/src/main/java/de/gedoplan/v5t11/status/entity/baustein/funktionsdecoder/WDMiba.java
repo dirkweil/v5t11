@@ -1,6 +1,7 @@
 package de.gedoplan.v5t11.status.entity.baustein.funktionsdecoder;
 
 import de.gedoplan.v5t11.status.entity.baustein.Funktionsdecoder;
+import de.gedoplan.v5t11.status.entity.baustein.Konfigurierbar;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -13,6 +14,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
  * @author dw
  */
 @XmlAccessorType(XmlAccessType.NONE)
+@Konfigurierbar
 public class WDMiba extends Funktionsdecoder {
   protected WDMiba() {
     super(1);

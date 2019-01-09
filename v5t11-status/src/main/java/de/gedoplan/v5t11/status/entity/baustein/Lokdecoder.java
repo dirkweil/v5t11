@@ -70,6 +70,10 @@ public abstract class Lokdecoder extends Baustein implements Decoder {
 
     if (this.lok != null) {
       this.lok.setLokdecoder(this);
+
+      if (this.getEinbauOrt() == null) {
+        this.setEinbauOrt("Lok " + this.lok.getId());
+      }
     }
   }
 

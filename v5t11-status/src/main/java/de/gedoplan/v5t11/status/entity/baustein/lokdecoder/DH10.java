@@ -1,5 +1,7 @@
 package de.gedoplan.v5t11.status.entity.baustein.lokdecoder;
 
+import de.gedoplan.v5t11.status.entity.baustein.Konfigurierbar;
+
 /**
  * Lokdecoder DH10C.
  *
@@ -7,6 +9,7 @@ package de.gedoplan.v5t11.status.entity.baustein.lokdecoder;
  *
  * @author dw
  */
+@Konfigurierbar(programmierFamilie = "DHLokDecoder")
 public class DH10 extends DHLokdecoder {
   public DH10() {
     super(1);

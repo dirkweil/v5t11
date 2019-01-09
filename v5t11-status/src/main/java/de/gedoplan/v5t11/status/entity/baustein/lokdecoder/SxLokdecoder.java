@@ -97,11 +97,6 @@ public abstract class SxLokdecoder extends Lokdecoder {
   }
 
   @Override
-  public Class<?> getProgrammierfamilie() {
-    return SxLokdecoder.class;
-  }
-
-  @Override
   public void adjustStatus() {
     this.horn = (this.wert & MASK_HORN) != 0;
     this.licht = (this.wert & MASK_LICHT) != 0;

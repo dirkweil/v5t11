@@ -111,6 +111,7 @@ public class Steuerung {
       @XmlElement(name = "Muet8k", type = Muet8k.class),
       @XmlElement(name = "SXBM1", type = SXBM1.class),
   })
+  @Getter
   private SortedSet<Besetztmelder> besetztmelder = new TreeSet<>();
 
   @XmlElementWrapper(name = "Funktionsdecoder")
@@ -122,6 +123,7 @@ public class Steuerung {
       @XmlElement(name = "WDMiba", type = WDMiba.class),
       @XmlElement(name = "WDMiba3", type = WDMiba3.class),
   })
+  @Getter
   private SortedSet<Funktionsdecoder> funktionsdecoder = new TreeSet<>();
 
   @Getter

@@ -20,5 +20,4 @@ public class NoFD extends Funktionsdecoder {
     super(0);
     this.id = UUID.randomUUID().toString();
   }
-
 }

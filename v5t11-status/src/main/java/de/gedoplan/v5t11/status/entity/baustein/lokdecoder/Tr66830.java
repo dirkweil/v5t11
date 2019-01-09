@@ -1,5 +1,7 @@
 package de.gedoplan.v5t11.status.entity.baustein.lokdecoder;
 
+import de.gedoplan.v5t11.status.entity.baustein.Konfigurierbar;
+
 /**
  * Lokdecoder Trix 66830.
  *
@@ -7,6 +9,7 @@ package de.gedoplan.v5t11.status.entity.baustein.lokdecoder;
  *
  * @author dw
  */
+@Konfigurierbar(programmierFamilie = "SxLokDecoder")
 public class Tr66830 extends SxLokdecoder {
   public Tr66830() {
     super(1);

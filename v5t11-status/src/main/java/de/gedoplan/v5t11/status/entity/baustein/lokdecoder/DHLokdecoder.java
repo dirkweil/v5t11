@@ -9,9 +9,4 @@ public abstract class DHLokdecoder extends SxLokdecoder {
   protected DHLokdecoder(int byteAnzahl) {
     super(byteAnzahl);
   }
-
-  @Override
-  public Class<?> getProgrammierfamilie() {
-    return DHLokdecoder.class;
-  }
 }

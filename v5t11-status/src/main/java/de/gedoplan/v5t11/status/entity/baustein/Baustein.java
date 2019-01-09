@@ -20,6 +20,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * Baustein am SX-Bus.
@@ -36,6 +37,14 @@ public abstract class Baustein extends SingleIdEntity<String> implements Compara
   @XmlAttribute(required = true)
   @Getter(onMethod_ = @JsonbInclude)
   protected String id;
+
+  /**
+   * Label für die GUI erstellen.
+   *
+   * @return Label
+   */
+  @Getter
+  private String label = getLabelPrefix() + " " + getClass().getSimpleName();
 
   /**
    * Erste Adresse des Bausteins am SX-Bus.
@@ -58,6 +67,7 @@ public abstract class Baustein extends SingleIdEntity<String> implements Compara
    */
   @XmlAttribute
   @Getter
+  @Setter
   private String einbauOrt;
 
   /**
@@ -155,6 +165,9 @@ public abstract class Baustein extends SingleIdEntity<String> implements Compara
   public void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
     if (this.id == null) {
       this.id = UUID.randomUUID().toString();
+      this.label = getLabelPrefix() + " " + this.id.substring(0, this.id.indexOf('-'));
+    } else {
+      this.label = getLabelPrefix() + " " + this.id;
     }
 
     if (parent instanceof Steuerung) {
@@ -170,31 +183,6 @@ public abstract class Baustein extends SingleIdEntity<String> implements Compara
    * @return Präfix
    */
   public abstract String getLabelPrefix();
-
-  /**
-   * Label für die GUI erstellen.
-   *
-   * @return Label
-   */
-  public String getLabel() {
-    if (this.id != null) {
-      return getLabelPrefix() + " " + this.id;
-    } else {
-      return getLabelPrefix() + " " + getClass().getSimpleName();
-    }
-  }
-
-  /**
-   * Programmierfamilie liefern.
-   *
-   * Die Programmierfamilie ist die Identifizierung für Programmieralgorithmus und zugehörigen Dialog etc.
-   * Als Konvention wird als Programmierfamilie der einfache Klassenname verwendet.
-   *
-   * @return Programmierfamilie oder <code>null</code>, falls nicht programmierbar.
-   */
-  public Class<?> getProgrammierfamilie() {
-    return getClass();
-  }
 
   /**
    * Ist der Baustein am SX-Bus angeschlossen?
