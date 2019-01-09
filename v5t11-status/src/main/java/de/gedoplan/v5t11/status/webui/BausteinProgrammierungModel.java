@@ -3,6 +3,11 @@ package de.gedoplan.v5t11.status.webui;
 import de.gedoplan.v5t11.status.entity.Steuerung;
 import de.gedoplan.v5t11.status.entity.baustein.Baustein;
 import de.gedoplan.v5t11.status.entity.baustein.Konfigurierbar;
+import de.gedoplan.v5t11.status.service.BausteinConfigurationService;
+import de.gedoplan.v5t11.status.service.ConfigurationAdapter;
+import de.gedoplan.v5t11.status.service.ConfigurationRuntimeService;
+import de.gedoplan.v5t11.status.service.Current;
+import de.gedoplan.v5t11.status.service.Programmierfamilie;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -15,6 +20,10 @@ import javax.enterprise.context.Conversation;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Instance;
 import javax.enterprise.inject.Model;
+import javax.enterprise.inject.Produces;
+import javax.enterprise.inject.spi.CDI;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import org.apache.commons.logging.Log;
@@ -35,8 +44,8 @@ public class BausteinProgrammierungModel implements Serializable {
   @Inject
   Instance<Baustein> bausteinInstanzen;
 
-  // @Inject
-  // BausteinConfigurationService bausteinConfigurationService;
+  @Inject
+  BausteinConfigurationService bausteinConfigurationService;
 
   @Inject
   Conversation conversation;
@@ -59,16 +68,16 @@ public class BausteinProgrammierungModel implements Serializable {
   /**
    * Aktueller Baustein.
    */
-  // @Produces
-  // @Current
+  @Produces
+  @Current
   @Getter
   private Baustein currentBaustein;
 
-  // @Getter
-  // private ConfigurationRuntimeService configurationRuntimeService;
+  @Getter
+  private ConfigurationRuntimeService configurationRuntimeService;
 
-  // @Getter
-  // private ConfigurationAdapter configuration;
+  @Getter
+  private ConfigurationAdapter configuration;
 
   /**
    * Aktuellen Baustein wählen und Programm-Session beginnen.
@@ -107,34 +116,38 @@ public class BausteinProgrammierungModel implements Serializable {
    * @return Outcome
    */
   public String edit() {
-    // if (this.currentBaustein != null) {
-    //
-    // try {
-    // // "Injektion" des passenden ConfigurationRuntimeService per API
-    // Class<?> programmierfamilie = this.currentBaustein.getProgrammierfamilie();
-    // this.configurationRuntimeService = CDI.current().select(ConfigurationRuntimeService.class, new Programmierfamilie.Literal(programmierfamilie)).get();
-    //
-    // // Aktuelle Ist-Werte holen
-    // this.configurationRuntimeService.getRuntimeValues();
-    //
-    // // Config-Werte für Zugriff aus Webseite bereitstellen
-    // this.configuration = this.configurationRuntimeService.getConfiguration();
-    //
-    // // In passende View navigieren
-    // return "/view/bausteinProgrammierung_" + programmierfamilie.getSimpleName() + "?faces-redirect=true";
-    // } catch (Exception e) {
-    // this.log.error("Kann ConfigurationRuntimeService nicht erzeugen", e);
-    //
-    // String message = e.getMessage();
-    // if (message == null || message.trim().isEmpty()) {
-    // message = e.toString();
-    // }
-    //
-    // FacesMessage facesMessage = new FacesMessage(message);
-    // facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
-    // FacesContext.getCurrentInstance().addMessage(null, facesMessage);
-    // }
-    // }
+    if (this.currentBaustein != null) {
+
+      try {
+        // "Injektion" des passenden ConfigurationRuntimeService per API
+        Class<? extends Baustein> bausteinClass = this.currentBaustein.getClass();
+        Class<?> programmierfamilie = bausteinClass.getAnnotation(Konfigurierbar.class).programmierFamilie();
+        if (programmierfamilie == Void.class) {
+          programmierfamilie = bausteinClass;
+        }
+        this.configurationRuntimeService = CDI.current().select(ConfigurationRuntimeService.class, new Programmierfamilie.Literal(programmierfamilie)).get();
+
+        // Aktuelle Ist-Werte holen
+        this.configurationRuntimeService.getRuntimeValues();
+
+        // Config-Werte für Zugriff aus Webseite bereitstellen
+        this.configuration = this.configurationRuntimeService.getConfiguration();
+
+        // In passende View navigieren
+        return "/view/bausteinProgrammierung_" + programmierfamilie.getSimpleName() + "?faces-redirect=true";
+      } catch (Exception e) {
+        this.log.error("Kann ConfigurationRuntimeService nicht erzeugen", e);
+
+        String message = e.getMessage();
+        if (message == null || message.trim().isEmpty()) {
+          message = e.toString();
+        }
+
+        FacesMessage facesMessage = new FacesMessage(message);
+        facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
+        FacesContext.getCurrentInstance().addMessage(null, facesMessage);
+      }
+    }
 
     return null;
   }
@@ -156,7 +169,7 @@ public class BausteinProgrammierungModel implements Serializable {
   }
 
   public void program() {
-    // this.configurationRuntimeService.program();
+    this.configurationRuntimeService.program();
   }
 
   /**

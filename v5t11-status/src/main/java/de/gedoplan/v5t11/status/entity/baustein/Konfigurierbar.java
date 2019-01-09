@@ -16,5 +16,5 @@ import javax.enterprise.inject.Stereotype;
 @Retention(RUNTIME)
 @Documented
 public @interface Konfigurierbar {
-  String programmierFamilie() default "";
+  Class<?> programmierFamilie() default Void.class;
 }

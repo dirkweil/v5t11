@@ -9,7 +9,7 @@ import de.gedoplan.v5t11.status.entity.baustein.Konfigurierbar;
  *
  * @author dw
  */
-@Konfigurierbar(programmierFamilie = "DHLokDecoder")
+@Konfigurierbar(programmierFamilie = DHLokdecoder.class)
 public class DH05 extends DHLokdecoder {
   public DH05() {
     super(1);

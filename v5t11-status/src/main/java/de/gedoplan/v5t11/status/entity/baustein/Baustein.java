@@ -60,6 +60,7 @@ public abstract class Baustein extends SingleIdEntity<String> implements Compara
    */
   @Min(1)
   @Max(8)
+  @Getter
   private int byteAnzahl;
 
   /**

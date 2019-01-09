@@ -9,7 +9,7 @@ import de.gedoplan.v5t11.status.entity.baustein.Konfigurierbar;
  *
  * @author dw
  */
-@Konfigurierbar(programmierFamilie = "SxLokDecoder")
+@Konfigurierbar(programmierFamilie = SxLokdecoder.class)
 public class Tr66832 extends SxLokdecoder {
   public Tr66832() {
     super(1);
