@@ -142,7 +142,7 @@ public class SteuerungTest extends CdiTestBase {
           oldGeraeteWert = (oldWert >>> anschluss) & mask;
 
           // Ist die Weichenstellung korrekt?
-          assertThat("Weichenstellung fuer " + weiche, weiche.getStellung(), is(Weiche.getStellungForWert(geraeteWert)));
+          assertThat("Weichenstellung fuer " + weiche, weiche.getStellung(), is(weiche.getStellungForWert(geraeteWert)));
         } else if (geraet instanceof Signal) {
           Signal signal = (Signal) geraet;
 
@@ -226,13 +226,13 @@ public class SteuerungTest extends CdiTestBase {
         mask = ((1L << bitCount) - 1) << anschluss;
 
         WeichenStellung oldStellung = weiche.getStellung();
-        WeichenStellung stellung = Weiche.getStellungForWert(random.nextInt(2));
+        WeichenStellung stellung = weiche.getStellungForWert(random.nextInt(2));
 
         weiche.setStellung(stellung);
 
         changed = stellung != oldStellung;
 
-        newWert = (wert & ~mask) | (Weiche.getWertForStellung(stellung) << anschluss);
+        newWert = (wert & ~mask) | (weiche.getWertForStellung(stellung) << anschluss);
 
       } else if (geraet instanceof Signal) {
         Signal signal = (Signal) geraet;
