@@ -420,7 +420,7 @@ public class Fahrstrasse extends Bereichselement {
     }
 
     synchronized (Fahrstrasse.class) {
-      if (!isFrei(false, true)) {
+      if (!isFrei(false, false)) {
         return false;
       }
 

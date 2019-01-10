@@ -262,7 +262,7 @@ public class Parcours {
     }
 
     if (filter == FahrstrassenFilter.FREI) {
-      stream = stream.filter(fs -> fs.isFrei(false, true));
+      stream = stream.filter(fs -> fs.isFrei(false, false));
     } else if (filter == FahrstrassenFilter.RESERVIERT) {
       stream = stream.filter(fs -> fs.getReservierungsTyp() != FahrstrassenReservierungsTyp.UNRESERVIERT);
     }
