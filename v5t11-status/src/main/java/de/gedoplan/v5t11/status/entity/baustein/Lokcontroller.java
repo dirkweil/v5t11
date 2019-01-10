@@ -50,4 +50,17 @@ public abstract class Lokcontroller extends Baustein implements Encoder {
   public String getLabelPrefix() {
     return "Lokcontroller";
   }
+
+  // TODO Ohne diese Methode wird die ID nicht ins JSON aufgenommen; warum nicht?
+  @Override
+  @JsonbInclude
+  public String getId() {
+    return super.getId();
+  }
+
+  @Override
+  public void adjustStatus() {
+    // TODO Auto-generated method stub
+
+  }
 }
