@@ -4,11 +4,16 @@ import de.gedoplan.v5t11.status.entity.BausteinConfiguration;
 import de.gedoplan.v5t11.status.entity.baustein.Baustein;
 import de.gedoplan.v5t11.status.persistence.BausteinConfigurationRepository;
 
+import java.io.Serializable;
+
 import javax.ejb.Stateless;
+import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
+// TODO Warum ist das eine EJB?
 @Stateless
-public class BausteinConfigurationService {
+@Dependent
+public class BausteinConfigurationService implements Serializable {
   @Inject
   BausteinConfigurationRepository bausteinConfigurationRepository;
 
