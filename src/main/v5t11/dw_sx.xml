@@ -137,9 +137,9 @@
     <!-- Check ? -->
     <BMMiba3 id="BM-2003-2" adr="55" einbauOrt="Mitte links NBhf">
       <!-- TODO --> <Gleisabschnitt idx="0" bereich="NBhf" name="102" />
-      <!-- TODO --> <Gleisabschnitt idx="1" bereich="NBhf" name="W1" />
-      <!-- TODO --> <Gleisabschnitt idx="2" bereich="NBhf" name="W2" />
-      <!-- TODO --> <Gleisabschnitt idx="3" bereich="NBhf" name="W3" />
+      <Gleisabschnitt idx="1" bereich="NBhf" name="W1" />
+      <Gleisabschnitt idx="2" bereich="NBhf" name="W2" />
+      <Gleisabschnitt idx="3" bereich="NBhf" name="W3" />
       <!-- TODO --> <Gleisabschnitt idx="4" bereich="NBhf" name="W4" />
       <!-- TODO --> <Gleisabschnitt idx="5" bereich="NBhf" name="11" />
       <!-- TODO --> <Gleisabschnitt idx="6" bereich="NBhf" name="13" />
@@ -150,11 +150,11 @@
     <BMMiba3 id="BM-2013-1" adr="56" einbauOrt="Mitte rechts NBhf">
       <!-- TODO --> <Gleisabschnitt idx="0" bereich="NBhf" name="1" />
       <!-- TODO --> <Gleisabschnitt idx="1" bereich="NBhf" name="2" />
-      <!-- TODO --> <Gleisabschnitt idx="2" bereich="NBhf" name="3" />
-      <!-- TODO --> <Gleisabschnitt idx="3" bereich="NBhf" name="W5" />
-      <!-- TODO --> <Gleisabschnitt idx="4" bereich="NBhf" name="W6" />
+      <!-- TODO --> <Gleisabschnitt idx="2" bereich="NBhf" name="23" />
+      <Gleisabschnitt idx="3" bereich="NBhf" name="W5" />
+      <Gleisabschnitt idx="4" bereich="NBhf" name="W6" />
       <Gleisabschnitt idx="5" bereich="NBhf" name="W7" />
-      <!-- TODO --> <Gleisabschnitt idx="6" bereich="NBhf" name="23" />
+      <Gleisabschnitt idx="6" bereich="NBhf" name="3" />
       <Gleisabschnitt idx="7" bereich="NBhf" name="202" />
     </BMMiba3>
 
@@ -194,12 +194,12 @@
       <!-- TODO --><Weiche idx="0" bereich="NBhf" name="4" />
       <!-- TODO --><Weiche idx="1" bereich="NBhf" name="2" />
       <!-- TODO --><Weiche idx="1" bereich="NBhf" name="3" invertiert="true" />
-      <!-- TODO --><Weiche idx="2" bereich="NBhf" name="5a" />
-      <!-- TODO --><Weiche idx="3" bereich="NBhf" name="5b" invertiert="true" />
-      <!-- TODO --><Weiche idx="3" bereich="NBhf" name="6" />
+      <!-- TODO --><HauptsignalRtGe idx="2" bereich="NBhf" name="A" />
+      <!-- TODO --><HauptsignalRtGe idx="3" bereich="NBhf" name="P1-3" />
       <Weiche idx="4" bereich="NBhf" name="7" />
-      <!-- TODO --><HauptsignalRtGe idx="5" bereich="NBhf" name="A" />
-      <!-- TODO --><HauptsignalRtGe idx="6" bereich="NBhf" name="P1-3" />
+      <Weiche idx="5" bereich="NBhf" name="6" />
+      <Weiche idx="5" bereich="NBhf" name="5b" invertiert="true" />
+      <Weiche idx="6" bereich="NBhf" name="5a" />
       <!-- TODO --><HauptsignalRtGe idx="7" bereich="NBhf" name="N1-4" />
     </SD8>
 
