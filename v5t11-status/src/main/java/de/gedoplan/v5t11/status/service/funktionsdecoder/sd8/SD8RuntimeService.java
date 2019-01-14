@@ -23,7 +23,7 @@ import lombok.Getter;
 @Programmierfamilie(SD8.class)
 public class SD8RuntimeService extends ConfigurationRuntimeService {
   // TODO Kann das verkürzt werden?
-  private static final int WAIT_MILLIS = 100;
+  private static final int WAIT_MILLIS = 1000;
 
   @Getter
   private SD8ConfigurationAdapter configuration;
@@ -97,18 +97,13 @@ public class SD8RuntimeService extends ConfigurationRuntimeService {
     if (this.log.isDebugEnabled()) {
       this.log.debug("getParameter: set parameterNummer=" + parameterNummer);
     }
-    int oldValue = this.selectrixGateway.getValue(2, true);
+
     this.selectrixGateway.setValue(1, parameterNummer);
 
-    int value = 0;
-    for (int i = 0; i < 10; ++i) {
-      delay(WAIT_MILLIS / 10);
+    delay(WAIT_MILLIS);
 
-      value = this.selectrixGateway.getValue(2, true);
-      if (value != oldValue) {
-        break;
-      }
-    }
+    int value = this.selectrixGateway.getValue(2, true);
+
     if (this.log.isDebugEnabled()) {
       this.log.debug("getParameter: get value=" + value);
     }
@@ -147,7 +142,7 @@ public class SD8RuntimeService extends ConfigurationRuntimeService {
   }
 
   public void setServostellung(int servoNummer, boolean ende) {
-    int mask = 1 << (servoNummer - 1);
+    int mask = 1 << servoNummer;
 
     int value = this.selectrixGateway.getValue(0);
     if (ende) {

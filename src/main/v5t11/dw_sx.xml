@@ -192,8 +192,8 @@
     <SD8 id="FD-2013-2" adr="76" einbauOrt="Ausfahrt rechts NBhf">
       <!-- TODO --><Weiche idx="0" bereich="NBhf" name="1" />
       <!-- TODO --><Weiche idx="0" bereich="NBhf" name="4" />
-      <!-- TODO --><Weiche idx="1" bereich="NBhf" name="2" />
-      <!-- TODO --><Weiche idx="1" bereich="NBhf" name="3" invertiert="true" />
+      <Weiche idx="1" bereich="NBhf" name="2" invertiert="true" />
+      <Weiche idx="1" bereich="NBhf" name="3" />
       <!-- TODO --><HauptsignalRtGe idx="2" bereich="NBhf" name="A" />
       <!-- TODO --><HauptsignalRtGe idx="3" bereich="NBhf" name="P1-3" />
       <Weiche idx="4" bereich="NBhf" name="7" />
