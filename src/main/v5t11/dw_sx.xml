@@ -136,11 +136,11 @@
 
     <!-- Check ? -->
     <BMMiba3 id="BM-2003-2" adr="55" einbauOrt="Mitte links NBhf">
-      <!-- TODO --> <Gleisabschnitt idx="0" bereich="NBhf" name="102" />
+      <Gleisabschnitt idx="0" bereich="NBhf" name="W4" />
       <Gleisabschnitt idx="1" bereich="NBhf" name="W1" />
       <Gleisabschnitt idx="2" bereich="NBhf" name="W2" />
       <Gleisabschnitt idx="3" bereich="NBhf" name="W3" />
-      <!-- TODO --> <Gleisabschnitt idx="4" bereich="NBhf" name="W4" />
+      <Gleisabschnitt idx="4" bereich="NBhf" name="1" />
       <!-- TODO --> <Gleisabschnitt idx="5" bereich="NBhf" name="11" />
       <!-- TODO --> <Gleisabschnitt idx="6" bereich="NBhf" name="13" />
       <!-- TODO --> <Gleisabschnitt idx="7" bereich="NBhf" name="4" />
@@ -148,7 +148,7 @@
 
     <!-- Check ? -->
     <BMMiba3 id="BM-2013-1" adr="56" einbauOrt="Mitte rechts NBhf">
-      <!-- TODO --> <Gleisabschnitt idx="0" bereich="NBhf" name="1" />
+      <!-- TODO --> <Gleisabschnitt idx="0" bereich="NBhf" name="102" />
       <!-- TODO --> <Gleisabschnitt idx="1" bereich="NBhf" name="2" />
       <!-- TODO --> <Gleisabschnitt idx="2" bereich="NBhf" name="23" />
       <Gleisabschnitt idx="3" bereich="NBhf" name="W5" />
