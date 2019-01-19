@@ -141,16 +141,16 @@
       <Gleisabschnitt idx="2" bereich="NBhf" name="W2" />
       <Gleisabschnitt idx="3" bereich="NBhf" name="W3" />
       <Gleisabschnitt idx="4" bereich="NBhf" name="1" />
-      <!-- TODO --> <Gleisabschnitt idx="5" bereich="NBhf" name="11" />
-      <!-- TODO --> <Gleisabschnitt idx="6" bereich="NBhf" name="13" />
-      <!-- TODO --> <Gleisabschnitt idx="7" bereich="NBhf" name="4" />
+      <Gleisabschnitt idx="5" bereich="NBhf" name="11" />
+      <Gleisabschnitt idx="6" bereich="NBhf" name="2" />
+      <Gleisabschnitt idx="7" bereich="NBhf" name="13" />
     </BMMiba3>
 
     <!-- Check ? -->
     <BMMiba3 id="BM-2013-1" adr="56" einbauOrt="Mitte rechts NBhf">
       <!-- TODO --> <Gleisabschnitt idx="0" bereich="NBhf" name="102" />
-      <!-- TODO --> <Gleisabschnitt idx="1" bereich="NBhf" name="2" />
-      <!-- TODO --> <Gleisabschnitt idx="2" bereich="NBhf" name="23" />
+      <Gleisabschnitt idx="1" bereich="NBhf" name="4" />
+      <Gleisabschnitt idx="2" bereich="NBhf" name="23" />
       <Gleisabschnitt idx="3" bereich="NBhf" name="W5" />
       <Gleisabschnitt idx="4" bereich="NBhf" name="W6" />
       <Gleisabschnitt idx="5" bereich="NBhf" name="W7" />
@@ -190,8 +190,8 @@
     </WDMiba>
 
     <SD8 id="FD-2013-2" adr="76" einbauOrt="Ausfahrt rechts NBhf">
-      <!-- TODO --><Weiche idx="0" bereich="NBhf" name="1" />
-      <!-- TODO --><Weiche idx="0" bereich="NBhf" name="4" />
+      <Weiche idx="0" bereich="NBhf" name="1" />
+      <Weiche idx="0" bereich="NBhf" name="4" />
       <Weiche idx="1" bereich="NBhf" name="2" invertiert="true" />
       <Weiche idx="1" bereich="NBhf" name="3" />
       <!-- TODO --><HauptsignalRtGe idx="2" bereich="NBhf" name="A" />
