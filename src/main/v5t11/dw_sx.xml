@@ -165,7 +165,7 @@
       <Weiche idx="0" bereich="Schattenbahnhof" name="15" />
       <Weiche idx="1" bereich="Schattenbahnhof" name="17" />
       <Weiche idx="2" bereich="Schattenbahnhof" name="13" />
-      <!-- TODO --> <Weiche idx="4" bereich="Schattenbahnhof" name="34" />
+      <Weiche idx="4" bereich="Schattenbahnhof" name="34" />
       <Weiche idx="5" bereich="Schattenbahnhof" name="12" />
       <Weiche idx="6" bereich="Schattenbahnhof" name="16" />
       <Weiche idx="7" bereich="Schattenbahnhof" name="14" />
