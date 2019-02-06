@@ -3,9 +3,15 @@ package de.gedoplan.v5t11.comserver;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
+import java.util.Collection;
 import java.util.Enumeration;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -83,6 +89,7 @@ public class ComServer {
 
       while (true) {
         if (log.isDebugEnabled()) {
+          getAllIPs().forEach(a -> log.debug("Listening on interface " + a));
           log.debug("Waiting for incoming connection on port " + port);
         }
 
@@ -231,6 +238,21 @@ public class ComServer {
       sb.append((b & mask) != 0 ? '1' : '0');
     }
     return sb;
+  }
+
+  private static Collection<InetAddress> getAllIPs() throws SocketException {
+    Set<InetAddress> addresses = new HashSet<InetAddress>();
+    Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
+    while (networkInterfaces.hasMoreElements()) {
+      NetworkInterface networkInterface = networkInterfaces.nextElement();
+      if (networkInterface.isUp()) {
+        Enumeration<InetAddress> interfaceAdresses = networkInterface.getInetAddresses();
+        while (interfaceAdresses.hasMoreElements()) {
+          addresses.add(interfaceAdresses.nextElement());
+        }
+      }
+    }
+    return addresses;
   }
 
 }

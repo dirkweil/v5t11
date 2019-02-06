@@ -19,6 +19,6 @@ metadata:
     comp: v5t11-com-server
 subsets:
   - addresses:
-    - ip: 172.30.192.177
+    - ip: 172.19.113.1
     ports:
     - port: 30079
