@@ -134,8 +134,8 @@
       <Gleisabschnitt idx="7" bereich="Schattenbahnhof" name="W1" />
     </SXBM1>
 
-    <!-- Check ? -->
-    <BMMiba3 id="BM-2003-2" adr="55" einbauOrt="Mitte links NBhf">
+    <!-- Check OK -->
+    <SXBM1 id="BM-2003-2" adr="55" einbauOrt="Mitte links NBhf">
       <Gleisabschnitt idx="0" bereich="NBhf" name="W4" />
       <Gleisabschnitt idx="1" bereich="NBhf" name="W1" />
       <Gleisabschnitt idx="2" bereich="NBhf" name="W2" />
@@ -144,10 +144,10 @@
       <Gleisabschnitt idx="5" bereich="NBhf" name="11" />
       <Gleisabschnitt idx="6" bereich="NBhf" name="2" />
       <Gleisabschnitt idx="7" bereich="NBhf" name="13" />
-    </BMMiba3>
+    </SXBM1>
 
-    <!-- Check ? -->
-    <BMMiba3 id="BM-2013-1" adr="56" einbauOrt="Mitte rechts NBhf">
+    <!-- Check OK -->
+    <SXBM1 id="BM-2013-1" adr="56" einbauOrt="Mitte rechts NBhf">
       <!-- TODO --> <Gleisabschnitt idx="0" bereich="NBhf" name="102" />
       <Gleisabschnitt idx="1" bereich="NBhf" name="4" />
       <Gleisabschnitt idx="2" bereich="NBhf" name="23" />
@@ -156,7 +156,52 @@
       <Gleisabschnitt idx="5" bereich="NBhf" name="W7" />
       <Gleisabschnitt idx="6" bereich="NBhf" name="3" />
       <Gleisabschnitt idx="7" bereich="NBhf" name="202" />
-    </BMMiba3>
+    </SXBM1>
+
+    <SXBM1 id="BM-2013-2" adr="57" einbauOrt="HBf Einfahrt links">
+      <!-- TODO --> <Gleisabschnitt idx="0" bereich="HBf" name="406" />
+      <!-- TODO --> <Gleisabschnitt idx="1" bereich="HBf" name="407" />
+      <!-- TODO --> <Gleisabschnitt idx="2" bereich="HBf" name="404" />
+      <!-- TODO --> <Gleisabschnitt idx="3" bereich="HBf" name="W1" />
+      <!-- TODO --> <Gleisabschnitt idx="4" bereich="HBf" name="W2" />
+      <!-- TODO --> <Gleisabschnitt idx="5" bereich="HBf" name="W3" />
+      <!-- TODO --> <Gleisabschnitt idx="6" bereich="HBf" name="W4" />
+      <!-- TODO --> <Gleisabschnitt idx="7" bereich="HBf" name="207" />
+    </SXBM1>
+
+    <SXBM1 id="BM-2013-4" adr="58" einbauOrt="HBf Einfahrt links">
+      <!-- TODO --> <Gleisabschnitt idx="0" bereich="HBf" name="W5" />
+      <!-- TODO --> <Gleisabschnitt idx="1" bereich="HBf" name="W6" />
+      <!-- TODO --> <Gleisabschnitt idx="2" bereich="HBf" name="W7" />
+      <!-- TODO --> <Gleisabschnitt idx="3" bereich="HBf" name="3" />
+      <!-- TODO --> <Gleisabschnitt idx="4" bereich="HBf" name="4" />
+      <!-- TODO --> <Gleisabschnitt idx="5" bereich="HBf" name="6" />
+      <!-- TODO --> <Gleisabschnitt idx="6" bereich="HBf" name="7" />
+      <!-- TODO --> <Gleisabschnitt idx="7" bereich="HBf" name="W8" />
+    </SXBM1>
+
+    <SXBM1 id="BM-2013-3" adr="59" einbauOrt="HBf unter EG">
+      <!-- TODO --> <Gleisabschnitt idx="0" bereich="HBf" name="5" />
+      <!-- TODO --> <Gleisabschnitt idx="1" bereich="HBf" name="W8" />
+      <!-- TODO --> <Gleisabschnitt idx="2" bereich="HBf" name="W9" />
+      <!-- TODO --> <Gleisabschnitt idx="3" bereich="HBf" name="8" />
+      <!-- TODO --> <Gleisabschnitt idx="4" bereich="HBf" name="9" />
+      <!-- TODO --> <Gleisabschnitt idx="5" bereich="HBf" name="10" />
+      <!-- TODO --> <Gleisabschnitt idx="6" bereich="HBf" name="W10" />
+      <!-- TODO --> <Gleisabschnitt idx="7" bereich="HBf" name="1" />
+    </SXBM1>
+
+    <!-- defekt -->
+    <SXBM1 id="BM-2003-1" adr="60" einbauOrt="HBf unter Wuest">
+      <!-- TODO --> <Gleisabschnitt idx="0" bereich="HBf" name="W11" />
+      <!-- TODO --> <Gleisabschnitt idx="1" bereich="HBf" name="W12" />
+      <!-- TODO --> <Gleisabschnitt idx="2" bereich="HBf" name="W13" />
+      <!-- TODO --> <Gleisabschnitt idx="3" bereich="HBf" name="W14" />
+      <!-- TODO --> <Gleisabschnitt idx="4" bereich="HBf" name="W15" />
+      <!-- TODO --> <Gleisabschnitt idx="5" bereich="HBf" name="W16" />
+      <!-- TODO --> <Gleisabschnitt idx="6" bereich="HBf" name="W10" />
+      <!-- TODO --> <Gleisabschnitt idx="7" bereich="HBf" name="21" />
+    </SXBM1>
 
   </Besetztmelder>
   
@@ -201,6 +246,60 @@
       <Weiche idx="5" bereich="NBhf" name="5b" invertiert="true" />
       <Weiche idx="6" bereich="NBhf" name="5a" />
       <!-- TODO --><HauptsignalRtGe idx="7" bereich="NBhf" name="N1-4" />
+    </SD8>
+
+    <SXSD1 id="FD-2010-1" adr="78">
+      <!-- TODO --><Sperrsignal idx="0" bereich="HBf" name="404" />
+      <!-- TODO --><Sperrsignal idx="1" bereich="HBf" name="406" />
+      <!-- TODO --><HauptsignalRtGnGe idx="2" bereich="HBf" name="A" />
+      <!-- TODO --><Vorsignal idx="4" bereich="HBf" name="n" />
+      <!-- TODO --><Hauptsperrsignal idx="6" bereich="HBf" name="P3" />
+      <!-- TODO --><Hauptsperrsignal idx="8" bereich="HBf" name="P4" />
+      <!-- TODO --><Hauptsperrsignal idx="10" bereich="HBf" name="P6" />
+      <!-- TODO --><Vorsignal idx="12" bereich="HBf" name="2b(P3-6)" />
+      <!-- TODO --><HauptsignalRtGn idx="14" bereich="HBf" name="2B" />
+      <!-- TODO --><Sperrsignal idx="15" bereich="HBf" name="1" />
+    </SXSD1>
+
+    <SD8 id="FD-2013-3" adr="77" einbauOrt="HBf Einfahrt links">
+      <!-- TODO --><Weiche idx="0" bereich="HBf" name="1" />
+      <!-- TODO --><Weiche idx="1" bereich="HBf" name="2" invertiert="true" />
+      <!-- TODO --><Weiche idx="1" bereich="HBf" name="3" />
+      <!-- TODO --><Weiche idx="2" bereich="HBf" name="4" />
+      <!-- TODO --><Weiche idx="3" bereich="HBf" name="5" />
+      <!-- TODO --><Weiche idx="4" bereich="HBf" name="6" />
+      <!-- TODO --><Weiche idx="4" bereich="HBf" name="7b" />
+      <!-- TODO --><Weiche idx="5" bereich="HBf" name="7a" />
+      <!-- TODO --><Weiche idx="6" bereich="HBf" name="8" />
+      <!-- TODO --><Weiche idx="7" bereich="HBf" name="9" />
+    </SD8>
+
+    <SXSD1 id="FD-2010-2" adr="80">
+      <!-- TODO --><Hauptsperrsignal idx="0" bereich="HBf" name="P7" />
+      <!-- TODO --><Hauptsperrsignal idx="2" bereich="HBf" name="P8" />
+      <!-- TODO --><Hauptsperrsignal idx="4" bereich="HBf" name="P9" />
+      <!-- TODO --><Hauptsperrsignal idx="6" bereich="HBf" name="P10" />
+      <!-- TODO --><Vorsignal idx="8" bereich="HBf" name="2b(P7-10)" />
+      <!-- TODO --><Sperrsignal idx="10" bereich="HBf" name="21&quot;" />
+      <!-- TODO --><Sperrsignal idx="11" bereich="HBf" name="22&quot;" />
+      <!-- TODO --><Sperrsignal idx="12" bereich="HBf" name="23&quot;" />
+      <!-- TODO --><Sperrsignal idx="13" bereich="HBf" name="24&quot;" />
+      <!-- TODO --><Sperrsignal idx="14" bereich="HBf" name="25&quot;" />
+      <!-- TODO --><Sperrsignal idx="15" bereich="HBf" name="21'" />
+    </SXSD1>
+
+    <SD8 id="FD-2013-1" adr="82" einbauOrt="HBf Mitte">
+      <!-- TODO --><Weiche idx="0" bereich="HBf" name="10" />
+      <!-- TODO --><Weiche idx="1" bereich="HBf" name="11" />
+      <!-- TODO --><Weiche idx="1" bereich="HBf" name="13" />
+      <!-- TODO --><Weiche idx="2" bereich="HBf" name="12" />
+      <!-- TODO --><Weiche idx="2" bereich="HBf" name="14" />
+      <!-- TODO --><Weiche idx="3" bereich="HBf" name="15" />
+      <!-- TODO --><Weiche idx="3" bereich="HBf" name="16" />
+      <!-- TODO --><Weiche idx="4" bereich="HBf" name="17" />
+      <!-- TODO --><Weiche idx="5" bereich="HBf" name="18" />
+      <!-- TODO --><Weiche idx="6" bereich="HBf" name="19" />
+      <!-- TODO --><Weiche idx="7" bereich="HBf" name="20" />
     </SD8>
 
     <NoFD>
