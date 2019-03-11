@@ -423,7 +423,7 @@
     </Zeile>
     <Zeile>
       <Leer anzahl="4" />
-      <Gleisabschnitt lage="SW,NO" name="3" bereich="HBf"  />
+      <Gleisabschnitt lage="SW,NO" name="W5" bereich="HBf"  />
       <Leer anzahl="4" />
       <Gleisabschnitt lage="W,O" name="5" bereich="HBf"  />
       <Gleisabschnitt lage="W,O" name="5" bereich="HBf" label="true" />
