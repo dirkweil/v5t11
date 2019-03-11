@@ -302,6 +302,20 @@
       <!-- TODO --><Weiche idx="7" bereich="HBf" name="20" />
     </SD8>
 
+    <SD8 id="FD-2019-1" adr="83" einbauOrt="HBf rechts">
+      <!-- TODO --><Weiche idx="0" bereich="HBf" name="21" />
+      <!-- TODO --><Weiche idx="1" bereich="HBf" name="22" />
+      <!-- TODO --><Weiche idx="1" bereich="HBf" name="24" />
+      <!-- TODO --><Weiche idx="2" bereich="HBf" name="23" />
+      <!-- TODO --><Weiche idx="3" bereich="HBf" name="25" />
+      <!-- TODO --><Weiche idx="4" bereich="HBf" name="26" />
+      <!-- TODO --><Weiche idx="4" bereich="HBf" name="27" />
+      <!-- TODO --><Weiche idx="5" bereich="HBf" name="28" />
+      <!-- TODO --><Weiche idx="5" bereich="HBf" name="30" />
+      <!-- TODO --><Weiche idx="6" bereich="HBf" name="29" />
+      <!-- TODO --><Weiche idx="6" bereich="HBf" name="31" />
+    </SD8>
+
     <NoFD>
       <Weiche bereich="SBf" name="1" />
       <Weiche bereich="SBf" name="18" />
