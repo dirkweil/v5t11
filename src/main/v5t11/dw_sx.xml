@@ -268,8 +268,8 @@
       <!-- TODO --><Weiche idx="2" bereich="HBf" name="4" />
       <!-- TODO --><Weiche idx="3" bereich="HBf" name="5" />
       <!-- TODO --><Weiche idx="4" bereich="HBf" name="6" />
-      <!-- TODO --><Weiche idx="4" bereich="HBf" name="7b" />
-      <!-- TODO --><Weiche idx="5" bereich="HBf" name="7a" />
+      <!-- TODO --><Weiche idx="4" bereich="HBf" name="7a" />
+      <!-- TODO --><Weiche idx="5" bereich="HBf" name="7b" />
       <!-- TODO --><Weiche idx="6" bereich="HBf" name="8" />
       <!-- TODO --><Weiche idx="7" bereich="HBf" name="9" />
     </SD8>
@@ -293,7 +293,7 @@
       <!-- TODO --><Weiche idx="1" bereich="HBf" name="11" />
       <!-- TODO --><Weiche idx="1" bereich="HBf" name="13" />
       <!-- TODO --><Weiche idx="2" bereich="HBf" name="12" />
-      <!-- TODO --><Weiche idx="2" bereich="HBf" name="14" />
+      <!-- TODO --><Weiche idx="2" bereich="HBf" name="14" invertiert="true" />
       <!-- TODO --><Weiche idx="3" bereich="HBf" name="15" />
       <!-- TODO --><Weiche idx="3" bereich="HBf" name="16" />
       <!-- TODO --><Weiche idx="4" bereich="HBf" name="17" />
