@@ -899,5 +899,124 @@
     <Gleisabschnitt name="25" />
   </Fahrstrasse>
 
+  <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="21" />
+    <Weiche name="17" stellung="GERADE"/>
+    <Gleisabschnitt name="W17" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="22" />
+    <Weiche name="17" stellung="ABZWEIGEND"/>
+    <Gleisabschnitt name="W17" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="23" />
+    <Weiche name="18" stellung="GERADE"/>
+    <Gleisabschnitt name="W18" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="24" />
+    <Weiche name="18" stellung="ABZWEIGEND"/>
+    <Gleisabschnitt name="W18" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="W17" />
+    <Weiche name="19" stellung="GERADE"/>
+    <Gleisabschnitt name="W19" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="W18" />
+    <Weiche name="19" stellung="ABZWEIGEND"/>
+    <Gleisabschnitt name="W19" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="W19" />
+    <Weiche name="20" stellung="GERADE"/>
+    <Gleisabschnitt name="W20" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="25" />
+    <Weiche name="20" stellung="ABZWEIGEND"/>
+    <Gleisabschnitt name="W20" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="W20" />
+    <Gleisabschnitt name="W22" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="6" />
+    <Weiche name="24" stellung="GERADE"/>
+    <Weiche name="22" stellung="GERADE" schutz="true"/>
+    <Gleisabschnitt name="W24" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="W22" />
+    <Weiche name="22" stellung="ABZWEIGEND" />
+    <Weiche name="24" stellung="ABZWEIGEND" />
+    <Gleisabschnitt name="W24" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="W22" />
+    <Weiche name="22" stellung="GERADE"/>
+    <Weiche name="24" stellung="GERADE" schutz="true"/>
+    <Gleisabschnitt name="105" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="9" />
+    <Weiche name="21" stellung="GERADE"/>
+    <Gleisabschnitt name="W21" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="10" />
+    <Weiche name="21" stellung="ABZWEIGEND"/>
+    <Gleisabschnitt name="W21" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="8" />
+    <Weiche name="23" stellung="GERADE"/>
+    <Gleisabschnitt name="W23" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="W21" />
+    <Weiche name="23" stellung="ABZWEIGEND"/>
+    <Gleisabschnitt name="W23" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="7" />
+    <Weiche name="25" stellung="GERADE"/>
+    <Gleisabschnitt name="W25" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="W23" />
+    <Weiche name="25" stellung="ABZWEIGEND"/>
+    <Gleisabschnitt name="W25" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="W24" />
+    <Gleisabschnitt name="106" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="W25" />
+    <Gleisabschnitt name="107" />
+  </Fahrstrasse>
 </Parcours>
 
