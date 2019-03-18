@@ -272,39 +272,62 @@
 
   <Stellwerk bereich="Strecke">
     <Zeile>
+      <Gleisabschnitt lage="N,S" name="202" bereich="SBf" label="true" />
+      <Weiche lage="NO|O,SW" name="32" bereich="SBf" />
+      <Gleisabschnitt lage="O,W" name="17d" bereich="SBf" label="true" />
+      <Leer anzahl="7" />
       <Leer anzahl="2" />
       <Gleisabschnitt lage="S,N" name="108" bereich="SBf" label="true" />
     </Zeile>
     <Zeile>
+      <Weiche lage="N|NO,S" name="33" bereich="SBf" />
+      <Leer anzahl="9" />
       <Gleisabschnitt lage="W,O" name="18a" bereich="SBf" label="true" />
       <Gleisabschnitt lage="W,SO" name="18a" bereich="SBf" />
       <Gleisabschnitt lage="S,N" name="108" bereich="SBf" />
     </Zeile>
     <Zeile>
+      <Weiche lage="N,S|SO" name="34" bereich="SBf" />
+      <Leer anzahl="9" />
       <Leer anzahl="2" />
       <Weiche lage="S,N|NW" name="1" bereich="SBf" />
     </Zeile>
     <Zeile>
+      <Gleisabschnitt lage="N,S" name="2001" bereich="SBf" />
+      <Gleisabschnitt lage="NW,O" name="18c" bereich="SBf" label="true" />
+      <Leer anzahl="8" />
       <Leer anzahl="2" />
       <Gleisabschnitt lage="S,N" name="308" bereich="SBf" />
     </Zeile>
     <Zeile>
+      <Gleisabschnitt lage="N,S" name="2001" bereich="SBf" label="true" />
+      <Leer anzahl="9" />
       <Leer anzahl="2" />
       <Gleisabschnitt lage="S,N" name="308" bereich="SBf" label="true" />
     </Zeile>
     <Zeile>
+      <Gleisabschnitt lage="N,S" name="2001" bereich="SBf" />
+      <Leer anzahl="9" />
       <Leer anzahl="2" />
       <Gleisabschnitt lage="S,N" name="1006" bereich="S10xx" />
     </Zeile>
     <Zeile>
+      <Gleisabschnitt lage="N,S" name="2001" bereich="SBf" />
+      <Leer anzahl="9" />
       <Leer anzahl="2" />
       <Gleisabschnitt lage="S,N" name="1006" bereich="S10xx" label="true" />
     </Zeile>
     <Zeile>
+      <Gleisabschnitt lage="N,S" name="2001" bereich="SBf" />
+      <Leer anzahl="9" />
       <Leer anzahl="2" />
       <Weiche lage="N,S|SO" name="1005" bereich="S10xx" />
     </Zeile>
     <Zeile>
+      <Gleisabschnitt lage="N,S" name="2001" bereich="SBf" />
+      <Leer anzahl="4" />
+      <Weiche lage="S,N|NW" name="2001" bereich="SBf" />
+      <Leer anzahl="4" />
       <Leer anzahl="2" />
       <Gleisabschnitt lage="S,N" name="202" bereich="NBf" label="true" />
       <Gleisabschnitt lage="NW,SO" name="1004" bereich="S10xx" label="true" />
@@ -313,6 +336,10 @@
       <Gleisabschnitt lage="S,N" name="1001" bereich="S10xx" />
     </Zeile>
     <Zeile>
+      <Gleisabschnitt lage="N,SO" name="2001" bereich="SBf" />
+      <Leer anzahl="4" />
+      <Gleisabschnitt lage="SW,N" name="2001" bereich="SBf" />
+      <Leer anzahl="4" />
       <Leer anzahl="4" />
       <Weiche lage="NW,SO|O" name="1003" bereich="S10xx" />
       <Gleisabschnitt lage="W,NO" name="1002" bereich="S10xx" label="true" />
@@ -320,6 +347,11 @@
       <Gleisabschnitt lage="SW,N" name="1001" bereich="S10xx" />
     </Zeile>
     <Zeile>
+      <Leer anzahl="1" />
+      <Gleisabschnitt lage="NW,O" name="2001" bereich="SBf" />
+      <Gleisabschnitt lage="W,O" name="2001" bereich="SBf" anzahl="2" />
+      <Gleisabschnitt lage="W,NO" name="2001" bereich="SBf" />
+      <Leer anzahl="5" />
       <Leer anzahl="5" />
       <Gleisabschnitt lage="NW,O" name="1001" bereich="S10xx" label="true" />
       <Gleisabschnitt lage="W,NO" name="1001" bereich="S10xx" />
