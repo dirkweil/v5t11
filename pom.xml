@@ -41,12 +41,6 @@
     <pluginManagement>
       <plugins>
         <plugin>
-          <groupId>io.fabric8</groupId>
-          <artifactId>docker-maven-plugin</artifactId>
-          <version>0.27.2</version>
-        </plugin>
-
-        <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>exec-maven-plugin</artifactId>
           <version>1.6.0</version>
@@ -249,17 +243,12 @@
   </dependencies>
 
   <modules>
-    <module>v5t11-com-server</module>
-    <module>v5t11-fahrstrassen</module>
-    <module>v5t11-leitstand</module>
+    <module>v5t11-betriebssteuerung-api</module>
+    <module>v5t11-betriebssteuerung</module>
     <module>v5t11-selectrix-adapter-api</module>
     <module>v5t11-selectrix-adapter</module>
     <module>v5t11-selectrix-adapter-test</module>
-    <module>v5t11-status</module>
-    <module>v5t11-util</module>
-
-    <module>v5t11-betriebssteuerung-api</module>
-    <module>v5t11-betriebssteuerung</module>
     <module>v5t11-stellwerk</module>
+    <module>v5t11-util</module>
   </modules>
 </project>

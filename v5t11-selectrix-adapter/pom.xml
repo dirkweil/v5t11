@@ -17,32 +17,6 @@
 
     <plugins>
       <plugin>
-        <groupId>io.fabric8</groupId>
-        <artifactId>docker-maven-plugin</artifactId>
-        <configuration>
-          <images>
-            <image>
-              <name>gedoplan/${project.artifactId}</name>
-              <build>
-                <dockerFileDir>${project.basedir}</dockerFileDir>
-                <assembly>
-                  <descriptorRef>artifact</descriptorRef>
-                </assembly>
-              </build>
-            </image>
-          </images>
-        </configuration>
-        <executions>
-          <execution>
-            <phase>install</phase>
-            <goals>
-              <goal>build</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
-      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-rar-plugin</artifactId>
         <configuration>
