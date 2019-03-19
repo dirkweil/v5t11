@@ -1,8 +1,0 @@
-<jboss-deployment-structure>
-  <deployment>
-    <dependencies>
-	  <!-- Deklaration der Dependency zum Connector. Ohne dies würden die Klassen mit unterschiedlichen Classloadern geladen und wären somit nicht kompatibel -->
-      <module name="deployment.v5t11-selectrix-adapter.rar" />
-    </dependencies>
-  </deployment>
-</jboss-deployment-structure>
