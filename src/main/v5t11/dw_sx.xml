@@ -182,25 +182,61 @@
 
     <SXBM1 id="BM-2013-3" adr="59" einbauOrt="HBf unter EG">
       <!-- TODO --> <Gleisabschnitt idx="0" bereich="HBf" name="5" />
-      <!-- TODO --> <Gleisabschnitt idx="1" bereich="HBf" name="W8" />
-      <!-- TODO --> <Gleisabschnitt idx="2" bereich="HBf" name="W9" />
-      <!-- TODO --> <Gleisabschnitt idx="3" bereich="HBf" name="8" />
-      <!-- TODO --> <Gleisabschnitt idx="4" bereich="HBf" name="9" />
-      <!-- TODO --> <Gleisabschnitt idx="5" bereich="HBf" name="10" />
-      <!-- TODO --> <Gleisabschnitt idx="6" bereich="HBf" name="W10" />
-      <!-- TODO --> <Gleisabschnitt idx="7" bereich="HBf" name="1" />
+      <!-- TODO --> <Gleisabschnitt idx="1" bereich="HBf" name="W9" />
+      <!-- TODO --> <Gleisabschnitt idx="2" bereich="HBf" name="8" />
+      <!-- TODO --> <Gleisabschnitt idx="3" bereich="HBf" name="9" />
+      <!-- TODO --> <Gleisabschnitt idx="4" bereich="HBf" name="10" />
+      <!-- TODO --> <Gleisabschnitt idx="5" bereich="HBf" name="W10" />
+      <!-- TODO --> <Gleisabschnitt idx="6" bereich="HBf" name="1" />
+      <!-- TODO --> <Gleisabschnitt idx="7" bereich="HBf" name="W11" />
     </SXBM1>
 
-    <!-- defekt -->
-    <SXBM1 id="BM-2003-1" adr="60" einbauOrt="HBf unter Wuest">
-      <!-- TODO --> <Gleisabschnitt idx="0" bereich="HBf" name="W11" />
-      <!-- TODO --> <Gleisabschnitt idx="1" bereich="HBf" name="W12" />
-      <!-- TODO --> <Gleisabschnitt idx="2" bereich="HBf" name="W13" />
-      <!-- TODO --> <Gleisabschnitt idx="3" bereich="HBf" name="W14" />
-      <!-- TODO --> <Gleisabschnitt idx="4" bereich="HBf" name="W15" />
-      <!-- TODO --> <Gleisabschnitt idx="5" bereich="HBf" name="W16" />
-      <!-- TODO --> <Gleisabschnitt idx="6" bereich="HBf" name="W10" />
-      <!-- TODO --> <Gleisabschnitt idx="7" bereich="HBf" name="21" />
+    <!-- Fabrikat? -->
+    <Muet8k id="BM-2019-1" adr="60" einbauOrt="HBf unter Wuest">
+      <!-- TODO --> <Gleisabschnitt idx="0" bereich="HBf" name="W12" />
+      <!-- TODO --> <Gleisabschnitt idx="1" bereich="HBf" name="W13" />
+      <!-- TODO --> <Gleisabschnitt idx="2" bereich="HBf" name="W14" />
+      <!-- TODO --> <Gleisabschnitt idx="3" bereich="HBf" name="W15" />
+      <!-- TODO --> <Gleisabschnitt idx="4" bereich="HBf" name="W16" />
+      <!-- TODO --> <Gleisabschnitt idx="5" bereich="HBf" name="21" />
+      <!-- TODO --> <Gleisabschnitt idx="6" bereich="HBf" name="22" />
+      <!-- TODO --> <Gleisabschnitt idx="7" bereich="HBf" name="23" />
+    </Muet8k>
+
+    <!-- Fabrikat? -->
+    <SXBM1 id="BM-2019-2" adr="61" einbauOrt="HBf unter Wuest">
+      <!-- TODO --> <Gleisabschnitt idx="0" bereich="HBf" name="24" />
+      <!-- TODO --> <Gleisabschnitt idx="1" bereich="HBf" name="25" />
+      <!-- TODO --> <Gleisabschnitt idx="2" bereich="HBf" name="W17" />
+      <!-- TODO --> <Gleisabschnitt idx="3" bereich="HBf" name="W18" />
+      <!-- TODO --> <Gleisabschnitt idx="4" bereich="HBf" name="W19" />
+      <!-- TODO --> <Gleisabschnitt idx="5" bereich="HBf" name="W20" />
+      <!-- TODO --> <Gleisabschnitt idx="6" bereich="HBf" name="W21" />
+      <!-- TODO --> <Gleisabschnitt idx="7" bereich="HBf" name="W23" />
+    </SXBM1>
+
+    <!-- Fabrikat? -->
+    <SXBM1 id="BM-2019-3" adr="62" einbauOrt="HBf unter Wuest">
+      <!-- TODO --> <Gleisabschnitt idx="0" bereich="HBf" name="W22" />
+      <!-- TODO --> <Gleisabschnitt idx="1" bereich="HBf" name="W24" />
+      <!-- TODO --> <Gleisabschnitt idx="2" bereich="HBf" name="W25" />
+      <!-- TODO --> <Gleisabschnitt idx="3" bereich="HBf" name="107" />
+      <!-- TODO --> <Gleisabschnitt idx="4" bereich="HBf" name="106" />
+      <!-- TODO --> <Gleisabschnitt idx="5" bereich="HBf" name="105" />
+      <!-- TODO --> <Gleisabschnitt idx="6" bereich="HBf" name="W26" />
+      <!-- TODO --> <Gleisabschnitt idx="7" bereich="HBf" name="W27" />
+    </SXBM1>
+
+    <!-- Fabrikat? -->
+    <SXBM1 id="BM-2019-4" adr="63" einbauOrt="HBf unter Wuest">
+      <!-- TODO --> <Gleisabschnitt idx="0" bereich="HBf" name="307" />
+      <!-- TODO --> <Gleisabschnitt idx="1" bereich="HBf" name="W28" />
+      <!-- TODO --> <Gleisabschnitt idx="2" bereich="HBf" name="W29" />
+      <!-- TODO --> <Gleisabschnitt idx="3" bereich="HBf" name="W30" />
+      <!-- TODO --> <Gleisabschnitt idx="4" bereich="HBf" name="W31" />
+      <!-- TODO --> <Gleisabschnitt idx="5" bereich="HBf" name="505" />
+      <!-- TODO --> <Gleisabschnitt idx="6" bereich="HBf" name="506" />
+      <!-- TODO --> <Gleisabschnitt idx="7" bereich="HBf" name="507" />
     </SXBM1>
 
   </Besetztmelder>
