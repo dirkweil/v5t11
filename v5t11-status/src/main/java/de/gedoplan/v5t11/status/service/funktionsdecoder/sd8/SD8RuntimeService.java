@@ -59,10 +59,10 @@ public class SD8RuntimeService extends ConfigurationRuntimeService {
 
   @Override
   public void setRuntimeValues() {
-    setRuntimeValues(this.configuration, 0);
+    setRuntimeValues(this.configuration, -1);
   }
 
-  public void setRuntimeValues(SD8ConfigurationAdapter configuration, int servoNummer) {
+  private void setRuntimeValues(SD8ConfigurationAdapter configuration, int servoNummer) {
     if (servoNummer < 0) {
       setParameter(0, configuration.getAdresseIst());
       setParameter(1, 255);
