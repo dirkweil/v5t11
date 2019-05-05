@@ -147,10 +147,12 @@ public class Steuerung {
    * @return Adressen
    */
   public List<Integer> getAdressen() {
-    return IntStream.range(0, this.kanalWerte.length)
-        .filter(i -> this.kanalBausteine[i] != null)
+    List<Integer> adressen = IntStream.range(0, this.kanalWerte.length)
+        .filter(i -> i<10 || this.kanalBausteine[i] != null)
         .mapToObj(Integer::valueOf)
         .collect(Collectors.toList());
+    
+    return adressen;
   }
 
   /**
@@ -448,8 +450,10 @@ public class Steuerung {
         this.selectrixGateway.setValue(adr, wert);
       }
 
-      this.kanalBausteine[adr].adjustWert(adr, wert);
-
+      if (this.kanalBausteine[adr]!=null) {
+        this.kanalBausteine[adr].adjustWert(adr, wert);
+      }
+      
       EventFirer.getInstance().fire(new Kanal(adr, wert));
     }
   }
