@@ -191,7 +191,6 @@
       <!-- TODO --> <Gleisabschnitt idx="7" bereich="HBf" name="W11" />
     </SXBM1>
 
-    <!-- Fabrikat? -->
     <Muet8k id="BM-2019-1" adr="60" einbauOrt="HBf unter Wuest">
       <!-- TODO --> <Gleisabschnitt idx="0" bereich="HBf" name="W12" />
       <!-- TODO --> <Gleisabschnitt idx="1" bereich="HBf" name="W13" />
@@ -203,8 +202,7 @@
       <!-- TODO --> <Gleisabschnitt idx="7" bereich="HBf" name="23" />
     </Muet8k>
 
-    <!-- Fabrikat? -->
-    <SXBM1 id="BM-2019-2" adr="61" einbauOrt="HBf unter Wuest">
+    <BMMiba3 id="BM-2019-2" adr="61" einbauOrt="HBf unter Wuest">
       <!-- TODO --> <Gleisabschnitt idx="0" bereich="HBf" name="24" />
       <!-- TODO --> <Gleisabschnitt idx="1" bereich="HBf" name="25" />
       <!-- TODO --> <Gleisabschnitt idx="2" bereich="HBf" name="W17" />
@@ -213,9 +211,9 @@
       <!-- TODO --> <Gleisabschnitt idx="5" bereich="HBf" name="W20" />
       <!-- TODO --> <Gleisabschnitt idx="6" bereich="HBf" name="W21" />
       <!-- TODO --> <Gleisabschnitt idx="7" bereich="HBf" name="W23" />
-    </SXBM1>
+    </BMMiba3>
 
-    <!-- Fabrikat? -->
+    <!-- Fabrikat: Engelmann BM8 -->
     <SXBM1 id="BM-2019-3" adr="62" einbauOrt="HBf unter Wuest">
       <!-- TODO --> <Gleisabschnitt idx="0" bereich="HBf" name="W22" />
       <!-- TODO --> <Gleisabschnitt idx="1" bereich="HBf" name="W24" />
@@ -227,7 +225,7 @@
       <!-- TODO --> <Gleisabschnitt idx="7" bereich="HBf" name="W27" />
     </SXBM1>
 
-    <!-- Fabrikat? -->
+    <!-- Fabrikat: Viessmann 5262 -->
     <SXBM1 id="BM-2019-4" adr="63" einbauOrt="HBf unter Wuest">
       <!-- TODO --> <Gleisabschnitt idx="0" bereich="HBf" name="307" />
       <!-- TODO --> <Gleisabschnitt idx="1" bereich="HBf" name="W28" />
