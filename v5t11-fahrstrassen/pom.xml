@@ -83,33 +83,6 @@
     <finalName>${project.artifactId}</finalName>
 
     <plugins>
-      <!-- Docker -->
-      <plugin>
-        <groupId>io.fabric8</groupId>
-        <artifactId>docker-maven-plugin</artifactId>
-        <configuration>
-          <images>
-            <image>
-              <name>gedoplan/${project.artifactId}</name>
-              <build>
-                <dockerFileDir>${project.basedir}</dockerFileDir>
-                <assembly>
-                  <descriptorRef>artifact-with-dependencies</descriptorRef>
-                </assembly>
-              </build>
-            </image>
-          </images>
-        </configuration>
-        <executions>
-          <execution>
-            <phase>install</phase>
-            <goals>
-              <goal>build</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
       <!-- Konfiguration für mvn exec:java -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
@@ -120,5 +93,42 @@
       </plugin>
     </plugins>
   </build>
+
+  <profiles>
+    <!-- Profil für Docker-Build -->
+    <profile>
+      <id>docker</id>
+
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>io.fabric8</groupId>
+            <artifactId>docker-maven-plugin</artifactId>
+            <configuration>
+              <images>
+                <image>
+                  <name>gedoplan/${project.artifactId}</name>
+                  <build>
+                    <dockerFileDir>${project.basedir}</dockerFileDir>
+                    <assembly>
+                      <descriptorRef>artifact-with-dependencies</descriptorRef>
+                    </assembly>
+                  </build>
+                </image>
+              </images>
+            </configuration>
+            <executions>
+              <execution>
+                <phase>install</phase>
+                <goals>
+                  <goal>build</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 
 </project>
