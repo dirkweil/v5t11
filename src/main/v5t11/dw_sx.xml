@@ -217,8 +217,7 @@
       <!-- TODO --> <Gleisabschnitt idx="7" bereich="HBf" name="W26" />
     </BMMiba3>
 
-    <!-- Fabrikat: Engelmann BM8 -->
-    <SXBM1 id="BM-2019-3" adr="62" einbauOrt="HBf Ausfahrt rechts">
+    <HEBM8 id="BM-2019-3" adr="62" einbauOrt="HBf Ausfahrt rechts">
       <!-- TODO --> <Gleisabschnitt idx="0" bereich="HBf" name="105" />
       <!-- TODO --> <Gleisabschnitt idx="1" bereich="HBf" name="W27" />
       <!-- TODO --> <Gleisabschnitt idx="1" bereich="HBf" name="W28" />
@@ -228,12 +227,11 @@
       <!-- TODO --> <Gleisabschnitt idx="5" bereich="HBf" name="W31" />
       <!-- TODO --> <Gleisabschnitt idx="6" bereich="HBf" name="505" />
       <!-- TODO --> <Gleisabschnitt idx="7" bereich="HBf" name="506" />
-    </SXBM1>
+    </HEBM8>
 
-    <!-- Fabrikat: Viessmann 5262 -->
-    <SXBM1 id="BM-2019-4" adr="63" einbauOrt="Paradestrecke">
+    <VM5262 id="BM-2019-4" adr="63" einbauOrt="Paradestrecke">
       <!-- TODO --> <Gleisabschnitt idx="0" bereich="HBf" name="507" />
-    </SXBM1>
+    </VM5262>
 
   </Besetztmelder>
   
