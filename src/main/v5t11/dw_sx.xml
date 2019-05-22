@@ -208,13 +208,13 @@
       <!-- TODO --> <Gleisabschnitt idx="0" bereich="HBf" name="W17" />
       <!-- TODO --> <Gleisabschnitt idx="1" bereich="HBf" name="W18" />
       <!-- TODO --> <Gleisabschnitt idx="2" bereich="HBf" name="W19" />
-      <!-- TODO --> <Gleisabschnitt idx="3" bereich="HBf" name="W20" />
-      <!-- TODO --> <Gleisabschnitt idx="3" bereich="HBf" name="W22" />
+      <Gleisabschnitt idx="3" bereich="HBf" name="W20" />
+      <Gleisabschnitt idx="3" bereich="HBf" name="W22" />
       <!-- TODO --> <Gleisabschnitt idx="4" bereich="HBf" name="W21" />
       <!-- TODO --> <Gleisabschnitt idx="5" bereich="HBf" name="W23" />
-      <!-- TODO --> <Gleisabschnitt idx="6" bereich="HBf" name="W24" />
-      <!-- TODO --> <Gleisabschnitt idx="7" bereich="HBf" name="W25" />
-      <!-- TODO --> <Gleisabschnitt idx="7" bereich="HBf" name="W26" />
+      <Gleisabschnitt idx="6" bereich="HBf" name="W24" />
+      <Gleisabschnitt idx="7" bereich="HBf" name="W25" />
+      <Gleisabschnitt idx="7" bereich="HBf" name="W26" />
     </BMMiba3>
 
     <HEBM8 id="BM-2019-3" adr="62" einbauOrt="HBf Ausfahrt rechts">
@@ -329,21 +329,21 @@
       <!-- TODO --><Weiche idx="4" bereich="HBf" name="17" />
       <!-- TODO --><Weiche idx="5" bereich="HBf" name="18" />
       <!-- TODO --><Weiche idx="6" bereich="HBf" name="19" />
-      <!-- TODO --><Weiche idx="7" bereich="HBf" name="20" />
     </SD8>
 
-    <SD8 id="FD-2019-1" adr="83" einbauOrt="HBf rechts">
-      <!-- TODO --><Weiche idx="0" bereich="HBf" name="21" />
-      <!-- TODO --><Weiche idx="1" bereich="HBf" name="22" />
-      <!-- TODO --><Weiche idx="1" bereich="HBf" name="24" />
+    <SD8 id="FD-2019-1" adr="83" einbauOrt="HBf Ausfahrt rechts">
+      <Weiche idx="0" bereich="HBf" name="20" />
+      <Weiche idx="1" bereich="HBf" name="22" />
+      <Weiche idx="1" bereich="HBf" name="24" />
       <!-- TODO --><Weiche idx="2" bereich="HBf" name="23" />
-      <!-- TODO --><Weiche idx="3" bereich="HBf" name="25" />
-      <!-- TODO --><Weiche idx="4" bereich="HBf" name="26" />
-      <!-- TODO --><Weiche idx="4" bereich="HBf" name="27" />
-      <!-- TODO --><Weiche idx="5" bereich="HBf" name="28" />
-      <!-- TODO --><Weiche idx="5" bereich="HBf" name="30" />
-      <!-- TODO --><Weiche idx="6" bereich="HBf" name="29" />
-      <!-- TODO --><Weiche idx="6" bereich="HBf" name="31" />
+      <Weiche idx="3" bereich="HBf" name="25" />
+      <!-- TODO --><Weiche idx="4" bereich="HBf" name="21" />
+      <Weiche idx="5" bereich="HBf" name="26" />
+      <Weiche idx="5" bereich="HBf" name="27" />
+      <!-- TODO --><Weiche idx="6" bereich="HBf" name="28" />
+      <!-- TODO --><Weiche idx="6" bereich="HBf" name="30" />
+      <!-- TODO --><Weiche idx="7" bereich="HBf" name="29" />
+      <!-- TODO --><Weiche idx="7" bereich="HBf" name="31" />
     </SD8>
 
     <NoFD>
