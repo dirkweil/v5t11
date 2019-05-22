@@ -681,6 +681,13 @@
     <Gleisabschnitt name="202" />
   </Fahrstrasse>
 
+  <!-- TODO Kombination mit anderen FS-Anteilen funktioniert nicht - Bereichsüberschreitung? -->
+  <Fahrstrasse bereich="Nbf" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="202" />
+    <Weiche name="1005" stellung="GERADE" bereich="S10xx"/>
+    <Gleisabschnitt name="W1005" bereich="S10xx"/>
+  </Fahrstrasse>
+
   <!-- Fahrstrassen im HBf -->
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="404" />
