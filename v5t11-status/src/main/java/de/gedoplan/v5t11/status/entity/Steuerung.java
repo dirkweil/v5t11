@@ -8,9 +8,11 @@ import de.gedoplan.v5t11.status.entity.baustein.Lokcontroller;
 import de.gedoplan.v5t11.status.entity.baustein.Lokdecoder;
 import de.gedoplan.v5t11.status.entity.baustein.Zentrale;
 import de.gedoplan.v5t11.status.entity.baustein.besetztmelder.BMMiba3;
+import de.gedoplan.v5t11.status.entity.baustein.besetztmelder.HEBM8;
 import de.gedoplan.v5t11.status.entity.baustein.besetztmelder.Muet8i;
 import de.gedoplan.v5t11.status.entity.baustein.besetztmelder.Muet8k;
 import de.gedoplan.v5t11.status.entity.baustein.besetztmelder.SXBM1;
+import de.gedoplan.v5t11.status.entity.baustein.besetztmelder.VM5262;
 import de.gedoplan.v5t11.status.entity.baustein.funktionsdecoder.NoFD;
 import de.gedoplan.v5t11.status.entity.baustein.funktionsdecoder.SD8;
 import de.gedoplan.v5t11.status.entity.baustein.funktionsdecoder.STRFD1;
@@ -107,9 +109,11 @@ public class Steuerung {
   @XmlElementWrapper(name = "Besetztmelder")
   @XmlElements({
       @XmlElement(name = "BMMiba3", type = BMMiba3.class),
+      @XmlElement(name = "HEBM8", type = HEBM8.class),
       @XmlElement(name = "Muet8i", type = Muet8i.class),
       @XmlElement(name = "Muet8k", type = Muet8k.class),
       @XmlElement(name = "SXBM1", type = SXBM1.class),
+      @XmlElement(name = "VM5262", type = VM5262.class),
   })
   @Getter
   private SortedSet<Besetztmelder> besetztmelder = new TreeSet<>();
@@ -148,10 +152,10 @@ public class Steuerung {
    */
   public List<Integer> getAdressen() {
     List<Integer> adressen = IntStream.range(0, this.kanalWerte.length)
-        .filter(i -> i<10 || this.kanalBausteine[i] != null)
+        .filter(i -> i < 10 || this.kanalBausteine[i] != null)
         .mapToObj(Integer::valueOf)
         .collect(Collectors.toList());
-    
+
     return adressen;
   }
 
@@ -450,10 +454,10 @@ public class Steuerung {
         this.selectrixGateway.setValue(adr, wert);
       }
 
-      if (this.kanalBausteine[adr]!=null) {
+      if (this.kanalBausteine[adr] != null) {
         this.kanalBausteine[adr].adjustWert(adr, wert);
       }
-      
+
       EventFirer.getInstance().fire(new Kanal(adr, wert));
     }
   }
