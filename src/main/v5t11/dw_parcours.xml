@@ -1010,13 +1010,8 @@
   </Fahrstrasse>
 
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
-    <Gleisabschnitt name="W24" />
-    <Gleisabschnitt name="106" />
-  </Fahrstrasse>
-
-  <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="W25" />
-    <Gleisabschnitt name="107" />
+    <Gleisabschnitt name="W26" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
@@ -1027,15 +1022,10 @@
   </Fahrstrasse>
 
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
-    <Gleisabschnitt name="106" />
+    <Gleisabschnitt name="W24" />
     <Weiche name="27" stellung="GERADE" />
     <Weiche name="26" stellung="GERADE" schutz="true" />
     <Gleisabschnitt name="W27" />
-  </Fahrstrasse>
-
-  <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
-    <Gleisabschnitt name="107" />
-    <Gleisabschnitt name="W26" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
