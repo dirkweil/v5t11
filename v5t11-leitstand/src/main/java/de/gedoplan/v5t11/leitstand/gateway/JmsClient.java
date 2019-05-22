@@ -84,6 +84,11 @@ public class JmsClient {
     ConnectionFactory connectionFactory = null;
     try {
       String statusJmsUrl = this.configService.getStatusJmsUrl();
+
+      if (this.log.isDebugEnabled()) {
+        this.log.debug("JMS URL: " + statusJmsUrl);
+      }
+
       if (statusJmsUrl.startsWith("http-remoting")) {
 
         // Verbindung über WildFly
@@ -123,7 +128,8 @@ public class JmsClient {
     } finally {
       try {
         jndiContext.close();
-      } catch (Exception e) {}
+      } catch (Exception e) {
+      }
     }
   }
 
@@ -131,7 +137,8 @@ public class JmsClient {
     if (this.jmsContext != null) {
       try {
         this.jmsContext.close();
-      } catch (Exception e) {}
+      } catch (Exception e) {
+      }
     }
 
     this.jmsContext = null;

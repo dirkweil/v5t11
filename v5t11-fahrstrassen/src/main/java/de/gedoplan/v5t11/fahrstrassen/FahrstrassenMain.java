@@ -20,6 +20,8 @@ public class FahrstrassenMain {
 
     Log log = LogFactory.getLog(FahrstrassenMain.class);
 
+    log.info("Fahrstrassen-Service wird gestartet");
+
     try (Meecrowave meecrowave = new Meecrowave().bake()) {
       Parcours parcours = CDI.current().select(Parcours.class).get();
       log.info("Fahrstrassen-Service gestartet für Bereiche " + parcours.getBereiche());

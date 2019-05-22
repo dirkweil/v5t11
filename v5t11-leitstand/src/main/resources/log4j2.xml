@@ -13,5 +13,6 @@
     </Root>
 
     <Logger name="de.gedoplan" level="debug"/>
+    <Logger name="de.gedoplan.baselibs" level="warn"/>
   </Loggers>
 </Configuration>
