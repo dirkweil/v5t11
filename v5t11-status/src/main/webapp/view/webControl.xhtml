@@ -9,12 +9,12 @@
 <h:body>
   <h:form>
     <h:panelGrid columns="4">
-      <h:outputLabel value="Zentrale: " for="bereich" />
-      <h:panelGroup />
+      <h:outputLabel value="Gleisspannung: " for="gleisspannung" />
+      <h:panelGroup id="gleisspannung"/>
       <h:panelGroup />
       <h:panelGroup>
-        <h:commandButton action="#{webControlModel.zentraleAusschalten}" value="aus" />
-        <h:commandButton action="#{webControlModel.zentraleEinschalten}" value="ein" />
+        <h:commandButton action="#{webControlModel.gleisspannungAusschalten()}" value="aus" />
+        <h:commandButton action="#{webControlModel.gleisspannungEinschalten()}" value="ein" />
       </h:panelGroup>
 
       <h:outputLabel value="Bereich: " for="bereich" />

@@ -135,7 +135,7 @@ public class StellwerkMain extends JFrame {
   }
 
   private void powerButtonClicked() {
-    this.zentraleResourceClient.putZentraleIsAktiv(!leitstand.getZentrale().isAktiv());
+    this.zentraleResourceClient.putGleisspannung(!leitstand.getZentrale().isAktiv());
   }
 
   private void terminate() {

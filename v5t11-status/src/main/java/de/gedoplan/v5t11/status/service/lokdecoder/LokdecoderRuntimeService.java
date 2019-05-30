@@ -40,7 +40,7 @@ public abstract class LokdecoderRuntimeService<C extends LokdecoderConfiguration
       this.log.debug("Start Programmier-Modus");
     }
 
-    this.zentrale.setAktiv(false);
+    this.zentrale.setGleisspannung(false);
 
     // Bit 6 in Adresse 106 setzen und auf gesetztes Bit 5 von Adresse 109
     // warten

@@ -73,12 +73,12 @@ public class WebControlModel implements Serializable {
     return portName == null || portName.equalsIgnoreCase("none");
   }
 
-  public void zentraleEinschalten() {
-    this.steuerung.getZentrale().setAktiv(true);
+  public void gleisspannungEinschalten() {
+    this.steuerung.getZentrale().setGleisspannung(true);
   }
 
-  public void zentraleAusschalten() {
-    this.steuerung.getZentrale().setAktiv(false);
+  public void gleisspannungAusschalten() {
+    this.steuerung.getZentrale().setGleisspannung(false);
   }
 
   public void weicheGeradeStellen() {

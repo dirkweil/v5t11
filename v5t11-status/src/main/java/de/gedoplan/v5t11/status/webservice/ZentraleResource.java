@@ -21,9 +21,9 @@ public class ZentraleResource {
 
   @GET
   @Produces(MediaType.TEXT_PLAIN + "; qs=1.0")
-  public boolean getZentraleIsAktiv() {
+  public boolean getGleisspannung() {
 
-    return this.steuerung.getZentrale().isAktiv();
+    return this.steuerung.getZentrale().isGleisspannung();
   }
 
   @GET
@@ -35,8 +35,8 @@ public class ZentraleResource {
 
   @PUT
   @Consumes(MediaType.TEXT_PLAIN)
-  public void putZentraleIsAktiv(String aktivAsString) {
+  public void putGleisspannung(String aktivAsString) {
 
-    this.steuerung.getZentrale().setAktiv(aktivAsString.startsWith("t"));
+    this.steuerung.getZentrale().setGleisspannung(aktivAsString.startsWith("t"));
   }
 }

@@ -28,7 +28,7 @@ public class ZentraleResourceClient extends ResourceClientBase {
         .get(Zentrale.class);
   }
 
-  public void putZentraleIsAktiv(boolean aktiv) {
+  public void putGleisspannung(boolean aktiv) {
     this.baseTarget
         .request()
         .put(Entity.text(aktiv));

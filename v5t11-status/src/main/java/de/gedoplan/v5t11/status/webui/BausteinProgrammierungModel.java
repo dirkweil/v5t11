@@ -86,7 +86,7 @@ public class BausteinProgrammierungModel implements Serializable {
    *          Wert
    */
   public String selectBaustein(Baustein baustein) {
-    this.steuerung.getZentrale().setAktiv(false);
+    this.steuerung.getZentrale().setGleisspannung(false);
 
     this.currentBaustein = baustein;
     if (this.currentBaustein == null) {
