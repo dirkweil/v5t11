@@ -148,7 +148,7 @@
 
     <!-- Check OK -->
     <SXBM1 id="BM-2013-1" adr="56" einbauOrt="Mitte rechts NBf">
-      <!-- TODO --> <Gleisabschnitt idx="0" bereich="NBf" name="102" />
+      <Gleisabschnitt idx="0" bereich="NBf" name="102" />
       <Gleisabschnitt idx="1" bereich="NBf" name="4" />
       <Gleisabschnitt idx="2" bereich="NBf" name="23" />
       <Gleisabschnitt idx="3" bereich="NBf" name="W5" />
@@ -225,7 +225,7 @@
       <Gleisabschnitt idx="3" bereich="HBf" name="W29" />
       <Gleisabschnitt idx="4" bereich="HBf" name="W30" />
       <Gleisabschnitt idx="5" bereich="HBf" name="W31" />
-      <!-- TODO --> <Gleisabschnitt idx="6" bereich="HBf" name="505" />
+      <Gleisabschnitt idx="6" bereich="HBf" name="505" />
       <!-- TODO --> <Gleisabschnitt idx="7" bereich="HBf" name="506" />
     </HEBM8>
 
