@@ -9,7 +9,7 @@
     <version>2.0.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>v5t11-status</artifactId>
+  <artifactId>v5t11-status-neu</artifactId>
 
   <packaging>war</packaging>
 
@@ -28,6 +28,13 @@
       <artifactId>commons-logging</artifactId>
     </dependency>
 
+    <!-- Wird als WildFly-Modul geladen (s. jboss-deployment-structure.xml) -->
+    <dependency>
+      <groupId>com.neuronrobotics</groupId>
+      <artifactId>nrjavaserial</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
     <dependency>
       <groupId>de.gedoplan</groupId>
       <artifactId>baselibs-persistence</artifactId>
@@ -36,20 +43,6 @@
     <dependency>
       <groupId>de.gedoplan</groupId>
       <artifactId>baselibs-utils</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>de.gedoplan</groupId>
-      <artifactId>v5t11-selectrix-adapter-api</artifactId>
-      <version>2.0.0-SNAPSHOT</version>
-    </dependency>
-
-    <dependency>
-      <groupId>de.gedoplan</groupId>
-      <artifactId>v5t11-selectrix-adapter</artifactId>
-      <version>2.0.0-SNAPSHOT</version>
-      <type>rar</type>
-      <scope>provided</scope>
     </dependency>
 
     <dependency>
@@ -98,7 +91,7 @@
       </activation>
       <properties>
         <cdi.provider.name>weld</cdi.provider.name>
-        <cdi.provider.version>3.0.3.Final</cdi.provider.version>
+        <cdi.provider.version>3.1.1.Final</cdi.provider.version>
       </properties>
       <dependencies>
         <dependency>
@@ -120,7 +113,7 @@
       <id>cdi-owb</id>
       <properties>
         <cdi.provider.name>owb</cdi.provider.name>
-        <cdi.provider.version>2.0.4</cdi.provider.version>
+        <cdi.provider.version>2.0.11</cdi.provider.version>
       </properties>
       <dependencies>
         <dependency>

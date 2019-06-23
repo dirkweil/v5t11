@@ -1,7 +1,8 @@
 <jboss-deployment-structure>
   <deployment>
     <dependencies>
-      <module name="deployment.v5t11-selectrix-adapter.rar" />
+      <!-- Modul fuer Serienschnittstelle referenzieren; s. additional/wildfly -->
+      <module name="com.neuronrobotics.nrjavaserial" />
     </dependencies>
   </deployment>
 </jboss-deployment-structure>

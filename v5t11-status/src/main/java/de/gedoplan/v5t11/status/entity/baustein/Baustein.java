@@ -138,7 +138,7 @@ public abstract class Baustein extends SingleIdEntity<String> implements Compara
       if (updateInterface) {
         List<Integer> adressen = getAdressen();
         for (int offset = 0; offset < this.byteAnzahl; ++offset) {
-          this.steuerung.setKanalWert(adressen.get(offset), (int) (wert & 0b11111111L));
+          this.steuerung.setSX1Kanal(adressen.get(offset), (byte) (wert & 0b11111111L));
           wert >>>= 8;
         }
       }
@@ -155,15 +155,10 @@ public abstract class Baustein extends SingleIdEntity<String> implements Compara
     return this.id.compareTo(other.id);
   }
 
-  /**
+  /*
    * Nachbearbeitung nach JAXB-Unmarshal.
-   *
-   * @param unmarshaller
-   *          Unmarshaller
-   * @param parent
-   *          Parent
    */
-  public void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
+  protected void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
     if (this.id == null) {
       this.id = UUID.randomUUID().toString();
       this.label = getLabelPrefix() + " " + this.id.substring(0, this.id.indexOf('-'));

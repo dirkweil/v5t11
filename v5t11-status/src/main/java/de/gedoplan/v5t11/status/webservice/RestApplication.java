@@ -19,8 +19,8 @@ public class RestApplication extends Application {
         // Services
         GleisResource.class,
         KanalResource.class,
-        LokResource.class,
-        LokcontrollerResource.class,
+        // LokResource.class,
+        // LokcontrollerResource.class,
         SignalResource.class,
         WeicheResource.class,
         ZentraleResource.class,

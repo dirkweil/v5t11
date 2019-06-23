@@ -1,14 +1,14 @@
 package de.gedoplan.v5t11.status.entity;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 
 import de.gedoplan.v5t11.status.CdiTestBase;
 import de.gedoplan.v5t11.status.StatusEventCollector;
 import de.gedoplan.v5t11.status.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
-import de.gedoplan.v5t11.status.entity.lok.Lok;
 import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
 import de.gedoplan.v5t11.util.domain.entity.fahrweg.Geraet;
@@ -63,9 +63,12 @@ public class SteuerungTest extends CdiTestBase {
     };
 
     // Grundzustand herstellen: Alle Gleise an BM-1 nicht besetzt
-    this.steuerung.setKanalWert(BM_ADR, 0b1111_1111);
+    this.steuerung.setSX1Kanal(BM_ADR, (byte) 0b1111_1111);
     int wert = 0;
-    this.steuerung.setKanalWert(BM_ADR, wert);
+    this.steuerung.setSX1Kanal(BM_ADR, (byte) wert);
+
+    // Events kommen je nach Zentrale ggf. verzögert; abwarten
+    this.steuerung.awaitSync();
 
     // Zufällige Kombinationen von Gleisbelegungen prüfen
     Random random = new Random(0);
@@ -75,7 +78,9 @@ public class SteuerungTest extends CdiTestBase {
       int oldWert = wert;
       wert = random.nextInt(256);
 
-      this.steuerung.setKanalWert(BM_ADR, wert);
+      this.steuerung.setSX1Kanal(BM_ADR, (byte) wert);
+      this.steuerung.awaitSync();
+      ;
 
       for (int i = 0; i < gleisabschnitte.length; ++i) {
         // Ist der Gleiszustand korrekt?
@@ -108,11 +113,14 @@ public class SteuerungTest extends CdiTestBase {
     };
 
     // Grundzustand herstellen: Alle Geraete an FD-2 in Grundstellung
-    this.steuerung.setKanalWert(FD_ADR1, 0b1111_1111);
-    this.steuerung.setKanalWert(FD_ADR2, 0b1111_1111);
+    this.steuerung.setSX1Kanal(FD_ADR1, (byte) 0b1111_1111);
+    this.steuerung.setSX1Kanal(FD_ADR2, (byte) 0b1111_1111);
     long wert = 0;
-    this.steuerung.setKanalWert(FD_ADR1, (int) (wert & 0b1111_1111));
-    this.steuerung.setKanalWert(FD_ADR2, (int) ((wert >> 8) & 0b1111_1111));
+    this.steuerung.setSX1Kanal(FD_ADR1, (byte) (wert & 0b1111_1111));
+    this.steuerung.setSX1Kanal(FD_ADR2, (byte) ((wert >> 8) & 0b1111_1111));
+
+    // Events kommen je nach Zentrale ggf. verzögert; abwarten
+    this.steuerung.awaitSync();
 
     // Zufällige Kombinationen von Geraetestellungen prüfen
     Random random = new Random(0);
@@ -122,8 +130,9 @@ public class SteuerungTest extends CdiTestBase {
       long oldWert = wert;
       wert = random.nextInt(256 * 256);
 
-      this.steuerung.setKanalWert(FD_ADR1, (int) (wert & 0b1111_1111));
-      this.steuerung.setKanalWert(FD_ADR2, (int) ((wert >> 8) & 0b1111_1111));
+      this.steuerung.setSX1Kanal(FD_ADR1, (byte) (wert & 0b1111_1111));
+      this.steuerung.setSX1Kanal(FD_ADR2, (byte) ((wert >> 8) & 0b1111_1111));
+      this.steuerung.awaitSync();
 
       int anschluss = 0;
       for (int i = 0; i < geraete.length; ++i) {
@@ -196,10 +205,13 @@ public class SteuerungTest extends CdiTestBase {
     };
 
     // Grundzustand herstellen: Alle Geraete an FD-2 in Grundstellung
-    this.steuerung.setKanalWert(FD_ADR1, 0b1111_1111);
-    this.steuerung.setKanalWert(FD_ADR2, 0b1111_1111);
-    this.steuerung.setKanalWert(FD_ADR1, 0);
-    this.steuerung.setKanalWert(FD_ADR2, 0);
+    this.steuerung.setSX1Kanal(FD_ADR1, (byte) 0b1111_1111);
+    this.steuerung.setSX1Kanal(FD_ADR2, (byte) 0b1111_1111);
+    this.steuerung.setSX1Kanal(FD_ADR1, (byte) 0);
+    this.steuerung.setSX1Kanal(FD_ADR2, (byte) 0);
+
+    // Events kommen je nach Zentrale ggf. verzögert; abwarten
+    this.steuerung.awaitSync();
 
     long wert = 0;
 
@@ -255,9 +267,14 @@ public class SteuerungTest extends CdiTestBase {
         throw new AssertionError("Unbekanntes Geraet: " + geraet);
       }
 
+      // Events kommen je nach Zentrale ggf. verzögert; abwarten
+      this.steuerung.awaitSync();
+
       // Ist der Kanalwert passend?
-      wert = this.steuerung.getKanalWert(FD_ADR1) | (this.steuerung.getKanalWert(FD_ADR2) << 8);
-      assertThat("Kanalwert nach Aenderung von " + geraet, wert, is(newWert));
+      wert = this.steuerung.getSX1Kanal(FD_ADR1) | (this.steuerung.getSX1Kanal(FD_ADR2) << 8);
+      if (wert != newWert) {
+        fail(String.format("Kanalwert nach Aenderung von %s: soll=0x%04x, ist=0x%04x", geraet, newWert, wert));
+      }
 
       // Ist bei Zustandswechsel ein Event ausgelöst worden und sonst nicht?
       assertThat("Statuswechselmeldung fuer " + geraet + " erfolgt", this.statusEventCollector.getEvents().contains(geraet), is(changed));
@@ -269,73 +286,73 @@ public class SteuerungTest extends CdiTestBase {
   /**
    * Test: Entspricht der Zustand von Loks dem der zugehoerigen Adressen und werden Statuswechsel gemeldet?
    */
-  @Test
-  public void test_05_adjustLoks() {
-    Lok lok = this.steuerung.getLok("212 216-6");
-    int adr = lok.getLokdecoder().getAdresse();
-
-    // Grundzustand herstellen: Lok steht vorwaerts ohne Licht
-    this.steuerung.setKanalWert(adr, 0b0111_1111);
-    int wert = 0;
-    this.steuerung.setKanalWert(adr, wert);
-
-    // Zufällige Statusaenderungen prüfen
-    Random random = new Random(0);
-    for (int count = 0; count < 100; ++count) {
-      this.statusEventCollector.clear();
-
-      int oldWert = wert;
-      wert = random.nextInt(100) < 10
-          ? oldWert
-          : random.nextInt(0b1000_0000);
-      this.steuerung.setKanalWert(adr, wert);
-
-      // Stimmt der Lok-Status?
-      assertThat("Licht an?", lok.isLicht(), is((wert & 0b0100_0000) != 0));
-      assertThat("Rueckwaerts?", lok.isRueckwaerts(), is((wert & 0b0010_0000) != 0));
-      assertThat("Geschwindigkeit", lok.getGeschwindigkeit(), is((wert & 0b0001_1111)));
-
-      // Ist bei Zustandswechsel ein Event ausgelöst worden und sonst nicht?
-      assertThat("Statuswechselmeldung fuer " + lok + " erfolgt", this.statusEventCollector.getEvents().contains(lok), is(wert != oldWert));
-    }
-
-  }
+  // @Test
+  // public void test_05_adjustLoks() {
+  // Lok lok = this.steuerung.getLok("212 216-6");
+  // int adr = lok.getLokdecoder().getAdresse();
+  //
+  // // Grundzustand herstellen: Lok steht vorwaerts ohne Licht
+  // this.steuerung.setSX1Kanal(adr, 0b0111_1111);
+  // int wert = 0;
+  // this.steuerung.setSX1Kanal(adr, wert);
+  //
+  // // Zufällige Statusaenderungen prüfen
+  // Random random = new Random(0);
+  // for (int count = 0; count < 100; ++count) {
+  // this.statusEventCollector.clear();
+  //
+  // int oldWert = wert;
+  // wert = random.nextInt(100) < 10
+  // ? oldWert
+  // : random.nextInt(0b1000_0000);
+  // this.steuerung.setSX1Kanal(adr, wert);
+  //
+  // // Stimmt der Lok-Status?
+  // assertThat("Licht an?", lok.isLicht(), is((wert & 0b0100_0000) != 0));
+  // assertThat("Rueckwaerts?", lok.isRueckwaerts(), is((wert & 0b0010_0000) != 0));
+  // assertThat("Geschwindigkeit", lok.getGeschwindigkeit(), is((wert & 0b0001_1111)));
+  //
+  // // Ist bei Zustandswechsel ein Event ausgelöst worden und sonst nicht?
+  // assertThat("Statuswechselmeldung fuer " + lok + " erfolgt", this.statusEventCollector.getEvents().contains(lok), is(wert != oldWert));
+  // }
+  //
+  // }
 
   /**
    * Test: Entspricht nach Statusaenderungen von Loks der Zustand der zugehoerigen Adressen dem der Loks und werden Statuswechsel gemeldet?
    */
-  @Test
-  public void test_06_setLoks() {
-    Lok lok = this.steuerung.getLok("212 216-6");
-    int adr = lok.getLokdecoder().getAdresse();
-
-    // Grundzustand herstellen: Lok steht vorwaerts ohne Licht
-    this.steuerung.setKanalWert(adr, 0b0111_1111);
-    this.steuerung.setKanalWert(adr, 0);
-
-    // Zufällige Statusaenderungen prüfen
-    Random random = new Random(0);
-    for (int count = 0; count < 100; ++count) {
-      this.statusEventCollector.clear();
-
-      int oldWert = lok.getGeschwindigkeit()
-          + (lok.isRueckwaerts() ? 0b0010_0000 : 0)
-          + (lok.isLicht() ? 0b0100_0000 : 0);
-
-      int wert = random.nextInt(100) < 10
-          ? oldWert
-          : random.nextInt(0b1000_0000);
-
-      lok.setLicht((wert & 0b0100_0000) != 0);
-      lok.setRueckwaerts((wert & 0b0010_0000) != 0);
-      lok.setGeschwindigkeit(wert & 0b0001_1111);
-
-      // Stimmt der Kanalwert?
-      assertThat("Kanalwert", this.steuerung.getKanalWert(adr), is(wert));
-
-      // Ist bei Zustandswechsel ein Event ausgelöst worden und sonst nicht?
-      assertThat("Statuswechselmeldung fuer " + lok + " erfolgt", this.statusEventCollector.getEvents().contains(lok), is(wert != oldWert));
-    }
-
-  }
+  // @Test
+  // public void test_06_setLoks() {
+  // Lok lok = this.steuerung.getLok("212 216-6");
+  // int adr = lok.getLokdecoder().getAdresse();
+  //
+  // // Grundzustand herstellen: Lok steht vorwaerts ohne Licht
+  // this.steuerung.setSX1Kanal(adr, 0b0111_1111);
+  // this.steuerung.setSX1Kanal(adr, 0);
+  //
+  // // Zufällige Statusaenderungen prüfen
+  // Random random = new Random(0);
+  // for (int count = 0; count < 100; ++count) {
+  // this.statusEventCollector.clear();
+  //
+  // int oldWert = lok.getGeschwindigkeit()
+  // + (lok.isRueckwaerts() ? 0b0010_0000 : 0)
+  // + (lok.isLicht() ? 0b0100_0000 : 0);
+  //
+  // int wert = random.nextInt(100) < 10
+  // ? oldWert
+  // : random.nextInt(0b1000_0000);
+  //
+  // lok.setLicht((wert & 0b0100_0000) != 0);
+  // lok.setRueckwaerts((wert & 0b0010_0000) != 0);
+  // lok.setGeschwindigkeit(wert & 0b0001_1111);
+  //
+  // // Stimmt der Kanalwert?
+  // assertThat("Kanalwert", this.steuerung.getSX1Kanal(adr), is(wert));
+  //
+  // // Ist bei Zustandswechsel ein Event ausgelöst worden und sonst nicht?
+  // assertThat("Statuswechselmeldung fuer " + lok + " erfolgt", this.statusEventCollector.getEvents().contains(lok), is(wert != oldWert));
+  // }
+  //
+  // }
 }

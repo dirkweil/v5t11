@@ -19,4 +19,11 @@ public class TestBase {
     System.setProperty("UNITTEST", "true");
   }
 
+  public static void delay(long millis) {
+    try {
+      Thread.sleep(millis);
+    }
+    catch (Exception e) {
+    }
+  }
 }

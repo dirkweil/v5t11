@@ -1,7 +1,6 @@
 package de.gedoplan.v5t11.status.entity.baustein.lokcontroller;
 
 import de.gedoplan.v5t11.status.entity.baustein.Lokcontroller;
-import de.gedoplan.v5t11.status.entity.baustein.lokdecoder.SxLokdecoder;
 import de.gedoplan.v5t11.status.entity.lok.Lok;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
 
@@ -19,30 +18,31 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.NONE)
 public class SxLokControl extends Lokcontroller {
+
   /**
    * Bitmaske für Horn im Wert.
    */
-  public static final int MASK_HORN = SxLokdecoder.MASK_HORN;
+  public static final int MASK_HORN = 0x80;
 
   /**
    * Bitmaske für Licht im Wert.
    */
-  public static final int MASK_LICHT = SxLokdecoder.MASK_LICHT;
+  public static final int MASK_LICHT = 0x40;
 
   /**
    * Bitmaske für die Richtung im Wert.
    */
-  public static final int MASK_RICHTUNG = SxLokdecoder.MASK_RICHTUNG;
+  public static final int MASK_RICHTUNG = 0x20;
 
   /**
    * Bitmaske für die Geschwindigkeit im Wert.
    */
-  public static final int MASK_GESCHWINDIGKEIT = SxLokdecoder.MASK_GESCHWINDIGKEIT;
+  public static final int MASK_GESCHWINDIGKEIT = 0x1F;
 
   /**
    * Maximalwert für die Geschwindigkeit.
    */
-  public static final int MAX_GESCHWINDIGKEIT = SxLokdecoder.MAX_GESCHWINDIGKEIT;
+  public static final int MAX_GESCHWINDIGKEIT = 31;
 
   private long invertMask;
 

@@ -28,7 +28,7 @@ public class KanalResource {
       throw new NotFoundException();
     }
 
-    return this.steuerung.getKanalWert(adr);
+    return this.steuerung.getSX1Kanal(adr);
   }
 
   @PUT
@@ -39,6 +39,6 @@ public class KanalResource {
       throw new NotFoundException();
     }
 
-    this.steuerung.setKanalWert(adr, wert);
+    this.steuerung.setSX1Kanal(adr, wert);
   }
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <sx>
-  <Interface typ="selectrix" speed="9600" />
+  <FCC />
 
   <Besetztmelder>
     <BMMiba3 id="BM-1" adr="90" einbauOrt="neben Interface">
@@ -55,10 +55,12 @@
     </NoFD>
   </Funktionsdecoder>
 
+<!-- 
   <Lokdecoder>
     <Tr66825 id="LD-1" adr="5" lok="212 216-6" />
     <DHL100 id="LD-2" adr="6" lok="VT 98.9731" />
   </Lokdecoder>
+ -->
 
   <Lokcontroller>
     <SxLokControl id="LokControl 1" adr="30" />

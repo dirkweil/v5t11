@@ -13,5 +13,6 @@
     </Root>
 
     <Logger name="de.gedoplan" level="debug"/>
+    <Logger name="de.gedoplan.v5t11.status.entity.baustein.zentrale.FCC" level="trace"/>
   </Loggers>
 </Configuration>

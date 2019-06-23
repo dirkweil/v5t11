@@ -5,7 +5,6 @@ import de.gedoplan.v5t11.status.entity.baustein.Besetztmelder;
 import de.gedoplan.v5t11.status.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
-import de.gedoplan.v5t11.status.entity.lok.Lok;
 import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
 
@@ -132,67 +131,67 @@ public class WebControlModel implements Serializable {
   }
 
   private void lichtStellen(boolean b) {
-    Lok lok = this.steuerung.getLok(this.lokId);
-    if (lok == null) {
-      FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("unbekannte Lok"));
-      return;
-    }
-    lok.setLicht(b);
+    // Lok lok = this.steuerung.getLok(this.lokId);
+    // if (lok == null) {
+    // FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("unbekannte Lok"));
+    // return;
+    // }
+    // lok.setLicht(b);
   }
 
   public void geschwindigkeitStellen() {
-    Lok lok = this.steuerung.getLok(this.lokId);
-    if (lok == null) {
-      FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("unbekannte Lok"));
-      return;
-    }
-    lok.setGeschwindigkeit(this.lokGeschwindigkeit);
-    lok.setRueckwaerts(this.lokRueckwaerts);
+    // Lok lok = this.steuerung.getLok(this.lokId);
+    // if (lok == null) {
+    // FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("unbekannte Lok"));
+    // return;
+    // }
+    // lok.setGeschwindigkeit(this.lokGeschwindigkeit);
+    // lok.setRueckwaerts(this.lokRueckwaerts);
   }
 
   public void lokStopp() {
-    Lok lok = this.steuerung.getLok(this.lokId);
-    if (lok == null) {
-      FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("unbekannte Lok"));
-      return;
-    }
-
-    lok.setGeschwindigkeit(0);
-    this.lokGeschwindigkeit = 0;
+    // Lok lok = this.steuerung.getLok(this.lokId);
+    // if (lok == null) {
+    // FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("unbekannte Lok"));
+    // return;
+    // }
+    //
+    // lok.setGeschwindigkeit(0);
+    // this.lokGeschwindigkeit = 0;
   }
 
   public void geschwindigkeitErhöhen() {
-    Lok lok = this.steuerung.getLok(this.lokId);
-    if (lok == null) {
-      FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("unbekannte Lok"));
-      return;
-    }
-
-    int geschwindigkeit = lok.getGeschwindigkeit();
-    if (geschwindigkeit < Lok.MAX_GESCHWINDIGKEIT) {
-      ++geschwindigkeit;
-    }
-    lok.setGeschwindigkeit(geschwindigkeit);
-    this.lokGeschwindigkeit = geschwindigkeit;
-
-    this.lokRueckwaerts = lok.isRueckwaerts();
+    // Lok lok = this.steuerung.getLok(this.lokId);
+    // if (lok == null) {
+    // FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("unbekannte Lok"));
+    // return;
+    // }
+    //
+    // int geschwindigkeit = lok.getGeschwindigkeit();
+    // if (geschwindigkeit < Lok.MAX_GESCHWINDIGKEIT) {
+    // ++geschwindigkeit;
+    // }
+    // lok.setGeschwindigkeit(geschwindigkeit);
+    // this.lokGeschwindigkeit = geschwindigkeit;
+    //
+    // this.lokRueckwaerts = lok.isRueckwaerts();
   }
 
   public void geschwindigkeitVermindern() {
-    Lok lok = this.steuerung.getLok(this.lokId);
-    if (lok == null) {
-      FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("unbekannte Lok"));
-      return;
-    }
-
-    int geschwindigkeit = lok.getGeschwindigkeit();
-    if (geschwindigkeit > 0) {
-      --geschwindigkeit;
-    }
-    lok.setGeschwindigkeit(geschwindigkeit);
-    this.lokGeschwindigkeit = geschwindigkeit;
-
-    this.lokRueckwaerts = lok.isRueckwaerts();
+    // Lok lok = this.steuerung.getLok(this.lokId);
+    // if (lok == null) {
+    // FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("unbekannte Lok"));
+    // return;
+    // }
+    //
+    // int geschwindigkeit = lok.getGeschwindigkeit();
+    // if (geschwindigkeit > 0) {
+    // --geschwindigkeit;
+    // }
+    // lok.setGeschwindigkeit(geschwindigkeit);
+    // this.lokGeschwindigkeit = geschwindigkeit;
+    //
+    // this.lokRueckwaerts = lok.isRueckwaerts();
   }
 
   public void gleisBelegtSetzen() {

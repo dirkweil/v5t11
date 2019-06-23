@@ -60,7 +60,5 @@ public abstract class Lokcontroller extends Baustein implements Encoder {
 
   @Override
   public void adjustStatus() {
-    // TODO Auto-generated method stub
-
   }
 }

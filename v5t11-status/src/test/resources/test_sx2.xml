@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<sx>
+  <Interface typ="selectrix" speed="9600" />
+
+  <Besetztmelder>
+    <BMMiba3 id="BM-1" adr="90" einbauOrt="neben Interface">
+      <Gleisabschnitt idx="0" bereich="show" name="W1" />
+      <Gleisabschnitt idx="1" bereich="show" name="S" />
+      <Gleisabschnitt idx="2" bereich="show" name="W3" />
+      <Gleisabschnitt idx="3" bereich="show" name="2" />
+      <Gleisabschnitt idx="4" bereich="show" name="W2" />
+      <Gleisabschnitt idx="5" bereich="show" name="11" />
+      <Gleisabschnitt idx="6" bereich="show" name="12" />
+      <Gleisabschnitt idx="7" bereich="show" name="1" />
+    </BMMiba3>
+
+    <BMMiba3 id="BM-2" adr="91" einbauOrt="nur zum Test">
+      <Gleisabschnitt idx="0" bereich="test" name="1" />
+      <Gleisabschnitt idx="1" bereich="test" name="2" />
+      <Gleisabschnitt idx="2" bereich="test" name="3" />
+      <Gleisabschnitt idx="3" bereich="test" name="4" />
+      <Gleisabschnitt idx="4" bereich="test" name="5" />
+      <Gleisabschnitt idx="5" bereich="test" name="6" />
+      <Gleisabschnitt idx="6" bereich="test" name="7" />
+      <Gleisabschnitt idx="7" bereich="test" name="8" />
+    </BMMiba3>
+  </Besetztmelder>
+
+  <Funktionsdecoder>
+    <WDMiba3 id="FD-1" adr="80" einbauOrt="neben Trafo">
+      <Weiche idx="1" bereich="show" name="3" />
+      <Weiche idx="2" bereich="show" name="2" />
+      <Weiche idx="3" bereich="show" name="1" />
+      <HauptsignalRtGnGe idx="4" bereich="show" name="F" dauer="true" />
+      <HauptsignalRtGe idx="6" bereich="show" name="N1" dauer="true" />
+      <HauptsignalRtGn idx="7" bereich="show" name="N2" dauer="true" />
+    </WDMiba3>
+
+    <SXSD1 id="FD-2" adr="81" einbauOrt="nur zum Test">
+      <Hauptsperrsignal idx="0" bereich="test" name="P2" />
+      <Hauptsperrsignal idx="2" bereich="test" name="P3" />
+      <Hauptsperrsignal idx="4" bereich="test" name="P4" />
+      <Weiche idx="6" bereich="test" name="10" />
+      <Weiche idx="7" bereich="test" name="11" />
+      <Vorsignal idx="8" bereich="test" name="2a" />
+      <Vorsignal idx="10" bereich="test" name="2b" />
+      <HauptsignalRtGnGe idx="12" bereich="test" name="A" />
+      <HauptsignalRtGe idx="14" bereich="test" name="B" />
+      <HauptsignalRtGn idx="15" bereich="test" name="C" />
+    </SXSD1>
+    
+    <NoFD id="dummy-1">
+      <Weiche idx="0" bereich="test" name="99" />
+      <HauptsignalRtGe idx="1" bereich="test" name="X" />
+    </NoFD>
+  </Funktionsdecoder>
+
+  <Lokdecoder>
+    <Tr66825 id="LD-1" adr="5" lok="212 216-6" />
+    <DHL100 id="LD-2" adr="6" lok="VT 98.9731" />
+  </Lokdecoder>
+
+  <Lokcontroller>
+    <SxLokControl id="LokControl 1" adr="30" />
+    <SxLokControl id="LokControl 2" adr="31" />
+  </Lokcontroller>
+
+</sx>
+

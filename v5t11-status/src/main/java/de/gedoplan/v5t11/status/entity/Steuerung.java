@@ -1,11 +1,10 @@
 package de.gedoplan.v5t11.status.entity;
 
-import de.gedoplan.v5t11.selectrix.SelectrixMessage;
+import de.gedoplan.baselibs.utils.inject.InjectionUtil;
 import de.gedoplan.v5t11.status.entity.baustein.Baustein;
 import de.gedoplan.v5t11.status.entity.baustein.Besetztmelder;
 import de.gedoplan.v5t11.status.entity.baustein.Funktionsdecoder;
 import de.gedoplan.v5t11.status.entity.baustein.Lokcontroller;
-import de.gedoplan.v5t11.status.entity.baustein.Lokdecoder;
 import de.gedoplan.v5t11.status.entity.baustein.Zentrale;
 import de.gedoplan.v5t11.status.entity.baustein.besetztmelder.BMMiba3;
 import de.gedoplan.v5t11.status.entity.baustein.besetztmelder.HEBM8;
@@ -20,37 +19,23 @@ import de.gedoplan.v5t11.status.entity.baustein.funktionsdecoder.SXSD1;
 import de.gedoplan.v5t11.status.entity.baustein.funktionsdecoder.WDMiba;
 import de.gedoplan.v5t11.status.entity.baustein.funktionsdecoder.WDMiba3;
 import de.gedoplan.v5t11.status.entity.baustein.lokcontroller.SxLokControl;
-import de.gedoplan.v5t11.status.entity.baustein.lokdecoder.DH05;
-import de.gedoplan.v5t11.status.entity.baustein.lokdecoder.DH10;
-import de.gedoplan.v5t11.status.entity.baustein.lokdecoder.DHL050;
-import de.gedoplan.v5t11.status.entity.baustein.lokdecoder.DHL100;
-import de.gedoplan.v5t11.status.entity.baustein.lokdecoder.Tr66825;
-import de.gedoplan.v5t11.status.entity.baustein.lokdecoder.Tr66830;
-import de.gedoplan.v5t11.status.entity.baustein.lokdecoder.Tr66832;
-import de.gedoplan.v5t11.status.entity.baustein.lokdecoder.Tr66835;
+import de.gedoplan.v5t11.status.entity.baustein.zentrale.DummyZentrale;
+import de.gedoplan.v5t11.status.entity.baustein.zentrale.FCC;
 import de.gedoplan.v5t11.status.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.FunktionsdecoderGeraet;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
-import de.gedoplan.v5t11.status.entity.lok.Lok;
-import de.gedoplan.v5t11.status.service.SelectrixGateway;
-import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.domain.entity.Bereichselement;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import java.util.concurrent.ExecutorService;
 
-import javax.enterprise.inject.Vetoed;
-import javax.inject.Inject;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlElements;
@@ -67,37 +52,27 @@ import lombok.Getter;
  */
 @XmlRootElement(name = "sx")
 @XmlAccessorType(XmlAccessType.NONE)
-@Vetoed // Steuerung wird durch einen Producer bereitgestellt
 public class Steuerung {
 
-  @Inject
-  SelectrixGateway selectrixGateway;
-
-  private volatile int[] kanalWerte = new int[256];
-
-  private Baustein[] kanalBausteine = new Baustein[256];
-
-  @XmlElement(name = "Interface")
-  @Getter
-  private SxInterface sxInterface;
-
-  @XmlElement(name = "Zentrale")
+  @XmlElement(name = "FCC", type = FCC.class)
   @Getter
   private Zentrale zentrale;
 
-  @XmlElementWrapper(name = "Lokdecoder")
-  @XmlElements({
-      @XmlElement(name = "DH05", type = DH05.class),
-      @XmlElement(name = "DH10", type = DH10.class),
-      @XmlElement(name = "DHL050", type = DHL050.class),
-      @XmlElement(name = "DHL100", type = DHL100.class),
-      @XmlElement(name = "Tr66825", type = Tr66825.class),
-      @XmlElement(name = "Tr66830", type = Tr66830.class),
-      @XmlElement(name = "Tr66832", type = Tr66832.class),
-      @XmlElement(name = "Tr66835", type = Tr66835.class),
-  })
-  @Getter
-  SortedSet<Lokdecoder> lokdecoder = new TreeSet<>();
+  private Baustein[] kanalBausteine = new Baustein[256];
+
+  // @XmlElementWrapper(name = "Lokdecoder")
+  // @XmlElements({
+  // @XmlElement(name = "DH05", type = DH05.class),
+  // @XmlElement(name = "DH10", type = DH10.class),
+  // @XmlElement(name = "DHL050", type = DHL050.class),
+  // @XmlElement(name = "DHL100", type = DHL100.class),
+  // @XmlElement(name = "Tr66825", type = Tr66825.class),
+  // @XmlElement(name = "Tr66830", type = Tr66830.class),
+  // @XmlElement(name = "Tr66832", type = Tr66832.class),
+  // @XmlElement(name = "Tr66835", type = Tr66835.class),
+  // })
+  // @Getter
+  // SortedSet<Lokdecoder> lokdecoder = new TreeSet<>();
 
   @XmlElementWrapper(name = "Lokcontroller")
   @XmlElements({
@@ -142,22 +117,22 @@ public class Steuerung {
   @Getter
   private SortedSet<Weiche> weichen = new TreeSet<>();
 
-  @Getter
-  private SortedSet<Lok> loks = new TreeSet<>();
+  // @Getter
+  // private SortedSet<Lok> loks = new TreeSet<>();
 
   /**
    * Alle von der Steuerung belegten Selectrix-Adressen liefern.
    *
    * @return Adressen
    */
-  public List<Integer> getAdressen() {
-    List<Integer> adressen = IntStream.range(0, this.kanalWerte.length)
-        .filter(i -> i < 10 || this.kanalBausteine[i] != null)
-        .mapToObj(Integer::valueOf)
-        .collect(Collectors.toList());
-
-    return adressen;
-  }
+  // public List<Integer> getAdressen() {
+  // List<Integer> adressen = IntStream.range(0, this.kanalWerte.length)
+  // .filter(i -> i < 10 || this.kanalBausteine[i] != null)
+  // .mapToObj(Integer::valueOf)
+  // .collect(Collectors.toList());
+  //
+  // return adressen;
+  // }
 
   /**
    * Lok liefern.
@@ -166,14 +141,14 @@ public class Steuerung {
    *          Id
    * @return gefundene Lok oder <code>null</code>
    */
-  public Lok getLok(String id) {
-    for (Lok lok : this.loks) {
-      if (id.equals(lok.getId())) {
-        return lok;
-      }
-    }
-    return null;
-  }
+  // public Lok getLok(String id) {
+  // for (Lok lok : this.loks) {
+  // if (id.equals(lok.getId())) {
+  // return lok;
+  // }
+  // }
+  // return null;
+  // }
 
   /**
    * Wert liefern: {@link #lokController}.
@@ -288,19 +263,19 @@ public class Steuerung {
   @SuppressWarnings("unused")
   private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
 
-    // Interface ergänzen
-    if (this.sxInterface == null) {
-      this.sxInterface = new SxInterface();
+    /*
+     * Bei Betrieb ohne Port Zentrale nur simulieren.
+     */
+    if ("none".equalsIgnoreCase(this.zentrale.getPortName())) {
+      this.zentrale = new DummyZentrale();
     }
 
-    // Zentrale ergänzen.
+    /*
+     * Default-Zentrale ist FCC.
+     */
     if (this.zentrale == null) {
-      this.zentrale = new Zentrale();
-      this.zentrale.afterUnmarshal(unmarshaller, this);
+      this.zentrale = new FCC();
     }
-
-    // Adressen der Zentrale registrieren.
-    registerAdressen(this.zentrale);
 
     /*
      * Den Besetztmeldern zugeordnete Gleisabschnitte in this.gleisabschnitte
@@ -340,44 +315,44 @@ public class Steuerung {
       registerAdressen(fd);
     }
 
-    for (Lokdecoder ld : this.lokdecoder) {
-      Lok lok = ld.getLok();
-      if (lok != null) {
-        if (!this.loks.add(lok)) {
-          throw new IllegalArgumentException("Lok " + lok.getId() + " ist mehreren Lokdecodern zugeordnet");
-        }
-
-        registerAdressen(ld);
-      }
-    }
+    // for (Lokdecoder ld : this.lokdecoder) {
+    // Lok lok = ld.getLok();
+    // if (lok != null) {
+    // if (!this.loks.add(lok)) {
+    // throw new IllegalArgumentException("Lok " + lok.getId() + " ist mehreren Lokdecodern zugeordnet");
+    // }
+    //
+    // registerAdressen(ld);
+    // }
+    // }
 
     for (Lokcontroller lc : this.lokcontroller) {
       registerAdressen(lc);
     }
   }
 
-  public void assignLokcontroller(String lokcontrollerId, String lokId) {
-    Lokcontroller lokcontroller = getLokcontroller(lokcontrollerId);
-    if (lokcontroller == null) {
-      throw new IllegalArgumentException("Lokcontroller nicht gefunden: " + lokcontrollerId);
-    }
-
-    Lok lok = null;
-    if (lokId != null) {
-      lok = getLok(lokId);
-      if (lok == null) {
-        throw new IllegalArgumentException("Lok nicht gefunden: " + lokId);
-      }
-
-      for (Lokcontroller lc : getLokcontroller()) {
-        if (!lc.equals(lokcontroller) && lok.equals(lc.getLok())) {
-          lc.setLok(null);
-        }
-      }
-    }
-
-    lokcontroller.setLok(lok);
-  }
+  // public void assignLokcontroller(String lokcontrollerId, String lokId) {
+  // Lokcontroller lokcontroller = getLokcontroller(lokcontrollerId);
+  // if (lokcontroller == null) {
+  // throw new IllegalArgumentException("Lokcontroller nicht gefunden: " + lokcontrollerId);
+  // }
+  //
+  // Lok lok = null;
+  // if (lokId != null) {
+  // lok = getLok(lokId);
+  // if (lok == null) {
+  // throw new IllegalArgumentException("Lok nicht gefunden: " + lokId);
+  // }
+  //
+  // for (Lokcontroller lc : getLokcontroller()) {
+  // if (!lc.equals(lokcontroller) && lok.equals(lc.getLok())) {
+  // lc.setLok(null);
+  // }
+  // }
+  // }
+  //
+  // lokcontroller.setLok(lok);
+  // }
 
   private void registerAdressen(Baustein baustein) {
     baustein.getAdressen().forEach(adr -> {
@@ -400,6 +375,8 @@ public class Steuerung {
   public String toDebugString(boolean idOnly) {
     StringBuilder buf = new StringBuilder("Steuerung");
 
+    buf.append("\n  ").append(this.zentrale);
+
     for (Besetztmelder bm : this.besetztmelder) {
       buf.append("\n  ").append(bm);
       for (Gleisabschnitt g : bm.getGleisabschnitte()) {
@@ -414,15 +391,15 @@ public class Steuerung {
       }
     }
 
-    for (Lokdecoder ld : this.lokdecoder) {
-      buf.append("\n  ").append(ld);
-      if (ld.getLok() != null) {
-        buf.append("\n    ").append(ld.getLok());
-      }
-    }
+    // for (Lokdecoder ld : this.lokdecoder) {
+    // buf.append("\n ").append(ld);
+    // if (ld.getLok() != null) {
+    // buf.append("\n ").append(ld.getLok());
+    // }
+    // }
 
     for (Lokcontroller ld : this.lokcontroller) {
-      buf.append("\n  ").append(ld);
+      buf.append("\n ").append(ld);
     }
 
     return buf.toString();
@@ -438,41 +415,36 @@ public class Steuerung {
     return toDebugString(true);
   }
 
-  public int getKanalWert(int adr) {
-    return this.kanalWerte[adr];
+  public void open(ExecutorService executorService) {
+    this.zentrale.open(executorService);
   }
 
-  public void setKanalWert(int adr, int wert) {
-    setKanalWert(adr, wert, true);
+  public void close() {
+    this.zentrale.close();
   }
 
-  public void setKanalWert(int adr, int wert, boolean updateInterface) {
-    if (this.kanalWerte[adr] != wert) {
-      this.kanalWerte[adr] = wert;
+  public void injectFields() {
+    InjectionUtil.injectFields(this);
+    InjectionUtil.injectFields(this.zentrale);
 
-      if (updateInterface) {
-        this.selectrixGateway.setValue(adr, wert);
-      }
+  }
 
-      if (this.kanalBausteine[adr] != null) {
-        this.kanalBausteine[adr].adjustWert(adr, wert);
-      }
+  public int getSX1Kanal(int adr) {
+    return this.zentrale.getSX1Kanal(adr);
+  }
 
-      EventFirer.getInstance().fire(new Kanal(adr, wert));
+  public void setSX1Kanal(int adr, int wert) {
+    this.zentrale.setSX1Kanal(adr, wert);
+  }
+
+  public void adjustWert(int adr, int wert) {
+    if (this.kanalBausteine[adr] != null) {
+      this.kanalBausteine[adr].adjustWert(adr, wert);
     }
   }
 
-  public void onMessage(SelectrixMessage message) {
-    setKanalWert(message.getAddress(), message.getValue(), false);
+  public void awaitSync() {
+    this.zentrale.awaitSync();
   }
 
-  @XmlAccessorType(XmlAccessType.NONE)
-  @Getter
-  public static class SxInterface {
-    @XmlAttribute
-    private String typ;
-
-    @XmlAttribute
-    private int speed;
-  }
 }

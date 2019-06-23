@@ -2,6 +2,10 @@ package de.gedoplan.v5t11.status.service;
 
 import de.gedoplan.v5t11.status.entity.Steuerung;
 
+import java.util.concurrent.Executors;
+
+import javax.annotation.Resource;
+import javax.enterprise.concurrent.ManagedExecutorService;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.context.Destroyed;
@@ -11,21 +15,15 @@ import javax.enterprise.event.Observes;
 @Dependent
 public class Bootstrap {
 
-  void boot(@Observes @Initialized(ApplicationScoped.class) Object object, ConfigService configService, Steuerung steuerung, SelectrixGateway selectrixGateway) {
-    // Falls PortSpeed nicht angegeben, Default vom Interface holen
-    int portSpeed = configService.getPortSpeed();
-    if (portSpeed <= 0) {
-      portSpeed = steuerung.getSxInterface().getSpeed();
-    }
+  @Resource
+  ManagedExecutorService executorService;
 
-    // Interface starten
-    selectrixGateway.start(configService.getPortName(), portSpeed, steuerung.getSxInterface().getTyp(), steuerung.getAdressen());
-
-    // Aktuelle Werte einmal explizit holen
-    steuerung.getAdressen().forEach(adr -> steuerung.setKanalWert(adr, selectrixGateway.getValue(adr, true), false));
+  void boot(@Observes @Initialized(ApplicationScoped.class) Object object, Steuerung steuerung) {
+    steuerung.injectFields();
+    steuerung.open(this.executorService != null ? this.executorService : Executors.newSingleThreadExecutor());
   }
 
-  void shutdown(@Observes @Destroyed(ApplicationScoped.class) Object object, SelectrixGateway selectrixGateway) {
-    selectrixGateway.stop();
+  void shutdown(@Observes @Destroyed(ApplicationScoped.class) Object object, Steuerung steuerung) {
+    steuerung.close();
   }
 }
