@@ -6,7 +6,7 @@
   <parent>
     <groupId>de.gedoplan</groupId>
     <artifactId>build-master</artifactId>
-    <version>2018.1.2</version>
+    <version>2019.6.1</version>
   </parent>
 
   <artifactId>v5t11</artifactId>
@@ -15,6 +15,9 @@
   <packaging>pom</packaging>
 
   <properties>
+    <!-- Java-Version 8; NRSerial funktioniert nicht mit 11! -->
+    <java.code.version>1.8</java.code.version>
+    
     <logging.scope>test</logging.scope>
   </properties>
 
@@ -79,37 +82,37 @@
       <dependency>
         <groupId>de.gedoplan</groupId>
         <artifactId>baselibs-wildfly</artifactId>
-        <version>14.0.1_01</version>
+        <version>16.0.0_01</version>
       </dependency>
 
       <dependency>
         <groupId>de.gedoplan</groupId>
         <artifactId>baselibs-enterprise</artifactId>
-        <version>1.4</version>
+        <version>1.5</version>
       </dependency>
 
       <dependency>
         <groupId>de.gedoplan</groupId>
         <artifactId>baselibs-io</artifactId>
-        <version>1.2</version>
+        <version>1.3</version>
       </dependency>
 
       <dependency>
         <groupId>de.gedoplan</groupId>
         <artifactId>baselibs-naming</artifactId>
-        <version>1.2</version>
+        <version>1.3</version>
       </dependency>
 
       <dependency>
         <groupId>de.gedoplan</groupId>
         <artifactId>baselibs-persistence</artifactId>
-        <version>1.6</version>
+        <version>1.8</version>
       </dependency>
 
       <dependency>
         <groupId>de.gedoplan</groupId>
         <artifactId>baselibs-utils</artifactId>
-        <version>1.6</version>
+        <version>1.8</version>
       </dependency>
 
       <dependency>
