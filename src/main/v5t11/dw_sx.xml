@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <sx>
-<!--   <Interface typ="rautenhaus" speed="19200" /> -->
-  <Interface typ="selectrix" speed="19200" />
+  <FCC />
 
   <Besetztmelder>
     <!-- Check OK -->
