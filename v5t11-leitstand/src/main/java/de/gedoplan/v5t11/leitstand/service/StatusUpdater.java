@@ -8,7 +8,6 @@ import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Signal;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.StatusUpdateable;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Weiche;
-import de.gedoplan.v5t11.leitstand.entity.lok.Lok;
 import de.gedoplan.v5t11.leitstand.gateway.GleisResourceClient;
 import de.gedoplan.v5t11.leitstand.gateway.JmsClient;
 import de.gedoplan.v5t11.leitstand.gateway.LokControllerResourceClient;
@@ -20,8 +19,6 @@ import de.gedoplan.v5t11.util.cdi.Created;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.jms.MessageCategory;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
-
-import java.util.Set;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.ObservesAsync;
@@ -79,7 +76,8 @@ public class StatusUpdater {
         initializeStatus();
 
         propagateStatus();
-      } catch (Exception e) {
+      }
+      catch (Exception e) {
         String msg = "Fehler beim Status-Update (Status/Fahrstrassen-Service down?)";
         if (this.log.isTraceEnabled()) {
           this.log.warn(msg, e);
@@ -90,7 +88,9 @@ public class StatusUpdater {
 
       try {
         Thread.sleep(RETRY_MILLIS);
-      } catch (InterruptedException ie) {}
+      }
+      catch (InterruptedException ie) {
+      }
     }
   }
 
@@ -126,27 +126,27 @@ public class StatusUpdater {
     Zentrale statusZentrale = this.zentraleResourceClient.getZentrale();
     updateStatus(this.leitstand.getZentrale(), statusZentrale);
 
-    Set<Lok> statusLoks = this.lokResourceClient.getLoks();
-    this.leitstand.getLoks().retainAll(statusLoks);
-    statusLoks.forEach(statusLok -> {
-      Lok lok = this.leitstand.getLok(statusLok.getId());
-      if (lok == null) {
-        this.leitstand.getLoks().add(statusLok);
-        lok = statusLok;
-      }
-      updateStatus(lok, statusLok);
-    });
+    // Set<Lok> statusLoks = this.lokResourceClient.getLoks();
+    // this.leitstand.getLoks().retainAll(statusLoks);
+    // statusLoks.forEach(statusLok -> {
+    // Lok lok = this.leitstand.getLok(statusLok.getId());
+    // if (lok == null) {
+    // this.leitstand.getLoks().add(statusLok);
+    // lok = statusLok;
+    // }
+    // updateStatus(lok, statusLok);
+    // });
 
-    Set<LokController> statusLokControllers = this.lokControllerResourceClient.getLokController();
-    this.leitstand.getLokController().retainAll(statusLokControllers);
-    statusLokControllers.forEach(statusLokController -> {
-      LokController lokController = this.leitstand.getLokController(statusLokController.getId());
-      if (lokController == null) {
-        this.leitstand.getLokController().add(statusLokController);
-        lokController = statusLokController;
-      }
-      updateStatus(lokController, statusLokController);
-    });
+    // Set<LokController> statusLokControllers = this.lokControllerResourceClient.getLokController();
+    // this.leitstand.getLokController().retainAll(statusLokControllers);
+    // statusLokControllers.forEach(statusLokController -> {
+    // LokController lokController = this.leitstand.getLokController(statusLokController.getId());
+    // if (lokController == null) {
+    // this.leitstand.getLokController().add(statusLokController);
+    // lokController = statusLokController;
+    // }
+    // updateStatus(lokController, statusLokController);
+    // });
   }
 
   /*
