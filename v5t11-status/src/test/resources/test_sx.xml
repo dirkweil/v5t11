@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <sx>
-  <FCC />
+  <DummyZentrale />
 
   <Besetztmelder>
     <BMMiba3 id="BM-1" adr="90" einbauOrt="neben Interface">

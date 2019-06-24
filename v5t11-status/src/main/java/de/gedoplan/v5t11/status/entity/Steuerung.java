@@ -54,7 +54,10 @@ import lombok.Getter;
 @XmlAccessorType(XmlAccessType.NONE)
 public class Steuerung {
 
-  @XmlElement(name = "FCC", type = FCC.class)
+  @XmlElements({
+      @XmlElement(name = "DummyZentrale", type = DummyZentrale.class),
+      @XmlElement(name = "FCC", type = FCC.class)
+  })
   @Getter
   private Zentrale zentrale;
 
