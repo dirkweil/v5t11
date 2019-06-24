@@ -369,11 +369,13 @@
     
   </Funktionsdecoder>
 
+<!-- 
   <Lokdecoder>
     <DHL100 lok="103 118-6" adr="1" />
     <DHL100 lok="111 205-1" adr="2" />
     <DHL100 lok="110 222-7" adr="3" />
   </Lokdecoder>
+ -->
 
   <Lokcontroller>
     <SxLokControl id="LokControl 1" adr="30" />
