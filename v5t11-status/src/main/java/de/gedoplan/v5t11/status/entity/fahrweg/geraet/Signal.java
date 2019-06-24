@@ -1,7 +1,6 @@
 package de.gedoplan.v5t11.status.entity.fahrweg.geraet;
 
 import de.gedoplan.v5t11.status.entity.baustein.Funktionsdecoder;
-import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
 import de.gedoplan.v5t11.util.domain.entity.fahrweg.geraet.AbstractSignal;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
@@ -101,7 +100,7 @@ public abstract class Signal extends AbstractSignal implements FunktionsdecoderG
         this.funktionsdecoderZuordnung.getFunktionsdecoder().setWert(fdWert);
       }
 
-      EventFirer.getInstance().fire(this);
+      this.eventFirer.fire(this);
     }
   }
 

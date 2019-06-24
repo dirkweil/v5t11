@@ -17,6 +17,8 @@ public class SignalTest extends CdiTestBase {
   @Test
   public void test_01_toShortJson() throws Exception {
 
+    this.log.info("----- test_01_toShortJson -----");
+
     Signal signal = this.steuerung.getSignal("test", "P2");
 
     String json = JsonbWithIncludeVisibility.SHORT.toJson(signal);
@@ -34,6 +36,8 @@ public class SignalTest extends CdiTestBase {
 
   @Test
   public void test_02_toFullJson() throws Exception {
+
+    this.log.info("----- test_02_toFullJson -----");
 
     Signal signal = this.steuerung.getSignal("test", "P2");
 

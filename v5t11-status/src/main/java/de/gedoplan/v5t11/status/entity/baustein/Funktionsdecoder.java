@@ -1,5 +1,6 @@
 package de.gedoplan.v5t11.status.entity.baustein;
 
+import de.gedoplan.baselibs.utils.inject.InjectionUtil;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Bahnuebergang;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.FunktionsdecoderGeraet;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.HauptsignalRtGe;
@@ -64,4 +65,8 @@ public abstract class Funktionsdecoder extends Baustein implements Decoder {
     this.geraete.forEach(FunktionsdecoderGeraet::adjustStatus);
   }
 
+  public void injectFields() {
+    InjectionUtil.injectFields(this);
+    this.geraete.forEach(FunktionsdecoderGeraet::injectFields);
+  }
 }

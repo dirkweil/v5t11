@@ -1,7 +1,7 @@
 package de.gedoplan.v5t11.status.entity.fahrweg;
 
+import de.gedoplan.baselibs.utils.inject.InjectionUtil;
 import de.gedoplan.v5t11.status.entity.baustein.Besetztmelder;
-import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.domain.entity.fahrweg.AbstractGleisabschnitt;
 
 import javax.xml.bind.Unmarshaller;
@@ -71,8 +71,12 @@ public class Gleisabschnitt extends AbstractGleisabschnitt {
     boolean neu = (this.besetztmelder.getWert() & (1 << this.anschluss)) != 0;
     if (alt != neu) {
       setBesetzt(neu);
-      EventFirer.getInstance().fire(this);
+      this.eventFirer.fire(this);
     }
+  }
+
+  public void injectFields() {
+    InjectionUtil.injectFields(this);
   }
 
 }

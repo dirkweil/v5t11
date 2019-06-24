@@ -17,6 +17,8 @@ public class GleisabschnittTest extends CdiTestBase {
   @Test
   public void test_01_toJson() throws Exception {
 
+    this.log.info("----- test_01_toJson -----");
+
     Gleisabschnitt gleisabschnitt = this.steuerung.getGleisabschnitt("test", "1");
 
     String json = JsonbWithIncludeVisibility.SHORT.toJson(gleisabschnitt);

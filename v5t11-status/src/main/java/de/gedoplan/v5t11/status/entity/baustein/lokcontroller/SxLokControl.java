@@ -6,6 +6,7 @@ import de.gedoplan.v5t11.util.cdi.EventFirer;
 
 import java.util.Objects;
 
+import javax.inject.Inject;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -46,6 +47,9 @@ public class SxLokControl extends Lokcontroller {
 
   private long invertMask;
 
+  @Inject
+  EventFirer eventFirer;
+
   public SxLokControl() {
     super(1);
   }
@@ -66,7 +70,7 @@ public class SxLokControl extends Lokcontroller {
 
       this.lok = lok;
 
-      EventFirer.getInstance().fire(this);
+      this.eventFirer.fire(this);
     }
   }
 

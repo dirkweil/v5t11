@@ -425,8 +425,10 @@ public class Steuerung {
 
   public void injectFields() {
     InjectionUtil.injectFields(this);
-    InjectionUtil.injectFields(this.zentrale);
-
+    this.zentrale.injectFields();
+    this.besetztmelder.forEach(Besetztmelder::injectFields);
+    this.funktionsdecoder.forEach(Funktionsdecoder::injectFields);
+    this.lokcontroller.forEach(Lokcontroller::injectFields);
   }
 
   public int getSX1Kanal(int adr) {

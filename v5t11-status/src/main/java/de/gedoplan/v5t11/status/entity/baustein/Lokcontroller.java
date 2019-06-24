@@ -1,5 +1,6 @@
 package de.gedoplan.v5t11.status.entity.baustein;
 
+import de.gedoplan.baselibs.utils.inject.InjectionUtil;
 import de.gedoplan.v5t11.status.entity.lok.Lok;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
@@ -61,4 +62,9 @@ public abstract class Lokcontroller extends Baustein implements Encoder {
   @Override
   public void adjustStatus() {
   }
+
+  public void injectFields() {
+    InjectionUtil.injectFields(this);
+  }
+
 }

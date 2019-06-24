@@ -1,6 +1,5 @@
 package de.gedoplan.v5t11.status.entity.lok;
 
-import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
 import java.util.List;
@@ -49,8 +48,8 @@ public class Lok implements Comparable<Lok> {
   }
 
   public void adjustStatus() {
-    boolean changed = false;
-
+    // boolean changed = false;
+    //
     // ToDo FCC
     // if (this.licht != this.lokdecoder.isLicht()) {
     // this.licht = this.lokdecoder.isLicht();
@@ -66,10 +65,10 @@ public class Lok implements Comparable<Lok> {
     // this.geschwindigkeit = this.lokdecoder.getGeschwindigkeit();
     // changed = true;
     // }
-
-    if (changed) {
-      EventFirer.getInstance().fire(this);
-    }
+    //
+    // if (changed) {
+    // EventFirer.getInstance().fire(this);
+    // }
 
   }
 
@@ -78,7 +77,7 @@ public class Lok implements Comparable<Lok> {
       this.licht = licht;
       // ToDo FCC
       // this.lokdecoder.setLicht(licht);
-      EventFirer.getInstance().fire(this);
+      // EventFirer.getInstance().fire(this);
     }
   }
 
@@ -87,7 +86,7 @@ public class Lok implements Comparable<Lok> {
       this.rueckwaerts = rueckwaerts;
       // ToDo FCC
       // this.lokdecoder.setRueckwaerts(rueckwaerts);
-      EventFirer.getInstance().fire(this);
+      // EventFirer.getInstance().fire(this);
     }
   }
 
@@ -96,7 +95,7 @@ public class Lok implements Comparable<Lok> {
       this.geschwindigkeit = geschwindigkeit;
       // ToDo FCC
       // this.lokdecoder.setGeschwindigkeit(geschwindigkeit);
-      EventFirer.getInstance().fire(this);
+      // EventFirer.getInstance().fire(this);
     }
   }
 

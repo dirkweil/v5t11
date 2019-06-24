@@ -1,5 +1,7 @@
 package de.gedoplan.v5t11.status.entity.baustein;
 
+import de.gedoplan.baselibs.utils.inject.InjectionUtil;
+import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 import de.gedoplan.v5t11.util.misc.V5t11Exception;
 
@@ -14,6 +16,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.inject.Inject;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -59,6 +62,9 @@ public abstract class Zentrale implements Closeable {
 
   @Getter(onMethod_ = @JsonbInclude)
   protected boolean kurzschluss;
+
+  @Inject
+  protected EventFirer eventFirer;
 
   public abstract void open(ExecutorService executorService);
 
@@ -226,5 +232,9 @@ public abstract class Zentrale implements Closeable {
   public abstract int getSX1Kanal(int adr);
 
   public abstract void setSX1Kanal(int adr, int wert);
+
+  public void injectFields() {
+    InjectionUtil.injectFields(this);
+  }
 
 }

@@ -42,6 +42,8 @@ public class SteuerungTest extends CdiTestBase {
    */
   @Test
   public void test_01_produce() {
+    this.log.info("----- test_01_produce -----");
+
     System.out.println(this.steuerung);
   }
 
@@ -49,7 +51,8 @@ public class SteuerungTest extends CdiTestBase {
    * Test: Entspricht der Zustand von Gleisabschnitten dem der zugehoerigen Adressen und werden Statuswechsel gemeldet?
    */
   @Test
-  public void test_02_adjustGleisAbschnitt() {
+  public void test_02_adjustGleisAbschnitte() {
+    this.log.info("----- test_02_adjustGleisAbschnitte -----");
 
     Gleisabschnitt[] gleisabschnitte = {
         this.steuerung.getGleisabschnitt("test", "1"),
@@ -98,6 +101,7 @@ public class SteuerungTest extends CdiTestBase {
    */
   @Test
   public void test_03_adjustGeraete() {
+    this.log.info("----- test_03_adjustGeraete -----");
 
     Geraet[] geraete = {
         this.steuerung.getSignal("test", "P2"),
@@ -190,6 +194,7 @@ public class SteuerungTest extends CdiTestBase {
    */
   @Test
   public void test_04_setGeraete() {
+    this.log.info("----- test_04_setGeraete -----");
 
     Geraet[] geraete = {
         this.steuerung.getSignal("test", "P2"),

@@ -1,9 +1,11 @@
 package de.gedoplan.v5t11.util.domain.entity;
 
 import de.gedoplan.baselibs.persistence.entity.SingleIdEntity;
+import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
+import javax.inject.Inject;
 import javax.persistence.IdClass;
 import javax.persistence.MappedSuperclass;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -33,6 +35,9 @@ public abstract class Bereichselement extends SingleIdEntity<BereichselementId> 
   private String name;
 
   private transient BereichselementId id;
+
+  @Inject
+  protected EventFirer eventFirer;
 
   protected Bereichselement(String bereich, String name) {
     this.bereich = bereich;

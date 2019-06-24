@@ -2,7 +2,6 @@ package de.gedoplan.v5t11.status.entity.baustein.zentrale;
 
 import de.gedoplan.v5t11.status.entity.Kanal;
 import de.gedoplan.v5t11.status.entity.baustein.Zentrale;
-import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.misc.V5t11Exception;
 
 import java.io.EOFException;
@@ -95,6 +94,8 @@ public class FCC extends Zentrale {
         syncStatus();
       }
       catch (Exception e) {
+        this.log.error("Fehler in Verbindung zu Zentrale", e);
+
         try {
           closePort();
         }
@@ -153,7 +154,7 @@ public class FCC extends Zentrale {
       this.kurzschluss = (blockDaten[BLOCK_DATEN_LEN_SX2 + 109] & 0b0001_0000) != 0;
 
       if (gleisspannungAlt != this.gleisspannung || kurzschlussAlt != this.kurzschluss) {
-        EventFirer.getInstance().fire(this);
+        this.eventFirer.fire(this);
       }
 
       // Normale Kanäle von SX1-Bus 0 vergleichen
@@ -186,7 +187,7 @@ public class FCC extends Zentrale {
   }
 
   private void fireSX1Changed(int adr, byte wert) {
-    EventFirer.getInstance().fire(new Kanal(adr, wert));
+    this.eventFirer.fire(new Kanal(adr, wert));
   }
 
   private synchronized byte[] blockAbfrage() throws IOException {

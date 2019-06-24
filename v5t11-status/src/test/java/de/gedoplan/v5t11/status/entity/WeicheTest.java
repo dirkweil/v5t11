@@ -17,6 +17,8 @@ public class WeicheTest extends CdiTestBase {
   @Test
   public void test_01_toShortJson() throws Exception {
 
+    this.log.info("----- test_01_toShortJson -----");
+
     Weiche weiche = this.steuerung.getWeiche("test", "10");
 
     String json = JsonbWithIncludeVisibility.SHORT.toJson(weiche);
@@ -34,6 +36,8 @@ public class WeicheTest extends CdiTestBase {
 
   @Test
   public void test_02_toFullJson() throws Exception {
+
+    this.log.info("----- test_02_toFullJson -----");
 
     Weiche weiche = this.steuerung.getWeiche("test", "10");
 
