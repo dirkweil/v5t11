@@ -44,6 +44,6 @@ public class V5t11EventLogger {
   }
 
   void logEvent(@Observes Lok event) {
-    this.log.debug("Event: " + event.toString(false));
+    this.log.debug("Event: " + event.toString(false) + " aktiv=" + event.isAktiv());
   }
 }

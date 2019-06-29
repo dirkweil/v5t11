@@ -10,7 +10,6 @@ import de.gedoplan.v5t11.status.testenvironment.service.TestLokRepository;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 
 import java.util.Map;
-import java.util.concurrent.Semaphore;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
@@ -119,6 +118,23 @@ public class LokTest extends CdiTestBase {
 
   @Test
   public void test_04_something() throws Exception {
-    new Semaphore(0).acquire();
+
+    this.steuerung.getZentrale().setGleisspannung(true);
+
+    final String lokId = TestLokRepository.testLok103.getId();
+
+    Lok lok = this.steuerung.getLok(lokId);
+
+    lok.setAktiv(true);
+
+    for (int i = 0; i < 10; ++i) {
+      lok.setLicht((i % 2) != 0);
+
+      lok.setFunktion(2, (i % 2) != 0);
+
+      delay(1000);
+    }
+
+    this.steuerung.getZentrale().setGleisspannung(false);
   }
 }

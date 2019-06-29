@@ -1,6 +1,7 @@
 package de.gedoplan.v5t11.status.entity.baustein;
 
 import de.gedoplan.baselibs.utils.inject.InjectionUtil;
+import de.gedoplan.v5t11.status.entity.lok.Lok;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 import de.gedoplan.v5t11.util.misc.V5t11Exception;
@@ -235,6 +236,9 @@ public abstract class Zentrale implements Closeable {
 
   public void injectFields() {
     InjectionUtil.injectFields(this);
+  }
+
+  public void lokChanged(Lok lok) {
   }
 
 }

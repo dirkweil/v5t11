@@ -53,6 +53,7 @@ public class Lok extends SingleIdEntity<String> implements Comparable<Lok> {
   @Enumerated(EnumType.STRING)
   @Column(name = "SYSTEM_TYP")
   @NotNull
+  @Getter
   private SystemTyp systemTyp;
 
   /**
@@ -69,6 +70,7 @@ public class Lok extends SingleIdEntity<String> implements Comparable<Lok> {
    * - Selecrix 2: 1-9999,
    * - DCC: 1-99 bei kurzer Adresse, 1-9999 sonst.
    */
+  @Getter
   private int adresse;
 
   @AssertTrue(message = "Ungültige Adresse")

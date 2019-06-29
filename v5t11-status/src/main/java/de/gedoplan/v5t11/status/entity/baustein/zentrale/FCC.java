@@ -2,7 +2,10 @@ package de.gedoplan.v5t11.status.entity.baustein.zentrale;
 
 import de.gedoplan.v5t11.status.entity.Kanal;
 import de.gedoplan.v5t11.status.entity.SX2Kanal;
+import de.gedoplan.v5t11.status.entity.SystemTyp;
 import de.gedoplan.v5t11.status.entity.baustein.Zentrale;
+import de.gedoplan.v5t11.status.entity.lok.Lok;
+import de.gedoplan.v5t11.status.entity.lok.Lok.FunktionConfig;
 import de.gedoplan.v5t11.util.misc.V5t11Exception;
 
 import java.io.EOFException;
@@ -14,6 +17,8 @@ import java.util.concurrent.Phaser;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.atomic.AtomicReferenceArray;
+import java.util.function.Predicate;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -192,29 +197,32 @@ public class FCC extends Zentrale {
 
       long start = System.currentTimeMillis();
 
-      // Blockabfrage starten und neue Daten eintragen
-      byte[] blockDaten = blockAbfrage();
-      byte[] blockDatenAlt = this.status.getAndSet(blockDaten);
+      synchronized (this) {
 
-      // Gleisspannung und Kurzschluss aus Blockdaten entnehmen
-      boolean gleisspannungAlt = this.gleisspannung;
-      this.gleisspannung = blockDaten[BLOCK_DATEN_LEN_SX2 + 112] != 0;
+        // Blockabfrage starten und neue Daten eintragen
+        byte[] blockDaten = blockAbfrage();
+        byte[] blockDatenAlt = this.status.getAndSet(blockDaten);
 
-      boolean kurzschlussAlt = this.kurzschluss;
-      this.kurzschluss = (blockDaten[BLOCK_DATEN_LEN_SX2 + 109] & 0b0001_0000) != 0;
+        // Gleisspannung und Kurzschluss aus Blockdaten entnehmen
+        boolean gleisspannungAlt = this.gleisspannung;
+        this.gleisspannung = blockDaten[BLOCK_DATEN_LEN_SX2 + 112] != 0;
 
-      if (gleisspannungAlt != this.gleisspannung || kurzschlussAlt != this.kurzschluss) {
-        this.eventFirer.fire(this);
+        boolean kurzschlussAlt = this.kurzschluss;
+        this.kurzschluss = (blockDaten[BLOCK_DATEN_LEN_SX2 + 109] & 0b0001_0000) != 0;
+
+        if (gleisspannungAlt != this.gleisspannung || kurzschlussAlt != this.kurzschluss) {
+          this.eventFirer.fire(this);
+        }
+
+        // SX2-Buserweiterungseinträge vergleichen
+        fireSX2Changes(blockDaten, blockDatenAlt);
+
+        // Normale Kanäle von SX1-Bus 0 vergleichen
+        fireSX1Changes(blockDaten, blockDatenAlt, BLOCK_DATEN_LEN_SX2, 0);
+
+        // Normale Kanäle von SX1-Bus 0 vergleichen
+        fireSX1Changes(blockDaten, blockDatenAlt, BLOCK_DATEN_LEN_SX2 + BLOCK_DATEN_LEN_SX1, 1000);
       }
-
-      // SX2-Buserweiterungseinträge vergleichen
-      fireSX2Changes(blockDaten, blockDatenAlt);
-
-      // Normale Kanäle von SX1-Bus 0 vergleichen
-      fireSX1Changes(blockDaten, blockDatenAlt, BLOCK_DATEN_LEN_SX2, 0);
-
-      // Normale Kanäle von SX1-Bus 0 vergleichen
-      fireSX1Changes(blockDaten, blockDatenAlt, BLOCK_DATEN_LEN_SX2 + BLOCK_DATEN_LEN_SX1, 1000);
 
       this.syncPhaser.arrive();
 
@@ -301,24 +309,46 @@ public class FCC extends Zentrale {
   }
 
   @Override
-  public synchronized void setSX1Kanal(int adr, int wert) {
+  public void setSX1Kanal(int adr, int wert) {
     byte neu = (byte) wert;
 
+    byte bus = (byte) (adr >= 1000 ? 0x01 : 0x00);
+    send(new byte[] { bus, (byte) (adr | 0x80), neu }, null);
+  }
+
+  private synchronized int send(byte[] werte, Predicate<Integer> ackCheck) {
     if (this.log.isTraceEnabled()) {
-      this.log.trace(String.format("setSX1Kanal(%d,0x%02x)", adr, neu));
+      StringBuilder sb = new StringBuilder("Send: ");
+      for (int i = 0; i < werte.length; ++i) {
+        if (i != 0) {
+          sb.append(",");
+        }
+
+        sb.append(String.format("0x%02x", werte[i]));
+      }
+      this.log.trace(sb);
     }
 
     try {
-      byte bus = (byte) (adr >= 1000 ? 0x01 : 0x00);
-      this.out.write(new byte[] { bus, (byte) (adr | 0x80), neu });
+      this.out.write(werte);
 
       int ack = this.in.read();
-      if (ack != 0) {
-        throw new V5t11Exception("Setzen eines SX1-Kanals fehlgeschlagen; ack=" + ack);
+      if (this.log.isTraceEnabled()) {
+        this.log.trace(String.format("Ack: 0x%02x", ack));
       }
+
+      if (ackCheck == null) {
+        if (ack == 0) {
+          return ack;
+        }
+      } else if (ackCheck.test(ack)) {
+        return ack;
+      }
+
+      throw new V5t11Exception("Steuerungskommando fehlgeschlagen; ack=" + ack);
     }
     catch (IOException e) {
-      throw new V5t11Exception("Setzen eines SX1-Kanals fehlgeschlagen", e);
+      throw new V5t11Exception("Steuerungskommando fehlgeschlagen", e);
     }
 
   }
@@ -340,6 +370,134 @@ public class FCC extends Zentrale {
     catch (InterruptedException | TimeoutException e) {
       // ignore;
     }
+  }
+
+  private AtomicReferenceArray<Lok> sx2BusSlot = new AtomicReferenceArray<>(BUSEXT_MAX_IDX + 1);
+
+  @Override
+  public void lokChanged(Lok lok) {
+    if (lok.getSystemTyp() == SystemTyp.SX) {
+      /*
+       * Lok ist eine SX(1)-Lok.
+       * SX1-Kanalwert komponieren: 0bHLRFFFFF
+       * - H = Horn
+       * - L = Licht
+       * - R = Rückwärts
+       * - FFFFF = Fahrstufe
+       */
+      int wert = 0;
+      if (lok.isAktiv()) {
+        wert |= lok.getFahrstufe();
+
+        if (lok.isRueckwaerts()) {
+          wert |= 0b0010_0000;
+        }
+
+        if (lok.isLicht()) {
+          wert |= 0b0100_0000;
+        }
+
+        for (int i = 1; i <= 16; ++i) {
+          FunktionConfig funktionConfig = lok.getFunktionConfigs().get(i);
+          if (funktionConfig.isHorn() && lok.getFunktion(i)) {
+            wert |= 0b1000_0000;
+            break;
+          }
+        }
+      }
+      setSX1Kanal(lok.getAdresse(), wert);
+
+      return;
+    }
+
+    // Lok in SX2-Bus-Slots suchen
+    int idx = findSx2BusSlot(lok);
+    if (idx < 0) {
+      // Lok ist noch nicht angemeldet
+
+      // Falls Lok nicht aktiv ist, nichts zu tun
+      if (!lok.isAktiv()) {
+        return;
+      }
+
+      idx = sx2Anmelden(lok);
+      this.sx2BusSlot.set(idx, lok);
+    }
+
+    // Lok ist nun angemeldet
+
+    // Falls Lok aktiv, Fahrstufe und alle Funktionen setzen
+    if (lok.isAktiv()) {
+      setSX2FahrstufeUndRichtung(idx, SX2Kanal.encodeFahrstufeUndRückwaerts(lok.getSystemTyp(), lok.getFahrstufe(), lok.isRueckwaerts()));
+      setSX2Licht(idx, lok.isLicht());
+      setSX2Funktionen(idx, lok.getFunktionStatus());
+
+      return;
+    }
+
+    // Inaktive Lok: Fahrstufe und alle Funktionen löschen und Lok abmelden
+    setSX2FahrstufeUndRichtung(idx, 0);
+    setSX2Licht(idx, false);
+    setSX2Funktionen(idx, 0);
+    sx2Abmelden(idx);
+
+    // Slot freigeben
+    this.sx2BusSlot.set(idx, null);
+  }
+
+  private int sx2Anmelden(Lok lok) {
+    if (this.log.isDebugEnabled()) {
+      this.log.debug("Lok anmelden: " + lok);
+    }
+
+    byte[] wert = SX2Kanal.encodeAdresse(lok.getSystemTyp(), lok.getAdresse());
+    int idx = send(new byte[] { 0x79, 0x01, wert[1], wert[0], (byte) lok.getSystemTyp().getFormatCode() }, ack -> ack >= 0 && ack <= BUSEXT_MAX_IDX);
+
+    if (this.log.isDebugEnabled()) {
+      this.log.debug("Lok " + lok + " hat Index " + idx);
+    }
+
+    return idx;
+  }
+
+  private void sx2Abmelden(int idx) {
+    if (this.log.isDebugEnabled()) {
+      this.log.debug("Lok abmelden: idx=" + idx);
+    }
+    send(new byte[] { 0x79, 0x02, (byte) idx, 0x00, 0x00 }, null);
+  }
+
+  private void setSX2Funktionen(int idx, int funktionStatus) {
+    if (this.log.isDebugEnabled()) {
+      this.log.debug(String.format("Lok-Funktionen setzen: idx=%d, f=0x%04x", idx, funktionStatus));
+    }
+    byte f1_8 = (byte) (funktionStatus & 0x00ff);
+    byte f9_16 = (byte) ((funktionStatus >>> 8) & 0x00ff);
+    send(new byte[] { 0x79, 0x16, (byte) idx, f1_8, f9_16 }, null);
+  }
+
+  private void setSX2Licht(int idx, boolean licht) {
+    if (this.log.isDebugEnabled()) {
+      this.log.debug(String.format("Lok-Licht setzen: idx=%d, licht=%b", idx, licht));
+    }
+    byte wert = licht ? (byte) 0x02 : (byte) 0x00;
+    send(new byte[] { 0x79, 0x05, (byte) idx, wert, 0x00 }, null);
+  }
+
+  private void setSX2FahrstufeUndRichtung(int idx, int wert) {
+    if (this.log.isDebugEnabled()) {
+      this.log.debug(String.format("Lok-Fahrstufe und Richtung setzen: idx=%d, fahrstufe=%d, rückwärts=%b", idx, wert & 0x7f, (wert & 0x80) != 0));
+    }
+    send(new byte[] { 0x79, 0x13, (byte) idx, (byte) wert, 0x00 }, null);
+  }
+
+  private int findSx2BusSlot(Lok lok) {
+    for (int idx = 0; idx <= BUSEXT_MAX_IDX; ++idx) {
+      if (lok.equals(this.sx2BusSlot.get(idx))) {
+        return idx;
+      }
+    }
+    return -1;
   }
 
 }

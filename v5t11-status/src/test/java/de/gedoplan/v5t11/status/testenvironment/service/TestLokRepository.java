@@ -21,8 +21,21 @@ public class TestLokRepository extends LokRepository {
 
   public static final Lok testLok103 = new Lok("103 003-0", SystemTyp.DCC, false, 1103, 126);
   static {
-    testLok103.getFunktionConfigs().put(2, new Lok.FunktionConfig("Motorgeräusch", false));
-    testLok103.getFunktionConfigs().put(7, new Lok.FunktionConfig("Pfiff", true));
+    testLok103.getFunktionConfigs().put(1, new Lok.FunktionConfig("Maschinenraumbeleuchtung", false));
+    testLok103.getFunktionConfigs().put(2, new Lok.FunktionConfig("Betriebsgeräuschgeräusch", false));
+    testLok103.getFunktionConfigs().put(3, new Lok.FunktionConfig("Pfeife", true));
+    testLok103.getFunktionConfigs().put(4, new Lok.FunktionConfig("ABV aus", true));
+    testLok103.getFunktionConfigs().put(5, new Lok.FunktionConfig("Führerstandsbeleuchtung", false));
+    testLok103.getFunktionConfigs().put(6, new Lok.FunktionConfig("Spitzensignal 1 aus", false));
+    testLok103.getFunktionConfigs().put(7, new Lok.FunktionConfig("Schaffnerpfiff", false));
+    testLok103.getFunktionConfigs().put(8, new Lok.FunktionConfig("Spitzensignal 2 aus", false));
+    testLok103.getFunktionConfigs().put(9, new Lok.FunktionConfig("Bremsenquietschen aus", false));
+    testLok103.getFunktionConfigs().put(10, new Lok.FunktionConfig("Bahnhofsansage", false));
+    testLok103.getFunktionConfigs().put(11, new Lok.FunktionConfig("Lüfter", false));
+    testLok103.getFunktionConfigs().put(12, new Lok.FunktionConfig("Sanden", false));
+    testLok103.getFunktionConfigs().put(13, new Lok.FunktionConfig("Bahnhofsansage", false));
+    testLok103.getFunktionConfigs().put(14, new Lok.FunktionConfig("Bahnhofsansage", false));
+    testLok103.getFunktionConfigs().put(15, new Lok.FunktionConfig("Lüfter", false));
   }
 
   public static final Lok testLok111 = new Lok("111 205-1", SystemTyp.SX, false, 2, 31);
