@@ -1,6 +1,7 @@
 package de.gedoplan.v5t11.status.testenvironment.service;
 
 import de.gedoplan.v5t11.status.entity.Kanal;
+import de.gedoplan.v5t11.status.entity.SX2Kanal;
 import de.gedoplan.v5t11.status.entity.baustein.Zentrale;
 import de.gedoplan.v5t11.status.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
@@ -19,6 +20,10 @@ public class V5t11EventLogger {
   Log log;
 
   void logEvent(@Observes Kanal event) {
+    this.log.debug("Event: " + event);
+  }
+
+  void logEvent(@Observes SX2Kanal event) {
     this.log.debug("Event: " + event);
   }
 

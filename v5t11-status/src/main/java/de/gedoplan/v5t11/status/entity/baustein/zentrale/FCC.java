@@ -1,6 +1,7 @@
 package de.gedoplan.v5t11.status.entity.baustein.zentrale;
 
 import de.gedoplan.v5t11.status.entity.Kanal;
+import de.gedoplan.v5t11.status.entity.SX2Kanal;
 import de.gedoplan.v5t11.status.entity.baustein.Zentrale;
 import de.gedoplan.v5t11.util.misc.V5t11Exception;
 
@@ -41,6 +42,55 @@ public class FCC extends Zentrale {
 
   // Maximale normal verwendbare SX1-Adresse
   private static final int MAX_SX1_ADR = 103;
+
+  /*
+   * Die Daten der SX2-Buserweiterung befinden sich am Anfang der Blockdaten in zwei Segmenten:
+   * - Index 0..15 in den ersten 96 Bytes
+   * - Index 16..32 in den zweiten 96 Bytes
+   */
+  private static int BUSEXT_OFFSET(int idx) {
+    return idx < 16 ? idx : 96 + idx;
+  }
+
+  /*
+   * Jeder einzelne Eintrag der SX2-Buserweiterung besteht aus 6 Bytes im Abstand von 16 Bytes.
+   */
+  /*
+   * Lokformat: Typ des Buserweiterungseintrags. Es werden derzeit nur die u. a. Werte unterstützt
+   */
+  private static final int BUSEXT_OFFSET_FORMAT = 0;
+  private static final byte BUSEXT_FORMAT_FREI = 0x00; // frei
+  private static final byte BUSEXT_FORMAT_SX2 = 0x04; // SX2
+  private static final byte BUSEXT_FORMAT_DCC_LANG = 0x07; // DCC, lange Adresse (0-9999), 126 Fahrstufen
+
+  /*
+   * Höherwertiger Teil der Lokadresse
+   */
+  private static final int BUSEXT_OFFSET_ADR_HIGH = 16;
+
+  /*
+   * Niederwertiger Teil der Lokadresse, Licht, DCC-Zusatzinfo:
+   * - Bits 2-7: Niederwertiger Teil der Lokadresse
+   * - Bit 1: Licht
+   * - Bit 0: derzeit ungenutzt (nur bei DCC relevant: 14 Fahrstufen statt 28 bzw. 126)
+   */
+  private static final int BUSEXT_OFFSET_ADR_LOW_LICHT = 32;
+
+  /*
+   * Richtung und Fahrstufe:
+   * - Bit 7: Rückwärts
+   * - Bits 0-6: Fahrstufe (bei DCC wird der Wert 1 ausgelassen, d. h. für Fahrstufe 1-126 muss hier der Wert 2-127 eingetragen werden)
+   */
+  private static final int BUSEXT_OFFSET_RUECKWAERTS_FAHRSTUFE = 48;
+
+  // Funktionen 1-8
+  private static final int BUSEXT_OFFSET_FUNKTION_1_8 = 64;
+
+  // Funktionen 9-16
+  private static final int BUSEXT_OFFSET_FUNKTION_9_16 = 80;
+
+  // Maximaler Index in der SX2-Buserweiterung
+  private static final int BUSEXT_MAX_IDX = 31;
 
   // Synchronisationsdauer der Businformationen (Refresh 13x pro Sekunde)
   private static final long SX_SYNC_MILLIS = 1012L / 13L;
@@ -157,6 +207,9 @@ public class FCC extends Zentrale {
         this.eventFirer.fire(this);
       }
 
+      // SX2-Buserweiterungseinträge vergleichen
+      fireSX2Changes(blockDaten, blockDatenAlt);
+
       // Normale Kanäle von SX1-Bus 0 vergleichen
       fireSX1Changes(blockDaten, blockDatenAlt, BLOCK_DATEN_LEN_SX2, 0);
 
@@ -172,6 +225,27 @@ public class FCC extends Zentrale {
        */
       long waitMillis = System.currentTimeMillis() - (start + SX_SYNC_MILLIS);
       delay(waitMillis > 10 ? waitMillis : 10);
+    }
+
+  }
+
+  private void fireSX2Changes(byte[] blockDaten, byte[] blockDatenAlt) {
+    for (int idx = 0; idx <= BUSEXT_MAX_IDX; ++idx) {
+      int offset = BUSEXT_OFFSET(idx);
+      if (blockDaten[offset + BUSEXT_OFFSET_FORMAT] != blockDatenAlt[offset + BUSEXT_OFFSET_FORMAT]
+          || blockDaten[offset + BUSEXT_OFFSET_ADR_HIGH] != blockDatenAlt[offset + BUSEXT_OFFSET_ADR_HIGH]
+          || blockDaten[offset + BUSEXT_OFFSET_ADR_LOW_LICHT] != blockDatenAlt[offset + BUSEXT_OFFSET_ADR_LOW_LICHT]
+          || blockDaten[offset + BUSEXT_OFFSET_RUECKWAERTS_FAHRSTUFE] != blockDatenAlt[offset + BUSEXT_OFFSET_RUECKWAERTS_FAHRSTUFE]
+          || blockDaten[offset + BUSEXT_OFFSET_FUNKTION_1_8] != blockDatenAlt[offset + BUSEXT_OFFSET_FUNKTION_1_8]
+          || blockDaten[offset + BUSEXT_OFFSET_FUNKTION_9_16] != blockDatenAlt[offset + BUSEXT_OFFSET_FUNKTION_9_16]) {
+        this.eventFirer.fire(new SX2Kanal(
+            blockDaten[offset + BUSEXT_OFFSET_FORMAT],
+            blockDaten[offset + BUSEXT_OFFSET_ADR_HIGH],
+            blockDaten[offset + BUSEXT_OFFSET_ADR_LOW_LICHT],
+            blockDaten[offset + BUSEXT_OFFSET_RUECKWAERTS_FAHRSTUFE],
+            blockDaten[offset + BUSEXT_OFFSET_FUNKTION_1_8],
+            blockDaten[offset + BUSEXT_OFFSET_FUNKTION_9_16]));
+      }
     }
 
   }

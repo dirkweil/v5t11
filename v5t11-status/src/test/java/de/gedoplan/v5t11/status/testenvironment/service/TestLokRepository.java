@@ -19,7 +19,7 @@ import javax.persistence.EntityManager;
 @Specializes
 public class TestLokRepository extends LokRepository {
 
-  public static final Lok testLok103 = new Lok("103 xxx-y", SystemTyp.DCC, false, 1103, 126);
+  public static final Lok testLok103 = new Lok("103 003-0", SystemTyp.DCC, false, 1103, 126);
   static {
     testLok103.getFunktionConfigs().put(2, new Lok.FunktionConfig("Motorgeräusch", false));
     testLok103.getFunktionConfigs().put(7, new Lok.FunktionConfig("Pfiff", true));
@@ -30,11 +30,11 @@ public class TestLokRepository extends LokRepository {
     testLok111.getFunktionConfigs().put(1, new Lok.FunktionConfig("Horn", true, true));
   }
 
-  public static final Lok testLok218 = new Lok("218 xxx-y", SystemTyp.SX2, false, 1218, 127);
+  public static final Lok testLok217 = new Lok("217 001-7", SystemTyp.SX2, false, 1217, 127);
   static {
-    testLok218.getFunktionConfigs().put(2, new Lok.FunktionConfig("Motorgeräusch", false));
-    testLok218.getFunktionConfigs().put(7, new Lok.FunktionConfig("Pfiff", true));
-    testLok218.getFunktionConfigs().put(9, new Lok.FunktionConfig("Bahnsteigansage", true));
+    testLok217.getFunktionConfigs().put(2, new Lok.FunktionConfig("Motorgeräusch", false));
+    testLok217.getFunktionConfigs().put(7, new Lok.FunktionConfig("Pfiff", true));
+    testLok217.getFunktionConfigs().put(9, new Lok.FunktionConfig("Bahnsteigansage", true));
   }
 
   private ConcurrentMap<String, Lok> loks = new ConcurrentHashMap<>();
@@ -43,7 +43,7 @@ public class TestLokRepository extends LokRepository {
   void postConstruct() {
     persist(testLok103);
     persist(testLok111);
-    persist(testLok218);
+    persist(testLok217);
   }
 
   @Override

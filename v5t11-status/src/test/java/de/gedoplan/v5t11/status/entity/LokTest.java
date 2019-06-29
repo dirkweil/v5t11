@@ -10,6 +10,7 @@ import de.gedoplan.v5t11.status.testenvironment.service.TestLokRepository;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 
 import java.util.Map;
+import java.util.concurrent.Semaphore;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
@@ -114,5 +115,10 @@ public class LokTest extends CdiTestBase {
         assertTrue("Statuswechselmeldung fuer " + lok + " erfolgt", this.statusEventCollector.getEvents().contains(lok));
       }
     }
+  }
+
+  @Test
+  public void test_04_something() throws Exception {
+    new Semaphore(0).acquire();
   }
 }
