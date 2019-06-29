@@ -1,38 +1,185 @@
 package de.gedoplan.v5t11.status.entity.lok;
 
+import de.gedoplan.baselibs.persistence.entity.SingleIdEntity;
+import de.gedoplan.baselibs.utils.inject.InjectionUtil;
+import de.gedoplan.v5t11.status.entity.SystemTyp;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Embeddable;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.MapKeyColumn;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.ToString;
 
-public class Lok implements Comparable<Lok> {
+@Entity
+@Table(name = "V5T11_LOK")
+@Access(AccessType.FIELD)
+public class Lok extends SingleIdEntity<String> implements Comparable<Lok> {
 
   /**
-   * Maximalwert für die Geschwindigkeit.
+   * Id der Lok (DB-Nr. ö. ä.).
    */
-  public static final int MAX_GESCHWINDIGKEIT = 31;
-
-  @Getter(onMethod_ = @JsonbInclude)
+  @Id
   private String id;
 
+  /**
+   * Systemtyp (Selectrix 1/2 oder NMRA-DCC)
+   */
+  @Enumerated(EnumType.STRING)
+  @Column(name = "SYSTEM_TYP")
+  @NotNull
+  private SystemTyp systemTyp;
+
+  /**
+   * Kurze Adresse?
+   * Hat nur bei DCC Bedeutung.
+   */
+  @Column(name = "KURZE_ADRESSE")
+  private boolean kurzeAdresse;
+
+  /**
+   * Lokadresse.
+   * Muss im gültigen Bereich sein:
+   * - Selectrix: 1-103,
+   * - Selecrix 2: 1-9999,
+   * - DCC: 1-99 bei kurzer Adresse, 1-9999 sonst.
+   */
+  private int adresse;
+
+  @AssertTrue(message = "Ungültige Adresse")
+  boolean isAdresseValid() {
+    if (this.systemTyp == null) {
+      return true;
+    }
+
+    switch (this.systemTyp) {
+    case SX:
+      return this.adresse >= 1 && this.adresse <= 103;
+    case SX2:
+    default:
+      return this.adresse >= 1 && this.adresse <= 9999;
+    case DCC:
+      return this.adresse >= 1 && this.adresse <= (this.kurzeAdresse ? 99 : 9999);
+    }
+  }
+
+  /**
+   * Maximale Fahrstufe.
+   * Gültige Werte:
+   * - Selectrix: 31,
+   * - Selecrix 2: 127,
+   * - DCC: 14, 28 oder 126.
+   */
+  @Column(name = "MAX_FAHRSTUFE", nullable = false)
+  @Getter(onMethod_ = @JsonbInclude(full = true))
+  private int maxFahrstufe;
+
+  @AssertTrue(message = "Ungültige maximale Fahrstufe")
+  boolean isMaxFahrstufeValid() {
+    if (this.systemTyp == null) {
+      return true;
+    }
+
+    switch (this.systemTyp) {
+    case SX:
+      return this.maxFahrstufe == 31;
+    case SX2:
+    default:
+      return this.maxFahrstufe == 127;
+    case DCC:
+      return this.maxFahrstufe == 14 || this.maxFahrstufe == 28 || this.maxFahrstufe == 126;
+    }
+  }
+
+  /**
+   * Fahrstufe.
+   */
   @Getter(onMethod_ = @JsonbInclude)
-  private boolean licht;
+  private int fahrstufe;
+
+  @AssertTrue(message = "Ungültige Fahrstufe")
+  boolean isfahrstufeValid() {
+    return this.fahrstufe >= 0 && this.fahrstufe <= this.maxFahrstufe;
+  }
 
   @Getter(onMethod_ = @JsonbInclude)
   private boolean rueckwaerts;
 
   @Getter(onMethod_ = @JsonbInclude)
-  private int geschwindigkeit;
+  private boolean licht;
 
-  // ToDo FCC
-  // @Getter
-  // @Setter
-  // @JsonbTransient
-  // private Lokdecoder lokdecoder;
+  @ElementCollection(fetch = FetchType.EAGER)
+  @CollectionTable(name = "V5T11_LOK_FUNKTION_CONFIG")
+  @MapKeyColumn(name = "FUNKTION")
+  @Getter(onMethod_ = @JsonbInclude(full = true))
+  private Map<@Min(1) @Max(16) Integer, @NotNull FunktionConfig> funktionConfigs = new HashMap<>();
 
-  public Lok(String id) {
+  /**
+   * Zustand der Funktionen.
+   * Pro aktiver Funktion 1...16 ist das Bit 0...15 gesetzt.
+   */
+  @Column(name = "FUNKTION_STATUS")
+  @Getter(onMethod_ = @JsonbInclude)
+  private int funktionStatus;
+
+  @JsonbInclude
+  @Override
+  public String getId() {
+    return this.id;
+  }
+
+  public boolean getFunktion(int fn) {
+    if (this.funktionConfigs.containsKey(fn)) {
+      return (this.funktionStatus & (1 << fn)) != 0;
+    }
+    return false;
+  }
+
+  public void setFunktion(int fn, boolean on) {
+    if (this.funktionConfigs.containsKey(fn)) {
+      int mask = (1 << fn);
+      if (on) {
+        this.funktionStatus |= mask;
+      } else {
+        this.funktionStatus &= ~mask;
+      }
+    }
+  }
+
+  @Transient
+  @Getter(onMethod_ = @JsonbInclude)
+  private boolean aktiv;
+
+  public Lok(String id, @NotNull SystemTyp systemTyp, boolean kurzeAdresse, int adresse, int maxFahrstufe) {
     this.id = id;
+    this.systemTyp = systemTyp;
+    this.kurzeAdresse = kurzeAdresse;
+    this.adresse = adresse;
+    this.maxFahrstufe = maxFahrstufe;
+  }
+
+  protected Lok() {
   }
 
   @Override
@@ -42,75 +189,31 @@ public class Lok implements Comparable<Lok> {
 
   @Override
   public String toString() {
-    // ToDo FCC
-    // return "Lok{" + this.id + " @ " + this.lokdecoder.getAdresse() + "}";
-    return "Lok{" + this.id + "}";
-  }
-
-  public void adjustStatus() {
-    // boolean changed = false;
-    //
-    // ToDo FCC
-    // if (this.licht != this.lokdecoder.isLicht()) {
-    // this.licht = this.lokdecoder.isLicht();
-    // changed = true;
-    // }
-    //
-    // if (this.rueckwaerts != this.lokdecoder.isRueckwaerts()) {
-    // this.rueckwaerts = this.lokdecoder.isRueckwaerts();
-    // changed = true;
-    // }
-    //
-    // if (this.geschwindigkeit != this.lokdecoder.getGeschwindigkeit()) {
-    // this.geschwindigkeit = this.lokdecoder.getGeschwindigkeit();
-    // changed = true;
-    // }
-    //
-    // if (changed) {
-    // EventFirer.getInstance().fire(this);
-    // }
-
-  }
-
-  public void setLicht(boolean licht) {
-    if (this.licht != licht) {
-      this.licht = licht;
-      // ToDo FCC
-      // this.lokdecoder.setLicht(licht);
-      // EventFirer.getInstance().fire(this);
+    StringBuilder sb = new StringBuilder("Lok{");
+    sb.append(this.id)
+        .append('@')
+        .append(this.adresse)
+        .append('(')
+        .append(this.systemTyp);
+    if (this.systemTyp == SystemTyp.DCC && this.kurzeAdresse) {
+      sb.append(",kurz");
     }
+    sb.append(")}");
+    return sb.toString();
   }
 
-  public void setRueckwaerts(boolean rueckwaerts) {
-    if (this.rueckwaerts != rueckwaerts) {
-      this.rueckwaerts = rueckwaerts;
-      // ToDo FCC
-      // this.lokdecoder.setRueckwaerts(rueckwaerts);
-      // EventFirer.getInstance().fire(this);
-    }
+  @Embeddable
+  @Getter(onMethod_ = @JsonbInclude(full = true))
+  @AllArgsConstructor
+  @ToString
+  public static class FunktionConfig {
+    @NotEmpty
+    private String beschreibung;
+    private boolean impuls;
   }
 
-  public void setGeschwindigkeit(int geschwindigkeit) {
-    if (this.geschwindigkeit != geschwindigkeit) {
-      this.geschwindigkeit = geschwindigkeit;
-      // ToDo FCC
-      // this.lokdecoder.setGeschwindigkeit(geschwindigkeit);
-      // EventFirer.getInstance().fire(this);
-    }
-  }
-
-  @JsonbInclude(full = true)
-  public String getLokdecoderTyp() {
-    // ToDo FCC
-    // return this.lokdecoder.getClass().getSimpleName();
-    return null;
-  }
-
-  @JsonbInclude(full = true)
-  public List<Integer> getLokdecoderAdressen() {
-    // ToDo FCC
-    // return this.lokdecoder.getAdressen();
-    return null;
+  public void injectFields() {
+    InjectionUtil.injectFields(this);
   }
 
 }

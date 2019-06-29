@@ -87,9 +87,9 @@ public class SxLokControl extends Lokcontroller {
       boolean rueckwaerts = (this.wert & MASK_RICHTUNG) != 0;
       int geschwindigkeit = (int) (this.wert & MASK_GESCHWINDIGKEIT);
 
-      this.lok.setLicht(licht);
-      this.lok.setRueckwaerts(rueckwaerts);
-      this.lok.setGeschwindigkeit(geschwindigkeit);
+      // this.lok.setLicht(licht);
+      // this.lok.setRueckwaerts(rueckwaerts);
+      // this.lok.setGeschwindigkeit(geschwindigkeit);
     }
   }
 }

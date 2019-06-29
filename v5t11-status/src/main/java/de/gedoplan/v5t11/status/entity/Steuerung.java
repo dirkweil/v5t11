@@ -25,6 +25,8 @@ import de.gedoplan.v5t11.status.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.FunktionsdecoderGeraet;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
+import de.gedoplan.v5t11.status.entity.lok.Lok;
+import de.gedoplan.v5t11.status.persistence.LokRepository;
 import de.gedoplan.v5t11.util.domain.entity.Bereichselement;
 
 import java.util.Collection;
@@ -33,6 +35,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.concurrent.ExecutorService;
 
+import javax.inject.Inject;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -54,6 +57,9 @@ import lombok.Getter;
 @XmlAccessorType(XmlAccessType.NONE)
 public class Steuerung {
 
+  @Inject
+  LokRepository lokRepository;
+
   @XmlElements({
       @XmlElement(name = "DummyZentrale", type = DummyZentrale.class),
       @XmlElement(name = "FCC", type = FCC.class)
@@ -62,20 +68,6 @@ public class Steuerung {
   private Zentrale zentrale;
 
   private Baustein[] kanalBausteine = new Baustein[256];
-
-  // @XmlElementWrapper(name = "Lokdecoder")
-  // @XmlElements({
-  // @XmlElement(name = "DH05", type = DH05.class),
-  // @XmlElement(name = "DH10", type = DH10.class),
-  // @XmlElement(name = "DHL050", type = DHL050.class),
-  // @XmlElement(name = "DHL100", type = DHL100.class),
-  // @XmlElement(name = "Tr66825", type = Tr66825.class),
-  // @XmlElement(name = "Tr66830", type = Tr66830.class),
-  // @XmlElement(name = "Tr66832", type = Tr66832.class),
-  // @XmlElement(name = "Tr66835", type = Tr66835.class),
-  // })
-  // @Getter
-  // SortedSet<Lokdecoder> lokdecoder = new TreeSet<>();
 
   @XmlElementWrapper(name = "Lokcontroller")
   @XmlElements({
@@ -120,8 +112,8 @@ public class Steuerung {
   @Getter
   private SortedSet<Weiche> weichen = new TreeSet<>();
 
-  // @Getter
-  // private SortedSet<Lok> loks = new TreeSet<>();
+  @Getter
+  private SortedSet<Lok> loks = new TreeSet<>();
 
   /**
    * Alle von der Steuerung belegten Selectrix-Adressen liefern.
@@ -144,14 +136,14 @@ public class Steuerung {
    *          Id
    * @return gefundene Lok oder <code>null</code>
    */
-  // public Lok getLok(String id) {
-  // for (Lok lok : this.loks) {
-  // if (id.equals(lok.getId())) {
-  // return lok;
-  // }
-  // }
-  // return null;
-  // }
+  public Lok getLok(String id) {
+    for (Lok lok : this.loks) {
+      if (id.equals(lok.getId())) {
+        return lok;
+      }
+    }
+    return null;
+  }
 
   /**
    * Wert liefern: {@link #lokController}.
@@ -432,6 +424,12 @@ public class Steuerung {
     this.besetztmelder.forEach(Besetztmelder::injectFields);
     this.funktionsdecoder.forEach(Funktionsdecoder::injectFields);
     this.lokcontroller.forEach(Lokcontroller::injectFields);
+
+    this.lokRepository.findAll().forEach(lok -> {
+      this.loks.add(lok);
+      lok.injectFields();
+      // TODO Lok bei Zentrale registrieren
+    });
   }
 
   public int getSX1Kanal(int adr) {
