@@ -3,11 +3,13 @@ package de.gedoplan.v5t11.status.entity.lok;
 import de.gedoplan.baselibs.persistence.entity.SingleIdEntity;
 import de.gedoplan.baselibs.utils.inject.InjectionUtil;
 import de.gedoplan.v5t11.status.entity.SystemTyp;
+import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.inject.Inject;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.CollectionTable;
@@ -28,7 +30,6 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -36,6 +37,9 @@ import lombok.ToString;
 @Table(name = "V5T11_LOK")
 @Access(AccessType.FIELD)
 public class Lok extends SingleIdEntity<String> implements Comparable<Lok> {
+
+  @Inject
+  EventFirer eventFirer;
 
   /**
    * Id der Lok (DB-Nr. ö. ä.).
@@ -149,24 +153,6 @@ public class Lok extends SingleIdEntity<String> implements Comparable<Lok> {
     return this.id;
   }
 
-  public boolean getFunktion(int fn) {
-    if (this.funktionConfigs.containsKey(fn)) {
-      return (this.funktionStatus & (1 << fn)) != 0;
-    }
-    return false;
-  }
-
-  public void setFunktion(int fn, boolean on) {
-    if (this.funktionConfigs.containsKey(fn)) {
-      int mask = (1 << fn);
-      if (on) {
-        this.funktionStatus |= mask;
-      } else {
-        this.funktionStatus &= ~mask;
-      }
-    }
-  }
-
   @Transient
   @Getter(onMethod_ = @JsonbInclude)
   private boolean aktiv;
@@ -202,18 +188,97 @@ public class Lok extends SingleIdEntity<String> implements Comparable<Lok> {
     return sb.toString();
   }
 
+  public void injectFields() {
+    InjectionUtil.injectFields(this);
+  }
+
+  public void setFahrstufe(int fahrstufe) {
+    if (fahrstufe != this.fahrstufe) {
+      if (fahrstufe < 0 || fahrstufe > this.maxFahrstufe) {
+        throw new IllegalArgumentException("Ungültige Fahrstufe: " + fahrstufe);
+      }
+
+      this.fahrstufe = fahrstufe;
+      this.eventFirer.fire(this);
+    }
+  }
+
+  public void setRueckwaerts(boolean rueckwaerts) {
+    if (rueckwaerts != this.rueckwaerts) {
+      this.rueckwaerts = rueckwaerts;
+      this.eventFirer.fire(this);
+    }
+  }
+
+  public void setLicht(boolean licht) {
+    if (licht != this.licht) {
+      this.licht = licht;
+      this.eventFirer.fire(this);
+    }
+  }
+
+  public boolean getFunktion(int fn) {
+    if (this.funktionConfigs.containsKey(fn)) {
+      return (this.funktionStatus & (1 << (fn - 1))) != 0;
+    }
+    return false;
+  }
+
+  public void setFunktion(int fn, boolean on) {
+    if (!this.funktionConfigs.containsKey(fn)) {
+      throw new IllegalArgumentException("Ungültige Funktion: " + fn);
+    }
+
+    int old = this.funktionStatus;
+    int mask = (1 << (fn - 1));
+    if (on) {
+      this.funktionStatus |= mask;
+    } else {
+      this.funktionStatus &= ~mask;
+    }
+    if (old != this.funktionStatus) {
+      this.eventFirer.fire(this);
+    }
+  }
+
+  public void setAktiv(boolean aktiv) {
+    if (aktiv != this.aktiv) {
+      this.aktiv = aktiv;
+      this.eventFirer.fire(this);
+    }
+  }
+
+  public void reset() {
+    boolean changed = this.fahrstufe != 0 || this.rueckwaerts || this.licht || this.funktionStatus != 0 || this.aktiv;
+    this.fahrstufe = 0;
+    this.rueckwaerts = false;
+    this.licht = false;
+    this.funktionStatus = 0;
+    this.aktiv = false;
+    if (changed) {
+      this.eventFirer.fire(this);
+    }
+  }
+
   @Embeddable
   @Getter(onMethod_ = @JsonbInclude(full = true))
-  @AllArgsConstructor
   @ToString
   public static class FunktionConfig {
     @NotEmpty
     private String beschreibung;
     private boolean impuls;
-  }
+    private boolean horn;
 
-  public void injectFields() {
-    InjectionUtil.injectFields(this);
+    public FunktionConfig(@NotEmpty String beschreibung, boolean impuls, boolean horn) {
+      this.beschreibung = beschreibung;
+      this.impuls = impuls;
+      this.horn = horn;
+    }
+
+    public FunktionConfig(@NotEmpty String beschreibung, boolean impuls) {
+      this(beschreibung, impuls, false);
+    }
+
   }
 
 }

@@ -5,6 +5,7 @@ import de.gedoplan.v5t11.status.entity.baustein.Zentrale;
 import de.gedoplan.v5t11.status.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
+import de.gedoplan.v5t11.status.entity.lok.Lok;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
@@ -35,5 +36,9 @@ public class V5t11EventLogger {
 
   void logEvent(@Observes Signal event) {
     this.log.debug("Event: " + event + " stellung=" + event.getStellung());
+  }
+
+  void logEvent(@Observes Lok event) {
+    this.log.debug("Event: " + event.toString(false));
   }
 }

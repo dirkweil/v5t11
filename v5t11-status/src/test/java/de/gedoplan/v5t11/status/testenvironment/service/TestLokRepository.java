@@ -26,6 +26,9 @@ public class TestLokRepository extends LokRepository {
   }
 
   public static final Lok testLok111 = new Lok("111 205-1", SystemTyp.SX, false, 2, 31);
+  static {
+    testLok111.getFunktionConfigs().put(1, new Lok.FunktionConfig("Horn", true, true));
+  }
 
   public static final Lok testLok218 = new Lok("218 xxx-y", SystemTyp.SX2, false, 1218, 127);
   static {
