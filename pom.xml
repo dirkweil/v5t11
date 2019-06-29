@@ -17,7 +17,7 @@
   <properties>
     <!-- Java-Version 8; NRSerial funktioniert nicht mit 11! -->
     <java.code.version>1.8</java.code.version>
-    
+
     <logging.scope>test</logging.scope>
   </properties>
 
@@ -164,6 +164,12 @@
       </dependency>
 
       <dependency>
+        <groupId>org.apache.johnzon</groupId>
+        <artifactId>johnzon-jsonb</artifactId>
+        <version>1.1.12</version>
+      </dependency>
+
+      <dependency>
         <groupId>org.apache.logging.log4j</groupId>
         <artifactId>log4j-bom</artifactId>
         <version>2.9.1</version>
@@ -181,6 +187,18 @@
         <groupId>org.apache.meecrowave</groupId>
         <artifactId>meecrowave-junit</artifactId>
         <version>1.2.5</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.eclipse</groupId>
+        <artifactId>yasson</artifactId>
+        <version>1.0.4</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.glassfish</groupId>
+        <artifactId>javax.json</artifactId>
+        <version>1.1</version>
       </dependency>
 
       <dependency>
