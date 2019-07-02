@@ -12,15 +12,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.persistence.Access;
+import javax.persistence.AccessType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Embeddable;
+import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.MapKeyColumn;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Max;
@@ -31,8 +35,15 @@ import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.ToString;
 
+@Entity
+@Table(name = Lok.TABLE_NAME)
+@Access(AccessType.FIELD)
 public class Lok extends SingleIdEntity<String> implements Comparable<Lok> {
 
+  public static final String TABLE_NAME = "V5T11_LOK";
+  public static final String TABLE_NAME_FUNKTION_CONFIGS = "V5T11_LOK_FUNKTION_CONFIG";
+
+  @Transient
   @Inject
   EventFirer eventFirer;
 
@@ -134,7 +145,7 @@ public class Lok extends SingleIdEntity<String> implements Comparable<Lok> {
   private boolean licht;
 
   @ElementCollection(fetch = FetchType.EAGER)
-  @CollectionTable(name = "V5T11_LOK_FUNKTION_CONFIG")
+  @CollectionTable(name = TABLE_NAME_FUNKTION_CONFIGS)
   @MapKeyColumn(name = "FUNKTION")
   @Getter(onMethod_ = @JsonbInclude(full = true))
   private Map<@Min(1) @Max(16) Integer, @NotNull FunktionConfig> funktionConfigs = new HashMap<>();
@@ -357,6 +368,9 @@ public class Lok extends SingleIdEntity<String> implements Comparable<Lok> {
 
     public FunktionConfig(@NotEmpty String beschreibung, boolean impuls) {
       this(beschreibung, impuls, false);
+    }
+
+    protected FunktionConfig() {
     }
 
   }

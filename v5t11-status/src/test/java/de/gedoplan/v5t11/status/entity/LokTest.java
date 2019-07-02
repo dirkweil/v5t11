@@ -9,11 +9,10 @@ import de.gedoplan.v5t11.status.StatusEventCollector;
 import de.gedoplan.v5t11.status.entity.baustein.zentrale.DummyZentrale;
 import de.gedoplan.v5t11.status.entity.lok.Lok;
 import de.gedoplan.v5t11.status.entity.lok.Lok.FunktionConfig;
-import de.gedoplan.v5t11.status.testenvironment.service.TestLokRepository;
+import de.gedoplan.v5t11.status.service.init.TestLokData;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 
 import java.util.Map;
-import java.util.concurrent.Semaphore;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
@@ -35,7 +34,7 @@ public class LokTest extends CdiTestBase {
   @Test
   public void test_01_toShortJson() throws Exception {
 
-    final String lokId = TestLokRepository.lok103_003_0.getId();
+    String lokId = TestLokData.lok103_003_0.getId();
 
     Lok lok = this.steuerung.getLok(lokId);
 
@@ -62,7 +61,7 @@ public class LokTest extends CdiTestBase {
   @Test
   public void test_02_toFullJson() throws Exception {
 
-    final String lokId = TestLokRepository.lok103_003_0.getId();
+    String lokId = TestLokData.lok103_003_0.getId();
 
     Lok lok = this.steuerung.getLok(lokId);
 
@@ -93,20 +92,20 @@ public class LokTest extends CdiTestBase {
 
   }
 
-  @Test
-  public void test_03_events() throws Exception {
-
-    this.steuerung.getZentrale().setGleisspannung(true);
-
-    new Semaphore(0).acquire();
-  }
+  // @Test
+  // public void test_03_events() throws Exception {
+  //
+  // this.steuerung.getZentrale().setGleisspannung(true);
+  //
+  // new Semaphore(0).acquire();
+  // }
 
   @Test
   public void test_04_sx1_events() throws Exception {
 
     this.steuerung.getZentrale().setGleisspannung(true);
 
-    String lokId = TestLokRepository.lok151_032_0.getId();
+    String lokId = TestLokData.lok151_032_0.getId();
     Lok lok = this.steuerung.getLok(lokId);
     assertNotNull("Lok " + lokId + " in Testdaten", lok);
     assertEquals("Lok-Typ von " + lokId, SystemTyp.SX1, lok.getSystemTyp());
@@ -150,7 +149,7 @@ public class LokTest extends CdiTestBase {
 
     this.steuerung.getZentrale().setGleisspannung(true);
 
-    String lokId = TestLokRepository.lok217_001_7.getId();
+    String lokId = TestLokData.lok217_001_7.getId();
     Lok lok = this.steuerung.getLok(lokId);
     assertNotNull("Lok " + lokId + " in Testdaten", lok);
     assertEquals("Lok-Typ von " + lokId, SystemTyp.SX2, lok.getSystemTyp());
@@ -196,7 +195,7 @@ public class LokTest extends CdiTestBase {
 
     this.steuerung.getZentrale().setGleisspannung(true);
 
-    String lokId = TestLokRepository.lok103_003_0.getId();
+    String lokId = TestLokData.lok103_003_0.getId();
     Lok lok = this.steuerung.getLok(lokId);
     assertNotNull("Lok " + lokId + " in Testdaten", lok);
     assertEquals("Lok-Typ von " + lokId, SystemTyp.DCC, lok.getSystemTyp());

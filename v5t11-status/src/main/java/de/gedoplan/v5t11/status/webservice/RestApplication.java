@@ -18,8 +18,7 @@ public class RestApplication extends Application {
     return Stream.of(
         // Services
         GleisResource.class,
-        KanalResource.class,
-        // LokResource.class,
+        LokResource.class,
         // LokcontrollerResource.class,
         SignalResource.class,
         WeicheResource.class,
