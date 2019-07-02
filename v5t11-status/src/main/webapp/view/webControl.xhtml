@@ -28,18 +28,21 @@
       <h:inputText value="#{webControlModel.lokId}" id="lok" />
       <h:message for="lok" />
       <h:panelGroup>
-        <h:commandButton action="#{webControlModel.lichtAusStellen}" value="Licht aus" />
-        <h:commandButton action="#{webControlModel.lichtAnStellen}" value="Licht an" />
+        <h:commandButton action="#{webControlModel.lokDeaktivieren()}" value="deaktivieren" />
+        <h:commandButton action="#{webControlModel.lokAktivieren()}" value="aktivieren" />
 
-        <h:outputLabel value="Geschwindigkeit: " for="geschwindigkeit" />
-        <h:inputText value="#{webControlModel.lokGeschwindigkeit}" size="2" id="geschwindigkeit" />
-        <h:message for="geschwindigkeit" />
+        <h:commandButton action="#{webControlModel.lokLichtAusStellen()}" value="Licht aus" />
+        <h:commandButton action="#{webControlModel.lokLichtAnStellen()}" value="Licht an" />
+
+        <h:outputLabel value="Fahrstufe: " for="fahrstufe" />
+        <h:inputText value="#{webControlModel.lokFahrstufe}" size="2" id="fahrstufe" />
+        <h:message for="fahrstufe" />
         <h:outputLabel value="rückwärts" />
         <h:selectBooleanCheckbox value="#{webControlModel.lokRueckwaerts}" />
-        <h:commandButton action="#{webControlModel.geschwindigkeitStellen}" value="ok" />
+        <h:commandButton action="#{webControlModel.lokFahrstufeStellen()}" value="ok" />
         <h:commandButton action="#{webControlModel.lokStopp}" value="stopp" />
-        <h:commandButton action="#{webControlModel.geschwindigkeitErhöhen}" value="+" />
-        <h:commandButton action="#{webControlModel.geschwindigkeitVermindern}" value="-" />
+        <h:commandButton action="#{webControlModel.lokFahrstufeErhoehen()}" value="+" />
+        <h:commandButton action="#{webControlModel.lokFahrstufeVermindern()}" value="-" />
       </h:panelGroup>
 
       <h:outputLabel value="Weiche: " for="weiche" />
@@ -68,6 +71,8 @@
         <h:commandButton action="#{webControlModel.gleisFreiSetzen}" value="frei" />
       </h:panelGroup>
     </h:panelGrid>
+    
+    <h:messages globalOnly="true"/>
   </h:form>
 </h:body>
 </html>

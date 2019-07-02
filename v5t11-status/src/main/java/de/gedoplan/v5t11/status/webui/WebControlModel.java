@@ -2,9 +2,11 @@ package de.gedoplan.v5t11.status.webui;
 
 import de.gedoplan.v5t11.status.entity.Steuerung;
 import de.gedoplan.v5t11.status.entity.baustein.Besetztmelder;
+import de.gedoplan.v5t11.status.entity.baustein.zentrale.DummyZentrale;
 import de.gedoplan.v5t11.status.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
+import de.gedoplan.v5t11.status.entity.lok.Lok;
 import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
 
@@ -38,7 +40,11 @@ public class WebControlModel implements Serializable {
 
   @Getter
   @Setter
-  private int lokGeschwindigkeit;
+  private boolean lokAktiv;
+
+  @Getter
+  @Setter
+  private int lokFahrstufe;
 
   @Getter
   @Setter
@@ -68,8 +74,7 @@ public class WebControlModel implements Serializable {
   }
 
   public boolean isSelectrixSimuliert() {
-    String portName = System.getProperty("v5t11.portName");
-    return portName == null || portName.equalsIgnoreCase("none");
+    return this.steuerung.getZentrale() instanceof DummyZentrale;
   }
 
   public void gleisspannungEinschalten() {
@@ -122,76 +127,93 @@ public class WebControlModel implements Serializable {
     signal.setStellung(stellung);
   }
 
-  public void lichtAusStellen() {
-    lichtStellen(false);
+  public void lokAktivieren() {
+    lokAktivSetzen(true);
   }
 
-  public void lichtAnStellen() {
-    lichtStellen(true);
+  public void lokDeaktivieren() {
+    lokAktivSetzen(false);
   }
 
-  private void lichtStellen(boolean b) {
-    // Lok lok = this.steuerung.getLok(this.lokId);
-    // if (lok == null) {
-    // FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("unbekannte Lok"));
-    // return;
-    // }
-    // lok.setLicht(b);
+  private void lokAktivSetzen(boolean b) {
+    Lok lok = this.steuerung.getLok(this.lokId);
+    if (lok == null) {
+      FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("unbekannte Lok"));
+      return;
+    }
+    lok.setAktiv(b);
   }
 
-  public void geschwindigkeitStellen() {
-    // Lok lok = this.steuerung.getLok(this.lokId);
-    // if (lok == null) {
-    // FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("unbekannte Lok"));
-    // return;
-    // }
-    // lok.setGeschwindigkeit(this.lokGeschwindigkeit);
-    // lok.setRueckwaerts(this.lokRueckwaerts);
+  public void lokLichtAusStellen() {
+    lokLichtStellen(false);
+  }
+
+  public void lokLichtAnStellen() {
+    lokLichtStellen(true);
+  }
+
+  private void lokLichtStellen(boolean b) {
+    Lok lok = this.steuerung.getLok(this.lokId);
+    if (lok == null) {
+      FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("unbekannte Lok"));
+      return;
+    }
+    lok.setLicht(b);
+  }
+
+  public void lokFahrstufeStellen() {
+    Lok lok = this.steuerung.getLok(this.lokId);
+    if (lok == null) {
+      FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("unbekannte Lok"));
+      return;
+    }
+    lok.setFahrstufe(this.lokFahrstufe);
+    lok.setRueckwaerts(this.lokRueckwaerts);
   }
 
   public void lokStopp() {
-    // Lok lok = this.steuerung.getLok(this.lokId);
-    // if (lok == null) {
-    // FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("unbekannte Lok"));
-    // return;
-    // }
-    //
-    // lok.setGeschwindigkeit(0);
-    // this.lokGeschwindigkeit = 0;
+    Lok lok = this.steuerung.getLok(this.lokId);
+    if (lok == null) {
+      FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("unbekannte Lok"));
+      return;
+    }
+
+    lok.setFahrstufe(0);
+    this.lokFahrstufe = 0;
   }
 
-  public void geschwindigkeitErhöhen() {
-    // Lok lok = this.steuerung.getLok(this.lokId);
-    // if (lok == null) {
-    // FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("unbekannte Lok"));
-    // return;
-    // }
-    //
-    // int geschwindigkeit = lok.getGeschwindigkeit();
-    // if (geschwindigkeit < Lok.MAX_GESCHWINDIGKEIT) {
-    // ++geschwindigkeit;
-    // }
-    // lok.setGeschwindigkeit(geschwindigkeit);
-    // this.lokGeschwindigkeit = geschwindigkeit;
-    //
-    // this.lokRueckwaerts = lok.isRueckwaerts();
+  public void lokFahrstufeErhoehen() {
+    Lok lok = this.steuerung.getLok(this.lokId);
+    if (lok == null) {
+      FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("unbekannte Lok"));
+      return;
+    }
+
+    int fahrstufe = lok.getFahrstufe();
+    if (fahrstufe < lok.getMaxFahrstufe()) {
+      ++fahrstufe;
+    }
+    lok.setFahrstufe(fahrstufe);
+    this.lokFahrstufe = fahrstufe;
+
+    this.lokRueckwaerts = lok.isRueckwaerts();
   }
 
-  public void geschwindigkeitVermindern() {
-    // Lok lok = this.steuerung.getLok(this.lokId);
-    // if (lok == null) {
-    // FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("unbekannte Lok"));
-    // return;
-    // }
-    //
-    // int geschwindigkeit = lok.getGeschwindigkeit();
-    // if (geschwindigkeit > 0) {
-    // --geschwindigkeit;
-    // }
-    // lok.setGeschwindigkeit(geschwindigkeit);
-    // this.lokGeschwindigkeit = geschwindigkeit;
-    //
-    // this.lokRueckwaerts = lok.isRueckwaerts();
+  public void lokFahrstufeVermindern() {
+    Lok lok = this.steuerung.getLok(this.lokId);
+    if (lok == null) {
+      FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("unbekannte Lok"));
+      return;
+    }
+
+    int fahrstufe = lok.getFahrstufe();
+    if (fahrstufe > 0) {
+      --fahrstufe;
+    }
+    lok.setFahrstufe(fahrstufe);
+    this.lokFahrstufe = fahrstufe;
+
+    this.lokRueckwaerts = lok.isRueckwaerts();
   }
 
   public void gleisBelegtSetzen() {

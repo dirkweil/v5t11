@@ -5,6 +5,7 @@ import de.gedoplan.v5t11.status.entity.baustein.Zentrale;
 import de.gedoplan.v5t11.status.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
+import de.gedoplan.v5t11.status.entity.lok.Lok;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -21,9 +22,9 @@ public class SteuerungsstatusModel implements Serializable {
     return this.steuerung.getZentrale();
   }
 
-  // public List<Lok> getLoks() {
-  // return new ArrayList<>(this.steuerung.getLoks());
-  // }
+  public Collection<Lok> getLoks() {
+    return this.steuerung.getLoks();
+  }
 
   public Collection<String> getBereiche() {
     return this.steuerung.getBereiche();
