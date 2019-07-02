@@ -246,13 +246,23 @@ public class FCC extends Zentrale {
           || blockDaten[offset + BUSEXT_OFFSET_RUECKWAERTS_FAHRSTUFE] != blockDatenAlt[offset + BUSEXT_OFFSET_RUECKWAERTS_FAHRSTUFE]
           || blockDaten[offset + BUSEXT_OFFSET_FUNKTION_1_8] != blockDatenAlt[offset + BUSEXT_OFFSET_FUNKTION_1_8]
           || blockDaten[offset + BUSEXT_OFFSET_FUNKTION_9_16] != blockDatenAlt[offset + BUSEXT_OFFSET_FUNKTION_9_16]) {
-        this.eventFirer.fire(new SX2Kanal(
-            blockDaten[offset + BUSEXT_OFFSET_FORMAT],
-            blockDaten[offset + BUSEXT_OFFSET_ADR_HIGH],
-            blockDaten[offset + BUSEXT_OFFSET_ADR_LOW_LICHT],
-            blockDaten[offset + BUSEXT_OFFSET_RUECKWAERTS_FAHRSTUFE],
-            blockDaten[offset + BUSEXT_OFFSET_FUNKTION_1_8],
-            blockDaten[offset + BUSEXT_OFFSET_FUNKTION_9_16]));
+        if (blockDaten[offset + BUSEXT_OFFSET_FORMAT] != SystemTyp.SX1.getFormatCode()) {
+          this.eventFirer.fire(new SX2Kanal(
+              blockDaten[offset + BUSEXT_OFFSET_FORMAT],
+              blockDaten[offset + BUSEXT_OFFSET_ADR_HIGH],
+              blockDaten[offset + BUSEXT_OFFSET_ADR_LOW_LICHT],
+              blockDaten[offset + BUSEXT_OFFSET_RUECKWAERTS_FAHRSTUFE],
+              blockDaten[offset + BUSEXT_OFFSET_FUNKTION_1_8],
+              blockDaten[offset + BUSEXT_OFFSET_FUNKTION_9_16]));
+          // } else {
+          // this.eventFirer.fire(new SX2Kanal(
+          // blockDaten[offset + BUSEXT_OFFSET_FORMAT],
+          // blockDatenAlt[offset + BUSEXT_OFFSET_ADR_HIGH],
+          // blockDatenAlt[offset + BUSEXT_OFFSET_ADR_LOW_LICHT],
+          // blockDatenAlt[offset + BUSEXT_OFFSET_RUECKWAERTS_FAHRSTUFE],
+          // blockDatenAlt[offset + BUSEXT_OFFSET_FUNKTION_1_8],
+          // blockDatenAlt[offset + BUSEXT_OFFSET_FUNKTION_9_16]));
+        }
       }
     }
 
@@ -376,7 +386,7 @@ public class FCC extends Zentrale {
 
   @Override
   public void lokChanged(Lok lok) {
-    if (lok.getSystemTyp() == SystemTyp.SX) {
+    if (lok.getSystemTyp() == SystemTyp.SX1) {
       /*
        * Lok ist eine SX(1)-Lok.
        * SX1-Kanalwert komponieren: 0bHLRFFFFF
@@ -399,7 +409,7 @@ public class FCC extends Zentrale {
 
         for (int i = 1; i <= 16; ++i) {
           FunktionConfig funktionConfig = lok.getFunktionConfigs().get(i);
-          if (funktionConfig.isHorn() && lok.getFunktion(i)) {
+          if (funktionConfig != null && funktionConfig.isHorn() && lok.getFunktion(i)) {
             wert |= 0b1000_0000;
             break;
           }

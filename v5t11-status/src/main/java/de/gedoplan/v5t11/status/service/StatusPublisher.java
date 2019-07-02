@@ -45,7 +45,8 @@ public class StatusPublisher {
           .setTimeToLive(10 * 1000)
           .setProperty("category", category)
           .send(this.destination, json);
-    } catch (Exception e) {
+    }
+    catch (Exception e) {
       this.log.error("Cannot send status message", e);
     }
   }

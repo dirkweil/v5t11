@@ -19,44 +19,70 @@ import javax.persistence.EntityManager;
 @Specializes
 public class TestLokRepository extends LokRepository {
 
-  public static final Lok testLok103 = new Lok("103 003-0", SystemTyp.DCC, false, 1103, 126);
-  static {
-    testLok103.getFunktionConfigs().put(1, new Lok.FunktionConfig("Maschinenraumbeleuchtung", false));
-    testLok103.getFunktionConfigs().put(2, new Lok.FunktionConfig("Betriebsgeräuschgeräusch", false));
-    testLok103.getFunktionConfigs().put(3, new Lok.FunktionConfig("Pfeife", true));
-    testLok103.getFunktionConfigs().put(4, new Lok.FunktionConfig("ABV aus", true));
-    testLok103.getFunktionConfigs().put(5, new Lok.FunktionConfig("Führerstandsbeleuchtung", false));
-    testLok103.getFunktionConfigs().put(6, new Lok.FunktionConfig("Spitzensignal 1 aus", false));
-    testLok103.getFunktionConfigs().put(7, new Lok.FunktionConfig("Schaffnerpfiff", false));
-    testLok103.getFunktionConfigs().put(8, new Lok.FunktionConfig("Spitzensignal 2 aus", false));
-    testLok103.getFunktionConfigs().put(9, new Lok.FunktionConfig("Bremsenquietschen aus", false));
-    testLok103.getFunktionConfigs().put(10, new Lok.FunktionConfig("Bahnhofsansage", false));
-    testLok103.getFunktionConfigs().put(11, new Lok.FunktionConfig("Lüfter", false));
-    testLok103.getFunktionConfigs().put(12, new Lok.FunktionConfig("Sanden", false));
-    testLok103.getFunktionConfigs().put(13, new Lok.FunktionConfig("Bahnhofsansage", false));
-    testLok103.getFunktionConfigs().put(14, new Lok.FunktionConfig("Bahnhofsansage", false));
-    testLok103.getFunktionConfigs().put(15, new Lok.FunktionConfig("Lüfter", false));
-  }
-
-  public static final Lok testLok111 = new Lok("111 205-1", SystemTyp.SX, false, 2, 31);
-  static {
-    testLok111.getFunktionConfigs().put(1, new Lok.FunktionConfig("Horn", true, true));
-  }
-
-  public static final Lok testLok217 = new Lok("217 001-7", SystemTyp.SX2, false, 1217, 127);
-  static {
-    testLok217.getFunktionConfigs().put(2, new Lok.FunktionConfig("Motorgeräusch", false));
-    testLok217.getFunktionConfigs().put(7, new Lok.FunktionConfig("Pfiff", true));
-    testLok217.getFunktionConfigs().put(9, new Lok.FunktionConfig("Bahnsteigansage", true));
-  }
+  public static final Lok lok103_003_0 = new Lok("103 003-0", null, SystemTyp.DCC, false, 1103, 126,
+      1, new Lok.FunktionConfig("Maschinenraumbeleuchtung", false),
+      2, new Lok.FunktionConfig("Betriebsgeräuschgeräusch", false),
+      3, new Lok.FunktionConfig("Pfeife", true),
+      4, new Lok.FunktionConfig("ABV aus", false),
+      5, new Lok.FunktionConfig("Führerstandsbeleuchtung", false),
+      6, new Lok.FunktionConfig("Spitzensignal 1 aus", false),
+      7, new Lok.FunktionConfig("Schaffnerpfiff", true),
+      8, new Lok.FunktionConfig("Spitzensignal 2 aus", false),
+      9, new Lok.FunktionConfig("Bremsenquietschen aus", false),
+      10, new Lok.FunktionConfig("Bahnhofsansage", true),
+      11, new Lok.FunktionConfig("Lüfter", false),
+      12, new Lok.FunktionConfig("Sanden", true),
+      13, new Lok.FunktionConfig("Bahnhofsansage", true),
+      14, new Lok.FunktionConfig("Bahnhofsansage", true),
+      15, new Lok.FunktionConfig("Lüfter", false));
+  public static final Lok lok103_118_6 = new Lok("103 118-6", "DHL100", SystemTyp.SX1, false, 13, 31);
+  public static final Lok lok110_222_7 = new Lok("110 222-7", "DHL100", SystemTyp.SX1, false, 17, 31,
+      1, new Lok.FunktionConfig("Horn", true, true));
+  public static final Lok lok111_205_1 = new Lok("111 205-1", "DHL100", SystemTyp.SX1, false, 15, 31);
+  public static final Lok lok120_002_1 = new Lok("120 002-1", "Tr66830", SystemTyp.SX1, false, 18, 31);
+  public static final Lok lok14283 = new Lok("14283", "DHL050", SystemTyp.SX1, false, 3, 31);
+  public static final Lok lok151_032_0 = new Lok("151 032-0", "DHL100", SystemTyp.SX1, false, 20, 31);
+  public static final Lok lok151_073_4 = new Lok("151 073-4", "DH10", SystemTyp.SX1, false, 22, 31);
+  public static final Lok lok212_216_6 = new Lok("212 216-6", "Tr66825", SystemTyp.SX1, false, 5, 31);
+  public static final Lok lok216_xxx_x = new Lok("216 xxx-x", "DHL100", SystemTyp.SX1, false, 2, 31);
+  public static final Lok lok217_001_7 = new Lok("217 001-7", null, SystemTyp.SX2, false, 1217, 127,
+      2, new Lok.FunktionConfig("Motorgeräusch", false),
+      7, new Lok.FunktionConfig("Pfiff", true),
+      9, new Lok.FunktionConfig("Bahnsteigansage", true));
+  public static final Lok lok221_137_3 = new Lok("221 137-3", "Tr66835", SystemTyp.SX1, false, 19, 31);
+  public static final Lok lok323_673_4 = new Lok("323 673-4", "DHL050", SystemTyp.SX1, false, 4, 31);
+  public static final Lok lok332_262_5 = new Lok("332 262-5", "DHL100", SystemTyp.SX1, false, 14, 31);
+  public static final Lok lok430_119_8 = new Lok("430 119-8", "DHL100", SystemTyp.SX1, false, 16, 31);
+  public static final Lok lok614_083_4 = new Lok("614 083-4", "Tr66832", SystemTyp.SX1, false, 11, 31);
+  public static final Lok lok89_005 = new Lok("89 005", "DH05", SystemTyp.SX1, false, 7, 31);
+  public static final Lok lokET_90_5019 = new Lok("ET 90.5019", "DHL100", SystemTyp.SX1, false, 21, 31);
+  public static final Lok lokVT_11_5019 = new Lok("VT 11.5019", "DHL100", SystemTyp.SX1, false, 1, 31);
+  public static final Lok lokVT_98_9731 = new Lok("VT 98.9731", "DHL100", SystemTyp.SX1, false, 6, 31);
 
   private ConcurrentMap<String, Lok> loks = new ConcurrentHashMap<>();
 
   @PostConstruct
   void postConstruct() {
-    persist(testLok103);
-    persist(testLok111);
-    persist(testLok217);
+    persist(lok103_003_0);
+    persist(lok103_118_6);
+    persist(lok110_222_7);
+    persist(lok111_205_1);
+    persist(lok120_002_1);
+    persist(lok14283);
+    persist(lok151_032_0);
+    persist(lok151_073_4);
+    persist(lok212_216_6);
+    persist(lok216_xxx_x);
+    persist(lok217_001_7);
+    persist(lok221_137_3);
+    persist(lok323_673_4);
+    persist(lok332_262_5);
+    persist(lok430_119_8);
+    persist(lok614_083_4);
+    persist(lok89_005);
+    persist(lokET_90_5019);
+    persist(lokVT_11_5019);
+    persist(lokVT_98_9731);
   }
 
   @Override

@@ -10,19 +10,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.inject.Inject;
-import javax.persistence.Access;
-import javax.persistence.AccessType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Embeddable;
-import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.MapKeyColumn;
-import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Max;
@@ -33,9 +29,6 @@ import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.ToString;
 
-@Entity
-@Table(name = "V5T11_LOK")
-@Access(AccessType.FIELD)
 public class Lok extends SingleIdEntity<String> implements Comparable<Lok> {
 
   @Inject
@@ -46,6 +39,9 @@ public class Lok extends SingleIdEntity<String> implements Comparable<Lok> {
    */
   @Id
   private String id;
+
+  @Getter
+  private String decoder;
 
   /**
    * Systemtyp (Selectrix 1/2 oder NMRA-DCC)
@@ -80,7 +76,7 @@ public class Lok extends SingleIdEntity<String> implements Comparable<Lok> {
     }
 
     switch (this.systemTyp) {
-    case SX:
+    case SX1:
       return this.adresse >= 1 && this.adresse <= 103;
     case SX2:
     default:
@@ -108,7 +104,7 @@ public class Lok extends SingleIdEntity<String> implements Comparable<Lok> {
     }
 
     switch (this.systemTyp) {
-    case SX:
+    case SX1:
       return this.maxFahrstufe == 31;
     case SX2:
     default:
@@ -159,12 +155,20 @@ public class Lok extends SingleIdEntity<String> implements Comparable<Lok> {
   @Getter(onMethod_ = @JsonbInclude)
   private boolean aktiv;
 
-  public Lok(String id, @NotNull SystemTyp systemTyp, boolean kurzeAdresse, int adresse, int maxFahrstufe) {
+  public Lok(String id, String decoder, @NotNull SystemTyp systemTyp, boolean kurzeAdresse, int adresse, int maxFahrstufe, Object... funcParm) {
     this.id = id;
+    this.decoder = decoder;
     this.systemTyp = systemTyp;
     this.kurzeAdresse = kurzeAdresse;
     this.adresse = adresse;
     this.maxFahrstufe = maxFahrstufe;
+
+    for (int i = 0; i < funcParm.length; i += 2) {
+      if (i + 1 > funcParm.length || !(funcParm[i] instanceof Integer) || !(funcParm[i + 1] instanceof FunktionConfig)) {
+        throw new IllegalArgumentException("Die Funktionsparameter müssen als Paare bestehend aus Integer und FunktionConfig angegeben werden");
+      }
+      this.funktionConfigs.put((Integer) funcParm[i], (FunktionConfig) funcParm[i + 1]);
+    }
   }
 
   protected Lok() {

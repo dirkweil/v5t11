@@ -428,7 +428,6 @@ public class Steuerung {
     this.lokRepository.findAll().forEach(lok -> {
       this.loks.add(lok);
       lok.injectFields();
-      // TODO Lok bei Zentrale registrieren
     });
   }
 

@@ -1,9 +1,12 @@
 package de.gedoplan.v5t11.status.entity;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import de.gedoplan.v5t11.status.CdiTestBase;
 import de.gedoplan.v5t11.status.StatusEventCollector;
+import de.gedoplan.v5t11.status.entity.baustein.zentrale.DummyZentrale;
 import de.gedoplan.v5t11.status.entity.lok.Lok;
 import de.gedoplan.v5t11.status.entity.lok.Lok.FunktionConfig;
 import de.gedoplan.v5t11.status.testenvironment.service.TestLokRepository;
@@ -31,7 +34,7 @@ public class LokTest extends CdiTestBase {
   @Test
   public void test_01_toShortJson() throws Exception {
 
-    final String lokId = TestLokRepository.testLok103.getId();
+    final String lokId = TestLokRepository.lok103_003_0.getId();
 
     Lok lok = this.steuerung.getLok(lokId);
 
@@ -58,7 +61,7 @@ public class LokTest extends CdiTestBase {
   @Test
   public void test_02_toFullJson() throws Exception {
 
-    final String lokId = TestLokRepository.testLok103.getId();
+    final String lokId = TestLokRepository.lok103_003_0.getId();
 
     Lok lok = this.steuerung.getLok(lokId);
 
@@ -74,7 +77,6 @@ public class LokTest extends CdiTestBase {
         + ",\"licht\":" + lok.isLicht()
         + ",\"maxFahrstufe\":" + lok.getMaxFahrstufe()
         + ",\"rueckwaerts\":" + lok.isRueckwaerts()
-        // + ",\"funktionConfigs\":{\"2\":{\"beschreibung\":\"Motorgeräusch\",\"impuls\":false},\"7\":{\"beschreibung\":\"Pfiff\",\"impuls\":true}}"
         + ",\"funktionConfigs\":" + toJson(lok.getFunktionConfigs())
         + "}",
         json,
@@ -84,7 +86,8 @@ public class LokTest extends CdiTestBase {
   private String toJson(Map<@Min(1) @Max(16) Integer, @NotNull FunktionConfig> funktionConfigs) {
 
     return funktionConfigs.entrySet().stream()
-        .map(entry -> "\"" + entry.getKey() + "\":{\"beschreibung\":\"" + entry.getValue().getBeschreibung() + "\",\"impuls\":" + entry.getValue().isImpuls() + "}")
+        .map(entry -> "\"" + entry.getKey() + "\":{\"beschreibung\":\"" + entry.getValue().getBeschreibung() + "\",\"impuls\":" + entry.getValue().isImpuls() + ",\"horn\":"
+            + entry.getValue().isHorn() + "}")
         .collect(Collectors.joining(",", "{", "}"));
 
   }
@@ -117,24 +120,146 @@ public class LokTest extends CdiTestBase {
   }
 
   @Test
-  public void test_04_something() throws Exception {
+  public void test_04_sx1_events() throws Exception {
 
     this.steuerung.getZentrale().setGleisspannung(true);
 
-    final String lokId = TestLokRepository.testLok103.getId();
-
+    String lokId = TestLokRepository.lok151_032_0.getId();
     Lok lok = this.steuerung.getLok(lokId);
+    assertNotNull("Lok " + lokId + " in Testdaten", lok);
+    assertEquals("Lok-Typ von " + lokId, SystemTyp.SX1, lok.getSystemTyp());
 
+    lok.reset();
+
+    this.statusEventCollector.clear();
     lok.setAktiv(true);
+    assertTrue("Statuswechselmeldung fuer " + lok + " erfolgt", this.statusEventCollector.getEvents().contains(lok));
 
-    for (int i = 0; i < 10; ++i) {
-      lok.setLicht((i % 2) != 0);
+    throttle();
 
-      lok.setFunktion(2, (i % 2) != 0);
+    this.statusEventCollector.clear();
+    lok.setLicht(true);
+    assertTrue("Statuswechselmeldung fuer " + lok + " erfolgt", this.statusEventCollector.getEvents().contains(lok));
 
-      delay(1000);
+    throttle();
+
+    this.statusEventCollector.clear();
+    lok.setFahrstufe(10);
+    assertTrue("Statuswechselmeldung fuer " + lok + " erfolgt", this.statusEventCollector.getEvents().contains(lok));
+
+    throttle();
+
+    this.statusEventCollector.clear();
+    if (!lok.getFunktionConfigs().isEmpty()) {
+      int fn = lok.getFunktionConfigs().keySet().iterator().next();
+      lok.setFunktion(fn, true);
+      assertTrue("Statuswechselmeldung fuer " + lok + " erfolgt", this.statusEventCollector.getEvents().contains(lok));
     }
 
+    lok.reset();
+    lok.setAktiv(false);
     this.steuerung.getZentrale().setGleisspannung(false);
+
+    this.steuerung.awaitSync();
+  }
+
+  @Test
+  public void test_05_sx2_events() throws Exception {
+
+    this.steuerung.getZentrale().setGleisspannung(true);
+
+    String lokId = TestLokRepository.lok217_001_7.getId();
+    Lok lok = this.steuerung.getLok(lokId);
+    assertNotNull("Lok " + lokId + " in Testdaten", lok);
+    assertEquals("Lok-Typ von " + lokId, SystemTyp.SX2, lok.getSystemTyp());
+
+    lok.reset();
+
+    this.statusEventCollector.clear();
+    lok.setAktiv(true);
+    assertTrue("Statuswechselmeldung fuer " + lok + " erfolgt", this.statusEventCollector.getEvents().contains(lok));
+
+    throttle();
+
+    this.statusEventCollector.clear();
+    lok.setLicht(true);
+    assertTrue("Statuswechselmeldung fuer " + lok + " erfolgt", this.statusEventCollector.getEvents().contains(lok));
+
+    throttle();
+
+    this.statusEventCollector.clear();
+    lok.setFahrstufe(10);
+    assertTrue("Statuswechselmeldung fuer " + lok + " erfolgt", this.statusEventCollector.getEvents().contains(lok));
+
+    throttle();
+
+    this.statusEventCollector.clear();
+    if (!lok.getFunktionConfigs().isEmpty()) {
+      int fn = lok.getFunktionConfigs().keySet().iterator().next();
+      lok.setFunktion(fn, true);
+      assertTrue("Statuswechselmeldung fuer " + lok + " erfolgt", this.statusEventCollector.getEvents().contains(lok));
+    }
+
+    throttle();
+
+    lok.reset();
+    lok.setAktiv(false);
+    this.steuerung.getZentrale().setGleisspannung(false);
+
+    this.steuerung.awaitSync();
+  }
+
+  @Test
+  public void test_06_dcc_events() throws Exception {
+
+    this.steuerung.getZentrale().setGleisspannung(true);
+
+    String lokId = TestLokRepository.lok103_003_0.getId();
+    Lok lok = this.steuerung.getLok(lokId);
+    assertNotNull("Lok " + lokId + " in Testdaten", lok);
+    assertEquals("Lok-Typ von " + lokId, SystemTyp.DCC, lok.getSystemTyp());
+
+    lok.reset();
+
+    this.statusEventCollector.clear();
+    lok.setAktiv(true);
+    assertTrue("Statuswechselmeldung fuer " + lok + " erfolgt", this.statusEventCollector.getEvents().contains(lok));
+
+    throttle();
+
+    this.statusEventCollector.clear();
+    lok.setLicht(true);
+    assertTrue("Statuswechselmeldung fuer " + lok + " erfolgt", this.statusEventCollector.getEvents().contains(lok));
+
+    throttle();
+
+    this.statusEventCollector.clear();
+    lok.setFahrstufe(10);
+    assertTrue("Statuswechselmeldung fuer " + lok + " erfolgt", this.statusEventCollector.getEvents().contains(lok));
+
+    throttle();
+
+    this.statusEventCollector.clear();
+    if (!lok.getFunktionConfigs().isEmpty()) {
+      int fn = lok.getFunktionConfigs().keySet().iterator().next();
+      lok.setFunktion(fn, true);
+      assertTrue("Statuswechselmeldung fuer " + lok + " erfolgt", this.statusEventCollector.getEvents().contains(lok));
+    }
+
+    throttle();
+
+    lok.reset();
+    lok.setAktiv(false);
+    this.steuerung.getZentrale().setGleisspannung(false);
+
+    this.steuerung.awaitSync();
+  }
+
+  private void throttle() {
+    if (this.steuerung.getZentrale() instanceof DummyZentrale) {
+      return;
+    }
+
+    delay(1000);
   }
 }

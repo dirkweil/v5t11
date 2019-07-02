@@ -34,7 +34,7 @@ public class EventDispatcher {
 
   void dispatch(@Observes Lok event) {
     if (this.log.isDebugEnabled()) {
-      this.log.debug("Event: " + event);
+      this.log.debug("Event: " + event.toString(false) + " aktiv=" + event.isAktiv());
     }
 
     this.steuerung.getZentrale().lokChanged(event);

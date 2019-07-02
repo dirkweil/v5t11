@@ -30,12 +30,13 @@ public class SX2Kanal {
 
   public SX2Kanal(byte formatCode, byte adrHigh, byte adrLowLicht, byte rueckwaertsFahrstufe, byte funktion1_8, byte funktion9_16) {
     this.systemTyp = SystemTyp.valueOf(formatCode & 0x0f);
-    this.adresse = decodeAdresse(this.systemTyp, adrHigh, adrLowLicht);
-    this.licht = (adrLowLicht & 0b0000_0010) != 0;
-    this.rueckwaerts = (rueckwaertsFahrstufe & 0b1000_0000) != 0;
-    this.fahrstufe = decodeFahrstufe(this.systemTyp, rueckwaertsFahrstufe);
-    this.funktionStatus = Byte.toUnsignedInt(funktion9_16) << 8 | Byte.toUnsignedInt(funktion1_8);
-
+    if (this.systemTyp != SystemTyp.SX1) {
+      this.adresse = decodeAdresse(this.systemTyp, adrHigh, adrLowLicht);
+      this.licht = (adrLowLicht & 0b0000_0010) != 0;
+      this.rueckwaerts = (rueckwaertsFahrstufe & 0b1000_0000) != 0;
+      this.fahrstufe = decodeFahrstufe(this.systemTyp, rueckwaertsFahrstufe);
+      this.funktionStatus = Byte.toUnsignedInt(funktion9_16) << 8 | Byte.toUnsignedInt(funktion1_8);
+    }
   }
 
   public static int decodeAdresse(SystemTyp systemTyp, byte adrHigh, byte adrLow) {
@@ -82,7 +83,7 @@ public class SX2Kanal {
     if (systemTyp != null) {
       int fahrstufe = rueckwaertsFahrstufe & 0b0111_1111;
       switch (systemTyp) {
-      case SX:
+      case SX1:
       case SX2:
         return fahrstufe;
 
@@ -100,7 +101,7 @@ public class SX2Kanal {
     if (systemTyp != null) {
       int result = fahrstufe;
       switch (systemTyp) {
-      case SX:
+      case SX1:
       case SX2:
         break;
 
