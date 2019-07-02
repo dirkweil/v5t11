@@ -1,6 +1,7 @@
 package de.gedoplan.v5t11.status.service;
 
 import de.gedoplan.v5t11.status.entity.Kanal;
+import de.gedoplan.v5t11.status.entity.SX2Kanal;
 import de.gedoplan.v5t11.status.entity.Steuerung;
 import de.gedoplan.v5t11.status.entity.baustein.Zentrale;
 import de.gedoplan.v5t11.status.entity.lok.Lok;
@@ -23,7 +24,14 @@ public class EventDispatcher {
     if (this.log.isDebugEnabled()) {
       this.log.debug("Event: " + kanal);
     }
-    this.steuerung.adjustWert(kanal.getAdresse(), kanal.getWert());
+    this.steuerung.adjustTo(kanal);
+  }
+
+  void dispatch(@Observes SX2Kanal kanal) {
+    if (this.log.isDebugEnabled()) {
+      this.log.debug("Event: " + kanal);
+    }
+    this.steuerung.adjustTo(kanal);
   }
 
   void dispatch(@Observes Zentrale event) {

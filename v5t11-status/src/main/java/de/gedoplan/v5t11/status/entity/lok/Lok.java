@@ -2,6 +2,8 @@ package de.gedoplan.v5t11.status.entity.lok;
 
 import de.gedoplan.baselibs.persistence.entity.SingleIdEntity;
 import de.gedoplan.baselibs.utils.inject.InjectionUtil;
+import de.gedoplan.v5t11.status.entity.Kanal;
+import de.gedoplan.v5t11.status.entity.SX2Kanal;
 import de.gedoplan.v5t11.status.entity.SystemTyp;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
@@ -235,16 +237,23 @@ public class Lok extends SingleIdEntity<String> implements Comparable<Lok> {
       throw new IllegalArgumentException("Ungültige Funktion: " + fn);
     }
 
-    int old = this.funktionStatus;
+    int wert = this.funktionStatus;
     int mask = (1 << (fn - 1));
     if (on) {
-      this.funktionStatus |= mask;
+      wert |= mask;
     } else {
-      this.funktionStatus &= ~mask;
+      wert &= ~mask;
     }
-    if (old != this.funktionStatus) {
+
+    setFunktionStatus(wert);
+  }
+
+  private void setFunktionStatus(int wert) {
+    if (this.funktionStatus != wert) {
+      this.funktionStatus = wert;
       this.eventFirer.fire(this);
     }
+
   }
 
   public void setAktiv(boolean aktiv) {
@@ -267,16 +276,22 @@ public class Lok extends SingleIdEntity<String> implements Comparable<Lok> {
   }
 
   /**
-   * Lok-Zustand an SX1-Kanal-Wert anpassen.
+   * Lok-Zustand an SX1-Kanal anpassen.
    * Diese Methode wird nur für SX1-Loks aufgerufen.
    *
-   * @param wert SX1-Kanal-Wert
+   * @param kanal SX1-Kanal
    */
-  public void adjustSX1Wert(int wert) {
+  public void adjustTo(Kanal kanal) {
 
     if (this.systemTyp != SystemTyp.SX1) {
-      throw new IllegalArgumentException("adjustSX1Wert kann nur für SX1-Loks aufgerufen werden");
+      throw new IllegalArgumentException("adjustTo(Kanal) kann nur für SX1-Loks aufgerufen werden");
     }
+
+    if (this.adresse != kanal.getAdresse()) {
+      throw new IllegalArgumentException("adjustTo(Kanal) fuer falsche Adresse aufgerufen");
+    }
+
+    int wert = kanal.getWert();
 
     // Falls irgendwas außer Grundzustand gemeldet wird, ist die Lok wohl aktiv
     if (wert != 0) {
@@ -295,6 +310,34 @@ public class Lok extends SingleIdEntity<String> implements Comparable<Lok> {
         setFunktion(entry.getKey(), horn);
       }
     });
+  }
+
+  /**
+   * Lok-Zustand an SX2-Kanal anpassen.
+   * Diese Methode wird nicht für SX1-Loks aufgerufen.
+   *
+   * @param kanal SX2-Kanal
+   */
+  public void adjustTo(SX2Kanal kanal) {
+
+    if (this.systemTyp == SystemTyp.SX1) {
+      throw new IllegalArgumentException("adjustTo(SX2Kanal) darf nicht für SX1-Loks aufgerufen werden");
+    }
+
+    if (this.adresse != kanal.getAdresse()) {
+      throw new IllegalArgumentException("adjustTo(SX2Kanal) fuer falsche Adresse aufgerufen");
+    }
+
+    // Wenn hier etwas gemeldet wird, ist die Lok wohl aktiv
+    setAktiv(true);
+
+    setFahrstufe(kanal.getFahrstufe());
+
+    setRueckwaerts(kanal.isRueckwaerts());
+
+    setLicht(kanal.isLicht());
+
+    setFunktionStatus(kanal.getFunktionStatus());
   }
 
   @Embeddable

@@ -64,9 +64,6 @@ public class FCC extends Zentrale {
    * Lokformat: Typ des Buserweiterungseintrags. Es werden derzeit nur die u. a. Werte unterstützt
    */
   private static final int BUSEXT_OFFSET_FORMAT = 0;
-  private static final byte BUSEXT_FORMAT_FREI = 0x00; // frei
-  private static final byte BUSEXT_FORMAT_SX2 = 0x04; // SX2
-  private static final byte BUSEXT_FORMAT_DCC_LANG = 0x07; // DCC, lange Adresse (0-9999), 126 Fahrstufen
 
   /*
    * Höherwertiger Teil der Lokadresse

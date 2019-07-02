@@ -449,7 +449,10 @@ public class Steuerung {
     this.zentrale.setSX1Kanal(adr, wert);
   }
 
-  public void adjustWert(int adr, int wert) {
+  public void adjustTo(Kanal kanal) {
+    int adr = kanal.getAdresse();
+    int wert = kanal.getWert();
+
     if (this.kanalBausteine[adr] != null) {
       this.kanalBausteine[adr].adjustWert(adr, wert);
       return;
@@ -457,8 +460,16 @@ public class Steuerung {
 
     Lok lok = this.loks.get(SystemTyp.SX1, adr);
     if (lok != null) {
-      lok.adjustSX1Wert(wert);
+      lok.adjustTo(kanal);
     }
+  }
+
+  public void adjustTo(SX2Kanal kanal) {
+    Lok lok = this.loks.get(kanal.getSystemTyp(), kanal.getAdresse());
+    if (lok != null) {
+      lok.adjustTo(kanal);
+    }
+
   }
 
   public void awaitSync() {
