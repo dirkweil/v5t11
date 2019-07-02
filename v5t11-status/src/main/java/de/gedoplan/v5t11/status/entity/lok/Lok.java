@@ -266,6 +266,37 @@ public class Lok extends SingleIdEntity<String> implements Comparable<Lok> {
     }
   }
 
+  /**
+   * Lok-Zustand an SX1-Kanal-Wert anpassen.
+   * Diese Methode wird nur für SX1-Loks aufgerufen.
+   *
+   * @param wert SX1-Kanal-Wert
+   */
+  public void adjustSX1Wert(int wert) {
+
+    if (this.systemTyp != SystemTyp.SX1) {
+      throw new IllegalArgumentException("adjustSX1Wert kann nur für SX1-Loks aufgerufen werden");
+    }
+
+    // Falls irgendwas außer Grundzustand gemeldet wird, ist die Lok wohl aktiv
+    if (wert != 0) {
+      setAktiv(true);
+    }
+
+    setFahrstufe(wert & 0b0001_1111);
+
+    setRueckwaerts((wert & 0b0010_0000) != 0);
+
+    setLicht((wert & 0b0100_0000) != 0);
+
+    boolean horn = (wert & 0b1000_0000) != 0;
+    this.funktionConfigs.entrySet().forEach(entry -> {
+      if (entry.getValue().isHorn()) {
+        setFunktion(entry.getKey(), horn);
+      }
+    });
+  }
+
   @Embeddable
   @Getter(onMethod_ = @JsonbInclude(full = true))
   @ToString

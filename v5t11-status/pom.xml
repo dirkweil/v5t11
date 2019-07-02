@@ -28,7 +28,11 @@
       <artifactId>commons-logging</artifactId>
     </dependency>
 
-    <!-- Wird als WildFly-Modul geladen (s. jboss-deployment-structure.xml) -->
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+    </dependency>
+
     <dependency>
       <groupId>com.neuronrobotics</groupId>
       <artifactId>nrjavaserial</artifactId>

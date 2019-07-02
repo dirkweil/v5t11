@@ -13,6 +13,7 @@ import de.gedoplan.v5t11.status.testenvironment.service.TestLokRepository;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 
 import java.util.Map;
+import java.util.concurrent.Semaphore;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
@@ -95,28 +96,9 @@ public class LokTest extends CdiTestBase {
   @Test
   public void test_03_events() throws Exception {
 
-    for (Lok lok : this.steuerung.getLoks()) {
-      lok.reset();
+    this.steuerung.getZentrale().setGleisspannung(true);
 
-      this.statusEventCollector.clear();
-      lok.setAktiv(true);
-      assertTrue("Statuswechselmeldung fuer " + lok + " erfolgt", this.statusEventCollector.getEvents().contains(lok));
-
-      this.statusEventCollector.clear();
-      lok.setLicht(true);
-      assertTrue("Statuswechselmeldung fuer " + lok + " erfolgt", this.statusEventCollector.getEvents().contains(lok));
-
-      this.statusEventCollector.clear();
-      lok.setFahrstufe(10);
-      assertTrue("Statuswechselmeldung fuer " + lok + " erfolgt", this.statusEventCollector.getEvents().contains(lok));
-
-      this.statusEventCollector.clear();
-      if (!lok.getFunktionConfigs().isEmpty()) {
-        int fn = lok.getFunktionConfigs().keySet().iterator().next();
-        lok.setFunktion(fn, true);
-        assertTrue("Statuswechselmeldung fuer " + lok + " erfolgt", this.statusEventCollector.getEvents().contains(lok));
-      }
-    }
+    new Semaphore(0).acquire();
   }
 
   @Test
@@ -133,19 +115,19 @@ public class LokTest extends CdiTestBase {
 
     this.statusEventCollector.clear();
     lok.setAktiv(true);
-    assertTrue("Statuswechselmeldung fuer " + lok + " erfolgt", this.statusEventCollector.getEvents().contains(lok));
+    assertTrue("Statuswechselmeldung fuer " + lok + " erfolgt und kein weiterer Event", this.statusEventCollector.getEvents().contains(lok) && this.statusEventCollector.getEvents().size() == 1);
 
     throttle();
 
     this.statusEventCollector.clear();
     lok.setLicht(true);
-    assertTrue("Statuswechselmeldung fuer " + lok + " erfolgt", this.statusEventCollector.getEvents().contains(lok));
+    assertTrue("Statuswechselmeldung fuer " + lok + " erfolgt und kein weiterer Event", this.statusEventCollector.getEvents().contains(lok) && this.statusEventCollector.getEvents().size() == 1);
 
     throttle();
 
     this.statusEventCollector.clear();
     lok.setFahrstufe(10);
-    assertTrue("Statuswechselmeldung fuer " + lok + " erfolgt", this.statusEventCollector.getEvents().contains(lok));
+    assertTrue("Statuswechselmeldung fuer " + lok + " erfolgt und kein weiterer Event", this.statusEventCollector.getEvents().contains(lok) && this.statusEventCollector.getEvents().size() == 1);
 
     throttle();
 
@@ -153,7 +135,7 @@ public class LokTest extends CdiTestBase {
     if (!lok.getFunktionConfigs().isEmpty()) {
       int fn = lok.getFunktionConfigs().keySet().iterator().next();
       lok.setFunktion(fn, true);
-      assertTrue("Statuswechselmeldung fuer " + lok + " erfolgt", this.statusEventCollector.getEvents().contains(lok));
+      assertTrue("Statuswechselmeldung fuer " + lok + " erfolgt und kein weiterer Event", this.statusEventCollector.getEvents().contains(lok) && this.statusEventCollector.getEvents().size() == 1);
     }
 
     lok.reset();
@@ -177,19 +159,19 @@ public class LokTest extends CdiTestBase {
 
     this.statusEventCollector.clear();
     lok.setAktiv(true);
-    assertTrue("Statuswechselmeldung fuer " + lok + " erfolgt", this.statusEventCollector.getEvents().contains(lok));
+    assertTrue("Statuswechselmeldung fuer " + lok + " erfolgt und kein weiterer Event", this.statusEventCollector.getEvents().contains(lok) && this.statusEventCollector.getEvents().size() == 1);
 
     throttle();
 
     this.statusEventCollector.clear();
     lok.setLicht(true);
-    assertTrue("Statuswechselmeldung fuer " + lok + " erfolgt", this.statusEventCollector.getEvents().contains(lok));
+    assertTrue("Statuswechselmeldung fuer " + lok + " erfolgt und kein weiterer Event", this.statusEventCollector.getEvents().contains(lok) && this.statusEventCollector.getEvents().size() == 1);
 
     throttle();
 
     this.statusEventCollector.clear();
     lok.setFahrstufe(10);
-    assertTrue("Statuswechselmeldung fuer " + lok + " erfolgt", this.statusEventCollector.getEvents().contains(lok));
+    assertTrue("Statuswechselmeldung fuer " + lok + " erfolgt und kein weiterer Event", this.statusEventCollector.getEvents().contains(lok) && this.statusEventCollector.getEvents().size() == 1);
 
     throttle();
 
@@ -197,7 +179,7 @@ public class LokTest extends CdiTestBase {
     if (!lok.getFunktionConfigs().isEmpty()) {
       int fn = lok.getFunktionConfigs().keySet().iterator().next();
       lok.setFunktion(fn, true);
-      assertTrue("Statuswechselmeldung fuer " + lok + " erfolgt", this.statusEventCollector.getEvents().contains(lok));
+      assertTrue("Statuswechselmeldung fuer " + lok + " erfolgt und kein weiterer Event", this.statusEventCollector.getEvents().contains(lok) && this.statusEventCollector.getEvents().size() == 1);
     }
 
     throttle();
@@ -223,19 +205,19 @@ public class LokTest extends CdiTestBase {
 
     this.statusEventCollector.clear();
     lok.setAktiv(true);
-    assertTrue("Statuswechselmeldung fuer " + lok + " erfolgt", this.statusEventCollector.getEvents().contains(lok));
+    assertTrue("Statuswechselmeldung fuer " + lok + " erfolgt und kein weiterer Event", this.statusEventCollector.getEvents().contains(lok) && this.statusEventCollector.getEvents().size() == 1);
 
     throttle();
 
     this.statusEventCollector.clear();
     lok.setLicht(true);
-    assertTrue("Statuswechselmeldung fuer " + lok + " erfolgt", this.statusEventCollector.getEvents().contains(lok));
+    assertTrue("Statuswechselmeldung fuer " + lok + " erfolgt und kein weiterer Event", this.statusEventCollector.getEvents().contains(lok) && this.statusEventCollector.getEvents().size() == 1);
 
     throttle();
 
     this.statusEventCollector.clear();
     lok.setFahrstufe(10);
-    assertTrue("Statuswechselmeldung fuer " + lok + " erfolgt", this.statusEventCollector.getEvents().contains(lok));
+    assertTrue("Statuswechselmeldung fuer " + lok + " erfolgt und kein weiterer Event", this.statusEventCollector.getEvents().contains(lok) && this.statusEventCollector.getEvents().size() == 1);
 
     throttle();
 
@@ -243,7 +225,7 @@ public class LokTest extends CdiTestBase {
     if (!lok.getFunktionConfigs().isEmpty()) {
       int fn = lok.getFunktionConfigs().keySet().iterator().next();
       lok.setFunktion(fn, true);
-      assertTrue("Statuswechselmeldung fuer " + lok + " erfolgt", this.statusEventCollector.getEvents().contains(lok));
+      assertTrue("Statuswechselmeldung fuer " + lok + " erfolgt und kein weiterer Event", this.statusEventCollector.getEvents().contains(lok) && this.statusEventCollector.getEvents().size() == 1);
     }
 
     throttle();

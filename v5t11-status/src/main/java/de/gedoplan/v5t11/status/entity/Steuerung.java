@@ -44,6 +44,9 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.Table;
+
 import lombok.Getter;
 
 /**
@@ -112,8 +115,7 @@ public class Steuerung {
   @Getter
   private SortedSet<Weiche> weichen = new TreeSet<>();
 
-  @Getter
-  private SortedSet<Lok> loks = new TreeSet<>();
+  private Table<SystemTyp, Integer, Lok> loks = HashBasedTable.create();
 
   /**
    * Alle von der Steuerung belegten Selectrix-Adressen liefern.
@@ -130,14 +132,22 @@ public class Steuerung {
   // }
 
   /**
+   * Loks liefern.
+   *
+   * @return alle Loks
+   */
+  public SortedSet<Lok> getLoks() {
+    return new TreeSet<>(this.loks.values());
+  }
+
+  /**
    * Lok liefern.
    *
-   * @param id
-   *          Id
+   * @param id Id
    * @return gefundene Lok oder <code>null</code>
    */
   public Lok getLok(String id) {
-    for (Lok lok : this.loks) {
+    for (Lok lok : this.loks.values()) {
       if (id.equals(lok.getId())) {
         return lok;
       }
@@ -173,9 +183,9 @@ public class Steuerung {
    * Gleisabschnitt liefern.
    *
    * @param bereich
-   *          Bereich
+   *        Bereich
    * @param name
-   *          Name
+   *        Name
    * @return gefundener Gleisabschnitt oder <code>null</code>
    */
   public Gleisabschnitt getGleisabschnitt(String bereich, String name) {
@@ -195,9 +205,9 @@ public class Steuerung {
    * Signal liefern.
    *
    * @param bereich
-   *          Bereich
+   *        Bereich
    * @param name
-   *          Name
+   *        Name
    * @return gefundenes Signal oder <code>null</code>
    */
   public Signal getSignal(String bereich, String name) {
@@ -217,9 +227,9 @@ public class Steuerung {
    * Weiche liefern.
    *
    * @param bereich
-   *          Bereich
+   *        Bereich
    * @param name
-   *          Name
+   *        Name
    * @return gefundene Weiche oder <code>null</code>
    */
   public Weiche getWeiche(String bereich, String name) {
@@ -251,9 +261,9 @@ public class Steuerung {
    * Nachbearbeitung nach JAXB-Unmarshal.
    *
    * @param unmarshaller
-   *          Unmarshaller
+   *        Unmarshaller
    * @param parent
-   *          Parent
+   *        Parent
    */
   @SuppressWarnings("unused")
   private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
@@ -364,7 +374,7 @@ public class Steuerung {
    * Textliche Repräsentation der Steuerung erstellen.
    *
    * @param idOnly
-   *          nur IDs?
+   *        nur IDs?
    * @return Steuerung als String
    */
   public String toDebugString(boolean idOnly) {
@@ -426,7 +436,7 @@ public class Steuerung {
     this.lokcontroller.forEach(Lokcontroller::injectFields);
 
     this.lokRepository.findAll().forEach(lok -> {
-      this.loks.add(lok);
+      this.loks.put(lok.getSystemTyp(), lok.getAdresse(), lok);
       lok.injectFields();
     });
   }
@@ -442,6 +452,12 @@ public class Steuerung {
   public void adjustWert(int adr, int wert) {
     if (this.kanalBausteine[adr] != null) {
       this.kanalBausteine[adr].adjustWert(adr, wert);
+      return;
+    }
+
+    Lok lok = this.loks.get(SystemTyp.SX1, adr);
+    if (lok != null) {
+      lok.adjustSX1Wert(wert);
     }
   }
 
