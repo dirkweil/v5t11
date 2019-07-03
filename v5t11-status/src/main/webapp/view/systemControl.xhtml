@@ -1,0 +1,33 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+  xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions" xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <title>V5T11: System Control</title>
+</h:head>
+
+<h:body>
+  <h:form>
+    <p:growl id="msgs" showDetail="true" />
+    
+    <p:fieldset legend="Allgemein">
+      <h:panelGrid columns="2">
+        <p:outputLabel for="gleisspannung" value="Gleisspannung: " />
+        <p:selectBooleanButton id="gleisspannung" value="#{systemControlPresenter.gleisspannung}" onLabel="An" offLabel="Aus" style="width:60px">
+          <p:ajax />
+        </p:selectBooleanButton>
+      </h:panelGrid>
+    </p:fieldset>
+    
+    <p:fieldset legend="Fahrweg">
+      <h:outputText value="Weiche" />
+      <h:outputText value="Signal" />
+      <h:outputText value="Gleis" />
+    </p:fieldset>
+    
+    <p:fieldset legend="Lok">
+      <h:outputText value="Lok" />
+    </p:fieldset>
+  </h:form>
+</h:body>
+</html>

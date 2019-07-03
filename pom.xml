@@ -27,10 +27,10 @@
       <url>http://service.gedoplan.de/nexus/content/groups/public</url>
     </repository>
 
-<!--     <repository> -->
-<!--       <id>prime</id> -->
-<!--       <url>http://repository.primefaces.org</url> -->
-<!--     </repository> -->
+    <repository>
+      <id>prime</id>
+      <url>http://repository.primefaces.org</url>
+    </repository>
   </repositories>
 
   <pluginRepositories>

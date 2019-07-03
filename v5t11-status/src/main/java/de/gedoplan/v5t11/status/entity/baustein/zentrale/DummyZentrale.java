@@ -25,7 +25,7 @@ public class DummyZentrale extends Zentrale {
 
   @Override
   public String toString() {
-    return "DummyZentrale";
+    return "DummyZentrale{gleisspannung=" + this.gleisspannung + ", kurzschluss=" + this.kurzschluss + "}";
   }
 
   @Override
