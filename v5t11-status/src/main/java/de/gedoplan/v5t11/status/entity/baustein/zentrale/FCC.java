@@ -194,7 +194,7 @@ public class FCC extends Zentrale {
 
       long start = System.currentTimeMillis();
 
-      synchronized (this) {
+      synchronized (Zentrale.class) {
 
         // Blockabfrage starten und neue Daten eintragen
         byte[] blockDaten = blockAbfrage();
@@ -279,20 +279,23 @@ public class FCC extends Zentrale {
     this.eventFirer.fire(new Kanal(adr, wert));
   }
 
-  private synchronized byte[] blockAbfrage() throws IOException {
-    this.out.write(new byte[] { 0x78, (byte) 0xc3 });
+  private byte[] blockAbfrage() throws IOException {
+    synchronized (Zentrale.class) {
 
-    byte[] result = new byte[BLOCK_DATEN_LEN_GESAMT];
-    for (int i = 0; i < result.length; ++i) {
-      int value = this.in.read();
-      if (value < 0) {
-        throw new EOFException("Blockabfrage liefert zu wenige Ergebnisbytes: " + i);
+      this.out.write(new byte[] { 0x78, (byte) 0xc3 });
+
+      byte[] result = new byte[BLOCK_DATEN_LEN_GESAMT];
+      for (int i = 0; i < result.length; ++i) {
+        int value = this.in.read();
+        if (value < 0) {
+          throw new EOFException("Blockabfrage liefert zu wenige Ergebnisbytes: " + i);
+        }
+
+        result[i] = (byte) value;
       }
 
-      result[i] = (byte) value;
+      return result;
     }
-
-    return result;
   }
 
   @Override
@@ -323,41 +326,43 @@ public class FCC extends Zentrale {
     send(new byte[] { bus, (byte) (adr | 0x80), neu }, null);
   }
 
-  private synchronized int send(byte[] werte, Predicate<Integer> ackCheck) {
-    if (this.log.isTraceEnabled()) {
-      StringBuilder sb = new StringBuilder("Send: ");
-      for (int i = 0; i < werte.length; ++i) {
-        if (i != 0) {
-          sb.append(",");
+  private int send(byte[] werte, Predicate<Integer> ackCheck) {
+    synchronized (Zentrale.class) {
+
+      if (this.log.isTraceEnabled()) {
+        StringBuilder sb = new StringBuilder("Send: ");
+        for (int i = 0; i < werte.length; ++i) {
+          if (i != 0) {
+            sb.append(",");
+          }
+
+          sb.append(String.format("0x%02x", werte[i]));
+        }
+        this.log.trace(sb);
+      }
+
+      try {
+        this.out.write(werte);
+
+        int ack = this.in.read();
+        if (this.log.isTraceEnabled()) {
+          this.log.trace(String.format("Ack: 0x%02x", ack));
         }
 
-        sb.append(String.format("0x%02x", werte[i]));
-      }
-      this.log.trace(sb);
-    }
-
-    try {
-      this.out.write(werte);
-
-      int ack = this.in.read();
-      if (this.log.isTraceEnabled()) {
-        this.log.trace(String.format("Ack: 0x%02x", ack));
-      }
-
-      if (ackCheck == null) {
-        if (ack == 0) {
+        if (ackCheck == null) {
+          if (ack == 0) {
+            return ack;
+          }
+        } else if (ackCheck.test(ack)) {
           return ack;
         }
-      } else if (ackCheck.test(ack)) {
-        return ack;
+
+        throw new V5t11Exception("Steuerungskommando fehlgeschlagen; ack=" + ack);
       }
-
-      throw new V5t11Exception("Steuerungskommando fehlgeschlagen; ack=" + ack);
+      catch (IOException e) {
+        throw new V5t11Exception("Steuerungskommando fehlgeschlagen", e);
+      }
     }
-    catch (IOException e) {
-      throw new V5t11Exception("Steuerungskommando fehlgeschlagen", e);
-    }
-
   }
 
   private static void delay(long millis) {

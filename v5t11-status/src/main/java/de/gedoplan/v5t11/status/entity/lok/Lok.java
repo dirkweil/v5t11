@@ -5,6 +5,7 @@ import de.gedoplan.baselibs.utils.inject.InjectionUtil;
 import de.gedoplan.v5t11.status.entity.Kanal;
 import de.gedoplan.v5t11.status.entity.SX2Kanal;
 import de.gedoplan.v5t11.status.entity.SystemTyp;
+import de.gedoplan.v5t11.status.entity.baustein.Zentrale;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
@@ -211,28 +212,40 @@ public class Lok extends SingleIdEntity<String> implements Comparable<Lok> {
     InjectionUtil.injectFields(this);
   }
 
-  public synchronized void setFahrstufe(int fahrstufe) {
-    if (fahrstufe != this.fahrstufe) {
-      if (fahrstufe < 0 || fahrstufe > this.maxFahrstufe) {
-        throw new IllegalArgumentException("Ungültige Fahrstufe: " + fahrstufe);
+  public void setFahrstufe(int fahrstufe) {
+    synchronized (Zentrale.class) {
+
+      if (fahrstufe != this.fahrstufe) {
+        if (fahrstufe < 0 || fahrstufe > this.maxFahrstufe) {
+          throw new IllegalArgumentException("Ungültige Fahrstufe: " + fahrstufe);
+        }
+
+        this.fahrstufe = fahrstufe;
+        this.eventFirer.fire(this);
       }
 
-      this.fahrstufe = fahrstufe;
-      this.eventFirer.fire(this);
     }
   }
 
-  public synchronized void setRueckwaerts(boolean rueckwaerts) {
-    if (rueckwaerts != this.rueckwaerts) {
-      this.rueckwaerts = rueckwaerts;
-      this.eventFirer.fire(this);
+  public void setRueckwaerts(boolean rueckwaerts) {
+    synchronized (Zentrale.class) {
+
+      if (rueckwaerts != this.rueckwaerts) {
+        this.rueckwaerts = rueckwaerts;
+        this.eventFirer.fire(this);
+      }
+
     }
   }
 
-  public synchronized void setLicht(boolean licht) {
-    if (licht != this.licht) {
-      this.licht = licht;
-      this.eventFirer.fire(this);
+  public void setLicht(boolean licht) {
+    synchronized (Zentrale.class) {
+
+      if (licht != this.licht) {
+        this.licht = licht;
+        this.eventFirer.fire(this);
+      }
+
     }
   }
 
@@ -243,7 +256,7 @@ public class Lok extends SingleIdEntity<String> implements Comparable<Lok> {
     return false;
   }
 
-  public synchronized void setFunktion(int fn, boolean on) {
+  public void setFunktion(int fn, boolean on) {
     if (!this.funktionConfigs.containsKey(fn)) {
       throw new IllegalArgumentException("Ungültige Funktion: " + fn);
     }
@@ -259,30 +272,41 @@ public class Lok extends SingleIdEntity<String> implements Comparable<Lok> {
     setFunktionStatus(wert);
   }
 
-  private synchronized void setFunktionStatus(int wert) {
-    if (this.funktionStatus != wert) {
-      this.funktionStatus = wert;
-      this.eventFirer.fire(this);
-    }
+  private void setFunktionStatus(int wert) {
+    synchronized (Zentrale.class) {
 
-  }
+      if (this.funktionStatus != wert) {
+        this.funktionStatus = wert;
+        this.eventFirer.fire(this);
+      }
 
-  public synchronized void setAktiv(boolean aktiv) {
-    if (aktiv != this.aktiv) {
-      this.aktiv = aktiv;
-      this.eventFirer.fire(this);
     }
   }
 
-  public synchronized void reset() {
-    boolean changed = this.fahrstufe != 0 || this.rueckwaerts || this.licht || this.funktionStatus != 0 || this.aktiv;
-    this.fahrstufe = 0;
-    this.rueckwaerts = false;
-    this.licht = false;
-    this.funktionStatus = 0;
-    this.aktiv = false;
-    if (changed) {
-      this.eventFirer.fire(this);
+  public void setAktiv(boolean aktiv) {
+    synchronized (Zentrale.class) {
+
+      if (aktiv != this.aktiv) {
+        this.aktiv = aktiv;
+        this.eventFirer.fire(this);
+      }
+
+    }
+  }
+
+  public void reset() {
+    synchronized (Zentrale.class) {
+
+      boolean changed = this.fahrstufe != 0 || this.rueckwaerts || this.licht || this.funktionStatus != 0 || this.aktiv;
+      this.fahrstufe = 0;
+      this.rueckwaerts = false;
+      this.licht = false;
+      this.funktionStatus = 0;
+      this.aktiv = false;
+      if (changed) {
+        this.eventFirer.fire(this);
+      }
+
     }
   }
 
@@ -292,36 +316,39 @@ public class Lok extends SingleIdEntity<String> implements Comparable<Lok> {
    *
    * @param kanal SX1-Kanal
    */
-  public synchronized void adjustTo(Kanal kanal) {
+  public void adjustTo(Kanal kanal) {
+    synchronized (Zentrale.class) {
 
-    if (this.systemTyp != SystemTyp.SX1) {
-      throw new IllegalArgumentException("adjustTo(Kanal) kann nur für SX1-Loks aufgerufen werden");
-    }
+      if (this.systemTyp != SystemTyp.SX1) {
+        throw new IllegalArgumentException("adjustTo(Kanal) kann nur für SX1-Loks aufgerufen werden");
+      }
 
-    if (this.adresse != kanal.getAdresse()) {
-      throw new IllegalArgumentException("adjustTo(Kanal) fuer falsche Adresse aufgerufen");
-    }
+      if (this.adresse != kanal.getAdresse()) {
+        throw new IllegalArgumentException("adjustTo(Kanal) fuer falsche Adresse aufgerufen");
+      }
 
-    int wert = kanal.getWert();
+      int wert = kanal.getWert();
 
-    // Falls irgendwas außer Grundzustand gemeldet wird, ist die Lok wohl aktiv
-    if (wert != 0) {
-      setAktiv(true);
-    }
+      // Falls irgendwas außer Grundzustand gemeldet wird, ist die Lok wohl aktiv
+      if (wert != 0) {
+        setAktiv(true);
+      }
 
-    if (this.aktiv) {
-      setFahrstufe(wert & 0b0001_1111);
+      if (this.aktiv) {
+        setFahrstufe(wert & 0b0001_1111);
 
-      setRueckwaerts((wert & 0b0010_0000) != 0);
+        setRueckwaerts((wert & 0b0010_0000) != 0);
 
-      setLicht((wert & 0b0100_0000) != 0);
+        setLicht((wert & 0b0100_0000) != 0);
 
-      boolean horn = (wert & 0b1000_0000) != 0;
-      this.funktionConfigs.entrySet().forEach(entry -> {
-        if (entry.getValue().isHorn()) {
-          setFunktion(entry.getKey(), horn);
-        }
-      });
+        boolean horn = (wert & 0b1000_0000) != 0;
+        this.funktionConfigs.entrySet().forEach(entry -> {
+          if (entry.getValue().isHorn()) {
+            setFunktion(entry.getKey(), horn);
+          }
+        });
+      }
+
     }
   }
 
@@ -331,29 +358,32 @@ public class Lok extends SingleIdEntity<String> implements Comparable<Lok> {
    *
    * @param kanal SX2-Kanal
    */
-  public synchronized void adjustTo(SX2Kanal kanal) {
+  public void adjustTo(SX2Kanal kanal) {
+    synchronized (Zentrale.class) {
 
-    if (this.systemTyp == SystemTyp.SX1) {
-      throw new IllegalArgumentException("adjustTo(SX2Kanal) darf nicht für SX1-Loks aufgerufen werden");
-    }
+      if (this.systemTyp == SystemTyp.SX1) {
+        throw new IllegalArgumentException("adjustTo(SX2Kanal) darf nicht für SX1-Loks aufgerufen werden");
+      }
 
-    if (this.adresse != kanal.getAdresse()) {
-      throw new IllegalArgumentException("adjustTo(SX2Kanal) fuer falsche Adresse aufgerufen");
-    }
+      if (this.adresse != kanal.getAdresse()) {
+        throw new IllegalArgumentException("adjustTo(SX2Kanal) fuer falsche Adresse aufgerufen");
+      }
 
-    // Falls irgendwas außer Grundzustand gemeldet wird, ist die Lok wohl aktiv
-    if (kanal.getFahrstufe() != 0 || kanal.isRueckwaerts() || kanal.isLicht() || kanal.getFunktionStatus() != 0) {
-      setAktiv(true);
-    }
+      // Falls irgendwas außer Grundzustand gemeldet wird, ist die Lok wohl aktiv
+      if (kanal.getFahrstufe() != 0 || kanal.isRueckwaerts() || kanal.isLicht() || kanal.getFunktionStatus() != 0) {
+        setAktiv(true);
+      }
 
-    if (this.aktiv) {
-      setFahrstufe(kanal.getFahrstufe());
+      if (this.aktiv) {
+        setFahrstufe(kanal.getFahrstufe());
 
-      setRueckwaerts(kanal.isRueckwaerts());
+        setRueckwaerts(kanal.isRueckwaerts());
 
-      setLicht(kanal.isLicht());
+        setLicht(kanal.isLicht());
 
-      setFunktionStatus(kanal.getFunktionStatus());
+        setFunktionStatus(kanal.getFunktionStatus());
+      }
+
     }
   }
 
