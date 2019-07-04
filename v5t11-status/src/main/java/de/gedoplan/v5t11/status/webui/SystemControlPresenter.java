@@ -20,16 +20,16 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import lombok.Getter;
 
 @Named
-@ViewScoped
+@SessionScoped
 public class SystemControlPresenter implements Serializable {
 
   @Inject

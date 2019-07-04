@@ -211,7 +211,7 @@ public class Lok extends SingleIdEntity<String> implements Comparable<Lok> {
     InjectionUtil.injectFields(this);
   }
 
-  public void setFahrstufe(int fahrstufe) {
+  public synchronized void setFahrstufe(int fahrstufe) {
     if (fahrstufe != this.fahrstufe) {
       if (fahrstufe < 0 || fahrstufe > this.maxFahrstufe) {
         throw new IllegalArgumentException("Ungültige Fahrstufe: " + fahrstufe);
@@ -222,14 +222,14 @@ public class Lok extends SingleIdEntity<String> implements Comparable<Lok> {
     }
   }
 
-  public void setRueckwaerts(boolean rueckwaerts) {
+  public synchronized void setRueckwaerts(boolean rueckwaerts) {
     if (rueckwaerts != this.rueckwaerts) {
       this.rueckwaerts = rueckwaerts;
       this.eventFirer.fire(this);
     }
   }
 
-  public void setLicht(boolean licht) {
+  public synchronized void setLicht(boolean licht) {
     if (licht != this.licht) {
       this.licht = licht;
       this.eventFirer.fire(this);
@@ -243,7 +243,7 @@ public class Lok extends SingleIdEntity<String> implements Comparable<Lok> {
     return false;
   }
 
-  public void setFunktion(int fn, boolean on) {
+  public synchronized void setFunktion(int fn, boolean on) {
     if (!this.funktionConfigs.containsKey(fn)) {
       throw new IllegalArgumentException("Ungültige Funktion: " + fn);
     }
@@ -259,7 +259,7 @@ public class Lok extends SingleIdEntity<String> implements Comparable<Lok> {
     setFunktionStatus(wert);
   }
 
-  private void setFunktionStatus(int wert) {
+  private synchronized void setFunktionStatus(int wert) {
     if (this.funktionStatus != wert) {
       this.funktionStatus = wert;
       this.eventFirer.fire(this);
@@ -267,14 +267,14 @@ public class Lok extends SingleIdEntity<String> implements Comparable<Lok> {
 
   }
 
-  public void setAktiv(boolean aktiv) {
+  public synchronized void setAktiv(boolean aktiv) {
     if (aktiv != this.aktiv) {
       this.aktiv = aktiv;
       this.eventFirer.fire(this);
     }
   }
 
-  public void reset() {
+  public synchronized void reset() {
     boolean changed = this.fahrstufe != 0 || this.rueckwaerts || this.licht || this.funktionStatus != 0 || this.aktiv;
     this.fahrstufe = 0;
     this.rueckwaerts = false;
@@ -292,7 +292,7 @@ public class Lok extends SingleIdEntity<String> implements Comparable<Lok> {
    *
    * @param kanal SX1-Kanal
    */
-  public void adjustTo(Kanal kanal) {
+  public synchronized void adjustTo(Kanal kanal) {
 
     if (this.systemTyp != SystemTyp.SX1) {
       throw new IllegalArgumentException("adjustTo(Kanal) kann nur für SX1-Loks aufgerufen werden");
@@ -331,7 +331,7 @@ public class Lok extends SingleIdEntity<String> implements Comparable<Lok> {
    *
    * @param kanal SX2-Kanal
    */
-  public void adjustTo(SX2Kanal kanal) {
+  public synchronized void adjustTo(SX2Kanal kanal) {
 
     if (this.systemTyp == SystemTyp.SX1) {
       throw new IllegalArgumentException("adjustTo(SX2Kanal) darf nicht für SX1-Loks aufgerufen werden");
