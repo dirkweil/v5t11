@@ -117,7 +117,8 @@ public class StellwerkMain extends JFrame {
 
       validate();
 
-    } catch (Exception e) {
+    }
+    catch (Exception e) {
       log.error("Kann Anwendung nicht initialisieren", e);
       terminate();
     }
@@ -125,7 +126,7 @@ public class StellwerkMain extends JFrame {
   }
 
   private void refreshPowerButton() {
-    boolean aktiv = leitstand.getZentrale().isAktiv();
+    boolean aktiv = leitstand.getZentrale().isGleisspannung();
     if (aktiv) {
       boolean kurzschluss = leitstand.getZentrale().isKurzschluss();
       powerButton.setIcon(kurzschluss ? ICON_KURZSCHLUSS : ICON_SCHALTER_EIN);
@@ -135,14 +136,15 @@ public class StellwerkMain extends JFrame {
   }
 
   private void powerButtonClicked() {
-    this.zentraleResourceClient.putGleisspannung(!leitstand.getZentrale().isAktiv());
+    this.zentraleResourceClient.putGleisspannung(!leitstand.getZentrale().isGleisspannung());
   }
 
   private void terminate() {
     if (container != null) {
       try {
         container.close();
-      } catch (Exception e) {
+      }
+      catch (Exception e) {
         // ignore
       }
     }
@@ -168,7 +170,8 @@ public class StellwerkMain extends JFrame {
 
     try {
       UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-    } catch (Exception e) {
+    }
+    catch (Exception e) {
       // Ignore
     }
 
@@ -179,7 +182,8 @@ public class StellwerkMain extends JFrame {
       log.info("Stellwerk gestartet für Bereiche " + leitstand.getBereiche());
 
       new StellwerkMain();
-    } catch (Exception e) {
+    }
+    catch (Exception e) {
 
       // TODO Meecrowave scheint die Logger beim Shutdown zu schliessen
       if (log.isErrorEnabled()) {

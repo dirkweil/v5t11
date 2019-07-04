@@ -11,14 +11,14 @@ import lombok.ToString;
 public class Zentrale implements StatusUpdateable<Zentrale> {
   @Getter(onMethod_ = @JsonbInclude)
   @Setter(onMethod_ = @JsonbInclude)
-  private boolean aktiv;
+  private boolean gleisspannung;
 
   @Getter(onMethod_ = @JsonbInclude)
   @Setter(onMethod_ = @JsonbInclude)
   private boolean kurzschluss;
 
   public void copyStatus(Zentrale statusZentrale) {
-    this.aktiv = statusZentrale.aktiv;
+    this.gleisspannung = statusZentrale.gleisspannung;
     this.kurzschluss = statusZentrale.kurzschluss;
   }
 }
