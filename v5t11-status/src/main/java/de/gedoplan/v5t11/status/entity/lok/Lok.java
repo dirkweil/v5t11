@@ -309,18 +309,20 @@ public class Lok extends SingleIdEntity<String> implements Comparable<Lok> {
       setAktiv(true);
     }
 
-    setFahrstufe(wert & 0b0001_1111);
+    if (this.aktiv) {
+      setFahrstufe(wert & 0b0001_1111);
 
-    setRueckwaerts((wert & 0b0010_0000) != 0);
+      setRueckwaerts((wert & 0b0010_0000) != 0);
 
-    setLicht((wert & 0b0100_0000) != 0);
+      setLicht((wert & 0b0100_0000) != 0);
 
-    boolean horn = (wert & 0b1000_0000) != 0;
-    this.funktionConfigs.entrySet().forEach(entry -> {
-      if (entry.getValue().isHorn()) {
-        setFunktion(entry.getKey(), horn);
-      }
-    });
+      boolean horn = (wert & 0b1000_0000) != 0;
+      this.funktionConfigs.entrySet().forEach(entry -> {
+        if (entry.getValue().isHorn()) {
+          setFunktion(entry.getKey(), horn);
+        }
+      });
+    }
   }
 
   /**
@@ -339,16 +341,20 @@ public class Lok extends SingleIdEntity<String> implements Comparable<Lok> {
       throw new IllegalArgumentException("adjustTo(SX2Kanal) fuer falsche Adresse aufgerufen");
     }
 
-    // Wenn hier etwas gemeldet wird, ist die Lok wohl aktiv
-    setAktiv(true);
+    // Falls irgendwas außer Grundzustand gemeldet wird, ist die Lok wohl aktiv
+    if (kanal.getFahrstufe() != 0 || kanal.isRueckwaerts() || kanal.isLicht() || kanal.getFunktionStatus() != 0) {
+      setAktiv(true);
+    }
 
-    setFahrstufe(kanal.getFahrstufe());
+    if (this.aktiv) {
+      setFahrstufe(kanal.getFahrstufe());
 
-    setRueckwaerts(kanal.isRueckwaerts());
+      setRueckwaerts(kanal.isRueckwaerts());
 
-    setLicht(kanal.isLicht());
+      setLicht(kanal.isLicht());
 
-    setFunktionStatus(kanal.getFunktionStatus());
+      setFunktionStatus(kanal.getFunktionStatus());
+    }
   }
 
   @Embeddable
