@@ -42,10 +42,10 @@
   </context-param>
 
   <!-- PrimeFaces Theme -->
-<!--   <context-param> -->
-<!--     <param-name>primefaces.THEME</param-name> -->
-<!--     <param-value>bootstrap</param-value> -->
-<!--   </context-param> -->
+  <context-param>
+    <param-name>primefaces.THEME</param-name>
+    <param-value>afterwork</param-value>
+  </context-param>
 
   <!-- Welcome page -->
   <welcome-file-list>
