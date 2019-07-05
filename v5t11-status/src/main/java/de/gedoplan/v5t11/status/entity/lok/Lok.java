@@ -257,19 +257,18 @@ public class Lok extends SingleIdEntity<String> implements Comparable<Lok> {
   }
 
   public void setFunktion(int fn, boolean on) {
-    if (!this.funktionConfigs.containsKey(fn)) {
-      throw new IllegalArgumentException("Ungültige Funktion: " + fn);
-    }
+    if (this.funktionConfigs.containsKey(fn)) {
 
-    int wert = this.funktionStatus;
-    int mask = (1 << (fn - 1));
-    if (on) {
-      wert |= mask;
-    } else {
-      wert &= ~mask;
-    }
+      int wert = this.funktionStatus;
+      int mask = (1 << (fn - 1));
+      if (on) {
+        wert |= mask;
+      } else {
+        wert &= ~mask;
+      }
 
-    setFunktionStatus(wert);
+      setFunktionStatus(wert);
+    }
   }
 
   private void setFunktionStatus(int wert) {

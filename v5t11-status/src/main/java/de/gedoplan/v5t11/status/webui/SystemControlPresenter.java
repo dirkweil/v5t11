@@ -264,7 +264,7 @@ public class SystemControlPresenter implements Serializable {
       }
 
       for (int i = 1; i <= 16; ++i) {
-        if (this.lok.getFunktionConfigs().containsKey(i) && (this.lok.getFunktionStatus() & (i - 1)) != 0) {
+        if (this.lok.getFunktion(i)) {
           funktionen.add(i);
         }
       }
@@ -277,9 +277,7 @@ public class SystemControlPresenter implements Serializable {
       this.lok.setLicht(funktionen.contains(0));
 
       for (int i = 1; i <= 16; ++i) {
-        if (this.lok.getFunktionConfigs().containsKey(i)) {
-          this.lok.setFunktion(i, funktionen.contains(i));
-        }
+        this.lok.setFunktion(i, funktionen.contains(i));
       }
     }
   }
