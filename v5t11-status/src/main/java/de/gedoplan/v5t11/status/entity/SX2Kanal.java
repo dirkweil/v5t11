@@ -11,6 +11,9 @@ import lombok.Getter;
 public class SX2Kanal {
 
   @Getter
+  private int index;
+
+  @Getter
   private SystemTyp systemTyp;
 
   @Getter
@@ -28,7 +31,8 @@ public class SX2Kanal {
   @Getter
   private int funktionStatus;
 
-  public SX2Kanal(byte formatCode, byte adrHigh, byte adrLowLicht, byte rueckwaertsFahrstufe, byte funktion1_8, byte funktion9_16) {
+  public SX2Kanal(int index, byte formatCode, byte adrHigh, byte adrLowLicht, byte rueckwaertsFahrstufe, byte funktion1_8, byte funktion9_16) {
+    this.index = index;
     this.systemTyp = SystemTyp.valueOf(formatCode & 0x0f);
     if (this.systemTyp != SystemTyp.SX1) {
       this.adresse = decodeAdresse(this.systemTyp, adrHigh, adrLowLicht);
@@ -136,7 +140,8 @@ public class SX2Kanal {
 
   @Override
   public String toString() {
-    return String.format("SX2Kanal [systemTyp=%s, adresse=%d, licht=%b, rueckwaerts=%b, fahrstufe=%d, funktionStatus=0x%04x]", this.systemTyp, this.adresse, this.licht, this.rueckwaerts,
+    return String.format("SX2Kanal [index=%d, systemTyp=%s, adresse=%d, licht=%b, rueckwaerts=%b, fahrstufe=%d, funktionStatus=0x%04x]", this.index, this.systemTyp, this.adresse, this.licht,
+        this.rueckwaerts,
         this.fahrstufe,
         this.funktionStatus);
   }

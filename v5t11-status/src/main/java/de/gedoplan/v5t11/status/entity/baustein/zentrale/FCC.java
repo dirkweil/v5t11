@@ -245,20 +245,13 @@ public class FCC extends Zentrale {
           || blockDaten[offset + BUSEXT_OFFSET_FUNKTION_9_16] != blockDatenAlt[offset + BUSEXT_OFFSET_FUNKTION_9_16]) {
         if (blockDaten[offset + BUSEXT_OFFSET_FORMAT] != SystemTyp.SX1.getFormatCode()) {
           this.eventFirer.fire(new SX2Kanal(
+              idx,
               blockDaten[offset + BUSEXT_OFFSET_FORMAT],
               blockDaten[offset + BUSEXT_OFFSET_ADR_HIGH],
               blockDaten[offset + BUSEXT_OFFSET_ADR_LOW_LICHT],
               blockDaten[offset + BUSEXT_OFFSET_RUECKWAERTS_FAHRSTUFE],
               blockDaten[offset + BUSEXT_OFFSET_FUNKTION_1_8],
               blockDaten[offset + BUSEXT_OFFSET_FUNKTION_9_16]));
-          // } else {
-          // this.eventFirer.fire(new SX2Kanal(
-          // blockDaten[offset + BUSEXT_OFFSET_FORMAT],
-          // blockDatenAlt[offset + BUSEXT_OFFSET_ADR_HIGH],
-          // blockDatenAlt[offset + BUSEXT_OFFSET_ADR_LOW_LICHT],
-          // blockDatenAlt[offset + BUSEXT_OFFSET_RUECKWAERTS_FAHRSTUFE],
-          // blockDatenAlt[offset + BUSEXT_OFFSET_FUNKTION_1_8],
-          // blockDatenAlt[offset + BUSEXT_OFFSET_FUNKTION_9_16]));
         }
       }
     }
@@ -458,49 +451,59 @@ public class FCC extends Zentrale {
   }
 
   private int sx2Anmelden(Lok lok) {
-    if (this.log.isDebugEnabled()) {
-      this.log.debug("Lok anmelden: " + lok);
+    synchronized (Zentrale.class) {
+      if (this.log.isDebugEnabled()) {
+        this.log.debug("Lok anmelden: " + lok);
+      }
+
+      byte[] wert = SX2Kanal.encodeAdresse(lok.getSystemTyp(), lok.getAdresse());
+      int idx = send(new byte[] { 0x79, 0x01, wert[1], wert[0], (byte) lok.getSystemTyp().getFormatCode() }, ack -> ack >= 0 && ack <= BUSEXT_MAX_IDX);
+
+      if (this.log.isDebugEnabled()) {
+        this.log.debug("Lok " + lok + " hat Index " + idx);
+      }
+
+      return idx;
     }
-
-    byte[] wert = SX2Kanal.encodeAdresse(lok.getSystemTyp(), lok.getAdresse());
-    int idx = send(new byte[] { 0x79, 0x01, wert[1], wert[0], (byte) lok.getSystemTyp().getFormatCode() }, ack -> ack >= 0 && ack <= BUSEXT_MAX_IDX);
-
-    if (this.log.isDebugEnabled()) {
-      this.log.debug("Lok " + lok + " hat Index " + idx);
-    }
-
-    return idx;
   }
 
   private void sx2Abmelden(int idx) {
-    if (this.log.isDebugEnabled()) {
-      this.log.debug("Lok abmelden: idx=" + idx);
+    synchronized (Zentrale.class) {
+      if (this.log.isDebugEnabled()) {
+        this.log.debug("Lok abmelden: idx=" + idx);
+      }
+      send(new byte[] { 0x79, 0x02, (byte) idx, 0x00, 0x00 }, null);
     }
-    send(new byte[] { 0x79, 0x02, (byte) idx, 0x00, 0x00 }, null);
   }
 
   private void setSX2Funktionen(int idx, int funktionStatus) {
-    if (this.log.isDebugEnabled()) {
-      this.log.debug(String.format("Lok-Funktionen setzen: idx=%d, f=0x%04x", idx, funktionStatus));
+    synchronized (Zentrale.class) {
+      if (this.log.isDebugEnabled()) {
+        this.log.debug(String.format("Lok-Funktionen setzen: idx=%d, f=0x%04x", idx, funktionStatus));
+      }
+      byte f1_8 = (byte) (funktionStatus & 0x00ff);
+      byte f9_16 = (byte) ((funktionStatus >>> 8) & 0x00ff);
+      send(new byte[] { 0x79, 0x16, (byte) idx, f1_8, f9_16 }, null);
     }
-    byte f1_8 = (byte) (funktionStatus & 0x00ff);
-    byte f9_16 = (byte) ((funktionStatus >>> 8) & 0x00ff);
-    send(new byte[] { 0x79, 0x16, (byte) idx, f1_8, f9_16 }, null);
   }
 
   private void setSX2Licht(int idx, boolean licht) {
-    if (this.log.isDebugEnabled()) {
-      this.log.debug(String.format("Lok-Licht setzen: idx=%d, licht=%b", idx, licht));
+    synchronized (Zentrale.class) {
+      if (this.log.isDebugEnabled()) {
+        this.log.debug(String.format("Lok-Licht setzen: idx=%d, licht=%b", idx, licht));
+      }
+      byte wert = licht ? (byte) 0x02 : (byte) 0x00;
+      send(new byte[] { 0x79, 0x05, (byte) idx, wert, 0x00 }, null);
     }
-    byte wert = licht ? (byte) 0x02 : (byte) 0x00;
-    send(new byte[] { 0x79, 0x05, (byte) idx, wert, 0x00 }, null);
   }
 
   private void setSX2FahrstufeUndRichtung(int idx, int wert) {
-    if (this.log.isDebugEnabled()) {
-      this.log.debug(String.format("Lok-Fahrstufe und Richtung setzen: idx=%d, fahrstufe=%d, rückwärts=%b", idx, wert & 0x7f, (wert & 0x80) != 0));
+    synchronized (Zentrale.class) {
+      if (this.log.isDebugEnabled()) {
+        this.log.debug(String.format("Lok-Fahrstufe und Richtung setzen: idx=%d, fahrstufe=%d, rückwärts=%b", idx, wert & 0x7f, (wert & 0x80) != 0));
+      }
+      send(new byte[] { 0x79, 0x13, (byte) idx, (byte) wert, 0x00 }, null);
     }
-    send(new byte[] { 0x79, 0x13, (byte) idx, (byte) wert, 0x00 }, null);
   }
 
   private int findSx2BusSlot(Lok lok) {
