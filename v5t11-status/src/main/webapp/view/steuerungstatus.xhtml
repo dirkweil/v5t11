@@ -1,120 +1,115 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:c="http://java.sun.com/jsp/jstl/core"
-  xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:prime="http://primefaces.org/ui">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+  xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:p="http://primefaces.org/ui">
 
-<h:head>
-  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-  <title>V5T11: Status</title>
-</h:head>
+<ui:composition template="/WEB-INF/templates/v5t11.xhtml">
+  <ui:param name="title" value="System Status" />
+  <ui:define name="content">
+    <h:form>
+      <p:commandButton ajax="false" value="refresh" icon="fa fa-refresh" />
+    </h:form>
 
-<h:body>
-  <h:form>
-    <h:commandButton value="refresh" />
-  </h:form>
+    <p:tabView>
+      <p:tab title="Zentrale">
+        <h:outputLabel value="Gleisspannung: " for="gleisspannung" />
+        <h:outputText value="#{steuerungsstatusModel.zentrale.gleisspannung}" id="gleisspannung" />
+      </p:tab>
 
-  <hr />
+      <p:tab title="Loks">
+        <p:dataTable var="lok" value="#{steuerungsstatusModel.loks}" rules="all">
+          <p:column>
+            <f:facet name="header">Lok</f:facet>
+            <h:outputText value="#{lok.id}" />
+          </p:column>
+          <p:column>
+            <f:facet name="header">Adresse</f:facet>
+            <h:outputText value="#{lok.systemTyp}: #{lok.adresse}" />
+          </p:column>
+          <p:column>
+            <f:facet name="header">Fahrstufe</f:facet>
+            <h:outputText value="#{lok.fahrstufe} (max. #{lok.maxFahrstufe})" />
+          </p:column>
+          <p:column>
+            <f:facet name="header">rückwärts</f:facet>
+            <h:outputText value="#{lok.rueckwaerts}" />
+          </p:column>
+          <p:column>
+            <f:facet name="header">Licht</f:facet>
+            <h:outputText value="#{lok.licht}" />
+          </p:column>
+        </p:dataTable>
+      </p:tab>
 
-  <prime:tabView>
-    <prime:tab title="Zentrale">
-      <h:outputLabel value="Gleisspannung: " for="gleisspannung" />
-      <h:outputText value="#{steuerungsstatusModel.zentrale.gleisspannung}" id="gleisspannung" />
-    </prime:tab>
+      <p:tab title="Weichen">
+        <p:scrollPanel style="width:100%" mode="native">
+          <!-- TODO: Vertical Alignment = Top -->
+          <p:dataGrid var="bereich" value="#{steuerungsstatusModel.bereiche}" columns="4">
+            <p:panel header="#{bereich}">
+              <!-- Achtung: p:dataTable wertet getWeichen(String) nicht korrekt aus; daher 'nur' h:dataTable -->
+              <h:dataTable var="weiche" value="#{steuerungsstatusModel.getWeichen(bereich)}" rules="all">
+                <h:column>
+                  <f:facet name="header">Weiche</f:facet>
+                  <h:outputText value="#{weiche.bereich}/#{weiche.name}" />
+                </h:column>
+                <h:column>
+                  <f:facet name="header">Adresse</f:facet>
+                  <h:outputText value="#{weiche.funktionsdecoderZuordnung}" />
+                </h:column>
+                <h:column>
+                  <f:facet name="header">Stellung</f:facet>
+                  <h:outputText value="#{weiche.stellung.toString()}" />
+                </h:column>
+              </h:dataTable>
+            </p:panel>
+          </p:dataGrid>
+        </p:scrollPanel>
+      </p:tab>
 
-    <prime:tab title="Loks">
-      <prime:dataTable var="lok" value="#{steuerungsstatusModel.loks}" rules="all">
-        <prime:column>
-          <f:facet name="header">Lok</f:facet>
-          <h:outputText value="#{lok.id}" />
-        </prime:column>
-        <prime:column>
-          <f:facet name="header">Adresse</f:facet>
-          <h:outputText value="#{lok.systemTyp}: #{lok.adresse}" />
-        </prime:column>
-        <prime:column>
-          <f:facet name="header">Fahrstufe</f:facet>
-          <h:outputText value="#{lok.fahrstufe} (max. #{lok.maxFahrstufe})" />
-        </prime:column>
-        <prime:column>
-          <f:facet name="header">rückwärts</f:facet>
-          <h:outputText value="#{lok.rueckwaerts}" />
-        </prime:column>
-        <prime:column>
-          <f:facet name="header">Licht</f:facet>
-          <h:outputText value="#{lok.licht}" />
-        </prime:column>
-      </prime:dataTable>
-    </prime:tab>
+      <p:tab title="Signale">
+        <!-- TODO: Vertical Alignment = Top -->
+        <p:dataGrid var="bereich" value="#{steuerungsstatusModel.bereiche}" columns="4">
+          <p:panel header="#{bereich}">
+            <!-- Achtung: p:dataTable wertet getWeichen(String) nicht korrekt aus; daher 'nur' h:dataTable -->
+            <h:dataTable var="signal" value="#{steuerungsstatusModel.getSignale(bereich)}" rules="all">
+              <h:column>
+                <f:facet name="header">Signal</f:facet>
+                <h:outputText value="#{signal.bereich}/#{signal.name}" />
+              </h:column>
+              <h:column>
+                <f:facet name="header">Adresse</f:facet>
+                <h:outputText value="#{signal.funktionsdecoderZuordnung}" />
+              </h:column>
+              <h:column>
+                <f:facet name="header">Stellung</f:facet>
+                <h:outputText value="#{signal.stellung.toString()}" />
+              </h:column>
+            </h:dataTable>
+          </p:panel>
+        </p:dataGrid>
+      </p:tab>
 
-    <prime:tab title="Weichen">
-      <prime:scrollPanel style="width:100%" mode="native">
-      <!-- TODO: Vertical Alignment = Top -->
-      <prime:dataGrid var="bereich" value="#{steuerungsstatusModel.bereiche}" columns="4">
-        <prime:panel header="#{bereich}">
-          <!-- Achtung: prime:dataTable wertet getWeichen(String) nicht korrekt aus; daher 'nur' h:dataTable -->
-          <h:dataTable var="weiche" value="#{steuerungsstatusModel.getWeichen(bereich)}" rules="all">
-            <h:column>
-              <f:facet name="header">Weiche</f:facet>
-              <h:outputText value="#{weiche.bereich}/#{weiche.name}" />
-            </h:column>
-            <h:column>
-              <f:facet name="header">Adresse</f:facet>
-              <h:outputText value="#{weiche.funktionsdecoderZuordnung}" />
-            </h:column>
-            <h:column>
-              <f:facet name="header">Stellung</f:facet>
-              <h:outputText value="#{weiche.stellung.toString()}" />
-            </h:column>
-          </h:dataTable>
-        </prime:panel>
-      </prime:dataGrid>
-      </prime:scrollPanel>
-    </prime:tab>
-
-    <prime:tab title="Signale">
-      <!-- TODO: Vertical Alignment = Top -->
-      <prime:dataGrid var="bereich" value="#{steuerungsstatusModel.bereiche}" columns="4">
-        <prime:panel header="#{bereich}">
-          <!-- Achtung: prime:dataTable wertet getWeichen(String) nicht korrekt aus; daher 'nur' h:dataTable -->
-          <h:dataTable var="signal" value="#{steuerungsstatusModel.getSignale(bereich)}" rules="all">
-            <h:column>
-              <f:facet name="header">Signal</f:facet>
-              <h:outputText value="#{signal.bereich}/#{signal.name}" />
-            </h:column>
-            <h:column>
-              <f:facet name="header">Adresse</f:facet>
-              <h:outputText value="#{signal.funktionsdecoderZuordnung}" />
-            </h:column>
-            <h:column>
-              <f:facet name="header">Stellung</f:facet>
-              <h:outputText value="#{signal.stellung.toString()}" />
-            </h:column>
-          </h:dataTable>
-        </prime:panel>
-      </prime:dataGrid>
-    </prime:tab>
-
-    <prime:tab title="Gleise">
-      <!-- TODO: Vertical Alignment = Top -->
-      <prime:dataGrid var="bereich" value="#{steuerungsstatusModel.bereiche}" columns="4">
-        <prime:panel header="#{bereich}">
-          <!-- Achtung: prime:dataTable wertet getWeichen(String) nicht korrekt aus; daher 'nur' h:dataTable -->
-          <h:dataTable var="gleis" value="#{steuerungsstatusModel.getGleisabschnitte(bereich)}" rules="all">
-            <h:column>
-              <f:facet name="header">Gleisabschnitt</f:facet>
-              <h:outputText value="#{gleis.bereich}/#{gleis.name}" />
-            </h:column>
-            <h:column>
-              <f:facet name="header">Adresse</f:facet>
-              <h:outputText value="#{gleis.besetztmelder.adresse}/#{gleis.anschluss}" />
-            </h:column>
-            <h:column>
-              <f:facet name="header">besetzt</f:facet>
-              <h:outputText value="#{gleis.besetzt}" />
-            </h:column>
-          </h:dataTable>
-        </prime:panel>
-      </prime:dataGrid>
-    </prime:tab>
-  </prime:tabView>
-
-</h:body>
+      <p:tab title="Gleise">
+        <!-- TODO: Vertical Alignment = Top -->
+        <p:dataGrid var="bereich" value="#{steuerungsstatusModel.bereiche}" columns="4">
+          <p:panel header="#{bereich}">
+            <!-- Achtung: p:dataTable wertet getWeichen(String) nicht korrekt aus; daher 'nur' h:dataTable -->
+            <h:dataTable var="gleis" value="#{steuerungsstatusModel.getGleisabschnitte(bereich)}" rules="all">
+              <h:column>
+                <f:facet name="header">Gleisabschnitt</f:facet>
+                <h:outputText value="#{gleis.bereich}/#{gleis.name}" />
+              </h:column>
+              <h:column>
+                <f:facet name="header">Adresse</f:facet>
+                <h:outputText value="#{gleis.besetztmelder.adresse}/#{gleis.anschluss}" />
+              </h:column>
+              <h:column>
+                <f:facet name="header">besetzt</f:facet>
+                <h:outputText value="#{gleis.besetzt}" />
+              </h:column>
+            </h:dataTable>
+          </p:panel>
+        </p:dataGrid>
+      </p:tab>
+    </p:tabView>
+  </ui:define>
+</ui:composition>
 </html>
