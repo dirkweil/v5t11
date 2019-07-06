@@ -2,19 +2,19 @@
 <faces-config version="2.3" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
   <navigation-rule>
-    <from-view-id>/view/bausteinProgrammierung.xhtml</from-view-id>
+    <from-view-id>/view/compProg.xhtml</from-view-id>
     <navigation-case>
       <from-outcome>openProgMode</from-outcome>
-      <to-view-id>/view/bausteinProgrammierung_openProgMode.xhtml</to-view-id>
+      <to-view-id>/view/compProg_openProgMode.xhtml</to-view-id>
       <redirect />
     </navigation-case>
   </navigation-rule>
 
   <navigation-rule>
-    <from-view-id>/view/bausteinProgrammierung_*</from-view-id>
+    <from-view-id>/view/compProg_*</from-view-id>
     <navigation-case>
       <from-outcome>closeProgMode</from-outcome>
-      <to-view-id>/view/bausteinProgrammierung_closeProgMode.xhtml</to-view-id>
+      <to-view-id>/view/compProg_closeProgMode.xhtml</to-view-id>
       <redirect />
     </navigation-case>
   </navigation-rule>
@@ -22,8 +22,8 @@
   <navigation-rule>
     <from-view-id>*</from-view-id>
     <navigation-case>
-      <from-outcome>bausteinProgrammierung</from-outcome>
-      <to-view-id>/view/bausteinProgrammierung.xhtml</to-view-id>
+      <from-outcome>compProg</from-outcome>
+      <to-view-id>/view/compProg.xhtml</to-view-id>
       <redirect />
     </navigation-case>
   </navigation-rule>
