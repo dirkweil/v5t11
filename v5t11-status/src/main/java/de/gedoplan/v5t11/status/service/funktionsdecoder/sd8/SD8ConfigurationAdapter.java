@@ -42,12 +42,16 @@ public class SD8ConfigurationAdapter extends ConfigurationAdapter {
     private ConfigurationPropertyAdapter<Integer> start;
     private ConfigurationPropertyAdapter<Integer> ende;
     private ConfigurationPropertyAdapter<Integer> geschwindigkeit;
+    private ConfigurationPropertyAdapter<Integer> startNachwippen;
+    private ConfigurationPropertyAdapter<Integer> endeNachwippen;
 
     public ServoConfiguration(int servoNummer, Map<String, String> istProperties, Map<String, String> sollProperties) {
       this.servoNummer = servoNummer;
       this.start = new ConfigurationPropertyAdapter<>(istProperties, "start_" + servoNummer, 50, sollProperties, Integer.class);
       this.ende = new ConfigurationPropertyAdapter<>(istProperties, "ende_" + servoNummer, 80, sollProperties, Integer.class);
       this.geschwindigkeit = new ConfigurationPropertyAdapter<>(istProperties, "geschwindigkeit_" + servoNummer, 50, sollProperties, Integer.class);
+      this.startNachwippen = new ConfigurationPropertyAdapter<>(istProperties, "startWippen_" + servoNummer, 0, sollProperties, Integer.class);
+      this.endeNachwippen = new ConfigurationPropertyAdapter<>(istProperties, "endeWippen_" + servoNummer, 0, sollProperties, Integer.class);
     }
 
     public void resetToSoll() {

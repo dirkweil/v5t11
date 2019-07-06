@@ -45,13 +45,19 @@ public class SD8RuntimeService extends ConfigurationRuntimeService {
     this.configuration.clearAdresseDirty();
 
     for (ServoConfiguration servo : this.configuration.getServoConfiguration()) {
-      int parameterNummer = (servo.getServoNummer() + 1) * 3 - 1;
-      servo.getStart().setIst(getParameter(parameterNummer));
+      int parameterOffsetStart = 2 + servo.getServoNummer() * 3;
+      servo.getStart().setIst(getParameter(parameterOffsetStart));
       servo.getStart().clearDirty();
-      servo.getEnde().setIst(getParameter(parameterNummer + 1));
+      servo.getEnde().setIst(getParameter(parameterOffsetStart + 1));
       servo.getEnde().clearDirty();
-      servo.getGeschwindigkeit().setIst(getParameter(parameterNummer + 2));
+      servo.getGeschwindigkeit().setIst(getParameter(parameterOffsetStart + 2));
       servo.getGeschwindigkeit().clearDirty();
+
+      int parameterOffsetStartNachwippen = 27 + servo.getServoNummer() * 2;
+      servo.getStartNachwippen().setIst(getParameter(parameterOffsetStartNachwippen));
+      servo.getStartNachwippen().clearDirty();
+      servo.getEndeNachwippen().setIst(getParameter(parameterOffsetStartNachwippen + 1));
+      servo.getEndeNachwippen().clearDirty();
     }
 
     this.configuration.getAbschaltZeit().setIst(getParameter(26));

@@ -79,6 +79,8 @@ public class CompProgPresenter implements Serializable {
   @Getter
   private ConfigurationAdapter configuration;
 
+  private String progViewOutcome;
+
   /**
    * Aktuellen Baustein wählen und Programm-Session beginnen.
    *
@@ -97,7 +99,34 @@ public class CompProgPresenter implements Serializable {
       this.conversation.begin();
     }
 
-    return "openProgMode";
+    try {
+      // "Injektion" des passenden ConfigurationRuntimeService per API
+      Class<? extends Baustein> bausteinClass = this.currentBaustein.getClass();
+      Class<?> programmierfamilie = bausteinClass.getAnnotation(Konfigurierbar.class).programmierFamilie();
+      if (programmierfamilie == Void.class) {
+        programmierfamilie = bausteinClass;
+      }
+      this.configurationRuntimeService = CDI.current().select(ConfigurationRuntimeService.class, new Programmierfamilie.Literal(programmierfamilie)).get();
+      this.progViewOutcome = "/view/compProg_" + programmierfamilie.getSimpleName() + "?faces-redirect=true";
+
+      this.configurationRuntimeService.saveProgKanalWerte();
+
+      return "openProgMode";
+    }
+    catch (Exception e) {
+      this.log.error("Kann ConfigurationRuntimeService nicht erzeugen", e);
+
+      String message = e.getMessage();
+      if (message == null || message.trim().isEmpty()) {
+        message = e.toString();
+      }
+
+      FacesMessage facesMessage = new FacesMessage(message);
+      facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
+      FacesContext.getCurrentInstance().addMessage(null, facesMessage);
+    }
+
+    return null;
   }
 
   public String getOpenProgModeMessage() {
@@ -118,36 +147,14 @@ public class CompProgPresenter implements Serializable {
   public String edit() {
     if (this.currentBaustein != null) {
 
-      try {
-        // "Injektion" des passenden ConfigurationRuntimeService per API
-        Class<? extends Baustein> bausteinClass = this.currentBaustein.getClass();
-        Class<?> programmierfamilie = bausteinClass.getAnnotation(Konfigurierbar.class).programmierFamilie();
-        if (programmierfamilie == Void.class) {
-          programmierfamilie = bausteinClass;
-        }
-        this.configurationRuntimeService = CDI.current().select(ConfigurationRuntimeService.class, new Programmierfamilie.Literal(programmierfamilie)).get();
+      // Aktuelle Ist-Werte holen
+      this.configurationRuntimeService.getRuntimeValues();
 
-        // Aktuelle Ist-Werte holen
-        this.configurationRuntimeService.getRuntimeValues();
+      // Config-Werte für Zugriff aus Webseite bereitstellen
+      this.configuration = this.configurationRuntimeService.getConfiguration();
 
-        // Config-Werte für Zugriff aus Webseite bereitstellen
-        this.configuration = this.configurationRuntimeService.getConfiguration();
-
-        // In passende View navigieren
-        return "/view/compProg_" + programmierfamilie.getSimpleName() + "?faces-redirect=true";
-      }
-      catch (Exception e) {
-        this.log.error("Kann ConfigurationRuntimeService nicht erzeugen", e);
-
-        String message = e.getMessage();
-        if (message == null || message.trim().isEmpty()) {
-          message = e.toString();
-        }
-
-        FacesMessage facesMessage = new FacesMessage(message);
-        facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
-        FacesContext.getCurrentInstance().addMessage(null, facesMessage);
-      }
+      // In passende View navigieren
+      return this.progViewOutcome;
     }
 
     return null;

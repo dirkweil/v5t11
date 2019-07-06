@@ -54,6 +54,20 @@
             <p:inputText value="#{compProgPresenter.configuration.servoConfiguration[servoNr].geschwindigkeit.ist}" id="istGeschwindigkeit" />
             <p:message for="istGeschwindigkeit" />
             <h:panelGroup />
+
+            <p:outputLabel for="sollStartWippen" value="Nachwippen am Start: " />
+            <p:inputText id="sollStartWippen" value="#{compProgPresenter.configuration.servoConfiguration[servoNr].startNachwippen.soll}" readonly="true" />
+            <p:commandButton value=">" action="#{compProgPresenter.configuration.servoConfiguration[servoNr].startNachwippen.resetToSoll()}" ajax="false" />
+            <p:inputText value="#{compProgPresenter.configuration.servoConfiguration[servoNr].startNachwippen.ist}" id="istStartWippen" />
+            <p:message for="istStartWippen" />
+            <h:panelGroup />
+
+            <p:outputLabel for="sollEndeWippen" value="Nachwippen am Ende: " />
+            <p:inputText id="sollEndeWippen" value="#{compProgPresenter.configuration.servoConfiguration[servoNr].endeNachwippen.soll}" readonly="true" />
+            <p:commandButton value=">" action="#{compProgPresenter.configuration.servoConfiguration[servoNr].endeNachwippen.resetToSoll()}" ajax="false" />
+            <p:inputText value="#{compProgPresenter.configuration.servoConfiguration[servoNr].endeNachwippen.ist}" id="istEndeWippen" />
+            <p:message for="istEndeWippen" />
+            <h:panelGroup />
           </h:panelGrid>
         </p:tab>
       </c:forEach>

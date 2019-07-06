@@ -30,9 +30,12 @@ import de.gedoplan.v5t11.status.persistence.LokRepository;
 import de.gedoplan.v5t11.util.domain.entity.Bereichselement;
 
 import java.util.Collection;
+import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.ExecutorService;
 
 import javax.inject.Inject;
@@ -70,7 +73,8 @@ public class Steuerung {
   @Getter
   private Zentrale zentrale;
 
-  private Baustein[] kanalBausteine = new Baustein[256];
+  private Map<Integer, Baustein> kanalBausteine = new ConcurrentHashMap<>();
+  private Set<Integer> supressedKanaele = new CopyOnWriteArraySet<>();
 
   @XmlElementWrapper(name = "Lokcontroller")
   @XmlElements({
@@ -361,11 +365,11 @@ public class Steuerung {
 
   private void registerAdressen(Baustein baustein) {
     baustein.getAdressen().forEach(adr -> {
-      if (this.kanalBausteine[adr] != null) {
+      if (this.kanalBausteine.containsKey(adr)) {
         throw new IllegalArgumentException("Adresse " + adr + " mehrfach belegt");
       }
 
-      this.kanalBausteine[adr] = baustein;
+      this.kanalBausteine.put(adr, baustein);
     });
 
   }
@@ -453,14 +457,17 @@ public class Steuerung {
     int adr = kanal.getAdresse();
     int wert = kanal.getWert();
 
-    if (this.kanalBausteine[adr] != null) {
-      this.kanalBausteine[adr].adjustWert(adr, wert);
-      return;
-    }
+    if (this.supressedKanaele.contains(adr)) {
+      Baustein baustein = this.kanalBausteine.get(adr);
+      if (baustein != null) {
+        baustein.adjustWert(adr, wert);
+        return;
+      }
 
-    Lok lok = this.loks.get(SystemTyp.SX1, adr);
-    if (lok != null) {
-      lok.adjustTo(kanal);
+      Lok lok = this.loks.get(SystemTyp.SX1, adr);
+      if (lok != null) {
+        lok.adjustTo(kanal);
+      }
     }
   }
 
@@ -476,4 +483,11 @@ public class Steuerung {
     this.zentrale.awaitSync();
   }
 
+  public void addSuppressedKanal(int adr) {
+    this.supressedKanaele.add(adr);
+  }
+
+  public void removeSuppressedKanal(int adr) {
+    this.supressedKanaele.remove(adr);
+  }
 }
