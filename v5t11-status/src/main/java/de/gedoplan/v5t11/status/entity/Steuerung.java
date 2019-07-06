@@ -336,28 +336,28 @@ public class Steuerung {
     }
   }
 
-  // public void assignLokcontroller(String lokcontrollerId, String lokId) {
-  // Lokcontroller lokcontroller = getLokcontroller(lokcontrollerId);
-  // if (lokcontroller == null) {
-  // throw new IllegalArgumentException("Lokcontroller nicht gefunden: " + lokcontrollerId);
-  // }
-  //
-  // Lok lok = null;
-  // if (lokId != null) {
-  // lok = getLok(lokId);
-  // if (lok == null) {
-  // throw new IllegalArgumentException("Lok nicht gefunden: " + lokId);
-  // }
-  //
-  // for (Lokcontroller lc : getLokcontroller()) {
-  // if (!lc.equals(lokcontroller) && lok.equals(lc.getLok())) {
-  // lc.setLok(null);
-  // }
-  // }
-  // }
-  //
-  // lokcontroller.setLok(lok);
-  // }
+  public void assignLokcontroller(String lokcontrollerId, String lokId) {
+    Lokcontroller lokcontroller = getLokcontroller(lokcontrollerId);
+    if (lokcontroller == null) {
+      throw new IllegalArgumentException("Lokcontroller nicht gefunden: " + lokcontrollerId);
+    }
+
+    Lok lok = null;
+    if (lokId != null) {
+      lok = getLok(lokId);
+      if (lok == null) {
+        throw new IllegalArgumentException("Lok nicht gefunden: " + lokId);
+      }
+
+      for (Lokcontroller lc : getLokcontroller()) {
+        if (!lc.equals(lokcontroller) && lok.equals(lc.getLok())) {
+          lc.setLok(null);
+        }
+      }
+    }
+
+    lokcontroller.setLok(lok);
+  }
 
   private void registerAdressen(Baustein baustein) {
     baustein.getAdressen().forEach(adr -> {

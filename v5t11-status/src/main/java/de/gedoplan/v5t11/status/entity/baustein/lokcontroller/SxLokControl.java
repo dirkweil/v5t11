@@ -36,16 +36,18 @@ public class SxLokControl extends Lokcontroller {
   public static final int MASK_RICHTUNG = 0x20;
 
   /**
-   * Bitmaske für die Geschwindigkeit im Wert.
+   * Bitmaske für die Fahrstufe im Wert.
    */
-  public static final int MASK_GESCHWINDIGKEIT = 0x1F;
+  public static final int MASK_FAHRSTUFE = 0x1F;
 
   /**
-   * Maximalwert für die Geschwindigkeit.
+   * Maximalwert für die Fahrstufe.
    */
-  public static final int MAX_GESCHWINDIGKEIT = 31;
+  public static final int MAX_FAHRSTUFE = 31;
 
   private long invertMask;
+
+  private double fahrstufenFaktor;
 
   @Inject
   EventFirer eventFirer;
@@ -58,7 +60,7 @@ public class SxLokControl extends Lokcontroller {
    * Wert setzen: {@link #lok}.
    *
    * @param lok
-   *          Wert
+   *        Wert
    */
   @Override
   public void setLok(Lok lok) {
@@ -66,6 +68,8 @@ public class SxLokControl extends Lokcontroller {
 
       if (lok != null) {
         this.invertMask = 0;
+
+        this.fahrstufenFaktor = (double) lok.getMaxFahrstufe() / MAX_FAHRSTUFE;
       }
 
       this.lok = lok;
@@ -82,14 +86,15 @@ public class SxLokControl extends Lokcontroller {
   @Override
   public void adjustStatus() {
     if (this.lok != null) {
-      // boolean horn = (this.wert & MASK_HORN) != 0;
+      boolean horn = (this.wert & MASK_HORN) != 0;
       boolean licht = (this.wert & MASK_LICHT) != 0;
       boolean rueckwaerts = (this.wert & MASK_RICHTUNG) != 0;
-      int geschwindigkeit = (int) (this.wert & MASK_GESCHWINDIGKEIT);
+      int fahrstufe = (int) ((this.wert & MASK_FAHRSTUFE) * this.fahrstufenFaktor);
 
-      // this.lok.setLicht(licht);
-      // this.lok.setRueckwaerts(rueckwaerts);
-      // this.lok.setGeschwindigkeit(geschwindigkeit);
+      System.out.printf("%s: horn=%b, licht=%b, rueckwaerts=%b, fahrstufe=%d\n", this, horn, licht, rueckwaerts, fahrstufe);
+      this.lok.setLicht(licht);
+      this.lok.setRueckwaerts(rueckwaerts);
+      this.lok.setFahrstufe(fahrstufe);
     }
   }
 }
