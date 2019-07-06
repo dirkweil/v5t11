@@ -14,7 +14,7 @@ import javax.enterprise.inject.Model;
 import javax.inject.Inject;
 
 @Model
-public class SteuerungsstatusModel implements Serializable {
+public class SystemStatusPresenter implements Serializable {
   @Inject
   private Steuerung steuerung;
 
