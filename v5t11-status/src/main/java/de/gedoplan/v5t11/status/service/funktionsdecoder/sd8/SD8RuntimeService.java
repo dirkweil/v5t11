@@ -22,9 +22,7 @@ import lombok.Getter;
 @ConversationScoped
 @Programmierfamilie(SD8.class)
 public class SD8RuntimeService extends ConfigurationRuntimeService {
-  // TODO Kann das verkürzt werden?
-  // private static final int WAIT_MILLIS = 1000;
-  private static final int WAIT_MILLIS = 10;
+  private static final int WAIT_MILLIS = 1000;
 
   @Getter
   private SD8ConfigurationAdapter configuration;
@@ -33,7 +31,7 @@ public class SD8RuntimeService extends ConfigurationRuntimeService {
   public SD8RuntimeService(@Current Baustein baustein, BausteinConfigurationService bausteinConfigurationService) {
     BausteinConfiguration bausteinSollConfiguration = bausteinConfigurationService.getBausteinConfiguration(baustein);
     BausteinConfiguration bausteinIstConfiguration = new BausteinConfiguration(baustein.getId());
-    this.configuration = new SD8ConfigurationAdapter(bausteinIstConfiguration, bausteinSollConfiguration);
+    this.configuration = new SD8ConfigurationAdapter(bausteinIstConfiguration, bausteinSollConfiguration, this);
   }
 
   protected SD8RuntimeService() {
@@ -44,24 +42,26 @@ public class SD8RuntimeService extends ConfigurationRuntimeService {
     this.configuration.setAdresseIst(getParameter(0));
     this.configuration.clearAdresseDirty();
 
-    for (ServoConfiguration servo : this.configuration.getServoConfiguration()) {
-      int parameterOffsetStart = 2 + servo.getServoNummer() * 3;
-      servo.getStart().setIst(getParameter(parameterOffsetStart));
-      servo.getStart().clearDirty();
-      servo.getEnde().setIst(getParameter(parameterOffsetStart + 1));
-      servo.getEnde().clearDirty();
-      servo.getGeschwindigkeit().setIst(getParameter(parameterOffsetStart + 2));
-      servo.getGeschwindigkeit().clearDirty();
-
-      int parameterOffsetStartNachwippen = 27 + servo.getServoNummer() * 2;
-      servo.getStartNachwippen().setIst(getParameter(parameterOffsetStartNachwippen));
-      servo.getStartNachwippen().clearDirty();
-      servo.getEndeNachwippen().setIst(getParameter(parameterOffsetStartNachwippen + 1));
-      servo.getEndeNachwippen().clearDirty();
-    }
-
     this.configuration.getAbschaltZeit().setIst(getParameter(26));
     this.configuration.getAbschaltZeit().clearDirty();
+
+    // Die Servo-Parameter werden hier noch nicht gelesen, sondern "lazy" erst dann, wenn sie benutzt werden
+  }
+
+  public void getRuntimeValues(ServoConfiguration servo) {
+    int parameterOffsetStart = 2 + servo.getServoNummer() * 3;
+    servo.getStart().setIst(getParameter(parameterOffsetStart));
+    servo.getStart().clearDirty();
+    servo.getEnde().setIst(getParameter(parameterOffsetStart + 1));
+    servo.getEnde().clearDirty();
+    servo.getGeschwindigkeit().setIst(getParameter(parameterOffsetStart + 2));
+    servo.getGeschwindigkeit().clearDirty();
+
+    int parameterOffsetStartNachwippen = 27 + servo.getServoNummer() * 2;
+    servo.getStartNachwippen().setIst(getParameter(parameterOffsetStartNachwippen));
+    servo.getStartNachwippen().clearDirty();
+    servo.getEndeNachwippen().setIst(getParameter(parameterOffsetStartNachwippen + 1));
+    servo.getEndeNachwippen().clearDirty();
   }
 
   @Override
@@ -77,19 +77,31 @@ public class SD8RuntimeService extends ConfigurationRuntimeService {
     }
 
     for (ServoConfiguration servo : configuration.getServoConfiguration()) {
-      if (servoNummer < 0 || servoNummer == servo.getServoNummer()) {
-        int parameterNummer = (servo.getServoNummer() + 1) * 3 - 1;
-        if (servo.getStart().isDirty()) {
-          setParameter(parameterNummer, servo.getStart().getIst());
-          servo.getStart().clearDirty();
-        }
-        if (servo.getEnde().isDirty()) {
-          setParameter(parameterNummer + 1, servo.getEnde().getIst());
-          servo.getEnde().clearDirty();
-        }
-        if (servo.getGeschwindigkeit().isDirty()) {
-          setParameter(parameterNummer + 2, servo.getGeschwindigkeit().getIst());
-          servo.getGeschwindigkeit().clearDirty();
+      if (servo.isGelesen()) {
+        if (servoNummer < 0 || servoNummer == servo.getServoNummer()) {
+          int parameterOffsetStart = 2 + servo.getServoNummer() * 3;
+          if (servo.getStart().isDirty()) {
+            setParameter(parameterOffsetStart, servo.getStart().getIst());
+            servo.getStart().clearDirty();
+          }
+          if (servo.getEnde().isDirty()) {
+            setParameter(parameterOffsetStart + 1, servo.getEnde().getIst());
+            servo.getEnde().clearDirty();
+          }
+          if (servo.getGeschwindigkeit().isDirty()) {
+            setParameter(parameterOffsetStart + 2, servo.getGeschwindigkeit().getIst());
+            servo.getGeschwindigkeit().clearDirty();
+          }
+
+          int parameterOffsetStartNachwippen = 27 + servo.getServoNummer() * 2;
+          if (servo.getStartNachwippen().isDirty()) {
+            setParameter(parameterOffsetStartNachwippen, servo.getStartNachwippen().getIst());
+            servo.getStartNachwippen().clearDirty();
+          }
+          if (servo.getEndeNachwippen().isDirty()) {
+            setParameter(parameterOffsetStartNachwippen + 1, servo.getEndeNachwippen().getIst());
+            servo.getEndeNachwippen().clearDirty();
+          }
         }
       }
     }

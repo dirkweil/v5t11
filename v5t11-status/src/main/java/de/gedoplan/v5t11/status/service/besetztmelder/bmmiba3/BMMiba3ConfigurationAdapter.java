@@ -1,7 +1,6 @@
 package de.gedoplan.v5t11.status.service.besetztmelder.bmmiba3;
 
 import de.gedoplan.v5t11.status.entity.BausteinConfiguration;
-import de.gedoplan.v5t11.status.entity.baustein.Baustein;
 import de.gedoplan.v5t11.status.service.ConfigurationAdapter;
 
 import lombok.Getter;
@@ -33,9 +32,9 @@ public class BMMiba3ConfigurationAdapter extends ConfigurationAdapter {
     this.meldungsSpeicherung = new ConfigurationPropertyAdapter<>(this.istProperties, "meldungsSpeicherung", MeldungsSpeicherung.ZE_STOPP, this.sollProperties, MeldungsSpeicherung.class);
   }
 
-  public static BMMiba3ConfigurationAdapter createInstance(Baustein baustein, BausteinConfiguration istConfiguration, BausteinConfiguration sollConfiguration) {
-    return new BMMiba3ConfigurationAdapter(istConfiguration, sollConfiguration);
-  }
+  // public static BMMiba3ConfigurationAdapter createInstance(Baustein baustein, BausteinConfiguration istConfiguration, BausteinConfiguration sollConfiguration) {
+  // return new BMMiba3ConfigurationAdapter(istConfiguration, sollConfiguration);
+  // }
 
   public static enum MeldungsModus {
     STANDARD {

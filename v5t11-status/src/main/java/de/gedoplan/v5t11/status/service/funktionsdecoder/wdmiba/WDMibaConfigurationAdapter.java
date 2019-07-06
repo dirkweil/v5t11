@@ -1,7 +1,6 @@
 package de.gedoplan.v5t11.status.service.funktionsdecoder.wdmiba;
 
 import de.gedoplan.v5t11.status.entity.BausteinConfiguration;
-import de.gedoplan.v5t11.status.entity.baustein.Baustein;
 import de.gedoplan.v5t11.status.entity.baustein.Funktionsdecoder;
 import de.gedoplan.v5t11.status.service.funktionsdecoder.FunktionsdecoderConfigurationAdapter;
 
@@ -18,7 +17,7 @@ public class WDMibaConfigurationAdapter extends FunktionsdecoderConfigurationAda
     super(funktionsdecoder, istConfiguration, sollConfiguration);
   }
 
-  public static WDMibaConfigurationAdapter createInstance(Baustein baustein, BausteinConfiguration istConfiguration, BausteinConfiguration sollConfiguration) {
-    return new WDMibaConfigurationAdapter((Funktionsdecoder) baustein, istConfiguration, sollConfiguration);
-  }
+  // public static WDMibaConfigurationAdapter createInstance(Baustein baustein, BausteinConfiguration istConfiguration, BausteinConfiguration sollConfiguration) {
+  // return new WDMibaConfigurationAdapter((Funktionsdecoder) baustein, istConfiguration, sollConfiguration);
+  // }
 }

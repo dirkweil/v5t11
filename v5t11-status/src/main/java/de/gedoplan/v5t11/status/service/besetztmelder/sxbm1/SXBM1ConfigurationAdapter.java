@@ -1,7 +1,6 @@
 package de.gedoplan.v5t11.status.service.besetztmelder.sxbm1;
 
 import de.gedoplan.v5t11.status.entity.BausteinConfiguration;
-import de.gedoplan.v5t11.status.entity.baustein.Baustein;
 import de.gedoplan.v5t11.status.service.ConfigurationAdapter;
 
 import lombok.Getter;
@@ -21,7 +20,7 @@ public class SXBM1ConfigurationAdapter extends ConfigurationAdapter {
     this.abfallVerzoegerung = new ConfigurationPropertyAdapter<>(this.istProperties, "abfallVerzoegerung", 500, this.sollProperties, Integer.class);
   }
 
-  public static SXBM1ConfigurationAdapter createInstance(Baustein baustein, BausteinConfiguration istConfiguration, BausteinConfiguration sollConfiguration) {
-    return new SXBM1ConfigurationAdapter(istConfiguration, sollConfiguration);
-  }
+  // public static SXBM1ConfigurationAdapter createInstance(Baustein baustein, BausteinConfiguration istConfiguration, BausteinConfiguration sollConfiguration) {
+  // return new SXBM1ConfigurationAdapter(istConfiguration, sollConfiguration);
+  // }
 }

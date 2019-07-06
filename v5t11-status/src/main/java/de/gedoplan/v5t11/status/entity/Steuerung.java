@@ -47,6 +47,8 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.apache.commons.logging.Log;
+
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 
@@ -65,6 +67,9 @@ public class Steuerung {
 
   @Inject
   LokRepository lokRepository;
+
+  @Inject
+  Log log;
 
   @XmlElements({
       @XmlElement(name = "DummyZentrale", type = DummyZentrale.class),
@@ -457,7 +462,7 @@ public class Steuerung {
     int adr = kanal.getAdresse();
     int wert = kanal.getWert();
 
-    if (this.supressedKanaele.contains(adr)) {
+    if (!this.supressedKanaele.contains(adr)) {
       Baustein baustein = this.kanalBausteine.get(adr);
       if (baustein != null) {
         baustein.adjustWert(adr, wert);
@@ -484,10 +489,16 @@ public class Steuerung {
   }
 
   public void addSuppressedKanal(int adr) {
+    if (this.log.isDebugEnabled()) {
+      this.log.debug("addSuppressedKanal: " + adr);
+    }
     this.supressedKanaele.add(adr);
   }
 
   public void removeSuppressedKanal(int adr) {
+    if (this.log.isDebugEnabled()) {
+      this.log.debug("removeSuppressedKanal: " + adr);
+    }
     this.supressedKanaele.remove(adr);
   }
 }

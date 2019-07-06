@@ -23,7 +23,7 @@
       <p:message for="istAbschaltZeit" />
     </h:panelGrid>
 
-    <p:tabView>
+    <p:tabView dynamic="true">
       <c:forEach var="servoNr" begin="0" step="1" end="7">
         <p:tab title="Servo #{servoNr}">
           <h:panelGrid columns="6">

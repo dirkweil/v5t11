@@ -1,7 +1,6 @@
 package de.gedoplan.v5t11.status.service.funktionsdecoder.sxsd1;
 
 import de.gedoplan.v5t11.status.entity.BausteinConfiguration;
-import de.gedoplan.v5t11.status.entity.baustein.Baustein;
 import de.gedoplan.v5t11.status.entity.baustein.Funktionsdecoder;
 import de.gedoplan.v5t11.status.service.funktionsdecoder.FunktionsdecoderConfigurationAdapter;
 
@@ -18,7 +17,7 @@ public class SXSD1ConfigurationAdapter extends FunktionsdecoderConfigurationAdap
     super(funktionsdecoder, istConfiguration, sollConfiguration);
   }
 
-  public static SXSD1ConfigurationAdapter createInstance(Baustein baustein, BausteinConfiguration istConfiguration, BausteinConfiguration sollConfiguration) {
-    return new SXSD1ConfigurationAdapter((Funktionsdecoder) baustein, istConfiguration, sollConfiguration);
-  }
+  // public static SXSD1ConfigurationAdapter createInstance(Baustein baustein, BausteinConfiguration istConfiguration, BausteinConfiguration sollConfiguration) {
+  // return new SXSD1ConfigurationAdapter((Funktionsdecoder) baustein, istConfiguration, sollConfiguration);
+  // }
 }

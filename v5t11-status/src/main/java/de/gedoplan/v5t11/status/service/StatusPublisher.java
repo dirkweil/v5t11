@@ -1,6 +1,5 @@
 package de.gedoplan.v5t11.status.service;
 
-import de.gedoplan.v5t11.status.entity.Kanal;
 import de.gedoplan.v5t11.status.entity.baustein.Lokcontroller;
 import de.gedoplan.v5t11.status.entity.baustein.Zentrale;
 import de.gedoplan.v5t11.status.entity.fahrweg.Gleisabschnitt;
@@ -75,7 +74,7 @@ public class StatusPublisher {
     publish("LOKCONTROLLER", lokcontroller);
   }
 
-  void publish(@Observes Kanal kanal) {
-    publish("KANAL", kanal);
-  }
+  // void publish(@Observes Kanal kanal) {
+  // publish("KANAL", kanal);
+  // }
 }

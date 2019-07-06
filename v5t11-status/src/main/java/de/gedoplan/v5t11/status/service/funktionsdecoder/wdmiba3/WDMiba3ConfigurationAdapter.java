@@ -1,7 +1,6 @@
 package de.gedoplan.v5t11.status.service.funktionsdecoder.wdmiba3;
 
 import de.gedoplan.v5t11.status.entity.BausteinConfiguration;
-import de.gedoplan.v5t11.status.entity.baustein.Baustein;
 import de.gedoplan.v5t11.status.entity.baustein.Funktionsdecoder;
 import de.gedoplan.v5t11.status.service.funktionsdecoder.FunktionsdecoderConfigurationAdapter;
 
@@ -22,7 +21,7 @@ public class WDMiba3ConfigurationAdapter extends FunktionsdecoderConfigurationAd
     this.impulsDauer = new ConfigurationPropertyAdapter<>(this.istProperties, "impulsDauer", 16 * 80, this.sollProperties, Integer.class);
   }
 
-  public static WDMiba3ConfigurationAdapter createInstance(Baustein baustein, BausteinConfiguration istConfiguration, BausteinConfiguration sollConfiguration) {
-    return new WDMiba3ConfigurationAdapter((Funktionsdecoder) baustein, istConfiguration, sollConfiguration);
-  }
+  // public static WDMiba3ConfigurationAdapter createInstance(Baustein baustein, BausteinConfiguration istConfiguration, BausteinConfiguration sollConfiguration) {
+  // return new WDMiba3ConfigurationAdapter((Funktionsdecoder) baustein, istConfiguration, sollConfiguration);
+  // }
 }
