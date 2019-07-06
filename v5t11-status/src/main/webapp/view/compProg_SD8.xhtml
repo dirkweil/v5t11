@@ -10,67 +10,55 @@
       <h:outputText value="Ist" />
       <h:panelGroup />
 
-      <h:outputText value="Adresse: " />
-      <p:inputText value="#{compProgPresenter.configuration.adresseSoll}" size="3" readonly="true" />
+      <p:outputLabel for="sollAdresse" value="Adresse: " />
+      <p:inputText id="sollAdresse" value="#{compProgPresenter.configuration.adresseSoll}" size="3" readonly="true" />
       <p:commandButton value=">" action="#{compProgPresenter.configuration.adresseResetToSoll()}" ajax="false" />
       <p:inputText value="#{compProgPresenter.configuration.adresseIst}" size="3" id="istAdresse" />
       <p:message for="istAdresse" />
 
-      <h:outputText value="Abschaltzeit (in 100 ms, 0=nie): " />
-      <p:inputText value="#{compProgPresenter.configuration.abschaltZeit.soll}" size="3" readonly="true" />
+      <p:outputLabel for="sollAbschaltZeit" value="Abschaltzeit (in 100 ms, 0=nie): " />
+      <p:inputText id="sollAbschaltZeit" value="#{compProgPresenter.configuration.abschaltZeit.soll}" size="3" readonly="true" />
       <p:commandButton value=">" action="#{compProgPresenter.configuration.abschaltZeit.resetToSoll()}" ajax="false" />
       <p:inputText value="#{compProgPresenter.configuration.abschaltZeit.ist}" size="3" id="istAbschaltZeit" />
       <p:message for="istAbschaltZeit" />
     </h:panelGrid>
 
-    <p:dataTable value="#{compProgPresenter.configuration.servoConfiguration}" var="servoConfiguration" emptyMessage="">
-      <p:columnGroup type="header">
-        <p:row>
-          <p:column rowspan="2" headerText="Servo" />
-          <p:column colspan="3" headerText="Soll" />
-          <p:column rowspan="2" headerText="" />
-          <p:column colspan="3" headerText="Ist" />
-          <p:column rowspan="2" headerText="Test" />
-        </p:row>
+    <p:tabView>
+      <c:forEach var="servoNr" begin="0" step="1" end="7">
+        <p:tab title="Servo #{servoNr}">
+          <h:panelGrid columns="6">
+            <h:panelGroup />
+            <h:outputText value="Soll" />
+            <p:commandButton value=">" action="#{compProgPresenter.configuration.servoConfiguration[servoNr].resetToSoll()}" ajax="false" />
+            <h:outputText value="Ist" />
+            <h:panelGroup />
+            <h:panelGroup />
 
-        <p:row>
-          <p:column headerText="Startpos." />
-          <p:column headerText="Endpos." />
-          <p:column headerText="Geschw." />
-          <p:column headerText="Startpos." />
-          <p:column headerText="Endpos." />
-          <p:column headerText="Geschw." />
-        </p:row>
-      </p:columnGroup>
-      <p:column style="text-align: center;">
-        <h:outputText value="#{servoConfiguration.servoNummer}" />
-      </p:column>
-      <p:column style="text-align: center;">
-        <p:inputText value="#{servoConfiguration.start.soll}" size="3" readonly="true" />
-      </p:column>
-      <p:column style="text-align: center;">
-        <p:inputText value="#{servoConfiguration.ende.soll}" size="3" readonly="true" />
-      </p:column>
-      <p:column style="text-align: center;">
-        <p:inputText value="#{servoConfiguration.geschwindigkeit.soll}" size="3" readonly="true" />
-      </p:column>
-      <p:column style="text-align: center;">
-        <p:commandButton value=">" action="#{servoConfiguration.resetToSoll()}" ajax="false" />
-      </p:column>
-      <p:column style="text-align: center;">
-        <p:inputText value="#{servoConfiguration.start.ist}" size="3" />
-      </p:column>
-      <p:column style="text-align: center;">
-        <p:inputText value="#{servoConfiguration.ende.ist}" size="3" />
-      </p:column>
-      <p:column style="text-align: center;">
-        <p:inputText value="#{servoConfiguration.geschwindigkeit.ist}" size="3" />
-      </p:column>
-      <p:column style="text-align: center;">
-        <p:commandButton value="Start" action="#{compProgPresenter.configurationRuntimeService.testStart(servoConfiguration)}" ajax="false" />
-        <p:commandButton value="Ende" action="#{compProgPresenter.configurationRuntimeService.testEnde(servoConfiguration)}" ajax="false" />
-      </p:column>
-    </p:dataTable>
+            <p:outputLabel for="sollStart" value="Start: " />
+            <p:inputText id="sollStart" value="#{compProgPresenter.configuration.servoConfiguration[servoNr].start.soll}" readonly="true" />
+            <p:commandButton value=">" action="#{compProgPresenter.configuration.servoConfiguration[servoNr].start.resetToSoll()}" ajax="false" />
+            <p:inputText value="#{compProgPresenter.configuration.servoConfiguration[servoNr].start.ist}" id="istStart" />
+            <p:message for="istStart" />
+            <p:commandButton value="Test" action="#{compProgPresenter.configurationRuntimeService.testStart(compProgPresenter.configuration.servoConfiguration[servoNr])}" ajax="false" />
+            
+            <p:outputLabel for="sollEnde" value="Ende: " />
+            <p:inputText id="sollEnde" value="#{compProgPresenter.configuration.servoConfiguration[servoNr].ende.soll}" readonly="true" />
+            <p:commandButton value=">" action="#{compProgPresenter.configuration.servoConfiguration[servoNr].ende.resetToSoll()}" ajax="false" />
+            <p:inputText value="#{compProgPresenter.configuration.servoConfiguration[servoNr].ende.ist}" id="istEnde" />
+            <p:message for="istEnde" />
+            <p:commandButton value="Test" action="#{compProgPresenter.configurationRuntimeService.testEnde(compProgPresenter.configuration.servoConfiguration[servoNr])}" ajax="false" />
+
+            <p:outputLabel for="sollGeschwindigkeit" value="Geschwindigkeit: " />
+            <p:inputText id="sollGeschwindigkeit" value="#{compProgPresenter.configuration.servoConfiguration[servoNr].geschwindigkeit.soll}" readonly="true" />
+            <p:commandButton value=">" action="#{compProgPresenter.configuration.servoConfiguration[servoNr].geschwindigkeit.resetToSoll()}" ajax="false" />
+            <p:inputText value="#{compProgPresenter.configuration.servoConfiguration[servoNr].geschwindigkeit.ist}" id="istGeschwindigkeit" />
+            <p:message for="istGeschwindigkeit" />
+            <h:panelGroup />
+          </h:panelGrid>
+        </p:tab>
+      </c:forEach>
+    </p:tabView>
+
   </ui:define>
 </ui:composition>
 </html>

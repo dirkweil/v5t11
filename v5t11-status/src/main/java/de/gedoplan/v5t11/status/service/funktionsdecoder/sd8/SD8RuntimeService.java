@@ -23,7 +23,8 @@ import lombok.Getter;
 @Programmierfamilie(SD8.class)
 public class SD8RuntimeService extends ConfigurationRuntimeService {
   // TODO Kann das verkürzt werden?
-  private static final int WAIT_MILLIS = 1000;
+  // private static final int WAIT_MILLIS = 1000;
+  private static final int WAIT_MILLIS = 10;
 
   @Getter
   private SD8ConfigurationAdapter configuration;
