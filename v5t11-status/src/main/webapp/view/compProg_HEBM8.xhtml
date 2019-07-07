@@ -23,5 +23,10 @@
       <p:message for="istAbfallVerzoegerung" />
     </h:panelGrid>
   </ui:define>
+
+  <ui:define name="buttons">
+    <p:commandButton value="programmieren" actionListener="#{compProgPresenter.program()}" action="closeProgMode" ajax="false" />
+    <p:commandButton value="abbrechen" action="compProg" immediate="true" ajax="false" />
+  </ui:define>
 </ui:composition>
 </html>

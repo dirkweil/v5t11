@@ -97,4 +97,12 @@ public abstract class ConfigurationRuntimeService implements Serializable {
     }
   }
 
+  public String getOpenProgModeMessage() {
+    return "Bitte Programmiertaster am Baustein drücken!";
+  }
+
+  public String getCloseProgModeMessage() {
+    return "Bitte Programmiertaster am Baustein drücken!";
+  }
+
 }

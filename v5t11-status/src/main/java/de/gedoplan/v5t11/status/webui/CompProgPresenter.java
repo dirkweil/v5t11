@@ -130,12 +130,11 @@ public class CompProgPresenter implements Serializable {
   }
 
   public String getOpenProgModeMessage() {
-    return this.currentBaustein == null ? null : this.currentBaustein.isBusBaustein() ? "Bitte Programmiertaster am Baustein drücken!" : "Bitte Fahrzeug alleine auf das Programmiergleis stellen!";
+    return this.currentBaustein == null ? null : this.configurationRuntimeService.getOpenProgModeMessage();
   }
 
   public String getCloseProgModeMessage() {
-    return this.currentBaustein == null ? null
-        : this.currentBaustein.isBusBaustein() ? "Bitte Programmiertaster am Baustein drücken!" : "Fahrzeug kann vom Programmiergleis entfernt werden.";
+    return this.currentBaustein == null ? null : this.configurationRuntimeService.getCloseProgModeMessage();
   }
 
   /**

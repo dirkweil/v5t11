@@ -56,4 +56,14 @@ public class HEBM8RuntimeService extends ConfigurationRuntimeService {
     this.steuerung.setSX1Kanal(1, verz);
   }
 
+  @Override
+  public String getOpenProgModeMessage() {
+    return "Von Bausteinen dieses Typs können keine Ist-Werte gelesen werden. Es werden daher die Soll-Werte dafür eingesetzt.";
+  }
+
+  @Override
+  public String getCloseProgModeMessage() {
+    return "Programmiertaster am Baustein so lange drücken, bis die LED aufleuchtet!";
+  }
+
 }
