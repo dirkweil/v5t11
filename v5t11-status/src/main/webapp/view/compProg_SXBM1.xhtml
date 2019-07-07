@@ -16,7 +16,7 @@
       <p:inputText value="#{compProgPresenter.configuration.adresseIst}" id="istAdresse" />
       <p:message for="istAdresse" />
 
-      <p:outputLabel for="sollAbfallVerzoegerung" value="Abfallverzögerung: " />
+      <p:outputLabel for="sollAbfallVerzoegerung" value="Abfallverzögerung  (ms, Vielfaches von 350): " />
       <p:inputText id="sollAbfallVerzoegerung" value="#{compProgPresenter.configuration.abfallVerzoegerung.soll}" readonly="true" />
       <p:commandButton value=">" action="#{compProgPresenter.configuration.abfallVerzoegerung.resetToSoll()}" ajax="false" />
       <p:inputText value="#{compProgPresenter.configuration.abfallVerzoegerung.ist}" id="istAbfallVerzoegerung" />

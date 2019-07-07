@@ -17,6 +17,8 @@ import org.apache.commons.logging.LogFactory;
  */
 public abstract class ConfigurationRuntimeService implements Serializable {
 
+  private static final int WAIT_MILLIS = 1000;
+
   @Inject
   protected Steuerung steuerung;
 
@@ -52,4 +54,47 @@ public abstract class ConfigurationRuntimeService implements Serializable {
       this.steuerung.removeSuppressedKanal(adr);
     }
   }
+
+  protected int getParameter(int steuerAdr, int wertAdr, int parameterNummer) {
+    if (this.log.isDebugEnabled()) {
+      this.log.debug(String.format("getParameter: steuerAdr=%d, wertAdr=5d, parameterNummer=%d", steuerAdr, wertAdr, parameterNummer));
+    }
+
+    this.steuerung.setSX1Kanal(steuerAdr, parameterNummer);
+    delay(WAIT_MILLIS);
+    this.steuerung.awaitSync();
+    int value = this.steuerung.getSX1Kanal(wertAdr);
+
+    if (this.log.isDebugEnabled()) {
+      this.log.debug(String.format("getParameter: value=%d (0x%02x)", value, value));
+    }
+    return value;
+  }
+
+  protected void setParameter(int steuerAdr, int wertAdr, int parameterNummer, int newValue) {
+    if (this.log.isDebugEnabled()) {
+      this.log.debug(String.format("setParameter: steuerAdr=%d, wertAdr=5d, parameterNummer=%d, newValue=%d (0x%02x)", steuerAdr, wertAdr, parameterNummer, newValue, newValue));
+    }
+
+    this.steuerung.setSX1Kanal(steuerAdr, parameterNummer);
+    delay(WAIT_MILLIS);
+    this.steuerung.awaitSync();
+
+    int oldValue = this.steuerung.getSX1Kanal(wertAdr);
+    if (newValue != oldValue) {
+      this.steuerung.setSX1Kanal(wertAdr, newValue);
+      delay(WAIT_MILLIS);
+      this.steuerung.awaitSync();
+    }
+  }
+
+  protected static void delay(long millis) {
+    try {
+      Thread.sleep(millis);
+    }
+    catch (Exception e) {
+      // ignore
+    }
+  }
+
 }

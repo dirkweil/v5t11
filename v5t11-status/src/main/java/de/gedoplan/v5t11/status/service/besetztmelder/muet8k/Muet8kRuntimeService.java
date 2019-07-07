@@ -1,13 +1,12 @@
-package de.gedoplan.v5t11.status.service.besetztmelder.muet8i;
+package de.gedoplan.v5t11.status.service.besetztmelder.muet8k;
 
 import de.gedoplan.v5t11.status.entity.BausteinConfiguration;
 import de.gedoplan.v5t11.status.entity.baustein.Baustein;
-import de.gedoplan.v5t11.status.entity.baustein.besetztmelder.Muet8i;
+import de.gedoplan.v5t11.status.entity.baustein.besetztmelder.Muet8k;
 import de.gedoplan.v5t11.status.service.BausteinConfigurationService;
 import de.gedoplan.v5t11.status.service.ConfigurationRuntimeService;
 import de.gedoplan.v5t11.status.service.Current;
 import de.gedoplan.v5t11.status.service.Programmierfamilie;
-import de.gedoplan.v5t11.status.service.besetztmelder.muet8i.Muet8iConfigurationAdapter.MeldungsModus;
 
 import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
@@ -20,23 +19,23 @@ import lombok.Getter;
  * @author dw
  */
 @ConversationScoped
-@Programmierfamilie(Muet8i.class)
-public class Muet8iRuntimeService extends ConfigurationRuntimeService {
+@Programmierfamilie(Muet8k.class)
+public class Muet8kRuntimeService extends ConfigurationRuntimeService {
 
   private static final int STEUER_ADR = 0;
   private static final int WERT_ADR = 1;
 
   @Getter
-  private Muet8iConfigurationAdapter configuration;
+  private Muet8kConfigurationAdapter configuration;
 
   @Inject
-  public Muet8iRuntimeService(@Current Baustein baustein, BausteinConfigurationService bausteinConfigurationService) {
+  public Muet8kRuntimeService(@Current Baustein baustein, BausteinConfigurationService bausteinConfigurationService) {
     BausteinConfiguration bausteinSollConfiguration = bausteinConfigurationService.getBausteinConfiguration(baustein);
     BausteinConfiguration bausteinIstConfiguration = new BausteinConfiguration(baustein.getId());
-    this.configuration = new Muet8iConfigurationAdapter(bausteinIstConfiguration, bausteinSollConfiguration);
+    this.configuration = new Muet8kConfigurationAdapter(bausteinIstConfiguration, bausteinSollConfiguration);
   }
 
-  protected Muet8iRuntimeService() {
+  protected Muet8kRuntimeService() {
   }
 
   @Override
@@ -44,21 +43,14 @@ public class Muet8iRuntimeService extends ConfigurationRuntimeService {
     this.configuration.setAdresseIst(getParameter(STEUER_ADR, WERT_ADR, 1));
 
     int options = getParameter(STEUER_ADR, WERT_ADR, 2);
-    this.configuration.getAbfallVerzoegerung().setIst((options & 0b0000_0111) * 350);
-    this.configuration.getMeldungBeiZeStopp().setIst(MeldungsModus.valueOf(options & 0b0100_0000));
-    this.configuration.getMeldungsNegation().setIst((options & 0b1000_0000) != 0);
+    this.configuration.getAbfallVerzoegerung().setIst((options & 0b0001_1111) * 80);
   }
 
   @Override
   public void setRuntimeValues() {
     setParameter(STEUER_ADR, WERT_ADR, 1, this.configuration.getAdresseIst());
 
-    int options = this.configuration.getAbfallVerzoegerung().getIst() / 350;
-    options |= this.configuration.getMeldungBeiZeStopp().getIst().getBits();
-    if (this.configuration.getMeldungsNegation().getIst()) {
-      options |= 0b1000_0000;
-    }
-    setParameter(STEUER_ADR, WERT_ADR, 2, options);
+    setParameter(STEUER_ADR, WERT_ADR, 2, (this.configuration.getAbfallVerzoegerung().getIst() / 80) & 0b0001_1111);
   }
 
 }

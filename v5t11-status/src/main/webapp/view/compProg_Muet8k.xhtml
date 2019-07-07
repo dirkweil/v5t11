@@ -16,25 +16,11 @@
       <p:inputText value="#{compProgPresenter.configuration.adresseIst}" id="istAdresse" />
       <p:message for="istAdresse" />
 
-      <p:outputLabel for="sollAbfallVerzoegerung" value="Abfallverzögerung (ms, Vielfaches von 350): " />
+      <p:outputLabel for="sollAbfallVerzoegerung" value="Abfallverzögerung (ms, Vielfaches von 80): " />
       <p:inputText id="sollAbfallVerzoegerung" value="#{compProgPresenter.configuration.abfallVerzoegerung.soll}" readonly="true" />
       <p:commandButton value=">" action="#{compProgPresenter.configuration.abfallVerzoegerung.resetToSoll()}" ajax="false" />
       <p:inputText value="#{compProgPresenter.configuration.abfallVerzoegerung.ist}" id="istAbfallVerzoegerung" />
       <p:message for="istAbfallVerzoegerung" />
-
-      <p:outputLabel for="sollBelegtmeldungBeiZeStopp" value="Belegtmeldung bei ZE Stopp: " />
-      <p:inputText id="sollBelegtmeldungBeiZeStopp" value="#{compProgPresenter.configuration.meldungBeiZeStopp.soll}" readonly="true" />
-      <p:commandButton value=">" action="#{compProgPresenter.configuration.meldungBeiZeStopp.resetToSoll()}" ajax="false" />
-      <p:selectOneMenu value="#{compProgPresenter.configuration.meldungBeiZeStopp.ist}" id="istBelegtmeldungBeiZeStopp">
-        <f:selectItems value="#{compProgPresenter.configuration.meldungBeiZeStopp.values}" />
-      </p:selectOneMenu>
-      <p:message for="istBelegtmeldungBeiZeStopp" />
-
-      <p:outputLabel for="sollMeldungsNegation" value="Meldungs-Negation: " />
-      <p:selectBooleanCheckbox id="sollMeldungsNegation" value="#{compProgPresenter.configuration.meldungsNegation.soll}" disabled="true" />
-      <p:commandButton value=">" action="#{compProgPresenter.configuration.meldungsNegation.resetToSoll()}" ajax="false" />
-      <p:selectBooleanCheckbox value="#{compProgPresenter.configuration.meldungsNegation.ist}" id="istMeldungsNegation" />
-      <p:message for="istMeldungsNegation" />
 
     </h:panelGrid>
   </ui:define>

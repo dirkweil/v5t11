@@ -22,7 +22,9 @@ import lombok.Getter;
 @ConversationScoped
 @Programmierfamilie(SD8.class)
 public class SD8RuntimeService extends ConfigurationRuntimeService {
-  private static final int WAIT_MILLIS = 1000;
+
+  private static final int STEUER_ADR = 1;
+  private static final int WERT_ADR = 2;
 
   @Getter
   private SD8ConfigurationAdapter configuration;
@@ -39,10 +41,10 @@ public class SD8RuntimeService extends ConfigurationRuntimeService {
 
   @Override
   public void getRuntimeValues() {
-    this.configuration.setAdresseIst(getParameter(0));
+    this.configuration.setAdresseIst(getParameter(STEUER_ADR, WERT_ADR, 0));
     this.configuration.clearAdresseDirty();
 
-    this.configuration.getAbschaltZeit().setIst(getParameter(26));
+    this.configuration.getAbschaltZeit().setIst(getParameter(STEUER_ADR, WERT_ADR, 26));
     this.configuration.getAbschaltZeit().clearDirty();
 
     // Die Servo-Parameter werden hier noch nicht gelesen, sondern "lazy" erst dann, wenn sie benutzt werden
@@ -50,17 +52,17 @@ public class SD8RuntimeService extends ConfigurationRuntimeService {
 
   public void getRuntimeValues(ServoConfiguration servo) {
     int parameterOffsetStart = 2 + servo.getServoNummer() * 3;
-    servo.getStart().setIst(getParameter(parameterOffsetStart));
+    servo.getStart().setIst(getParameter(STEUER_ADR, WERT_ADR, parameterOffsetStart));
     servo.getStart().clearDirty();
-    servo.getEnde().setIst(getParameter(parameterOffsetStart + 1));
+    servo.getEnde().setIst(getParameter(STEUER_ADR, WERT_ADR, parameterOffsetStart + 1));
     servo.getEnde().clearDirty();
-    servo.getGeschwindigkeit().setIst(getParameter(parameterOffsetStart + 2));
+    servo.getGeschwindigkeit().setIst(getParameter(STEUER_ADR, WERT_ADR, parameterOffsetStart + 2));
     servo.getGeschwindigkeit().clearDirty();
 
     int parameterOffsetStartNachwippen = 27 + servo.getServoNummer() * 2;
-    servo.getStartNachwippen().setIst(getParameter(parameterOffsetStartNachwippen));
+    servo.getStartNachwippen().setIst(getParameter(STEUER_ADR, WERT_ADR, parameterOffsetStartNachwippen));
     servo.getStartNachwippen().clearDirty();
-    servo.getEndeNachwippen().setIst(getParameter(parameterOffsetStartNachwippen + 1));
+    servo.getEndeNachwippen().setIst(getParameter(STEUER_ADR, WERT_ADR, parameterOffsetStartNachwippen + 1));
     servo.getEndeNachwippen().clearDirty();
   }
 
@@ -71,8 +73,8 @@ public class SD8RuntimeService extends ConfigurationRuntimeService {
 
   private void setRuntimeValues(SD8ConfigurationAdapter configuration, int servoNummer) {
     if (servoNummer < 0) {
-      setParameter(0, configuration.getAdresseIst());
-      setParameter(1, 255);
+      setParameter(STEUER_ADR, WERT_ADR, 0, configuration.getAdresseIst());
+      setParameter(STEUER_ADR, WERT_ADR, 1, 255);
       configuration.clearAdresseDirty();
     }
 
@@ -81,25 +83,25 @@ public class SD8RuntimeService extends ConfigurationRuntimeService {
         if (servoNummer < 0 || servoNummer == servo.getServoNummer()) {
           int parameterOffsetStart = 2 + servo.getServoNummer() * 3;
           if (servo.getStart().isDirty()) {
-            setParameter(parameterOffsetStart, servo.getStart().getIst());
+            setParameter(STEUER_ADR, WERT_ADR, parameterOffsetStart, servo.getStart().getIst());
             servo.getStart().clearDirty();
           }
           if (servo.getEnde().isDirty()) {
-            setParameter(parameterOffsetStart + 1, servo.getEnde().getIst());
+            setParameter(STEUER_ADR, WERT_ADR, parameterOffsetStart + 1, servo.getEnde().getIst());
             servo.getEnde().clearDirty();
           }
           if (servo.getGeschwindigkeit().isDirty()) {
-            setParameter(parameterOffsetStart + 2, servo.getGeschwindigkeit().getIst());
+            setParameter(STEUER_ADR, WERT_ADR, parameterOffsetStart + 2, servo.getGeschwindigkeit().getIst());
             servo.getGeschwindigkeit().clearDirty();
           }
 
           int parameterOffsetStartNachwippen = 27 + servo.getServoNummer() * 2;
           if (servo.getStartNachwippen().isDirty()) {
-            setParameter(parameterOffsetStartNachwippen, servo.getStartNachwippen().getIst());
+            setParameter(STEUER_ADR, WERT_ADR, parameterOffsetStartNachwippen, servo.getStartNachwippen().getIst());
             servo.getStartNachwippen().clearDirty();
           }
           if (servo.getEndeNachwippen().isDirty()) {
-            setParameter(parameterOffsetStartNachwippen + 1, servo.getEndeNachwippen().getIst());
+            setParameter(STEUER_ADR, WERT_ADR, parameterOffsetStartNachwippen + 1, servo.getEndeNachwippen().getIst());
             servo.getEndeNachwippen().clearDirty();
           }
         }
@@ -107,57 +109,8 @@ public class SD8RuntimeService extends ConfigurationRuntimeService {
     }
 
     if (configuration.getAbschaltZeit().isDirty()) {
-      setParameter(26, configuration.getAbschaltZeit().getIst());
+      setParameter(STEUER_ADR, WERT_ADR, 26, configuration.getAbschaltZeit().getIst());
       configuration.getAbschaltZeit().clearDirty();
-    }
-  }
-
-  private int getParameter(int parameterNummer) {
-    if (this.log.isDebugEnabled()) {
-      this.log.debug("getParameter: set parameterNummer=" + parameterNummer);
-    }
-
-    this.steuerung.setSX1Kanal(1, parameterNummer);
-
-    delay(WAIT_MILLIS);
-
-    int value = this.steuerung.getSX1Kanal(2);
-
-    if (this.log.isDebugEnabled()) {
-      this.log.debug("getParameter: get value=" + value);
-    }
-    return value;
-  }
-
-  private void setParameter(int parameterNummer, int newValue) {
-    if (this.log.isDebugEnabled()) {
-      this.log.debug("setParameter: set parameterNummer=" + parameterNummer);
-    }
-    this.steuerung.setSX1Kanal(1, parameterNummer);
-
-    delay(WAIT_MILLIS);
-
-    int oldValue = this.steuerung.getSX1Kanal(2);
-    if (this.log.isDebugEnabled()) {
-      this.log.debug("setParameter: get old value=" + oldValue);
-    }
-
-    if (newValue != oldValue) {
-      if (this.log.isDebugEnabled()) {
-        this.log.debug("setParameter: set new value=" + newValue);
-      }
-
-      this.steuerung.setSX1Kanal(2, newValue);
-      delay(WAIT_MILLIS);
-    }
-  }
-
-  private static void delay(long millis) {
-    try {
-      Thread.sleep(millis);
-    }
-    catch (Exception e) {
-      // ignore
     }
   }
 

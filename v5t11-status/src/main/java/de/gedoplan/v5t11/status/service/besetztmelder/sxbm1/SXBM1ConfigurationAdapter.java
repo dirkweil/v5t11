@@ -17,7 +17,7 @@ public class SXBM1ConfigurationAdapter extends ConfigurationAdapter {
   public SXBM1ConfigurationAdapter(BausteinConfiguration istConfiguration, BausteinConfiguration sollConfiguration) {
     super(istConfiguration, sollConfiguration);
 
-    this.abfallVerzoegerung = new ConfigurationPropertyAdapter<>(this.istProperties, "abfallVerzoegerung", 500, this.sollProperties, Integer.class);
+    this.abfallVerzoegerung = new ConfigurationPropertyAdapter<>(this.istProperties, "abfallVerzoegerung", 12 * 80, this.sollProperties, Integer.class);
   }
 
   // public static SXBM1ConfigurationAdapter createInstance(Baustein baustein, BausteinConfiguration istConfiguration, BausteinConfiguration sollConfiguration) {

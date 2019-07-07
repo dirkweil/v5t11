@@ -24,7 +24,7 @@ public class BMMiba3ConfigurationAdapter extends ConfigurationAdapter {
     super(istConfiguration, sollConfiguration);
 
     this.ansprechVerzoegerung = new ConfigurationPropertyAdapter<>(this.istProperties, "ansprechVerzoegerung", 8, this.sollProperties, Integer.class);
-    this.abfallVerzoegerung = new ConfigurationPropertyAdapter<>(this.istProperties, "abfallVerzoegerung", 50, this.sollProperties, Integer.class);
+    this.abfallVerzoegerung = new ConfigurationPropertyAdapter<>(this.istProperties, "abfallVerzoegerung", 100, this.sollProperties, Integer.class);
     this.zeittakt = new ConfigurationPropertyAdapter<>(this.istProperties, "zeitTakt", Zeittakt.TAKT_10MS, this.sollProperties, Zeittakt.class);
     this.meldungsNegation = new ConfigurationPropertyAdapter<>(this.istProperties, "meldungsNegation", false, this.sollProperties, Boolean.class);
     this.meldungBeiZeStopp = new ConfigurationPropertyAdapter<>(this.istProperties, "meldungBeiZeStopp", MeldungsModus.UNVERAENDERT, this.sollProperties, MeldungsModus.class);

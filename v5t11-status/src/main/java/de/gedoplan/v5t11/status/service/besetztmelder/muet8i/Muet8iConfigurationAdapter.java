@@ -19,7 +19,7 @@ public class Muet8iConfigurationAdapter extends ConfigurationAdapter {
   public Muet8iConfigurationAdapter(BausteinConfiguration istConfiguration, BausteinConfiguration sollConfiguration) {
     super(istConfiguration, sollConfiguration);
 
-    this.abfallVerzoegerung = new ConfigurationPropertyAdapter<>(this.istProperties, "abfallVerzoegerung", 50, this.sollProperties, Integer.class);
+    this.abfallVerzoegerung = new ConfigurationPropertyAdapter<>(this.istProperties, "abfallVerzoegerung", 3 * 350, this.sollProperties, Integer.class);
     this.meldungsNegation = new ConfigurationPropertyAdapter<>(this.istProperties, "meldungsNegation", false, this.sollProperties, Boolean.class);
     this.meldungBeiZeStopp = new ConfigurationPropertyAdapter<>(this.istProperties, "meldungBeiZeStopp", MeldungsModus.UNVERAENDERT, this.sollProperties, MeldungsModus.class);
   }
