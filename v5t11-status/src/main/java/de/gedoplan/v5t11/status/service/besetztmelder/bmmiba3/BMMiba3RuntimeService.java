@@ -25,6 +25,12 @@ import lombok.Getter;
 @Programmierfamilie(BMMiba3.class)
 public class BMMiba3RuntimeService extends ConfigurationRuntimeService {
 
+  private static final int LOCAL_ADR_ADR = 0;
+  private static final int LOCAL_ADR_ANSPRECHVERZOEGERUNG = 1;
+  private static final int LOCAL_ADR_ABFALLVERZOEGERUNG = 2;
+  private static final int LOCAL_ADR_OPTIONS = 3;
+  private static final int[] LOCAL_ADRESSEN = { LOCAL_ADR_ADR, LOCAL_ADR_ANSPRECHVERZOEGERUNG, LOCAL_ADR_ABFALLVERZOEGERUNG, LOCAL_ADR_OPTIONS };
+
   @Getter
   private BMMiba3ConfigurationAdapter configuration;
 
@@ -40,13 +46,13 @@ public class BMMiba3RuntimeService extends ConfigurationRuntimeService {
 
   @Override
   public void getRuntimeValues() {
-    this.configuration.setAdresseIst(this.steuerung.getSX1Kanal(0));
+    this.configuration.setLocalAdrIst(getWert(LOCAL_ADR_ADR));
 
-    this.configuration.getAnsprechVerzoegerung().setIst(this.steuerung.getSX1Kanal(1));
+    this.configuration.getAnsprechVerzoegerung().setIst(getWert(LOCAL_ADR_ANSPRECHVERZOEGERUNG));
 
-    this.configuration.getAbfallVerzoegerung().setIst(this.steuerung.getSX1Kanal(2));
+    this.configuration.getAbfallVerzoegerung().setIst(getWert(LOCAL_ADR_ABFALLVERZOEGERUNG));
 
-    int options = this.steuerung.getSX1Kanal(3);
+    int options = getWert(LOCAL_ADR_OPTIONS);
     this.configuration.getMeldungBeiZeStopp().setIst(MeldungsModus.valueOf(options & 0b00000011));
     this.configuration.getMeldungBeiFehlendemFahrstrom().setIst(MeldungsModus.valueOf((options & 0b00001100) >> 2));
     this.configuration.getMeldungsNegation().setIst((options & 0b00010000) != 0);
@@ -56,9 +62,9 @@ public class BMMiba3RuntimeService extends ConfigurationRuntimeService {
 
   @Override
   public void setRuntimeValues() {
-    this.steuerung.setSX1Kanal(0, this.configuration.getAdresseIst());
-    this.steuerung.setSX1Kanal(1, this.configuration.getAnsprechVerzoegerung().getIst());
-    this.steuerung.setSX1Kanal(2, this.configuration.getAbfallVerzoegerung().getIst());
+    setWert(LOCAL_ADR_ADR, this.configuration.getLocalAdrIst());
+    setWert(LOCAL_ADR_ANSPRECHVERZOEGERUNG, this.configuration.getAnsprechVerzoegerung().getIst());
+    setWert(LOCAL_ADR_ABFALLVERZOEGERUNG, this.configuration.getAbfallVerzoegerung().getIst());
     int options = this.configuration.getMeldungBeiZeStopp().getIst().getBits();
     options |= this.configuration.getMeldungBeiFehlendemFahrstrom().getIst().getBits() << 2;
     if (this.configuration.getMeldungsNegation().getIst()) {
@@ -66,6 +72,11 @@ public class BMMiba3RuntimeService extends ConfigurationRuntimeService {
     }
     options |= this.configuration.getZeittakt().getIst().getBits() << 5;
     options |= this.configuration.getMeldungsSpeicherung().getIst().getBits() << 7;
-    this.steuerung.setSX1Kanal(3, options);
+    setWert(LOCAL_ADR_OPTIONS, options);
+  }
+
+  @Override
+  protected int[] getProgLocalAdressen() {
+    return LOCAL_ADRESSEN;
   }
 }

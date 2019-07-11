@@ -34,6 +34,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class FCC extends Zentrale {
 
+  private static final int BUS_ANZAHL = 2;
   /*
    * Blockdatenlängen für SX-Bus-Infos.
    * Die Blockdaten sind so aufgebaut:
@@ -298,25 +299,25 @@ public class FCC extends Zentrale {
 
   @Override
   public int getSX1Kanal(int adr) {
-    int bus;
-    if (adr >= 0 && adr <= MAX_SX1_ADR) {
-      bus = 0;
-    } else if (adr >= 1000 && adr <= 1000 + MAX_SX1_ADR) {
-      bus = 1;
-      adr -= 1000;
-    } else {
+    int bus = Kanal.toBusNr(adr);
+    if (bus <= 0 || bus >= BUS_ANZAHL) {
       throw new IllegalArgumentException("Ungültige SX1-Adresse: " + adr);
     }
 
-    return this.status.get()[BLOCK_DATEN_LEN_SX2 + bus * BLOCK_DATEN_LEN_SX1 + adr] & 0xff;
+    int localAdr = Kanal.toLocalAdr(adr);
+    return this.status.get()[BLOCK_DATEN_LEN_SX2 + bus * BLOCK_DATEN_LEN_SX1 + localAdr] & 0xff;
   }
 
   @Override
   public void setSX1Kanal(int adr, int wert) {
-    byte neu = (byte) wert;
+    int bus = Kanal.toBusNr(adr);
+    if (bus <= 0 || bus >= BUS_ANZAHL) {
+      throw new IllegalArgumentException("Ungültige SX1-Adresse: " + adr);
+    }
 
-    byte bus = (byte) (adr >= 1000 ? 0x01 : 0x00);
-    send(new byte[] { bus, (byte) (adr | 0x80), neu }, null);
+    int localAdr = Kanal.toLocalAdr(adr);
+
+    send(new byte[] { (byte) bus, (byte) (localAdr | 0x80), (byte) wert }, null);
   }
 
   private int send(byte[] werte, Predicate<Integer> ackCheck) {
@@ -513,6 +514,11 @@ public class FCC extends Zentrale {
       }
     }
     return -1;
+  }
+
+  @Override
+  public int getBusAnzahl() {
+    return BUS_ANZAHL;
   }
 
 }

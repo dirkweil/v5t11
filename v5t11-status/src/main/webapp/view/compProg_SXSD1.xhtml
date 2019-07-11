@@ -11,9 +11,9 @@
       <h:panelGroup />
 
       <p:outputLabel for="sollAdr" value="Adresse: " />
-      <p:inputText id="sollAdr" value="#{compProgPresenter.configuration.adresseSoll}" readonly="true" />
-      <p:commandButton value=">" action="#{compProgPresenter.configuration.adresseResetToSoll()}" ajax="false" />
-      <p:inputText value="#{compProgPresenter.configuration.adresseIst}" id="istAdresse" />
+      <p:inputText id="sollAdr" value="#{compProgPresenter.configuration.localAdrSoll}" readonly="true" />
+      <p:commandButton value=">" action="#{compProgPresenter.configuration.localAdrResetToSoll()}" ajax="false" />
+      <p:inputText value="#{compProgPresenter.configuration.localAdrIst}" id="istAdresse" />
       <p:message for="istAdresse" />
     </h:panelGrid>
   </ui:define>

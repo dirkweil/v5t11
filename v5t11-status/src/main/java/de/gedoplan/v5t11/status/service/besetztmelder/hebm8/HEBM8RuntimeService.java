@@ -21,6 +21,11 @@ import lombok.Getter;
 @ConversationScoped
 @Programmierfamilie(HEBM8.class)
 public class HEBM8RuntimeService extends ConfigurationRuntimeService {
+
+  private static final int LOCAL_ADR_ADR = 0;
+  private static final int LOCAL_ADR_ABFALLVERZOEGERUNG = 2;
+  private static final int[] LOCAL_ADRESSEN = { LOCAL_ADR_ADR, LOCAL_ADR_ABFALLVERZOEGERUNG };
+
   @Getter
   private HEBM8ConfigurationAdapter configuration;
 
@@ -37,14 +42,14 @@ public class HEBM8RuntimeService extends ConfigurationRuntimeService {
   @Override
   public void getRuntimeValues() {
     // Werte können nicht gelesen werden, daher nur auf Soll setzen
-    this.configuration.adresseResetToSoll();
+    this.configuration.localAdrResetToSoll();
     this.configuration.getAbfallVerzoegerung().resetToSoll();
     ;
   }
 
   @Override
   public void setRuntimeValues() {
-    this.steuerung.setSX1Kanal(0, this.configuration.getAdresseIst());
+    setWert(LOCAL_ADR_ADR, this.configuration.getLocalAdrIst());
 
     int verz = this.configuration.getAbfallVerzoegerung().getIst() / 100;
     if (verz < 0) {
@@ -53,7 +58,7 @@ public class HEBM8RuntimeService extends ConfigurationRuntimeService {
     if (verz > 255) {
       verz = 255;
     }
-    this.steuerung.setSX1Kanal(1, verz);
+    setWert(LOCAL_ADR_ABFALLVERZOEGERUNG, verz);
   }
 
   @Override
@@ -66,4 +71,8 @@ public class HEBM8RuntimeService extends ConfigurationRuntimeService {
     return "Programmiertaster am Baustein so lange drücken, bis die LED aufleuchtet!";
   }
 
+  @Override
+  protected int[] getProgLocalAdressen() {
+    return LOCAL_ADRESSEN;
+  }
 }

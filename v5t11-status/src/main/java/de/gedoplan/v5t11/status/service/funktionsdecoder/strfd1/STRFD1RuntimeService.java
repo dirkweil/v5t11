@@ -22,6 +22,13 @@ import lombok.Getter;
 @ConversationScoped
 @Programmierfamilie(STRFD1.class)
 public class STRFD1RuntimeService extends ConfigurationRuntimeService {
+
+  private static final int LOCAL_ADR_ADR = 0;
+  private static final int LOCAL_ADR_BETRIEBSART = 1;
+  private static final int LOCAL_ADR_IMPULSDAUER = 3;
+  private static final int LOCAL_ADR_MODUS = 5;
+  private static final int[] LOCAL_ADRESSEN = { LOCAL_ADR_ADR, LOCAL_ADR_BETRIEBSART, LOCAL_ADR_IMPULSDAUER, LOCAL_ADR_MODUS };
+
   @Getter
   private STRFD1ConfigurationAdapter configuration;
 
@@ -37,22 +44,22 @@ public class STRFD1RuntimeService extends ConfigurationRuntimeService {
 
   @Override
   public void getRuntimeValues() {
-    this.configuration.setAdresseIst(this.steuerung.getSX1Kanal(0));
+    this.configuration.setLocalAdrIst(getWert(LOCAL_ADR_ADR));
 
-    int betriebsArt = this.steuerung.getSX1Kanal(1);
+    int betriebsArt = getWert(LOCAL_ADR_BETRIEBSART);
     for (int i = 0, bit = 1; i < 8; ++i, bit <<= 1) {
       this.configuration.getDauer()[i].setIst((betriebsArt & bit) != 0);
     }
 
-    this.configuration.getImpulsDauer().setIst(this.steuerung.getSX1Kanal(3) * 80);
+    this.configuration.getImpulsDauer().setIst(getWert(LOCAL_ADR_IMPULSDAUER) * 80);
   }
 
   @Override
   public void setRuntimeValues() {
     // Betriebsmodus "Output 8"
-    this.steuerung.setSX1Kanal(5, 1);
+    setWert(LOCAL_ADR_MODUS, 1);
 
-    this.steuerung.setSX1Kanal(0, this.configuration.getAdresseIst());
+    setWert(LOCAL_ADR_ADR, this.configuration.getLocalAdrIst());
 
     int betriebsArt = 0;
     for (int i = 0, bit = 1; i < 8; ++i, bit <<= 1) {
@@ -60,7 +67,7 @@ public class STRFD1RuntimeService extends ConfigurationRuntimeService {
         betriebsArt |= bit;
       }
     }
-    this.steuerung.setSX1Kanal(1, betriebsArt);
+    setWert(LOCAL_ADR_BETRIEBSART, betriebsArt);
 
     int verz = this.configuration.getImpulsDauer().getIst() / 80;
     if (verz < 0) {
@@ -69,7 +76,11 @@ public class STRFD1RuntimeService extends ConfigurationRuntimeService {
     if (verz > 255) {
       verz = 255;
     }
-    this.steuerung.setSX1Kanal(3, verz);
+    setWert(LOCAL_ADR_IMPULSDAUER, verz);
   }
 
+  @Override
+  protected int[] getProgLocalAdressen() {
+    return LOCAL_ADRESSEN;
+  }
 }

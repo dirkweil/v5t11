@@ -22,6 +22,12 @@ import lombok.Getter;
 @ConversationScoped
 @Programmierfamilie(SXSD1.class)
 public class SXSD1RuntimeService extends ConfigurationRuntimeService {
+
+  private static final int LOCAL_ADR_ADR = 0;
+  private static final int LOCAL_ADR_ADR2 = 2;
+  private static final int LOCAL_ADR_MODUS = 5;
+  private static final int[] LOCAL_ADRESSEN = { LOCAL_ADR_ADR, LOCAL_ADR_ADR2, LOCAL_ADR_MODUS };
+
   @Getter
   private SXSD1ConfigurationAdapter configuration;
 
@@ -37,16 +43,20 @@ public class SXSD1RuntimeService extends ConfigurationRuntimeService {
 
   @Override
   public void getRuntimeValues() {
-    this.configuration.setAdresseIst(this.steuerung.getSX1Kanal(0));
+    this.configuration.setLocalAdrIst(getWert(LOCAL_ADR_ADR));
   }
 
   @Override
   public void setRuntimeValues() {
     // Betriebsmodus "Output 16"
-    this.steuerung.setSX1Kanal(5, 3);
+    setWert(LOCAL_ADR_MODUS, 3);
 
-    this.steuerung.setSX1Kanal(0, this.configuration.getAdresseIst());
-    this.steuerung.setSX1Kanal(2, this.configuration.getAdresseIst() + 1);
+    setWert(LOCAL_ADR_ADR, this.configuration.getLocalAdrIst());
+    setWert(LOCAL_ADR_ADR2, this.configuration.getLocalAdrIst() + 1);
   }
 
+  @Override
+  protected int[] getProgLocalAdressen() {
+    return LOCAL_ADRESSEN;
+  }
 }

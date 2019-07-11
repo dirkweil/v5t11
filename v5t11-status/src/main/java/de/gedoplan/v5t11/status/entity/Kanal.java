@@ -26,4 +26,16 @@ public class Kanal {
   public String toString() {
     return String.format("Kanal{adresse=%d, wert=0x%02x}", this.adresse, this.wert);
   }
+
+  public static int toBusNr(int adr) {
+    return adr / 1000;
+  }
+
+  public static int toLocalAdr(int adr) {
+    return adr % 1000;
+  }
+
+  public static int toAdr(int busNr, int localAdr) {
+    return busNr * 1000 + localAdr % 1000;
+  }
 }

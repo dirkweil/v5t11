@@ -21,6 +21,12 @@ import lombok.Getter;
 @ConversationScoped
 @Programmierfamilie(SXBM1.class)
 public class SXBM1RuntimeService extends ConfigurationRuntimeService {
+
+  private static final int LOCAL_ADR_ADR = 0;
+  private static final int LOCAL_ADR_ABFALLVERZOEGERUNG = 3;
+  private static final int LOCAL_ADR_MODUS = 5;
+  private static final int[] LOCAL_ADRESSEN = { LOCAL_ADR_ADR, LOCAL_ADR_ABFALLVERZOEGERUNG, LOCAL_ADR_MODUS };
+
   @Getter
   private SXBM1ConfigurationAdapter configuration;
 
@@ -36,17 +42,17 @@ public class SXBM1RuntimeService extends ConfigurationRuntimeService {
 
   @Override
   public void getRuntimeValues() {
-    this.configuration.setAdresseIst(this.steuerung.getSX1Kanal(0));
+    this.configuration.setLocalAdrIst(getWert(LOCAL_ADR_ADR));
 
-    this.configuration.getAbfallVerzoegerung().setIst(this.steuerung.getSX1Kanal(3) * 80);
+    this.configuration.getAbfallVerzoegerung().setIst(getWert(LOCAL_ADR_ABFALLVERZOEGERUNG) * 80);
   }
 
   @Override
   public void setRuntimeValues() {
     // Betriebsmodus "Input 8"
-    this.steuerung.setSX1Kanal(5, 0);
+    setWert(LOCAL_ADR_MODUS, 0);
 
-    this.steuerung.setSX1Kanal(0, this.configuration.getAdresseIst());
+    setWert(LOCAL_ADR_ADR, this.configuration.getLocalAdrIst());
 
     int verz = this.configuration.getAbfallVerzoegerung().getIst() / 80;
     if (verz < 0) {
@@ -55,7 +61,11 @@ public class SXBM1RuntimeService extends ConfigurationRuntimeService {
     if (verz > 255) {
       verz = 255;
     }
-    this.steuerung.setSX1Kanal(3, verz);
+    setWert(LOCAL_ADR_ABFALLVERZOEGERUNG, verz);
   }
 
+  @Override
+  protected int[] getProgLocalAdressen() {
+    return LOCAL_ADRESSEN;
+  }
 }

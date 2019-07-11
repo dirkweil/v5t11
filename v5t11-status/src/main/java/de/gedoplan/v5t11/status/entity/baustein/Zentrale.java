@@ -241,4 +241,13 @@ public abstract class Zentrale implements Closeable {
   public void lokChanged(Lok lok) {
   }
 
+  /**
+   * Anzahl SX-Busse liefern.
+   *
+   * @return Bus-Anzahl
+   */
+  public int getBusAnzahl() {
+    return 2;
+  }
+
 }

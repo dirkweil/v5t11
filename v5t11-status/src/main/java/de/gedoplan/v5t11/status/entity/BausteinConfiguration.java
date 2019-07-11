@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -36,9 +37,10 @@ public class BausteinConfiguration extends SingleIdEntity<String> {
    * Adresse des Bausteins am SX-Bus.
    */
   @Min(0)
-  @Max(1103)
+  @Max(103)
   @Setter
-  private int adresse;
+  @Column(name = "ADRESSE")
+  private int localAdr;
 
   /**
    * Konfigurationswerte.

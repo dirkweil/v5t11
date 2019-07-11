@@ -25,6 +25,7 @@ public class SD8RuntimeService extends ConfigurationRuntimeService {
 
   private static final int STEUER_ADR = 1;
   private static final int WERT_ADR = 2;
+  private static final int[] LOCAL_ADRESSEN = { STEUER_ADR, WERT_ADR };
 
   @Getter
   private SD8ConfigurationAdapter configuration;
@@ -41,8 +42,8 @@ public class SD8RuntimeService extends ConfigurationRuntimeService {
 
   @Override
   public void getRuntimeValues() {
-    this.configuration.setAdresseIst(getParameter(STEUER_ADR, WERT_ADR, 0));
-    this.configuration.clearAdresseDirty();
+    this.configuration.setLocalAdrIst(getParameter(STEUER_ADR, WERT_ADR, 0));
+    this.configuration.clearLocalAdrDirty();
 
     this.configuration.getAbschaltZeit().setIst(getParameter(STEUER_ADR, WERT_ADR, 26));
     this.configuration.getAbschaltZeit().clearDirty();
@@ -73,9 +74,9 @@ public class SD8RuntimeService extends ConfigurationRuntimeService {
 
   private void setRuntimeValues(SD8ConfigurationAdapter configuration, int servoNummer) {
     if (servoNummer < 0) {
-      setParameter(STEUER_ADR, WERT_ADR, 0, configuration.getAdresseIst());
+      setParameter(STEUER_ADR, WERT_ADR, 0, configuration.getLocalAdrIst());
       setParameter(STEUER_ADR, WERT_ADR, 1, 255);
-      configuration.clearAdresseDirty();
+      configuration.clearLocalAdrDirty();
     }
 
     for (ServoConfiguration servo : configuration.getServoConfiguration()) {
@@ -117,13 +118,13 @@ public class SD8RuntimeService extends ConfigurationRuntimeService {
   public void setServostellung(int servoNummer, boolean ende) {
     int mask = 1 << servoNummer;
 
-    int value = this.steuerung.getSX1Kanal(0);
+    int value = getWert(0);
     if (ende) {
       value |= mask;
     } else {
       value &= (~mask);
     }
-    this.steuerung.setSX1Kanal(0, value);
+    setWert(0, value);
   }
 
   // TODO Aufruf der Testmethoden aus der View funktioniert nicht
@@ -141,4 +142,8 @@ public class SD8RuntimeService extends ConfigurationRuntimeService {
     setServostellung(servoConfiguration.getServoNummer(), ende);
   }
 
+  @Override
+  protected int[] getProgLocalAdressen() {
+    return LOCAL_ADRESSEN;
+  }
 }

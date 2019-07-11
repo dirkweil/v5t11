@@ -1,6 +1,7 @@
 package de.gedoplan.v5t11.status.service;
 
 import de.gedoplan.v5t11.status.entity.BausteinConfiguration;
+import de.gedoplan.v5t11.status.entity.Kanal;
 import de.gedoplan.v5t11.status.entity.baustein.Baustein;
 import de.gedoplan.v5t11.status.persistence.BausteinConfigurationRepository;
 
@@ -26,7 +27,7 @@ public class BausteinConfigurationService implements Serializable {
 
     if (bausteinConfiguration == null) {
       bausteinConfiguration = new BausteinConfiguration(baustein.getId());
-      bausteinConfiguration.setAdresse(baustein.getAdresse());
+      bausteinConfiguration.setLocalAdr(Kanal.toLocalAdr(baustein.getAdresse()));
 
       // if (baustein.getProperties() != null) {
       // bausteinConfiguration.getProperties().putAll(baustein.getProperties());

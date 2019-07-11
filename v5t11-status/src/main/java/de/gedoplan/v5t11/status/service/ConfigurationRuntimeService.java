@@ -1,14 +1,19 @@
 package de.gedoplan.v5t11.status.service;
 
+import de.gedoplan.v5t11.status.entity.Kanal;
 import de.gedoplan.v5t11.status.entity.Steuerung;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import lombok.Setter;
 
 /**
  * Basisklasse für Services, die die Konfiguration eines Bausteins lesen und schreiben.
@@ -20,16 +25,21 @@ public abstract class ConfigurationRuntimeService implements Serializable {
   private static final int WAIT_MILLIS = 1000;
 
   @Inject
-  protected Steuerung steuerung;
+  private Steuerung steuerung;
 
   @Inject
   BausteinConfigurationService bausteinConfigurationService;
 
-  private int[] savedKanalWerte = new int[10];
+  @Setter
+  protected int busNr;
+
+  private Map<Integer, Integer> savedKanalWerte = new HashMap<>();
 
   protected Log log = LogFactory.getLog(getClass());
 
   public abstract ConfigurationAdapter getConfiguration();
+
+  protected abstract int[] getProgLocalAdressen();
 
   public abstract void getRuntimeValues();
 
@@ -41,23 +51,39 @@ public abstract class ConfigurationRuntimeService implements Serializable {
   }
 
   public void saveProgKanalWerte() {
-    for (int adr = 0; adr < this.savedKanalWerte.length; ++adr) {
-      this.savedKanalWerte[adr] = this.steuerung.getSX1Kanal(adr);
-      this.steuerung.addSuppressedKanal(adr);
+    for (int busNr = 0; busNr < this.steuerung.getZentrale().getBusAnzahl(); ++busNr) {
+      for (int localAdr : getProgLocalAdressen()) {
+        int adr = Kanal.toAdr(busNr, localAdr);
+        this.savedKanalWerte.put(adr, this.steuerung.getSX1Kanal(adr));
+        this.steuerung.addSuppressedKanal(adr);
+      }
     }
   }
 
   @PreDestroy
   void preDestroy() {
-    for (int adr = 0; adr < this.savedKanalWerte.length; ++adr) {
-      this.steuerung.setSX1Kanal(adr, this.savedKanalWerte[adr]);
+    this.savedKanalWerte.entrySet().stream().forEach(entry -> {
+      int adr = entry.getKey();
+      int wert = entry.getValue();
+      this.steuerung.setSX1Kanal(adr, wert);
       this.steuerung.removeSuppressedKanal(adr);
-    }
+    });
   }
 
-  protected int getParameter(int steuerAdr, int wertAdr, int parameterNummer) {
+  protected int getWert(int localAdr) {
+    return this.steuerung.getSX1Kanal(Kanal.toAdr(this.busNr, localAdr));
+  }
+
+  protected void setWert(int localAdr, int wert) {
+    this.steuerung.setSX1Kanal(Kanal.toAdr(this.busNr, localAdr), wert);
+  }
+
+  protected int getParameter(int steuerLocalAdr, int wertLocalAdr, int parameterNummer) {
+    int steuerAdr = Kanal.toAdr(this.busNr, steuerLocalAdr);
+    int wertAdr = Kanal.toAdr(this.busNr, wertLocalAdr);
+
     if (this.log.isDebugEnabled()) {
-      this.log.debug(String.format("getParameter: steuerAdr=%d, wertAdr=5d, parameterNummer=%d", steuerAdr, wertAdr, parameterNummer));
+      this.log.debug(String.format("getParameter: steuerAdr=%d, wertAdr=%d, parameterNummer=%d", steuerAdr, wertAdr, parameterNummer));
     }
 
     this.steuerung.setSX1Kanal(steuerAdr, parameterNummer);
@@ -71,9 +97,12 @@ public abstract class ConfigurationRuntimeService implements Serializable {
     return value;
   }
 
-  protected void setParameter(int steuerAdr, int wertAdr, int parameterNummer, int newValue) {
+  protected void setParameter(int steuerLocalAdr, int wertLocalAdr, int parameterNummer, int newValue) {
+    int steuerAdr = Kanal.toAdr(this.busNr, steuerLocalAdr);
+    int wertAdr = Kanal.toAdr(this.busNr, wertLocalAdr);
+
     if (this.log.isDebugEnabled()) {
-      this.log.debug(String.format("setParameter: steuerAdr=%d, wertAdr=5d, parameterNummer=%d, newValue=%d (0x%02x)", steuerAdr, wertAdr, parameterNummer, newValue, newValue));
+      this.log.debug(String.format("setParameter: steuerAdr=%d, wertAdr=%d, parameterNummer=%d, newValue=%d (0x%02x)", steuerAdr, wertAdr, parameterNummer, newValue, newValue));
     }
 
     this.steuerung.setSX1Kanal(steuerAdr, parameterNummer);

@@ -1,5 +1,6 @@
 package de.gedoplan.v5t11.status.webui;
 
+import de.gedoplan.v5t11.status.entity.Kanal;
 import de.gedoplan.v5t11.status.entity.Steuerung;
 import de.gedoplan.v5t11.status.entity.baustein.Baustein;
 import de.gedoplan.v5t11.status.entity.baustein.Konfigurierbar;
@@ -29,6 +30,7 @@ import javax.inject.Inject;
 import org.apache.commons.logging.Log;
 
 import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Presentation Model für die Bausteinprogrammierung.
@@ -81,6 +83,16 @@ public class CompProgPresenter implements Serializable {
 
   private String progViewOutcome;
 
+  @Getter
+  @Setter
+  private int busNr;
+
+  @Getter
+  private boolean busNrFixed;
+
+  @Getter
+  private List<Integer> busNummern;
+
   /**
    * Aktuellen Baustein wählen und Programm-Session beginnen.
    *
@@ -98,6 +110,13 @@ public class CompProgPresenter implements Serializable {
     if (this.conversation.isTransient()) {
       this.conversation.begin();
     }
+
+    // Bus-Nr aus Adresse entnehmen
+    int adr = this.currentBaustein.getAdresse();
+    this.busNr = Kanal.toBusNr(adr);
+
+    // Bus-Nr ist fixiert, wenn der Baustein bereits eine Adresse hat
+    this.busNrFixed = adr != 0;
 
     try {
       // "Injektion" des passenden ConfigurationRuntimeService per API
@@ -146,6 +165,9 @@ public class CompProgPresenter implements Serializable {
   public String edit() {
     if (this.currentBaustein != null) {
 
+      this.busNrFixed = true;
+      this.configurationRuntimeService.setBusNr(this.busNr);
+
       // Aktuelle Ist-Werte holen
       this.configurationRuntimeService.getRuntimeValues();
 
@@ -172,6 +194,11 @@ public class CompProgPresenter implements Serializable {
     this.neueBausteine = new ArrayList<>();
     for (Baustein b : this.bausteinInstanzen) {
       this.neueBausteine.add(b);
+    }
+
+    this.busNummern = new ArrayList<>();
+    for (int i = 0; i < this.steuerung.getZentrale().getBusAnzahl(); ++i) {
+      this.busNummern.add(i);
     }
   }
 

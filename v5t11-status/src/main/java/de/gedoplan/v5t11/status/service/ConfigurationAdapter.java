@@ -16,7 +16,7 @@ import lombok.Getter;
  *
  * Objekte dieses Typs enthalten die Soll- und Ist-Konfiguration eines
  * Bausteins. Die Ist-Konfiguration ist veränderlich.
- * Diese Basisklasse bietet Methoden zum Zugriff auf die Adresse an. Ein
+ * Diese Basisklasse bietet Methoden zum Zugriff auf die (buslokale) Adresse an. Ein
  * zugeordnetes Dirty-Flag zeigt an, ob die Ist-Adresse verändert wurde.
  *
  * Konkrete Bausteinkonfigurationen enthalten weitere Konfigurationswerte als
@@ -33,7 +33,7 @@ public abstract class ConfigurationAdapter {
   protected BausteinConfiguration sollConfiguration;
   protected BausteinConfiguration istConfiguration;
 
-  protected boolean adresseDirty;
+  protected boolean localAdrDirty;
 
   protected Map<String, String> istProperties;
   protected Map<String, String> sollProperties;
@@ -57,35 +57,35 @@ public abstract class ConfigurationAdapter {
 
   }
 
-  public int getAdresseSoll() {
-    return this.sollConfiguration.getAdresse();
+  public int getLocalAdrSoll() {
+    return this.sollConfiguration.getLocalAdr();
   }
 
-  public int getAdresseIst() {
-    return this.istConfiguration.getAdresse();
+  public int getLocalAdrIst() {
+    return this.istConfiguration.getLocalAdr();
   }
 
-  public void setAdresseIst(int adresse) {
-    if (adresse != this.istConfiguration.getAdresse()) {
-      this.istConfiguration.setAdresse(adresse);
-      this.adresseDirty = true;
+  public void setLocalAdrIst(int localAdr) {
+    if (localAdr != this.istConfiguration.getLocalAdr()) {
+      this.istConfiguration.setLocalAdr(localAdr);
+      this.localAdrDirty = true;
     }
   }
 
-  public void setAdresseIst(int adresse, boolean dirty) {
-    this.istConfiguration.setAdresse(adresse);
-    this.adresseDirty = dirty;
+  public void setLocalAdrIst(int localAdr, boolean dirty) {
+    this.istConfiguration.setLocalAdr(localAdr);
+    this.localAdrDirty = dirty;
   }
 
-  public void adresseResetToSoll() {
-    setAdresseIst(getAdresseSoll());
+  public void localAdrResetToSoll() {
+    setLocalAdrIst(getLocalAdrSoll());
   }
 
   /**
-   * Wert löschen: {@link #adresseDirty}.
+   * Wert löschen: {@link #localAdrDirty}.
    */
-  public void clearAdresseDirty() {
-    this.adresseDirty = false;
+  public void clearLocalAdrDirty() {
+    this.localAdrDirty = false;
   }
 
   /**
@@ -96,7 +96,7 @@ public abstract class ConfigurationAdapter {
    * @author dw
    *
    * @param <T>
-   *          Typ des KJonfigurationswertes
+   *        Typ des KJonfigurationswertes
    */
   public static class ConfigurationPropertyAdapter<T> {
     private Map<String, String> istProperties;
@@ -114,20 +114,20 @@ public abstract class ConfigurationAdapter {
      * Property-Adapter erstellen.
      *
      * @param istProperties
-     *          Map, in dem der Ist-Wert der Property abgelegt wird.
+     *        Map, in dem der Ist-Wert der Property abgelegt wird.
      * @param key
-     *          Key für die Ablage im Ist- und Soll-Map.
+     *        Key für die Ablage im Ist- und Soll-Map.
      * @param defaultValue
-     *          Default-Wert.
+     *        Default-Wert.
      * @param sollProperties
-     *          Map, in dem der Soll-Wert der Property abgelegt wird.
+     *        Map, in dem der Soll-Wert der Property abgelegt wird.
      * @param clazz
-     *          Property-Typ.
+     *        Property-Typ.
      * @param valueOf
-     *          Funktion, die einen String auf einen Property-Wert abbildet.
+     *        Funktion, die einen String auf einen Property-Wert abbildet.
      * @param values
-     *          Funktion, die die verfügbaren Property-WErte liefert oder
-     *          <code>null</code>, falls unlimitiert.
+     *        Funktion, die die verfügbaren Property-WErte liefert oder
+     *        <code>null</code>, falls unlimitiert.
      */
     public ConfigurationPropertyAdapter(Map<String, String> istProperties, String key, T defaultValue, Map<String, String> sollProperties, Class<T> clazz, Function<String, T> valueOf,
         Supplier<T[]> values) {
@@ -144,13 +144,13 @@ public abstract class ConfigurationAdapter {
      * Property-Adapter stellen.
      *
      * @param istProperties
-     *          Map, in dem der Ist-Wert der Property abgelegt wird.
+     *        Map, in dem der Ist-Wert der Property abgelegt wird.
      * @param key
-     *          Key für die Ablage im Ist- und Soll-Map.
+     *        Key für die Ablage im Ist- und Soll-Map.
      * @param defaultValue
-     *          Default-Wert.
+     *        Default-Wert.
      * @param sollProperties
-     *          Map, in dem der Soll-Wert der Property abgelegt wird.
+     *        Map, in dem der Soll-Wert der Property abgelegt wird.
      */
     public ConfigurationPropertyAdapter(Map<String, String> istProperties, String key, T defaultValue, Map<String, String> sollProperties, Class<T> clazz) {
       this(istProperties, key, defaultValue, sollProperties, clazz, getValueOfFunction(clazz), getValuesFunction(clazz));
@@ -166,13 +166,15 @@ public abstract class ConfigurationAdapter {
           public T apply(String valueString) {
             try {
               return (T) valueOfMethod.invoke(null, valueString);
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
               throw new BugException("Cannot get property value", e);
             }
           }
 
         };
-      } catch (NoSuchMethodException e) {
+      }
+      catch (NoSuchMethodException e) {
         throw new IllegalArgumentException("Parameter class " + clazz.getName() + " offers no valueOf(String) method", e);
       }
     }
@@ -187,13 +189,15 @@ public abstract class ConfigurationAdapter {
           public T[] get() {
             try {
               return (T[]) valuesMethod.invoke(null, (Object[]) null);
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
               throw new BugException("Cannot get available property values", e);
             }
           }
 
         };
-      } catch (NoSuchMethodException e) {
+      }
+      catch (NoSuchMethodException e) {
         return null;
       }
     }

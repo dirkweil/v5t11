@@ -6,32 +6,35 @@
 
   <ui:define name="content">
 
-    <p:fieldset legend="Baustein">
+    <h:form>
+      <p:fieldset legend="Baustein">
 
-      <h:form>
         <h:panelGrid columns="2">
           <p:outputLabel for="typ" value="Typ: " />
-          <p:inputText id="typ" value="#{compProgPresenter.currentBaustein.class.simpleName}" readonly="true" />
+          <p:inputText id="typ" value="#{compProgPresenter.currentBaustein.class.simpleName}" disabled="true" />
 
           <p:outputLabel for="id" value="Id: " />
-          <p:inputText id="id" value="#{compProgPresenter.currentBaustein.id}" readonly="true" />
+          <p:inputText id="id" value="#{compProgPresenter.currentBaustein.id}" disabled="true" />
 
           <p:outputLabel for="ort" value="Einbauort: " />
-          <p:inputText id="ort" value="#{compProgPresenter.currentBaustein.einbauOrt}" readonly="true" size="80"/>
-        </h:panelGrid>
-      </h:form>
-    </p:fieldset>
+          <p:inputText id="ort" value="#{compProgPresenter.currentBaustein.einbauOrt}" disabled="true" size="80" />
 
-    <p:fieldset legend="Parameter">
-      <h:form>
+          <p:outputLabel for="busNr" value="SX-Bus: " />
+          <p:selectOneMenu id="busNr" value="#{compProgPresenter.busNr}" disabled="#{compProgPresenter.busNrFixed}">
+            <f:selectItems value="#{compProgPresenter.busNummern}" />
+          </p:selectOneMenu>
+        </h:panelGrid>
+      </p:fieldset>
+
+      <p:fieldset legend="Parameter">
         <ui:insert name="properties" />
 
         <ui:insert name="buttons">
           <p:commandButton value="programmieren" actionListener="#{compProgPresenter.program()}" action="closeProgMode" ajax="false" />
           <p:commandButton value="abbrechen" action="closeProgMode" immediate="true" ajax="false" />
         </ui:insert>
-      </h:form>
-    </p:fieldset>
+      </p:fieldset>
+    </h:form>
   </ui:define>
 </ui:composition>
 </html>

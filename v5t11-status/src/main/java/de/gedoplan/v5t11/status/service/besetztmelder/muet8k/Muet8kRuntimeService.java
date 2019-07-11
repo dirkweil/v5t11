@@ -22,8 +22,9 @@ import lombok.Getter;
 @Programmierfamilie(Muet8k.class)
 public class Muet8kRuntimeService extends ConfigurationRuntimeService {
 
-  private static final int STEUER_ADR = 0;
-  private static final int WERT_ADR = 1;
+  private static final int LOCAL_ADR_STEUER = 0;
+  private static final int LOCAL_ADR_WERT = 1;
+  private static final int[] LOCAL_ADRESSEN = { LOCAL_ADR_STEUER, LOCAL_ADR_WERT };
 
   @Getter
   private Muet8kConfigurationAdapter configuration;
@@ -40,17 +41,21 @@ public class Muet8kRuntimeService extends ConfigurationRuntimeService {
 
   @Override
   public void getRuntimeValues() {
-    this.configuration.setAdresseIst(getParameter(STEUER_ADR, WERT_ADR, 1));
+    this.configuration.setLocalAdrIst(getParameter(LOCAL_ADR_STEUER, LOCAL_ADR_WERT, 1));
 
-    int options = getParameter(STEUER_ADR, WERT_ADR, 2);
+    int options = getParameter(LOCAL_ADR_STEUER, LOCAL_ADR_WERT, 2);
     this.configuration.getAbfallVerzoegerung().setIst((options & 0b0001_1111) * 80);
   }
 
   @Override
   public void setRuntimeValues() {
-    setParameter(STEUER_ADR, WERT_ADR, 1, this.configuration.getAdresseIst());
+    setParameter(LOCAL_ADR_STEUER, LOCAL_ADR_WERT, 1, this.configuration.getLocalAdrIst());
 
-    setParameter(STEUER_ADR, WERT_ADR, 2, (this.configuration.getAbfallVerzoegerung().getIst() / 80) & 0b0001_1111);
+    setParameter(LOCAL_ADR_STEUER, LOCAL_ADR_WERT, 2, (this.configuration.getAbfallVerzoegerung().getIst() / 80) & 0b0001_1111);
   }
 
+  @Override
+  protected int[] getProgLocalAdressen() {
+    return LOCAL_ADRESSEN;
+  }
 }
