@@ -2,7 +2,7 @@
   xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:p="http://primefaces.org/ui">
 
 <ui:composition template="/WEB-INF/templates/v5t11.xhtml">
-  <ui:param name="title" value="Component Programming" />
+  <ui:param name="title" value="Baustein-Programmierung" />
 
   <ui:define name="content">
 
@@ -11,17 +11,17 @@
 
         <h:panelGrid columns="2">
           <p:outputLabel for="typ" value="Typ: " />
-          <p:inputText id="typ" value="#{compProgPresenter.currentBaustein.class.simpleName}" disabled="true" />
+          <p:inputText id="typ" value="#{bausteinProgrammierungPresenter.currentBaustein.class.simpleName}" disabled="true" />
 
           <p:outputLabel for="id" value="Id: " />
-          <p:inputText id="id" value="#{compProgPresenter.currentBaustein.id}" disabled="true" />
+          <p:inputText id="id" value="#{bausteinProgrammierungPresenter.currentBaustein.id}" disabled="true" />
 
           <p:outputLabel for="ort" value="Einbauort: " />
-          <p:inputText id="ort" value="#{compProgPresenter.currentBaustein.einbauOrt}" disabled="true" size="80" />
+          <p:inputText id="ort" value="#{bausteinProgrammierungPresenter.currentBaustein.einbauOrt}" disabled="true" size="80" />
 
           <p:outputLabel for="busNr" value="SX-Bus: " />
-          <p:selectOneMenu id="busNr" value="#{compProgPresenter.busNr}" disabled="#{compProgPresenter.busNrFixed}">
-            <f:selectItems value="#{compProgPresenter.busNummern}" />
+          <p:selectOneMenu id="busNr" value="#{bausteinProgrammierungPresenter.busNr}" disabled="#{bausteinProgrammierungPresenter.busNrFixed}">
+            <f:selectItems value="#{bausteinProgrammierungPresenter.busNummern}" />
           </p:selectOneMenu>
         </h:panelGrid>
       </p:fieldset>
@@ -30,7 +30,7 @@
         <ui:insert name="properties" />
 
         <ui:insert name="buttons">
-          <p:commandButton value="programmieren" actionListener="#{compProgPresenter.program()}" action="closeProgMode" ajax="false" />
+          <p:commandButton value="programmieren" actionListener="#{bausteinProgrammierungPresenter.program()}" action="closeProgMode" ajax="false" />
           <p:commandButton value="abbrechen" action="closeProgMode" immediate="true" ajax="false" />
         </ui:insert>
       </p:fieldset>

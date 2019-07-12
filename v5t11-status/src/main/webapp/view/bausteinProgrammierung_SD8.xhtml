@@ -1,0 +1,78 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/templates/bausteinProgrammierung.xhtml">
+  <ui:define name="properties">
+    <h:panelGrid columns="5">
+      <h:panelGroup />
+      <h:outputText value="Soll" />
+      <h:panelGroup />
+      <h:outputText value="Ist" />
+      <h:panelGroup />
+
+      <p:outputLabel for="sollAdresse" value="Adresse: " />
+      <p:inputText id="sollAdresse" value="#{bausteinProgrammierungPresenter.configuration.localAdrSoll}" size="3" readonly="true" />
+      <p:commandButton value=">" action="#{bausteinProgrammierungPresenter.configuration.localAdrResetToSoll()}" ajax="false" />
+      <p:inputText value="#{bausteinProgrammierungPresenter.configuration.localAdrIst}" size="3" id="istAdresse" />
+      <p:message for="istAdresse" />
+
+      <p:outputLabel for="sollAbschaltZeit" value="Abschaltzeit (in 100 ms, 0=nie): " />
+      <p:inputText id="sollAbschaltZeit" value="#{bausteinProgrammierungPresenter.configuration.abschaltZeit.soll}" size="3" readonly="true" />
+      <p:commandButton value=">" action="#{bausteinProgrammierungPresenter.configuration.abschaltZeit.resetToSoll()}" ajax="false" />
+      <p:inputText value="#{bausteinProgrammierungPresenter.configuration.abschaltZeit.ist}" size="3" id="istAbschaltZeit" />
+      <p:message for="istAbschaltZeit" />
+    </h:panelGrid>
+
+    <p:tabView dynamic="true">
+      <c:forEach var="servoNr" begin="0" step="1" end="7">
+        <p:tab title="Servo #{servoNr}">
+          <h:panelGrid columns="6">
+            <h:panelGroup />
+            <h:outputText value="Soll" />
+            <p:commandButton value=">" action="#{bausteinProgrammierungPresenter.configuration.servoConfiguration[servoNr].resetToSoll()}" ajax="false" />
+            <h:outputText value="Ist" />
+            <h:panelGroup />
+            <h:panelGroup />
+
+            <p:outputLabel for="sollStart" value="Start: " />
+            <p:inputText id="sollStart" value="#{bausteinProgrammierungPresenter.configuration.servoConfiguration[servoNr].start.soll}" readonly="true" />
+            <p:commandButton value=">" action="#{bausteinProgrammierungPresenter.configuration.servoConfiguration[servoNr].start.resetToSoll()}" ajax="false" />
+            <p:inputText value="#{bausteinProgrammierungPresenter.configuration.servoConfiguration[servoNr].start.ist}" id="istStart" />
+            <p:message for="istStart" />
+            <p:commandButton value="Test" action="#{bausteinProgrammierungPresenter.configurationRuntimeService.testStart(bausteinProgrammierungPresenter.configuration.servoConfiguration[servoNr])}" ajax="false" />
+            
+            <p:outputLabel for="sollEnde" value="Ende: " />
+            <p:inputText id="sollEnde" value="#{bausteinProgrammierungPresenter.configuration.servoConfiguration[servoNr].ende.soll}" readonly="true" />
+            <p:commandButton value=">" action="#{bausteinProgrammierungPresenter.configuration.servoConfiguration[servoNr].ende.resetToSoll()}" ajax="false" />
+            <p:inputText value="#{bausteinProgrammierungPresenter.configuration.servoConfiguration[servoNr].ende.ist}" id="istEnde" />
+            <p:message for="istEnde" />
+            <p:commandButton value="Test" action="#{bausteinProgrammierungPresenter.configurationRuntimeService.testEnde(bausteinProgrammierungPresenter.configuration.servoConfiguration[servoNr])}" ajax="false" />
+
+            <p:outputLabel for="sollGeschwindigkeit" value="Geschwindigkeit: " />
+            <p:inputText id="sollGeschwindigkeit" value="#{bausteinProgrammierungPresenter.configuration.servoConfiguration[servoNr].geschwindigkeit.soll}" readonly="true" />
+            <p:commandButton value=">" action="#{bausteinProgrammierungPresenter.configuration.servoConfiguration[servoNr].geschwindigkeit.resetToSoll()}" ajax="false" />
+            <p:inputText value="#{bausteinProgrammierungPresenter.configuration.servoConfiguration[servoNr].geschwindigkeit.ist}" id="istGeschwindigkeit" />
+            <p:message for="istGeschwindigkeit" />
+            <h:panelGroup />
+
+            <p:outputLabel for="sollStartWippen" value="Nachwippen am Start: " />
+            <p:inputText id="sollStartWippen" value="#{bausteinProgrammierungPresenter.configuration.servoConfiguration[servoNr].startNachwippen.soll}" readonly="true" />
+            <p:commandButton value=">" action="#{bausteinProgrammierungPresenter.configuration.servoConfiguration[servoNr].startNachwippen.resetToSoll()}" ajax="false" />
+            <p:inputText value="#{bausteinProgrammierungPresenter.configuration.servoConfiguration[servoNr].startNachwippen.ist}" id="istStartWippen" />
+            <p:message for="istStartWippen" />
+            <h:panelGroup />
+
+            <p:outputLabel for="sollEndeWippen" value="Nachwippen am Ende: " />
+            <p:inputText id="sollEndeWippen" value="#{bausteinProgrammierungPresenter.configuration.servoConfiguration[servoNr].endeNachwippen.soll}" readonly="true" />
+            <p:commandButton value=">" action="#{bausteinProgrammierungPresenter.configuration.servoConfiguration[servoNr].endeNachwippen.resetToSoll()}" ajax="false" />
+            <p:inputText value="#{bausteinProgrammierungPresenter.configuration.servoConfiguration[servoNr].endeNachwippen.ist}" id="istEndeWippen" />
+            <p:message for="istEndeWippen" />
+            <h:panelGroup />
+          </h:panelGrid>
+        </p:tab>
+      </c:forEach>
+    </p:tabView>
+
+  </ui:define>
+</ui:composition>
+</html>

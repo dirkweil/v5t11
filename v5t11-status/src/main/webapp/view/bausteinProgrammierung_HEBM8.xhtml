@@ -1,0 +1,32 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/templates/bausteinProgrammierung.xhtml">
+  <ui:define name="properties">
+    <h:panelGrid columns="5">
+      <h:panelGroup />
+      <h:outputText value="Soll" />
+      <h:panelGroup />
+      <h:outputText value="Ist" />
+      <h:panelGroup />
+
+      <p:outputLabel for="sollAdr" value="Adresse: " />
+      <p:inputText id="sollAdr" value="#{bausteinProgrammierungPresenter.configuration.localAdrSoll}" readonly="true" />
+      <p:commandButton value=">" action="#{bausteinProgrammierungPresenter.configuration.localAdrResetToSoll()}" ajax="false" />
+      <p:inputText value="#{bausteinProgrammierungPresenter.configuration.localAdrIst}" id="istAdresse" />
+      <p:message for="istAdresse" />
+
+      <p:outputLabel for="sollAbfallVerzoegerung" value="Abfallverzögerung  (ms, Vielfaches von 100): " />
+      <p:inputText id="sollAbfallVerzoegerung" value="#{bausteinProgrammierungPresenter.configuration.abfallVerzoegerung.soll}" readonly="true" />
+      <p:commandButton value=">" action="#{bausteinProgrammierungPresenter.configuration.abfallVerzoegerung.resetToSoll()}" ajax="false" />
+      <p:inputText value="#{bausteinProgrammierungPresenter.configuration.abfallVerzoegerung.ist}" id="istAbfallVerzoegerung" />
+      <p:message for="istAbfallVerzoegerung" />
+    </h:panelGrid>
+  </ui:define>
+
+  <ui:define name="buttons">
+    <p:commandButton value="programmieren" actionListener="#{bausteinProgrammierungPresenter.program()}" action="closeProgMode" ajax="false" />
+    <p:commandButton value="abbrechen" action="bausteinProgrammierung" immediate="true" ajax="false" />
+  </ui:define>
+</ui:composition>
+</html>

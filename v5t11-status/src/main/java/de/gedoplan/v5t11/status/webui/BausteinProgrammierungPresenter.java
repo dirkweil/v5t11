@@ -39,7 +39,7 @@ import lombok.Setter;
  */
 @Model
 @SessionScoped
-public class CompProgPresenter implements Serializable {
+public class BausteinProgrammierungPresenter implements Serializable {
   @Inject
   Steuerung steuerung;
 
@@ -126,7 +126,7 @@ public class CompProgPresenter implements Serializable {
         programmierfamilie = bausteinClass;
       }
       this.configurationRuntimeService = CDI.current().select(ConfigurationRuntimeService.class, new Programmierfamilie.Literal(programmierfamilie)).get();
-      this.progViewOutcome = "/view/compProg_" + programmierfamilie.getSimpleName() + "?faces-redirect=true";
+      this.progViewOutcome = "/view/bausteinProgrammierung_" + programmierfamilie.getSimpleName() + "?faces-redirect=true";
 
       this.configurationRuntimeService.saveProgKanalWerte();
 
@@ -216,6 +216,6 @@ public class CompProgPresenter implements Serializable {
       this.conversation.end();
     }
 
-    return "compProg";
+    return "bausteinProgrammierung";
   }
 }

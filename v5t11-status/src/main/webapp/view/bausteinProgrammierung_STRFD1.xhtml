@@ -1,7 +1,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
   xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:p="http://primefaces.org/ui">
 
-<ui:composition template="/WEB-INF/templates/compProg.xhtml">
+<ui:composition template="/WEB-INF/templates/bausteinProgrammierung.xhtml">
   <ui:define name="properties">
     <h:panelGrid columns="5">
       <h:panelGroup />
@@ -11,29 +11,29 @@
       <h:panelGroup />
 
       <p:outputLabel for="sollAdresse" value="Adresse: " />
-      <p:inputText id="sollAdresse" value="#{compProgPresenter.configuration.localAdrSoll}" readonly="true" />
-      <p:commandButton value=">" action="#{compProgPresenter.configuration.localAdrResetToSoll()}" ajax="false" />
-      <p:inputText value="#{compProgPresenter.configuration.localAdrIst}" id="istAdresse" />
+      <p:inputText id="sollAdresse" value="#{bausteinProgrammierungPresenter.configuration.localAdrSoll}" readonly="true" />
+      <p:commandButton value=">" action="#{bausteinProgrammierungPresenter.configuration.localAdrResetToSoll()}" ajax="false" />
+      <p:inputText value="#{bausteinProgrammierungPresenter.configuration.localAdrIst}" id="istAdresse" />
       <p:message for="istAdresse" />
 
       <p:outputLabel for="sollDauer" value="Dauerausgang (0..7): " />
       <h:panelGroup id="sollDauer">
-        <c:forEach items="#{compProgPresenter.configuration.dauer}" var="dauer">
+        <c:forEach items="#{bausteinProgrammierungPresenter.configuration.dauer}" var="dauer">
           <p:selectBooleanCheckbox value="#{dauer.soll}" disabled="true" />
         </c:forEach>
       </h:panelGroup>
-      <p:commandButton value=">" action="#{compProgPresenter.configuration.resetDauerToSoll()}" ajax="false" />
+      <p:commandButton value=">" action="#{bausteinProgrammierungPresenter.configuration.resetDauerToSoll()}" ajax="false" />
       <h:panelGroup>
-        <c:forEach items="#{compProgPresenter.configuration.dauer}" var="dauer">
+        <c:forEach items="#{bausteinProgrammierungPresenter.configuration.dauer}" var="dauer">
           <p:selectBooleanCheckbox value="#{dauer.ist}" />
         </c:forEach>
       </h:panelGroup>
       <h:panelGroup />
 
       <p:outputLabel for="sollImpulsDauer" value="Impulsdauer (ms): " />
-      <p:inputText id="sollImpulsDauer" value="#{compProgPresenter.configuration.impulsDauer.soll}" readonly="true" />
-      <p:commandButton value=">" action="#{compProgPresenter.configuration.impulsDauer.resetToSoll()}" ajax="false" />
-      <p:inputText value="#{compProgPresenter.configuration.impulsDauer.ist}" id="istImpulsDauer" />
+      <p:inputText id="sollImpulsDauer" value="#{bausteinProgrammierungPresenter.configuration.impulsDauer.soll}" readonly="true" />
+      <p:commandButton value=">" action="#{bausteinProgrammierungPresenter.configuration.impulsDauer.resetToSoll()}" ajax="false" />
+      <p:inputText value="#{bausteinProgrammierungPresenter.configuration.impulsDauer.ist}" id="istImpulsDauer" />
       <p:message for="istImpulsDauer" />
     </h:panelGrid>
   </ui:define>

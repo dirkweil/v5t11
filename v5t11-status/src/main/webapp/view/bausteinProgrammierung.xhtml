@@ -10,10 +10,10 @@
       <p:tabView>
 
         <p:tab title="Vorkonfigurierte Bausteine">
-          <p:dataTable value="#{compProgPresenter.konfigurierteBausteine}" var="baustein" sortBy="#{baustein.label}">
+          <p:dataTable value="#{bausteinProgrammierungPresenter.konfigurierteBausteine}" var="baustein" sortBy="#{baustein.label}">
             <p:column sortBy="#{baustein.label}">
               <f:facet name="header">Id</f:facet>
-              <p:commandButton value="#{baustein.label}" action="#{compProgPresenter.selectBaustein(baustein)}" ajax="false" />
+              <p:commandButton value="#{baustein.label}" action="#{bausteinProgrammierungPresenter.selectBaustein(baustein)}" ajax="false" />
             </p:column>
             <p:column>
               <f:facet name="header">Typ</f:facet>
@@ -31,10 +31,10 @@
         </p:tab>
 
         <p:tab title="Neue Bausteine">
-          <p:dataTable value="#{compProgPresenter.neueBausteine}" var="baustein" sortBy="#{baustein.label}">
+          <p:dataTable value="#{bausteinProgrammierungPresenter.neueBausteine}" var="baustein" sortBy="#{baustein.label}">
             <p:column sortBy="#{baustein.label}">
               <f:facet name="header">Typ</f:facet>
-              <p:commandButton value="#{baustein.label}" action="#{compProgPresenter.selectBaustein(baustein)}" ajax="false" />
+              <p:commandButton value="#{baustein.label}" action="#{bausteinProgrammierungPresenter.selectBaustein(baustein)}" ajax="false" />
             </p:column>
           </p:dataTable>
         </p:tab>
