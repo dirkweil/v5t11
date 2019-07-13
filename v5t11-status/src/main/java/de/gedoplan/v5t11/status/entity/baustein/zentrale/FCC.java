@@ -300,7 +300,7 @@ public class FCC extends Zentrale {
   @Override
   public int getSX1Kanal(int adr) {
     int bus = Kanal.toBusNr(adr);
-    if (bus <= 0 || bus >= BUS_ANZAHL) {
+    if (bus < 0 || bus >= BUS_ANZAHL) {
       throw new IllegalArgumentException("Ungültige SX1-Adresse: " + adr);
     }
 
@@ -311,7 +311,7 @@ public class FCC extends Zentrale {
   @Override
   public void setSX1Kanal(int adr, int wert) {
     int bus = Kanal.toBusNr(adr);
-    if (bus <= 0 || bus >= BUS_ANZAHL) {
+    if (bus < 0 || bus >= BUS_ANZAHL) {
       throw new IllegalArgumentException("Ungültige SX1-Adresse: " + adr);
     }
 
