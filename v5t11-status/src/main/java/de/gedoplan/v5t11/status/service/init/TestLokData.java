@@ -53,6 +53,17 @@ public class TestLokData {
   public static final Lok lok430_119_8 = new Lok("430 119-8", "DHL100", SystemTyp.SX1, false, 16, 31);
   public static final Lok lok614_083_4 = new Lok("614 083-4", "Tr66832", SystemTyp.SX1, false, 11, 31);
   public static final Lok lok89_005 = new Lok("89 005", "DH05", SystemTyp.SX1, false, 7, 31);
+  public static final Lok lokE50_047 = new Lok("E50 047", null, SystemTyp.SX2, false, 1050, 127,
+      1, new Lok.FunktionConfig("Führerstandsbeleuchtung", false),
+      2, new Lok.FunktionConfig("Motorgeräusch", false),
+      3, new Lok.FunktionConfig("Pfeife lang", true),
+      4, new Lok.FunktionConfig("ABV aus", false),
+      5, new Lok.FunktionConfig("Pfeife kurz", true, true),
+      6, new Lok.FunktionConfig("Spitzensignal 2 aus", false),
+      7, new Lok.FunktionConfig("Schaffnerpfiff", true),
+      8, new Lok.FunktionConfig("Spitzensignal 1 aus", false),
+      9, new Lok.FunktionConfig("Bremsenquietschen aus", false),
+      10, new Lok.FunktionConfig("Ankuppelgeräusch", true));
   public static final Lok lokET_90_5019 = new Lok("ET 90.5019", "DHL100", SystemTyp.SX1, false, 21, 31);
   public static final Lok lokVT_11_5019 = new Lok("VT 11.5019", "DHL100", SystemTyp.SX1, false, 1, 31);
   public static final Lok lokVT_98_9731 = new Lok("VT 98.9731", "DHL100", SystemTyp.SX1, false, 6, 31);
@@ -68,13 +79,14 @@ public class TestLokData {
       lok151_073_4,
       lok212_216_6,
       lok216_xxx_x,
-      lok217_001_7,
+      lokE50_047,
       lok221_137_3,
       lok323_673_4,
       lok332_262_5,
       lok430_119_8,
       lok614_083_4,
       lok89_005,
+      lokE50_047,
       lokET_90_5019,
       lokVT_11_5019,
       lokVT_98_9731
