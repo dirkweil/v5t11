@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
+import java.nio.charset.Charset;
 
 import javax.json.bind.Jsonb;
 import javax.ws.rs.Produces;
@@ -25,6 +26,8 @@ import javax.ws.rs.ext.MessageBodyWriter;
  *
  */
 public abstract class JsonMessageBodyWriter implements MessageBodyWriter<Object> {
+
+  private static Charset CHARSET_UTF_8 = Charset.forName("UTF-8");
 
   // @Provider
   @Produces("application/json")
@@ -67,7 +70,6 @@ public abstract class JsonMessageBodyWriter implements MessageBodyWriter<Object>
 
     String json = this.jsonb.toJson(object);
 
-    // TODO CharSet aus Header uebernehmen
-    entityStream.write(json.getBytes());
+    entityStream.write(json.getBytes(CHARSET_UTF_8));
   }
 }
