@@ -79,6 +79,7 @@ public class TestLokData {
       lok151_073_4,
       lok212_216_6,
       lok216_xxx_x,
+      lok217_001_7,
       lokE50_047,
       lok221_137_3,
       lok323_673_4,
