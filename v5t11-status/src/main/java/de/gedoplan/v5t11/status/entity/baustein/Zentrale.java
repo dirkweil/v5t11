@@ -2,6 +2,7 @@ package de.gedoplan.v5t11.status.entity.baustein;
 
 import de.gedoplan.baselibs.utils.inject.InjectionUtil;
 import de.gedoplan.v5t11.status.entity.lok.Lok;
+import de.gedoplan.v5t11.status.service.ConfigService;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 import de.gedoplan.v5t11.util.misc.V5t11Exception;
@@ -18,7 +19,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.inject.Inject;
-import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -67,6 +67,9 @@ public abstract class Zentrale implements Closeable {
   @Inject
   protected EventFirer eventFirer;
 
+  @Inject
+  ConfigService configService;
+
   public abstract void open(ExecutorService executorService);
 
   @Override
@@ -90,12 +93,10 @@ public abstract class Zentrale implements Closeable {
       } else {
         openSerialPort();
       }
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       try {
         closePort();
-      }
-      catch (Exception ignore) {
+      } catch (Exception ignore) {
 
       }
 
@@ -125,8 +126,7 @@ public abstract class Zentrale implements Closeable {
       CommPortIdentifier portId = null;
       try {
         portId = CommPortIdentifier.getPortIdentifier(this.portName);
-      }
-      catch (NoSuchPortException ex) {
+      } catch (NoSuchPortException ex) {
         throw new IOException("Port " + this.portName + " ist nicht vorhanden");
       }
 
@@ -137,8 +137,7 @@ public abstract class Zentrale implements Closeable {
       SerialPort port = null;
       try {
         port = portId.open("SxInterface", 2000);
-      }
-      catch (PortInUseException ex) {
+      } catch (PortInUseException ex) {
         throw new IOException("Port " + this.portName + " ist bereits belegt");
       }
       this.device = port;
@@ -153,12 +152,10 @@ public abstract class Zentrale implements Closeable {
 
         this.in = port.getInputStream();
         this.out = port.getOutputStream();
-      }
-      catch (UnsupportedCommOperationException ex) {
+      } catch (UnsupportedCommOperationException ex) {
         closePort();
         throw new IOException("Port " + this.portName + " kann nicht initialisiert werden");
-      }
-      catch (IOException ex) {
+      } catch (IOException ex) {
         closePort();
         throw ex;
       }
@@ -169,8 +166,7 @@ public abstract class Zentrale implements Closeable {
     if (this.in != null) {
       try {
         this.in.close();
-      }
-      catch (Exception e) {
+      } catch (Exception e) {
         // ignore
       }
     }
@@ -179,8 +175,7 @@ public abstract class Zentrale implements Closeable {
     if (this.out != null) {
       try {
         this.out.close();
-      }
-      catch (Exception e) {
+      } catch (Exception e) {
         // ignore
       }
     }
@@ -198,8 +193,7 @@ public abstract class Zentrale implements Closeable {
         } else {
           ((SerialPort) this.device).close();
         }
-      }
-      catch (Exception e) {
+      } catch (Exception e) {
         // ignore
       }
     }
@@ -208,14 +202,6 @@ public abstract class Zentrale implements Closeable {
   }
 
   protected abstract int getPortSpeed();
-
-  // Nachbearbeitung nach JAXB-Unmarshal
-  protected void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
-    if (this.portName == null || "auto".equalsIgnoreCase(this.portName)) {
-      this.portName = selectFirstSerialPort();
-    }
-
-  }
 
   @SuppressWarnings("unchecked")
   private static String selectFirstSerialPort() {
@@ -230,17 +216,6 @@ public abstract class Zentrale implements Closeable {
     return "none";
   }
 
-  public abstract int getSX1Kanal(int adr);
-
-  public abstract void setSX1Kanal(int adr, int wert);
-
-  public void injectFields() {
-    InjectionUtil.injectFields(this);
-  }
-
-  public void lokChanged(Lok lok) {
-  }
-
   /**
    * Anzahl SX-Busse liefern.
    *
@@ -248,6 +223,31 @@ public abstract class Zentrale implements Closeable {
    */
   public int getBusAnzahl() {
     return 2;
+  }
+
+  public abstract int getSX1Kanal(int adr);
+
+  public abstract void setSX1Kanal(int adr, int wert);
+
+  public void lokChanged(Lok lok) {
+  }
+
+  public void injectFields() {
+    InjectionUtil.injectFields(this);
+  }
+
+  public void postConstruct() {
+    // Falls Port in Config gesetzt, diesen nehmen
+    String configPortName = System.getProperty(ConfigService.PROPERTY_PORT_NAME);
+    if (configPortName != null) {
+      this.portName = configPortName;
+    }
+
+    // Falls Port nicht gesetzt oder "auto", ersten Serienport nehmen
+    if (this.portName == null || "auto".equalsIgnoreCase(this.portName)) {
+      this.portName = selectFirstSerialPort();
+    }
+
   }
 
 }

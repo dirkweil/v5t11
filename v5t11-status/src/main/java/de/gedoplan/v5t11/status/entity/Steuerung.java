@@ -152,7 +152,8 @@ public class Steuerung {
   /**
    * Lok liefern.
    *
-   * @param id Id
+   * @param id
+   *          Id
    * @return gefundene Lok oder <code>null</code>
    */
   public Lok getLok(String id) {
@@ -192,9 +193,9 @@ public class Steuerung {
    * Gleisabschnitt liefern.
    *
    * @param bereich
-   *        Bereich
+   *          Bereich
    * @param name
-   *        Name
+   *          Name
    * @return gefundener Gleisabschnitt oder <code>null</code>
    */
   public Gleisabschnitt getGleisabschnitt(String bereich, String name) {
@@ -214,9 +215,9 @@ public class Steuerung {
    * Signal liefern.
    *
    * @param bereich
-   *        Bereich
+   *          Bereich
    * @param name
-   *        Name
+   *          Name
    * @return gefundenes Signal oder <code>null</code>
    */
   public Signal getSignal(String bereich, String name) {
@@ -236,9 +237,9 @@ public class Steuerung {
    * Weiche liefern.
    *
    * @param bereich
-   *        Bereich
+   *          Bereich
    * @param name
-   *        Name
+   *          Name
    * @return gefundene Weiche oder <code>null</code>
    */
   public Weiche getWeiche(String bereich, String name) {
@@ -270,19 +271,12 @@ public class Steuerung {
    * Nachbearbeitung nach JAXB-Unmarshal.
    *
    * @param unmarshaller
-   *        Unmarshaller
+   *          Unmarshaller
    * @param parent
-   *        Parent
+   *          Parent
    */
   @SuppressWarnings("unused")
   private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
-
-    /*
-     * Bei Betrieb ohne Port Zentrale nur simulieren.
-     */
-    if ("none".equalsIgnoreCase(this.zentrale.getPortName())) {
-      this.zentrale = new DummyZentrale();
-    }
 
     /*
      * Default-Zentrale ist FCC.
@@ -383,7 +377,7 @@ public class Steuerung {
    * Textliche Repräsentation der Steuerung erstellen.
    *
    * @param idOnly
-   *        nur IDs?
+   *          nur IDs?
    * @return Steuerung als String
    */
   public String toDebugString(boolean idOnly) {
@@ -448,6 +442,28 @@ public class Steuerung {
       this.loks.put(lok.getSystemTyp(), lok.getAdresse(), lok);
       lok.injectFields();
     });
+  }
+
+  public void postConstruct() {
+    this.zentrale.postConstruct();
+
+    // Besetztmelder etc. haben derzeit kein postConstruct; nachrüsten, falls erforderlich
+    // this.besetztmelder.forEach(Besetztmelder::postConstruct);
+    // this.funktionsdecoder.forEach(Funktionsdecoder::postConstruct);
+    // this.lokcontroller.forEach(Lokcontroller::postConstruct);
+    //
+    // this.loks.values().forEach(lok -> {
+    // lok.postConstruct();
+    // });
+
+    /*
+     * Bei Betrieb ohne Port Zentrale nur simulieren.
+     */
+    if ("none".equalsIgnoreCase(this.zentrale.getPortName())) {
+      this.zentrale = new DummyZentrale();
+      this.zentrale.postConstruct();
+    }
+
   }
 
   public int getSX1Kanal(int adr) {
