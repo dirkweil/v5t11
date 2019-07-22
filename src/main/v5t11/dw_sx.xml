@@ -166,18 +166,18 @@
       <Gleisabschnitt idx="5" bereich="HBf" name="W3" />
       <Gleisabschnitt idx="5" bereich="HBf" name="W4" />
       <Gleisabschnitt idx="6" bereich="HBf" name="W2" />
-      <!-- TODO --> <Gleisabschnitt idx="7" bereich="HBf" name="W8" />
+      <Gleisabschnitt idx="7" bereich="HBf" name="W5" />
     </SXBM1>
 
     <SXBM1 id="BM-2013-4" adr="1058" einbauOrt="HBf Einfahrt links">
       <!-- TODO --> <Gleisabschnitt idx="0" bereich="HBf" name="3" />
-      <!-- TODO --> <Gleisabschnitt idx="1" bereich="HBf" name="4" />
+      <Gleisabschnitt idx="1" bereich="HBf" name="4" />
       <Gleisabschnitt idx="2" bereich="HBf" name="6" />
       <Gleisabschnitt idx="3" bereich="HBf" name="7" />
       <Gleisabschnitt idx="4" bereich="HBf" name="W6" />
       <Gleisabschnitt idx="5" bereich="HBf" name="W7" />
-      <!-- TODO --> <Gleisabschnitt idx="6" bereich="HBf" name="W5" />
-      <!-- TODO --> <Gleisabschnitt idx="7" bereich="HBf" name="W9" />
+      <Gleisabschnitt idx="6" bereich="HBf" name="W8" />
+      <Gleisabschnitt idx="7" bereich="HBf" name="W9" />
     </SXBM1>
 
     <SXBM1 id="BM-2013-3" adr="1059" einbauOrt="HBf unter EG">
@@ -209,8 +209,8 @@
       <!-- TODO --> <Gleisabschnitt idx="2" bereich="HBf" name="W19" />
       <Gleisabschnitt idx="3" bereich="HBf" name="W20" />
       <Gleisabschnitt idx="3" bereich="HBf" name="W22" />
-      <!-- TODO --> <Gleisabschnitt idx="4" bereich="HBf" name="W21" />
-      <!-- TODO --> <Gleisabschnitt idx="5" bereich="HBf" name="W23" />
+      <Gleisabschnitt idx="4" bereich="HBf" name="W21" />
+      <Gleisabschnitt idx="5" bereich="HBf" name="W23" />
       <Gleisabschnitt idx="6" bereich="HBf" name="W24" />
       <Gleisabschnitt idx="7" bereich="HBf" name="W25" />
       <Gleisabschnitt idx="7" bereich="HBf" name="W26" />
@@ -295,12 +295,12 @@
       <Weiche idx="1" bereich="HBf" name="2" invertiert="true" />
       <Weiche idx="1" bereich="HBf" name="3" />
       <Weiche idx="2" bereich="HBf" name="4" />
-      <!-- TODO --><Weiche idx="3" bereich="HBf" name="5" />
+      <Weiche idx="3" bereich="HBf" name="5" />
       <Weiche idx="4" bereich="HBf" name="6" />
       <Weiche idx="4" bereich="HBf" name="7a" />
       <Weiche idx="5" bereich="HBf" name="7b" />
-      <!-- TODO --><Weiche idx="6" bereich="HBf" name="8" />
-      <!-- TODO --><Weiche idx="7" bereich="HBf" name="9" />
+      <Weiche idx="6" bereich="HBf" name="8" />
+      <Weiche idx="7" bereich="HBf" name="9" />
     </SD8>
 
     <SXSD1 id="FD-2010-2" adr="80" einbauOrt="HBf unter EG">
