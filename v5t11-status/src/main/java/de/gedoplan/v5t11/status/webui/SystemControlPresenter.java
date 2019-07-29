@@ -15,7 +15,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
@@ -23,6 +22,11 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import org.apache.commons.logging.Log;
+
+import com.google.common.collect.ListMultimap;
+import com.google.common.collect.MultimapBuilder;
 
 import lombok.Getter;
 
@@ -32,6 +36,9 @@ public class SystemControlPresenter implements Serializable {
 
   @Inject
   Steuerung steuerung;
+
+  @Inject
+  Log log;
 
   @Getter
   private String bereich;
@@ -47,6 +54,21 @@ public class SystemControlPresenter implements Serializable {
   @Getter
   private String lokId;
   private Lok lok;
+
+  private ListMultimap<Lok.LokFunktion.LokFunktionsGruppe, Lok.LokFunktion> lokFunktionsMap = MultimapBuilder.hashKeys().arrayListValues().build();
+
+  private final LokFunktion LOK_LICHT_FUNKTION_CONFIG = new LokFunktion(0, Lok.LokFunktion.LokFunktionsGruppe.FL, "Licht", false, false) {
+
+    @Override
+    public boolean isAktiv() {
+      return SystemControlPresenter.this.lok.isLicht();
+    }
+
+    @Override
+    public void setAktiv(boolean aktiv) {
+      SystemControlPresenter.this.lok.setLicht(aktiv);
+    }
+  };
 
   @PostConstruct
   void postConstruct() {
@@ -162,16 +184,27 @@ public class SystemControlPresenter implements Serializable {
   public void setLokId(String lokId) {
     this.lokId = lokId;
     this.lok = this.steuerung.getLok(lokId);
+    this.lokFunktionsMap.clear();
+
     if (this.lok == null) {
       FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("unbekannte Lok: " + this.lokId));
+      return;
+    }
+
+    this.lokFunktionsMap.put(Lok.LokFunktion.LokFunktionsGruppe.FL, this.LOK_LICHT_FUNKTION_CONFIG);
+    for (Lok.LokFunktion.LokFunktionsGruppe gruppe : Lok.LokFunktion.LokFunktionsGruppe.values()) {
+      this.lok.getFunktionen()
+          .stream()
+          .filter(f -> f.getGruppe() == gruppe)
+          .sorted((a, b) -> Collator.getInstance().compare(a.getBeschreibung(), b.getBeschreibung()))
+          .forEach(f -> this.lokFunktionsMap.put(gruppe, f));
     }
   }
 
   private void resetLok() {
     Collection<Lok> loks = getLoks();
     if (!loks.isEmpty()) {
-      this.lok = loks.iterator().next();
-      this.lokId = this.lok.getId();
+      setLokId(loks.iterator().next().getId());
     }
   }
 
@@ -223,33 +256,12 @@ public class SystemControlPresenter implements Serializable {
     }
   }
 
-  private final LokFunktion LOK_LICHT_FUNKTION_CONFIG = new LokFunktion(0, Lok.LokFunktion.LokFunktionsGruppe.FL, "Licht", false, false) {
-
-    @Override
-    public boolean isAktiv() {
-      return SystemControlPresenter.this.lok.isLicht();
-    }
-
-    @Override
-    public void setAktiv(boolean aktiv) {
-      SystemControlPresenter.this.lok.setLicht(aktiv);
-    }
-  };
-
   public LokFunktionsGruppe[] getLokFunktionsGruppen() {
     return Lok.LokFunktion.LokFunktionsGruppe.values();
   }
 
   public List<LokFunktion> getLokFunktionen(Lok.LokFunktion.LokFunktionsGruppe gruppe) {
-    List<LokFunktion> result = this.lok.getFunktionen()
-        .stream()
-        .filter(fc -> fc.getGruppe() == gruppe)
-        .sorted((a, b) -> Collator.getInstance().compare(a.getBeschreibung(), b.getBeschreibung()))
-        .collect(Collectors.toList());
-    if (gruppe == LokFunktionsGruppe.FL) {
-      result.add(0, this.LOK_LICHT_FUNKTION_CONFIG);
-    }
-    return result;
+    return this.lokFunktionsMap.get(gruppe);
   }
 
 }
