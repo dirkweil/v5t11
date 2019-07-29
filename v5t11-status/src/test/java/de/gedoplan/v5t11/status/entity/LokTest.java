@@ -8,7 +8,7 @@ import de.gedoplan.v5t11.status.CdiTestBase;
 import de.gedoplan.v5t11.status.StatusEventCollector;
 import de.gedoplan.v5t11.status.entity.baustein.zentrale.DummyZentrale;
 import de.gedoplan.v5t11.status.entity.lok.Lok;
-import de.gedoplan.v5t11.status.entity.lok.Lok.FunktionConfig;
+import de.gedoplan.v5t11.status.entity.lok.Lok.LokFunktion;
 import de.gedoplan.v5t11.status.service.init.TestLokData;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 
@@ -75,13 +75,13 @@ public class LokTest extends CdiTestBase {
         + ",\"licht\":" + lok.isLicht()
         + ",\"maxFahrstufe\":" + lok.getMaxFahrstufe()
         + ",\"rueckwaerts\":" + lok.isRueckwaerts()
-        + ",\"funktionConfigs\":" + toJson(lok.getFunktionConfigs())
+        + ",\"funktionen\":" + toJson(lok.getFunktionen())
         + "}",
         json,
         true);
   }
 
-  private String toJson(Set<@NotNull FunktionConfig> set) {
+  private String toJson(Set<@NotNull LokFunktion> set) {
 
     return set
         .stream()
@@ -137,8 +137,8 @@ public class LokTest extends CdiTestBase {
     throttle();
 
     this.statusEventCollector.clear();
-    if (!lok.getFunktionConfigs().isEmpty()) {
-      FunktionConfig fn = lok.getFunktionConfigs().iterator().next();
+    if (!lok.getFunktionen().isEmpty()) {
+      LokFunktion fn = lok.getFunktionen().iterator().next();
       fn.setAktiv(true);
       assertTrue("Statuswechselmeldung fuer " + lok + " erfolgt und kein weiterer Event", this.statusEventCollector.getEvents().contains(lok) && this.statusEventCollector.getEvents().size() == 1);
     }
@@ -181,8 +181,8 @@ public class LokTest extends CdiTestBase {
     throttle();
 
     this.statusEventCollector.clear();
-    if (!lok.getFunktionConfigs().isEmpty()) {
-      FunktionConfig fn = lok.getFunktionConfigs().iterator().next();
+    if (!lok.getFunktionen().isEmpty()) {
+      LokFunktion fn = lok.getFunktionen().iterator().next();
       fn.setAktiv(true);
       assertTrue("Statuswechselmeldung fuer " + lok + " erfolgt und kein weiterer Event", this.statusEventCollector.getEvents().contains(lok) && this.statusEventCollector.getEvents().size() == 1);
     }
@@ -227,8 +227,8 @@ public class LokTest extends CdiTestBase {
     throttle();
 
     this.statusEventCollector.clear();
-    if (!lok.getFunktionConfigs().isEmpty()) {
-      FunktionConfig fn = lok.getFunktionConfigs().iterator().next();
+    if (!lok.getFunktionen().isEmpty()) {
+      LokFunktion fn = lok.getFunktionen().iterator().next();
       fn.setAktiv(true);
       assertTrue("Statuswechselmeldung fuer " + lok + " erfolgt und kein weiterer Event", this.statusEventCollector.getEvents().contains(lok) && this.statusEventCollector.getEvents().size() == 1);
     }
@@ -248,12 +248,5 @@ public class LokTest extends CdiTestBase {
     }
 
     delay(1000);
-  }
-
-  @Test
-  public void testName() throws Exception {
-    String actual = "{\"aktiv\":false,\"fahrstufe\":0,\"funktionConfigs\":{\"1\":{\"beschreibung\":\"Horn\",\"gruppe\":\"MISC\",\"horn\":true,\"impuls\":true,\"mask\":1,\"nr\":1,\"value\":1}},\"funktionStatus\":0,\"id\":\"110 222-7\",\"licht\":false,\"maxFahrstufe\":31,\"rueckwaerts\":false}";
-    String expected = "{\"aktiv\":false,\"fahrstufe\":0,\"funktionConfigs\":{\"1\":{\"beschreibung\":\"Horn\",\"gruppe\":\"MISC\",\"horn\":true,\"impuls\":true,\"mask\":1,\"nr\":1,\"value\":1}},\"funktionStatus\":0,\"id\":\"110 222-7\",\"licht\":false,\"maxFahrstufe\":31,\"rueckwaerts\":false}";
-    JSONAssert.assertEquals(expected, actual, true);
   }
 }

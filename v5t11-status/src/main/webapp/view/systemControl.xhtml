@@ -76,10 +76,10 @@
             </p:slider>
           </h:panelGrid>
 
-          <c:forEach items="#{systemControlPresenter.lokFunktionConfigGruppen}" var="lfcg">
+          <c:forEach items="#{systemControlPresenter.lokFunktionsGruppen}" var="lfcg">
             <p:outputLabel value="#{lfcg.name}:" />
             <h:panelGroup >
-              <c:forEach items="#{systemControlPresenter.getLokFunktionConfigs(lfcg)}" var="fc">
+              <c:forEach items="#{systemControlPresenter.getLokFunktionen(lfcg)}" var="fc">
                 <p:selectBooleanButton onLabel="#{fc.beschreibung}" offLabel="#{fc.beschreibung}" value="#{fc.aktiv}">
                   <p:ajax update="lok"/>
                 </p:selectBooleanButton>

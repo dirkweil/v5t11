@@ -149,7 +149,7 @@ public class Lok extends SingleIdEntity<String> implements Comparable<Lok> {
   @ElementCollection(fetch = FetchType.EAGER)
   @CollectionTable(name = TABLE_NAME_FUNKTION)
   @Getter(onMethod_ = @JsonbInclude(full = true))
-  private Set<@NotNull FunktionConfig> funktionConfigs = new TreeSet<>((a, b) -> Integer.compare(a.nr, b.nr));
+  private Set<@NotNull LokFunktion> funktionen = new TreeSet<>((a, b) -> Integer.compare(a.nr, b.nr));
 
   /**
    * Zustand der Funktionen.
@@ -169,25 +169,25 @@ public class Lok extends SingleIdEntity<String> implements Comparable<Lok> {
   @Getter(onMethod_ = @JsonbInclude)
   private boolean aktiv;
 
-  public Lok(String id, String decoder, @NotNull SystemTyp systemTyp, boolean kurzeAdresse, int adresse, int maxFahrstufe, FunktionConfig... funktionConfigs) {
+  public Lok(String id, String decoder, @NotNull SystemTyp systemTyp, boolean kurzeAdresse, int adresse, int maxFahrstufe, LokFunktion... funktionen) {
     this.id = id;
     this.decoder = decoder;
     this.systemTyp = systemTyp;
     this.kurzeAdresse = kurzeAdresse;
     this.adresse = adresse;
     this.maxFahrstufe = maxFahrstufe;
-    for (FunktionConfig funktionConfig : funktionConfigs) {
-      this.funktionConfigs.add(funktionConfig);
+    for (LokFunktion funktion : funktionen) {
+      this.funktionen.add(funktion);
     }
-    linkFunktionConfigs();
+    linkFunktionen();
   }
 
   protected Lok() {
   }
 
   @PostLoad
-  void linkFunktionConfigs() {
-    this.funktionConfigs.forEach(fc -> fc.lok = this);
+  void linkFunktionen() {
+    this.funktionen.forEach(fc -> fc.lok = this);
   }
 
   @Override
@@ -321,7 +321,7 @@ public class Lok extends SingleIdEntity<String> implements Comparable<Lok> {
         setLicht((wert & 0b0100_0000) != 0);
 
         boolean horn = (wert & 0b1000_0000) != 0;
-        this.funktionConfigs.forEach(entry -> {
+        this.funktionen.forEach(entry -> {
           if (entry.isHorn()) {
             entry.setAktiv(horn);
           }
@@ -370,11 +370,11 @@ public class Lok extends SingleIdEntity<String> implements Comparable<Lok> {
   @Getter(onMethod_ = @JsonbInclude(full = true))
   @NoArgsConstructor(access = AccessLevel.PROTECTED)
   @ToString
-  public static class FunktionConfig {
+  public static class LokFunktion {
     private int nr;
     @NotNull
     @Enumerated(EnumType.STRING)
-    private FunktionConfigGruppe gruppe;
+    private LokFunktionsGruppe gruppe;
     @NotEmpty
     private String beschreibung;
     private boolean impuls;
@@ -386,7 +386,7 @@ public class Lok extends SingleIdEntity<String> implements Comparable<Lok> {
     @Getter(AccessLevel.NONE)
     private Lok lok;
 
-    public FunktionConfig(int nr, FunktionConfigGruppe gruppe, String beschreibung, boolean impuls, boolean horn, int mask, int value) {
+    public LokFunktion(int nr, LokFunktionsGruppe gruppe, String beschreibung, boolean impuls, boolean horn, int mask, int value) {
       this.nr = nr;
       this.gruppe = gruppe;
       this.beschreibung = beschreibung;
@@ -396,7 +396,7 @@ public class Lok extends SingleIdEntity<String> implements Comparable<Lok> {
       this.value = value;
     }
 
-    public FunktionConfig(int nr, FunktionConfigGruppe gruppe, String beschreibung, boolean impuls, boolean horn) {
+    public LokFunktion(int nr, LokFunktionsGruppe gruppe, String beschreibung, boolean impuls, boolean horn) {
       this(nr, gruppe, beschreibung, impuls, horn, 1 << (nr - 1), 1 << (nr - 1));
     }
 
@@ -415,11 +415,11 @@ public class Lok extends SingleIdEntity<String> implements Comparable<Lok> {
 
     @AllArgsConstructor
     @Getter
-    public static enum FunktionConfigGruppe {
-      LICHT("Fahrlicht"),
-      SOUND("Betriebsgeräusch"),
-      ANSAGE("Bahnsteigansage"),
-      MISC("Andere Funktion");
+    public static enum LokFunktionsGruppe {
+      FL("Fahrlicht"),
+      BG("Betriebsgeräusch"),
+      BA("Bahnsteigansage"),
+      AF("Andere Funktion");
 
       private String name;
     }

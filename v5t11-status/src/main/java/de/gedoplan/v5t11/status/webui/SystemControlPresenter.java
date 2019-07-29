@@ -4,8 +4,8 @@ import de.gedoplan.v5t11.status.entity.Steuerung;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
 import de.gedoplan.v5t11.status.entity.lok.Lok;
-import de.gedoplan.v5t11.status.entity.lok.Lok.FunktionConfig;
-import de.gedoplan.v5t11.status.entity.lok.Lok.FunktionConfig.FunktionConfigGruppe;
+import de.gedoplan.v5t11.status.entity.lok.Lok.LokFunktion;
+import de.gedoplan.v5t11.status.entity.lok.Lok.LokFunktion.LokFunktionsGruppe;
 import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
 
@@ -223,7 +223,7 @@ public class SystemControlPresenter implements Serializable {
     }
   }
 
-  private final FunktionConfig LOK_LICHT_FUNKTION_CONFIG = new FunktionConfig(0, Lok.FunktionConfig.FunktionConfigGruppe.LICHT, "Licht", false, false) {
+  private final LokFunktion LOK_LICHT_FUNKTION_CONFIG = new LokFunktion(0, Lok.LokFunktion.LokFunktionsGruppe.FL, "Licht", false, false) {
 
     @Override
     public boolean isAktiv() {
@@ -236,17 +236,17 @@ public class SystemControlPresenter implements Serializable {
     }
   };
 
-  public FunktionConfigGruppe[] getLokFunktionConfigGruppen() {
-    return Lok.FunktionConfig.FunktionConfigGruppe.values();
+  public LokFunktionsGruppe[] getLokFunktionsGruppen() {
+    return Lok.LokFunktion.LokFunktionsGruppe.values();
   }
 
-  public List<FunktionConfig> getLokFunktionConfigs(Lok.FunktionConfig.FunktionConfigGruppe gruppe) {
-    List<FunktionConfig> result = this.lok.getFunktionConfigs()
+  public List<LokFunktion> getLokFunktionen(Lok.LokFunktion.LokFunktionsGruppe gruppe) {
+    List<LokFunktion> result = this.lok.getFunktionen()
         .stream()
         .filter(fc -> fc.getGruppe() == gruppe)
         .sorted((a, b) -> Collator.getInstance().compare(a.getBeschreibung(), b.getBeschreibung()))
         .collect(Collectors.toList());
-    if (gruppe == FunktionConfigGruppe.LICHT) {
+    if (gruppe == LokFunktionsGruppe.FL) {
       result.add(0, this.LOK_LICHT_FUNKTION_CONFIG);
     }
     return result;

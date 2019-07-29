@@ -5,7 +5,7 @@ import de.gedoplan.v5t11.status.entity.SX2Kanal;
 import de.gedoplan.v5t11.status.entity.SystemTyp;
 import de.gedoplan.v5t11.status.entity.baustein.Zentrale;
 import de.gedoplan.v5t11.status.entity.lok.Lok;
-import de.gedoplan.v5t11.status.entity.lok.Lok.FunktionConfig;
+import de.gedoplan.v5t11.status.entity.lok.Lok.LokFunktion;
 import de.gedoplan.v5t11.util.misc.V5t11Exception;
 
 import java.io.EOFException;
@@ -403,8 +403,8 @@ public class FCC extends Zentrale {
           wert |= 0b0100_0000;
         }
 
-        for (FunktionConfig funktionConfig : lok.getFunktionConfigs()) {
-          if (funktionConfig != null && funktionConfig.isHorn() && funktionConfig.isAktiv()) {
+        for (LokFunktion funktion : lok.getFunktionen()) {
+          if (funktion != null && funktion.isHorn() && funktion.isAktiv()) {
             wert |= 0b1000_0000;
             break;
           }
