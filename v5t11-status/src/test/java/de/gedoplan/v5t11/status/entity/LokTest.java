@@ -12,12 +12,12 @@ import de.gedoplan.v5t11.status.entity.lok.Lok.FunktionConfig;
 import de.gedoplan.v5t11.status.service.init.TestLokData;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 
-import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
+import javax.validation.constraints.NotNull;
 
-import org.json.JSONException;
 import org.junit.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 
@@ -67,7 +67,7 @@ public class LokTest extends CdiTestBase {
 
     this.log.debug("JSON string: " + json);
 
-    jsonAssertEquals(""
+    JSONAssert.assertEquals(""
         + "{\"aktiv\":" + lok.isAktiv()
         + ",\"fahrstufe\":" + lok.getFahrstufe()
         + ",\"funktionStatus\":" + lok.getFunktionStatus()
@@ -77,27 +77,24 @@ public class LokTest extends CdiTestBase {
         + ",\"rueckwaerts\":" + lok.isRueckwaerts()
         + ",\"funktionConfigs\":" + toJson(lok.getFunktionConfigs())
         + "}",
-        json);
+        json,
+        true);
   }
 
-  private void jsonAssertEquals(String expected, String actual) throws JSONException {
-    JSONAssert.assertEquals(expected, actual, true);
-  }
+  private String toJson(Set<@NotNull FunktionConfig> set) {
 
-  private String toJson(Map<Integer, FunktionConfig> funktionConfigs) {
-
-    return funktionConfigs.entrySet().stream()
-        .map(entry -> "\"" + entry.getKey() + "\":"
-            + "{"
-            + "\"beschreibung\":\"" + entry.getValue().getBeschreibung() + "\","
-            + "\"gruppe\":\"" + entry.getValue().getGruppe() + "\","
-            + "\"horn\":" + entry.getValue().isHorn() + ","
-            + "\"impuls\":" + entry.getValue().isImpuls() + ","
-            + "\"mask\":" + entry.getValue().getMask() + ","
-            + "\"nr\":" + entry.getValue().getNr() + ","
-            + "\"value\":" + entry.getValue().getValue()
+    return set
+        .stream()
+        .map(entry -> "{"
+            + "\"beschreibung\":\"" + entry.getBeschreibung() + "\","
+            + "\"gruppe\":\"" + entry.getGruppe() + "\","
+            + "\"horn\":" + entry.isHorn() + ","
+            + "\"impuls\":" + entry.isImpuls() + ","
+            + "\"mask\":" + entry.getMask() + ","
+            + "\"nr\":" + entry.getNr() + ","
+            + "\"value\":" + entry.getValue()
             + "}")
-        .collect(Collectors.joining(",", "{", "}"));
+        .collect(Collectors.joining(",", "[", "]"));
 
   }
 
@@ -141,7 +138,7 @@ public class LokTest extends CdiTestBase {
 
     this.statusEventCollector.clear();
     if (!lok.getFunktionConfigs().isEmpty()) {
-      FunktionConfig fn = lok.getFunktionConfigs().values().iterator().next();
+      FunktionConfig fn = lok.getFunktionConfigs().iterator().next();
       fn.setAktiv(true);
       assertTrue("Statuswechselmeldung fuer " + lok + " erfolgt und kein weiterer Event", this.statusEventCollector.getEvents().contains(lok) && this.statusEventCollector.getEvents().size() == 1);
     }
@@ -185,7 +182,7 @@ public class LokTest extends CdiTestBase {
 
     this.statusEventCollector.clear();
     if (!lok.getFunktionConfigs().isEmpty()) {
-      FunktionConfig fn = lok.getFunktionConfigs().values().iterator().next();
+      FunktionConfig fn = lok.getFunktionConfigs().iterator().next();
       fn.setAktiv(true);
       assertTrue("Statuswechselmeldung fuer " + lok + " erfolgt und kein weiterer Event", this.statusEventCollector.getEvents().contains(lok) && this.statusEventCollector.getEvents().size() == 1);
     }
@@ -231,7 +228,7 @@ public class LokTest extends CdiTestBase {
 
     this.statusEventCollector.clear();
     if (!lok.getFunktionConfigs().isEmpty()) {
-      FunktionConfig fn = lok.getFunktionConfigs().values().iterator().next();
+      FunktionConfig fn = lok.getFunktionConfigs().iterator().next();
       fn.setAktiv(true);
       assertTrue("Statuswechselmeldung fuer " + lok + " erfolgt und kein weiterer Event", this.statusEventCollector.getEvents().contains(lok) && this.statusEventCollector.getEvents().size() == 1);
     }

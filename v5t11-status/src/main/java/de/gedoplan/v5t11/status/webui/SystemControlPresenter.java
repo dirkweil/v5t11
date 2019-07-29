@@ -242,7 +242,6 @@ public class SystemControlPresenter implements Serializable {
 
   public List<FunktionConfig> getLokFunktionConfigs(Lok.FunktionConfig.FunktionConfigGruppe gruppe) {
     List<FunktionConfig> result = this.lok.getFunktionConfigs()
-        .values()
         .stream()
         .filter(fc -> fc.getGruppe() == gruppe)
         .sorted((a, b) -> Collator.getInstance().compare(a.getBeschreibung(), b.getBeschreibung()))

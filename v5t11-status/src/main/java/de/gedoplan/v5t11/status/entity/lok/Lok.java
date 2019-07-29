@@ -9,8 +9,8 @@ import de.gedoplan.v5t11.status.entity.baustein.Zentrale;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.inject.Inject;
 import javax.persistence.Access;
@@ -24,7 +24,6 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.MapKeyColumn;
 import javax.persistence.PostLoad;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -44,7 +43,7 @@ import lombok.ToString;
 public class Lok extends SingleIdEntity<String> implements Comparable<Lok> {
 
   public static final String TABLE_NAME = "V5T11_LOK";
-  public static final String TABLE_NAME_FUNKTION_CONFIGS = "V5T11_LOK_FUNKTION_CONFIG";
+  public static final String TABLE_NAME_FUNKTION = "V5T11_LOK_FUNKTION";
 
   @Transient
   @Inject
@@ -148,10 +147,9 @@ public class Lok extends SingleIdEntity<String> implements Comparable<Lok> {
   private boolean licht;
 
   @ElementCollection(fetch = FetchType.EAGER)
-  @CollectionTable(name = TABLE_NAME_FUNKTION_CONFIGS)
-  @MapKeyColumn(name = "FUNKTION")
+  @CollectionTable(name = TABLE_NAME_FUNKTION)
   @Getter(onMethod_ = @JsonbInclude(full = true))
-  private Map<@NotNull Integer, @NotNull FunktionConfig> funktionConfigs = new HashMap<>();
+  private Set<@NotNull FunktionConfig> funktionConfigs = new TreeSet<>((a, b) -> Integer.compare(a.nr, b.nr));
 
   /**
    * Zustand der Funktionen.
@@ -179,7 +177,7 @@ public class Lok extends SingleIdEntity<String> implements Comparable<Lok> {
     this.adresse = adresse;
     this.maxFahrstufe = maxFahrstufe;
     for (FunktionConfig funktionConfig : funktionConfigs) {
-      this.funktionConfigs.put(funktionConfig.getNr(), funktionConfig);
+      this.funktionConfigs.add(funktionConfig);
     }
     linkFunktionConfigs();
   }
@@ -189,7 +187,7 @@ public class Lok extends SingleIdEntity<String> implements Comparable<Lok> {
 
   @PostLoad
   void linkFunktionConfigs() {
-    this.funktionConfigs.values().forEach(fc -> fc.lok = this);
+    this.funktionConfigs.forEach(fc -> fc.lok = this);
   }
 
   @Override
@@ -252,30 +250,6 @@ public class Lok extends SingleIdEntity<String> implements Comparable<Lok> {
 
     }
   }
-
-  // TODO
-  // public boolean getFunktion(int fn) {
-  // FunktionConfig funktionConfig = this.funktionConfigs.get(fn);
-  // if (funktionConfig == null) {
-  // return false;
-  // }
-  //
-  // return (this.funktionStatus & funktionConfig.getMask()) == funktionConfig.getValue();
-  // }
-  //
-  // public void setFunktion(int fn, boolean on) {
-  // FunktionConfig funktionConfig = this.funktionConfigs.get(fn);
-  // if (funktionConfig == null) {
-  // return;
-  // }
-  //
-  // int wert = this.funktionStatus & ~funktionConfig.getMask();
-  // if (on) {
-  // wert |= funktionConfig.getValue();
-  // }
-  // setFunktionStatus(wert);
-  //
-  // }
 
   private void setFunktionStatus(int wert) {
     synchronized (Zentrale.class) {
@@ -347,9 +321,9 @@ public class Lok extends SingleIdEntity<String> implements Comparable<Lok> {
         setLicht((wert & 0b0100_0000) != 0);
 
         boolean horn = (wert & 0b1000_0000) != 0;
-        this.funktionConfigs.entrySet().forEach(entry -> {
-          if (entry.getValue().isHorn()) {
-            entry.getValue().setAktiv(horn);
+        this.funktionConfigs.forEach(entry -> {
+          if (entry.isHorn()) {
+            entry.setAktiv(horn);
           }
         });
       }

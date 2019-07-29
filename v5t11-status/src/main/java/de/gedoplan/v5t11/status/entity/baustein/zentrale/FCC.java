@@ -403,8 +403,7 @@ public class FCC extends Zentrale {
           wert |= 0b0100_0000;
         }
 
-        for (int i = 1; i <= 16; ++i) {
-          FunktionConfig funktionConfig = lok.getFunktionConfigs().get(i);
+        for (FunktionConfig funktionConfig : lok.getFunktionConfigs()) {
           if (funktionConfig != null && funktionConfig.isHorn() && funktionConfig.isAktiv()) {
             wert |= 0b1000_0000;
             break;
