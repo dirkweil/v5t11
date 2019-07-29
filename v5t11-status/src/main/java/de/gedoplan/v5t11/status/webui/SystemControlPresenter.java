@@ -5,19 +5,17 @@ import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
 import de.gedoplan.v5t11.status.entity.lok.Lok;
 import de.gedoplan.v5t11.status.entity.lok.Lok.FunktionConfig;
+import de.gedoplan.v5t11.status.entity.lok.Lok.FunktionConfig.FunktionConfigGruppe;
 import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
 
 import java.io.Serializable;
 import java.text.Collator;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
@@ -225,60 +223,34 @@ public class SystemControlPresenter implements Serializable {
     }
   }
 
-  private static final Entry<Integer, FunktionConfig> LOK_LICHT_FUNKTION_CONFIG_ENTRY = new Entry<Integer, Lok.FunktionConfig>() {
-
-    private final FunktionConfig value = new FunktionConfig("Licht", false);
+  private final FunktionConfig LOK_LICHT_FUNKTION_CONFIG = new FunktionConfig(0, Lok.FunktionConfig.FunktionConfigGruppe.LICHT, "Licht", false, false) {
 
     @Override
-    public FunktionConfig setValue(FunktionConfig value) {
-      return null;
+    public boolean isAktiv() {
+      return SystemControlPresenter.this.lok.isLicht();
     }
 
     @Override
-    public FunktionConfig getValue() {
-      return this.value;
-    }
-
-    @Override
-    public Integer getKey() {
-      return 0;
+    public void setAktiv(boolean aktiv) {
+      SystemControlPresenter.this.lok.setLicht(aktiv);
     }
   };
 
-  public Set<Entry<Integer, FunktionConfig>> getLokFunktionConfigs() {
-    // SortedSet<Entry<Integer, FunktionConfig>> result = new TreeSet<>((a, b) -> Integer.compare(a.getKey(), b.getKey()));
-    SortedSet<Entry<Integer, FunktionConfig>> result = new TreeSet<>((a, b) -> Collator.getInstance().compare(a.getValue().getBeschreibung(), b.getValue().getBeschreibung()));
-    if (this.lok != null) {
-      result.add(LOK_LICHT_FUNKTION_CONFIG_ENTRY);
-      result.addAll(this.lok.getFunktionConfigs().entrySet());
-    }
+  public FunktionConfigGruppe[] getLokFunktionConfigGruppen() {
+    return Lok.FunktionConfig.FunktionConfigGruppe.values();
+  }
 
+  public List<FunktionConfig> getLokFunktionConfigs(Lok.FunktionConfig.FunktionConfigGruppe gruppe) {
+    List<FunktionConfig> result = this.lok.getFunktionConfigs()
+        .values()
+        .stream()
+        .filter(fc -> fc.getGruppe() == gruppe)
+        .sorted((a, b) -> Collator.getInstance().compare(a.getBeschreibung(), b.getBeschreibung()))
+        .collect(Collectors.toList());
+    if (gruppe == FunktionConfigGruppe.LICHT) {
+      result.add(0, this.LOK_LICHT_FUNKTION_CONFIG);
+    }
     return result;
   }
 
-  public List<Integer> getLokFunktionen() {
-    List<Integer> funktionen = new ArrayList<>();
-    if (this.lok != null) {
-      if (this.lok.isLicht()) {
-        funktionen.add(0);
-      }
-
-      for (int i = 1; i <= 16; ++i) {
-        if (this.lok.getFunktion(i)) {
-          funktionen.add(i);
-        }
-      }
-    }
-    return funktionen;
-  }
-
-  public void setLokFunktionen(List<Integer> funktionen) {
-    if (this.lok != null) {
-      this.lok.setLicht(funktionen.contains(0));
-
-      for (int i = 1; i <= 16; ++i) {
-        this.lok.setFunktion(i, funktionen.contains(i));
-      }
-    }
-  }
 }

@@ -25,15 +25,17 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.MapKeyColumn;
+import javax.persistence.PostLoad;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.AssertTrue;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
@@ -149,11 +151,11 @@ public class Lok extends SingleIdEntity<String> implements Comparable<Lok> {
   @CollectionTable(name = TABLE_NAME_FUNKTION_CONFIGS)
   @MapKeyColumn(name = "FUNKTION")
   @Getter(onMethod_ = @JsonbInclude(full = true))
-  private Map<@Min(1) @Max(16) Integer, @NotNull FunktionConfig> funktionConfigs = new HashMap<>();
+  private Map<@NotNull Integer, @NotNull FunktionConfig> funktionConfigs = new HashMap<>();
 
   /**
    * Zustand der Funktionen.
-   * Pro aktiver Funktion 1...16 ist das Bit 0...15 gesetzt.
+   * Pro aktiver Funktion sind die entsprechenden Bits gesetzt.
    */
   @Column(name = "FUNKTION_STATUS")
   @Getter(onMethod_ = @JsonbInclude)
@@ -169,23 +171,25 @@ public class Lok extends SingleIdEntity<String> implements Comparable<Lok> {
   @Getter(onMethod_ = @JsonbInclude)
   private boolean aktiv;
 
-  public Lok(String id, String decoder, @NotNull SystemTyp systemTyp, boolean kurzeAdresse, int adresse, int maxFahrstufe, Object... funcParm) {
+  public Lok(String id, String decoder, @NotNull SystemTyp systemTyp, boolean kurzeAdresse, int adresse, int maxFahrstufe, FunktionConfig... funktionConfigs) {
     this.id = id;
     this.decoder = decoder;
     this.systemTyp = systemTyp;
     this.kurzeAdresse = kurzeAdresse;
     this.adresse = adresse;
     this.maxFahrstufe = maxFahrstufe;
-
-    for (int i = 0; i < funcParm.length; i += 2) {
-      if (i + 1 > funcParm.length || !(funcParm[i] instanceof Integer) || !(funcParm[i + 1] instanceof FunktionConfig)) {
-        throw new IllegalArgumentException("Die Funktionsparameter müssen als Paare bestehend aus Integer und FunktionConfig angegeben werden");
-      }
-      this.funktionConfigs.put((Integer) funcParm[i], (FunktionConfig) funcParm[i + 1]);
+    for (FunktionConfig funktionConfig : funktionConfigs) {
+      this.funktionConfigs.put(funktionConfig.getNr(), funktionConfig);
     }
+    linkFunktionConfigs();
   }
 
   protected Lok() {
+  }
+
+  @PostLoad
+  void linkFunktionConfigs() {
+    this.funktionConfigs.values().forEach(fc -> fc.lok = this);
   }
 
   @Override
@@ -249,27 +253,29 @@ public class Lok extends SingleIdEntity<String> implements Comparable<Lok> {
     }
   }
 
-  public boolean getFunktion(int fn) {
-    if (this.funktionConfigs.containsKey(fn)) {
-      return (this.funktionStatus & (1 << (fn - 1))) != 0;
-    }
-    return false;
-  }
-
-  public void setFunktion(int fn, boolean on) {
-    if (this.funktionConfigs.containsKey(fn)) {
-
-      int wert = this.funktionStatus;
-      int mask = (1 << (fn - 1));
-      if (on) {
-        wert |= mask;
-      } else {
-        wert &= ~mask;
-      }
-
-      setFunktionStatus(wert);
-    }
-  }
+  // TODO
+  // public boolean getFunktion(int fn) {
+  // FunktionConfig funktionConfig = this.funktionConfigs.get(fn);
+  // if (funktionConfig == null) {
+  // return false;
+  // }
+  //
+  // return (this.funktionStatus & funktionConfig.getMask()) == funktionConfig.getValue();
+  // }
+  //
+  // public void setFunktion(int fn, boolean on) {
+  // FunktionConfig funktionConfig = this.funktionConfigs.get(fn);
+  // if (funktionConfig == null) {
+  // return;
+  // }
+  //
+  // int wert = this.funktionStatus & ~funktionConfig.getMask();
+  // if (on) {
+  // wert |= funktionConfig.getValue();
+  // }
+  // setFunktionStatus(wert);
+  //
+  // }
 
   private void setFunktionStatus(int wert) {
     synchronized (Zentrale.class) {
@@ -343,7 +349,7 @@ public class Lok extends SingleIdEntity<String> implements Comparable<Lok> {
         boolean horn = (wert & 0b1000_0000) != 0;
         this.funktionConfigs.entrySet().forEach(entry -> {
           if (entry.getValue().isHorn()) {
-            setFunktion(entry.getKey(), horn);
+            entry.getValue().setAktiv(horn);
           }
         });
       }
@@ -388,26 +394,61 @@ public class Lok extends SingleIdEntity<String> implements Comparable<Lok> {
 
   @Embeddable
   @Getter(onMethod_ = @JsonbInclude(full = true))
+  @NoArgsConstructor(access = AccessLevel.PROTECTED)
   @ToString
   public static class FunktionConfig {
+    private int nr;
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private FunktionConfigGruppe gruppe;
     @NotEmpty
     private String beschreibung;
     private boolean impuls;
     private boolean horn;
+    private int mask;
+    private int value;
 
-    public FunktionConfig(@NotEmpty String beschreibung, boolean impuls, boolean horn) {
+    @Transient
+    @Getter(AccessLevel.NONE)
+    private Lok lok;
+
+    public FunktionConfig(int nr, FunktionConfigGruppe gruppe, String beschreibung, boolean impuls, boolean horn, int mask, int value) {
+      this.nr = nr;
+      this.gruppe = gruppe;
       this.beschreibung = beschreibung;
       this.impuls = impuls;
       this.horn = horn;
+      this.mask = mask;
+      this.value = value;
     }
 
-    public FunktionConfig(@NotEmpty String beschreibung, boolean impuls) {
-      this(beschreibung, impuls, false);
+    public FunktionConfig(int nr, FunktionConfigGruppe gruppe, String beschreibung, boolean impuls, boolean horn) {
+      this(nr, gruppe, beschreibung, impuls, horn, 1 << (nr - 1), 1 << (nr - 1));
     }
 
-    protected FunktionConfig() {
+    public boolean isAktiv() {
+      return (this.lok.funktionStatus & this.mask) == this.value;
     }
 
+    public void setAktiv(boolean aktiv) {
+      int wert = this.lok.funktionStatus & ~this.mask;
+      if (aktiv) {
+        wert |= this.value;
+      }
+      this.lok.setFunktionStatus(wert);
+
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static enum FunktionConfigGruppe {
+      LICHT("Fahrlicht"),
+      SOUND("Betriebsgeräusch"),
+      ANSAGE("Bahnsteigansage"),
+      MISC("Andere Funktion");
+
+      private String name;
+    }
   }
 
 }

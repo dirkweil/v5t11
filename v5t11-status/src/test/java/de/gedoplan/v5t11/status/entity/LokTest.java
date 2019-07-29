@@ -16,10 +16,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 
+import org.json.JSONException;
 import org.junit.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 
@@ -69,7 +67,7 @@ public class LokTest extends CdiTestBase {
 
     this.log.debug("JSON string: " + json);
 
-    JSONAssert.assertEquals(""
+    jsonAssertEquals(""
         + "{\"aktiv\":" + lok.isAktiv()
         + ",\"fahrstufe\":" + lok.getFahrstufe()
         + ",\"funktionStatus\":" + lok.getFunktionStatus()
@@ -79,15 +77,26 @@ public class LokTest extends CdiTestBase {
         + ",\"rueckwaerts\":" + lok.isRueckwaerts()
         + ",\"funktionConfigs\":" + toJson(lok.getFunktionConfigs())
         + "}",
-        json,
-        true);
+        json);
   }
 
-  private String toJson(Map<@Min(1) @Max(16) Integer, @NotNull FunktionConfig> funktionConfigs) {
+  private void jsonAssertEquals(String expected, String actual) throws JSONException {
+    JSONAssert.assertEquals(expected, actual, true);
+  }
+
+  private String toJson(Map<Integer, FunktionConfig> funktionConfigs) {
 
     return funktionConfigs.entrySet().stream()
-        .map(entry -> "\"" + entry.getKey() + "\":{\"beschreibung\":\"" + entry.getValue().getBeschreibung() + "\",\"impuls\":" + entry.getValue().isImpuls() + ",\"horn\":"
-            + entry.getValue().isHorn() + "}")
+        .map(entry -> "\"" + entry.getKey() + "\":"
+            + "{"
+            + "\"beschreibung\":\"" + entry.getValue().getBeschreibung() + "\","
+            + "\"gruppe\":\"" + entry.getValue().getGruppe() + "\","
+            + "\"horn\":" + entry.getValue().isHorn() + ","
+            + "\"impuls\":" + entry.getValue().isImpuls() + ","
+            + "\"mask\":" + entry.getValue().getMask() + ","
+            + "\"nr\":" + entry.getValue().getNr() + ","
+            + "\"value\":" + entry.getValue().getValue()
+            + "}")
         .collect(Collectors.joining(",", "{", "}"));
 
   }
@@ -132,8 +141,8 @@ public class LokTest extends CdiTestBase {
 
     this.statusEventCollector.clear();
     if (!lok.getFunktionConfigs().isEmpty()) {
-      int fn = lok.getFunktionConfigs().keySet().iterator().next();
-      lok.setFunktion(fn, true);
+      FunktionConfig fn = lok.getFunktionConfigs().values().iterator().next();
+      fn.setAktiv(true);
       assertTrue("Statuswechselmeldung fuer " + lok + " erfolgt und kein weiterer Event", this.statusEventCollector.getEvents().contains(lok) && this.statusEventCollector.getEvents().size() == 1);
     }
 
@@ -176,8 +185,8 @@ public class LokTest extends CdiTestBase {
 
     this.statusEventCollector.clear();
     if (!lok.getFunktionConfigs().isEmpty()) {
-      int fn = lok.getFunktionConfigs().keySet().iterator().next();
-      lok.setFunktion(fn, true);
+      FunktionConfig fn = lok.getFunktionConfigs().values().iterator().next();
+      fn.setAktiv(true);
       assertTrue("Statuswechselmeldung fuer " + lok + " erfolgt und kein weiterer Event", this.statusEventCollector.getEvents().contains(lok) && this.statusEventCollector.getEvents().size() == 1);
     }
 
@@ -222,8 +231,8 @@ public class LokTest extends CdiTestBase {
 
     this.statusEventCollector.clear();
     if (!lok.getFunktionConfigs().isEmpty()) {
-      int fn = lok.getFunktionConfigs().keySet().iterator().next();
-      lok.setFunktion(fn, true);
+      FunktionConfig fn = lok.getFunktionConfigs().values().iterator().next();
+      fn.setAktiv(true);
       assertTrue("Statuswechselmeldung fuer " + lok + " erfolgt und kein weiterer Event", this.statusEventCollector.getEvents().contains(lok) && this.statusEventCollector.getEvents().size() == 1);
     }
 
@@ -242,5 +251,12 @@ public class LokTest extends CdiTestBase {
     }
 
     delay(1000);
+  }
+
+  @Test
+  public void testName() throws Exception {
+    String actual = "{\"aktiv\":false,\"fahrstufe\":0,\"funktionConfigs\":{\"1\":{\"beschreibung\":\"Horn\",\"gruppe\":\"MISC\",\"horn\":true,\"impuls\":true,\"mask\":1,\"nr\":1,\"value\":1}},\"funktionStatus\":0,\"id\":\"110 222-7\",\"licht\":false,\"maxFahrstufe\":31,\"rueckwaerts\":false}";
+    String expected = "{\"aktiv\":false,\"fahrstufe\":0,\"funktionConfigs\":{\"1\":{\"beschreibung\":\"Horn\",\"gruppe\":\"MISC\",\"horn\":true,\"impuls\":true,\"mask\":1,\"nr\":1,\"value\":1}},\"funktionStatus\":0,\"id\":\"110 222-7\",\"licht\":false,\"maxFahrstufe\":31,\"rueckwaerts\":false}";
+    JSONAssert.assertEquals(expected, actual, true);
   }
 }

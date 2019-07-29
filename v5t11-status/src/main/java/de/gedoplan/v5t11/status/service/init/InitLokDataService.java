@@ -36,7 +36,7 @@ public class InitLokDataService {
    *        Application scope initialization event
    */
   @Transactional
-  void createDemoData(@Observes @Initialized(ApplicationScoped.class) Object event) {
+  protected void createDemoData(@Observes @Initialized(ApplicationScoped.class) Object event) {
     try {
       this.log.debug("Lok-Daten erzeugen");
 
