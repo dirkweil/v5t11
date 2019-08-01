@@ -7,12 +7,10 @@ import de.gedoplan.v5t11.status.persistence.BausteinConfigurationRepository;
 
 import java.io.Serializable;
 
-import javax.ejb.Stateless;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 
-// TODO Warum ist das eine EJB?
-@Stateless
 @Dependent
 public class BausteinConfigurationService implements Serializable {
   @Inject
@@ -37,6 +35,7 @@ public class BausteinConfigurationService implements Serializable {
     return bausteinConfiguration;
   }
 
+  @Transactional(rollbackOn = Exception.class)
   public void save(BausteinConfiguration bausteinConfiguration) {
     if (bausteinConfiguration.getId() != null) {
       this.bausteinConfigurationRepository.merge(bausteinConfiguration);
