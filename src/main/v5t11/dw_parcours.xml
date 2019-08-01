@@ -469,7 +469,7 @@
     <Gleisabschnitt name="W31" />
   </Fahrstrasse>
 
-  <Fahrstrasse bereich="SBf" zaehlrichtung="true">
+  <Fahrstrasse bereich="SBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="17d" />
     <Weiche name="32" stellung="ABZWEIGEND"/>
     <Gleisabschnitt name="W32" />
@@ -537,7 +537,7 @@
   <Fahrstrasse bereich="SBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="W34" />
     <Weiche name="34" stellung="GERADE"/>
-    <Gleisabschnitt name="2001" />
+    <Gleisabschnitt name="402" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="SBf" zaehlrichtung="true" >
