@@ -183,9 +183,9 @@
     <SXBM1 id="BM-2013-3" adr="1059" einbauOrt="HBf unter EG">
       <!-- TODO --> <Gleisabschnitt idx="0" bereich="HBf" name="5" />
       <!-- TODO --> <Gleisabschnitt idx="1" bereich="HBf" name="W12" />
-      <!-- TODO --> <Gleisabschnitt idx="2" bereich="HBf" name="8" />
-      <!-- TODO --> <Gleisabschnitt idx="3" bereich="HBf" name="9" />
-      <!-- TODO --> <Gleisabschnitt idx="4" bereich="HBf" name="10" />
+      <Gleisabschnitt idx="2" bereich="HBf" name="8" />
+      <Gleisabschnitt idx="3" bereich="HBf" name="9" />
+      <Gleisabschnitt idx="4" bereich="HBf" name="10" />
       <!-- TODO --> <Gleisabschnitt idx="5" bereich="HBf" name="W10" />
       <!-- TODO --> <Gleisabschnitt idx="6" bereich="HBf" name="1" />
       <!-- TODO --> <Gleisabschnitt idx="7" bereich="HBf" name="W11" />
@@ -334,9 +334,9 @@
       <Weiche idx="0" bereich="HBf" name="20" />
       <Weiche idx="1" bereich="HBf" name="22" />
       <Weiche idx="1" bereich="HBf" name="24" />
-      <!-- TODO --><Weiche idx="2" bereich="HBf" name="23" />
+      <Weiche idx="2" bereich="HBf" name="23" />
       <Weiche idx="3" bereich="HBf" name="25" />
-      <!-- TODO --><Weiche idx="4" bereich="HBf" name="21" />
+      <Weiche idx="4" bereich="HBf" name="21" />
       <Weiche idx="5" bereich="HBf" name="26" />
       <Weiche idx="5" bereich="HBf" name="27" />
       <Weiche idx="6" bereich="HBf" name="29" />
@@ -372,6 +372,7 @@
   <Lokcontroller>
     <SxLokControl id="LokControl 1" adr="30" />
     <SxLokControl id="LokControl 2" adr="31" />
+    <SxLokControl id="LokControl 2a" adr="1031" />
   </Lokcontroller>
 </sx>
 
