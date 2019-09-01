@@ -274,7 +274,7 @@ public class FCC extends Zentrale {
   }
 
   private void fireSX1Changed(int adr, byte wert) {
-    this.log.debug("syncCycleNo: " + this.syncCycleNo);
+    this.log.trace("syncCycleNo: " + this.syncCycleNo);
     this.eventFirer.fire(new Kanal(adr, wert));
   }
 
