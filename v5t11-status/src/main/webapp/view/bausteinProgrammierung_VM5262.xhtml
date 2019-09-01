@@ -16,13 +16,13 @@
       <p:inputText value="#{bausteinProgrammierungPresenter.configuration.localAdrIst}" id="istAdresse" />
       <p:message for="istAdresse" />
 
-      <p:outputLabel for="sollAnsprechVerzoegerung" value="Ansprechverzögerung (ms, Vielfaches von 100): " />
+      <p:outputLabel for="sollAnsprechVerzoegerung" value="Ansprechverzögerung (ms, Vielfaches von 10): " />
       <p:inputText id="sollAnsprechVerzoegerung" value="#{bausteinProgrammierungPresenter.configuration.ansprechVerzoegerung.soll}" readonly="true" />
       <p:commandButton value=">" action="#{bausteinProgrammierungPresenter.configuration.ansprechVerzoegerung.resetToSoll()}" ajax="false" />
       <p:inputText value="#{bausteinProgrammierungPresenter.configuration.ansprechVerzoegerung.ist}" id="istAnsprechVerzoegerung" />
       <p:message for="istAnsprechVerzoegerung" />
 
-      <p:outputLabel for="sollAbfallVerzoegerung" value="Abfallverzögerung (ms, Vielfaches von 100): " />
+      <p:outputLabel for="sollAbfallVerzoegerung" value="Abfallverzögerung (ms, Vielfaches von 10): " />
       <p:inputText id="sollAbfallVerzoegerung" value="#{bausteinProgrammierungPresenter.configuration.abfallVerzoegerung.soll}" readonly="true" />
       <p:commandButton value=">" action="#{bausteinProgrammierungPresenter.configuration.abfallVerzoegerung.resetToSoll()}" ajax="false" />
       <p:inputText value="#{bausteinProgrammierungPresenter.configuration.abfallVerzoegerung.ist}" id="istAbfallVerzoegerung" />

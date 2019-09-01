@@ -43,18 +43,18 @@ public class VM5262RuntimeService extends ConfigurationRuntimeService {
   @Override
   public void getRuntimeValues() {
     this.configuration.setLocalAdrIst(getWert(LOCAL_ADR_ADR));
-    this.configuration.getAnsprechVerzoegerung().setIst(getWert(LOCAL_ADR_ANSPRECHVERZOEGERUNG) * 100);
-    this.configuration.getAbfallVerzoegerung().setIst(getWert(LOCAL_ADR_ABFALLVERZOEGERUNG) * 100);
+    this.configuration.getAnsprechVerzoegerung().setIst(getWert(LOCAL_ADR_ANSPRECHVERZOEGERUNG) * 10);
+    this.configuration.getAbfallVerzoegerung().setIst(getWert(LOCAL_ADR_ABFALLVERZOEGERUNG) * 10);
   }
 
   @Override
   public void setRuntimeValues() {
     setWert(LOCAL_ADR_ADR, this.configuration.getLocalAdrIst());
 
-    int verz = this.configuration.getAnsprechVerzoegerung().getIst() / 100;
+    int verz = this.configuration.getAnsprechVerzoegerung().getIst() / 10;
     setWert(LOCAL_ADR_ANSPRECHVERZOEGERUNG, verz < 0 ? 0 : (verz > 255 ? 255 : verz));
 
-    verz = this.configuration.getAbfallVerzoegerung().getIst() / 100;
+    verz = this.configuration.getAbfallVerzoegerung().getIst() / 10;
     setWert(LOCAL_ADR_ABFALLVERZOEGERUNG, verz < 0 ? 0 : (verz > 255 ? 255 : verz));
   }
 
