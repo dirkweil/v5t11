@@ -49,6 +49,8 @@ public class FCC extends Zentrale {
   // Maximale normal verwendbare SX1-Adresse
   private static final int MAX_SX1_ADR = 103;
 
+  private int syncCycleNo = 0;
+
   /*
    * Die Daten der SX2-Buserweiterung befinden sich am Anfang der Blockdaten in zwei Segmenten:
    * - Index 0..15 in den ersten 96 Bytes
@@ -197,6 +199,8 @@ public class FCC extends Zentrale {
 
       synchronized (Zentrale.class) {
 
+        ++this.syncCycleNo;
+
         // Blockabfrage starten und neue Daten eintragen
         byte[] blockDaten = blockAbfrage();
         byte[] blockDatenAlt = this.status.getAndSet(blockDaten);
@@ -270,6 +274,7 @@ public class FCC extends Zentrale {
   }
 
   private void fireSX1Changed(int adr, byte wert) {
+    this.log.debug("syncCycleNo: " + this.syncCycleNo);
     this.eventFirer.fire(new Kanal(adr, wert));
   }
 
