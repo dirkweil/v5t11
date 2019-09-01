@@ -28,7 +28,7 @@
     </Muet8k>
 
     <!-- Check OK -->
-    <SXBM1 id="BM-2003-9" adr="44" einbauOrt="SBf Gleis 4b">
+    <VM5262 id="BM-2019-4" adr="44" einbauOrt="SBf Gleis 4b">
       <Gleisabschnitt idx="0" bereich="SBf" name="W25" /> 
       <Gleisabschnitt idx="1" bereich="SBf" name="W23" /> 
       <Gleisabschnitt idx="2" bereich="SBf" name="1b" />
@@ -37,7 +37,7 @@
       <Gleisabschnitt idx="5" bereich="SBf" name="W19" /> 
       <Gleisabschnitt idx="6" bereich="SBf" name="W20" /> 
       <Gleisabschnitt idx="7" bereich="SBf" name="W18" /> 
-    </SXBM1>
+    </VM5262>
 
     <!-- Check OK -->
     <SXBM1 id="BM-2014-1" adr="45" einbauOrt="SBf Gleis 4b (mit SX-KS-1)">
@@ -191,7 +191,7 @@
       <!-- TODO --> <Gleisabschnitt idx="7" bereich="HBf" name="W11" />
     </SXBM1>
 
-    <Muet8k id="BM-2019-1" adr="1060" einbauOrt="HBf unter Wuest">
+    <SXBM1 id="BM-2003-9" adr="1060" einbauOrt="HBf unter Wuest">
       <!-- TODO --> <Gleisabschnitt idx="0" bereich="HBf" name="W13" />
       <!-- TODO --> <Gleisabschnitt idx="0" bereich="HBf" name="W15" />
       <!-- TODO --> <Gleisabschnitt idx="1" bereich="HBf" name="W14" />
@@ -201,7 +201,7 @@
       <!-- TODO --> <Gleisabschnitt idx="5" bereich="HBf" name="23" />
       <!-- TODO --> <Gleisabschnitt idx="6" bereich="HBf" name="24" />
       <!-- TODO --> <Gleisabschnitt idx="7" bereich="HBf" name="25" />
-    </Muet8k>
+    </SXBM1>
 
     <BMMiba3 id="BM-2019-2" adr="61" einbauOrt="HBf Gleisende rechts">
       <!-- TODO --> <Gleisabschnitt idx="0" bereich="HBf" name="W17" />
@@ -228,9 +228,9 @@
       <!-- TODO --> <Gleisabschnitt idx="7" bereich="HBf" name="506" />
     </HEBM8>
 
-    <VM5262 id="BM-2019-4" adr="63" einbauOrt="Paradestrecke">
+    <Muet8k id="BM-2019-1" adr="63" einbauOrt="Paradestrecke">
       <!-- TODO --> <Gleisabschnitt idx="0" bereich="HBf" name="507" />
-    </VM5262>
+    </Muet8k>
 
   </Besetztmelder>
   
@@ -325,9 +325,9 @@
       <!-- TODO --><Weiche idx="2" bereich="HBf" name="14" invertiert="true" />
       <!-- TODO --><Weiche idx="3" bereich="HBf" name="15" />
       <!-- TODO --><Weiche idx="3" bereich="HBf" name="16" />
-      <!-- TODO --><Weiche idx="4" bereich="HBf" name="17" />
-      <!-- TODO --><Weiche idx="5" bereich="HBf" name="18" />
-      <!-- TODO --><Weiche idx="6" bereich="HBf" name="19" />
+      <Weiche idx="4" bereich="HBf" name="17" />
+      <Weiche idx="5" bereich="HBf" name="18" />
+      <Weiche idx="6" bereich="HBf" name="19" />
     </SD8>
 
     <SD8 id="FD-2019-1" adr="83" einbauOrt="HBf Ausfahrt rechts">

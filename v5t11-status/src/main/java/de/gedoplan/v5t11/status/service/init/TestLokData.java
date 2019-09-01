@@ -106,8 +106,12 @@ public class TestLokData {
       new Lok.LokFunktion(31, Lok.LokFunktion.LokFunktionsGruppe.FL, "Nur Seite 1", false, false, 0b0000_0000_1010_0000, 0b0000_0000_1000_0000),
       new Lok.LokFunktion(32, Lok.LokFunktion.LokFunktionsGruppe.FL, "Nur Seite 2", false, false, 0b0000_0000_1010_0000, 0b0000_0000_0010_0000),
       new Lok.LokFunktion(33, Lok.LokFunktion.LokFunktionsGruppe.FL, "Doppel-A", false, false, 0b0000_0000_1010_0000, 0b0000_0000_1010_0000));
+  public static final Lok lok612_509_0 = new Lok("612 509-0", null, SystemTyp.DCC, false, 1612, 126,
+      new Lok.LokFunktion(1, Lok.LokFunktion.LokFunktionsGruppe.BG, "Motor", false, false));
   public static final Lok lokET_90_5019 = new Lok("ET 90.5019", "DHL100", SystemTyp.SX1, false, 21, 31);
   public static final Lok lokVT_11_5019 = new Lok("VT 11.5019", "DHL100", SystemTyp.SX1, false, 1, 31);
+  public static final Lok lokVT_98_9667 = new Lok("VT 98 9667", null, SystemTyp.DCC, false, 1098, 126,
+      new Lok.LokFunktion(1, Lok.LokFunktion.LokFunktionsGruppe.BG, "Motor", false, false));
   public static final Lok lokVT_98_9731 = new Lok("VT 98.9731", "DHL100", SystemTyp.SX1, false, 6, 31);
 
   public static final Lok[] loks = {
@@ -127,12 +131,14 @@ public class TestLokData {
       lok323_673_4,
       lok332_262_5,
       lok430_119_8,
+      lok612_509_0,
       lok614_083_4,
       lok89_005,
       lokE50_047,
       lokV100_1365,
       lokET_90_5019,
       lokVT_11_5019,
+      lokVT_98_9667,
       lokVT_98_9731
   };
 }
