@@ -831,52 +831,52 @@
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="W11" />
     <Weiche name="11" stellung="GERADE"/>
-    <Weiche name="13" stellung="GERADE" schutz="true"/>
+    <Weiche name="14" stellung="GERADE" schutz="true"/>
     <Gleisabschnitt name="23" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="W11" />
     <Weiche name="11" stellung="ABZWEIGEND"/>
-    <Weiche name="13" stellung="ABZWEIGEND"/>
-    <Gleisabschnitt name="W13" />
+    <Weiche name="14" stellung="ABZWEIGEND"/>
+    <Gleisabschnitt name="W14" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="4" />
-    <Weiche name="13" stellung="GERADE"/>
+    <Weiche name="14" stellung="GERADE"/>
     <Weiche name="11" stellung="GERADE" schutz="true"/>
-    <Gleisabschnitt name="W13" />
+    <Gleisabschnitt name="W14" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="W12" />
     <Weiche name="12" stellung="GERADE"/>
-    <Weiche name="14" stellung="ABZWEIGEND" />
-    <Gleisabschnitt name="W14" />
+    <Weiche name="13" stellung="ABZWEIGEND" />
+    <Gleisabschnitt name="W13" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="W12" />
     <Weiche name="12" stellung="ABZWEIGEND"/>
-    <Weiche name="14" stellung="GERADE" schutz="true"/>
+    <Weiche name="13" stellung="GERADE" schutz="true"/>
     <Gleisabschnitt name="22" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
-    <Gleisabschnitt name="W14" />
+    <Gleisabschnitt name="W13" />
     <Gleisabschnitt name="21" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="1" />
-    <Weiche name="14" stellung="GERADE" />
+    <Weiche name="13" stellung="GERADE" />
     <Weiche name="12" stellung="ABZWEIGEND" schutz="true" />
-    <Gleisabschnitt name="W14" />
+    <Gleisabschnitt name="W13" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
-    <Gleisabschnitt name="W13" />
+    <Gleisabschnitt name="W14" />
     <Gleisabschnitt name="W15" />
   </Fahrstrasse>
 

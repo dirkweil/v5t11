@@ -409,7 +409,7 @@
       <Gleisabschnitt lage="W,O" name="1" bereich="HBf"  />
       <Gleisabschnitt lage="W,O" name="1" bereich="HBf" label="true" />
       <Gleisabschnitt lage="W,O" name="1" bereich="HBf"  />
-      <Weiche lage="W|SW,O" name="14" bereich="HBf" />
+      <Weiche lage="W|SW,O" name="13" bereich="HBf" />
       <Gleisabschnitt lage="W,O" name="21" bereich="HBf" anzahl="3" />
       <Gleisabschnitt lage="W,O" name="21" bereich="HBf" label="true" />
       <Gleisabschnitt lage="W,O" name="21" bereich="HBf" />
@@ -444,7 +444,7 @@
       <Gleisabschnitt lage="W,O" name="4" bereich="HBf" anzahl="1" />
       <Gleisabschnitt lage="W,O" name="4" bereich="HBf" label="true" />
       <Gleisabschnitt lage="W,O" name="4" bereich="HBf" anzahl="3" />
-      <Weiche lage="W|NW,O" name="13" bereich="HBf" />
+      <Weiche lage="W|NW,O" name="14" bereich="HBf" />
       <Weiche lage="W,O|SO" name="15" bereich="HBf" />
       <Gleisabschnitt lage="W,O" name="24" bereich="HBf" anzahl="2" />
       <Gleisabschnitt lage="W,O" name="24" bereich="HBf" label="true" />
