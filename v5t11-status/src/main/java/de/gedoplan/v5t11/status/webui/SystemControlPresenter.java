@@ -11,10 +11,12 @@ import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
 
 import java.io.Serializable;
 import java.text.Collator;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
@@ -182,6 +184,10 @@ public class SystemControlPresenter implements Serializable {
   }
 
   public void setLokId(String lokId) {
+    if (this.log.isTraceEnabled()) {
+      this.log.trace("setLokId(" + lokId + ")");
+    }
+
     this.lokId = lokId;
     this.lok = this.steuerung.getLok(lokId);
     this.lokFunktionsMap.clear();
@@ -198,6 +204,10 @@ public class SystemControlPresenter implements Serializable {
           .filter(f -> f.getGruppe() == gruppe)
           .sorted((a, b) -> Collator.getInstance().compare(a.getBeschreibung(), b.getBeschreibung()))
           .forEach(f -> this.lokFunktionsMap.put(gruppe, f));
+    }
+
+    if (this.log.isTraceEnabled()) {
+      this.log.trace("setLokId: fertig");
     }
   }
 
@@ -257,11 +267,19 @@ public class SystemControlPresenter implements Serializable {
   }
 
   public LokFunktionsGruppe[] getLokFunktionsGruppen() {
-    return Lok.LokFunktion.LokFunktionsGruppe.values();
+    LokFunktionsGruppe[] lokFunktionsGruppen = Lok.LokFunktion.LokFunktionsGruppe.values();
+    if (this.log.isTraceEnabled()) {
+      this.log.trace("LokFunktionsGruppen: " + Arrays.toString(lokFunktionsGruppen));
+    }
+    return lokFunktionsGruppen;
   }
 
   public List<LokFunktion> getLokFunktionen(Lok.LokFunktion.LokFunktionsGruppe gruppe) {
-    return this.lokFunktionsMap.get(gruppe);
+    List<LokFunktion> lokFunktionen = this.lokFunktionsMap.get(gruppe);
+    if (this.log.isTraceEnabled()) {
+      this.log.trace("LokFunktionen(" + gruppe + "): " + lokFunktionen.stream().map(f -> f.getBeschreibung()).collect(Collectors.joining(",")));
+    }
+    return lokFunktionen;
   }
 
 }
