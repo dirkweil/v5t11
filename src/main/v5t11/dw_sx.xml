@@ -182,20 +182,20 @@
 
     <SXBM1 id="BM-2013-3" adr="1059" einbauOrt="HBf unter EG">
       <Gleisabschnitt idx="0" bereich="HBf" name="5" />
-      <!-- TODO --> <Gleisabschnitt idx="1" bereich="HBf" name="W12" />
+      <Gleisabschnitt idx="1" bereich="HBf" name="W12" />
       <Gleisabschnitt idx="2" bereich="HBf" name="8" />
       <Gleisabschnitt idx="3" bereich="HBf" name="9" />
       <Gleisabschnitt idx="4" bereich="HBf" name="10" />
-      <!-- TODO --> <Gleisabschnitt idx="5" bereich="HBf" name="W10" />
-      <!-- TODO --> <Gleisabschnitt idx="6" bereich="HBf" name="1" />
-      <!-- TODO --> <Gleisabschnitt idx="7" bereich="HBf" name="W11" />
+      <Gleisabschnitt idx="5" bereich="HBf" name="W10" />
+      <Gleisabschnitt idx="6" bereich="HBf" name="1" />
+      <Gleisabschnitt idx="7" bereich="HBf" name="W11" />
     </SXBM1>
 
     <SXBM1 id="BM-2003-9" adr="1060" einbauOrt="HBf unter Wuest">
       <Gleisabschnitt idx="0" bereich="HBf" name="25" />
-      <!-- TODO --> <Gleisabschnitt idx="1" bereich="HBf" name="W13" />
-      <!-- TODO --> <Gleisabschnitt idx="2" bereich="HBf" name="22" />
-      <!-- TODO --> <Gleisabschnitt idx="3" bereich="HBf" name="21" />
+      <Gleisabschnitt idx="1" bereich="HBf" name="21" />
+      <Gleisabschnitt idx="2" bereich="HBf" name="22" />  
+      <Gleisabschnitt idx="3" bereich="HBf" name="W13" />
       <Gleisabschnitt idx="4" bereich="HBf" name="W14" />
       <Gleisabschnitt idx="4" bereich="HBf" name="W15" />
       <Gleisabschnitt idx="5" bereich="HBf" name="W16" />
@@ -318,12 +318,12 @@
     </SXSD1>
 
     <SD8 id="FD-2013-1" adr="1082" einbauOrt="HBf Mitte">
-      <!-- TODO --><Weiche idx="0" bereich="HBf" name="10" />
-      <!-- TODO --><Weiche idx="1" bereich="HBf" name="11" />
-      <!-- TODO --><Weiche idx="1" bereich="HBf" name="14" />
-      <!-- TODO --><Weiche idx="2" bereich="HBf" name="12" />
-      <!-- TODO --><Weiche idx="2" bereich="HBf" name="13" invertiert="true" />
-      <Weiche idx="4" bereich="HBf" name="17" />
+      <Weiche idx="0" bereich="HBf" name="17" />
+      <Weiche idx="1" bereich="HBf" name="11" />
+      <Weiche idx="1" bereich="HBf" name="14" />
+      <Weiche idx="2" bereich="HBf" name="12" invertiert="true" />
+      <Weiche idx="2" bereich="HBf" name="13" />
+      <Weiche idx="3" bereich="HBf" name="10" />
       <Weiche idx="5" bereich="HBf" name="18" />
       <Weiche idx="6" bereich="HBf" name="19" />
       <Weiche idx="7" bereich="HBf" name="15" />
