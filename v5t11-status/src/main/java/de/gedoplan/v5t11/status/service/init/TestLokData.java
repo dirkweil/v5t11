@@ -167,6 +167,7 @@ public class TestLokData {
   public static final Lok[] loks = {
       lok103_003_0,
       lok110_389_4,
+      lok112_491_6,
       lok151_073_4,
       lok210_004_8,
       lok217_001_7,
