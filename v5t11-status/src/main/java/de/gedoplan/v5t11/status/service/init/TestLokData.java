@@ -78,7 +78,7 @@ public class TestLokData {
       new Lok.LokFunktion(31, Lok.LokFunktion.LokFunktionsGruppe.FL, "Nur Seite 1", false, false, 0b0000_0000_1010_0000, 0b0000_0000_1000_0000),
       new Lok.LokFunktion(33, Lok.LokFunktion.LokFunktionsGruppe.FL, "Doppel-A", false, false, 0b0000_0000_1010_0000, 0b0000_0000_1010_0000));
   public static final Lok lok430_119_8 = new Lok("430 119-8", "DHL100", SystemTyp.SX1, false, 16, 31);
-  public static final Lok lokE10_472 = new Lok("E10 472", null, SystemTyp.DCC, false, 1104, 127,
+  public static final Lok lokE10_472 = new Lok("E10 472", null, SystemTyp.DCC, false, 1104, 126,
       new Lok.LokFunktion(1, Lok.LokFunktion.LokFunktionsGruppe.BG, "Motor", false, false),
       new Lok.LokFunktion(2, Lok.LokFunktion.LokFunktionsGruppe.BG, "Pfeife lang", true, false),
       new Lok.LokFunktion(3, Lok.LokFunktion.LokFunktionsGruppe.BA, "Schaffnerpfiff", true, false),
