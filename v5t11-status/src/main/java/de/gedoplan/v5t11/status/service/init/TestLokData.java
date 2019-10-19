@@ -62,7 +62,7 @@ public class TestLokData {
       new Lok.LokFunktion(32, Lok.LokFunktion.LokFunktionsGruppe.FL, "Nur Seite 1", false, false, 0b0000_0000_1010_0000, 0b0000_0000_0010_0000),
       new Lok.LokFunktion(31, Lok.LokFunktion.LokFunktionsGruppe.FL, "Nur Seite 2", false, false, 0b0000_0000_1010_0000, 0b0000_0000_1000_0000),
       new Lok.LokFunktion(33, Lok.LokFunktion.LokFunktionsGruppe.FL, "Doppel-A", false, false, 0b0000_0000_1010_0000, 0b0000_0000_1010_0000));
-  public static final Lok lok230_001_0 = new Lok("230 001-0", null, SystemTyp.SX2, false, 1230, 127,
+  public static final Lok lok230_001_0 = new Lok("230 001-0", null, SystemTyp.DCC, false, 1230, 126,
       new Lok.LokFunktion(1, Lok.LokFunktion.LokFunktionsGruppe.BG, "Horn kurz", true, true),
       new Lok.LokFunktion(2, Lok.LokFunktion.LokFunktionsGruppe.BG, "Motor", false, false),
       new Lok.LokFunktion(3, Lok.LokFunktion.LokFunktionsGruppe.BG, "Horn lang", true, false),
