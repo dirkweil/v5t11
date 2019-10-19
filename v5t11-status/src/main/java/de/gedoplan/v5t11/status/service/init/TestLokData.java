@@ -42,6 +42,23 @@ public class TestLokData {
       new Lok.LokFunktion(32, Lok.LokFunktion.LokFunktionsGruppe.FL, "Nur Seite 1", false, false, 0b0000_0000_1010_0000, 0b0000_0000_0010_0000),
       new Lok.LokFunktion(31, Lok.LokFunktion.LokFunktionsGruppe.FL, "Nur Seite 2", false, false, 0b0000_0000_1010_0000, 0b0000_0000_1000_0000),
       new Lok.LokFunktion(33, Lok.LokFunktion.LokFunktionsGruppe.FL, "Doppel-A", false, false, 0b0000_0000_1010_0000, 0b0000_0000_1010_0000));
+  public static final Lok lok112_491_6 = new Lok("112 491-6", null, SystemTyp.DCC, false, 1112, 126,
+      new Lok.LokFunktion(1, Lok.LokFunktion.LokFunktionsGruppe.BG, "Motor", false, false),
+      new Lok.LokFunktion(2, Lok.LokFunktion.LokFunktionsGruppe.BG, "Pfeife lang", true, false),
+      new Lok.LokFunktion(3, Lok.LokFunktion.LokFunktionsGruppe.BA, "Schaffnerpfiff", true, false),
+      new Lok.LokFunktion(4, Lok.LokFunktion.LokFunktionsGruppe.BG, "Kompressor", true, false),
+      new Lok.LokFunktion(5, Lok.LokFunktion.LokFunktionsGruppe.BG, "Ankuppeln", true, false),
+      new Lok.LokFunktion(6, Lok.LokFunktion.LokFunktionsGruppe.AF, "Direktsteuerung", false, false),
+      new Lok.LokFunktion(7, Lok.LokFunktion.LokFunktionsGruppe.BA, "???", true, false),
+      new Lok.LokFunktion(8, Lok.LokFunktion.LokFunktionsGruppe.BG, "Sanden", true, false),
+      new Lok.LokFunktion(9, Lok.LokFunktion.LokFunktionsGruppe.AF, "Rangiergang", false, false),
+      new Lok.LokFunktion(10, Lok.LokFunktion.LokFunktionsGruppe.AF, "Geräusche ausblenden", false, false),
+      new Lok.LokFunktion(13, Lok.LokFunktion.LokFunktionsGruppe.BG, "Pfeife kurz", true, true),
+      new Lok.LokFunktion(14, Lok.LokFunktion.LokFunktionsGruppe.BG, "Kurvenquietschen", true, true),
+      new Lok.LokFunktion(30, Lok.LokFunktion.LokFunktionsGruppe.FL, "Beidseitig", false, false, 0b0000_1100_0000_0000, 0b0000_0000_0000_0000),
+      new Lok.LokFunktion(32, Lok.LokFunktion.LokFunktionsGruppe.FL, "Nur Seite 1", false, false, 0b0000_1100_0000_0000, 0b0000_0100_0000_0000),
+      new Lok.LokFunktion(31, Lok.LokFunktion.LokFunktionsGruppe.FL, "Nur Seite 2", false, false, 0b0000_1100_0000_0000, 0b0000_1000_0000_0000),
+      new Lok.LokFunktion(33, Lok.LokFunktion.LokFunktionsGruppe.FL, "Doppel-A", false, false, 0b0000_1100_0000_0000, 0b0000_1100_0000_0000));
   public static final Lok lok151_073_4 = new Lok("151 073-4", "DH10", SystemTyp.SX2, false, 1151, 127);
   public static final Lok lok210_004_8 = new Lok("210 004-8", "DHL100", SystemTyp.SX1, false, 2, 31);
   public static final Lok lok217_001_7 = new Lok("217 001-7", null, SystemTyp.SX2, false, 1217, 127,
