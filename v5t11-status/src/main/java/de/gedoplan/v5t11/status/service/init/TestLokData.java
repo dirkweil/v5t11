@@ -44,7 +44,7 @@ public class TestLokData {
       new Lok.LokFunktion(33, Lok.LokFunktion.LokFunktionsGruppe.FL, "Doppel-A", false, false, 0b0000_0000_1010_0000, 0b0000_0000_1010_0000));
   public static final Lok lok151_073_4 = new Lok("151 073-4", "DH10", SystemTyp.SX1, false, 22, 31,
       new Lok.LokFunktion(1, Lok.LokFunktion.LokFunktionsGruppe.AF, "Horn", true, true));
-  public static final Lok lok210_004_8 = new Lok("X 210 004-8", "DHL100", SystemTyp.SX1, false, 2, 31);
+  public static final Lok lok210_004_8 = new Lok("210 004-8", "DHL100", SystemTyp.SX1, false, 2, 31);
   public static final Lok lok217_001_7 = new Lok("217 001-7", null, SystemTyp.SX2, false, 1217, 127,
       new Lok.LokFunktion(1, Lok.LokFunktion.LokFunktionsGruppe.AF, "Führerstandsbeleuchtung", false, false),
       new Lok.LokFunktion(2, Lok.LokFunktion.LokFunktionsGruppe.BG, "Motor", false, false),
