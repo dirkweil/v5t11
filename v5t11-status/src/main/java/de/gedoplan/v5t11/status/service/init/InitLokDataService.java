@@ -40,6 +40,9 @@ public class InitLokDataService {
     try {
       this.log.debug("Lok-Daten erzeugen");
 
+      // TODO Entfernen, wenn Pflegedialog existiert
+      this.lokRepository.findAll().forEach(this.lokRepository::remove);
+
       if (this.lokRepository.countAll() == 0) {
         for (Lok lok : TestLokData.loks) {
           this.lokRepository.persist(lok);

@@ -111,7 +111,7 @@ public class LokTest extends CdiTestBase {
 
     this.steuerung.getZentrale().setGleisspannung(true);
 
-    String lokId = TestLokData.lok151_032_0.getId();
+    String lokId = TestLokData.lok151_073_4.getId();
     Lok lok = this.steuerung.getLok(lokId);
     assertNotNull("Lok " + lokId + " in Testdaten", lok);
     assertEquals("Lok-Typ von " + lokId, SystemTyp.SX1, lok.getSystemTyp());
