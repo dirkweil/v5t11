@@ -56,4 +56,8 @@
     <welcome-file>index.xhtml</welcome-file>
   </welcome-file-list>
 
+  <!-- Disable session timeout -->
+  <session-config>
+    <session-timeout>0</session-timeout>
+  </session-config>
 </web-app>
