@@ -94,7 +94,6 @@ public class TestLokData {
       new Lok.LokFunktion(31, Lok.LokFunktion.LokFunktionsGruppe.FL, "Nur Seite 1", false, false, 0b0000_0000_1010_0000, 0b0000_0000_1000_0000),
       new Lok.LokFunktion(33, Lok.LokFunktion.LokFunktionsGruppe.FL, "Doppel-A", false, false, 0b0000_0000_1010_0000, 0b0000_0000_1010_0000));
   public static final Lok lok430_119_8 = new Lok("430 119-8", "DHL100", SystemTyp.SX1, false, 16, 31);
-  public static final Lok lokE9103 = new Lok("E9103", "DHL100", SystemTyp.SX1, false, 28, 31);
   public static final Lok lokE10_472 = new Lok("E10 472", null, SystemTyp.DCC, false, 1104, 126,
       new Lok.LokFunktion(1, Lok.LokFunktion.LokFunktionsGruppe.BG, "Motor", false, false),
       new Lok.LokFunktion(2, Lok.LokFunktion.LokFunktionsGruppe.BG, "Pfeife lang", true, false),
@@ -125,6 +124,7 @@ public class TestLokData {
       new Lok.LokFunktion(32, Lok.LokFunktion.LokFunktionsGruppe.FL, "Nur Seite 1", false, false, 0b0000_0000_1010_0000, 0b0000_0000_0010_0000),
       new Lok.LokFunktion(31, Lok.LokFunktion.LokFunktionsGruppe.FL, "Nur Seite 2", false, false, 0b0000_0000_1010_0000, 0b0000_0000_1000_0000),
       new Lok.LokFunktion(33, Lok.LokFunktion.LokFunktionsGruppe.FL, "Doppel-A", false, false, 0b0000_0000_1010_0000, 0b0000_0000_1010_0000));
+  public static final Lok lokE9103 = new Lok("E9103", "DHL100", SystemTyp.SX1, false, 28, 31);
   public static final Lok lokV100_1365 = new Lok("V100 1365", null, SystemTyp.SX2, false, 1365, 127,
       new Lok.LokFunktion(1, Lok.LokFunktion.LokFunktionsGruppe.FL, "Spitzensignal nur vorn", false, false),
       new Lok.LokFunktion(2, Lok.LokFunktion.LokFunktionsGruppe.BG, "Motor", false, false),
@@ -143,11 +143,25 @@ public class TestLokData {
       new Lok.LokFunktion(31, Lok.LokFunktion.LokFunktionsGruppe.FL, "Nur Seite 2", false, false, 0b0000_0000_1010_0000, 0b0000_0000_1000_0000),
       new Lok.LokFunktion(33, Lok.LokFunktion.LokFunktionsGruppe.FL, "Doppel-A", false, false, 0b0000_0000_1010_0000, 0b0000_0000_1010_0000));
   public static final Lok lok612_509_0 = new Lok("612 509-0", null, SystemTyp.DCC, false, 1612, 126,
-      new Lok.LokFunktion(1, Lok.LokFunktion.LokFunktionsGruppe.BG, "Motor", false, false));
+      new Lok.LokFunktion(1, Lok.LokFunktion.LokFunktionsGruppe.BG, "Motor", false, false),
+      new Lok.LokFunktion(2, Lok.LokFunktion.LokFunktionsGruppe.AF, "Innenbeleuchtung", false, false),
+      new Lok.LokFunktion(3, Lok.LokFunktion.LokFunktionsGruppe.BG, "Signalhorn hoch", true, true),
+      new Lok.LokFunktion(4, Lok.LokFunktion.LokFunktionsGruppe.BG, "Kompressor", false, false),
+      new Lok.LokFunktion(5, Lok.LokFunktion.LokFunktionsGruppe.BA, "Schaffnerpfiff", true, false),
+      new Lok.LokFunktion(7, Lok.LokFunktion.LokFunktionsGruppe.BA, "Bitte einsteigen ..., Türenschließen, Pfiff", true, false),
+      new Lok.LokFunktion(8, Lok.LokFunktion.LokFunktionsGruppe.BA, "Bitte einsteigen ...", true, false),
+      new Lok.LokFunktion(10, Lok.LokFunktion.LokFunktionsGruppe.AF, "Geräusche ausblenden", false, false),
+      new Lok.LokFunktion(15, Lok.LokFunktion.LokFunktionsGruppe.BG, "Signalhorn tief kurz", true, false),
+      new Lok.LokFunktion(16, Lok.LokFunktion.LokFunktionsGruppe.BG, "Signalhorn tief lang", true, false));
   public static final Lok lokET_90_5019 = new Lok("ET 90.5019", "DHL100", SystemTyp.SX1, false, 21, 31);
   public static final Lok lokVT_11_5019 = new Lok("VT 11.5019", "DHL100", SystemTyp.SX1, false, 1, 31);
   public static final Lok lokVT_98_9667 = new Lok("VT 98 9667", null, SystemTyp.DCC, false, 1098, 126,
-      new Lok.LokFunktion(1, Lok.LokFunktion.LokFunktionsGruppe.BG, "Motor", false, false));
+      new Lok.LokFunktion(1, Lok.LokFunktion.LokFunktionsGruppe.BG, "Motor", false, false),
+      new Lok.LokFunktion(2, Lok.LokFunktion.LokFunktionsGruppe.BA, "Türenschließen", true, false),
+      new Lok.LokFunktion(3, Lok.LokFunktion.LokFunktionsGruppe.BG, "Signalhorn", true, false),
+      new Lok.LokFunktion(5, Lok.LokFunktion.LokFunktionsGruppe.BG, "Glocke", true, false),
+      new Lok.LokFunktion(6, Lok.LokFunktion.LokFunktionsGruppe.AF, "Geräusche ausblenden", false, false),
+      new Lok.LokFunktion(7, Lok.LokFunktion.LokFunktionsGruppe.AF, "Innenbeleuchtung", false, false));
 
   // public static final Lok lokX_VT_98_9731 = new Lok("X VT 98.9731", "DHL100", SystemTyp.SX1, false, 6, 31);
   // public static final Lok lokX_103_118_6 = new Lok("X 103 118-6", "DHL100", SystemTyp.SX1, false, 13, 31);
