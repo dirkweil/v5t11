@@ -224,12 +224,14 @@
       <Gleisabschnitt idx="3" bereich="HBf" name="W29" />
       <Gleisabschnitt idx="4" bereich="HBf" name="W30" />
       <Gleisabschnitt idx="5" bereich="HBf" name="W31" />
-      <Gleisabschnitt idx="6" bereich="HBf" name="505" />
-      <!-- TODO --> <Gleisabschnitt idx="7" bereich="HBf" name="506" />
     </HEBM8>
 
     <Muet8k id="BM-2019-1" adr="63" einbauOrt="Paradestrecke">
-      <!-- TODO --> <Gleisabschnitt idx="0" bereich="HBf" name="507" />
+      <Gleisabschnitt idx="0" bereich="HBf" name="505" />
+      <Gleisabschnitt idx="1" bereich="HBf" name="506" />
+      <!-- TODO --> <Gleisabschnitt idx="2" bereich="HBf" name="507" />
+      <!-- TODO  <Gleisabschnitt idx="3" bereich="Strecke" name="hinten" /> -->
+      <!-- TODO  <Gleisabschnitt idx="4" bereich="Strecke" name="vorne" /> -->
     </Muet8k>
 
   </Besetztmelder>
