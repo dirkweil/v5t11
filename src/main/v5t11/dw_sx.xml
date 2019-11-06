@@ -229,9 +229,9 @@
     <Muet8k id="BM-2019-1" adr="63" einbauOrt="Paradestrecke">
       <Gleisabschnitt idx="0" bereich="HBf" name="505" />
       <Gleisabschnitt idx="1" bereich="HBf" name="506" />
-      <!-- TODO --> <Gleisabschnitt idx="2" bereich="HBf" name="507" />
-      <!-- TODO  <Gleisabschnitt idx="3" bereich="Strecke" name="hinten" /> -->
-      <!-- TODO  <Gleisabschnitt idx="4" bereich="Strecke" name="vorne" /> -->
+      <Gleisabschnitt idx="2" bereich="HBf" name="507" />
+      <Gleisabschnitt idx="3" bereich="S10xx" name="3001" />
+      <Gleisabschnitt idx="4" bereich="S10xx" name="3002" />
     </Muet8k>
 
   </Besetztmelder>

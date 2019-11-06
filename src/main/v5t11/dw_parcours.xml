@@ -2,6 +2,16 @@
 <Parcours>
   <!-- Fahrstrassen im Bereich S10xx -->
   <Fahrstrasse bereich="S10xx" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="3001" />
+    <Gleisabschnitt name="1001"/>
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="S10xx" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="3002" />
+    <Gleisabschnitt name="1002"/>
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="S10xx" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="1001" />
     <Weiche name="1003" stellung="GERADE" />
     <Gleisabschnitt name="W1003"/>
@@ -1097,6 +1107,16 @@
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="W31" />
     <Gleisabschnitt name="505" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="507" />
+    <Gleisabschnitt name="3002" bereich="S10xx" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="506" />
+    <Gleisabschnitt name="3001" bereich="S10xx" />
   </Fahrstrasse>
 
 </Parcours>
