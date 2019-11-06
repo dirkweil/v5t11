@@ -6,17 +6,16 @@ import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
 import de.gedoplan.v5t11.status.entity.lok.Lok;
 import de.gedoplan.v5t11.status.entity.lok.Lok.LokFunktion;
 import de.gedoplan.v5t11.status.entity.lok.Lok.LokFunktion.LokFunktionsGruppe;
+import de.gedoplan.v5t11.status.util.TraceCall;
 import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
 
 import java.io.Serializable;
 import java.text.Collator;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
@@ -34,6 +33,7 @@ import lombok.Getter;
 
 @Named
 @SessionScoped
+@TraceCall
 public class SystemControlPresenter implements Serializable {
 
   @Inject
@@ -268,17 +268,17 @@ public class SystemControlPresenter implements Serializable {
 
   public LokFunktionsGruppe[] getLokFunktionsGruppen() {
     LokFunktionsGruppe[] lokFunktionsGruppen = Lok.LokFunktion.LokFunktionsGruppe.values();
-    if (this.log.isTraceEnabled()) {
-      this.log.trace("LokFunktionsGruppen: " + Arrays.toString(lokFunktionsGruppen));
-    }
+    // if (this.log.isTraceEnabled()) {
+    // this.log.trace("LokFunktionsGruppen: " + Arrays.toString(lokFunktionsGruppen));
+    // }
     return lokFunktionsGruppen;
   }
 
   public List<LokFunktion> getLokFunktionen(Lok.LokFunktion.LokFunktionsGruppe gruppe) {
     List<LokFunktion> lokFunktionen = this.lokFunktionsMap.get(gruppe);
-    if (this.log.isTraceEnabled()) {
-      this.log.trace("LokFunktionen(" + gruppe + "): " + lokFunktionen.stream().map(f -> f.getBeschreibung()).collect(Collectors.joining(",")));
-    }
+    // if (this.log.isTraceEnabled()) {
+    // this.log.trace("LokFunktionen(" + gruppe + "): " + lokFunktionen.stream().map(f -> f.getBeschreibung()).collect(Collectors.joining(",")));
+    // }
     return lokFunktionen;
   }
 
