@@ -2,10 +2,10 @@ package de.gedoplan.v5t11.status.entity.baustein.zentrale;
 
 import de.gedoplan.v5t11.status.entity.Kanal;
 import de.gedoplan.v5t11.status.entity.SX2Kanal;
-import de.gedoplan.v5t11.status.entity.SystemTyp;
 import de.gedoplan.v5t11.status.entity.baustein.Zentrale;
 import de.gedoplan.v5t11.status.entity.lok.Lok;
 import de.gedoplan.v5t11.status.entity.lok.Lok.LokFunktion;
+import de.gedoplan.v5t11.util.domain.entity.SystemTyp;
 import de.gedoplan.v5t11.util.misc.V5t11Exception;
 
 import java.io.EOFException;

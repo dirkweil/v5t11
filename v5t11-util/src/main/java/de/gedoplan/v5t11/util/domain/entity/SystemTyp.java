@@ -1,17 +1,21 @@
-package de.gedoplan.v5t11.status.entity;
+package de.gedoplan.v5t11.util.domain.entity;
 
 import lombok.Getter;
 
 public enum SystemTyp {
-  SX1(0x00),
-  SX2(0x04),
-  DCC(0x07);
+  SX1(0x00, 31),
+  SX2(0x04, 127),
+  DCC(0x07, 126);
 
   @Getter
   private int formatCode;
 
-  private SystemTyp(int formatCode) {
+  @Getter
+  private int maxFahrstufe;
+
+  private SystemTyp(int formatCode, int maxFahrstufe) {
     this.formatCode = formatCode;
+    this.maxFahrstufe = maxFahrstufe;
 
   }
 

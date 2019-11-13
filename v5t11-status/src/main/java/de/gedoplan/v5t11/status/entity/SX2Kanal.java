@@ -1,5 +1,7 @@
 package de.gedoplan.v5t11.status.entity;
 
+import de.gedoplan.v5t11.util.domain.entity.SystemTyp;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;

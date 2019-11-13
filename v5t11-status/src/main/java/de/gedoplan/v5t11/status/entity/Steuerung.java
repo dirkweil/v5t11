@@ -28,6 +28,7 @@ import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
 import de.gedoplan.v5t11.status.entity.lok.Lok;
 import de.gedoplan.v5t11.status.persistence.LokRepository;
 import de.gedoplan.v5t11.util.domain.entity.Bereichselement;
+import de.gedoplan.v5t11.util.domain.entity.SystemTyp;
 
 import java.util.Collection;
 import java.util.Map;

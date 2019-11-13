@@ -4,9 +4,9 @@ import de.gedoplan.baselibs.persistence.entity.SingleIdEntity;
 import de.gedoplan.baselibs.utils.inject.InjectionUtil;
 import de.gedoplan.v5t11.status.entity.Kanal;
 import de.gedoplan.v5t11.status.entity.SX2Kanal;
-import de.gedoplan.v5t11.status.entity.SystemTyp;
 import de.gedoplan.v5t11.status.entity.baustein.Zentrale;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
+import de.gedoplan.v5t11.util.domain.entity.SystemTyp;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
 import java.util.Set;

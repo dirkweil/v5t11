@@ -1,7 +1,7 @@
 package de.gedoplan.v5t11.status.service.init;
 
-import de.gedoplan.v5t11.status.entity.SystemTyp;
 import de.gedoplan.v5t11.status.entity.lok.Lok;
+import de.gedoplan.v5t11.util.domain.entity.SystemTyp;
 
 public class TestLokData {
 
