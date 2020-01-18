@@ -19,6 +19,11 @@
     <java.code.version>1.8</java.code.version>
 
     <logging.scope>test</logging.scope>
+
+    <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
+    <quarkus.platform.artifact-id>quarkus-universe-bom</quarkus.platform.artifact-id>
+    <quarkus.platform.version>1.1.1.Final</quarkus.platform.version>
+    <quarkus-plugin.version>1.1.1.Final</quarkus-plugin.version>
   </properties>
 
   <repositories>
@@ -113,6 +118,14 @@
         <groupId>de.gedoplan</groupId>
         <artifactId>baselibs-utils</artifactId>
         <version>1.8</version>
+      </dependency>
+
+      <dependency>
+        <groupId>${quarkus.platform.group-id}</groupId>
+        <artifactId>${quarkus.platform.artifact-id}</artifactId>
+        <version>${quarkus.platform.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
       </dependency>
 
       <dependency>
@@ -284,6 +297,7 @@
   <modules>
     <module>v5t11-com-server</module>
     <module>v5t11-fahrstrassen</module>
+    <module>v5t11-fahrzeuge</module>
     <module>v5t11-leitstand</module>
     <module>v5t11-status</module>
     <module>v5t11-util</module>
