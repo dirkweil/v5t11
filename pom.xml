@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
@@ -134,19 +135,26 @@
         <groupId>log4j</groupId>
         <artifactId>log4j</artifactId>
         <version>1.2.17</version>
-      </dependency> -->
+        </dependency> -->
 
       <!-- <dependency>
         <groupId>mysql</groupId>
         <artifactId>mysql-connector-java</artifactId>
         <version>5.0.5</version>
-      </dependency> -->
+        </dependency> -->
 
       <!-- <dependency>
         <groupId>org.apache.activemq</groupId>
         <artifactId>artemis-jms-client</artifactId>
         <version>2.6.2</version>
-      </dependency> -->
+        </dependency> -->
+
+      <dependency>
+        <groupId>org.eclipse.microprofile</groupId>
+        <artifactId>microprofile</artifactId>
+        <type>pom</type>
+        <version>3.3</version>
+      </dependency>
 
       <!-- TODO Neue Dependency passend zu Quarkus suchen -->
       <dependency>
@@ -159,7 +167,7 @@
         <groupId>org.apache.activemq</groupId>
         <artifactId>artemis-jms-server</artifactId>
         <version>2.6.2</version>
-      </dependency> -->
+        </dependency> -->
 
       <dependency>
         <groupId>org.apache.johnzon</groupId>
@@ -179,13 +187,13 @@
         <groupId>org.apache.meecrowave</groupId>
         <artifactId>meecrowave-core</artifactId>
         <version>1.2.8</version>
-      </dependency> -->
+        </dependency> -->
 
       <!-- <dependency>
         <groupId>org.apache.meecrowave</groupId>
         <artifactId>meecrowave-junit</artifactId>
         <version>1.2.8</version>
-      </dependency> -->
+        </dependency> -->
 
       <dependency>
         <groupId>org.eclipse</groupId>
@@ -277,15 +285,22 @@
       <scope>${logging.scope}</scope>
     </dependency>
 
+    <dependency>
+      <groupId>org.eclipse.microprofile</groupId>
+      <artifactId>microprofile</artifactId>
+      <type>pom</type>
+      <scope>provided</scope>
+    </dependency>
+
   </dependencies>
 
   <modules>
     <!--
-    <module>v5t11-com-server</module>
-    <module>v5t11-fahrstrassen</module>
-    <module>v5t11-fahrzeuge</module>
-    <module>v5t11-leitstand</module>
-   -->
+      <module>v5t11-com-server</module>
+      <module>v5t11-fahrstrassen</module>
+      <module>v5t11-fahrzeuge</module>
+      <module>v5t11-leitstand</module>
+    -->
     <module>v5t11-status</module>
     <module>v5t11-util</module>
   </modules>
