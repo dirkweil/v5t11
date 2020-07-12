@@ -135,7 +135,7 @@ public class TestLokData {
       new Lok.LokFunktion(9, Lok.LokFunktion.LokFunktionsGruppe.BG, "Glocke", true, false),
       new Lok.LokFunktion(10, Lok.LokFunktion.LokFunktionsGruppe.BG, "Signalhorn tief", true, false),
       new Lok.LokFunktion(11, Lok.LokFunktion.LokFunktionsGruppe.BG, "Kompressor", false, false),
-      new Lok.LokFunktion(12, Lok.LokFunktion.LokFunktionsGruppe.BA, "???", true, false),
+      new Lok.LokFunktion(12, Lok.LokFunktion.LokFunktionsGruppe.BA, "Stuttgart Hauptbahnhof, bitte alle aussteigen", true, false),
       new Lok.LokFunktion(13, Lok.LokFunktion.LokFunktionsGruppe.BA, "Schaffnerpfiff", true, false),
       new Lok.LokFunktion(14, Lok.LokFunktion.LokFunktionsGruppe.BA, "Türenschließen", true, false),
       new Lok.LokFunktion(30, Lok.LokFunktion.LokFunktionsGruppe.FL, "Beidseitig", false, false, 0b0000_0000_1010_0000, 0b0000_0000_0000_0000),
