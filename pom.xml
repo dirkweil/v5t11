@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
@@ -15,7 +16,11 @@
   <packaging>pom</packaging>
 
   <properties>
-    <logging.scope>test</logging.scope>
+    <quarkus.version>1.6.1.Final</quarkus.version>
+    <quarkus-plugin.version>${quarkus.version}</quarkus-plugin.version>
+    <quarkus.platform.artifact-id>quarkus-universe-bom</quarkus.platform.artifact-id>
+    <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
+    <quarkus.platform.version>${quarkus.version}</quarkus.platform.version>
   </properties>
 
   <repositories>
@@ -131,23 +136,8 @@
         <version>4.12</version>
       </dependency>
 
-      <!-- <dependency>
-        <groupId>log4j</groupId>
-        <artifactId>log4j</artifactId>
-        <version>1.2.17</version>
-        </dependency> -->
-
-      <!-- <dependency>
-        <groupId>mysql</groupId>
-        <artifactId>mysql-connector-java</artifactId>
-        <version>5.0.5</version>
-        </dependency> -->
-
-      <!-- <dependency>
-        <groupId>org.apache.activemq</groupId>
-        <artifactId>artemis-jms-client</artifactId>
-        <version>2.6.2</version>
-        </dependency> -->
+      <!-- <dependency> <groupId>org.apache.activemq</groupId> <artifactId>artemis-jms-client</artifactId> 
+        <version>2.6.2</version> </dependency> -->
 
       <dependency>
         <groupId>org.eclipse.microprofile</groupId>
@@ -163,11 +153,8 @@
         <version>2.3.1</version>
       </dependency>
 
-      <!-- <dependency>
-        <groupId>org.apache.activemq</groupId>
-        <artifactId>artemis-jms-server</artifactId>
-        <version>2.6.2</version>
-        </dependency> -->
+      <!-- <dependency> <groupId>org.apache.activemq</groupId> <artifactId>artemis-jms-server</artifactId> 
+        <version>2.6.2</version> </dependency> -->
 
       <dependency>
         <groupId>org.apache.johnzon</groupId>
@@ -183,17 +170,11 @@
         <type>pom</type>
       </dependency>
 
-      <!-- <dependency>
-        <groupId>org.apache.meecrowave</groupId>
-        <artifactId>meecrowave-core</artifactId>
-        <version>1.2.8</version>
-        </dependency> -->
+      <!-- <dependency> <groupId>org.apache.meecrowave</groupId> <artifactId>meecrowave-core</artifactId> 
+        <version>1.2.8</version> </dependency> -->
 
-      <!-- <dependency>
-        <groupId>org.apache.meecrowave</groupId>
-        <artifactId>meecrowave-junit</artifactId>
-        <version>1.2.8</version>
-        </dependency> -->
+      <!-- <dependency> <groupId>org.apache.meecrowave</groupId> <artifactId>meecrowave-junit</artifactId> 
+        <version>1.2.8</version> </dependency> -->
 
       <dependency>
         <groupId>org.eclipse</groupId>
@@ -226,6 +207,12 @@
       </dependency>
 
       <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter</artifactId>
+        <version>5.6.2</version>
+      </dependency>
+
+      <dependency>
         <groupId>org.jboss.resteasy</groupId>
         <artifactId>resteasy-jackson-provider</artifactId>
         <version>3.0.10.Final</version>
@@ -252,56 +239,76 @@
     </dependencies>
   </dependencyManagement>
 
-  <dependencies>
-    <dependency>
-      <groupId>jakarta.platform</groupId>
-      <artifactId>jakarta.jakartaee-api</artifactId>
-      <scope>provided</scope>
-    </dependency>
+  <profiles>
+    <profile>
+      <id>jee_quarkus</id>
 
-    <dependency>
-      <groupId>org.apache.logging.log4j</groupId>
-      <artifactId>log4j-api</artifactId>
-      <scope>${logging.scope}</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.logging.log4j</groupId>
-      <artifactId>log4j-core</artifactId>
-      <scope>${logging.scope}</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.logging.log4j</groupId>
-      <artifactId>log4j-jcl</artifactId>
-      <scope>${logging.scope}</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.logging.log4j</groupId>
-      <artifactId>log4j-jul</artifactId>
-      <scope>${logging.scope}</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.logging.log4j</groupId>
-      <artifactId>log4j-slf4j-impl</artifactId>
-      <scope>${logging.scope}</scope>
-    </dependency>
+      <activation>
+        <file>
+          <exists>${basedir}/jee_quarkus</exists>
+        </file>
+      </activation>
 
-    <dependency>
-      <groupId>org.eclipse.microprofile</groupId>
-      <artifactId>microprofile</artifactId>
-      <type>pom</type>
-      <scope>provided</scope>
-    </dependency>
+      <properties>
+        <additional.source.dir>src_quarkus</additional.source.dir>
 
-  </dependencies>
+        <quarkus-plugin.version>${quarkus.version}</quarkus-plugin.version>
+        <quarkus.platform.artifact-id>quarkus-universe-bom</quarkus.platform.artifact-id>
+        <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
+        <quarkus.platform.version>${quarkus.version}</quarkus.platform.version>
+      </properties>
+
+      <dependencyManagement>
+        <dependencies>
+          <dependency>
+            <groupId>${quarkus.platform.group-id}</groupId>
+            <artifactId>${quarkus.platform.artifact-id}</artifactId>
+            <version>${quarkus.platform.version}</version>
+            <type>pom</type>
+            <scope>import</scope>
+          </dependency>
+        </dependencies>
+      </dependencyManagement>
+
+      <build>
+        <plugins>
+          <!-- Build executable JAR -->
+          <plugin>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-maven-plugin</artifactId>
+            <version>${quarkus-plugin.version}</version>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>build</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+
+          <!-- Set log manager for tests -->
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <systemProperties>
+                <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
+              </systemProperties>
+            </configuration>
+          </plugin>
+
+        </plugins>
+      </build>
+    </profile>
+
+  </profiles>
 
   <modules>
-    <!--
-      <module>v5t11-com-server</module>
-      <module>v5t11-fahrstrassen</module>
-      <module>v5t11-fahrzeuge</module>
-      <module>v5t11-leitstand</module>
-    -->
+<!--     <module>v5t11-com-server</module> -->
+    <module>v5t11-fahrstrassen</module>
+<!--     <module>v5t11-fahrzeuge</module> -->
+<!--     <module>v5t11-leitstand</module> -->
     <module>v5t11-status</module>
     <module>v5t11-util</module>
   </modules>
+
 </project>
