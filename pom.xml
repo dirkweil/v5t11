@@ -28,11 +28,6 @@
       <id>gedoplanPublic</id>
       <url>http://service.gedoplan.de/nexus/content/groups/public</url>
     </repository>
-
-    <repository>
-      <id>prime</id>
-      <url>http://repository.primefaces.org</url>
-    </repository>
   </repositories>
 
   <pluginRepositories>
@@ -216,12 +211,6 @@
         <groupId>org.jboss.resteasy</groupId>
         <artifactId>resteasy-jackson-provider</artifactId>
         <version>3.0.10.Final</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.primefaces</groupId>
-        <artifactId>primefaces</artifactId>
-        <version>7.0</version>
       </dependency>
 
       <dependency>
