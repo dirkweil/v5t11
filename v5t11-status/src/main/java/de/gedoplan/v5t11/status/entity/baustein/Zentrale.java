@@ -245,8 +245,11 @@ public abstract class Zentrale implements Closeable {
 
     // Falls Port nicht gesetzt oder "auto", ersten Serienport nehmen
     if (this.portName == null || "auto".equalsIgnoreCase(this.portName)) {
+      this.log.debug("select first serial port");
       this.portName = selectFirstSerialPort();
     }
+
+    this.log.debug("port: " + this.portName);
 
   }
 

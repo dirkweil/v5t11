@@ -19,7 +19,6 @@ public class Bootstrap {
   ManagedExecutorService executorService;
 
   void boot(@Observes @Initialized(ApplicationScoped.class) Object object, Steuerung steuerung) {
-    steuerung.injectFields();
     steuerung.open(this.executorService != null ? this.executorService : Executors.newSingleThreadExecutor());
   }
 
