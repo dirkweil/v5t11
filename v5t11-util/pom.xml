@@ -33,9 +33,6 @@
       <scope>provided</scope>
     </dependency>
 
-    <!-- <dependency> <groupId>commons-logging</groupId> <artifactId>commons-logging</artifactId> 
-      </dependency> -->
-
     <dependency>
       <groupId>de.gedoplan</groupId>
       <artifactId>baselibs-persistence</artifactId>
