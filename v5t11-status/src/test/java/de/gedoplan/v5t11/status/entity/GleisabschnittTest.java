@@ -6,7 +6,7 @@ import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 
 import javax.inject.Inject;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 
 public class GleisabschnittTest extends CdiTestBase {
