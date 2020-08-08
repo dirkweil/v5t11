@@ -79,7 +79,7 @@
       <dependency>
         <groupId>de.gedoplan</groupId>
         <artifactId>baselibs-wildfly</artifactId>
-        <version>16.0.0_01</version>
+        <version>20.0.0_01</version>
       </dependency>
 
       <dependency>

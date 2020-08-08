@@ -17,7 +17,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
-@RegisterRestClient(configKey = "v5t11-status")
+@RegisterRestClient(configKey = "v5t11.status")
 public interface StatusGateway {
   @GET
   @Path("gleis")
