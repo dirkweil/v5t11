@@ -17,7 +17,7 @@ import javax.inject.Inject;
 public class EventFirer {
 
   @Inject
-  private Event<Object> eventSource;
+  Event<Object> eventSource;
 
   public void fire(Object event, Annotation... qualifiers) {
     Event<Object> es = this.eventSource;
