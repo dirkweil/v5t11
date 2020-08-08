@@ -75,6 +75,10 @@ public class SignalResource {
       throw new NotFoundException();
     }
 
+    if (stellungsAngabe.startsWith("[") && stellungsAngabe.endsWith("]")) {
+      stellungsAngabe = stellungsAngabe.substring(1, stellungsAngabe.length() - 1);
+    }
+
     try {
       for (String stellungsName : stellungsAngabe.split("\\s*,\\s*")) {
 
