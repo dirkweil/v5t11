@@ -31,11 +31,14 @@ import lombok.Getter;
 public abstract class ConfigBase {
 
   public static final String PROPERTY_CONFIG_DIR = "v5t11.configDir";
-  public static final String PROPERTY_ANLAGE = "v5t11.anlage";
 
+  public static final String PROPERTY_ARTIFACT_ID = "v5t11.artifactId";
+  public static final String PROPERTY_VERSION = "v5t11.version";
+
+  public static final String PROPERTY_ANLAGE = "v5t11.anlage";
   public static final String DEFAULT_ANLAGE = "show";
 
-  public static final String PROPERTY_STATUS_REST_URL = "v5t11.statusRestUrl";
+  public static final String PROPERTY_STATUS_REST_URL = "v5t11.v5t11-status/mp-rest/url";
   public static final String DEFAULT_STATUS_REST_URL = "http://v5t11-status:8080/rs";
 
   public static final String PROPERTY_STATUS_JMS_URL = "v5t11.statusJmsUrl";
@@ -56,6 +59,16 @@ public abstract class ConfigBase {
   String anlage;
 
   @Inject
+  @ConfigProperty(name = PROPERTY_ARTIFACT_ID)
+  @Getter
+  String artifactId;
+
+  @Inject
+  @ConfigProperty(name = PROPERTY_VERSION)
+  @Getter
+  String version;
+
+  @Inject
   @ConfigProperty(name = PROPERTY_STATUS_REST_URL, defaultValue = DEFAULT_STATUS_REST_URL)
   @Getter
   String statusRestUrl;
@@ -71,9 +84,9 @@ public abstract class ConfigBase {
    * Der Dateiname setzt sich aus dem Anwendungsnamen und dem übergebenen Suffix zusammen. Die Datei wird im Konfigurationsverzeichnis oder als Classpath Ressource gesucht.
    *
    * @param fileNameSuffix
-   *        Dateinamen-Suffix
+   *          Dateinamen-Suffix
    * @param clazz
-   *        Ziel-Klasse
+   *          Ziel-Klasse
    * @return deserialisierter Wert
    */
   public <T> T readXmlConfig(String fileNameSuffix, Class<T> clazz) {
