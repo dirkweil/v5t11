@@ -1,5 +1,6 @@
 package de.gedoplan.v5t11.fahrstrassen.entity;
 
+import de.gedoplan.baselibs.utils.inject.InjectionUtil;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Signal;
@@ -268,6 +269,11 @@ public class Parcours {
     }
 
     return stream.sorted((fs1, fs2) -> fs1.getRank() - fs2.getRank()).collect(Collectors.toList());
+  }
+
+  public void injectFields() {
+    InjectionUtil.injectFields(this);
+    this.fahrstrassen.forEach(Fahrstrasse::injectFields);
   }
 
 }

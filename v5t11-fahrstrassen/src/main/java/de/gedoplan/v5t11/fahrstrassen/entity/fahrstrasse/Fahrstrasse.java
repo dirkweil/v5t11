@@ -3,10 +3,12 @@ package de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse;
 import static java.lang.annotation.ElementType.*;
 import static java.lang.annotation.RetentionPolicy.*;
 
+import de.gedoplan.baselibs.utils.inject.InjectionUtil;
 import de.gedoplan.v5t11.fahrstrassen.entity.Parcours;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.ReservierbaresFahrwegelement;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Signal;
+import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
 import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
@@ -26,6 +28,7 @@ import java.util.stream.Collectors;
 
 import javax.enterprise.util.AnnotationLiteral;
 import javax.enterprise.util.Nonbinding;
+import javax.inject.Inject;
 import javax.inject.Qualifier;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -93,6 +96,9 @@ public class Fahrstrasse extends Bereichselement {
 
   @Getter(onMethod_ = @JsonbInclude)
   private int teilFreigabeAnzahl = 0;
+
+  @Inject
+  EventFirer eventFirer;
 
   /**
    * Nachbearbeitung nach JAXB-Unmarshal.
@@ -428,8 +434,7 @@ public class Fahrstrasse extends Bereichselement {
       this.elemente.forEach(fe -> fe.reservieren(this));
     }
 
-    // TODO
-    // EventFirer.getInstance().fire(this, Reserviert.Literal.INSTANCE);
+    this.eventFirer.fire(this, Reserviert.Literal.INSTANCE);
     return true;
 
   }
@@ -467,8 +472,7 @@ public class Fahrstrasse extends Bereichselement {
       this.teilFreigabeAnzahl = neueTeilFreigabeAnzahl;
     }
 
-    // TODO
-    // EventFirer.getInstance().fire(this, Freigegeben.Literal.of(bisherigeTeilFreigabeAnzahl, neueTeilFreigabeAnzahl));
+    this.eventFirer.fire(this, Freigegeben.Literal.of(bisherigeTeilFreigabeAnzahl, neueTeilFreigabeAnzahl));
 
     return neueTeilFreigabeAnzahl != bisherigeTeilFreigabeAnzahl;
   }
@@ -543,5 +547,9 @@ public class Fahrstrasse extends Bereichselement {
     fahrstrasse.createName();
 
     return fahrstrasse;
+  }
+
+  public void injectFields() {
+    InjectionUtil.injectFields(this);
   }
 }

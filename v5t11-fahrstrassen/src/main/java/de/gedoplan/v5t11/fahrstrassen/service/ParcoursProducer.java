@@ -1,12 +1,18 @@
 package de.gedoplan.v5t11.fahrstrassen.service;
 
 import de.gedoplan.v5t11.fahrstrassen.entity.Parcours;
+import de.gedoplan.v5t11.util.cdi.Created;
+import de.gedoplan.v5t11.util.cdi.EventFirer;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
+import javax.inject.Inject;
 
 @ApplicationScoped
 public class ParcoursProducer {
+
+  @Inject
+  EventFirer eventFirer;
 
   @Produces
   @ApplicationScoped
@@ -17,8 +23,9 @@ public class ParcoursProducer {
     // Fahrstrassen komplettieren
     parcours.completeFahrstrassen();
 
-    // TODO
-    // EventFirer.getInstance().fire(parcours, Created.Literal.INSTANCE);
+    parcours.injectFields();
+
+    this.eventFirer.fire(parcours, Created.Literal.INSTANCE);
 
     return parcours;
   }
