@@ -12,7 +12,11 @@ import io.quarkus.runtime.StartupEvent;
 @Dependent
 public class BootStrap {
 
-  void boot(@Observes StartupEvent startupEvent, ConfigService configService, Parcours parcours, Log log) {
+  void boot(@Observes StartupEvent startupEvent,
+      Log log,
+      ConfigService configService,
+      Parcours parcours,
+      ParcoursStatusUpdater parcoursStatusUpdater) {
     log.info("app: " + configService.getArtifactId() + ":" + configService.getVersion());
 
     log.info("configDir: " + configService.getConfigDir());
@@ -21,5 +25,7 @@ public class BootStrap {
     log.info("statusJmsUrl: " + configService.getStatusJmsUrl());
 
     log.info("#fahrstrassen: " + parcours.getFahrstrassen().size());
+
+    parcoursStatusUpdater.run(parcours);
   }
 }

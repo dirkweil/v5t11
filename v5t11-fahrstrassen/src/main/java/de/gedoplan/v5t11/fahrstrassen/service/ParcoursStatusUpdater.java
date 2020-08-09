@@ -4,13 +4,11 @@ import de.gedoplan.v5t11.fahrstrassen.entity.Parcours;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.fahrstrassen.gateway.JmsClient;
 import de.gedoplan.v5t11.fahrstrassen.gateway.StatusGateway;
-import de.gedoplan.v5t11.util.cdi.Created;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.jms.MessageCategory;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.ObservesAsync;
 import javax.inject.Inject;
 import javax.jms.JMSException;
 import javax.jms.Message;
@@ -41,7 +39,7 @@ public class ParcoursStatusUpdater {
 
   private Parcours parcours;
 
-  protected void run(@ObservesAsync @Created Parcours parcours) {
+  protected void run(Parcours parcours) {
     this.parcours = parcours;
 
     while (true) {
@@ -112,5 +110,4 @@ public class ParcoursStatusUpdater {
       }
     }
   }
-
 }
