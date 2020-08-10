@@ -2,15 +2,21 @@ package de.gedoplan.v5t11.fahrstrassen.service;
 
 import de.gedoplan.v5t11.fahrstrassen.entity.Parcours;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import javax.enterprise.context.Dependent;
 import javax.enterprise.event.Observes;
 
 import org.apache.commons.logging.Log;
 
+import io.quarkus.runtime.ShutdownEvent;
 import io.quarkus.runtime.StartupEvent;
 
 @Dependent
 public class BootStrap {
+
+  private final static ExecutorService scheduler = Executors.newSingleThreadExecutor();
 
   void boot(@Observes StartupEvent startupEvent,
       Log log,
@@ -26,6 +32,10 @@ public class BootStrap {
 
     log.info("#fahrstrassen: " + parcours.getFahrstrassen().size());
 
-    parcoursStatusUpdater.run(parcours);
+    scheduler.submit(parcoursStatusUpdater);
+  }
+
+  void terminate(@Observes ShutdownEvent shutdownEvent) {
+    scheduler.shutdown();
   }
 }

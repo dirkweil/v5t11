@@ -18,7 +18,7 @@ import org.apache.commons.logging.Log;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 @ApplicationScoped
-public class ParcoursStatusUpdater {
+public class ParcoursStatusUpdater implements Runnable {
   private static final long RETRY_MILLIS = 10000;
 
   @Inject
@@ -37,10 +37,10 @@ public class ParcoursStatusUpdater {
   @Inject
   Log log;
 
-  private Parcours parcours;
+  @Inject
+  Parcours parcours;
 
-  protected void run(Parcours parcours) {
-    this.parcours = parcours;
+  public void run() {
 
     while (true) {
       try {
