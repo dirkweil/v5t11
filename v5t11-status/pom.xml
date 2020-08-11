@@ -90,7 +90,6 @@
     <dependency>
       <groupId>io.smallrye.config</groupId>
       <artifactId>smallrye-config</artifactId>
-      <version>1.8.5</version>
       <scope>test</scope>
     </dependency>
 

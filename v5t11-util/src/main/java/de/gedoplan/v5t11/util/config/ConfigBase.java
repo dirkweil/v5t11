@@ -44,8 +44,8 @@ public abstract class ConfigBase {
   public static final String PROPERTY_STATUS_JMS_URL = "v5t11.status/jms/url";
   public static final String DEFAULT_STATUS_JMS_URL = "http-remoting://v5t11-status:8080";
 
-  public static final String PROPERTY_FAHRSTRASSEN_REST_URL = "v5t11.fahrstrassenRestUrl";
-  public static final String DEFAULT_FAHRSTRASSEN_REST_URL = "http://v5t11-fahrstrassen:8080/rs";
+  public static final String PROPERTY_FAHRSTRASSEN_REST_URL = "v5t11.fahrstrassen/mp-rest/url";
+  public static final String DEFAULT_FAHRSTRASSEN_REST_URL = "http://v5t11-fahrstrassen:8080";
 
   @Inject
   @ConfigProperty(name = PROPERTY_CONFIG_DIR)
