@@ -66,7 +66,7 @@ public interface StatusGateway {
   @PUT
   @Consumes(MediaType.TEXT_PLAIN)
   @Path("zentrale")
-  void putGleisspannung(boolean on);
+  void putGleisspannung(String on);
 
   // Loks
   @GET

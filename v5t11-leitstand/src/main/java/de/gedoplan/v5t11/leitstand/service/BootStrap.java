@@ -1,5 +1,7 @@
 package de.gedoplan.v5t11.leitstand.service;
 
+import de.gedoplan.v5t11.stellwerk.StellwerkUI;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -29,6 +31,8 @@ public class BootStrap {
     log.info("fahrstrassenRestUrl: " + configService.getFahrstrassenRestUrl());
 
     scheduler.submit(statusUpdater);
+
+    StellwerkUI.start();
   }
 
   void terminate(@Observes ShutdownEvent shutdownEvent) {

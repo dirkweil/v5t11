@@ -29,6 +29,8 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
+import org.eclipse.microprofile.rest.client.inject.RestClient;
+
 public class LokCockpit extends ApplicationPanel {
   private static final int COL_ICON = 0;
   private static final int COL_ID = 1;
@@ -44,6 +46,7 @@ public class LokCockpit extends ApplicationPanel {
   Leitstand leitstand;
 
   @Inject
+  @RestClient
   StatusGateway statusGateway;
 
   @Inject
@@ -98,7 +101,7 @@ public class LokCockpit extends ApplicationPanel {
   public void assignLokController(LokController lokController, Lok lok, boolean selected) {
     this.logger.debug("assignLokController: " + lokController + ", " + lok + ", " + selected);
 
-    this.statusGateway.assignLokcontrollerLok(lokController.getId(), selected ? lok.getId() : null);
+    this.statusGateway.assignLokcontrollerLok(lokController.getId(), selected ? lok.getId() : "null");
   }
 
   private static Icon getIcon(Lok lok) {

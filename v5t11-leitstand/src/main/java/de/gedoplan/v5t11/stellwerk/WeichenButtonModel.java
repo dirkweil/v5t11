@@ -8,10 +8,13 @@ import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
 import javax.inject.Inject;
 import javax.swing.JToggleButton;
 
+import org.eclipse.microprofile.rest.client.inject.RestClient;
+
 public class WeichenButtonModel extends JToggleButton.ToggleButtonModel {
   private Weiche weiche;
 
   @Inject
+  @RestClient
   StatusGateway statusGateway;
 
   // private static final Log LOG = LogFactory.getLog(WeichenButtonModel.class);
@@ -32,7 +35,7 @@ public class WeichenButtonModel extends JToggleButton.ToggleButtonModel {
     WeichenStellung stellung = b ? WeichenStellung.ABZWEIGEND : WeichenStellung.GERADE;
 
     this.statusGateway.weicheStellen(this.weiche.getBereich(), this.weiche.getName(), stellung);
-    StellwerkMain.setStatusLineText(null);
+    StellwerkUI.setStatusLineText(null);
   }
 
 }

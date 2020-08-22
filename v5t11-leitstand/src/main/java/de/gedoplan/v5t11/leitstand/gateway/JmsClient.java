@@ -6,6 +6,8 @@ import de.gedoplan.v5t11.leitstand.service.ConfigService;
 import de.gedoplan.v5t11.util.jms.MessageCategory;
 
 import java.util.Properties;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -24,6 +26,15 @@ import org.apache.commons.logging.Log;
 
 @ApplicationScoped
 public class JmsClient {
+
+  private static final MessageCategory[] CATEGORIES = {
+      MessageCategory.FAHRSTRASSE,
+      MessageCategory.GLEIS,
+      MessageCategory.LOKCONTROLLER,
+      MessageCategory.SIGNAL,
+      MessageCategory.WEICHE,
+      MessageCategory.ZENTRALE
+  };
 
   @Inject
   ConfigService configService;
@@ -98,15 +109,20 @@ public class JmsClient {
 
       this.topic = (Topic) jndiContext.lookup("jms/topic/v5t11-status");
 
+      String selector = Stream.of(CATEGORIES)
+          .map(Object::toString)
+          .collect(Collectors.joining("','", "category in ('", "')"));
+
       if (this.log.isTraceEnabled()) {
         this.log.trace("jndiContext: " + jndiContext);
         this.log.trace("connectionFactory: " + connectionFactory);
         this.log.trace("topic: " + this.topic);
+        this.log.trace("selector: " + selector);
       }
 
       this.jmsContext = connectionFactory.createContext("anonymous", "anonymous_123");
 
-      this.consumer = this.jmsContext.createConsumer(this.topic, "category='" + MessageCategory.GLEIS + "'");
+      this.consumer = this.jmsContext.createConsumer(this.topic, selector);
     } catch (NamingException e) {
       throw new JMSRuntimeException("Cannot connect to JNDI", null, e);
     } finally {

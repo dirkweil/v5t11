@@ -36,6 +36,7 @@ import javax.swing.SwingConstants;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 public class GbsInputPanel extends JPanel {
   private static final long FAHRSTRASSEN_INPUT_MAXDELAY = 5000;
@@ -65,6 +66,7 @@ public class GbsInputPanel extends JPanel {
   FahrstrassenGatewayWrapper fahrstrassenGateway;
 
   @Inject
+  @RestClient
   StatusGateway statusGateway;
 
   private static final Log LOG = LogFactory.getLog(GbsInputPanel.class);
@@ -164,7 +166,7 @@ public class GbsInputPanel extends JPanel {
             public void itemStateChanged(ItemEvent e) {
               if (rb.isSelected()) {
                 GbsInputPanel.this.statusGateway.signalStellen(signal.getBereich(), signal.getName(), stellung);
-                StellwerkMain.setStatusLineText(null);
+                StellwerkUI.setStatusLineText(null);
               }
 
             }
@@ -231,7 +233,7 @@ public class GbsInputPanel extends JPanel {
           fahrstrassenAnzahlText = fahrstrassenAnzahl + " Fahrstrassen";
           break;
         }
-        StellwerkMain.setStatusLineText(this.fahrstrassenBeginn.toDisplayString() + " -> " + gleisabschnitt.toDisplayString() + ": " + fahrstrassenAnzahlText);
+        StellwerkUI.setStatusLineText(this.fahrstrassenBeginn.toDisplayString() + " -> " + gleisabschnitt.toDisplayString() + ": " + fahrstrassenAnzahlText);
 
         if (fahrstrassenAnzahl != 0) {
           this.fahrstrassenIndex = 0;
@@ -247,7 +249,7 @@ public class GbsInputPanel extends JPanel {
       } else if (this.fahrstrassenBeginn == null || now - this.fahrstrassenBeginnStamp > FAHRSTRASSEN_INPUT_MAXDELAY) {
         this.fahrstrassenBeginn = gleisabschnitt;
 
-        StellwerkMain.setStatusLineText(this.fahrstrassenBeginn.toDisplayString());
+        StellwerkUI.setStatusLineText(this.fahrstrassenBeginn.toDisplayString());
 
         if (LOG.isDebugEnabled()) {
           LOG.debug(gleisabschnitt + " als moeglichen Fahrstrassenbeginn gemerkt");
@@ -325,7 +327,7 @@ public class GbsInputPanel extends JPanel {
 
     reset();
     this.fahrstrassenBeginn = null;
-    StellwerkMain.setStatusLineText(null);
+    StellwerkUI.setStatusLineText(null);
 
     this.fahrstrassenGateway.reserviereFahrstrasse(fahrstrasse.getBereich(), fahrstrasse.getName(), reservierungsTyp);
 
@@ -335,7 +337,7 @@ public class GbsInputPanel extends JPanel {
   protected void abbrechenButtonClicked() {
     reset();
     this.fahrstrassenBeginn = null;
-    StellwerkMain.setStatusLineText(null);
+    StellwerkUI.setStatusLineText(null);
   }
 
   public Fahrstrasse getVorgeschlageneFahrstrasse() {

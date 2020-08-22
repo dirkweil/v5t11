@@ -1,0 +1,155 @@
+package de.gedoplan.v5t11.stellwerk;
+
+import de.gedoplan.v5t11.leitstand.entity.Leitstand;
+import de.gedoplan.v5t11.leitstand.gateway.StatusGateway;
+import de.gedoplan.v5t11.leitstand.service.ConfigService;
+import de.gedoplan.v5t11.stellwerk.util.IconUtil;
+
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GraphicsConfiguration;
+import java.awt.Insets;
+import java.awt.Toolkit;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
+import javax.enterprise.inject.spi.CDI;
+import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
+
+import lombok.Getter;
+
+public class StellwerkUI extends JFrame {
+  private static final Icon ICON_SCHALTER_EIN = IconUtil.getIcon("images/schalter_ein.png", 67, 16);
+
+  private static final Icon ICON_SCHALTER_AUS = IconUtil.getIcon("images/schalter_aus.png", 67, 16);
+
+  private static final Icon ICON_KURZSCHLUSS = IconUtil.getIcon("images/kurzschluss.png", 67, 16);
+
+  private static JPanel statusLine = new JPanel(new BorderLayout());
+  private static JLabel statusLineText = new JLabel(" ");
+  private static JLabel powerButton = new JLabel(" ");
+
+  @Getter
+  private static Leitstand leitstand;
+
+  private static Log log = LogFactory.getLog(StellwerkUI.class);
+
+  private static StatusDispatcher statusDispatcher;
+
+  private static StatusGateway statusGateway;
+
+  private static ConfigService configService;
+
+  @Getter
+  private static final StellwerkUI INSTANCE = new StellwerkUI();
+
+  public static void start() {
+    CDI<Object> cdi = CDI.current();
+    configService = cdi.select(ConfigService.class).get();
+    leitstand = cdi.select(Leitstand.class).get();
+    statusDispatcher = cdi.select(StatusDispatcher.class).get();
+    statusGateway = cdi.select(StatusGateway.class, RestClient.LITERAL).get();
+
+    INSTANCE.init();
+  }
+
+  private void init() {
+    try {
+
+      setTitle(configService.getArtifactId() + ":" + configService.getVersion());
+
+      // Maximale Fenstergröße ermitteln und setzen
+      Toolkit defaultToolkit = Toolkit.getDefaultToolkit();
+      Dimension screenSize = defaultToolkit.getScreenSize();
+      GraphicsConfiguration config = getGraphicsConfiguration();
+      Insets screenInsets = defaultToolkit.getScreenInsets(config);
+      int width = screenSize.width - screenInsets.left - screenInsets.right;
+      int height = screenSize.height - screenInsets.top - screenInsets.bottom;
+      // width = 1600;
+      // height = 900;
+      setSize(width, height);
+
+      GbsElement.setDimensions(width, height);
+
+      addWindowListener(new WindowAdapter() {
+        @Override
+        public void windowClosing(WindowEvent ev) {
+          terminate();
+        }
+      });
+
+      statusLine.setBorder(BorderFactory.createLoweredBevelBorder());
+      statusLine.add(statusLineText);
+
+      statusLine.add(powerButton, BorderLayout.EAST);
+      getContentPane().add(statusLine, BorderLayout.SOUTH);
+
+      setVisible(true);
+
+      TabPanel mainPanel = new TabPanel();
+      getContentPane().add(mainPanel);
+
+      TabPanel gbsPanel = new TabPanel("Stellwerk");
+      for (String bereich : leitstand.getBereiche()) {
+        gbsPanel.addApplicationPanel(new Gbs(bereich));
+      }
+      mainPanel.addApplicationPanel(gbsPanel);
+      validate();
+
+      mainPanel.addApplicationPanel(new LokCockpit());
+      validate();
+
+      refreshPowerButton();
+
+      statusDispatcher.addListener(leitstand.getZentrale(), this::refreshPowerButton);
+
+      powerButton.addMouseListener(new MouseAdapter() {
+        @Override
+        public void mousePressed(MouseEvent e) {
+          powerButtonClicked();
+        }
+      });
+
+      validate();
+
+    } catch (Exception e) {
+      log.error("Kann Anwendung nicht initialisieren", e);
+      terminate();
+    }
+
+  }
+
+  private void refreshPowerButton() {
+    boolean aktiv = leitstand.getZentrale().isGleisspannung();
+    if (aktiv) {
+      boolean kurzschluss = leitstand.getZentrale().isKurzschluss();
+      powerButton.setIcon(kurzschluss ? ICON_KURZSCHLUSS : ICON_SCHALTER_EIN);
+    } else {
+      powerButton.setIcon(ICON_SCHALTER_AUS);
+    }
+  }
+
+  private void powerButtonClicked() {
+    statusGateway.putGleisspannung("" + (!leitstand.getZentrale().isGleisspannung()));
+  }
+
+  private void terminate() {
+    log.info("Bye");
+    System.exit(0);
+  }
+
+  public static void setStatusLineText(String statusLineText) {
+    StellwerkUI.statusLineText.setText(statusLineText);
+  }
+
+}

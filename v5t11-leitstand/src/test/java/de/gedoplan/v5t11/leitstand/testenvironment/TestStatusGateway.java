@@ -131,7 +131,7 @@ public class TestStatusGateway implements StatusGateway {
   }
 
   @Override
-  public void putGleisspannung(boolean on) {
+  public void putGleisspannung(String on) {
     throw new UnsupportedOperationException();
   }
 
