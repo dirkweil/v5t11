@@ -10,6 +10,7 @@ import javax.enterprise.event.Observes;
 
 import org.apache.commons.logging.Log;
 
+import io.quarkus.runtime.Quarkus;
 import io.quarkus.runtime.ShutdownEvent;
 import io.quarkus.runtime.StartupEvent;
 
@@ -32,7 +33,13 @@ public class BootStrap {
 
     scheduler.submit(statusUpdater);
 
-    StellwerkUI.start();
+    try {
+      StellwerkUI.start();
+    } catch (Exception e) {
+      log.error("Kann UI nicht starten", e);
+
+      Quarkus.asyncExit(1);
+    }
   }
 
   void terminate(@Observes ShutdownEvent shutdownEvent) {

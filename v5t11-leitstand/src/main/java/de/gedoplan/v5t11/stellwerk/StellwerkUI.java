@@ -63,69 +63,63 @@ public class StellwerkUI extends JFrame {
   }
 
   private void init() {
-    try {
-      InjectionUtil.injectFields(this);
+    InjectionUtil.injectFields(this);
 
-      setTitle(this.configService.getArtifactId() + ":" + this.configService.getVersion());
+    setTitle(this.configService.getArtifactId() + ":" + this.configService.getVersion());
 
-      // Maximale Fenstergröße ermitteln und setzen
-      Toolkit defaultToolkit = Toolkit.getDefaultToolkit();
-      Dimension screenSize = defaultToolkit.getScreenSize();
-      GraphicsConfiguration config = getGraphicsConfiguration();
-      Insets screenInsets = defaultToolkit.getScreenInsets(config);
-      int width = screenSize.width - screenInsets.left - screenInsets.right;
-      int height = screenSize.height - screenInsets.top - screenInsets.bottom;
-      // width = 1600;
-      // height = 900;
-      setSize(width, height);
+    // Maximale Fenstergröße ermitteln und setzen
+    Toolkit defaultToolkit = Toolkit.getDefaultToolkit();
+    Dimension screenSize = defaultToolkit.getScreenSize();
+    GraphicsConfiguration config = getGraphicsConfiguration();
+    Insets screenInsets = defaultToolkit.getScreenInsets(config);
+    int width = screenSize.width - screenInsets.left - screenInsets.right;
+    int height = screenSize.height - screenInsets.top - screenInsets.bottom;
+    // width = 1600;
+    // height = 900;
+    setSize(width, height);
 
-      GbsElement.setDimensions(width, height);
+    GbsElement.setDimensions(width, height);
 
-      addWindowListener(new WindowAdapter() {
-        @Override
-        public void windowClosing(WindowEvent ev) {
-          terminate();
-        }
-      });
-
-      statusLine.setBorder(BorderFactory.createLoweredBevelBorder());
-      statusLine.add(statusLineText);
-
-      statusLine.add(powerButton, BorderLayout.EAST);
-      getContentPane().add(statusLine, BorderLayout.SOUTH);
-
-      setVisible(true);
-
-      TabPanel mainPanel = new TabPanel();
-      getContentPane().add(mainPanel);
-
-      TabPanel gbsPanel = new TabPanel("Stellwerk");
-      for (String bereich : this.leitstand.getBereiche()) {
-        gbsPanel.addApplicationPanel(new Gbs(bereich));
+    addWindowListener(new WindowAdapter() {
+      @Override
+      public void windowClosing(WindowEvent ev) {
+        terminate();
       }
-      mainPanel.addApplicationPanel(gbsPanel);
-      validate();
+    });
 
-      mainPanel.addApplicationPanel(new LokCockpit());
-      validate();
+    statusLine.setBorder(BorderFactory.createLoweredBevelBorder());
+    statusLine.add(statusLineText);
 
-      refreshPowerButton();
+    statusLine.add(powerButton, BorderLayout.EAST);
+    getContentPane().add(statusLine, BorderLayout.SOUTH);
 
-      this.statusDispatcher.addListener(this.leitstand.getZentrale(), this::refreshPowerButton);
+    setVisible(true);
 
-      powerButton.addMouseListener(new MouseAdapter() {
-        @Override
-        public void mousePressed(MouseEvent e) {
-          powerButtonClicked();
-        }
-      });
+    TabPanel mainPanel = new TabPanel();
+    getContentPane().add(mainPanel);
 
-      validate();
-
-    } catch (Exception e) {
-      this.log.error("Kann Anwendung nicht initialisieren", e);
-      terminate();
+    TabPanel gbsPanel = new TabPanel("Stellwerk");
+    for (String bereich : this.leitstand.getBereiche()) {
+      gbsPanel.addApplicationPanel(new Gbs(bereich));
     }
+    mainPanel.addApplicationPanel(gbsPanel);
+    validate();
+
+    mainPanel.addApplicationPanel(new LokCockpit());
+    validate();
+
+    refreshPowerButton();
+
+    this.statusDispatcher.addListener(this.leitstand.getZentrale(), this::refreshPowerButton);
+
+    powerButton.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mousePressed(MouseEvent e) {
+        powerButtonClicked();
+      }
+    });
+
+    validate();
 
   }
 
