@@ -1,5 +1,6 @@
 package de.gedoplan.v5t11.stellwerk;
 
+import de.gedoplan.baselibs.utils.inject.InjectionUtil;
 import de.gedoplan.v5t11.leitstand.entity.Leitstand;
 import de.gedoplan.v5t11.leitstand.gateway.StatusGateway;
 import de.gedoplan.v5t11.leitstand.service.ConfigService;
@@ -15,7 +16,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import javax.enterprise.inject.spi.CDI;
+import javax.inject.Inject;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.JFrame;
@@ -23,7 +24,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import lombok.Getter;
@@ -39,34 +39,34 @@ public class StellwerkUI extends JFrame {
   private static JLabel statusLineText = new JLabel(" ");
   private static JLabel powerButton = new JLabel(" ");
 
-  @Getter
-  private static Leitstand leitstand;
+  @Inject
+  Leitstand leitstand;
 
-  private static Log log = LogFactory.getLog(StellwerkUI.class);
+  @Inject
+  Log log;
 
-  private static StatusDispatcher statusDispatcher;
+  @Inject
+  StatusDispatcher statusDispatcher;
 
-  private static StatusGateway statusGateway;
+  @Inject
+  @RestClient
+  StatusGateway statusGateway;
 
-  private static ConfigService configService;
+  @Inject
+  ConfigService configService;
 
   @Getter
   private static final StellwerkUI INSTANCE = new StellwerkUI();
 
   public static void start() {
-    CDI<Object> cdi = CDI.current();
-    configService = cdi.select(ConfigService.class).get();
-    leitstand = cdi.select(Leitstand.class).get();
-    statusDispatcher = cdi.select(StatusDispatcher.class).get();
-    statusGateway = cdi.select(StatusGateway.class, RestClient.LITERAL).get();
-
     INSTANCE.init();
   }
 
   private void init() {
     try {
+      InjectionUtil.injectFields(this);
 
-      setTitle(configService.getArtifactId() + ":" + configService.getVersion());
+      setTitle(this.configService.getArtifactId() + ":" + this.configService.getVersion());
 
       // Maximale Fenstergröße ermitteln und setzen
       Toolkit defaultToolkit = Toolkit.getDefaultToolkit();
@@ -100,7 +100,7 @@ public class StellwerkUI extends JFrame {
       getContentPane().add(mainPanel);
 
       TabPanel gbsPanel = new TabPanel("Stellwerk");
-      for (String bereich : leitstand.getBereiche()) {
+      for (String bereich : this.leitstand.getBereiche()) {
         gbsPanel.addApplicationPanel(new Gbs(bereich));
       }
       mainPanel.addApplicationPanel(gbsPanel);
@@ -111,7 +111,7 @@ public class StellwerkUI extends JFrame {
 
       refreshPowerButton();
 
-      statusDispatcher.addListener(leitstand.getZentrale(), this::refreshPowerButton);
+      this.statusDispatcher.addListener(this.leitstand.getZentrale(), this::refreshPowerButton);
 
       powerButton.addMouseListener(new MouseAdapter() {
         @Override
@@ -123,16 +123,16 @@ public class StellwerkUI extends JFrame {
       validate();
 
     } catch (Exception e) {
-      log.error("Kann Anwendung nicht initialisieren", e);
+      this.log.error("Kann Anwendung nicht initialisieren", e);
       terminate();
     }
 
   }
 
   private void refreshPowerButton() {
-    boolean aktiv = leitstand.getZentrale().isGleisspannung();
+    boolean aktiv = this.leitstand.getZentrale().isGleisspannung();
     if (aktiv) {
-      boolean kurzschluss = leitstand.getZentrale().isKurzschluss();
+      boolean kurzschluss = this.leitstand.getZentrale().isKurzschluss();
       powerButton.setIcon(kurzschluss ? ICON_KURZSCHLUSS : ICON_SCHALTER_EIN);
     } else {
       powerButton.setIcon(ICON_SCHALTER_AUS);
@@ -140,11 +140,11 @@ public class StellwerkUI extends JFrame {
   }
 
   private void powerButtonClicked() {
-    statusGateway.putGleisspannung("" + (!leitstand.getZentrale().isGleisspannung()));
+    this.statusGateway.putGleisspannung("" + (!this.leitstand.getZentrale().isGleisspannung()));
   }
 
   private void terminate() {
-    log.info("Bye");
+    this.log.info("Bye");
     System.exit(0);
   }
 
