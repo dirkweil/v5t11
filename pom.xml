@@ -87,7 +87,7 @@
       <dependency>
         <groupId>de.gedoplan</groupId>
         <artifactId>baselibs-enterprise</artifactId>
-        <version>1.6-SNAPSHOT</version>
+        <version>1.6</version>
       </dependency>
 
       <dependency>
@@ -111,7 +111,7 @@
       <dependency>
         <groupId>de.gedoplan</groupId>
         <artifactId>baselibs-utils</artifactId>
-        <version>1.10-SNAPSHOT</version>
+        <version>1.10</version>
       </dependency>
 
       <dependency>
