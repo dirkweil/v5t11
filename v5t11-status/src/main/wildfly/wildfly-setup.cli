@@ -1,7 +1,14 @@
+embed-server --server-config=standalone-full.xml --std-out=discard
+
 module add --name=com.neuronrobotics.nrjavaserial --resources=nrjavaserial-3.20.1.jar
-data-source add --name=v5t11 --jndi-name=java:/jdbc/v5t11 --driver-name=h2 --connection-url=jdbc:h2:~/h2/v5t11;AUTO_SERVER=TRUE --user-name=v5t11 --password=v5t11
-jms-topic add --topic-address=v5t11-status --entries=java:/jms/topic/v5t11-status,java:jboss/exported/jms/topic/v5t11-status
+
+/subsystem=datasources/data-source=v5t11:add(jndi-name=java:/jdbc/v5t11, connection-url="jdbc:h2:~/h2/v5t11;AUTO_SERVER=TRUE", driver-name=h2, user-name=v5t11, password=v5t11)
+
+/subsystem=messaging-activemq/server=default/jms-topic=v5t11-status:add(entries=[java:/jms/topic/v5t11-status,java:jboss/exported/jms/topic/v5t11-status])
+
 /subsystem=logging/console-handler=CONSOLE:write-attribute(name=level, value=ALL)
 /subsystem=logging/logger=de.gedoplan:add(level=DEBUG)
+
 /subsystem=deployment-scanner/scanner=default:write-attribute(name=scan-interval, value=500)
-reload
+
+stop-embedded-server

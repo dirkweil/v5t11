@@ -260,6 +260,131 @@
         </plugins>
       </build>
     </profile>
+
+    <!-- Profil zur Installation des WildFly -->
+    <profile>
+      <id>install-wildfly</id>
+      <properties>
+        <version.wildfly>20.0.0.Final</version.wildfly>
+        <installDir>${project.build.directory}</installDir>
+      </properties>
+      <build>
+        <defaultGoal>process-resources</defaultGoal>
+        <plugins>
+          <plugin>
+            <!-- Use dependency plugin for download maven artifacts and copy/unpack -->
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <version>3.0.1</version>
+            <inherited>false</inherited>
+            <configuration>
+              <outputDirectory>${installDir}</outputDirectory>
+            </configuration>
+            <executions>
+              <execution>
+                <id>wildfly</id>
+                <phase>generate-resources</phase>
+                <goals>
+                  <goal>unpack</goal>
+                </goals>
+                <configuration>
+                  <artifactItems>
+                    <artifactItem>
+                      <groupId>org.wildfly</groupId>
+                      <artifactId>wildfly-dist</artifactId>
+                      <version>${version.wildfly}</version>
+                      <type>zip</type>
+                    </artifactItem>
+                  </artifactItems>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+
+          <plugin>
+            <!-- Use antrun plugin for tool specific configurations -->
+            <artifactId>maven-antrun-plugin</artifactId>
+            <version>1.8</version>
+            <executions>
+              <execution>
+                <id>wildfly</id>
+                <phase>process-resources</phase>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+                <configuration>
+                  <target>
+                    <taskdef
+                      resource="net/sf/antcontrib/antcontrib.properties"
+                      classpathref="maven.plugin.classpath" />
+                    <if>
+                      <not>
+                        <available
+                          file="${installDir}/wildfly-${version.wildfly}/standalone-v5t11-status"
+                          type="dir" />
+                      </not>
+                      <then>
+                        <echo
+                          message="Creating WildFly configuration standalone-v5t11-status" />
+                        <copy
+                          todir="${installDir}/wildfly-${version.wildfly}/standalone-v5t11-status">
+                          <fileset
+                            dir="${installDir}/wildfly-${version.wildfly}/standalone">
+                            <exclude
+                              name="configuration/standalone*.xml" />
+                          </fileset>
+                        </copy>
+                        <copy
+                          todir="${installDir}/wildfly-${version.wildfly}/standalone-v5t11-status">
+                          <fileset
+                            dir="${installDir}/wildfly-${version.wildfly}/standalone">
+                            <include
+                              name="configuration/standalone-full.xml" />
+                          </fileset>
+                        </copy>
+                        <copy
+                          todir="${installDir}/wildfly-${version.wildfly}/standalone-v5t11-status/configuration" 
+                          overwrite="true">
+                          <fileset
+                            dir="${basedir}/src/main/wildfly">
+                            <include
+                              name="*.properties" />
+                          </fileset>
+                        </copy>
+                        <java
+                          dir="${basedir}/src/main/wildfly"
+                          jar="${installDir}/wildfly-${version.wildfly}/bin/client/jboss-cli-client.jar"
+                          fork="true" failonerror="true">
+                          <env key="JBOSS_HOME"
+                            path="${installDir}/wildfly-${version.wildfly}" />
+                          <jvmarg
+                            value="--add-modules=java.se" />
+                          <sysproperty
+                            key="jboss.server.base.dir"
+                            path="${installDir}/wildfly-${version.wildfly}/standalone-v5t11-status" />
+                          <arg
+                            value="--file=wildfly-setup.cli" />
+                        </java>
+                      </then>
+                    </if>
+                  </target>
+                </configuration>
+              </execution>
+            </executions>
+
+            <dependencies>
+              <dependency>
+                <groupId>ant-contrib</groupId>
+                <artifactId>ant-contrib</artifactId>
+                <version>20020829</version>
+              </dependency>
+            </dependencies>
+          </plugin>
+        </plugins>
+      </build>
+
+
+    </profile>
   </profiles>
 
   <repositories>
