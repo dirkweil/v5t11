@@ -18,7 +18,7 @@
   <properties>
     <meecrowave.version>1.2.9</meecrowave.version>
 
-    <quarkus.version>1.6.1.Final</quarkus.version>
+    <quarkus.version>1.7.1.Final</quarkus.version>
     <quarkus-plugin.version>${quarkus.version}</quarkus-plugin.version>
     <quarkus.platform.artifact-id>quarkus-universe-bom</quarkus.platform.artifact-id>
     <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
