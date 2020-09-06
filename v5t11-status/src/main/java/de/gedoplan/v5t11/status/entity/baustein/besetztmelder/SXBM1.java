@@ -3,8 +3,8 @@ package de.gedoplan.v5t11.status.entity.baustein.besetztmelder;
 import de.gedoplan.v5t11.status.entity.baustein.Besetztmelder;
 import de.gedoplan.v5t11.status.entity.baustein.Konfigurierbar;
 
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -20,21 +20,52 @@ import org.apache.commons.logging.LogFactory;
 @XmlAccessorType(XmlAccessType.NONE)
 @Konfigurierbar
 public class SXBM1 extends Besetztmelder {
+  private static final int DROPOUT_DELAY = 200;
+
   protected SXBM1() {
     super(1);
   }
 
-  private ConcurrentMap<Integer, Log> logs = new ConcurrentHashMap<>();
+  private Timer dropOutTimer = new Timer();
+
+  private volatile int nextKanalWert;
+
+  private static final Log log = LogFactory.getLog(SXBM1.class);
 
   @Override
   public void adjustWert(int adr, int kanalWert) {
-    Log log = this.logs.computeIfAbsent(this.adresse, i -> LogFactory.getLog(SXBM1.class.getName() + "@" + i));
+
+    if (kanalWert == 0) {
+      this.nextKanalWert = 0;
+      this.dropOutTimer.schedule(new DropoutTimerTask(), DROPOUT_DELAY);
+      if (log.isTraceEnabled()) {
+        log.trace(String.format("SXBM1@%d: Start DropOutTimer"));
+      }
+    } else {
+      this.nextKanalWert = kanalWert;
+      this.dropOutTimer.cancel();
+      adjustWert();
+    }
+  }
+
+  private void adjustWert() {
     long oldWert = this.wert;
 
-    super.adjustWert(adr, kanalWert);
+    super.adjustWert(this.adresse, this.nextKanalWert);
 
     if (log.isTraceEnabled()) {
-      log.trace(String.format("SXBM1@%04d: %s -> %s", toBinary(oldWert), toBinary(this.wert)));
+      log.trace(String.format("SXBM1@%d: %s -> %s", this.adresse, toBinary(oldWert), toBinary(this.wert)));
+    }
+  }
+
+  private class DropoutTimerTask extends TimerTask {
+
+    @Override
+    public void run() {
+      if (log.isTraceEnabled()) {
+        log.trace(String.format("SXBM1@%d: DropOutTimer fired"));
+      }
+      adjustWert();
     }
 
   }
