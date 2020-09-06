@@ -3,8 +3,8 @@ package de.gedoplan.v5t11.status.entity.baustein.besetztmelder;
 import de.gedoplan.v5t11.status.entity.baustein.Besetztmelder;
 import de.gedoplan.v5t11.status.entity.baustein.Konfigurierbar;
 
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -19,14 +19,14 @@ import org.apache.commons.logging.LogFactory;
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @Konfigurierbar
-public class SXBM1 extends Besetztmelder {
-  private static final int DROPOUT_DELAY = 200;
+public class SXBM1 extends Besetztmelder implements Runnable {
+  private static final int DROPOUT_DELAY = 300;
 
   protected SXBM1() {
     super(1);
   }
 
-  private Timer dropOutTimer = new Timer();
+  private ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
 
   private volatile int nextKanalWert;
 
@@ -37,13 +37,13 @@ public class SXBM1 extends Besetztmelder {
 
     if (kanalWert == 0) {
       this.nextKanalWert = 0;
-      this.dropOutTimer.schedule(new DropoutTimerTask(), DROPOUT_DELAY);
+      this.executor.schedule(this, DROPOUT_DELAY, TimeUnit.MILLISECONDS);
       if (log.isTraceEnabled()) {
-        log.trace(String.format("SXBM1@%d: Start DropOutTimer"));
+        log.trace(String.format("SXBM1@%d: Start Delay"));
       }
     } else {
       this.nextKanalWert = kanalWert;
-      this.dropOutTimer.cancel();
+      this.executor.remove(this);
       adjustWert();
     }
   }
@@ -58,16 +58,11 @@ public class SXBM1 extends Besetztmelder {
     }
   }
 
-  private class DropoutTimerTask extends TimerTask {
-
-    @Override
-    public void run() {
-      if (log.isTraceEnabled()) {
-        log.trace(String.format("SXBM1@%d: DropOutTimer fired"));
-      }
-      adjustWert();
+  public void run() {
+    if (log.isTraceEnabled()) {
+      log.trace(String.format("SXBM1@%d: End Delay"));
     }
-
+    adjustWert();
   }
 
   private static CharSequence toBinary(long value) {
