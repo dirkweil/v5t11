@@ -81,7 +81,7 @@ public class Gleisabschnitt extends AbstractGleisabschnitt {
 
       long currentTimeMillis = System.currentTimeMillis();
       if (currentTimeMillis - this.lastChangeMillis < 1000) {
-        this.log.warn("Gleisabschnitt " + toDisplayString() + ": Schnelle Statuswechsel");
+        this.log.warn(this + ": Schnelle Statuswechsel");
       }
       this.lastChangeMillis = currentTimeMillis;
     }
