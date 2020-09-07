@@ -2,31 +2,31 @@ package de.gedoplan.v5t11.fahrstrassen.service;
 
 import de.gedoplan.v5t11.fahrstrassen.entity.Parcours;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleisabschnitt;
-import de.gedoplan.v5t11.fahrstrassen.gateway.GleisResourceClient;
 import de.gedoplan.v5t11.fahrstrassen.gateway.JmsClient;
-import de.gedoplan.v5t11.util.cdi.Created;
+import de.gedoplan.v5t11.fahrstrassen.gateway.StatusGateway;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.jms.MessageCategory;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.ObservesAsync;
 import javax.inject.Inject;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.naming.NamingException;
 
 import org.apache.commons.logging.Log;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 @ApplicationScoped
-public class ParcoursStatusUpdater {
+public class ParcoursStatusUpdater implements Runnable {
   private static final long RETRY_MILLIS = 10000;
 
   @Inject
   ConfigService configService;
 
   @Inject
-  GleisResourceClient gleisResourceClient;
+  @RestClient
+  StatusGateway statusGateway;
 
   @Inject
   JmsClient jmsClient;
@@ -37,10 +37,10 @@ public class ParcoursStatusUpdater {
   @Inject
   Log log;
 
-  private Parcours parcours;
+  @Inject
+  Parcours parcours;
 
-  protected void run(@ObservesAsync @Created Parcours parcours) {
-    this.parcours = parcours;
+  public void run() {
 
     while (true) {
       try {
@@ -58,7 +58,8 @@ public class ParcoursStatusUpdater {
 
       try {
         Thread.sleep(RETRY_MILLIS);
-      } catch (InterruptedException ie) {}
+      } catch (InterruptedException ie) {
+      }
     }
   }
 
@@ -70,7 +71,7 @@ public class ParcoursStatusUpdater {
       this.log.debug("Status der Gleisbelegungen initialisieren");
     }
 
-    this.gleisResourceClient.getGleisabschnitte().forEach(other -> {
+    this.statusGateway.getGleisabschnitte().forEach(other -> {
       Gleisabschnitt gleisabschnitt = this.parcours.getGleisabschnitt(other.getBereich(), other.getName());
       if (gleisabschnitt != null) {
         if (this.log.isDebugEnabled()) {
@@ -109,5 +110,4 @@ public class ParcoursStatusUpdater {
       }
     }
   }
-
 }

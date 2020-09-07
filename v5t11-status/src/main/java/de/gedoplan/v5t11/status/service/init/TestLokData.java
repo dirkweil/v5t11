@@ -59,6 +59,21 @@ public class TestLokData {
       new Lok.LokFunktion(32, Lok.LokFunktion.LokFunktionsGruppe.FL, "Nur Seite 1", false, false, 0b0000_1100_0000_0000, 0b0000_0100_0000_0000),
       new Lok.LokFunktion(31, Lok.LokFunktion.LokFunktionsGruppe.FL, "Nur Seite 2", false, false, 0b0000_1100_0000_0000, 0b0000_1000_0000_0000));
   public static final Lok lok151_073_4 = new Lok("151 073-4", "DH10", SystemTyp.SX2, false, 1151, 127);
+  public static final Lok lok194_183_0 = new Lok("194 183-0", "Zimo", SystemTyp.DCC, false, 1194, 126,
+      new Lok.LokFunktion(1, Lok.LokFunktion.LokFunktionsGruppe.BG, "Motor", false, false),
+      new Lok.LokFunktion(2, Lok.LokFunktion.LokFunktionsGruppe.BG, "Pfeife kurz", true, true),
+      new Lok.LokFunktion(3, Lok.LokFunktion.LokFunktionsGruppe.BG, "Pfeife lang", true, false),
+      new Lok.LokFunktion(4, Lok.LokFunktion.LokFunktionsGruppe.BA, "Schaffnerpfiff", true, false),
+      new Lok.LokFunktion(5, Lok.LokFunktion.LokFunktionsGruppe.BG, "Ankuppeln", true, false),
+      new Lok.LokFunktion(6, Lok.LokFunktion.LokFunktionsGruppe.AF, "Direktsteuerung", false, false),
+      new Lok.LokFunktion(7, Lok.LokFunktion.LokFunktionsGruppe.BG, "Kurvenquietschen", false, false),
+      new Lok.LokFunktion(8, Lok.LokFunktion.LokFunktionsGruppe.BG, "Handpumpe", false, false),
+      new Lok.LokFunktion(9, Lok.LokFunktion.LokFunktionsGruppe.AF, "Rangiergang", false, false),
+      new Lok.LokFunktion(10, Lok.LokFunktion.LokFunktionsGruppe.BG, "Lüfter", false, false),
+      new Lok.LokFunktion(11, Lok.LokFunktion.LokFunktionsGruppe.BG, "Kompressor", false, false),
+      new Lok.LokFunktion(12, Lok.LokFunktion.LokFunktionsGruppe.BG, "Tür", false, false),
+      new Lok.LokFunktion(14, Lok.LokFunktion.LokFunktionsGruppe.AF, "Geräusche ausblenden", false, false),
+      new Lok.LokFunktion(15, Lok.LokFunktion.LokFunktionsGruppe.BG, "Sanden", true, false));
   public static final Lok lok210_004_8 = new Lok("210 004-8", "DHL100", SystemTyp.SX1, false, 2, 31);
   public static final Lok lok217_001_7 = new Lok("217 001-7", null, SystemTyp.SX2, false, 1217, 127,
       new Lok.LokFunktion(1, Lok.LokFunktion.LokFunktionsGruppe.AF, "Führerstandsbeleuchtung", false, false),
@@ -135,7 +150,7 @@ public class TestLokData {
       new Lok.LokFunktion(9, Lok.LokFunktion.LokFunktionsGruppe.BG, "Glocke", true, false),
       new Lok.LokFunktion(10, Lok.LokFunktion.LokFunktionsGruppe.BG, "Signalhorn tief", true, false),
       new Lok.LokFunktion(11, Lok.LokFunktion.LokFunktionsGruppe.BG, "Kompressor", false, false),
-      new Lok.LokFunktion(12, Lok.LokFunktion.LokFunktionsGruppe.BA, "???", true, false),
+      new Lok.LokFunktion(12, Lok.LokFunktion.LokFunktionsGruppe.BA, "Stuttgart Hauptbahnhof, bitte alle aussteigen", true, false),
       new Lok.LokFunktion(13, Lok.LokFunktion.LokFunktionsGruppe.BA, "Schaffnerpfiff", true, false),
       new Lok.LokFunktion(14, Lok.LokFunktion.LokFunktionsGruppe.BA, "Türenschließen", true, false),
       new Lok.LokFunktion(30, Lok.LokFunktion.LokFunktionsGruppe.FL, "Beidseitig", false, false, 0b0000_0000_1010_0000, 0b0000_0000_0000_0000),
@@ -183,6 +198,7 @@ public class TestLokData {
       lok110_389_4,
       lok112_491_6,
       lok151_073_4,
+      lok194_183_0,
       lok210_004_8,
       lok217_001_7,
       lok230_001_0,

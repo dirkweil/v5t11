@@ -11,10 +11,10 @@ import javax.enterprise.inject.spi.BeanManager;
 import javax.enterprise.inject.spi.InjectionTarget;
 
 import org.apache.deltaspike.cdise.api.ContextControl;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 
 public abstract class CdiTestBase extends TestBase {
 
@@ -22,17 +22,17 @@ public abstract class CdiTestBase extends TestBase {
 
   protected static String cdiProviderName;
 
-  @BeforeClass
-  public static void startCdiContainer() {
+  @BeforeAll
+  static void startCdiContainer() {
 
     cdiProviderName = ApplicationProperties.getProperty("cdi.provider.name");
 
     container = SeContainerInitializer.newInstance().initialize();
   }
 
-  @Before
+  @BeforeEach
   @SuppressWarnings({ "rawtypes", "unchecked" })
-  public void startRequestContextAndHandleInjectsInTestClass() {
+  void startRequestContextAndHandleInjectsInTestClass() {
 
     ContextControl contextControl = container.select(ContextControl.class).get();
     contextControl.startContext(RequestScoped.class);
@@ -46,14 +46,14 @@ public abstract class CdiTestBase extends TestBase {
     injectionTarget.inject(this, creationalContext);
   }
 
-  @After
-  public void stopRequestContext() {
+  @AfterEach
+  void stopRequestContext() {
     ContextControl contextControl = container.select(ContextControl.class).get();
     contextControl.stopContext(RequestScoped.class);
   }
 
-  @AfterClass
-  public static void stopContainer() {
+  @AfterAll
+  static void stopContainer() {
     container.close();
   }
 

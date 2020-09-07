@@ -5,10 +5,12 @@ import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrasse.Reserviert;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.FahrstrassenSignal;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.FahrstrassenWeiche;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrassenelement;
-import de.gedoplan.v5t11.fahrstrassen.gateway.SignalResourceClient;
-import de.gedoplan.v5t11.fahrstrassen.gateway.WeicheResourceClient;
+import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Signal;
+import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Weiche;
+import de.gedoplan.v5t11.fahrstrassen.gateway.StatusGateway;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
 import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
+import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,15 +21,14 @@ import javax.enterprise.event.ObservesAsync;
 import javax.inject.Inject;
 
 import org.apache.commons.logging.Log;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 @ApplicationScoped
 public class FahrstrasseStellenService {
 
   @Inject
-  SignalResourceClient signalResourceClient;
-
-  @Inject
-  WeicheResourceClient weicheResourceClient;
+  @RestClient
+  StatusGateway statusGateway;
 
   @Inject
   Log log;
@@ -68,9 +69,19 @@ public class FahrstrasseStellenService {
   }
 
   private void signalStellen(Fahrstrasse fahrstrasse, FahrstrassenSignal fahrstrassenSignal) {
-    this.signalResourceClient.signalStellen(
-        fahrstrassenSignal.getFahrwegelement(),
-        getAngepassteStellung(fahrstrassenSignal.getStellung(), fahrstrasse.getReservierungsTyp()));
+    Signal signal = fahrstrassenSignal.getFahrwegelement();
+    List<SignalStellung> stellungen = getAngepassteStellung(fahrstrassenSignal.getStellung(), fahrstrasse.getReservierungsTyp());
+    try {
+      if (this.log.isDebugEnabled()) {
+        this.log.debug("Stelle " + signal + " auf " + stellungen);
+      }
+
+      this.statusGateway.signalStellen(
+          signal.getBereich(), signal.getName(),
+          stellungen);
+    } catch (Exception e) {
+      this.log.error("Kann " + signal + " nicht stellen", e);
+    }
 
     delay();
   }
@@ -92,14 +103,25 @@ public class FahrstrasseStellenService {
   }
 
   private void weicheStellen(Fahrstrasse fahrstrasse, FahrstrassenWeiche fahrstrassenWeiche) {
-    this.weicheResourceClient.weicheStellen(fahrstrassenWeiche.getFahrwegelement(), fahrstrassenWeiche.getStellung());
+    Weiche weiche = fahrstrassenWeiche.getFahrwegelement();
+    WeichenStellung stellung = fahrstrassenWeiche.getStellung();
+    try {
+      if (this.log.isDebugEnabled()) {
+        this.log.debug("Stelle " + weiche + " auf " + stellung);
+      }
+
+      this.statusGateway.weicheStellen(weiche.getBereich(), weiche.getName(), stellung);
+    } catch (Exception e) {
+      this.log.error("Kann " + weiche + " nicht stellen", e);
+    }
     delay();
   }
 
   private static void delay() {
     try {
       Thread.sleep(250);
-    } catch (InterruptedException e) {}
+    } catch (InterruptedException e) {
+    }
   }
 
   /**

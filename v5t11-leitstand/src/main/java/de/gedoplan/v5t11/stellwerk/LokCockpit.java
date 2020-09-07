@@ -4,7 +4,7 @@ import de.gedoplan.baselibs.utils.inject.InjectionUtil;
 import de.gedoplan.v5t11.leitstand.entity.Leitstand;
 import de.gedoplan.v5t11.leitstand.entity.baustein.LokController;
 import de.gedoplan.v5t11.leitstand.entity.lok.Lok;
-import de.gedoplan.v5t11.leitstand.gateway.LokControllerResourceClient;
+import de.gedoplan.v5t11.leitstand.gateway.StatusGateway;
 import de.gedoplan.v5t11.stellwerk.util.IconUtil;
 
 import java.awt.BorderLayout;
@@ -29,13 +29,15 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
+import org.eclipse.microprofile.rest.client.inject.RestClient;
+
 public class LokCockpit extends ApplicationPanel {
   private static final int COL_ICON = 0;
   private static final int COL_ID = 1;
   private static final int COL_FIRST_CONTROLLER = 2;
 
-  private static final Color COLOR_SELECTED = Color.BLACK;
-  private static final Color COLOR_UNSELECTED = Color.LIGHT_GRAY;
+  // private static final Color COLOR_SELECTED = Color.BLACK;
+  // private static final Color COLOR_UNSELECTED = Color.LIGHT_GRAY;
 
   private JTable table;
   private MyTableModel tableModel;
@@ -44,7 +46,8 @@ public class LokCockpit extends ApplicationPanel {
   Leitstand leitstand;
 
   @Inject
-  LokControllerResourceClient lokControllerResourceClient;
+  @RestClient
+  StatusGateway statusGateway;
 
   @Inject
   StatusDispatcher statusDispatcher;
@@ -98,7 +101,7 @@ public class LokCockpit extends ApplicationPanel {
   public void assignLokController(LokController lokController, Lok lok, boolean selected) {
     this.logger.debug("assignLokController: " + lokController + ", " + lok + ", " + selected);
 
-    this.lokControllerResourceClient.setLok(lokController.getId(), selected ? lok.getId() : null);
+    this.statusGateway.assignLokcontrollerLok(lokController.getId(), selected ? lok.getId() : "null");
   }
 
   private static Icon getIcon(Lok lok) {

@@ -1,8 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
-
   <parent>
     <groupId>de.gedoplan</groupId>
     <artifactId>v5t11</artifactId>
@@ -13,36 +12,21 @@
 
   <packaging>jar</packaging>
 
-  <properties>
-    <logging.scope>runtime</logging.scope>
-  </properties>
+  <build>
+    <finalName>${project.artifactId}</finalName>
+  </build>
 
   <dependencies>
-    <!-- Main dependencies -->
-
     <dependency>
-      <groupId>javax</groupId>
-      <artifactId>javaee-api</artifactId>
+      <groupId>jakarta.platform</groupId>
+      <artifactId>jakarta.jakartaee-api</artifactId>
     </dependency>
 
     <dependency>
-      <groupId>javax.xml.bind</groupId>
-      <artifactId>jaxb-api</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>de.gedoplan</groupId>
-      <artifactId>baselibs-utils</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>de.gedoplan</groupId>
-      <artifactId>baselibs-wildfly</artifactId>
+      <groupId>org.eclipse.microprofile</groupId>
+      <artifactId>microprofile</artifactId>
+      <type>pom</type>
+      <scope>provided</scope>
     </dependency>
 
     <dependency>
@@ -52,33 +36,35 @@
     </dependency>
 
     <dependency>
-      <groupId>org.apache.meecrowave</groupId>
-      <artifactId>meecrowave-core</artifactId>
+      <groupId>de.gedoplan</groupId>
+      <artifactId>baselibs-wildfly</artifactId>
     </dependency>
 
     <dependency>
-      <groupId>org.glassfish.jaxb</groupId>
-      <artifactId>jaxb-runtime</artifactId>
-      <scope>runtime</scope>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-resteasy-jsonb</artifactId>
+      <scope></scope>
     </dependency>
 
     <dependency>
-      <groupId>org.projectlombok</groupId>
-      <artifactId>lombok</artifactId>
-      <scope>provided</scope>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-rest-client</artifactId>
     </dependency>
 
-    <!-- Test dependencies -->
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-smallrye-fault-tolerance</artifactId>
+    </dependency>
 
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-junit5</artifactId>
       <scope>test</scope>
     </dependency>
 
     <dependency>
-      <groupId>org.apache.meecrowave</groupId>
-      <artifactId>meecrowave-junit</artifactId>
+      <groupId>org.hamcrest</groupId>
+      <artifactId>hamcrest-all</artifactId>
       <scope>test</scope>
     </dependency>
 
@@ -88,58 +74,12 @@
       <scope>test</scope>
     </dependency>
 
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
   </dependencies>
-
-  <build>
-    <finalName>${project.artifactId}</finalName>
-
-    <plugins>
-      <!-- Konfiguration für mvn exec:java -->
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>exec-maven-plugin</artifactId>
-        <configuration>
-          <mainClass>de.gedoplan.v5t11.fahrstrassen.FahrstrassenMain</mainClass>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
-
-  <profiles>
-    <!-- Profil für Docker-Build -->
-    <profile>
-      <id>docker</id>
-
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>io.fabric8</groupId>
-            <artifactId>docker-maven-plugin</artifactId>
-            <configuration>
-              <images>
-                <image>
-                  <name>gedoplan/${project.artifactId}</name>
-                  <build>
-                    <dockerFileDir>${project.basedir}</dockerFileDir>
-                    <assembly>
-                      <descriptorRef>artifact-with-dependencies</descriptorRef>
-                    </assembly>
-                  </build>
-                </image>
-              </images>
-            </configuration>
-            <executions>
-              <execution>
-                <phase>install</phase>
-                <goals>
-                  <goal>build</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
 
 </project>

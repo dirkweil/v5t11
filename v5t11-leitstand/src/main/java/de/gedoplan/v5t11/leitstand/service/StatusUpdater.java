@@ -9,14 +9,8 @@ import de.gedoplan.v5t11.leitstand.entity.fahrweg.Signal;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.StatusUpdateable;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Weiche;
 import de.gedoplan.v5t11.leitstand.entity.lok.Lok;
-import de.gedoplan.v5t11.leitstand.gateway.GleisResourceClient;
 import de.gedoplan.v5t11.leitstand.gateway.JmsClient;
-import de.gedoplan.v5t11.leitstand.gateway.LokControllerResourceClient;
-import de.gedoplan.v5t11.leitstand.gateway.LokResourceClient;
-import de.gedoplan.v5t11.leitstand.gateway.SignalResourceClient;
-import de.gedoplan.v5t11.leitstand.gateway.WeicheResourceClient;
-import de.gedoplan.v5t11.leitstand.gateway.ZentraleResourceClient;
-import de.gedoplan.v5t11.util.cdi.Created;
+import de.gedoplan.v5t11.leitstand.gateway.StatusGateway;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.jms.MessageCategory;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
@@ -24,38 +18,24 @@ import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 import java.util.Set;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.ObservesAsync;
 import javax.inject.Inject;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.naming.NamingException;
 
 import org.apache.commons.logging.Log;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 @ApplicationScoped
-public class StatusUpdater {
+public class StatusUpdater implements Runnable {
   private static final long RETRY_MILLIS = 10000;
 
   @Inject
   ConfigService configService;
 
   @Inject
-  GleisResourceClient gleisResourceClient;
-
-  @Inject
-  SignalResourceClient signalResourceClient;
-
-  @Inject
-  WeicheResourceClient weicheResourceClient;
-
-  @Inject
-  LokResourceClient lokResourceClient;
-
-  @Inject
-  LokControllerResourceClient lokControllerResourceClient;
-
-  @Inject
-  ZentraleResourceClient zentraleResourceClient;
+  @RestClient
+  StatusGateway statusGateway;
 
   @Inject
   JmsClient jmsClient;
@@ -69,18 +49,17 @@ public class StatusUpdater {
   @Inject
   Log log;
 
-  private Leitstand leitstand;
+  @Inject
+  Leitstand leitstand;
 
-  protected void run(@ObservesAsync @Created Leitstand leitstand) {
-    this.leitstand = leitstand;
+  public void run() {
 
     while (true) {
       try {
         initializeStatus();
 
         propagateStatus();
-      }
-      catch (Exception e) {
+      } catch (Exception e) {
         String msg = "Fehler beim Status-Update (Status/Fahrstrassen-Service down?)";
         if (this.log.isTraceEnabled()) {
           this.log.warn(msg, e);
@@ -91,8 +70,7 @@ public class StatusUpdater {
 
       try {
         Thread.sleep(RETRY_MILLIS);
-      }
-      catch (InterruptedException ie) {
+      } catch (InterruptedException ie) {
       }
     }
   }
@@ -105,31 +83,31 @@ public class StatusUpdater {
       this.log.debug("Status initialisieren");
     }
 
-    this.gleisResourceClient.getGleisabschnitte().forEach(statusGleisabschnitt -> {
+    this.statusGateway.getGleisabschnitte().forEach(statusGleisabschnitt -> {
       Gleisabschnitt gleisabschnitt = this.leitstand.getGleisabschnitt(statusGleisabschnitt.getBereich(), statusGleisabschnitt.getName());
       if (gleisabschnitt != null) {
         updateStatus(gleisabschnitt, statusGleisabschnitt);
       }
     });
 
-    this.signalResourceClient.getSignale().forEach(statusSignal -> {
+    this.statusGateway.getSignale().forEach(statusSignal -> {
       Signal signal = this.leitstand.getSignal(statusSignal.getBereich(), statusSignal.getName());
       if (signal != null) {
         updateStatus(signal, statusSignal);
       }
     });
 
-    this.weicheResourceClient.getWeichen().forEach(statusWeiche -> {
+    this.statusGateway.getWeichen().forEach(statusWeiche -> {
       Weiche weiche = this.leitstand.getWeiche(statusWeiche.getBereich(), statusWeiche.getName());
       if (weiche != null) {
         updateStatus(weiche, statusWeiche);
       }
     });
 
-    Zentrale statusZentrale = this.zentraleResourceClient.getZentrale();
+    Zentrale statusZentrale = this.statusGateway.getZentrale();
     updateStatus(this.leitstand.getZentrale(), statusZentrale);
 
-    Set<Lok> statusLoks = this.lokResourceClient.getLoks();
+    Set<Lok> statusLoks = this.statusGateway.getLoks();
     this.leitstand.getLoks().retainAll(statusLoks);
     statusLoks.forEach(statusLok -> {
       Lok lok = this.leitstand.getLok(statusLok.getId());
@@ -140,7 +118,7 @@ public class StatusUpdater {
       updateStatus(lok, statusLok);
     });
 
-    Set<LokController> statusLokControllers = this.lokControllerResourceClient.getLokController();
+    Set<LokController> statusLokControllers = this.statusGateway.getLokcontroller();
     this.leitstand.getLokController().retainAll(statusLokControllers);
     statusLokControllers.forEach(statusLokController -> {
       LokController lokController = this.leitstand.getLokController(statusLokController.getId());

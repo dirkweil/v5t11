@@ -3,6 +3,11 @@ package de.gedoplan.v5t11.status.service;
 import de.gedoplan.v5t11.util.config.ConfigBase;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
+import org.eclipse.microprofile.config.inject.ConfigProperty;
+
+import lombok.Getter;
 
 @ApplicationScoped
 public class ConfigService extends ConfigBase {
@@ -14,12 +19,14 @@ public class ConfigService extends ConfigBase {
   public static final String DEFAULT_IF_TYP = "rautenhaus";
   public static final String DEFAULT_PORT_NAME = "auto";
 
-  public String getPortName() {
-    return getProperty(PROPERTY_PORT_NAME, DEFAULT_PORT_NAME);
-  }
+  @Inject
+  @ConfigProperty(name = PROPERTY_PORT_NAME, defaultValue = DEFAULT_PORT_NAME)
+  @Getter
+  String portName;
 
-  public int getPortSpeed() {
-    return Integer.parseInt(getProperty(PROPERTY_PORT_SPEED, "0"));
-  }
+  @Inject
+  @ConfigProperty(name = PROPERTY_PORT_SPEED, defaultValue = "0")
+  @Getter
+  int portSpeed;
 
 }

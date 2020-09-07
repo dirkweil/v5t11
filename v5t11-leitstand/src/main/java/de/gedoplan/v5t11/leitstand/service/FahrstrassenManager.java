@@ -2,7 +2,7 @@ package de.gedoplan.v5t11.leitstand.service;
 
 import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleisabschnitt;
-import de.gedoplan.v5t11.leitstand.gateway.FahrstrasseResourceClient;
+import de.gedoplan.v5t11.leitstand.gateway.FahrstrassenGatewayWrapper;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenFilter;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
 import de.gedoplan.v5t11.util.domain.entity.Fahrwegelement;
@@ -21,7 +21,7 @@ import com.google.common.collect.Table;
 public class FahrstrassenManager {
 
   @Inject
-  FahrstrasseResourceClient fahrstrasseResourceClient;
+  FahrstrassenGatewayWrapper fahrstrassenGateway;
 
   @Inject
   Log log;
@@ -31,7 +31,7 @@ public class FahrstrassenManager {
   @PostConstruct
   void postConstruct() {
     try {
-      this.fahrstrasseResourceClient.getFahrstrassen(
+      this.fahrstrassenGateway.getFahrstrassen(
           null, null,
           null, null,
           FahrstrassenFilter.RESERVIERT)
@@ -53,7 +53,7 @@ public class FahrstrassenManager {
 
       // Ansonsten Fahrstrassendaten komplett holen und hier registrieren
       try {
-        fahrstrasse = this.fahrstrasseResourceClient.getFahrstrasse(statusFahrstrasse.getBereich(), statusFahrstrasse.getName());
+        fahrstrasse = this.fahrstrassenGateway.getFahrstrasse(statusFahrstrasse.getBereich(), statusFahrstrasse.getName());
       } catch (NotFoundException nfe) {
         this.log.warn("Fahrstrasse nicht gefunden: " + statusFahrstrasse.getBereich() + "/" + statusFahrstrasse.getName());
         return null;

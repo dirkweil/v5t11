@@ -1,8 +1,8 @@
 package de.gedoplan.v5t11.status.entity;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import de.gedoplan.v5t11.status.CdiTestBase;
 import de.gedoplan.v5t11.status.StatusEventCollector;
@@ -19,12 +19,13 @@ import java.util.Random;
 
 import javax.inject.Inject;
 
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
+import org.apache.commons.logging.Log;
+import org.junit.jupiter.api.Test;
 
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class SteuerungTest extends CdiTestBase {
+
+  @Inject
+  Log log;
 
   @Inject
   Steuerung steuerung;

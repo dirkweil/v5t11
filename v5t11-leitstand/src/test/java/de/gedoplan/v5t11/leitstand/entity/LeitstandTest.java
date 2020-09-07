@@ -1,18 +1,19 @@
 package de.gedoplan.v5t11.leitstand.entity;
 
-import de.gedoplan.v5t11.leitstand.TestBase;
+import de.gedoplan.v5t11.util.test.V5t11TestConfigDirExtension;
 
 import javax.inject.Inject;
 
-import org.apache.meecrowave.junit.MonoMeecrowave;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.extension.ExtendWith;
 
-@RunWith(MonoMeecrowave.Runner.class)
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class LeitstandTest extends TestBase {
+import io.quarkus.test.junit.QuarkusTestExtension;
+
+@ExtendWith({ V5t11TestConfigDirExtension.class, QuarkusTestExtension.class })
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+public class LeitstandTest {
 
   @Inject
   Leitstand leitstand;

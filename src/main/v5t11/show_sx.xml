@@ -3,7 +3,7 @@
   <FCC />
   
   <Besetztmelder>
-    <BMMiba3 id="BM-1" adr="90" einbauOrt="neben Interface">
+    <BMMiba3 id="BM-1" adr="1090" einbauOrt="neben Interface">
       <Gleisabschnitt idx="0" bereich="show" name="W1" />
       <Gleisabschnitt idx="1" bereich="show" name="S" />
       <Gleisabschnitt idx="2" bereich="show" name="W3" />
@@ -16,7 +16,7 @@
   </Besetztmelder>
 
   <Funktionsdecoder>
-    <WDMiba3 id="FD-1" adr="80" einbauOrt="neben Trafo">
+    <WDMiba3 id="FD-1" adr="1080" einbauOrt="neben Trafo">
       <Weiche idx="1" bereich="show" name="3" />
       <Weiche idx="2" bereich="show" name="2" />
       <Weiche idx="3" bereich="show" name="1" />

@@ -10,6 +10,9 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -66,12 +69,21 @@ public class Gleisabschnitt extends AbstractGleisabschnitt {
     }
   }
 
+  private long lastChangeMillis = 0;
+  private Log log = LogFactory.getLog(getClass());
+
   public void adjustStatus() {
     boolean alt = isBesetzt();
     boolean neu = (this.besetztmelder.getWert() & (1 << this.anschluss)) != 0;
     if (alt != neu) {
       setBesetzt(neu);
       this.eventFirer.fire(this);
+
+      long currentTimeMillis = System.currentTimeMillis();
+      if (currentTimeMillis - this.lastChangeMillis < 1000) {
+        this.log.warn(this + ": Schnelle Statuswechsel");
+      }
+      this.lastChangeMillis = currentTimeMillis;
     }
   }
 

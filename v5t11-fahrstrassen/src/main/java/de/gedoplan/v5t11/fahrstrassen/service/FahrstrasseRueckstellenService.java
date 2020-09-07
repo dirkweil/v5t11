@@ -3,7 +3,8 @@ package de.gedoplan.v5t11.fahrstrassen.service;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrasse.Freigegeben;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.FahrstrassenSignal;
-import de.gedoplan.v5t11.fahrstrassen.gateway.SignalResourceClient;
+import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Signal;
+import de.gedoplan.v5t11.fahrstrassen.gateway.StatusGateway;
 import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
 
 import java.lang.annotation.Annotation;
@@ -14,12 +15,14 @@ import javax.enterprise.inject.spi.EventMetadata;
 import javax.inject.Inject;
 
 import org.apache.commons.logging.Log;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 @ApplicationScoped
 public class FahrstrasseRueckstellenService {
 
   @Inject
-  SignalResourceClient signalResourceClient;
+  @RestClient
+  StatusGateway statusGateway;
 
   @Inject
   Log log;
@@ -51,16 +54,26 @@ public class FahrstrasseRueckstellenService {
   }
 
   private void signalRueckstellen(Fahrstrasse fahrstrasse, FahrstrassenSignal fahrstrassenSignal) {
-    this.signalResourceClient.signalStellen(
-        fahrstrassenSignal.getFahrwegelement(),
-        SignalStellung.HALT);
+    Signal signal = fahrstrassenSignal.getFahrwegelement();
+    SignalStellung stellung = SignalStellung.HALT;
+    try {
+      if (this.log.isDebugEnabled()) {
+        this.log.debug("Stelle " + signal + " auf " + stellung);
+      }
 
+      this.statusGateway.signalStellen(
+          signal.getBereich(), signal.getName(),
+          stellung);
+    } catch (Exception e) {
+      this.log.error("Kann " + signal + " nicht stellen", e);
+    }
     delay();
   }
 
   private static void delay() {
     try {
       Thread.sleep(250);
-    } catch (InterruptedException e) {}
+    } catch (InterruptedException e) {
+    }
   }
 }

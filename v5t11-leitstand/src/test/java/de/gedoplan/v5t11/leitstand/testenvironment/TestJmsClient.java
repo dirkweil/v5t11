@@ -3,12 +3,14 @@ package de.gedoplan.v5t11.leitstand.testenvironment;
 import de.gedoplan.v5t11.leitstand.gateway.JmsClient;
 import de.gedoplan.v5t11.util.jms.MessageCategory;
 
+import javax.annotation.Priority;
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Specializes;
+import javax.enterprise.inject.Alternative;
 import javax.jms.Message;
 
 @ApplicationScoped
-@Specializes
+@Alternative
+@Priority(1)
 public class TestJmsClient extends JmsClient {
 
   @Override

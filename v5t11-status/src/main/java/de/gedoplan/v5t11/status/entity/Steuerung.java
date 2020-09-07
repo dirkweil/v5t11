@@ -462,6 +462,7 @@ public class Steuerung {
      */
     if ("none".equalsIgnoreCase(this.zentrale.getPortName())) {
       this.zentrale = new DummyZentrale();
+      this.zentrale.injectFields();
       this.zentrale.postConstruct();
     }
 

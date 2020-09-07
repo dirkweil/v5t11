@@ -1,34 +1,39 @@
 package de.gedoplan.v5t11.fahrstrassen.entity;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 
-import de.gedoplan.v5t11.fahrstrassen.TestBase;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrassenelement;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
+import de.gedoplan.v5t11.util.test.V5t11TestConfigDirExtension;
 
 import java.util.stream.Stream;
 
 import javax.inject.Inject;
 
-import org.apache.meecrowave.junit.MonoMeecrowave;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
+import org.apache.commons.logging.Log;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.skyscreamer.jsonassert.JSONAssert;
 
-@RunWith(MonoMeecrowave.Runner.class)
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class FahrstrasseTest extends TestBase {
+import io.quarkus.test.junit.QuarkusTestExtension;
+
+@ExtendWith({ V5t11TestConfigDirExtension.class, QuarkusTestExtension.class })
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+public class FahrstrasseTest {
 
   private static final String FS_BEREICH = "show";
   private static final String FS_NAME = "11-W1-1-W3-S";
 
   @Inject
   Parcours parcours;
+
+  @Inject
+  Log log;
 
   @Test
   public void test_01_toShortJson() throws Exception {
@@ -101,7 +106,8 @@ public class FahrstrasseTest extends TestBase {
       // FS wieder auf Ausgangszustand (unreserviert) setzen
       try {
         fahrstrasse.freigeben(null);
-      } catch (Exception e) {}
+      } catch (Exception e) {
+      }
     }
   }
 
@@ -135,7 +141,8 @@ public class FahrstrasseTest extends TestBase {
       // FS wieder auf Ausgangszustand (unreserviert) setzen
       try {
         fahrstrasse.freigeben(null);
-      } catch (Exception e) {}
+      } catch (Exception e) {
+      }
     }
   }
 
@@ -184,7 +191,8 @@ public class FahrstrasseTest extends TestBase {
       // FS wieder auf Ausgangszustand (unreserviert) setzen
       try {
         fahrstrasse.freigeben(null);
-      } catch (Exception e) {}
+      } catch (Exception e) {
+      }
     }
   }
 }

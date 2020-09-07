@@ -7,9 +7,13 @@ import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Properties;
 
 import javax.enterprise.inject.CreationException;
+import javax.inject.Inject;
+
+import org.eclipse.microprofile.config.inject.ConfigProperty;
+
+import lombok.Getter;
 
 /**
  * Basisklasse für Konfigurationsservices in den einzelnen V5T11-Anwendungen.
@@ -26,76 +30,57 @@ import javax.enterprise.inject.CreationException;
  */
 public abstract class ConfigBase {
 
-  public static final String PROPERTY_ANLAGE = "v5t11.anlage";
   public static final String PROPERTY_CONFIG_DIR = "v5t11.configDir";
 
+  public static final String PROPERTY_ARTIFACT_ID = "v5t11.artifactId";
+  public static final String PROPERTY_VERSION = "v5t11.version";
+
+  public static final String PROPERTY_ANLAGE = "v5t11.anlage";
   public static final String DEFAULT_ANLAGE = "show";
 
-  public static final String PROPERTY_STATUS_REST_URL = "v5t11.statusRestUrl";
+  public static final String PROPERTY_STATUS_REST_URL = "v5t11.status/mp-rest/url";
   public static final String DEFAULT_STATUS_REST_URL = "http://v5t11-status:8080/rs";
 
-  public static final String PROPERTY_STATUS_JMS_URL = "v5t11.statusJmsUrl";
-  public static final String DEFAULT_STATUS_JMS_URL = "tcp://v5t11-status:5445";
-  // public static final String DEFAULT_STATUS_JMS_URL = "http-remoting://v5t11-status:8080";
+  public static final String PROPERTY_STATUS_JMS_URL = "v5t11.status/jms/url";
+  public static final String DEFAULT_STATUS_JMS_URL = "http-remoting://v5t11-status:8080";
 
-  public static final String PROPERTY_FAHRSTRASSEN_REST_URL = "v5t11.fahrstrassenRestUrl";
-  public static final String DEFAULT_FAHRSTRASSEN_REST_URL = "http://v5t11-fahrstrassen:8080/rs";
+  public static final String PROPERTY_FAHRSTRASSEN_REST_URL = "v5t11.fahrstrassen/mp-rest/url";
+  public static final String DEFAULT_FAHRSTRASSEN_REST_URL = "http://v5t11-fahrstrassen:8080";
 
-  private Properties v5t11Properties;
+  @Inject
+  @ConfigProperty(name = PROPERTY_CONFIG_DIR)
+  @Getter
+  String configDir;
 
-  public ConfigBase() {
-    this.v5t11Properties = new Properties();
-    try (Reader reader = new FileReader(getConfigDir() + "/v5t11.properties")) {
-      this.v5t11Properties.load(reader);
-    } catch (Exception e) {
-      // ignore
-    }
-  }
+  @Inject
+  @ConfigProperty(name = PROPERTY_ANLAGE, defaultValue = DEFAULT_ANLAGE)
+  @Getter
+  String anlage;
 
-  /**
-   * Konfigurationswert liefern.
-   *
-   * @param name
-   *          Name der Property
-   * @param defaultValue
-   *          Defaultwert
-   * @return gefundener Wert in dieser Reihenfolge: Environment Variable, System Property, Eintrag aus v5t11.properties, Defaultwert
-   */
-  public String getProperty(String name, String defaultValue) {
-    String value = System.getenv(name);
-    if (value == null) {
-      value = System.getProperty(name);
-    }
-    if (value == null) {
-      value = this.v5t11Properties.getProperty(name);
-    }
-    if (value == null) {
-      value = defaultValue;
-    }
-    return value;
-  }
+  @Inject
+  @ConfigProperty(name = PROPERTY_ARTIFACT_ID)
+  @Getter
+  String artifactId;
 
-  /**
-   * Konfigurationsverzeichnis liefern.
-   *
-   * @return Verzeichnis
-   */
-  public String getConfigDir() {
-    String configDir = getProperty(PROPERTY_CONFIG_DIR, null);
-    if (configDir == null) {
-      configDir = System.getProperty("user.home") + "/v5t11";
-    }
-    return configDir;
-  }
+  @Inject
+  @ConfigProperty(name = PROPERTY_VERSION)
+  @Getter
+  String version;
 
-  /**
-   * Anlagenname liefern.
-   *
-   * @return Anlagenname
-   */
-  public String getAnlage() {
-    return getProperty(PROPERTY_ANLAGE, DEFAULT_ANLAGE);
-  }
+  @Inject
+  @ConfigProperty(name = PROPERTY_STATUS_REST_URL, defaultValue = DEFAULT_STATUS_REST_URL)
+  @Getter
+  String statusRestUrl;
+
+  @Inject
+  @ConfigProperty(name = PROPERTY_STATUS_JMS_URL, defaultValue = DEFAULT_STATUS_JMS_URL)
+  @Getter
+  String statusJmsUrl;
+
+  @Inject
+  @ConfigProperty(name = PROPERTY_FAHRSTRASSEN_REST_URL, defaultValue = DEFAULT_FAHRSTRASSEN_REST_URL)
+  @Getter
+  String fahrstrassenRestUrl;
 
   /**
    * XML-Konfigurationsfile lesen und deserialisieren.
@@ -109,11 +94,11 @@ public abstract class ConfigBase {
    * @return deserialisierter Wert
    */
   public <T> T readXmlConfig(String fileNameSuffix, Class<T> clazz) {
-    String fileName = getAnlage() + fileNameSuffix;
+    String fileName = this.anlage + fileNameSuffix;
 
     try {
       // Wenn vorhanden, Datei aus V5T11-Konfigurationsverzeichnis lesen
-      Path path = Paths.get(getConfigDir(), fileName);
+      Path path = Paths.get(this.configDir, fileName);
       if (Files.exists(path)) {
         try (Reader reader = new FileReader(path.toFile())) {
           return XmlConverter.fromXml(clazz, reader);
@@ -126,18 +111,6 @@ public abstract class ConfigBase {
     } catch (Exception e) {
       throw new CreationException("Kann Konfiguration " + fileName + " nicht lesen", e);
     }
-  }
-
-  public String getStatusRestUrl() {
-    return getProperty(PROPERTY_STATUS_REST_URL, DEFAULT_STATUS_REST_URL);
-  }
-
-  public String getStatusJmsUrl() {
-    return getProperty(PROPERTY_STATUS_JMS_URL, DEFAULT_STATUS_JMS_URL);
-  }
-
-  public String getFahrstrassenRestUrl() {
-    return getProperty(PROPERTY_FAHRSTRASSEN_REST_URL, DEFAULT_FAHRSTRASSEN_REST_URL);
   }
 
 }
