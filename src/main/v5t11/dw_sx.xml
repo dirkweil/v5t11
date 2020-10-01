@@ -4,7 +4,7 @@
 
   <Besetztmelder>
     <!-- Check OK -->
-    <Muet8i id="BM-2018-1" adr="40" einbauOrt="Ausfahrt SBf">
+    <Muet8k id="BM-2019-1" adr="40" einbauOrt="Ausfahrt SBf">
       <Gleisabschnitt idx="0" bereich="SBf" name="2002" />
       <Gleisabschnitt idx="1" bereich="SBf" name="2003" />
       <Gleisabschnitt idx="2" bereich="SBf" name="W2001" />
@@ -13,7 +13,7 @@
       <Gleisabschnitt idx="5" bereich="SBf" name="W33" />
       <Gleisabschnitt idx="6" bereich="SBf" name="W32" />
       <Gleisabschnitt idx="7" bereich="SBf" name="202" />
-    </Muet8i>
+    </Muet8k>
 
     <!-- Check OK -->
     <Muet8k id="BM-2018-2" adr="43" einbauOrt="Ausfahrt SBf">
@@ -226,13 +226,13 @@
       <Gleisabschnitt idx="5" bereich="HBf" name="W31" />
     </HEBM8>
 
-    <Muet8k id="BM-2019-1" adr="63" einbauOrt="Paradestrecke">
+    <Muet8i id="BM-2018-1" adr="63" einbauOrt="Paradestrecke">
       <Gleisabschnitt idx="0" bereich="HBf" name="505" />
       <Gleisabschnitt idx="1" bereich="HBf" name="506" />
       <Gleisabschnitt idx="2" bereich="HBf" name="507" />
       <Gleisabschnitt idx="3" bereich="S10xx" name="3001" />
       <Gleisabschnitt idx="4" bereich="S10xx" name="3002" />
-    </Muet8k>
+    </Muet8i>
 
   </Besetztmelder>
   
