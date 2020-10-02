@@ -1,45 +1,69 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Parcours>
-  <!-- Fahrstrassen im Bereich S10xx -->
-  <Fahrstrasse bereich="S10xx" zaehlrichtung="true" umkehrbar="true">
+  <!-- Fahrstrassen im Bereich S30 -->
+  <Fahrstrasse bereich="S30" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="3001" />
-    <Gleisabschnitt name="1001"/>
+    <Gleisabschnitt name="1001" bereich="S10" />
   </Fahrstrasse>
 
-  <Fahrstrasse bereich="S10xx" zaehlrichtung="true" umkehrbar="true">
+  <Fahrstrasse bereich="S30" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="3002" />
-    <Gleisabschnitt name="1002"/>
+    <Gleisabschnitt name="1002" bereich="S10" />
   </Fahrstrasse>
 
-  <Fahrstrasse bereich="S10xx" zaehlrichtung="true" umkehrbar="true">
+  <!-- Fahrstrassen im Bereich S20 -->
+  <Fahrstrasse bereich="S20" zaehlrichtung="true" >
+    <Gleisabschnitt name="W2001" />
+    <Weiche name="2001" stellung="GERADE"/>
+    <Gleisabschnitt name="2003" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="S20" zaehlrichtung="true" >
+    <Gleisabschnitt name="W2001" />
+    <Weiche name="2001" stellung="ABZWEIGEND"/>
+    <Gleisabschnitt name="2002" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="S20" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="2002" />
+    <Gleisabschnitt name="406" bereich="HBf" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="S20" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="2003" />
+    <Gleisabschnitt name="407" bereich="HBf" />
+  </Fahrstrasse>
+
+  <!-- Fahrstrassen im Bereich S10 -->
+  <Fahrstrasse bereich="S10" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="1001" />
     <Weiche name="1003" stellung="GERADE" />
     <Gleisabschnitt name="W1003"/>
   </Fahrstrasse>
 
-  <Fahrstrasse bereich="S10xx" zaehlrichtung="true" umkehrbar="true">
+  <Fahrstrasse bereich="S10" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="1002" />
     <Weiche name="1003" stellung="ABZWEIGEND" />
     <Gleisabschnitt name="W1003"/>
   </Fahrstrasse>
 
-  <Fahrstrasse bereich="S10xx" zaehlrichtung="true" umkehrbar="true">
+  <Fahrstrasse bereich="S10" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="W1003"/>
     <Gleisabschnitt name="1004" />
   </Fahrstrasse>
 
-  <Fahrstrasse bereich="S10xx" zaehlrichtung="true" umkehrbar="true">
+  <Fahrstrasse bereich="S10" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="1004" />
     <Weiche name="1005" stellung="ABZWEIGEND" />
     <Gleisabschnitt name="W1005"/>
   </Fahrstrasse>
 
-  <Fahrstrasse bereich="S10xx" zaehlrichtung="true" umkehrbar="true">
+  <Fahrstrasse bereich="S10" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="W1005"/>
     <Gleisabschnitt name="1006" />
   </Fahrstrasse>
 
-  <Fahrstrasse bereich="S10xx" zaehlrichtung="true" umkehrbar="true">
+  <Fahrstrasse bereich="S10" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="1006"/>
     <Gleisabschnitt name="308" bereich="SBf"/>
   </Fahrstrasse>
@@ -550,6 +574,11 @@
     <Gleisabschnitt name="402" />
   </Fahrstrasse>
 
+  <Fahrstrasse bereich="SBf" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="402" />
+    <Gleisabschnitt name="W2001" bereich="S20" />
+  </Fahrstrasse>
+
   <Fahrstrasse bereich="SBf" zaehlrichtung="true" >
     <Gleisabschnitt name="W34" />
     <Weiche name="34" stellung="ABZWEIGEND"/>
@@ -694,8 +723,8 @@
   <!-- TODO Kombination mit anderen FS-Anteilen funktioniert nicht - Bereichsüberschreitung? -->
   <Fahrstrasse bereich="Nbf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="202" />
-    <Weiche name="1005" stellung="GERADE" bereich="S10xx"/>
-    <Gleisabschnitt name="W1005" bereich="S10xx"/>
+    <Weiche name="1005" stellung="GERADE" bereich="S10"/>
+    <Gleisabschnitt name="W1005" bereich="S10"/>
   </Fahrstrasse>
 
   <!-- Fahrstrassen im HBf -->
@@ -1111,13 +1140,12 @@
 
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="507" />
-    <Gleisabschnitt name="3002" bereich="S10xx" />
+    <Gleisabschnitt name="3002" bereich="S30" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="506" />
-    <Gleisabschnitt name="3001" bereich="S10xx" />
+    <Gleisabschnitt name="3001" bereich="S30" />
   </Fahrstrasse>
 
 </Parcours>
-

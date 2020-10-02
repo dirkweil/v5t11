@@ -4,10 +4,10 @@
 
   <Besetztmelder>
     <!-- Check OK -->
-    <Muet8k id="BM-2019-1" adr="40" einbauOrt="Ausfahrt SBf">
-      <Gleisabschnitt idx="0" bereich="SBf" name="2002" />
-      <Gleisabschnitt idx="1" bereich="SBf" name="2003" />
-      <Gleisabschnitt idx="2" bereich="SBf" name="W2001" />
+    <Muet8k id="BM-2019-1" adr="63" einbauOrt="Ausfahrt SBf">
+      <Gleisabschnitt idx="0" bereich="S20" name="2002" />
+      <Gleisabschnitt idx="1" bereich="S20" name="2003" />
+      <Gleisabschnitt idx="2" bereich="S20" name="W2001" />
       <Gleisabschnitt idx="3" bereich="SBf" name="402" />
       <Gleisabschnitt idx="4" bereich="SBf" name="W34" />
       <Gleisabschnitt idx="5" bereich="SBf" name="W33" />
@@ -99,14 +99,14 @@
     </SXBM1>
 
     <SXBM1 id="BM-2003-7" adr="52" einbauOrt="SBf Gleis 4a">
-      <Gleisabschnitt idx="0" bereich="S10xx" name="1006" />
-      <Gleisabschnitt idx="1" bereich="S10xx" name="1004" />
-      <Gleisabschnitt idx="2" bereich="S10xx" name="W1005" />
+      <Gleisabschnitt idx="0" bereich="S10" name="1006" />
+      <Gleisabschnitt idx="1" bereich="S10" name="1004" />
+      <Gleisabschnitt idx="2" bereich="S10" name="W1005" />
       <Gleisabschnitt idx="3" bereich="SBf" name="W15" />
       <Gleisabschnitt idx="4" bereich="SBf" name="W17" />
-      <Gleisabschnitt idx="5" bereich="S10xx" name="1001" />
-      <Gleisabschnitt idx="6" bereich="S10xx" name="W1003" />
-      <Gleisabschnitt idx="7" bereich="S10xx" name="1002" />
+      <Gleisabschnitt idx="5" bereich="S10" name="1001" />
+      <Gleisabschnitt idx="6" bereich="S10" name="W1003" />
+      <Gleisabschnitt idx="7" bereich="S10" name="1002" />
     </SXBM1>
 
     <!-- Check OK -->
@@ -226,12 +226,12 @@
       <Gleisabschnitt idx="5" bereich="HBf" name="W31" />
     </HEBM8>
 
-    <Muet8i id="BM-2018-1" adr="63" einbauOrt="Paradestrecke">
+    <Muet8i id="BM-2018-1" adr="40" einbauOrt="Paradestrecke">
       <Gleisabschnitt idx="0" bereich="HBf" name="505" />
       <Gleisabschnitt idx="1" bereich="HBf" name="506" />
       <Gleisabschnitt idx="2" bereich="HBf" name="507" />
-      <Gleisabschnitt idx="3" bereich="S10xx" name="3001" />
-      <Gleisabschnitt idx="4" bereich="S10xx" name="3002" />
+      <Gleisabschnitt idx="3" bereich="S30" name="3001" />
+      <Gleisabschnitt idx="4" bereich="S30" name="3002" />
     </Muet8i>
 
   </Besetztmelder>
@@ -259,7 +259,7 @@
 
     <WDMiba id="FD-2003-3" adr="72" einbauOrt="Einfahrt SBf">
       <Weiche idx="0" bereich="SBf" name="5" />
-      <Weiche idx="4" bereich="S10xx" name="1005" />
+      <Weiche idx="4" bereich="S10" name="1005" />
       <Weiche idx="5" bereich="SBf" name="6" />
       <Weiche idx="6" bereich="SBf" name="4" />
       <Weiche idx="7" bereich="SBf" name="2" />
@@ -365,8 +365,8 @@
       <Weiche bereich="SBf" name="31" />
       <Weiche bereich="SBf" name="32" />
       <Weiche bereich="SBf" name="33" />
-      <Weiche bereich="SBf" name="2001" />
-      <Weiche bereich="S10xx" name="1003" />
+      <Weiche bereich="S20" name="2001" />
+      <Weiche bereich="S10" name="1003" />
     </NoFD>
     
   </Funktionsdecoder>
@@ -377,4 +377,3 @@
     <SxLokControl id="LokControl 2a" adr="1031" />
   </Lokcontroller>
 </sx>
-
