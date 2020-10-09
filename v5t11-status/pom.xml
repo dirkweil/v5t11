@@ -47,17 +47,17 @@
       <artifactId>guava</artifactId>
     </dependency>
 
-    <dependency>
-      <groupId>com.fazecast</groupId>
-      <artifactId>jSerialComm</artifactId>
-      <version>2.6.2</version>
-    </dependency>
-
     <!-- <dependency> -->
-    <!-- <groupId>com.neuronrobotics</groupId> -->
-    <!-- <artifactId>nrjavaserial</artifactId> -->
-    <!-- <scope>provided</scope> -->
+    <!-- <groupId>com.fazecast</groupId> -->
+    <!-- <artifactId>jSerialComm</artifactId> -->
+    <!-- <version>2.6.2</version> -->
     <!-- </dependency> -->
+
+    <dependency>
+      <groupId>com.neuronrobotics</groupId>
+      <artifactId>nrjavaserial</artifactId>
+      <scope>provided</scope>
+    </dependency>
 
     <dependency>
       <groupId>de.gedoplan</groupId>
