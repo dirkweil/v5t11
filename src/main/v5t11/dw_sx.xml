@@ -98,7 +98,7 @@
       <Gleisabschnitt idx="6" bereich="SBf" name="W5" />
     </SXBM1>
 
-    <SXBM1 id="BM-2003-7" adr="52" einbauOrt="SBf Gleis 4a">
+    <SXBM1 id="BM-2003-1" adr="52" einbauOrt="SBf Gleis 4a">
       <Gleisabschnitt idx="0" bereich="S10" name="1006" />
       <Gleisabschnitt idx="1" bereich="S10" name="1004" />
       <Gleisabschnitt idx="2" bereich="S10" name="W1005" />
