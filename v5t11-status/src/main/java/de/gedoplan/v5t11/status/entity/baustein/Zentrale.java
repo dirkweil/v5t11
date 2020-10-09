@@ -13,7 +13,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.Enumeration;
 import java.util.concurrent.ExecutorService;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -26,11 +25,8 @@ import javax.xml.bind.annotation.XmlAttribute;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import gnu.io.CommPortIdentifier;
-import gnu.io.NoSuchPortException;
-import gnu.io.PortInUseException;
-import gnu.io.SerialPort;
-import gnu.io.UnsupportedCommOperationException;
+import com.fazecast.jSerialComm.SerialPort;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -116,6 +112,52 @@ public abstract class Zentrale implements Closeable {
     this.out = socket.getOutputStream();
   }
 
+  // private void openSerialPort() throws IOException {
+  //
+  // if (this.log.isDebugEnabled()) {
+  // this.log.debug("openSerialPort(" + this.portName + ", " + getPortSpeed() + ")");
+  // }
+  //
+  // if (this.portName != null && !"none".equalsIgnoreCase(this.portName)) {
+  // CommPortIdentifier portId = null;
+  // try {
+  // portId = CommPortIdentifier.getPortIdentifier(this.portName);
+  // } catch (NoSuchPortException ex) {
+  // throw new IOException("Port " + this.portName + " ist nicht vorhanden");
+  // }
+  //
+  // if (portId.getPortType() != CommPortIdentifier.PORT_SERIAL) {
+  // throw new IOException("Port " + this.portName + " ist keine Serienschnittstelle");
+  // }
+  //
+  // SerialPort port = null;
+  // try {
+  // port = portId.open("SxInterface", 2000);
+  // } catch (PortInUseException ex) {
+  // throw new IOException("Port " + this.portName + " ist bereits belegt");
+  // }
+  // this.device = port;
+  //
+  // this.in = null;
+  // this.out = null;
+  // try {
+  // port.setSerialPortParams(getPortSpeed(), SerialPort.DATABITS_8, SerialPort.STOPBITS_2, SerialPort.PARITY_NONE);
+  // port.setFlowControlMode(SerialPort.FLOWCONTROL_NONE);
+  // port.enableReceiveTimeout(PORT_RECEIVE_TIMEOUT_MILLIS);
+  // port.enableReceiveThreshold(1);
+  //
+  // this.in = port.getInputStream();
+  // this.out = port.getOutputStream();
+  // } catch (UnsupportedCommOperationException ex) {
+  // closePort();
+  // throw new IOException("Port " + this.portName + " kann nicht initialisiert werden");
+  // } catch (IOException ex) {
+  // closePort();
+  // throw ex;
+  // }
+  // }
+  // }
+
   private void openSerialPort() throws IOException {
 
     if (this.log.isDebugEnabled()) {
@@ -123,41 +165,30 @@ public abstract class Zentrale implements Closeable {
     }
 
     if (this.portName != null && !"none".equalsIgnoreCase(this.portName)) {
-      CommPortIdentifier portId = null;
-      try {
-        portId = CommPortIdentifier.getPortIdentifier(this.portName);
-      } catch (NoSuchPortException ex) {
-        throw new IOException("Port " + this.portName + " ist nicht vorhanden");
-      }
-
-      if (portId.getPortType() != CommPortIdentifier.PORT_SERIAL) {
-        throw new IOException("Port " + this.portName + " ist keine Serienschnittstelle");
-      }
-
       SerialPort port = null;
       try {
-        port = portId.open("SxInterface", 2000);
-      } catch (PortInUseException ex) {
-        throw new IOException("Port " + this.portName + " ist bereits belegt");
+        port = SerialPort.getCommPort(this.portName);
+      } catch (Exception ex) {
+        throw new IOException("SerialPort " + this.portName + " ist nicht vorhanden", ex);
       }
+
+      port.setComPortParameters(getPortSpeed(), 8, SerialPort.TWO_STOP_BITS, SerialPort.NO_PARITY);
+      port.setFlowControl(SerialPort.FLOW_CONTROL_DISABLED);
+      port.setComPortTimeouts(SerialPort.TIMEOUT_READ_BLOCKING, PORT_RECEIVE_TIMEOUT_MILLIS, 0);
+      if (!port.openPort()) {
+        throw new IOException("SerialPort " + this.portName + " kann nicht geöffnet werden");
+      }
+
       this.device = port;
 
       this.in = null;
       this.out = null;
       try {
-        port.setSerialPortParams(getPortSpeed(), SerialPort.DATABITS_8, SerialPort.STOPBITS_2, SerialPort.PARITY_NONE);
-        port.setFlowControlMode(SerialPort.FLOWCONTROL_NONE);
-        port.enableReceiveTimeout(PORT_RECEIVE_TIMEOUT_MILLIS);
-        port.enableReceiveThreshold(1);
-
         this.in = port.getInputStream();
         this.out = port.getOutputStream();
-      } catch (UnsupportedCommOperationException ex) {
+      } catch (Exception ex) {
         closePort();
-        throw new IOException("Port " + this.portName + " kann nicht initialisiert werden");
-      } catch (IOException ex) {
-        closePort();
-        throw ex;
+        throw new IOException("SerialPort " + this.portName + " kann nicht initialisiert werden", ex);
       }
     }
   }
@@ -191,7 +222,7 @@ public abstract class Zentrale implements Closeable {
         if (this.device instanceof Socket) {
           ((Socket) this.device).close();
         } else {
-          ((SerialPort) this.device).close();
+          ((SerialPort) this.device).closePort();
         }
       } catch (Exception e) {
         // ignore
@@ -203,14 +234,23 @@ public abstract class Zentrale implements Closeable {
 
   protected abstract int getPortSpeed();
 
-  @SuppressWarnings("unchecked")
+  // @SuppressWarnings("unchecked")
+  // private static String selectFirstSerialPort() {
+  // Enumeration<CommPortIdentifier> portList = CommPortIdentifier.getPortIdentifiers();
+  // while (portList.hasMoreElements()) {
+  // CommPortIdentifier portId = portList.nextElement();
+  // if (portId.getPortType() == CommPortIdentifier.PORT_SERIAL) {
+  // return portId.getName();
+  // }
+  // }
+  //
+  // return "none";
+  // }
+
   private static String selectFirstSerialPort() {
-    Enumeration<CommPortIdentifier> portList = CommPortIdentifier.getPortIdentifiers();
-    while (portList.hasMoreElements()) {
-      CommPortIdentifier portId = portList.nextElement();
-      if (portId.getPortType() == CommPortIdentifier.PORT_SERIAL) {
-        return portId.getName();
-      }
+    SerialPort[] commPorts = SerialPort.getCommPorts();
+    if (commPorts.length > 0) {
+      return commPorts[0].getSystemPortName();
     }
 
     return "none";

@@ -48,10 +48,15 @@
     </dependency>
 
     <dependency>
-      <groupId>com.neuronrobotics</groupId>
-      <artifactId>nrjavaserial</artifactId>
-      <scope>provided</scope>
+      <groupId>com.fazecast</groupId>
+      <artifactId>jSerialComm</artifactId>
     </dependency>
+
+<!--     <dependency> -->
+<!--       <groupId>com.neuronrobotics</groupId> -->
+<!--       <artifactId>nrjavaserial</artifactId> -->
+<!--       <scope>provided</scope> -->
+<!--     </dependency> -->
 
     <dependency>
       <groupId>de.gedoplan</groupId>
@@ -343,27 +348,23 @@
                           </fileset>
                         </copy>
                         <copy
-                          todir="${installDir}/wildfly-${version.wildfly}/standalone-v5t11-status/configuration" 
+                          todir="${installDir}/wildfly-${version.wildfly}/standalone-v5t11-status/configuration"
                           overwrite="true">
                           <fileset
                             dir="${basedir}/src/main/wildfly">
-                            <include
-                              name="*.properties" />
+                            <include name="*.properties" />
                           </fileset>
                         </copy>
-                        <java
-                          dir="${basedir}/src/main/wildfly"
+                        <java dir="${basedir}/src/main/wildfly"
                           jar="${installDir}/wildfly-${version.wildfly}/bin/client/jboss-cli-client.jar"
                           fork="true" failonerror="true">
                           <env key="JBOSS_HOME"
                             path="${installDir}/wildfly-${version.wildfly}" />
-                          <jvmarg
-                            value="--add-modules=java.se" />
+                          <jvmarg value="--add-modules=java.se" />
                           <sysproperty
                             key="jboss.server.base.dir"
                             path="${installDir}/wildfly-${version.wildfly}/standalone-v5t11-status" />
-                          <arg
-                            value="--file=wildfly-setup.cli" />
+                          <arg value="--file=wildfly-setup.cli" />
                         </java>
                       </then>
                     </if>
