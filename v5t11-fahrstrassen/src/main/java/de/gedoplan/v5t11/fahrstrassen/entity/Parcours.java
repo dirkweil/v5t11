@@ -262,10 +262,21 @@ public class Parcours {
       stream = stream.filter(fs -> fs.endsWith(ende));
     }
 
-    if (filter == FahrstrassenFilter.FREI) {
-      stream = stream.filter(fs -> fs.isFrei(false, false));
-    } else if (filter == FahrstrassenFilter.RESERVIERT) {
-      stream = stream.filter(fs -> fs.getReservierungsTyp() != FahrstrassenReservierungsTyp.UNRESERVIERT);
+    if (filter != null) {
+      switch (filter) {
+      case FREI:
+        stream = stream.filter(fs -> fs.isFrei(false, false));
+        break;
+
+      case RESERVIERT:
+        stream = stream.filter(fs -> fs.getReservierungsTyp() != FahrstrassenReservierungsTyp.UNRESERVIERT);
+        break;
+
+      case NON_COMBI:
+        stream = stream.filter(fs -> !fs.isCombi());
+        break;
+
+      }
     }
 
     return stream.sorted((fs1, fs2) -> fs1.getRank() - fs2.getRank()).collect(Collectors.toList());
