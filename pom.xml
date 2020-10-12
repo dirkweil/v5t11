@@ -308,7 +308,7 @@
   <modules>
     <!-- <module>v5t11-com-server</module> -->
     <module>v5t11-fahrstrassen</module>
-    <!-- <module>v5t11-fahrzeuge</module> -->
+    <module>v5t11-fahrzeuge</module>
     <module>v5t11-leitstand</module>
     <module>v5t11-status</module>
     <module>v5t11-util</module>
