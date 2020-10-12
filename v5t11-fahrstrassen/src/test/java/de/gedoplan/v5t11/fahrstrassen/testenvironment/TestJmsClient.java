@@ -1,12 +1,14 @@
 package de.gedoplan.v5t11.fahrstrassen.testenvironment;
 
-import de.gedoplan.v5t11.fahrstrassen.gateway.JmsClient;
+import de.gedoplan.v5t11.util.jms.JmsClient;
 import de.gedoplan.v5t11.util.jms.MessageCategory;
+
+import java.util.Collection;
 
 import javax.annotation.Priority;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Alternative;
-import javax.jms.Message;
+import javax.jms.JMSConsumer;
 
 @ApplicationScoped
 @Alternative
@@ -14,7 +16,7 @@ import javax.jms.Message;
 public class TestJmsClient extends JmsClient {
 
   @Override
-  public Message receive() {
+  public JMSConsumer getConsumer(Collection<MessageCategory> categories) {
     throw new UnsupportedOperationException();
   }
 

@@ -22,7 +22,7 @@ public class BootStrap {
       Log log,
       ConfigService configService,
       Parcours parcours,
-      ParcoursStatusUpdater parcoursStatusUpdater) {
+      StatusUpdater statusUpdater) {
     log.info("app: " + configService.getArtifactId() + ":" + configService.getVersion());
 
     log.info("configDir: " + configService.getConfigDir());
@@ -32,7 +32,7 @@ public class BootStrap {
 
     log.info("#fahrstrassen: " + parcours.getFahrstrassen().size());
 
-    scheduler.submit(parcoursStatusUpdater);
+    scheduler.submit(statusUpdater);
   }
 
   void terminate(@Observes ShutdownEvent shutdownEvent) {

@@ -1,7 +1,7 @@
 package de.gedoplan.v5t11.fahrstrassen.service;
 
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrasse;
-import de.gedoplan.v5t11.fahrstrassen.gateway.JmsClient;
+import de.gedoplan.v5t11.util.jms.JmsClient;
 import de.gedoplan.v5t11.util.jms.MessageCategory;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 
