@@ -9,22 +9,7 @@
 <h:body>
   <p:growl id="messages" showDetail="false" />
 
-  <p:layout fullPage="true">
-
-    <p:layoutUnit position="north" minSize="130">
-      <h:graphicImage library="logos" name="v5t11.png" />
-    </p:layoutUnit>
-
-    <p:layoutUnit position="west" resizable="true" size="225" minSize="200" maxSize="400">
-      <h:form>
-        <p:menu model="#{navigationPresenter.menuModel}" style="width: 98%; border: none;"  />
-      </h:form>
-    </p:layoutUnit>
-
-    <p:layoutUnit position="center">
-      <ui:insert name="content" />
-    </p:layoutUnit>
-  </p:layout>
+  <ui:insert name="content" />
 
 </h:body>
 </html>
