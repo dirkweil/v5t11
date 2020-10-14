@@ -18,7 +18,9 @@
   <properties>
     <meecrowave.version>1.2.9</meecrowave.version>
 
-    <quarkus.version>1.7.1.Final</quarkus.version>
+    <myfaces.version>2.3-next-M4</myfaces.version>
+
+    <quarkus.version>1.8.3.Final</quarkus.version>
     <quarkus-plugin.version>${quarkus.version}</quarkus-plugin.version>
     <quarkus.platform.artifact-id>quarkus-universe-bom</quarkus.platform.artifact-id>
     <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
@@ -29,6 +31,11 @@
     <repository>
       <id>gedoplanPublic</id>
       <url>http://service.gedoplan.de/nexus/content/groups/public</url>
+    </repository>
+
+    <repository>
+      <id>primefaces</id>
+      <url>http://repository.primefaces.org</url>
     </repository>
   </repositories>
 
@@ -228,6 +235,18 @@
       </dependency>
 
       <dependency>
+        <groupId>org.primefaces</groupId>
+        <artifactId>primefaces</artifactId>
+        <version>8.0</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.primefaces.themes</groupId>
+        <artifactId>afterwork</artifactId>
+        <version>1.0.10</version>
+      </dependency>
+
+      <dependency>
         <groupId>org.projectlombok</groupId>
         <artifactId>lombok</artifactId>
         <version>1.18.8</version>
@@ -270,6 +289,13 @@
             <type>pom</type>
             <scope>import</scope>
           </dependency>
+
+          <dependency>
+            <groupId>org.apache.myfaces.core.extensions.quarkus</groupId>
+            <artifactId>myfaces-quarkus</artifactId>
+            <version>${myfaces.version}</version>
+          </dependency>
+
         </dependencies>
       </dependencyManagement>
 
@@ -312,6 +338,7 @@
     <module>v5t11-leitstand</module>
     <module>v5t11-status</module>
     <module>v5t11-util</module>
+    <module>showcase</module>
   </modules>
 
 </project>

@@ -78,13 +78,11 @@
     <dependency>
       <groupId>org.primefaces</groupId>
       <artifactId>primefaces</artifactId>
-      <version>7.0</version>
     </dependency>
 
     <dependency>
       <groupId>org.primefaces.themes</groupId>
       <artifactId>afterwork</artifactId>
-      <version>1.0.10</version>
     </dependency>
 
     <dependency>
@@ -389,10 +387,4 @@
     </profile>
   </profiles>
 
-  <repositories>
-    <repository>
-      <id>prime</id>
-      <url>http://repository.primefaces.org</url>
-    </repository>
-  </repositories>
 </project>
