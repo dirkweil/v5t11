@@ -1,4 +1,4 @@
-package de.gedoplan.v5t11.status.webui;
+package de.gedoplan.v5t11.util.jsf;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;

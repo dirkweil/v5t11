@@ -338,7 +338,6 @@
     <module>v5t11-leitstand</module>
     <module>v5t11-status</module>
     <module>v5t11-util</module>
-    <module>showcase</module>
   </modules>
 
 </project>
