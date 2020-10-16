@@ -175,18 +175,6 @@
       </dependency>
 
       <dependency>
-        <groupId>org.apache.meecrowave</groupId>
-        <artifactId>meecrowave-core</artifactId>
-        <version>${meecrowave.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.apache.meecrowave</groupId>
-        <artifactId>meecrowave-junit</artifactId>
-        <version>${meecrowave.version}</version>
-      </dependency>
-
-      <dependency>
         <groupId>org.eclipse</groupId>
         <artifactId>yasson</artifactId>
         <version>1.0.7</version>
