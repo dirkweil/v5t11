@@ -21,7 +21,6 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.PostLoad;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.AssertTrue;
@@ -47,7 +46,7 @@ public class Fahrzeug extends SingleIdEntity<String> implements Comparable<Fahrz
   EventFirer eventFirer;
 
   /**
-   * Id der Lok (DB-Nr. ö. ä.).
+   * Id der Fahrzeug (DB-Nr. ö. ä.).
    */
   @Id
   private String id;
@@ -72,7 +71,7 @@ public class Fahrzeug extends SingleIdEntity<String> implements Comparable<Fahrz
   private boolean kurzeAdresse;
 
   /**
-   * Lokadresse.
+   * Fahrzeugadresse.
    * Muss im gültigen Bereich sein:
    * - Selectrix: 1-103,
    * - Selecrix 2: 1-9999,
@@ -126,35 +125,10 @@ public class Fahrzeug extends SingleIdEntity<String> implements Comparable<Fahrz
     }
   }
 
-  /**
-   * Fahrstufe.
-   */
-  @Getter(onMethod_ = @JsonbInclude)
-  private int fahrstufe;
-
-  @AssertTrue(message = "Ungültige Fahrstufe")
-  boolean isfahrstufeValid() {
-    return this.fahrstufe >= 0 && this.fahrstufe <= this.maxFahrstufe;
-  }
-
-  @Getter(onMethod_ = @JsonbInclude)
-  private boolean rueckwaerts;
-
-  @Getter(onMethod_ = @JsonbInclude)
-  private boolean licht;
-
   @ElementCollection(fetch = FetchType.EAGER)
   @CollectionTable(name = TABLE_NAME_FUNKTION)
   @Getter(onMethod_ = @JsonbInclude(full = true))
-  private Set<@NotNull LokFunktion> funktionen = new TreeSet<>((a, b) -> Integer.compare(a.nr, b.nr));
-
-  /**
-   * Zustand der Funktionen.
-   * Pro aktiver Funktion sind die entsprechenden Bits gesetzt.
-   */
-  @Column(name = "FUNKTION_STATUS")
-  @Getter(onMethod_ = @JsonbInclude)
-  private int funktionStatus;
+  private Set<@NotNull FahrzeugFunktion> funktionen = new TreeSet<>((a, b) -> Integer.compare(a.nr, b.nr));
 
   @JsonbInclude
   @Override
@@ -162,29 +136,19 @@ public class Fahrzeug extends SingleIdEntity<String> implements Comparable<Fahrz
     return this.id;
   }
 
-  @Transient
-  @Getter(onMethod_ = @JsonbInclude)
-  private boolean aktiv;
-
-  public Fahrzeug(String id, String decoder, @NotNull SystemTyp systemTyp, boolean kurzeAdresse, int adresse, int maxFahrstufe, LokFunktion... funktionen) {
+  public Fahrzeug(String id, String decoder, @NotNull SystemTyp systemTyp, boolean kurzeAdresse, int adresse, int maxFahrstufe, FahrzeugFunktion... funktionen) {
     this.id = id;
     this.decoder = decoder;
     this.systemTyp = systemTyp;
     this.kurzeAdresse = kurzeAdresse;
     this.adresse = adresse;
     this.maxFahrstufe = maxFahrstufe;
-    for (LokFunktion funktion : funktionen) {
+    for (FahrzeugFunktion funktion : funktionen) {
       this.funktionen.add(funktion);
     }
-    linkFunktionen();
   }
 
   protected Fahrzeug() {
-  }
-
-  @PostLoad
-  void linkFunktionen() {
-    this.funktionen.forEach(fc -> fc.lok = this);
   }
 
   @Override
@@ -194,7 +158,7 @@ public class Fahrzeug extends SingleIdEntity<String> implements Comparable<Fahrz
 
   @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder("Lok{");
+    StringBuilder sb = new StringBuilder("Fahrzeug{");
     sb.append(this.id)
         .append('@')
         .append(this.adresse)
@@ -211,91 +175,15 @@ public class Fahrzeug extends SingleIdEntity<String> implements Comparable<Fahrz
     InjectionUtil.injectFields(this);
   }
 
-  // TODO Wohin mit den Status-ändernden Methoden?
-  // public void setFahrstufe(int fahrstufe) {
-  // synchronized (Zentrale.class) {
-  //
-  // if (fahrstufe != this.fahrstufe) {
-  // if (fahrstufe < 0 || fahrstufe > this.maxFahrstufe) {
-  // throw new IllegalArgumentException("Ungültige Fahrstufe: " + fahrstufe);
-  // }
-  //
-  // this.fahrstufe = fahrstufe;
-  // this.eventFirer.fire(this);
-  // }
-  //
-  // }
-  // }
-  //
-  // public void setRueckwaerts(boolean rueckwaerts) {
-  // synchronized (Zentrale.class) {
-  //
-  // if (rueckwaerts != this.rueckwaerts) {
-  // this.rueckwaerts = rueckwaerts;
-  // this.eventFirer.fire(this);
-  // }
-  //
-  // }
-  // }
-  //
-  // public void setLicht(boolean licht) {
-  // synchronized (Zentrale.class) {
-  //
-  // if (licht != this.licht) {
-  // this.licht = licht;
-  // this.eventFirer.fire(this);
-  // }
-  //
-  // }
-  // }
-  //
-  // private void setFunktionStatus(int wert) {
-  // synchronized (Zentrale.class) {
-  //
-  // if (this.funktionStatus != wert) {
-  // this.funktionStatus = wert;
-  // this.eventFirer.fire(this);
-  // }
-  //
-  // }
-  // }
-  //
-  // public void setAktiv(boolean aktiv) {
-  // synchronized (Zentrale.class) {
-  //
-  // if (aktiv != this.aktiv) {
-  // this.aktiv = aktiv;
-  // this.eventFirer.fire(this);
-  // }
-  //
-  // }
-  // }
-  //
-  // public void reset() {
-  // synchronized (Zentrale.class) {
-  //
-  // boolean changed = this.fahrstufe != 0 || this.rueckwaerts || this.licht || this.funktionStatus != 0 || this.aktiv;
-  // this.fahrstufe = 0;
-  // this.rueckwaerts = false;
-  // this.licht = false;
-  // this.funktionStatus = 0;
-  // this.aktiv = false;
-  // if (changed) {
-  // this.eventFirer.fire(this);
-  // }
-  //
-  // }
-  // }
-
   @Embeddable
   @Getter(onMethod_ = @JsonbInclude(full = true))
   @NoArgsConstructor(access = AccessLevel.PROTECTED)
   @ToString
-  public static class LokFunktion {
+  public static class FahrzeugFunktion {
     private int nr;
     @NotNull
     @Enumerated(EnumType.STRING)
-    private LokFunktionsGruppe gruppe;
+    private FahrzeugFunktionsGruppe gruppe;
     @NotEmpty
     private String beschreibung;
     private boolean impuls;
@@ -303,11 +191,7 @@ public class Fahrzeug extends SingleIdEntity<String> implements Comparable<Fahrz
     private int mask;
     private int value;
 
-    @Transient
-    @Getter(AccessLevel.NONE)
-    private Fahrzeug lok;
-
-    public LokFunktion(int nr, LokFunktionsGruppe gruppe, String beschreibung, boolean impuls, boolean horn, int mask, int value) {
+    public FahrzeugFunktion(int nr, FahrzeugFunktionsGruppe gruppe, String beschreibung, boolean impuls, boolean horn, int mask, int value) {
       this.nr = nr;
       this.gruppe = gruppe;
       this.beschreibung = beschreibung;
@@ -317,30 +201,42 @@ public class Fahrzeug extends SingleIdEntity<String> implements Comparable<Fahrz
       this.value = value;
     }
 
-    public LokFunktion(int nr, LokFunktionsGruppe gruppe, String beschreibung, boolean impuls, boolean horn) {
+    public FahrzeugFunktion(int nr, FahrzeugFunktionsGruppe gruppe, String beschreibung, boolean impuls, boolean horn) {
       this(nr, gruppe, beschreibung, impuls, horn, 1 << (nr - 1), 1 << (nr - 1));
     }
 
-    public boolean isAktiv() {
-      return (this.lok.funktionStatus & this.mask) == this.value;
-    }
-
-    // TODO Wohin mit den Status-ändernden Methoden?
-    // public void setAktiv(boolean aktiv) {
-    // int wert = this.lok.funktionStatus & ~this.mask;
-    // if (aktiv) {
-    // wert |= this.value;
-    // }
-    // this.lok.setFunktionStatus(wert);
-    // }
-
     @AllArgsConstructor
     @Getter
-    public static enum LokFunktionsGruppe {
+    public static enum FahrzeugFunktionsGruppe {
       FL("Fahrlicht"), BG("Betriebsgeräusch"), BA("Bahnsteigansage"), AF("Andere Funktion");
 
       private String name;
     }
   }
+
+  // Ab hier Ist-Daten
+  // TODO: Bleiben die hier?
+
+  // @Transient
+  // @Getter(onMethod_ = @JsonbInclude)
+  // private boolean aktiv;
+  //
+  // @Getter(onMethod_ = @JsonbInclude)
+  // private int fahrstufe;
+  //
+  // @AssertTrue(message = "Ungültige Fahrstufe")
+  // boolean isfahrstufeValid() {
+  // return this.fahrstufe >= 0 && this.fahrstufe <= this.maxFahrstufe;
+  // }
+  //
+  // @Getter(onMethod_ = @JsonbInclude)
+  // private boolean rueckwaerts;
+  //
+  // @Getter(onMethod_ = @JsonbInclude)
+  // private boolean licht;
+  //
+  // @Column(name = "FUNKTION_STATUS")
+  // @Getter(onMethod_ = @JsonbInclude)
+  // private int funktionStatus;
 
 }
