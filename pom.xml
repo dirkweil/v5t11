@@ -223,18 +223,6 @@
       </dependency>
 
       <dependency>
-        <groupId>org.primefaces</groupId>
-        <artifactId>primefaces</artifactId>
-        <version>8.0</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.primefaces.themes</groupId>
-        <artifactId>afterwork</artifactId>
-        <version>1.0.10</version>
-      </dependency>
-
-      <dependency>
         <groupId>org.projectlombok</groupId>
         <artifactId>lombok</artifactId>
         <version>1.18.8</version>
@@ -323,6 +311,7 @@
     <!-- <module>v5t11-com-server</module> -->
     <module>v5t11-fahrstrassen</module>
     <module>v5t11-fahrzeuge</module>
+    <module>v5t11-jsfcommon</module>
     <module>v5t11-leitstand</module>
     <module>v5t11-status</module>
     <module>v5t11-util</module>

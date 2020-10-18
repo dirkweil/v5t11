@@ -1,4 +1,4 @@
-package de.gedoplan.v5t11.fahrstrassen.main;
+package de.gedoplan.v5t11.fahrstrassen;
 
 import io.quarkus.runtime.*;
 import io.quarkus.runtime.annotations.*;
