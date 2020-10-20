@@ -75,19 +75,19 @@ public class KehrschleifenService {
       // Handling für KS17
       if (this.gleis17c.isBesetzt() || this.gleis17d.isBesetzt()) {
         this.log.debug("Polung KS17: links");
-        this.kS17.setStellung(WeichenStellung.GERADE);
+        this.kS17.setStellung(WeichenStellung.ABZWEIGEND);
       } else if (this.gleis109.isBesetzt() || this.gleis17a.isBesetzt()) {
         this.log.debug("Polung KS17: rechts");
-        this.kS17.setStellung(WeichenStellung.ABZWEIGEND);
+        this.kS17.setStellung(WeichenStellung.GERADE);
       }
 
       // Handling für KS18
       if (this.gleis18c.isBesetzt()) {
         this.log.debug("Polung KS18: links");
-        this.kS18.setStellung(WeichenStellung.GERADE);
+        this.kS18.setStellung(WeichenStellung.ABZWEIGEND);
       } else if (this.gleis18a.isBesetzt()) {
         this.log.debug("Polung KS18: rechts");
-        this.kS18.setStellung(WeichenStellung.ABZWEIGEND);
+        this.kS18.setStellung(WeichenStellung.GERADE);
       }
 
     }
