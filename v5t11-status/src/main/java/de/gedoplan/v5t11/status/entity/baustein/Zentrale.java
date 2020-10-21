@@ -282,7 +282,7 @@ public abstract class Zentrale implements Closeable {
 
   public void postConstruct() {
     // Falls Port in Config gesetzt, diesen nehmen
-    String configPortName = System.getProperty(ConfigService.PROPERTY_PORT_NAME);
+    String configPortName = this.configService.getPortName();
     if (configPortName != null) {
       this.portName = configPortName;
     }
