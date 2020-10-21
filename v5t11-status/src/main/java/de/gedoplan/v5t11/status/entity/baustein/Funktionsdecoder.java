@@ -7,6 +7,7 @@ import de.gedoplan.v5t11.status.entity.fahrweg.geraet.HauptsignalRtGe;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.HauptsignalRtGn;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.HauptsignalRtGnGe;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Hauptsperrsignal;
+import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Schalter;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Sperrsignal;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Vorsignal;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
@@ -37,9 +38,15 @@ public abstract class Funktionsdecoder extends Baustein implements Decoder {
   /**
    * Zugeordnete Geräte.
    */
-  @XmlElements({ @XmlElement(name = "Bahnuebergang", type = Bahnuebergang.class), @XmlElement(name = "HauptsignalRtGnGe", type = HauptsignalRtGnGe.class),
-      @XmlElement(name = "HauptsignalRtGe", type = HauptsignalRtGe.class), @XmlElement(name = "HauptsignalRtGn", type = HauptsignalRtGn.class),
-      @XmlElement(name = "Hauptsperrsignal", type = Hauptsperrsignal.class), @XmlElement(name = "Sperrsignal", type = Sperrsignal.class), @XmlElement(name = "Vorsignal", type = Vorsignal.class),
+  @XmlElements({
+      @XmlElement(name = "Bahnuebergang", type = Bahnuebergang.class),
+      @XmlElement(name = "HauptsignalRtGnGe", type = HauptsignalRtGnGe.class),
+      @XmlElement(name = "HauptsignalRtGe", type = HauptsignalRtGe.class),
+      @XmlElement(name = "HauptsignalRtGn", type = HauptsignalRtGn.class),
+      @XmlElement(name = "Hauptsperrsignal", type = Hauptsperrsignal.class),
+      @XmlElement(name = "Sperrsignal", type = Sperrsignal.class),
+      @XmlElement(name = "Vorsignal", type = Vorsignal.class),
+      @XmlElement(name = "Schalter", type = Schalter.class),
       @XmlElement(name = "Weiche", type = Weiche.class) })
   protected SortedSet<FunktionsdecoderGeraet> geraete = new TreeSet<>();
 

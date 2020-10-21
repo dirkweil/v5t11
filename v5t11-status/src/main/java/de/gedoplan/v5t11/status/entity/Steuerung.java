@@ -23,6 +23,7 @@ import de.gedoplan.v5t11.status.entity.baustein.zentrale.DummyZentrale;
 import de.gedoplan.v5t11.status.entity.baustein.zentrale.FCC;
 import de.gedoplan.v5t11.status.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.FunktionsdecoderGeraet;
+import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Schalter;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
 import de.gedoplan.v5t11.status.entity.lok.Lok;
@@ -120,26 +121,15 @@ public class Steuerung {
   private SortedSet<Gleisabschnitt> gleisabschnitte = new TreeSet<>();
 
   @Getter
+  private SortedSet<Schalter> schalter = new TreeSet<>();
+
+  @Getter
   private SortedSet<Signal> signale = new TreeSet<>();
 
   @Getter
   private SortedSet<Weiche> weichen = new TreeSet<>();
 
   private Table<SystemTyp, Integer, Lok> loks = HashBasedTable.create();
-
-  /**
-   * Alle von der Steuerung belegten Selectrix-Adressen liefern.
-   *
-   * @return Adressen
-   */
-  // public List<Integer> getAdressen() {
-  // List<Integer> adressen = IntStream.range(0, this.kanalWerte.length)
-  // .filter(i -> i < 10 || this.kanalBausteine[i] != null)
-  // .mapToObj(Integer::valueOf)
-  // .collect(Collectors.toList());
-  //
-  // return adressen;
-  // }
 
   /**
    * Loks liefern.
@@ -226,6 +216,28 @@ public class Steuerung {
   }
 
   /**
+   * Wert liefern: {@link #schalter}.
+   *
+   * @return Wert
+   */
+  public Set<Schalter> getSchalter(String bereich) {
+    return getBereichselemente(bereich, this.schalter);
+  }
+
+  /**
+   * Schalter liefern.
+   *
+   * @param bereich
+   *          Bereich
+   * @param name
+   *          Name
+   * @return gefundener Schalter oder <code>null</code>
+   */
+  public Schalter getSchalter(String bereich, String name) {
+    return getBereichselement(bereich, name, this.schalter);
+  }
+
+  /**
    * Wert liefern: {@link #weichen}.
    *
    * @return Wert
@@ -301,12 +313,17 @@ public class Steuerung {
     }
 
     /*
-     * Den Funktionsdecodern zugeordnete Weichen und Signale in this.weichen und
-     * this.signale sammeln. Dabei auch die Bereiche in this.bereiche eintragen und Adressen
-     * registrieren.
+     * Den Funktionsdecodern zugeordnete Geräte in this.schalter/signale/weichen sammeln. Dabei auch die Bereiche in
+     * this.bereiche eintragen und Adressen registrieren.
      */
     for (Funktionsdecoder fd : this.funktionsdecoder) {
       for (FunktionsdecoderGeraet g : fd.getGeraete()) {
+        if (g instanceof Schalter) {
+          Schalter s = (Schalter) g;
+          this.schalter.add(s);
+          this.bereiche.add(s.getBereich());
+        }
+
         if (g instanceof Signal) {
           Signal s = (Signal) g;
           this.signale.add(s);
@@ -323,17 +340,6 @@ public class Steuerung {
 
       registerAdressen(fd);
     }
-
-    // for (Lokdecoder ld : this.lokdecoder) {
-    // Lok lok = ld.getLok();
-    // if (lok != null) {
-    // if (!this.loks.add(lok)) {
-    // throw new IllegalArgumentException("Lok " + lok.getId() + " ist mehreren Lokdecodern zugeordnet");
-    // }
-    //
-    // registerAdressen(ld);
-    // }
-    // }
 
     for (Lokcontroller lc : this.lokcontroller) {
       registerAdressen(lc);
@@ -399,13 +405,6 @@ public class Steuerung {
         buf.append("\n    ").append(g);
       }
     }
-
-    // for (Lokdecoder ld : this.lokdecoder) {
-    // buf.append("\n ").append(ld);
-    // if (ld.getLok() != null) {
-    // buf.append("\n ").append(ld.getLok());
-    // }
-    // }
 
     for (Lokcontroller ld : this.lokcontroller) {
       buf.append("\n ").append(ld);

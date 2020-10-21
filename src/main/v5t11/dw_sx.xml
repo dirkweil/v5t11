@@ -248,8 +248,8 @@
     </WDMiba>
 
     <WDMiba id="FD-2003-2" adr="71" einbauOrt="Einfahrt SBf">
-      <Weiche idx="0" bereich="SBf" name="KS18" />
-      <Weiche idx="1" bereich="SBf" name="KS17" />
+      <Schalter idx="0" bereich="SBf" name="KS18" />
+      <Schalter idx="1" bereich="SBf" name="KS17" />
       <Weiche idx="2" bereich="SBf" name="9" />
       <Weiche idx="3" bereich="SBf" name="11" />
       <Weiche idx="6" bereich="SBf" name="10" />
