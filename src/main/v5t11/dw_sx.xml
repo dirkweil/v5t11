@@ -376,22 +376,38 @@
     <SxLokControl id="LokControl 1" adr="30" />
     <SxLokControl id="LokControl 2" adr="31" />
   </Lokcontroller>
-  
+
   <AutoSkripte>
     <AutoSkript bereich="SBf" beschreibung="Polung Wendestrecke 17">
-      <Gleisabschnitt name="109"/>
-      <Gleisabschnitt name="17a"/>
-      <Gleisabschnitt name="17b"/>
-      <Gleisabschnitt name="17c"/>
-      <Gleisabschnitt name="17d"/>
-      <Schalter name="KS17"/>
+      <Gleisabschnitt name="109" />
+      <Gleisabschnitt name="17a" />
+      <Gleisabschnitt name="17b" />
+      <Gleisabschnitt name="17c" />
+      <Gleisabschnitt name="17d" />
+      <Schalter name="KS17" />
       <Groovy>
-        if (gleisabschnitt17c.isBesetzt() || gleisabschnitt17d.isBesetzt()) {
+        if (gleis17c.isBesetzt() || gleis17d.isBesetzt()) {
           log.debug("Polung KS17: links");
           schalterKS17.setStellung(EIN);
-        } else if (gleisabschnitt109.isBesetzt() || gleisabschnitt17a.isBesetzt()) {
+        } else if (gleis109.isBesetzt() || gleis17a.isBesetzt()) {
           log.debug("Polung KS17: rechts");
           schalterKS17.setStellung(AUS);
+        }
+      </Groovy>
+    </AutoSkript>
+
+    <AutoSkript bereich="SBf" beschreibung="Polung Wendestrecke 18">
+      <Gleisabschnitt name="18a" />
+      <Gleisabschnitt name="18b" />
+      <Gleisabschnitt name="18c" />
+      <Schalter name="KS18" />
+      <Groovy>
+        if (gleis18c.isBesetzt()) {
+          log.debug("Polung KS18: links");
+          schalterKS18.setStellung(EIN);
+        } else if (gleis18a.isBesetzt()) {
+          log.debug("Polung KS18: rechts");
+          schalterKS18.setStellung(AUS);
         }
       </Groovy>
     </AutoSkript>
