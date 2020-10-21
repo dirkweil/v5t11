@@ -1,6 +1,7 @@
 package de.gedoplan.v5t11.status.entity;
 
 import de.gedoplan.baselibs.utils.inject.InjectionUtil;
+import de.gedoplan.v5t11.status.entity.autoskript.AutoSkript;
 import de.gedoplan.v5t11.status.entity.baustein.Baustein;
 import de.gedoplan.v5t11.status.entity.baustein.Besetztmelder;
 import de.gedoplan.v5t11.status.entity.baustein.Funktionsdecoder;
@@ -31,7 +32,9 @@ import de.gedoplan.v5t11.status.persistence.LokRepository;
 import de.gedoplan.v5t11.util.domain.entity.Bereichselement;
 import de.gedoplan.v5t11.util.domain.entity.SystemTyp;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
@@ -130,6 +133,11 @@ public class Steuerung {
   private SortedSet<Weiche> weichen = new TreeSet<>();
 
   private Table<SystemTyp, Integer, Lok> loks = HashBasedTable.create();
+
+  @XmlElementWrapper(name = "AutoSkripte")
+  @XmlElement(name = "AutoSkript")
+  @Getter
+  private List<AutoSkript> autoSkripte = new ArrayList<>();
 
   /**
    * Loks liefern.
@@ -344,6 +352,9 @@ public class Steuerung {
     for (Lokcontroller lc : this.lokcontroller) {
       registerAdressen(lc);
     }
+
+    // Skript-Objekte mit zugehörigen Steuerungsobkjekten verknüpfen
+    this.autoSkripte.forEach(as -> as.linkSteuerungsObjekte(this));
   }
 
   public void assignLokcontroller(String lokcontrollerId, String lokId) {
@@ -408,6 +419,10 @@ public class Steuerung {
 
     for (Lokcontroller ld : this.lokcontroller) {
       buf.append("\n ").append(ld);
+    }
+
+    for (AutoSkript as : this.autoSkripte) {
+      buf.append("\n ").append(as);
     }
 
     return buf.toString();

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <sx>
-<!--   <DummyZentrale/> -->
+  <!-- <DummyZentrale/> -->
   <FCC />
 
   <Besetztmelder>
@@ -60,7 +60,7 @@
       <HauptsignalRtGe idx="14" bereich="test" name="B" />
       <HauptsignalRtGn idx="15" bereich="test" name="C" />
     </SXSD1>
-    
+
     <WDMiba3 id="FD-3" adr="83" einbauOrt="nur zum Test der Kehrschleifenschaltung">
       <Schalter idx="0" bereich="SBf" name="KS18" />
       <Schalter idx="1" bereich="SBf" name="KS17" />
@@ -72,17 +72,53 @@
     </NoFD>
   </Funktionsdecoder>
 
-<!-- 
-  <Lokdecoder>
+  <!--
+    <Lokdecoder>
     <Tr66825 id="LD-1" adr="5" lok="212 216-6" />
     <DHL100 id="LD-2" adr="6" lok="VT 98.9731" />
-  </Lokdecoder>
- -->
+    </Lokdecoder>
+  -->
 
   <Lokcontroller>
     <SxLokControl id="LokControl 1" adr="30" />
     <SxLokControl id="LokControl 2" adr="31" />
   </Lokcontroller>
+
+  <AutoSkripte>
+    <AutoSkript bereich="SBf" beschreibung="Polung Wendestrecke 17">
+      <Gleisabschnitt name="109" />
+      <Gleisabschnitt name="17a" />
+      <Gleisabschnitt name="17b" />
+      <Gleisabschnitt name="17c" />
+      <Gleisabschnitt name="17d" />
+      <Schalter name="KS17" />
+      <Groovy>
+        if (gleis17c.isBesetzt() || gleis17d.isBesetzt()) {
+          log.debug("Polung KS17: links");
+          schalterKS17.setStellung(EIN);
+        } else if (gleis109.isBesetzt() || gleis17a.isBesetzt()) {
+          log.debug("Polung KS17: rechts");
+          schalterKS17.setStellung(AUS);
+        }
+      </Groovy>
+    </AutoSkript>
+
+    <AutoSkript bereich="SBf" beschreibung="Polung Wendestrecke 18">
+      <Gleisabschnitt name="18a" />
+      <Gleisabschnitt name="18b" />
+      <Gleisabschnitt name="18c" />
+      <Schalter name="KS18" />
+      <Groovy>
+        if (gleis18c.isBesetzt()) {
+          log.debug("Polung KS18: links");
+          schalterKS18.setStellung(EIN);
+        } else if (gleis18a.isBesetzt()) {
+          log.debug("Polung KS18: rechts");
+          schalterKS18.setStellung(AUS);
+        }
+      </Groovy>
+    </AutoSkript>
+  </AutoSkripte>
 
 </sx>
 
