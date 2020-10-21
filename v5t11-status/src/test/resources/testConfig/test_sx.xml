@@ -25,6 +25,17 @@
       <Gleisabschnitt idx="6" bereich="test" name="7" />
       <Gleisabschnitt idx="7" bereich="test" name="8" />
     </BMMiba3>
+
+    <BMMiba3 id="BM-3" adr="92" einbauOrt="nur zum Test der Kehrschleifenschaltung">
+      <Gleisabschnitt idx="0" bereich="SBf" name="17a" />
+      <Gleisabschnitt idx="1" bereich="SBf" name="17b" />
+      <Gleisabschnitt idx="2" bereich="SBf" name="17c" />
+      <Gleisabschnitt idx="3" bereich="SBf" name="17d" />
+      <Gleisabschnitt idx="4" bereich="SBf" name="18a" />
+      <Gleisabschnitt idx="5" bereich="SBf" name="18b" />
+      <Gleisabschnitt idx="6" bereich="SBf" name="18c" />
+      <Gleisabschnitt idx="7" bereich="SBf" name="109" />
+    </BMMiba3>
   </Besetztmelder>
 
   <Funktionsdecoder>
@@ -50,6 +61,11 @@
       <HauptsignalRtGn idx="15" bereich="test" name="C" />
     </SXSD1>
     
+    <WDMiba3 id="FD-3" adr="83" einbauOrt="nur zum Test der Kehrschleifenschaltung">
+      <Schalter idx="0" bereich="SBf" name="KS18" />
+      <Schalter idx="1" bereich="SBf" name="KS17" />
+    </WDMiba3>
+
     <NoFD id="dummy-1">
       <Weiche idx="0" bereich="test" name="99" />
       <HauptsignalRtGe idx="1" bereich="test" name="X" />

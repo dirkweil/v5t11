@@ -10,7 +10,7 @@ import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.ObservesAsync;
+import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
 import org.apache.commons.logging.Log;
@@ -80,7 +80,7 @@ public class KehrschleifenService {
     }
   }
 
-  void gleisChanged(@ObservesAsync Gleisabschnitt gleisabschnitt) {
+  void gleisChanged(@Observes Gleisabschnitt gleisabschnitt) {
     if (this.gleisabschnitte.contains(gleisabschnitt)) {
 
       // Handling für KS17
