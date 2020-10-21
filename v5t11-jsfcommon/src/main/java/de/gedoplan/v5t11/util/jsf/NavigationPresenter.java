@@ -59,7 +59,7 @@ public class NavigationPresenter {
         DefaultMenuItem.builder()
             .value("home")
             .icon("fa fa-home")
-            .command("/index.xhtml")
+            .url("/index.xhtml")
             .ajax(false)
             .build());
 
