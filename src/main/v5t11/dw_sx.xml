@@ -375,6 +375,5 @@
   <Lokcontroller>
     <SxLokControl id="LokControl 1" adr="30" />
     <SxLokControl id="LokControl 2" adr="31" />
-    <SxLokControl id="LokControl 2a" adr="1031" />
   </Lokcontroller>
 </sx>
