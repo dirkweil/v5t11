@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
@@ -79,6 +78,12 @@
       <groupId>de.gedoplan</groupId>
       <artifactId>v5t11-util</artifactId>
       <version>2.0.0-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.codehaus.groovy</groupId>
+      <artifactId>groovy-jsr223</artifactId>
+      <version>3.0.6</version>
     </dependency>
 
     <dependency>
@@ -314,51 +319,32 @@
                 </goals>
                 <configuration>
                   <target>
-                    <taskdef
-                      resource="net/sf/antcontrib/antcontrib.properties"
-                      classpathref="maven.plugin.classpath" />
+                    <taskdef resource="net/sf/antcontrib/antcontrib.properties" classpathref="maven.plugin.classpath" />
                     <if>
                       <not>
-                        <available
-                          file="${installDir}/wildfly-${version.wildfly}/standalone-v5t11-status"
-                          type="dir" />
+                        <available file="${installDir}/wildfly-${version.wildfly}/standalone-v5t11-status" type="dir" />
                       </not>
                       <then>
-                        <echo
-                          message="Creating WildFly configuration standalone-v5t11-status" />
-                        <copy
-                          todir="${installDir}/wildfly-${version.wildfly}/standalone-v5t11-status">
-                          <fileset
-                            dir="${installDir}/wildfly-${version.wildfly}/standalone">
-                            <exclude
-                              name="configuration/standalone*.xml" />
+                        <echo message="Creating WildFly configuration standalone-v5t11-status" />
+                        <copy todir="${installDir}/wildfly-${version.wildfly}/standalone-v5t11-status">
+                          <fileset dir="${installDir}/wildfly-${version.wildfly}/standalone">
+                            <exclude name="configuration/standalone*.xml" />
                           </fileset>
                         </copy>
-                        <copy
-                          todir="${installDir}/wildfly-${version.wildfly}/standalone-v5t11-status">
-                          <fileset
-                            dir="${installDir}/wildfly-${version.wildfly}/standalone">
-                            <include
-                              name="configuration/standalone-full.xml" />
+                        <copy todir="${installDir}/wildfly-${version.wildfly}/standalone-v5t11-status">
+                          <fileset dir="${installDir}/wildfly-${version.wildfly}/standalone">
+                            <include name="configuration/standalone-full.xml" />
                           </fileset>
                         </copy>
-                        <copy
-                          todir="${installDir}/wildfly-${version.wildfly}/standalone-v5t11-status/configuration"
-                          overwrite="true">
-                          <fileset
-                            dir="${basedir}/src/main/wildfly">
+                        <copy todir="${installDir}/wildfly-${version.wildfly}/standalone-v5t11-status/configuration" overwrite="true">
+                          <fileset dir="${basedir}/src/main/wildfly">
                             <include name="*.properties" />
                           </fileset>
                         </copy>
-                        <java dir="${basedir}/src/main/wildfly"
-                          jar="${installDir}/wildfly-${version.wildfly}/bin/client/jboss-cli-client.jar"
-                          fork="true" failonerror="true">
-                          <env key="JBOSS_HOME"
-                            path="${installDir}/wildfly-${version.wildfly}" />
+                        <java dir="${basedir}/src/main/wildfly" jar="${installDir}/wildfly-${version.wildfly}/bin/client/jboss-cli-client.jar" fork="true" failonerror="true">
+                          <env key="JBOSS_HOME" path="${installDir}/wildfly-${version.wildfly}" />
                           <jvmarg value="--add-modules=java.se" />
-                          <sysproperty
-                            key="jboss.server.base.dir"
-                            path="${installDir}/wildfly-${version.wildfly}/standalone-v5t11-status" />
+                          <sysproperty key="jboss.server.base.dir" path="${installDir}/wildfly-${version.wildfly}/standalone-v5t11-status" />
                           <arg value="--file=wildfly-setup.cli" />
                         </java>
                       </then>
