@@ -385,7 +385,7 @@
       <Gleisabschnitt name="17c" />
       <Gleisabschnitt name="17d" />
       <Schalter name="KS17" />
-      <Groovy>
+      <Skript sprache="groovy">
         if (gleis17c.isBesetzt() || gleis17d.isBesetzt()) {
           log.debug("Polung KS17: links");
           schalterKS17.setStellung(EIN);
@@ -393,7 +393,7 @@
           log.debug("Polung KS17: rechts");
           schalterKS17.setStellung(AUS);
         }
-      </Groovy>
+      </Skript>
     </AutoSkript>
 
     <AutoSkript bereich="SBf" beschreibung="Polung Wendestrecke 18">
@@ -401,7 +401,7 @@
       <Gleisabschnitt name="18b" />
       <Gleisabschnitt name="18c" />
       <Schalter name="KS18" />
-      <Groovy>
+      <Skript sprache="groovy">
         if (gleis18c.isBesetzt()) {
           log.debug("Polung KS18: links");
           schalterKS18.setStellung(EIN);
@@ -409,7 +409,7 @@
           log.debug("Polung KS18: rechts");
           schalterKS18.setStellung(AUS);
         }
-      </Groovy>
+      </Skript>
     </AutoSkript>
   </AutoSkripte>
 </sx>

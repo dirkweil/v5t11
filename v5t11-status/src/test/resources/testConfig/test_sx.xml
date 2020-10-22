@@ -92,7 +92,7 @@
       <Gleisabschnitt name="17c" />
       <Gleisabschnitt name="17d" />
       <Schalter name="KS17" />
-      <Groovy>
+      <Skript sprache="groovy">
         if (gleis17c.isBesetzt() || gleis17d.isBesetzt()) {
           log.debug("Polung KS17: links");
           schalterKS17.setStellung(EIN);
@@ -100,7 +100,7 @@
           log.debug("Polung KS17: rechts");
           schalterKS17.setStellung(AUS);
         }
-      </Groovy>
+      </Skript>
     </AutoSkript>
 
     <AutoSkript bereich="SBf" beschreibung="Polung Wendestrecke 18">
@@ -108,7 +108,7 @@
       <Gleisabschnitt name="18b" />
       <Gleisabschnitt name="18c" />
       <Schalter name="KS18" />
-      <Groovy>
+      <Skript sprache="groovy">
         if (gleis18c.isBesetzt()) {
           log.debug("Polung KS18: links");
           schalterKS18.setStellung(EIN);
@@ -116,7 +116,30 @@
           log.debug("Polung KS18: rechts");
           schalterKS18.setStellung(AUS);
         }
-      </Groovy>
+      </Skript>
+    </AutoSkript>
+
+    <AutoSkript bereich="SBf" beschreibung="Weiche 2 zur Einfahrt SBf stellen">
+      <Gleisabschnitt name="108" />
+      <Gleisabschnitt name="109" />
+      <Weiche name="2" />
+      <Skript sprache="groovy">
+        if (gleis108.isBesetzt()) {
+          weiche2.setStellung(GERADE);
+        } else if (gleis109.isBesetzt()) {
+          weiche2.setStellung(ABZWEIGEND);
+        }
+      </Skript>
+    </AutoSkript>
+
+    <AutoSkript bereich="SBf" beschreibung="Weiche 34 zur Einfahrt SBf stellen">
+      <Gleisabschnitt name="402" />
+      <Weiche name="34" />
+      <Skript sprache="groovy">
+        if (gleis402.isBesetzt()) {
+          weiche34.setStellung(GERADE);
+        }
+      </Skript>
     </AutoSkript>
   </AutoSkripte>
 

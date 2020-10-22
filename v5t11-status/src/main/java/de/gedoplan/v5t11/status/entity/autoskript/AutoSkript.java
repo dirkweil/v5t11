@@ -5,6 +5,7 @@ import de.gedoplan.v5t11.util.domain.attribute.SchalterStellung;
 import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
 
+import java.rmi.UnmarshalException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -15,11 +16,13 @@ import javax.script.ScriptContext;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElements;
+import javax.xml.bind.annotation.XmlValue;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -48,13 +51,9 @@ public class AutoSkript {
   @Getter
   private Set<Object> steuerungsObjekte = new HashSet<>();
 
-  @XmlElement(name = "Groovy", required = true)
+  @XmlElement(name = "Skript", required = true)
   @Getter
-  private String skriptCode;
-
-  private static final ScriptEngineManager ENGINE_MANAGER = new ScriptEngineManager();
-
-  private ScriptEngine scriptEngine = ENGINE_MANAGER.getEngineByName("groovy");
+  private Skript skript;
 
   private static final Log LOG = LogFactory.getLog(AutoSkript.class);
 
@@ -63,37 +62,6 @@ public class AutoSkript {
     return "AutoSkript{bereich=" + this.bereich + ", beschreibung=" + this.beschreibung + "}";
   }
 
-  /*
-   * Nachbearbeitung nach JAXB-Unmarshal.
-   */
-  // protected void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
-  // StringBuilder builder = new StringBuilder();
-  // for (SchalterStellung stellung : SchalterStellung.values()) {
-  // builder.append("import static ");
-  // builder.append(SchalterStellung.class.getName());
-  // builder.append(".");
-  // builder.append(stellung.name());
-  // builder.append(";\n");
-  // }
-  // for (SignalStellung stellung : SignalStellung.values()) {
-  // builder.append("import static ");
-  // builder.append(SignalStellung.class.getName());
-  // builder.append(".");
-  // builder.append(stellung.name());
-  // builder.append(";\n");
-  // }
-  // for (WeichenStellung stellung : WeichenStellung.values()) {
-  // builder.append("import static ");
-  // builder.append(WeichenStellung.class.getName());
-  // builder.append(".");
-  // builder.append(stellung.name());
-  // builder.append(";\n");
-  // }
-  // builder.append(this.skriptCode);
-  //
-  // this.skriptCode = builder.toString();
-  // }
-
   public void linkSteuerungsObjekte(Steuerung steuerung) {
     boolean hasSchalter = false;
     boolean hasSignal = false;
@@ -101,26 +69,26 @@ public class AutoSkript {
     for (SkriptObjekt skriptObjekt : this.objekte) {
       skriptObjekt.linkSteuerungsObjekt(steuerung);
       this.steuerungsObjekte.add(skriptObjekt.getSteuerungsObjekt());
-      this.scriptEngine.put(skriptObjekt.getVar(), skriptObjekt.getSteuerungsObjekt());
+      this.skript.getEngine().put(skriptObjekt.getVar(), skriptObjekt.getSteuerungsObjekt());
       hasSchalter |= skriptObjekt.uses(SchalterStellung.class);
       hasSignal |= skriptObjekt.uses(SignalStellung.class);
       hasWeiche |= skriptObjekt.uses(WeichenStellung.class);
     }
 
-    this.scriptEngine.put("log", LOG);
+    this.skript.getEngine().put("log", LOG);
     if (hasSchalter) {
       for (SchalterStellung stellung : SchalterStellung.values()) {
-        this.scriptEngine.put(stellung.name(), stellung);
+        this.skript.getEngine().put(stellung.name(), stellung);
       }
     }
     if (hasSignal) {
       for (SignalStellung stellung : SignalStellung.values()) {
-        this.scriptEngine.put(stellung.name(), stellung);
+        this.skript.getEngine().put(stellung.name(), stellung);
       }
     }
     if (hasWeiche) {
       for (WeichenStellung stellung : WeichenStellung.values()) {
-        this.scriptEngine.put(stellung.name(), stellung);
+        this.skript.getEngine().put(stellung.name(), stellung);
       }
     }
   }
@@ -128,7 +96,7 @@ public class AutoSkript {
   public void execute() {
     try {
       if (LOG.isDebugEnabled()) {
-        String varNames = this.scriptEngine.getBindings(ScriptContext.ENGINE_SCOPE)
+        String varNames = this.skript.getEngine().getBindings(ScriptContext.ENGINE_SCOPE)
             .keySet()
             .stream()
             .collect(Collectors.joining(","));
@@ -136,7 +104,7 @@ public class AutoSkript {
         LOG.debug("Skript-Start: " + this.beschreibung + " (vars: " + varNames + ")");
       }
 
-      this.scriptEngine.eval(this.skriptCode);
+      this.skript.getEngine().eval(this.skript.getCode());
 
       if (LOG.isDebugEnabled()) {
         LOG.debug("Skript-Ende: " + this.beschreibung);
@@ -144,5 +112,35 @@ public class AutoSkript {
     } catch (ScriptException e) {
       LOG.error("Fehler im Skript: " + this.beschreibung, e);
     }
+  }
+
+  @XmlAccessorType(XmlAccessType.NONE)
+  public static class Skript {
+    @XmlAttribute
+    @Getter
+    private String sprache;
+
+    @XmlValue
+    @Getter
+    private String code;
+
+    private static final ScriptEngineManager ENGINE_MANAGER = new ScriptEngineManager();
+
+    @Getter
+    private ScriptEngine engine;
+
+    /*
+     * Nachbearbeitung nach JAXB-Unmarshal.
+     */
+    protected void afterUnmarshal(Unmarshaller unmarshaller, Object parent) throws UnmarshalException {
+      this.engine = ENGINE_MANAGER.getEngineByName(this.sprache);
+      if (this.engine == null) {
+        String names = ENGINE_MANAGER.getEngineFactories().stream().flatMap(sef -> sef.getNames().stream()).collect(Collectors.joining(","));
+        String message = "Unbekannte Skript-Sprache: " + this.sprache + " (Verfügbar: " + names + ")";
+        LOG.error(message);
+        throw new UnmarshalException(message);
+      }
+    }
+
   }
 }
