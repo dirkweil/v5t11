@@ -9,11 +9,12 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
+import javax.script.ScriptContext;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
-import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -65,49 +66,83 @@ public class AutoSkript {
   /*
    * Nachbearbeitung nach JAXB-Unmarshal.
    */
-  protected void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
-    StringBuilder builder = new StringBuilder();
-    for (SchalterStellung stellung : SchalterStellung.values()) {
-      builder.append("import static ");
-      builder.append(SchalterStellung.class.getName());
-      builder.append(".");
-      builder.append(stellung.name());
-      builder.append(";\n");
-    }
-    for (SignalStellung stellung : SignalStellung.values()) {
-      builder.append("import static ");
-      builder.append(SignalStellung.class.getName());
-      builder.append(".");
-      builder.append(stellung.name());
-      builder.append(";\n");
-    }
-    for (WeichenStellung stellung : WeichenStellung.values()) {
-      builder.append("import static ");
-      builder.append(WeichenStellung.class.getName());
-      builder.append(".");
-      builder.append(stellung.name());
-      builder.append(";\n");
-    }
-    builder.append(this.skriptCode);
-
-    this.skriptCode = builder.toString();
-  }
+  // protected void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
+  // StringBuilder builder = new StringBuilder();
+  // for (SchalterStellung stellung : SchalterStellung.values()) {
+  // builder.append("import static ");
+  // builder.append(SchalterStellung.class.getName());
+  // builder.append(".");
+  // builder.append(stellung.name());
+  // builder.append(";\n");
+  // }
+  // for (SignalStellung stellung : SignalStellung.values()) {
+  // builder.append("import static ");
+  // builder.append(SignalStellung.class.getName());
+  // builder.append(".");
+  // builder.append(stellung.name());
+  // builder.append(";\n");
+  // }
+  // for (WeichenStellung stellung : WeichenStellung.values()) {
+  // builder.append("import static ");
+  // builder.append(WeichenStellung.class.getName());
+  // builder.append(".");
+  // builder.append(stellung.name());
+  // builder.append(";\n");
+  // }
+  // builder.append(this.skriptCode);
+  //
+  // this.skriptCode = builder.toString();
+  // }
 
   public void linkSteuerungsObjekte(Steuerung steuerung) {
-    this.objekte.forEach(o -> {
-      o.linkSteuerungsObjekt(steuerung);
-      this.steuerungsObjekte.add(o.getSteuerungsObjekt());
-      this.scriptEngine.put(o.getVar(), o.getSteuerungsObjekt());
-    });
+    boolean hasSchalter = false;
+    boolean hasSignal = false;
+    boolean hasWeiche = false;
+    for (SkriptObjekt skriptObjekt : this.objekte) {
+      skriptObjekt.linkSteuerungsObjekt(steuerung);
+      this.steuerungsObjekte.add(skriptObjekt.getSteuerungsObjekt());
+      this.scriptEngine.put(skriptObjekt.getVar(), skriptObjekt.getSteuerungsObjekt());
+      hasSchalter |= skriptObjekt.uses(SchalterStellung.class);
+      hasSignal |= skriptObjekt.uses(SignalStellung.class);
+      hasWeiche |= skriptObjekt.uses(WeichenStellung.class);
+    }
 
     this.scriptEngine.put("log", LOG);
+    if (hasSchalter) {
+      for (SchalterStellung stellung : SchalterStellung.values()) {
+        this.scriptEngine.put(stellung.name(), stellung);
+      }
+    }
+    if (hasSignal) {
+      for (SignalStellung stellung : SignalStellung.values()) {
+        this.scriptEngine.put(stellung.name(), stellung);
+      }
+    }
+    if (hasWeiche) {
+      for (WeichenStellung stellung : WeichenStellung.values()) {
+        this.scriptEngine.put(stellung.name(), stellung);
+      }
+    }
   }
 
   public void execute() {
     try {
+      if (LOG.isDebugEnabled()) {
+        String varNames = this.scriptEngine.getBindings(ScriptContext.ENGINE_SCOPE)
+            .keySet()
+            .stream()
+            .collect(Collectors.joining(","));
+
+        LOG.debug("Skript-Start: " + this.beschreibung + " (vars: " + varNames + ")");
+      }
+
       this.scriptEngine.eval(this.skriptCode);
+
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("Skript-Ende: " + this.beschreibung);
+      }
     } catch (ScriptException e) {
-      LOG.error("Fehler im Skript \"" + this.beschreibung + "\"", e);
+      LOG.error("Fehler im Skript: " + this.beschreibung, e);
     }
   }
 }

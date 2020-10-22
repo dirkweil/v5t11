@@ -49,4 +49,6 @@ public abstract class SkriptObjekt {
       this.var = getDefaultVarPrefix() + Character.toUpperCase(this.name.charAt(0)) + this.name.substring(1);
     }
   }
+
+  protected abstract boolean uses(Class<?> enumClass);
 }

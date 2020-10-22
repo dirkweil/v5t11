@@ -20,4 +20,9 @@ public class SkriptGleisabschnitt extends SkriptObjekt {
       throw new IllegalArgumentException("Skript-Objekt nicht gefunden: Gleisabschnitt{bereich=" + this.bereich + ", name=" + this.name + "}");
     }
   }
+
+  @Override
+  protected boolean uses(Class<?> enumClass) {
+    return false;
+  }
 }
