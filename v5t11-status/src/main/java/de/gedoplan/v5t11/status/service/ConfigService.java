@@ -19,6 +19,9 @@ public class ConfigService extends ConfigBase {
   public static final String DEFAULT_IF_TYP = "rautenhaus";
   public static final String DEFAULT_PORT_NAME = "auto";
 
+  public static final String PROPERTY_STATUS_WEB_URL = "v5t11.status/web/url";
+  public static final String DEFAULT_STATUS_WEB_URL = "http://v5t11-status:8080";
+
   @Inject
   @ConfigProperty(name = PROPERTY_PORT_NAME, defaultValue = DEFAULT_PORT_NAME)
   @Getter
@@ -29,4 +32,8 @@ public class ConfigService extends ConfigBase {
   @Getter
   int portSpeed;
 
+  @Inject
+  @ConfigProperty(name = PROPERTY_STATUS_WEB_URL, defaultValue = DEFAULT_STATUS_WEB_URL)
+  @Getter
+  String statusWebUrl;
 }

@@ -24,6 +24,8 @@ public class RestApplication extends Application {
         WeicheResource.class,
         ZentraleResource.class,
 
+        MenuEndpoint.class,
+
         // Provider
         JsonMessageBodyReader.FULL.class,
         JsonMessageBodyWriter.FULL.class)
