@@ -49,12 +49,23 @@ public class NavigationItem implements Comparable<NavigationItem>, Serializable 
   }
 
   @Override
+  public int compareTo(NavigationItem other) {
+    int diff = Integer.compare(this.order, other.order);
+    if (diff == 0) {
+      diff = this.name.compareTo(other.name);
+    }
+    if (diff == 0) {
+      diff = this.category.compareTo(other.category);
+    }
+    return diff;
+  }
+
+  @Override
   public int hashCode() {
     final int prime = 31;
     int result = 1;
     result = prime * result + ((this.category == null) ? 0 : this.category.hashCode());
     result = prime * result + ((this.name == null) ? 0 : this.name.hashCode());
-    result = prime * result + this.order;
     return result;
   }
 
@@ -84,27 +95,11 @@ public class NavigationItem implements Comparable<NavigationItem>, Serializable 
     } else if (!this.name.equals(other.name)) {
       return false;
     }
-    if (this.order != other.order) {
-      return false;
-    }
     return true;
-  }
-
-  @Override
-  public int compareTo(NavigationItem other) {
-    int diff = Integer.compare(this.order, other.order);
-    if (diff == 0) {
-      diff = this.name.compareTo(other.name);
-    }
-    if (diff == 0) {
-      diff = this.category.compareTo(other.category);
-    }
-    return diff;
   }
 
   @Override
   public String toString() {
     return "NavigationItem{name=" + this.name + ", category=" + this.category + ", url=" + this.url + "}";
   }
-
 }

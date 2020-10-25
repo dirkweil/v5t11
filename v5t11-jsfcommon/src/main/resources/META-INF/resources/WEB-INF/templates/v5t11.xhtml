@@ -12,12 +12,12 @@
   <p:layout fullPage="true">
 
     <p:layoutUnit position="north" size="180">
-      <h:graphicImage name="v5t11.png" height="100%" width="100%" alt="v5t1"/>
+      <h:graphicImage name="v5t11.png" height="100%" width="100%" alt="v5t1" />
     </p:layoutUnit>
 
-    <p:layoutUnit position="west" resizable="true" size="225" minSize="200" maxSize="400">
-      <h:form>
-        <p:menu model="#{navigationPresenter.menuModel}" style="width: 98%; border: none;"  />
+    <p:layoutUnit position="west" resizable="true" size="225" minSize="200" maxSize="400" >
+      <h:form id="navigation">
+        <p:menu model="#{navigationPresenter.menuModel}" style="width: 98%; border: none;" />
       </h:form>
     </p:layoutUnit>
 
@@ -26,5 +26,10 @@
     </p:layoutUnit>
   </p:layout>
 
+  <h:form>
+    <f:websocket channel="menuRefresh">
+      <f:ajax event="menuRefresh" render=":navigation" />
+    </f:websocket>
+  </h:form>
 </h:body>
 </html>

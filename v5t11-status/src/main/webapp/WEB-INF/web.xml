@@ -20,6 +20,12 @@
     <param-value>true</param-value>
   </context-param>
 
+  <!-- Enable Websocket endpoint -->
+  <context-param>
+    <param-name>javax.faces.ENABLE_WEBSOCKET_ENDPOINT</param-name>
+    <param-value>true</param-value>
+  </context-param>
+
   <!-- Do not send XML comments to the client -->
   <context-param>
     <param-name>javax.faces.FACELETS_SKIP_COMMENTS</param-name>

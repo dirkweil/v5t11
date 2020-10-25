@@ -9,6 +9,7 @@ import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -16,6 +17,8 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.Initialized;
 import javax.enterprise.event.Observes;
 import javax.enterprise.inject.Instance;
+import javax.faces.push.Push;
+import javax.faces.push.PushContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -51,7 +54,7 @@ import lombok.ToString;
 @ApplicationScoped
 public class NavigationPresenter {
 
-  private static final long HEARTBEAT_MILLIS = 30000L;
+  private static final long HEARTBEAT_MILLIS = 10000L;
 
   @Getter
   private ConcurrentMap<NavigationItem, NavigationItemState> navigationItems = new ConcurrentSkipListMap<>();
@@ -69,11 +72,17 @@ public class NavigationPresenter {
   @Inject
   Instance<NavigationItem> myNavigationItems;
 
+  private AtomicBoolean menuChanged = new AtomicBoolean();
+
   @Inject
   EventFirer eventFirer;
 
   @Inject
   Log log;
+
+  @Inject
+  @Push
+  PushContext menuRefresh;
 
   private ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
@@ -109,8 +118,14 @@ public class NavigationPresenter {
 
       incoming.mine = false;
       incoming.broadcast = false;
+      incoming.disabled = false;
 
       action.append("Refresh Fremdeintrag");
+
+      if (existing.disabled) {
+        this.menuChanged.set(true);
+      }
+
       return incoming;
     });
 
@@ -118,6 +133,7 @@ public class NavigationPresenter {
       action.append("Neuer ");
       action.append(mine ? "Eigeneintrag" : "Fremdeintrag");
 
+      this.menuChanged.set(true);
     }
 
     if (this.log.isDebugEnabled()) {
@@ -125,6 +141,40 @@ public class NavigationPresenter {
       action.append(navigationItem);
       this.log.debug(action);
     }
+  }
+
+  public void heartBeat() {
+    long minRefreshMillis = System.currentTimeMillis() - HEARTBEAT_MILLIS * 2L;
+    this.navigationItems.forEach((navigationItem, navigationItemState) -> {
+      if (navigationItemState.mine) {
+        if (navigationItemState.broadcast) {
+          try {
+            this.eventFirer.fire(navigationItem);
+          } catch (Exception e) {
+            this.log.warn("Kann NavigationItem nicht senden" + e);
+          }
+        }
+      } else {
+        if (!navigationItemState.disabled && navigationItemState.lastHeartBeatMillis < minRefreshMillis) {
+          if (this.log.isDebugEnabled()) {
+            this.log.debug("Disable " + navigationItem);
+          }
+          navigationItemState.disabled = true;
+          this.menuChanged.set(true);
+        }
+      }
+    });
+
+    if (this.menuChanged.compareAndSet(true, false)) {
+      int sessionCount = this.menuRefresh.send("menuRefresh").size();
+      if (this.log.isDebugEnabled()) {
+        this.log.debug("Menu refreshen (" + sessionCount + " views)");
+      }
+    }
+  }
+
+  public void heartBeat(NavigationItem navigationItem) {
+    registerNavigationItem(navigationItem, false, false);
   }
 
   public DefaultMenuModel getMenuModel() {
@@ -144,30 +194,4 @@ public class NavigationPresenter {
     return menuModel;
   }
 
-  public void heartBeat() {
-    try {
-      long minRefreshMillis = System.currentTimeMillis() - HEARTBEAT_MILLIS * 2L;
-      this.navigationItems.forEach((navigationItem, navigationItemState) -> {
-        if (navigationItemState.mine) {
-          if (navigationItemState.broadcast) {
-            this.eventFirer.fire(navigationItem);
-          }
-        } else {
-          if (!navigationItemState.disabled && navigationItemState.lastHeartBeatMillis < minRefreshMillis) {
-            if (this.log.isDebugEnabled()) {
-              this.log.debug("Disable " + navigationItem);
-            }
-            navigationItemState.disabled = true;
-            // TODO Refresh
-          }
-        }
-      });
-    } catch (Exception e) {
-      this.log.warn("Heartbeat-Fehler: " + e);
-    }
-  }
-
-  public void heartBeat(NavigationItem navigationItem) {
-    registerNavigationItem(navigationItem, false, false);
-  }
 }
