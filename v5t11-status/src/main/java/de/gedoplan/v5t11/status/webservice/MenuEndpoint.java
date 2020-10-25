@@ -18,13 +18,14 @@ public class MenuEndpoint {
   @GET
   @Path("newItem")
   public void newItem() {
-    this.navigationPresenter.registerNavigationItem(new NavigationItem("Hugo", "Steuerung", "https://gedoplan.de", null, 115), true);
+    this.navigationPresenter.registerNavigationItem(new NavigationItem("Websocket", "MyFaces", "http://localhost:8280/socket.xhtml", "fa fa-arrows", 310), false, false);
+    this.navigationPresenter.registerNavigationItem(new NavigationItem("Table", "MyFaces", "http://localhost:8280/table.xhtml", "fa fa-table", 320), false, false);
   }
 
   @GET
   @Path("newSubmenu")
   public void newSubmenu() {
-    this.navigationPresenter.registerNavigationItem(new NavigationItem("Otto", "GEDOPLAN", "https://gedoplan.de", null, 115), true);
+    this.navigationPresenter.registerNavigationItem(new NavigationItem("Otto", "GEDOPLAN", "https://gedoplan.de", null, 115), true, false);
   }
 
   @GET

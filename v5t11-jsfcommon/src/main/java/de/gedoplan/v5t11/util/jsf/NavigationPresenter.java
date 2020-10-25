@@ -1,12 +1,20 @@
 package de.gedoplan.v5t11.util.jsf;
 
+import de.gedoplan.v5t11.util.cdi.EventFirer;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ConcurrentSkipListMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.Initialized;
+import javax.enterprise.event.Observes;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -19,9 +27,31 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+/**
+ * Presenter für das globale Navigationsmenü.
+ * 
+ * Die Anwendung muss ihre Menü-Einträge mit Hilfe von Producern für den Typ {@Link NavigationItem} bereitstellen. Sie werden
+ * initial genutzt, um das Menü mit Eigeneinträgen zu bestücken.
+ * 
+ * Die Eigeneinträge werden regelmäßig als Heartbeat an die anderen Anwendungen versendet. Dazu muss die Anwendung einen
+ * CDI-Observer besitzen, der Events des Typs {@Link NavigationItem} per Messaging versendet. Alle V5t11-Services verhalten
+ * sich so.
+ * 
+ * Somit gehen die versendeten Eigeneinträge einer Anwendung als Messages bei den anderen Anwendungen ein. Die Anwendungen
+ * müssen diese eingehenden {@Link NavigationItem NavigationItems} an {@link #heartBeat(NavigationItem)} propagieren. Sie
+ * werden dann als Fremdeinträge im Menü eingebaut.
+ * 
+ * Während der Heartbeat-Verarbeitung wird überprüft, ob alle Fremdeinträge innerhalb der letzten Zeit aufgefrischt wurden,
+ * ob die aussendende Anwendung also noch "lebt". Falls nicht, werden die Einträge deaktiviert.
+ * 
+ * @author dw
+ *
+ */
 @Named
 @ApplicationScoped
 public class NavigationPresenter {
+
+  private static final long HEARTBEAT_MILLIS = 30000L;
 
   @Getter
   private ConcurrentMap<NavigationItem, NavigationItemState> navigationItems = new ConcurrentSkipListMap<>();
@@ -31,6 +61,7 @@ public class NavigationPresenter {
   @ToString
   public static class NavigationItemState {
     boolean mine;
+    public boolean broadcast;
     long lastHeartBeatMillis;
     boolean disabled;
   }
@@ -39,21 +70,61 @@ public class NavigationPresenter {
   Instance<NavigationItem> myNavigationItems;
 
   @Inject
+  EventFirer eventFirer;
+
+  @Inject
   Log log;
+
+  private ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+
+  void startup(@Observes @Initialized(ApplicationScoped.class) Object event) {
+  }
 
   @PostConstruct
   void postConstruct() {
-    this.myNavigationItems.forEach(ni -> registerNavigationItem(ni, true));
-    registerNavigationItem(new NavigationItem("home", "Allgemein", "/index.xhtml", "fa fa-home", 910), true);
-    // registerNavigationItem(new NavigationItem("refresh", "Allgemein", null, "fa fa-refresh", 920), true);
+    this.myNavigationItems.forEach(ni -> registerNavigationItem(ni, true, true));
+    registerNavigationItem(new NavigationItem("home", "Allgemein", "/index.xhtml", "fa fa-home", 910), true, false);
+
+    this.scheduler.scheduleAtFixedRate(this::heartBeat, HEARTBEAT_MILLIS / 3, HEARTBEAT_MILLIS, TimeUnit.MILLISECONDS);
   }
 
-  public void registerNavigationItem(NavigationItem navigationItem, boolean mine) {
-    NavigationItemState navigationItemState = new NavigationItemState();
-    navigationItemState.mine = true;
-    this.navigationItems.put(navigationItem, navigationItemState);
+  @PreDestroy
+  void preDestroy() {
+    this.scheduler.shutdown();
+  }
 
-    this.log.debug(navigationItem + ": " + navigationItemState);
+  public void registerNavigationItem(NavigationItem navigationItem, boolean mine, boolean broadcast) {
+    NavigationItemState navigationItemState = new NavigationItemState();
+    navigationItemState.mine = mine;
+    navigationItemState.broadcast = broadcast;
+    navigationItemState.lastHeartBeatMillis = System.currentTimeMillis();
+
+    StringBuilder action = new StringBuilder();
+
+    this.navigationItems.merge(navigationItem, navigationItemState, (existing, incoming) -> {
+      if (existing.mine) {
+        action.append("Fixierter Eigeneintrag");
+        return existing;
+      }
+
+      incoming.mine = false;
+      incoming.broadcast = false;
+
+      action.append("Refresh Fremdeintrag");
+      return incoming;
+    });
+
+    if (action.length() == 0) {
+      action.append("Neuer ");
+      action.append(mine ? "Eigeneintrag" : "Fremdeintrag");
+
+    }
+
+    if (this.log.isDebugEnabled()) {
+      action.append(": ");
+      action.append(navigationItem);
+      this.log.debug(action);
+    }
   }
 
   public DefaultMenuModel getMenuModel() {
@@ -71,5 +142,32 @@ public class NavigationPresenter {
       submenu.getElements().add(navigationItem.toMenuItem(navigationItemState.disabled));
     });
     return menuModel;
+  }
+
+  public void heartBeat() {
+    try {
+      long minRefreshMillis = System.currentTimeMillis() - HEARTBEAT_MILLIS * 2L;
+      this.navigationItems.forEach((navigationItem, navigationItemState) -> {
+        if (navigationItemState.mine) {
+          if (navigationItemState.broadcast) {
+            this.eventFirer.fire(navigationItem);
+          }
+        } else {
+          if (!navigationItemState.disabled && navigationItemState.lastHeartBeatMillis < minRefreshMillis) {
+            if (this.log.isDebugEnabled()) {
+              this.log.debug("Disable " + navigationItem);
+            }
+            navigationItemState.disabled = true;
+            // TODO Refresh
+          }
+        }
+      });
+    } catch (Exception e) {
+      this.log.warn("Heartbeat-Fehler: " + e);
+    }
+  }
+
+  public void heartBeat(NavigationItem navigationItem) {
+    registerNavigationItem(navigationItem, false, false);
   }
 }

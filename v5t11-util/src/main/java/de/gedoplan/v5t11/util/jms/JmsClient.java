@@ -48,7 +48,7 @@ public class JmsClient {
     }
 
     try {
-      return this.jmsContext.createConsumer(this.topic, selector);
+      return this.jmsContext.createConsumer(this.topic, selector, true);
     } catch (JMSRuntimeException e) {
       reset();
       throw e;

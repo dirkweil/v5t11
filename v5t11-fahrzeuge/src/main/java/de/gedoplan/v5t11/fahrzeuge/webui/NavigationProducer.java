@@ -22,12 +22,7 @@ public class NavigationProducer {
   }
 
   @Produces
-  NavigationItem getWebsocketNavigationItem() {
-    return new NavigationItem("Websocket", "MyFaces", this.urlPrefix + "socket.xhtml", "fa fa-arrows", 310);
-  }
-
-  @Produces
-  NavigationItem getTableNavigationItem() {
-    return new NavigationItem("Table", "MyFaces", this.urlPrefix + "table.xhtml", "fa fa-table", 310);
+  NavigationItem getFahrzeugManagementNavigationItem() {
+    return new NavigationItem("Fahrzeug-Management", "Fahrzeuge", this.urlPrefix + "view/fahrzeugManagement.xhtml", "fa fa-subway", 210);
   }
 }

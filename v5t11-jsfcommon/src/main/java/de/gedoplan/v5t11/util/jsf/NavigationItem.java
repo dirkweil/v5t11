@@ -1,5 +1,7 @@
 package de.gedoplan.v5t11.util.jsf;
 
+import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
+
 import java.io.Serializable;
 
 import org.primefaces.model.menu.DefaultMenuItem;
@@ -7,15 +9,22 @@ import org.primefaces.model.menu.DefaultMenuItem.Builder;
 import org.primefaces.model.menu.MenuItem;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class NavigationItem implements Comparable<NavigationItem>, Serializable {
 
+  @JsonbInclude
   private String name;
+  @JsonbInclude
   private String category;
+  @JsonbInclude
   private String url;
+  @JsonbInclude
   private String icon;
 
+  @JsonbInclude
   int order;
 
   public NavigationItem(String name, String category, String url, String icon, int order) {

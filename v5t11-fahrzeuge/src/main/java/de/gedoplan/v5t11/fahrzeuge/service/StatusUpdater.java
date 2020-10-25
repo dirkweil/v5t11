@@ -8,6 +8,8 @@ import de.gedoplan.v5t11.fahrzeuge.entity.fahrweg.Weiche;
 import de.gedoplan.v5t11.fahrzeuge.gateway.StatusGateway;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.jms.MessageCategory;
+import de.gedoplan.v5t11.util.jsf.NavigationItem;
+import de.gedoplan.v5t11.util.jsf.NavigationPresenter;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 import de.gedoplan.v5t11.util.service.AbstractStatusUpdater;
 
@@ -33,10 +35,14 @@ public class StatusUpdater extends AbstractStatusUpdater {
   @Inject
   EventFirer eventFirer;
 
+  @Inject
+  NavigationPresenter navigationPresenter;
+
   @Override
   protected Map<MessageCategory, Consumer<String>> getMessageHandler() {
     Map<MessageCategory, Consumer<String>> messageHandler = new EnumMap<MessageCategory, Consumer<String>>(MessageCategory.class);
     messageHandler.put(MessageCategory.GLEIS, this::updateGleisabschnitt);
+    messageHandler.put(MessageCategory.NAVIGATIONITEM, this::updateNavigationItem);
     messageHandler.put(MessageCategory.WEICHE, this::updateWeiche);
     messageHandler.put(MessageCategory.ZENTRALE, this::updateZentrale);
     return messageHandler;
@@ -68,6 +74,11 @@ public class StatusUpdater extends AbstractStatusUpdater {
     if (gleisabschnitt != null) {
       updateStatus(gleisabschnitt, statusGleisabschnitt);
     }
+  }
+
+  private void updateNavigationItem(String messageText) {
+    NavigationItem navigationItem = JsonbWithIncludeVisibility.SHORT.fromJson(messageText, NavigationItem.class);
+    this.navigationPresenter.heartBeat(navigationItem);
   }
 
   private void updateWeiche(String messageText) {
