@@ -181,7 +181,7 @@
       <Gleisabschnitt lage="O,W" name="14a" anzahl="3" />
       <Weiche lage="NO,SW|W" name="15" />
       <Leer anzahl="6" />
-      <Gleisabschnitt lage="SW,N" name="109" />
+      <Gleisabschnitt lage="SW,N" name="17a" />
       <Gleisabschnitt lage="S,N" name="108" />
     </Zeile>
     <Zeile>
@@ -196,7 +196,7 @@
       <Gleisabschnitt lage="O,W" name="15a" anzahl="3" />
       <Weiche lage="NO,SW|W" name="17" />
       <Leer anzahl="6" />
-      <Gleisabschnitt lage="SW,NO" name="109" />
+      <Gleisabschnitt lage="SW,NO" name="17a" />
       <Leer />
       <Gleisabschnitt lage="S,N" name="108" />
     </Zeile>
@@ -212,22 +212,18 @@
       <Gleisabschnitt lage="O,W" name="16a" anzahl="3" />
       <Gleisabschnitt lage="NO,W" name="16a" />
       <Leer anzahl="6" />
-      <Gleisabschnitt lage="SW,NO" name="109" />
+      <Gleisabschnitt lage="SW,NO" name="17a" />
       <Leer anzahl="2" />
       <Gleisabschnitt lage="S,N" name="108" />
     </Zeile>
     <Zeile>
       <Gleisabschnitt lage="N,S" name="202" />
       <Weiche lage="NO|O,SW" name="32" />
-      <Gleisabschnitt lage="O,W" name="17d" anzahl="2" />
       <Gleisabschnitt lage="O,W" name="17d" label="true" />
-      <Gleisabschnitt lage="O,W" name="17d" anzahl="2" />
-      <Gleisabschnitt lage="O,W" name="17c" anzahl="3" />
       <Gleisabschnitt lage="O,W" name="17c" label="true" />
-      <Gleisabschnitt lage="O,W" name="17c" anzahl="3" />
-      <Gleisabschnitt lage="O,W" name="17b" anzahl="2" />
+      <Gleisabschnitt lage="O,W" name="17b" anzahl="7" />
       <Gleisabschnitt lage="O,W" name="17b" label="true" />
-      <Gleisabschnitt lage="O,W" name="17b" anzahl="2" />
+      <Gleisabschnitt lage="O,W" name="17b" anzahl="7" />
       <Gleisabschnitt lage="O,W" name="17a" anzahl="2" />
       <Gleisabschnitt lage="O,W" name="17a" label="true" />
       <Gleisabschnitt lage="O,W" name="17a" anzahl="1" />
@@ -238,20 +234,19 @@
     <Zeile>
       <Weiche lage="N|NO,S" name="33" />
       <Leer anzahl="4" />
-      <Gleisabschnitt lage="SW,O" name="18c" />
-      <Gleisabschnitt lage="W,O" name="18b" anzahl="5" />
+      <Gleisabschnitt lage="SW,O" name="18b" />
+      <Gleisabschnitt lage="W,O" name="18b" anzahl="8" />
       <Gleisabschnitt lage="W,O" name="18b" label="true" />
-      <Gleisabschnitt lage="W,O" name="18b" anzahl="4" />
-      <Gleisabschnitt lage="W,O" name="18a" anzahl="5" />
+      <Gleisabschnitt lage="W,O" name="18b" anzahl="9" />
+      <Gleisabschnitt lage="W,O" name="18a" anzahl="1" />
       <Gleisabschnitt lage="W,O" name="18a" label="true" />
-      <Gleisabschnitt lage="W,O" name="18a" anzahl="4" />
       <Gleisabschnitt lage="W,SO" name="18a" />
       <Gleisabschnitt lage="S,N" name="108" />
     </Zeile>
     <Zeile>
       <Weiche lage="N,S|SO" name="34" />
       <Leer anzahl="3" />
-      <Gleisabschnitt lage="SW,NO" name="18c" />
+      <Gleisabschnitt lage="SW,NO" name="18b" />
       <Leer anzahl="22" />
       <Weiche lage="S,N|NW" name="1" />
     </Zeile>
