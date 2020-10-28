@@ -4,7 +4,19 @@
 <ui:composition template="/WEB-INF/templates/v5t11.xhtml">
   <ui:param name="title" value="Fahrzeugmanagement" />
   <ui:define name="content">
-    TODO: Fahrzeugmanagement
+    <p:dataGrid var="fahrzeug" value="#{fahrzeugPresenter.fahrzeuge}" columns="4">
+      <p:column>
+        <p:panel>
+          <f:facet name="header">
+            <h:outputText value="#{fahrzeug.id}" />
+            <!-- TODO Plazierung klein und rechtsbündig -->
+            <h:outputText value=" (#{fahrzeug.systemTyp} #{fahrzeug.adresse})" />
+          </f:facet>
+          <h:panelGrid columns="1">
+          </h:panelGrid>
+        </p:panel>
+      </p:column>
+    </p:dataGrid>
   </ui:define>
 </ui:composition>
 </html>

@@ -1,8 +1,0 @@
-<jboss-deployment-structure>
-  <deployment>
-    <dependencies>
-      <!-- Modul fuer Serienschnittstelle referenzieren; s. additional/wildfly -->
-      <module name="com.neuronrobotics.nrjavaserial" />
-    </dependencies>
-  </deployment>
-</jboss-deployment-structure>
