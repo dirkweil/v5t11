@@ -73,11 +73,11 @@
         <version>28.0-jre</version>
       </dependency>
 
-      <dependency>
-        <groupId>com.neuronrobotics</groupId>
-        <artifactId>nrjavaserial</artifactId>
-        <version>5.2.1</version>
-      </dependency>
+<!--       <dependency> -->
+<!--         <groupId>com.neuronrobotics</groupId> -->
+<!--         <artifactId>nrjavaserial</artifactId> -->
+<!--         <version>5.2.1</version> -->
+<!--       </dependency> -->
 
       <dependency>
         <groupId>commons-logging</groupId>
