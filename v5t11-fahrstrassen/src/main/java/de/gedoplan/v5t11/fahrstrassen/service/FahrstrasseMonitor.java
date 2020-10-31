@@ -100,48 +100,32 @@ public class FahrstrasseMonitor {
      * und vor dem nur durchfahrene Gleisabschnitte liegen.
      */
     int elementAnzahl = fahrstrasse.getElemente().size();
-    int i = fahrstrasse.getTeilFreigabeAnzahl();
+    int idxLetzter = fahrstrasse.getTeilFreigabeAnzahl();
+    int idxGrenze = fahrstrasse.getTeilFreigabeAnzahl();
     Gleisabschnitt grenze = null;
-    while (i < elementAnzahl) {
-      Fahrstrassenelement fe = fahrstrasse.getElemente().get(i);
+    while (idxGrenze < elementAnzahl) {
+      Fahrstrassenelement fe = fahrstrasse.getElemente().get(idxGrenze);
       if (fe instanceof FahrstrassenGleisabschnitt) {
         Gleisabschnitt g = ((FahrstrassenGleisabschnitt) fe).getFahrwegelement();
         GleisabschnittStatus gs = this.statusMap.get(g);
 
-        if (!gs.isDurchfahren()) {
+        if (gs.isDurchfahren()) {
+          idxLetzter = idxGrenze;
+        } else {
           grenze = g;
           break;
         }
       }
 
-      ++i;
+      ++idxGrenze;
     }
 
     /*
-     * Sind ab dort nur besetzte normale (Nicht-Weichen-) Gleisabschnitte (und keine Nicht-Schutz-Weichen oder -Signale),
-     * kann die Fahrstrasse komplett freigegeben werden
+     * Komplettfreigabe ist möglich,
+     * - wenn ab dem ersten nicht durchfahrerenen Abschnitt alles besetzt ist
+     * - oder wenn nur noch Gleisabschnitte folgen.
      */
-    boolean totalFreigabe = true;
-    while (i < elementAnzahl) {
-      Fahrstrassenelement fe = fahrstrasse.getElemente().get(i);
-      if (fe instanceof FahrstrassenGleisabschnitt) {
-        // fe ist Gleisabschnitt; wenn der ein Weichen-Gleisabschnitt ist oder nicht besetzt ist,
-        // kann nicht komplett freigebeben werden
-        Gleisabschnitt g = ((FahrstrassenGleisabschnitt) fe).getFahrwegelement();
-        if (g.isWeichenGleisabschnitt() || !g.isBesetzt()) {
-          totalFreigabe = false;
-          break;
-        }
-      } else {
-        // fe ist ein Signal oder eine Weiche; wenn dies nicht nur ein Schutz-Element ist, kann nicht komplett freigebeben werden
-        if (!fe.isSchutz()) {
-          totalFreigabe = false;
-          break;
-        }
-      }
-
-      ++i;
-    }
+    boolean totalFreigabe = fahrstrasse.isKomplettBesetzt(idxGrenze) || fahrstrasse.isNurGleisabschnitte(idxLetzter + 1);
 
     if (this.log.isDebugEnabled()) {
       this.log.debug("checkFreigabe: grenze=" + grenze + ", totalFreigabe=" + totalFreigabe);

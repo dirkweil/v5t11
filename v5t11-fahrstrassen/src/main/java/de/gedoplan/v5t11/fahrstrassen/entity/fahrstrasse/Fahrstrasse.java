@@ -565,4 +565,38 @@ public class Fahrstrasse extends Bereichselement {
   public void injectFields() {
     InjectionUtil.injectFields(this);
   }
+
+  public boolean isKomplettBesetzt(int startIndex) {
+    for (int i = startIndex; i < this.elemente.size(); ++i) {
+      Fahrstrassenelement fe = this.elemente.get(i);
+      if (fe instanceof FahrstrassenGleisabschnitt) {
+        Gleisabschnitt g = ((FahrstrassenGleisabschnitt) fe).getFahrwegelement();
+        // TODO Muss auf WeichenGleisabschnitt abgefragt werden?
+        // if (g.isWeichenGleisabschnitt() || !g.isBesetzt()) {
+        if (!g.isBesetzt()) {
+          return false;
+        }
+      }
+      // TODO Sind Nicht-Gleisabschnitte überhaupt relevant?
+      // else {
+      // if (!fe.isSchutz()) {
+      // return false;
+      // }
+      // }
+
+    }
+
+    return true;
+  }
+
+  public boolean isNurGleisabschnitte(int startIndex) {
+    for (int i = startIndex; i < this.elemente.size(); ++i) {
+      Fahrstrassenelement fe = this.elemente.get(i);
+      if (!(fe instanceof FahrstrassenGleisabschnitt) && !fe.isSchutz()) {
+        return false;
+      }
+    }
+
+    return true;
+  }
 }
