@@ -1,0 +1,47 @@
+.width10Percent {
+	width: 10%;
+}
+
+.width20Percent {
+	width: 20%;
+}
+
+.width30Percent {
+	width: 30%;
+}
+
+.width40Percent {
+	width: 40%;
+}
+
+.width50Percent {
+	width: 50%;
+}
+
+.width60Percent {
+	width: 60%;
+}
+
+.width70Percent {
+	width: 70%;
+}
+
+.width80Percent {
+	width: 80%;
+}
+
+.width90Percent {
+	width: 90%;
+}
+
+.width100Percent {
+	width: 100%;
+}
+
+.leftAligned {
+	text-align: left;
+}
+
+.rightAligned {
+	text-align: right;
+}

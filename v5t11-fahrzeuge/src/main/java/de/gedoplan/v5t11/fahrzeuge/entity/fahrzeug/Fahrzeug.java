@@ -6,6 +6,7 @@ import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.domain.entity.SystemTyp;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
+import java.io.Serializable;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -21,6 +22,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.AssertTrue;
@@ -31,6 +33,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 @Entity
@@ -46,10 +49,15 @@ public class Fahrzeug extends SingleIdEntity<String> implements Comparable<Fahrz
   EventFirer eventFirer;
 
   /**
-   * Id der Fahrzeug (DB-Nr. ö. ä.).
+   * Id des Fahrzeugs (DB-Nr. ö. ä.).
    */
   @Id
   private String id;
+
+  @Lob
+  @Getter
+  @Setter
+  private Serializable image;
 
   @Getter
   private String decoder;

@@ -1,22 +1,48 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
   xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:p="http://primefaces.org/ui">
 
-<ui:composition template="/WEB-INF/templates/v5t11.xhtml">
-  <ui:param name="title" value="Fahrzeugmanagement" />
+<ui:composition template="/WEB-INF/templates/fahrzeugManagement.xhtml">
   <ui:define name="content">
-    <p:dataGrid var="fahrzeug" value="#{fahrzeugPresenter.fahrzeuge}" columns="4">
-      <p:column>
-        <p:panel>
-          <f:facet name="header">
-            <h:outputText value="#{fahrzeug.id}" />
-            <!-- TODO Plazierung klein und rechtsbündig -->
-            <h:outputText value=" (#{fahrzeug.systemTyp} #{fahrzeug.adresse})" />
-          </f:facet>
-          <h:panelGrid columns="1">
-          </h:panelGrid>
-        </p:panel>
-      </p:column>
-    </p:dataGrid>
+    <h:outputStylesheet name="v5t11.css" />
+    
+    <h:form id="form">
+
+      <p:dataGrid var="fahrzeug" value="#{fahrzeugPresenter.fahrzeuge}" layout="grid" columns="4">
+        <p:column>
+          <p:panelGrid styleClass="width100Percent" >
+            <f:facet name="header">
+              <p:row>
+                <p:column colspan="2">
+                  <h:outputText value="#{fahrzeug.id}" />
+                </p:column>
+              </p:row>
+            </f:facet>
+
+            <p:row>
+              <p:column rowspan="2" styleClass="width70Percent">
+                <p:graphicImage name="#{fahrzeugPresenter.getImage(fahrzeug)}" height="50px" />
+              </p:column>
+
+              <p:column styleClass="width30Percent rightAligned">
+                <h:panelGroup>
+                  <p:selectBooleanButton onLabel="1" offLabel="1" />
+                  <p:selectBooleanButton onLabel="2" offLabel="2" />
+                </h:panelGroup>
+              </p:column>
+            </p:row>
+
+            <p:row>
+              <p:column styleClass="width30Percent rightAligned">
+                <h:panelGroup>
+                  <p:commandButton action="#{fahrzeugPresenter.edit(fahrzeug)}" icon="fa fa-edit" title="Bearbeiten" ajax="false" />
+                  <p:commandButton action="#{fahrzeugPresenter.program(fahrzeug)}" icon="fa fa-cog" title="Programmieren" ajax="false" />
+                </h:panelGroup>
+              </p:column>
+            </p:row>
+          </p:panelGrid>
+        </p:column>
+      </p:dataGrid>
+    </h:form>
   </ui:define>
 </ui:composition>
 </html>

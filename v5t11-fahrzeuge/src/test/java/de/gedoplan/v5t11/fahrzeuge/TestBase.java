@@ -80,6 +80,7 @@ public class TestBase {
       new Fahrzeug.FahrzeugFunktion(30, Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, "Beidseitig", false, false, 0b0000_1100_0000_0000, 0b0000_0000_0000_0000),
       new Fahrzeug.FahrzeugFunktion(32, Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, "Nur Seite 1", false, false, 0b0000_1100_0000_0000, 0b0000_0100_0000_0000),
       new Fahrzeug.FahrzeugFunktion(31, Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, "Nur Seite 2", false, false, 0b0000_1100_0000_0000, 0b0000_1000_0000_0000));
+  public static final Fahrzeug lok151_032_0 = new Fahrzeug("151 032-0", "DHL100", SystemTyp.SX1, false, 20, 31);
   public static final Fahrzeug lok151_073_4 = new Fahrzeug("151 073-4", "DH10", SystemTyp.SX2, false, 1151, 127);
   public static final Fahrzeug lok194_183_0 = new Fahrzeug("194 183-0", "Zimo", SystemTyp.DCC, false, 1194, 126,
       new Fahrzeug.FahrzeugFunktion(1, Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, "Motor", false, false),
@@ -225,7 +226,6 @@ public class TestBase {
   // public static final Fahrzeug lokX_111_205_1 = new Fahrzeug("X 111 205-1", "DHL100", SystemTyp.SX1, false, 15, 31);
   // public static final Fahrzeug lokX_120_002_1 = new Fahrzeug("X 120 002-1", "Tr66830", SystemTyp.SX1, false, 18, 31);
   // public static final Fahrzeug lokX_14283 = new Fahrzeug("X 14283", "DHL050", SystemTyp.SX1, false, 3, 31);
-  // public static final Fahrzeug lokX_151_032_0 = new Fahrzeug("X 151 032-0", "DHL100", SystemTyp.SX1, false, 20, 31);
   // public static final Fahrzeug lokX_212_216_6 = new Fahrzeug("X 212 216-6", "Tr66825", SystemTyp.SX1, false, 5, 31);
   // public static final Fahrzeug lokX_221_137_3 = new Fahrzeug("X 221 137-3", "Tr66835", SystemTyp.SX1, false, 19, 31);
   // public static final Fahrzeug lokX_323_673_4 = new Fahrzeug("X 323 673-4", "DHL050", SystemTyp.SX1, false, 4, 31);
@@ -237,6 +237,7 @@ public class TestBase {
       lok103_003_0,
       lok110_389_4,
       lok112_491_6,
+      lok151_032_0,
       lok151_073_4,
       lok194_183_0,
       lok210_004_8,
