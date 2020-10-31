@@ -9,6 +9,7 @@ import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenFilter;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
 import de.gedoplan.v5t11.util.domain.entity.Bereichselement;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -41,6 +42,10 @@ public class Parcours {
   @XmlElement(name = "Fahrstrasse", type = Fahrstrasse.class)
   @Getter
   private SortedSet<Fahrstrasse> fahrstrassen = new TreeSet<>();
+
+  @XmlElement(name = "AutoFahrstrasse")
+  @Getter
+  private List<AutoFahrstrasse> autoFahrstrassen = new ArrayList<>();
 
   @Getter
   private SortedSet<String> bereiche = new TreeSet<>();
@@ -226,18 +231,18 @@ public class Parcours {
       zuPruefendeFahrstrassen = weitereFahrstrassen;
     }
 
+    // Fahrstrassen entfernen, wenn sie mit einem nicht als Start oder Ende erlaubten Weichengleisabschnitt starten bzw. enden
+    Set<Fahrstrasse> ungueltigeFahrstrassen = this.fahrstrassen.stream()
+        .filter(fs -> !fs.getStart().isStartErlaubt() || !fs.getEnde().isEndeErlaubt())
+        .collect(Collectors.toSet());
+    this.fahrstrassen.removeAll(ungueltigeFahrstrassen);
+    mapStartToFahrstrassenRemove(ungueltigeFahrstrassen);
+
     // Doppeleinträge in Fahrstrassen eliminieren und Signale auf Langsamfahrt korrigieren, wenn nötig.
     this.fahrstrassen.forEach(f -> {
       f.removeDoppeleintraege();
       f.adjustLangsamfahrt();
     });
-
-    // Fahrstrassen entfernen, wenn sie mit einem Weichengleisabschnitt starten oder enden
-    Set<Fahrstrasse> ungueltigeFahrstrassen = this.fahrstrassen.stream()
-        .filter(fs -> fs.getStart().isWeichenGleisabschnitt() || fs.getEnde().isWeichenGleisabschnitt())
-        .collect(Collectors.toSet());
-    this.fahrstrassen.removeAll(ungueltigeFahrstrassen);
-    mapStartToFahrstrassenRemove(ungueltigeFahrstrassen);
   }
 
   /**
@@ -248,7 +253,7 @@ public class Parcours {
    * @param ende
    *          Ende-Gleisabschnitt
    * @param filter
-   *          <code>true</code>, wenn nur freie Fahrstrassen geliefert werden sollen
+   *          Filter (nur freie/reservierte/unkombinierte) oder <code>null</code> für alle
    * @return gefundene Fahrstrassen in aufsteigender Rang-Reihenfolge
    */
   public List<Fahrstrasse> getFahrstrassen(Gleisabschnitt beginn, Gleisabschnitt ende, FahrstrassenFilter filter) {

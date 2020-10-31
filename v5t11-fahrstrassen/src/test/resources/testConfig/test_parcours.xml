@@ -76,5 +76,9 @@
     <Gleisabschnitt name="12" />
   </Fahrstrasse>
 
+  <AutoFahrstrasse bereich="show" trigger="S">
+    <Fahrstrasse start="S" ende="11" />
+    <Fahrstrasse start="S" ende="12" />
+  </AutoFahrstrasse>
 </Parcours>
 

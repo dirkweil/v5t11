@@ -12,15 +12,15 @@
   </Fahrstrasse>
 
   <!-- Fahrstrassen im Bereich S20 -->
-  <Fahrstrasse bereich="S20" zaehlrichtung="true" >
+  <Fahrstrasse bereich="S20" zaehlrichtung="true">
     <Gleisabschnitt name="W2001" />
-    <Weiche name="2001" stellung="GERADE"/>
+    <Weiche name="2001" stellung="GERADE" />
     <Gleisabschnitt name="2003" />
   </Fahrstrasse>
 
-  <Fahrstrasse bereich="S20" zaehlrichtung="true" >
+  <Fahrstrasse bereich="S20" zaehlrichtung="true">
     <Gleisabschnitt name="W2001" />
-    <Weiche name="2001" stellung="ABZWEIGEND"/>
+    <Weiche name="2001" stellung="ABZWEIGEND" />
     <Gleisabschnitt name="2002" />
   </Fahrstrasse>
 
@@ -38,40 +38,40 @@
   <Fahrstrasse bereich="S10" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="1001" />
     <Weiche name="1003" stellung="GERADE" />
-    <Gleisabschnitt name="W1003"/>
+    <Gleisabschnitt name="W1003" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="S10" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="1002" />
     <Weiche name="1003" stellung="ABZWEIGEND" />
-    <Gleisabschnitt name="W1003"/>
+    <Gleisabschnitt name="W1003" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="S10" zaehlrichtung="true" umkehrbar="true">
-    <Gleisabschnitt name="W1003"/>
+    <Gleisabschnitt name="W1003" />
     <Gleisabschnitt name="1004" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="S10" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="1004" />
     <Weiche name="1005" stellung="ABZWEIGEND" />
-    <Gleisabschnitt name="W1005"/>
+    <Gleisabschnitt name="W1005" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="S10" zaehlrichtung="true" umkehrbar="true">
-    <Gleisabschnitt name="W1005"/>
+    <Gleisabschnitt name="W1005" />
     <Gleisabschnitt name="1006" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="S10" zaehlrichtung="true" umkehrbar="true">
-    <Gleisabschnitt name="1006"/>
-    <Gleisabschnitt name="308" bereich="SBf"/>
+    <Gleisabschnitt name="1006" />
+    <Gleisabschnitt name="308" bereich="SBf" />
   </Fahrstrasse>
 
   <!-- Fahrstrassen im Bereich SBf -->
   <Fahrstrasse bereich="SBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="308" />
-    <Gleisabschnitt name="W1"/>
+    <Gleisabschnitt name="W1" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="SBf" zaehlrichtung="true" umkehrbar="true">
@@ -368,85 +368,85 @@
 
   <Fahrstrasse bereich="SBf" zaehlrichtung="true">
     <Gleisabschnitt name="1b" />
-    <Weiche name="30" stellung="GERADE"/>
+    <Weiche name="30" stellung="GERADE" />
     <Gleisabschnitt name="W30" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="SBf" zaehlrichtung="true">
     <Gleisabschnitt name="2b" />
-    <Weiche name="28" stellung="GERADE"/>
+    <Weiche name="28" stellung="GERADE" />
     <Gleisabschnitt name="W28" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="SBf" zaehlrichtung="true">
     <Gleisabschnitt name="3b" />
-    <Weiche name="26" stellung="ABZWEIGEND"/>
+    <Weiche name="26" stellung="ABZWEIGEND" />
     <Gleisabschnitt name="W26" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="SBf" zaehlrichtung="true">
     <Gleisabschnitt name="4b" />
-    <Weiche name="24" stellung="ABZWEIGEND"/>
+    <Weiche name="24" stellung="ABZWEIGEND" />
     <Gleisabschnitt name="W24" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="SBf" zaehlrichtung="true">
     <Gleisabschnitt name="5b" />
-    <Weiche name="22" stellung="ABZWEIGEND"/>
+    <Weiche name="22" stellung="ABZWEIGEND" />
     <Gleisabschnitt name="W22" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="SBf" zaehlrichtung="true">
     <Gleisabschnitt name="6b" />
-    <Weiche name="20" stellung="ABZWEIGEND"/>
+    <Weiche name="20" stellung="ABZWEIGEND" />
     <Gleisabschnitt name="W20" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="SBf" zaehlrichtung="true">
     <Gleisabschnitt name="7b" />
-    <Weiche name="18" stellung="ABZWEIGEND"/>
+    <Weiche name="18" stellung="ABZWEIGEND" />
     <Gleisabschnitt name="W18" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="SBf" zaehlrichtung="true">
     <Gleisabschnitt name="8b" />
-    <Weiche name="18" stellung="GERADE"/>
+    <Weiche name="18" stellung="GERADE" />
     <Gleisabschnitt name="W18" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="SBf" zaehlrichtung="true">
     <Gleisabschnitt name="W18" />
-    <Weiche name="20" stellung="GERADE"/>
+    <Weiche name="20" stellung="GERADE" />
     <Gleisabschnitt name="W20" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="SBf" zaehlrichtung="true">
     <Gleisabschnitt name="W20" />
-    <Weiche name="22" stellung="GERADE"/>
+    <Weiche name="22" stellung="GERADE" />
     <Gleisabschnitt name="W22" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="SBf" zaehlrichtung="true">
     <Gleisabschnitt name="W22" />
-    <Weiche name="24" stellung="GERADE"/>
+    <Weiche name="24" stellung="GERADE" />
     <Gleisabschnitt name="W24" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="SBf" zaehlrichtung="true">
     <Gleisabschnitt name="W24" />
-    <Weiche name="26" stellung="GERADE"/>
+    <Weiche name="26" stellung="GERADE" />
     <Gleisabschnitt name="W26" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="SBf" zaehlrichtung="true">
     <Gleisabschnitt name="W26" />
-    <Weiche name="28" stellung="ABZWEIGEND"/>
+    <Weiche name="28" stellung="ABZWEIGEND" />
     <Gleisabschnitt name="W28" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="SBf" zaehlrichtung="true">
     <Gleisabschnitt name="W28" />
-    <Weiche name="30" stellung="ABZWEIGEND"/>
+    <Weiche name="30" stellung="ABZWEIGEND" />
     <Gleisabschnitt name="W30" />
   </Fahrstrasse>
 
@@ -457,109 +457,109 @@
 
   <Fahrstrasse bereich="SBf" zaehlrichtung="true">
     <Gleisabschnitt name="9b" />
-    <Weiche name="19" stellung="GERADE"/>
+    <Weiche name="19" stellung="GERADE" />
     <Gleisabschnitt name="W19" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="SBf" zaehlrichtung="true">
     <Gleisabschnitt name="10b" />
-    <Weiche name="19" stellung="ABZWEIGEND"/>
+    <Weiche name="19" stellung="ABZWEIGEND" />
     <Gleisabschnitt name="W19" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="SBf" zaehlrichtung="true">
     <Gleisabschnitt name="11b" />
-    <Weiche name="21" stellung="ABZWEIGEND"/>
+    <Weiche name="21" stellung="ABZWEIGEND" />
     <Gleisabschnitt name="W21" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="SBf" zaehlrichtung="true">
     <Gleisabschnitt name="12b" />
-    <Weiche name="23" stellung="ABZWEIGEND"/>
+    <Weiche name="23" stellung="ABZWEIGEND" />
     <Gleisabschnitt name="W23" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="SBf" zaehlrichtung="true">
     <Gleisabschnitt name="13b" />
-    <Weiche name="25" stellung="ABZWEIGEND"/>
+    <Weiche name="25" stellung="ABZWEIGEND" />
     <Gleisabschnitt name="W25" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="SBf" zaehlrichtung="true">
     <Gleisabschnitt name="14b" />
-    <Weiche name="27" stellung="ABZWEIGEND"/>
+    <Weiche name="27" stellung="ABZWEIGEND" />
     <Gleisabschnitt name="W27" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="SBf" zaehlrichtung="true">
     <Gleisabschnitt name="15b" />
-    <Weiche name="29" stellung="ABZWEIGEND"/>
+    <Weiche name="29" stellung="ABZWEIGEND" />
     <Gleisabschnitt name="W29" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="SBf" zaehlrichtung="true">
     <Gleisabschnitt name="16b" />
-    <Weiche name="31" stellung="ABZWEIGEND"/>
+    <Weiche name="31" stellung="ABZWEIGEND" />
     <Gleisabschnitt name="W31" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="SBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="17d" />
-    <Weiche name="32" stellung="ABZWEIGEND"/>
+    <Weiche name="32" stellung="ABZWEIGEND" />
     <Gleisabschnitt name="W32" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="SBf" zaehlrichtung="true">
     <Gleisabschnitt name="W19" />
-    <Weiche name="21" stellung="GERADE"/>
+    <Weiche name="21" stellung="GERADE" />
     <Gleisabschnitt name="W21" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="SBf" zaehlrichtung="true">
     <Gleisabschnitt name="W21" />
-    <Weiche name="23" stellung="GERADE"/>
+    <Weiche name="23" stellung="GERADE" />
     <Gleisabschnitt name="W23" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="SBf" zaehlrichtung="true">
     <Gleisabschnitt name="W23" />
-    <Weiche name="25" stellung="GERADE"/>
+    <Weiche name="25" stellung="GERADE" />
     <Gleisabschnitt name="W25" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="SBf" zaehlrichtung="true">
     <Gleisabschnitt name="W25" />
-    <Weiche name="27" stellung="GERADE"/>
+    <Weiche name="27" stellung="GERADE" />
     <Gleisabschnitt name="W27" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="SBf" zaehlrichtung="true">
     <Gleisabschnitt name="W27" />
-    <Weiche name="29" stellung="GERADE"/>
+    <Weiche name="29" stellung="GERADE" />
     <Gleisabschnitt name="W29" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="SBf" zaehlrichtung="true">
     <Gleisabschnitt name="W29" />
-    <Weiche name="31" stellung="GERADE"/>
+    <Weiche name="31" stellung="GERADE" />
     <Gleisabschnitt name="W31" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="SBf" zaehlrichtung="true">
     <Gleisabschnitt name="W31" />
-    <Weiche name="32" stellung="GERADE"/>
+    <Weiche name="32" stellung="GERADE" />
     <Gleisabschnitt name="W32" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="SBf" zaehlrichtung="true">
     <Gleisabschnitt name="202" />
-    <Weiche name="33" stellung="GERADE"/>
+    <Weiche name="33" stellung="GERADE" />
     <Gleisabschnitt name="W33" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="SBf" zaehlrichtung="true" umkehrbar="true">
-    <Gleisabschnitt name="W32" />
-    <Weiche name="33" stellung="ABZWEIGEND"/>
+    <Gleisabschnitt name="W32" startErlaubt="true" />
+    <Weiche name="33" stellung="ABZWEIGEND" />
     <Gleisabschnitt name="W33" />
   </Fahrstrasse>
 
@@ -570,7 +570,7 @@
 
   <Fahrstrasse bereich="SBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="W34" />
-    <Weiche name="34" stellung="GERADE"/>
+    <Weiche name="34" stellung="GERADE" />
     <Gleisabschnitt name="402" />
   </Fahrstrasse>
 
@@ -579,36 +579,36 @@
     <Gleisabschnitt name="W2001" bereich="S20" />
   </Fahrstrasse>
 
-  <Fahrstrasse bereich="SBf" zaehlrichtung="true" >
+  <Fahrstrasse bereich="SBf" zaehlrichtung="true">
     <Gleisabschnitt name="W34" />
-    <Weiche name="34" stellung="ABZWEIGEND"/>
+    <Weiche name="34" stellung="ABZWEIGEND" />
     <Gleisabschnitt name="18c" zaehlrichtung="false" />
   </Fahrstrasse>
 
-  <Fahrstrasse bereich="SBf" zaehlrichtung="false" >
+  <Fahrstrasse bereich="SBf" zaehlrichtung="false">
     <Gleisabschnitt name="18c" />
     <Gleisabschnitt name="18b" />
   </Fahrstrasse>
 
-  <Fahrstrasse bereich="SBf" zaehlrichtung="false" >
+  <Fahrstrasse bereich="SBf" zaehlrichtung="false">
     <Gleisabschnitt name="18b" />
     <Gleisabschnitt name="18a" />
   </Fahrstrasse>
 
-  <Fahrstrasse bereich="SBf" zaehlrichtung="false" >
+  <Fahrstrasse bereich="SBf" zaehlrichtung="false">
     <Gleisabschnitt name="18a" />
-    <Weiche name="1" stellung="ABZWEIGEND"/>
+    <Weiche name="1" stellung="ABZWEIGEND" />
     <Gleisabschnitt name="W1" />
   </Fahrstrasse>
 
-  <Fahrstrasse bereich="SBf" zaehlrichtung="false" umkehrbar="true" >
+  <Fahrstrasse bereich="SBf" zaehlrichtung="false" umkehrbar="true">
     <Gleisabschnitt name="17a" />
     <Gleisabschnitt name="109" zaehlrichtung="true" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="SBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="109" />
-    <Weiche name="2" stellung="ABZWEIGEND"/>
+    <Weiche name="2" stellung="ABZWEIGEND" />
     <Gleisabschnitt name="W2" />
   </Fahrstrasse>
 
@@ -620,15 +620,15 @@
 
   <Fahrstrasse bereich="NBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="W1" />
-    <Weiche name="1" stellung="ABZWEIGEND"/>
-    <Weiche name="4" stellung="ABZWEIGEND"/>
+    <Weiche name="1" stellung="ABZWEIGEND" />
+    <Weiche name="4" stellung="ABZWEIGEND" />
     <Gleisabschnitt name="W4" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="NBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="11" />
-    <Weiche name="4" stellung="GERADE"/>
-    <Weiche name="1" stellung="ABZWEIGEND" schutz="true"/>
+    <Weiche name="4" stellung="GERADE" />
+    <Weiche name="1" stellung="ABZWEIGEND" schutz="true" />
     <Gleisabschnitt name="W4" />
   </Fahrstrasse>
 
@@ -639,29 +639,29 @@
 
   <Fahrstrasse bereich="NBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="W1" />
-    <Weiche name="1" stellung="GERADE"/>
-    <Weiche name="4" stellung="GERADE" schutz="true"/>
+    <Weiche name="1" stellung="GERADE" />
+    <Weiche name="4" stellung="GERADE" schutz="true" />
     <Gleisabschnitt name="W2" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="NBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="W2" />
-    <Weiche name="2" stellung="GERADE"/>
-    <Weiche name="3" stellung="ABZWEIGEND"/>
+    <Weiche name="2" stellung="GERADE" />
+    <Weiche name="3" stellung="ABZWEIGEND" />
     <Gleisabschnitt name="W3" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="NBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="W2" />
-    <Weiche name="2" stellung="ABZWEIGEND"/>
-    <Weiche name="3" stellung="GERADE" schutz="true"/>
+    <Weiche name="2" stellung="ABZWEIGEND" />
+    <Weiche name="3" stellung="GERADE" schutz="true" />
     <Gleisabschnitt name="2" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="NBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="13" />
-    <Weiche name="3" stellung="GERADE"/>
-    <Weiche name="2" stellung="GERADE" schutz="true"/>
+    <Weiche name="3" stellung="GERADE" />
+    <Weiche name="2" stellung="GERADE" schutz="true" />
     <Gleisabschnitt name="W3" />
   </Fahrstrasse>
 
@@ -672,46 +672,46 @@
 
   <Fahrstrasse bereich="NBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="1" />
-    <Weiche name="7" stellung="ABZWEIGEND"/>
+    <Weiche name="7" stellung="ABZWEIGEND" />
     <Gleisabschnitt name="W7" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="NBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="2" />
-    <Weiche name="6" stellung="ABZWEIGEND"/>
-    <Weiche name="5b" stellung="GERADE" schutz="true"/>
+    <Weiche name="6" stellung="ABZWEIGEND" />
+    <Weiche name="5b" stellung="GERADE" schutz="true" />
     <Gleisabschnitt name="W6" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="NBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="W6" />
-    <Weiche name="7" stellung="GERADE"/>
+    <Weiche name="7" stellung="GERADE" />
     <Gleisabschnitt name="W7" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="NBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="3" />
-    <Weiche name="5a" stellung="GERADE"/>
+    <Weiche name="5a" stellung="GERADE" />
     <Gleisabschnitt name="W5" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="NBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="W5" />
-    <Weiche name="5b" stellung="GERADE"/>
-    <Weiche name="6" stellung="ABZWEIGEND" schutz="true"/>
+    <Weiche name="5b" stellung="GERADE" />
+    <Weiche name="6" stellung="ABZWEIGEND" schutz="true" />
     <Gleisabschnitt name="23" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="NBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="W5" />
-    <Weiche name="5b" stellung="ABZWEIGEND"/>
+    <Weiche name="5b" stellung="ABZWEIGEND" />
     <Weiche name="6" stellung="GERADE" />
     <Gleisabschnitt name="W6" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="NBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="4" />
-    <Weiche name="5a" stellung="ABZWEIGEND"/>
+    <Weiche name="5a" stellung="ABZWEIGEND" />
     <Gleisabschnitt name="W5" />
   </Fahrstrasse>
 
@@ -723,20 +723,20 @@
   <!-- TODO Kombination mit anderen FS-Anteilen funktioniert nicht - Bereichsüberschreitung? -->
   <Fahrstrasse bereich="Nbf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="202" />
-    <Weiche name="1005" stellung="GERADE" bereich="S10"/>
-    <Gleisabschnitt name="W1005" bereich="S10"/>
+    <Weiche name="1005" stellung="GERADE" bereich="S10" />
+    <Gleisabschnitt name="W1005" bereich="S10" />
   </Fahrstrasse>
 
   <!-- Fahrstrassen im HBf -->
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="404" />
-    <Weiche name="1" stellung="GERADE"/>
+    <Weiche name="1" stellung="GERADE" />
     <Gleisabschnitt name="W1" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="406" />
-    <Weiche name="1" stellung="ABZWEIGEND"/>
+    <Weiche name="1" stellung="ABZWEIGEND" />
     <Gleisabschnitt name="W1" />
   </Fahrstrasse>
 
@@ -747,21 +747,21 @@
 
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="W1" />
-    <Weiche name="3" stellung="GERADE"/>
+    <Weiche name="3" stellung="GERADE" />
     <Gleisabschnitt name="W3" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="W2" />
-    <Weiche name="2" stellung="GERADE"/>
-    <Weiche name="3" stellung="ABZWEIGEND"/>
+    <Weiche name="2" stellung="GERADE" />
+    <Weiche name="3" stellung="ABZWEIGEND" />
     <Gleisabschnitt name="W3" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="W2" />
-    <Weiche name="2" stellung="ABZWEIGEND"/>
-    <Weiche name="3" stellung="GERADE" schutz="true"/>
+    <Weiche name="2" stellung="ABZWEIGEND" />
+    <Weiche name="3" stellung="GERADE" schutz="true" />
     <Gleisabschnitt name="207" />
   </Fahrstrasse>
 
@@ -772,81 +772,81 @@
 
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="W4" />
-    <Weiche name="4" stellung="GERADE"/>
+    <Weiche name="4" stellung="GERADE" />
     <Gleisabschnitt name="W5" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="W4" />
-    <Weiche name="4" stellung="ABZWEIGEND"/>
+    <Weiche name="4" stellung="ABZWEIGEND" />
     <Gleisabschnitt name="W6" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="W5" />
-    <Weiche name="5" stellung="GERADE"/>
+    <Weiche name="5" stellung="GERADE" />
     <Gleisabschnitt name="4" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="W5" />
-    <Weiche name="5" stellung="ABZWEIGEND"/>
+    <Weiche name="5" stellung="ABZWEIGEND" />
     <Gleisabschnitt name="3" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="W6" />
-    <Weiche name="6" stellung="GERADE"/>
+    <Weiche name="6" stellung="GERADE" />
     <Gleisabschnitt name="6" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="W6" />
-    <Weiche name="6" stellung="ABZWEIGEND"/>
-    <Weiche name="7a" stellung="ABZWEIGEND"/>
+    <Weiche name="6" stellung="ABZWEIGEND" />
+    <Weiche name="7a" stellung="ABZWEIGEND" />
     <Gleisabschnitt name="W7" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="207" />
-    <Weiche name="7a" stellung="GERADE"/>
-    <Weiche name="6" stellung="GERADE" schutz="true"/>
+    <Weiche name="7a" stellung="GERADE" />
+    <Weiche name="6" stellung="GERADE" schutz="true" />
     <Gleisabschnitt name="W7" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="W7" />
-    <Weiche name="7b" stellung="GERADE"/>
+    <Weiche name="7b" stellung="GERADE" />
     <Gleisabschnitt name="7" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="W7" />
-    <Weiche name="7b" stellung="ABZWEIGEND"/>
+    <Weiche name="7b" stellung="ABZWEIGEND" />
     <Gleisabschnitt name="W8" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="W8" />
-    <Weiche name="8" stellung="GERADE"/>
+    <Weiche name="8" stellung="GERADE" />
     <Gleisabschnitt name="8" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="W8" />
-    <Weiche name="8" stellung="ABZWEIGEND"/>
+    <Weiche name="8" stellung="ABZWEIGEND" />
     <Gleisabschnitt name="W9" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="W9" />
-    <Weiche name="9" stellung="GERADE"/>
+    <Weiche name="9" stellung="GERADE" />
     <Gleisabschnitt name="10" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="W9" />
-    <Weiche name="9" stellung="ABZWEIGEND"/>
+    <Weiche name="9" stellung="ABZWEIGEND" />
     <Gleisabschnitt name="9" />
   </Fahrstrasse>
 
@@ -857,48 +857,48 @@
 
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="W10" />
-    <Weiche name="10" stellung="GERADE"/>
+    <Weiche name="10" stellung="GERADE" />
     <Gleisabschnitt name="W11" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="W10" />
-    <Weiche name="10" stellung="ABZWEIGEND"/>
+    <Weiche name="10" stellung="ABZWEIGEND" />
     <Gleisabschnitt name="W12" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="W11" />
-    <Weiche name="11" stellung="GERADE"/>
-    <Weiche name="14" stellung="GERADE" schutz="true"/>
+    <Weiche name="11" stellung="GERADE" />
+    <Weiche name="14" stellung="GERADE" schutz="true" />
     <Gleisabschnitt name="23" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="W11" />
-    <Weiche name="11" stellung="ABZWEIGEND"/>
-    <Weiche name="14" stellung="ABZWEIGEND"/>
+    <Weiche name="11" stellung="ABZWEIGEND" />
+    <Weiche name="14" stellung="ABZWEIGEND" />
     <Gleisabschnitt name="W14" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="4" />
-    <Weiche name="14" stellung="GERADE"/>
-    <Weiche name="11" stellung="GERADE" schutz="true"/>
+    <Weiche name="14" stellung="GERADE" />
+    <Weiche name="11" stellung="GERADE" schutz="true" />
     <Gleisabschnitt name="W14" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="W12" />
-    <Weiche name="12" stellung="GERADE"/>
+    <Weiche name="12" stellung="GERADE" />
     <Weiche name="13" stellung="ABZWEIGEND" />
     <Gleisabschnitt name="W13" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="W12" />
-    <Weiche name="12" stellung="ABZWEIGEND"/>
-    <Weiche name="13" stellung="GERADE" schutz="true"/>
+    <Weiche name="12" stellung="ABZWEIGEND" />
+    <Weiche name="13" stellung="GERADE" schutz="true" />
     <Gleisabschnitt name="22" />
   </Fahrstrasse>
 
@@ -921,7 +921,7 @@
 
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="W15" />
-    <Weiche name="15" stellung="GERADE"/>
+    <Weiche name="15" stellung="GERADE" />
     <Weiche name="16" stellung="GERADE" schutz="true" />
     <Gleisabschnitt name="24" />
   </Fahrstrasse>
@@ -935,7 +935,7 @@
 
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="5" />
-    <Weiche name="16" stellung="GERADE"/>
+    <Weiche name="16" stellung="GERADE" />
     <Weiche name="15" stellung="GERADE" schutz="true" />
     <Gleisabschnitt name="W16" />
   </Fahrstrasse>
@@ -947,49 +947,49 @@
 
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="21" />
-    <Weiche name="17" stellung="GERADE"/>
+    <Weiche name="17" stellung="GERADE" />
     <Gleisabschnitt name="W17" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="22" />
-    <Weiche name="17" stellung="ABZWEIGEND"/>
+    <Weiche name="17" stellung="ABZWEIGEND" />
     <Gleisabschnitt name="W17" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="23" />
-    <Weiche name="18" stellung="GERADE"/>
+    <Weiche name="18" stellung="GERADE" />
     <Gleisabschnitt name="W18" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="24" />
-    <Weiche name="18" stellung="ABZWEIGEND"/>
+    <Weiche name="18" stellung="ABZWEIGEND" />
     <Gleisabschnitt name="W18" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="W17" />
-    <Weiche name="19" stellung="GERADE"/>
+    <Weiche name="19" stellung="GERADE" />
     <Gleisabschnitt name="W19" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="W18" />
-    <Weiche name="19" stellung="ABZWEIGEND"/>
+    <Weiche name="19" stellung="ABZWEIGEND" />
     <Gleisabschnitt name="W19" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="W19" />
-    <Weiche name="20" stellung="GERADE"/>
+    <Weiche name="20" stellung="GERADE" />
     <Gleisabschnitt name="W20" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="25" />
-    <Weiche name="20" stellung="ABZWEIGEND"/>
+    <Weiche name="20" stellung="ABZWEIGEND" />
     <Gleisabschnitt name="W20" />
   </Fahrstrasse>
 
@@ -1000,8 +1000,8 @@
 
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="6" />
-    <Weiche name="24" stellung="GERADE"/>
-    <Weiche name="22" stellung="GERADE" schutz="true"/>
+    <Weiche name="24" stellung="GERADE" />
+    <Weiche name="22" stellung="GERADE" schutz="true" />
     <Gleisabschnitt name="W24" />
   </Fahrstrasse>
 
@@ -1014,44 +1014,44 @@
 
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="W22" />
-    <Weiche name="22" stellung="GERADE"/>
-    <Weiche name="24" stellung="GERADE" schutz="true"/>
+    <Weiche name="22" stellung="GERADE" />
+    <Weiche name="24" stellung="GERADE" schutz="true" />
     <Gleisabschnitt name="105" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="9" />
-    <Weiche name="21" stellung="GERADE"/>
+    <Weiche name="21" stellung="GERADE" />
     <Gleisabschnitt name="W21" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="10" />
-    <Weiche name="21" stellung="ABZWEIGEND"/>
+    <Weiche name="21" stellung="ABZWEIGEND" />
     <Gleisabschnitt name="W21" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="8" />
-    <Weiche name="23" stellung="GERADE"/>
+    <Weiche name="23" stellung="GERADE" />
     <Gleisabschnitt name="W23" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="W21" />
-    <Weiche name="23" stellung="ABZWEIGEND"/>
+    <Weiche name="23" stellung="ABZWEIGEND" />
     <Gleisabschnitt name="W23" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="7" />
-    <Weiche name="25" stellung="GERADE"/>
+    <Weiche name="25" stellung="GERADE" />
     <Gleisabschnitt name="W25" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="W23" />
-    <Weiche name="25" stellung="ABZWEIGEND"/>
+    <Weiche name="25" stellung="ABZWEIGEND" />
     <Gleisabschnitt name="W25" />
   </Fahrstrasse>
 
@@ -1091,7 +1091,7 @@
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="W26" />
     <Weiche name="27" stellung="ABZWEIGEND" />
-    <Weiche name="26" stellung="ABZWEIGEND"  />
+    <Weiche name="26" stellung="ABZWEIGEND" />
     <Gleisabschnitt name="W27" />
   </Fahrstrasse>
 
@@ -1148,4 +1148,49 @@
     <Gleisabschnitt name="3001" bereich="S30" />
   </Fahrstrasse>
 
+  <AutoFahrstrasse bereich="SBf" trigger="402">
+    <Fahrstrasse start="402" ende="1b" />
+    <Fahrstrasse start="402" ende="2b" />
+    <Fahrstrasse start="402" ende="3b" />
+    <Fahrstrasse start="402" ende="4b" />
+    <Fahrstrasse start="402" ende="5b" />
+    <Fahrstrasse start="402" ende="6b" />
+    <Fahrstrasse start="402" ende="7b" />
+    <Fahrstrasse start="402" ende="8b" />
+    <Fahrstrasse start="402" ende="9b" />
+    <Fahrstrasse start="402" ende="10b" />
+    <Fahrstrasse start="402" ende="11b" />
+    <Fahrstrasse start="402" ende="12b" />
+    <Fahrstrasse start="402" ende="13b" />
+    <Fahrstrasse start="402" ende="14b" />
+    <Fahrstrasse start="402" ende="15b" />
+    <Fahrstrasse start="402" ende="16b" />
+  </AutoFahrstrasse>
+
+  <AutoFahrstrasse bereich="SBf" trigger="108">
+    <Fahrstrasse start="402" ende="9b" />
+    <Fahrstrasse start="402" ende="10b" />
+    <Fahrstrasse start="402" ende="11b" />
+    <Fahrstrasse start="402" ende="12b" />
+    <Fahrstrasse start="402" ende="13b" />
+    <Fahrstrasse start="402" ende="14b" />
+    <Fahrstrasse start="402" ende="15b" />
+    <Fahrstrasse start="402" ende="16b" />
+    <Fahrstrasse start="402" ende="1b" />
+    <Fahrstrasse start="402" ende="2b" />
+    <Fahrstrasse start="402" ende="3b" />
+    <Fahrstrasse start="402" ende="4b" />
+    <Fahrstrasse start="402" ende="5b" />
+    <Fahrstrasse start="402" ende="6b" />
+    <Fahrstrasse start="402" ende="7b" />
+    <Fahrstrasse start="402" ende="8b" />
+  </AutoFahrstrasse>
+
+  <AutoFahrstrasse bereich="SBf" trigger="202">
+    <Fahrstrasse start="202" ende="402" />
+  </AutoFahrstrasse>
+
+  <AutoFahrstrasse bereich="SBf" trigger="W31">
+    <Fahrstrasse start="W32" ende="308" />
+  </AutoFahrstrasse>
 </Parcours>

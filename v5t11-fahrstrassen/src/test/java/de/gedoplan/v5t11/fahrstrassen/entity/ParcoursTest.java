@@ -27,6 +27,7 @@ public class ParcoursTest {
     this.parcours.getGleisabschnitte().forEach(g -> System.out.printf("%s isBesetzt=%b\n", g, g.isBesetzt()));
     this.parcours.getSignale().forEach(System.out::println);
     this.parcours.getWeichen().forEach(System.out::println);
+    this.parcours.getAutoFahrstrassen().forEach(System.out::println);
   }
 
 }
