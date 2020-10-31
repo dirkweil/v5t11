@@ -100,7 +100,6 @@ public class FahrstrasseMonitor {
      * und vor dem nur durchfahrene Gleisabschnitte liegen.
      */
     int elementAnzahl = fahrstrasse.getElemente().size();
-    int idxLetzter = fahrstrasse.getTeilFreigabeAnzahl();
     int idxGrenze = fahrstrasse.getTeilFreigabeAnzahl();
     Gleisabschnitt grenze = null;
     while (idxGrenze < elementAnzahl) {
@@ -109,9 +108,7 @@ public class FahrstrasseMonitor {
         Gleisabschnitt g = ((FahrstrassenGleisabschnitt) fe).getFahrwegelement();
         GleisabschnittStatus gs = this.statusMap.get(g);
 
-        if (gs.isDurchfahren()) {
-          idxLetzter = idxGrenze;
-        } else {
+        if (!gs.isDurchfahren()) {
           grenze = g;
           break;
         }
