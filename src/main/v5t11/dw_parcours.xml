@@ -1199,6 +1199,6 @@
   </AutoFahrstrasse>
 
   <AutoFahrstrasse bereich="SBf" trigger="W5">
-    <Fahrstrasse start="W32" ende="308" />
+    <Fahrstrasse ende="308" />
   </AutoFahrstrasse>
 </Parcours>
