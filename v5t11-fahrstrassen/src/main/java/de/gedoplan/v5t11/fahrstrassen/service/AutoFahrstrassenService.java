@@ -40,9 +40,11 @@ public class AutoFahrstrassenService {
   }
 
   void autoReserviere(@Observes Gleisabschnitt gleisabschnitt) {
-    for (Fahrstrasse fs : this.autoFahrstrassen.get(gleisabschnitt)) {
-      if (fs.reservieren(FahrstrassenReservierungsTyp.ZUGFAHRT)) {
-        break;
+    if (gleisabschnitt.isBesetzt()) {
+      for (Fahrstrasse fs : this.autoFahrstrassen.get(gleisabschnitt)) {
+        if (fs.reservieren(FahrstrassenReservierungsTyp.ZUGFAHRT, false, true)) {
+          break;
+        }
       }
     }
   }

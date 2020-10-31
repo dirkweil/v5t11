@@ -1149,45 +1149,45 @@
   </Fahrstrasse>
 
   <AutoFahrstrasse bereich="SBf" trigger="402">
-    <Fahrstrasse start="402" ende="1b" />
-    <Fahrstrasse start="402" ende="2b" />
-    <Fahrstrasse start="402" ende="3b" />
-    <Fahrstrasse start="402" ende="4b" />
-    <Fahrstrasse start="402" ende="5b" />
-    <Fahrstrasse start="402" ende="6b" />
-    <Fahrstrasse start="402" ende="7b" />
-    <Fahrstrasse start="402" ende="8b" />
-    <Fahrstrasse start="402" ende="9b" />
-    <Fahrstrasse start="402" ende="10b" />
-    <Fahrstrasse start="402" ende="11b" />
-    <Fahrstrasse start="402" ende="12b" />
-    <Fahrstrasse start="402" ende="13b" />
-    <Fahrstrasse start="402" ende="14b" />
-    <Fahrstrasse start="402" ende="15b" />
-    <Fahrstrasse start="402" ende="16b" />
+    <Fahrstrasse ende="1b" />
+    <Fahrstrasse ende="2b" />
+    <Fahrstrasse ende="3b" />
+    <Fahrstrasse ende="4b" />
+    <Fahrstrasse ende="5b" />
+    <Fahrstrasse ende="6b" />
+    <Fahrstrasse ende="7b" />
+    <Fahrstrasse ende="8b" />
+    <Fahrstrasse ende="9b" />
+    <Fahrstrasse ende="10b" />
+    <Fahrstrasse ende="11b" />
+    <Fahrstrasse ende="12b" />
+    <Fahrstrasse ende="13b" />
+    <Fahrstrasse ende="14b" />
+    <Fahrstrasse ende="15b" />
+    <Fahrstrasse ende="16b" />
   </AutoFahrstrasse>
 
   <AutoFahrstrasse bereich="SBf" trigger="108">
-    <Fahrstrasse start="402" ende="9b" />
-    <Fahrstrasse start="402" ende="10b" />
-    <Fahrstrasse start="402" ende="11b" />
-    <Fahrstrasse start="402" ende="12b" />
-    <Fahrstrasse start="402" ende="13b" />
-    <Fahrstrasse start="402" ende="14b" />
-    <Fahrstrasse start="402" ende="15b" />
-    <Fahrstrasse start="402" ende="16b" />
-    <Fahrstrasse start="402" ende="1b" />
-    <Fahrstrasse start="402" ende="2b" />
-    <Fahrstrasse start="402" ende="3b" />
-    <Fahrstrasse start="402" ende="4b" />
-    <Fahrstrasse start="402" ende="5b" />
-    <Fahrstrasse start="402" ende="6b" />
-    <Fahrstrasse start="402" ende="7b" />
-    <Fahrstrasse start="402" ende="8b" />
+    <Fahrstrasse ende="9b" />
+    <Fahrstrasse ende="10b" />
+    <Fahrstrasse ende="11b" />
+    <Fahrstrasse ende="12b" />
+    <Fahrstrasse ende="13b" />
+    <Fahrstrasse ende="14b" />
+    <Fahrstrasse ende="15b" />
+    <Fahrstrasse ende="16b" />
+    <Fahrstrasse ende="1b" />
+    <Fahrstrasse ende="2b" />
+    <Fahrstrasse ende="3b" />
+    <Fahrstrasse ende="4b" />
+    <Fahrstrasse ende="5b" />
+    <Fahrstrasse ende="6b" />
+    <Fahrstrasse ende="7b" />
+    <Fahrstrasse ende="8b" />
   </AutoFahrstrasse>
 
   <AutoFahrstrasse bereich="SBf" trigger="202">
-    <Fahrstrasse start="202" ende="402" />
+    <Fahrstrasse ende="402" />
   </AutoFahrstrasse>
 
   <AutoFahrstrasse bereich="SBf" trigger="W31">

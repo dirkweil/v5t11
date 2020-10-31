@@ -408,6 +408,15 @@ public class Fahrstrasse extends Bereichselement {
   /**
    * Fahrstrasse reservieren oder freigeben.
    *
+   * @see {@link #reservieren(FahrstrassenReservierungsTyp, boolean, boolean) reservieren(FahrstrassenReservierungsTyp, false, false)}
+   */
+  public boolean reservieren(FahrstrassenReservierungsTyp reservierungsTyp) {
+    return reservieren(reservierungsTyp, false, false);
+  }
+
+  /**
+   * Fahrstrasse reservieren oder freigeben.
+   *
    * Wird als reservierungsTyp {@link FahrstrassenReservierungsTyp#UNRESERVIERT} übergeben, wird die Fahrstrasse freigegeben.
    * Bei anderem reservierungsTyp wird die Fahrstrasse entsprechend reserviert, wenn sie noch frei ist.
    *
@@ -415,9 +424,13 @@ public class Fahrstrasse extends Bereichselement {
    *
    * @param reservierungsTyp
    *          Art der Fahrstrassenreservierung, <code>UNRESERVIERT</code> für Freigabe
+   * @param includeStart
+   *          Erstes Element der Fahrstrasse in Besetztprüfung berücksichtigen?
+   * @param includeEnde
+   *          Letztes Element der Fahrstrasse in Besetztprüfung berücksichtigen?
    * @return <code>true</code>, wenn die Fahrstrasse reserviert bzw. freigegeben werden konnte
    */
-  public boolean reservieren(FahrstrassenReservierungsTyp reservierungsTyp) {
+  public boolean reservieren(FahrstrassenReservierungsTyp reservierungsTyp, boolean includeStart, boolean includeEnde) {
 
     if (reservierungsTyp == null || reservierungsTyp == FahrstrassenReservierungsTyp.UNRESERVIERT) {
       return freigeben(null);
@@ -425,7 +438,7 @@ public class Fahrstrasse extends Bereichselement {
     }
 
     synchronized (Fahrstrasse.class) {
-      if (!isFrei(false, false)) {
+      if (!isFrei(includeStart, includeEnde)) {
         return false;
       }
 
