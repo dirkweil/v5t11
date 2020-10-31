@@ -94,11 +94,11 @@
   <Fahrstrasse bereich="SBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="W3" />
     <Weiche name="3" stellung="GERADE" />
-    <Gleisabschnitt name="W4" />
+    <Gleisabschnitt name="W4" startErlaubt="true" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="SBf" zaehlrichtung="true" umkehrbar="true">
-    <Gleisabschnitt name="W4" />
+    <Gleisabschnitt name="W4"  />
     <Weiche name="4" stellung="GERADE" />
     <Gleisabschnitt name="W6" />
   </Fahrstrasse>
@@ -184,7 +184,7 @@
   <Fahrstrasse bereich="SBf" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="W3" />
     <Weiche name="3" stellung="ABZWEIGEND" />
-    <Gleisabschnitt name="W5" />
+    <Gleisabschnitt name="W5" startErlaubt="true" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="SBf" zaehlrichtung="true" umkehrbar="true">
@@ -1190,7 +1190,15 @@
     <Fahrstrasse ende="402" />
   </AutoFahrstrasse>
 
+  <AutoFahrstrasse bereich="SBf" trigger="W4">
+    <Fahrstrasse ende="402" />
+  </AutoFahrstrasse>
+
   <AutoFahrstrasse bereich="SBf" trigger="W31">
+    <Fahrstrasse start="W32" ende="308" />
+  </AutoFahrstrasse>
+
+  <AutoFahrstrasse bereich="SBf" trigger="W5">
     <Fahrstrasse start="W32" ende="308" />
   </AutoFahrstrasse>
 </Parcours>
