@@ -125,7 +125,7 @@ public class FahrstrasseMonitor {
      * - wenn ab dem ersten nicht durchfahrerenen Abschnitt alles besetzt ist
      * - oder wenn nur noch Gleisabschnitte folgen.
      */
-    boolean totalFreigabe = fahrstrasse.isKomplettBesetzt(idxGrenze) || fahrstrasse.isNurGleisabschnitte(idxLetzter + 1);
+    boolean totalFreigabe = fahrstrasse.isKomplettBesetzt(idxGrenze) || fahrstrasse.isNurGleisabschnitte(idxGrenze + 1);
 
     if (this.log.isDebugEnabled()) {
       this.log.debug("checkFreigabe: grenze=" + grenze + ", totalFreigabe=" + totalFreigabe);
