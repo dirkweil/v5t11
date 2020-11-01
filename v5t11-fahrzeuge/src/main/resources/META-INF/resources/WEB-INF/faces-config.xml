@@ -3,28 +3,10 @@
   xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_3.xsd" 
   version="2.3">
   <navigation-rule>
-    <from-view-id>/view/bausteinProgrammierung.xhtml</from-view-id>
+    <from-view-id>/view/fahrzeugManagement.xhtml</from-view-id>
     <navigation-case>
-      <from-outcome>openProgMode</from-outcome>
-      <to-view-id>/view/bausteinProgrammierung_openProgMode.xhtml</to-view-id>
-      <redirect />
-    </navigation-case>
-  </navigation-rule>
-
-  <navigation-rule>
-    <from-view-id>/view/bausteinProgrammierung_*</from-view-id>
-    <navigation-case>
-      <from-outcome>closeProgMode</from-outcome>
-      <to-view-id>/view/bausteinProgrammierung_closeProgMode.xhtml</to-view-id>
-      <redirect />
-    </navigation-case>
-  </navigation-rule>
-
-  <navigation-rule>
-    <from-view-id>*</from-view-id>
-    <navigation-case>
-      <from-outcome>compProg</from-outcome>
-      <to-view-id>/view/bausteinProgrammierung.xhtml</to-view-id>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/view/fahrzeugEdit.xhtml</to-view-id>
       <redirect />
     </navigation-case>
   </navigation-rule>

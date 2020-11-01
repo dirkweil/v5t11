@@ -72,13 +72,6 @@ public class Fahrzeug extends SingleIdEntity<String> implements Comparable<Fahrz
   private SystemTyp systemTyp;
 
   /**
-   * Kurze Adresse?
-   * Hat nur bei DCC Bedeutung.
-   */
-  @Column(name = "KURZE_ADRESSE")
-  private boolean kurzeAdresse;
-
-  /**
    * Fahrzeugadresse.
    * Muss im gültigen Bereich sein:
    * - Selectrix: 1-103,
@@ -97,39 +90,14 @@ public class Fahrzeug extends SingleIdEntity<String> implements Comparable<Fahrz
     switch (this.systemTyp) {
     case SX1:
       return this.adresse >= 1 && this.adresse <= 103;
-    case SX2:
+
+    case DCC_K_14:
+    case DCC_K_28:
+    case DCC_K_126:
+      return this.adresse >= 1 && this.adresse <= 99;
+
     default:
       return this.adresse >= 1 && this.adresse <= 9999;
-    case DCC:
-      return this.adresse >= 1 && this.adresse <= (this.kurzeAdresse ? 99 : 9999);
-    }
-  }
-
-  /**
-   * Maximale Fahrstufe.
-   * Gültige Werte:
-   * - Selectrix: 31,
-   * - Selecrix 2: 127,
-   * - DCC: 14, 28 oder 126.
-   */
-  @Column(name = "MAX_FAHRSTUFE", nullable = false)
-  @Getter(onMethod_ = @JsonbInclude(full = true))
-  private int maxFahrstufe;
-
-  @AssertTrue(message = "Ungültige maximale Fahrstufe")
-  boolean isMaxFahrstufeValid() {
-    if (this.systemTyp == null) {
-      return true;
-    }
-
-    switch (this.systemTyp) {
-    case SX1:
-      return this.maxFahrstufe == 31;
-    case SX2:
-    default:
-      return this.maxFahrstufe == 127;
-    case DCC:
-      return this.maxFahrstufe == 14 || this.maxFahrstufe == 28 || this.maxFahrstufe == 126;
     }
   }
 
@@ -144,13 +112,11 @@ public class Fahrzeug extends SingleIdEntity<String> implements Comparable<Fahrz
     return this.id;
   }
 
-  public Fahrzeug(String id, String decoder, @NotNull SystemTyp systemTyp, boolean kurzeAdresse, int adresse, int maxFahrstufe, FahrzeugFunktion... funktionen) {
+  public Fahrzeug(String id, String decoder, @NotNull SystemTyp systemTyp, int adresse, FahrzeugFunktion... funktionen) {
     this.id = id;
     this.decoder = decoder;
     this.systemTyp = systemTyp;
-    this.kurzeAdresse = kurzeAdresse;
     this.adresse = adresse;
-    this.maxFahrstufe = maxFahrstufe;
     for (FahrzeugFunktion funktion : funktionen) {
       this.funktionen.add(funktion);
     }
@@ -171,11 +137,8 @@ public class Fahrzeug extends SingleIdEntity<String> implements Comparable<Fahrz
         .append('@')
         .append(this.adresse)
         .append('(')
-        .append(this.systemTyp);
-    if (this.systemTyp == SystemTyp.DCC && this.kurzeAdresse) {
-      sb.append(",kurz");
-    }
-    sb.append(")}");
+        .append(this.systemTyp)
+        .append(")}");
     return sb.toString();
   }
 
@@ -216,7 +179,10 @@ public class Fahrzeug extends SingleIdEntity<String> implements Comparable<Fahrz
     @AllArgsConstructor
     @Getter
     public static enum FahrzeugFunktionsGruppe {
-      FL("Fahrlicht"), BG("Betriebsgeräusch"), BA("Bahnsteigansage"), AF("Andere Funktion");
+      FL("Fahrlicht"),
+      BG("Betriebsgeräusch"),
+      BA("Bahnsteigansage"),
+      AF("Andere Funktion");
 
       private String name;
     }

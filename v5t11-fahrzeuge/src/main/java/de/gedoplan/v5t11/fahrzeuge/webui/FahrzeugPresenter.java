@@ -45,7 +45,7 @@ public class FahrzeugPresenter {
       this.log.debug("Edit " + fahrzeug);
     }
 
-    return null;
+    return "edit";
   }
 
   public String program(Fahrzeug fahrzeug) {
