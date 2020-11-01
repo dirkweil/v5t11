@@ -10,6 +10,9 @@ import de.gedoplan.v5t11.util.misc.V5t11Exception;
 
 import java.io.EOFException;
 import java.io.IOException;
+import java.util.EnumMap;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
@@ -49,6 +52,33 @@ public class FCC extends Zentrale {
   // Maximale normal verwendbare SX1-Adresse
   private static final int MAX_SX1_ADR = 103;
 
+  private static final Map<SystemTyp, Byte> SYSTEMTYP_ANMELDECODE_MAP = new EnumMap<>(SystemTyp.class);
+  static {
+    SYSTEMTYP_ANMELDECODE_MAP.put(SystemTyp.SX1, (byte) 0x00);
+    SYSTEMTYP_ANMELDECODE_MAP.put(SystemTyp.SX2, (byte) 0x04);
+    SYSTEMTYP_ANMELDECODE_MAP.put(SystemTyp.DCC_K_14, (byte) 0x91);
+    SYSTEMTYP_ANMELDECODE_MAP.put(SystemTyp.DCC_K_28, (byte) 0x81);
+    SYSTEMTYP_ANMELDECODE_MAP.put(SystemTyp.DCC_K_126, (byte) 0x05);
+    SYSTEMTYP_ANMELDECODE_MAP.put(SystemTyp.DCC_L_14, (byte) 0x93);
+    SYSTEMTYP_ANMELDECODE_MAP.put(SystemTyp.DCC_L_28, (byte) 0x83);
+    SYSTEMTYP_ANMELDECODE_MAP.put(SystemTyp.DCC_L_126, (byte) 0x07);
+  }
+
+  private static final Map<Byte, SystemTyp> MELDECODE_SYSTEMTYP_MAP = new HashMap<>();
+  static {
+    MELDECODE_SYSTEMTYP_MAP.put((byte) 0x00, SystemTyp.SX1);
+    MELDECODE_SYSTEMTYP_MAP.put((byte) 0x11, SystemTyp.DCC_K_14);
+    MELDECODE_SYSTEMTYP_MAP.put((byte) 0x01, SystemTyp.DCC_K_28);
+    MELDECODE_SYSTEMTYP_MAP.put((byte) 0x13, SystemTyp.DCC_L_14);
+    MELDECODE_SYSTEMTYP_MAP.put((byte) 0x03, SystemTyp.DCC_L_28);
+    MELDECODE_SYSTEMTYP_MAP.put((byte) 0x04, SystemTyp.SX2);
+    MELDECODE_SYSTEMTYP_MAP.put((byte) 0x14, SystemTyp.SX2);
+    MELDECODE_SYSTEMTYP_MAP.put((byte) 0x05, SystemTyp.DCC_K_126);
+    MELDECODE_SYSTEMTYP_MAP.put((byte) 0x15, SystemTyp.DCC_K_126);
+    MELDECODE_SYSTEMTYP_MAP.put((byte) 0x07, SystemTyp.DCC_L_126);
+    MELDECODE_SYSTEMTYP_MAP.put((byte) 0x17, SystemTyp.DCC_L_126);
+  }
+
   private int syncCycleNo = 0;
 
   /*
@@ -77,7 +107,7 @@ public class FCC extends Zentrale {
    * Niederwertiger Teil der Lokadresse, Licht, DCC-Zusatzinfo:
    * - Bits 2-7: Niederwertiger Teil der Lokadresse
    * - Bit 1: Licht
-   * - Bit 0: derzeit ungenutzt (nur bei DCC relevant: 14 Fahrstufen statt 28 bzw. 126)
+   * - Bit 0: nur bei DCC relevant: 14 Fahrstufen statt 28 bzw. 126
    */
   private static final int BUSEXT_OFFSET_ADR_LOW_LICHT = 32;
 
@@ -124,8 +154,7 @@ public class FCC extends Zentrale {
     this.backgroundTask = executorService.submit((Runnable) this::open);
     try {
       this.portPhaser.awaitAdvanceInterruptibly(this.portPhaser.arriveAndDeregister(), 10, TimeUnit.SECONDS);
-    }
-    catch (InterruptedException | TimeoutException e) {
+    } catch (InterruptedException | TimeoutException e) {
       throw new V5t11Exception("Cannot open FCC", e);
     }
 
@@ -147,14 +176,12 @@ public class FCC extends Zentrale {
         this.portPhaser.arriveAndDeregister();
 
         syncStatus();
-      }
-      catch (Exception e) {
+      } catch (Exception e) {
         this.log.error("Fehler in Verbindung zu Zentrale", e);
 
         try {
           closePort();
-        }
-        catch (Exception ignore) {
+        } catch (Exception ignore) {
         }
 
         delay(1000);
@@ -175,8 +202,7 @@ public class FCC extends Zentrale {
     this.terminationRequested = true;
     try {
       this.backgroundTask.get(30, TimeUnit.SECONDS);
-    }
-    catch (InterruptedException | ExecutionException | TimeoutException e) {
+    } catch (InterruptedException | ExecutionException | TimeoutException e) {
       // ignore
     }
 
@@ -248,19 +274,67 @@ public class FCC extends Zentrale {
           || blockDaten[offset + BUSEXT_OFFSET_RUECKWAERTS_FAHRSTUFE] != blockDatenAlt[offset + BUSEXT_OFFSET_RUECKWAERTS_FAHRSTUFE]
           || blockDaten[offset + BUSEXT_OFFSET_FUNKTION_1_8] != blockDatenAlt[offset + BUSEXT_OFFSET_FUNKTION_1_8]
           || blockDaten[offset + BUSEXT_OFFSET_FUNKTION_9_16] != blockDatenAlt[offset + BUSEXT_OFFSET_FUNKTION_9_16]) {
-        if (blockDaten[offset + BUSEXT_OFFSET_FORMAT] != SystemTyp.SX1.getFormatCode()) {
+        SystemTyp systemTyp = decodeSystemTyp(blockDaten[offset + BUSEXT_OFFSET_ADR_LOW_LICHT], blockDaten[offset + BUSEXT_OFFSET_FORMAT]);
+        if (systemTyp != null) {
           this.eventFirer.fire(new SX2Kanal(
               idx,
-              blockDaten[offset + BUSEXT_OFFSET_FORMAT],
-              blockDaten[offset + BUSEXT_OFFSET_ADR_HIGH],
-              blockDaten[offset + BUSEXT_OFFSET_ADR_LOW_LICHT],
-              blockDaten[offset + BUSEXT_OFFSET_RUECKWAERTS_FAHRSTUFE],
-              blockDaten[offset + BUSEXT_OFFSET_FUNKTION_1_8],
-              blockDaten[offset + BUSEXT_OFFSET_FUNKTION_9_16]));
+              systemTyp,
+              decodeAdresse(systemTyp, blockDaten[offset + BUSEXT_OFFSET_ADR_HIGH], blockDaten[offset + BUSEXT_OFFSET_ADR_LOW_LICHT]),
+              decodeLicht(blockDaten[offset + BUSEXT_OFFSET_ADR_LOW_LICHT]),
+              decodeRueckwaerts(blockDaten[offset + BUSEXT_OFFSET_RUECKWAERTS_FAHRSTUFE]),
+              decodeFahrstufe(systemTyp, blockDaten[offset + BUSEXT_OFFSET_RUECKWAERTS_FAHRSTUFE]),
+              decodeFunktionsstatus(blockDaten[offset + BUSEXT_OFFSET_FUNKTION_9_16], blockDaten[offset + BUSEXT_OFFSET_FUNKTION_1_8])));
         }
       }
     }
+  }
 
+  private static SystemTyp decodeSystemTyp(byte codeHigh, byte codeLow) {
+    byte meldeCode = (byte) ((codeLow & 0x0f) | ((codeHigh & 0x01) << 4));
+    return MELDECODE_SYSTEMTYP_MAP.get(meldeCode);
+  }
+
+  private static int decodeAdresse(SystemTyp systemTyp, byte adrHigh, byte adrLow) {
+    int adr = Byte.toUnsignedInt(adrHigh) << 6 | (Byte.toUnsignedInt(adrLow) & 0b1111_1100) >>> 2;
+    switch (systemTyp) {
+    case SX1:
+      throw new IllegalArgumentException("Ungültiger Systemtyp: " + systemTyp);
+
+    case SX2:
+      return ((adr & 0b0011_1111_1000_0000) >>> 7) * 100 + (adr & 0b0011_1111);
+
+    default:
+      return adr;
+    }
+
+  }
+
+  public static boolean decodeLicht(byte adrLowLicht) {
+    return (adrLowLicht & 0b0000_0010) != 0;
+  }
+
+  public static boolean decodeRueckwaerts(byte rueckwaertsFahrstufe) {
+    return (rueckwaertsFahrstufe & 0b1000_0000) != 0;
+  }
+
+  public static int decodeFahrstufe(SystemTyp systemTyp, byte rueckwaertsFahrstufe) {
+    if (systemTyp != null) {
+      int fahrstufe = rueckwaertsFahrstufe & 0b0111_1111;
+      switch (systemTyp) {
+      case SX1:
+      case SX2:
+        return fahrstufe;
+
+      default:
+        return fahrstufe < 2 ? 0 : fahrstufe - 1;
+      }
+    }
+
+    throw new IllegalArgumentException("Ungültiger Systemtyp: " + systemTyp);
+  }
+
+  public static int decodeFunktionsstatus(byte funktion9_16, byte funktion1_8) {
+    return Byte.toUnsignedInt(funktion9_16) << 8 | Byte.toUnsignedInt(funktion1_8);
   }
 
   private void fireSX1Changes(byte[] blockDaten, byte[] blockDatenAlt, int idx, int adr) {
@@ -357,8 +431,7 @@ public class FCC extends Zentrale {
         }
 
         throw new V5t11Exception("Steuerungskommando fehlgeschlagen; ack=" + ack);
-      }
-      catch (IOException e) {
+      } catch (IOException e) {
         throw new V5t11Exception("Steuerungskommando fehlgeschlagen", e);
       }
     }
@@ -367,8 +440,7 @@ public class FCC extends Zentrale {
   private static void delay(long millis) {
     try {
       Thread.sleep(millis);
-    }
-    catch (InterruptedException ignore) {
+    } catch (InterruptedException ignore) {
     }
   }
 
@@ -377,8 +449,7 @@ public class FCC extends Zentrale {
     this.syncPhaser.register();
     try {
       this.syncPhaser.awaitAdvanceInterruptibly(this.syncPhaser.arriveAndDeregister(), SX_SYNC_MILLIS + 50L, TimeUnit.MILLISECONDS);
-    }
-    catch (InterruptedException | TimeoutException e) {
+    } catch (InterruptedException | TimeoutException e) {
       // ignore;
     }
   }
@@ -438,7 +509,7 @@ public class FCC extends Zentrale {
 
     // Falls Lok aktiv, Fahrstufe und alle Funktionen setzen
     if (lok.isAktiv()) {
-      setSX2FahrstufeUndRichtung(idx, SX2Kanal.encodeFahrstufeUndRückwaerts(lok.getSystemTyp(), lok.getFahrstufe(), lok.isRueckwaerts()));
+      setSX2FahrstufeUndRichtung(idx, lok.getFahrstufe(), lok.isRueckwaerts());
       setSX2Licht(idx, lok.isLicht());
       setSX2Funktionen(idx, lok.getFunktionStatus());
 
@@ -446,7 +517,7 @@ public class FCC extends Zentrale {
     }
 
     // Inaktive Lok: Fahrstufe und alle Funktionen löschen und Lok abmelden
-    setSX2FahrstufeUndRichtung(idx, 0);
+    setSX2FahrstufeUndRichtung(idx, 0, false);
     setSX2Licht(idx, false);
     setSX2Funktionen(idx, 0);
     sx2Abmelden(idx);
@@ -461,14 +532,31 @@ public class FCC extends Zentrale {
         this.log.debug("Lok anmelden: " + lok);
       }
 
-      byte[] wert = SX2Kanal.encodeAdresse(lok.getSystemTyp(), lok.getAdresse());
-      int idx = send(new byte[] { 0x79, 0x01, wert[1], wert[0], (byte) lok.getSystemTyp().getFormatCode() }, ack -> ack >= 0 && ack <= BUSEXT_MAX_IDX);
+      byte[] wert = encodeAdresse(lok.getSystemTyp(), lok.getAdresse());
+      int idx = send(new byte[] { 0x79, 0x01, wert[1], wert[0], SYSTEMTYP_ANMELDECODE_MAP.get(lok.getSystemTyp()) }, ack -> ack >= 0 && ack <= BUSEXT_MAX_IDX);
 
       if (this.log.isDebugEnabled()) {
         this.log.debug("Lok " + lok + " hat Index " + idx);
       }
 
       return idx;
+    }
+  }
+
+  private static byte[] encodeAdresse(SystemTyp systemTyp, int adresse) {
+    switch (systemTyp) {
+    case SX1:
+      throw new IllegalArgumentException("Ungültiger Systemtyp: " + systemTyp);
+
+    case SX2:
+      int hunderter = adresse / 100;
+      int einer = adresse % 100;
+      int sx2Wert = (hunderter << 9) | (einer << 2);
+      return new byte[] { (byte) (sx2Wert & 0xff), (byte) ((sx2Wert >> 8) & 0xff) };
+
+    default:
+      int dccWert = adresse << 2;
+      return new byte[] { (byte) (dccWert & 0xff), (byte) ((dccWert >> 8) & 0xff) };
     }
   }
 
@@ -502,7 +590,12 @@ public class FCC extends Zentrale {
     }
   }
 
-  private void setSX2FahrstufeUndRichtung(int idx, int wert) {
+  private void setSX2FahrstufeUndRichtung(int idx, int fahrstufe, boolean rueckwaerts) {
+    int wert = fahrstufe & 0x7f;
+    if (rueckwaerts) {
+      wert |= 0x80;
+    }
+
     synchronized (Zentrale.class) {
       if (this.log.isDebugEnabled()) {
         this.log.debug(String.format("Lok-Fahrstufe und Richtung setzen: idx=%d, fahrstufe=%d, rückwärts=%b", idx, wert & 0x7f, (wert & 0x80) != 0));

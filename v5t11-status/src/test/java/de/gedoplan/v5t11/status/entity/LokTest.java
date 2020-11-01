@@ -72,7 +72,6 @@ public class LokTest extends CdiTestBase {
         + ",\"funktionStatus\":" + lok.getFunktionStatus()
         + ",\"id\":\"" + lokId + "\""
         + ",\"licht\":" + lok.isLicht()
-        + ",\"maxFahrstufe\":" + lok.getMaxFahrstufe()
         + ",\"rueckwaerts\":" + lok.isRueckwaerts()
         + ",\"funktionen\":" + toJson(lok.getFunktionen())
         + "}",
@@ -203,7 +202,7 @@ public class LokTest extends CdiTestBase {
     String lokId = TestLokData.lok103_003_0.getId();
     Lok lok = this.steuerung.getLok(lokId);
     assertNotNull(lok, "Lok " + lokId + " in Testdaten");
-    assertEquals(SystemTyp.DCC, lok.getSystemTyp(), "Lok-Typ von " + lokId);
+    assertEquals(SystemTyp.DCC_L_126, lok.getSystemTyp(), "Lok-Typ von " + lokId);
 
     lok.reset();
 

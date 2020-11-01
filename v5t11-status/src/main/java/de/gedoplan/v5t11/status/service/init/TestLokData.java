@@ -5,7 +5,7 @@ import de.gedoplan.v5t11.util.domain.entity.SystemTyp;
 
 public class TestLokData {
 
-  public static final Lok lok103_003_0 = new Lok("103 003-0", null, SystemTyp.DCC, false, 1103, 126,
+  public static final Lok lok103_003_0 = new Lok("103 003-0", null, SystemTyp.DCC_L_126, 1103,
       new Lok.LokFunktion(1, Lok.LokFunktion.LokFunktionsGruppe.AF, "Maschinenraumbeleuchtung", false, false),
       new Lok.LokFunktion(2, Lok.LokFunktion.LokFunktionsGruppe.BG, "Motor", false, false),
       new Lok.LokFunktion(3, Lok.LokFunktion.LokFunktionsGruppe.BG, "Pfeife", true, true),
@@ -23,7 +23,7 @@ public class TestLokData {
       new Lok.LokFunktion(32, Lok.LokFunktion.LokFunktionsGruppe.FL, "Nur Seite 1", false, false, 0b0000_0000_1010_0000, 0b0000_0000_0010_0000),
       new Lok.LokFunktion(31, Lok.LokFunktion.LokFunktionsGruppe.FL, "Nur Seite 2", false, false, 0b0000_0000_1010_0000, 0b0000_0000_1000_0000),
       new Lok.LokFunktion(33, Lok.LokFunktion.LokFunktionsGruppe.FL, "Doppel-A", false, false, 0b0000_0000_1010_0000, 0b0000_0000_1010_0000));
-  public static final Lok lok110_389_4 = new Lok("110 389-4", null, SystemTyp.DCC, false, 1110, 126,
+  public static final Lok lok110_389_4 = new Lok("110 389-4", null, SystemTyp.DCC_L_126, 1110,
       new Lok.LokFunktion(1, Lok.LokFunktion.LokFunktionsGruppe.BG, "Pfeife lang", true, false),
       new Lok.LokFunktion(2, Lok.LokFunktion.LokFunktionsGruppe.BG, "Motor", false, false),
       new Lok.LokFunktion(3, Lok.LokFunktion.LokFunktionsGruppe.BG, "Pfeife kurz", true, true),
@@ -42,7 +42,7 @@ public class TestLokData {
       new Lok.LokFunktion(32, Lok.LokFunktion.LokFunktionsGruppe.FL, "Nur Seite 1", false, false, 0b0000_0000_1010_0000, 0b0000_0000_0010_0000),
       new Lok.LokFunktion(31, Lok.LokFunktion.LokFunktionsGruppe.FL, "Nur Seite 2", false, false, 0b0000_0000_1010_0000, 0b0000_0000_1000_0000),
       new Lok.LokFunktion(33, Lok.LokFunktion.LokFunktionsGruppe.FL, "Doppel-A", false, false, 0b0000_0000_1010_0000, 0b0000_0000_1010_0000));
-  public static final Lok lok112_491_6 = new Lok("112 491-6", null, SystemTyp.DCC, false, 1112, 126,
+  public static final Lok lok112_491_6 = new Lok("112 491-6", null, SystemTyp.DCC_L_126, 1112,
       new Lok.LokFunktion(1, Lok.LokFunktion.LokFunktionsGruppe.BG, "Motor", false, false),
       new Lok.LokFunktion(2, Lok.LokFunktion.LokFunktionsGruppe.BG, "Pfeife lang", true, false),
       new Lok.LokFunktion(3, Lok.LokFunktion.LokFunktionsGruppe.BA, "Schaffnerpfiff", true, false),
@@ -58,9 +58,9 @@ public class TestLokData {
       new Lok.LokFunktion(30, Lok.LokFunktion.LokFunktionsGruppe.FL, "Beidseitig", false, false, 0b0000_1100_0000_0000, 0b0000_0000_0000_0000),
       new Lok.LokFunktion(32, Lok.LokFunktion.LokFunktionsGruppe.FL, "Nur Seite 1", false, false, 0b0000_1100_0000_0000, 0b0000_0100_0000_0000),
       new Lok.LokFunktion(31, Lok.LokFunktion.LokFunktionsGruppe.FL, "Nur Seite 2", false, false, 0b0000_1100_0000_0000, 0b0000_1000_0000_0000));
-  public static final Lok lok151_032_0 = new Lok("151 032-0", "DHL100", SystemTyp.SX1, false, 20, 31);
-  public static final Lok lok151_073_4 = new Lok("151 073-4", "DH10", SystemTyp.SX2, false, 1151, 127);
-  public static final Lok lok194_183_0 = new Lok("194 183-0", "Zimo", SystemTyp.DCC, false, 1194, 126,
+  public static final Lok lok151_032_0 = new Lok("151 032-0", "DHL100", SystemTyp.SX1, 20);
+  public static final Lok lok151_073_4 = new Lok("151 073-4", "DH10", SystemTyp.SX2, 1151);
+  public static final Lok lok194_183_0 = new Lok("194 183-0", "Zimo", SystemTyp.DCC_L_126, 1194,
       new Lok.LokFunktion(1, Lok.LokFunktion.LokFunktionsGruppe.BG, "Motor", false, false),
       new Lok.LokFunktion(2, Lok.LokFunktion.LokFunktionsGruppe.BG, "Pfeife kurz", true, true),
       new Lok.LokFunktion(3, Lok.LokFunktion.LokFunktionsGruppe.BG, "Pfeife lang", true, false),
@@ -75,8 +75,8 @@ public class TestLokData {
       new Lok.LokFunktion(12, Lok.LokFunktion.LokFunktionsGruppe.BG, "Tür", false, false),
       new Lok.LokFunktion(14, Lok.LokFunktion.LokFunktionsGruppe.AF, "Geräusche ausblenden", false, false),
       new Lok.LokFunktion(15, Lok.LokFunktion.LokFunktionsGruppe.BG, "Sanden", true, false));
-  public static final Lok lok210_004_8 = new Lok("210 004-8", "DHL100", SystemTyp.SX1, false, 2, 31);
-  public static final Lok lok217_001_7 = new Lok("217 001-7", null, SystemTyp.SX2, false, 1217, 127,
+  public static final Lok lok210_004_8 = new Lok("210 004-8", "DHL100", SystemTyp.SX1, 2);
+  public static final Lok lok217_001_7 = new Lok("217 001-7", null, SystemTyp.SX2, 1217,
       new Lok.LokFunktion(1, Lok.LokFunktion.LokFunktionsGruppe.AF, "Führerstandsbeleuchtung", false, false),
       new Lok.LokFunktion(2, Lok.LokFunktion.LokFunktionsGruppe.BG, "Motor", false, false),
       new Lok.LokFunktion(3, Lok.LokFunktion.LokFunktionsGruppe.BG, "Signalhorn hoch", true, true),
@@ -94,7 +94,7 @@ public class TestLokData {
       new Lok.LokFunktion(32, Lok.LokFunktion.LokFunktionsGruppe.FL, "Nur Seite 1", false, false, 0b0000_0000_1010_0000, 0b0000_0000_0010_0000),
       new Lok.LokFunktion(31, Lok.LokFunktion.LokFunktionsGruppe.FL, "Nur Seite 2", false, false, 0b0000_0000_1010_0000, 0b0000_0000_1000_0000),
       new Lok.LokFunktion(33, Lok.LokFunktion.LokFunktionsGruppe.FL, "Doppel-A", false, false, 0b0000_0000_1010_0000, 0b0000_0000_1010_0000));
-  public static final Lok lok230_001_0 = new Lok("230 001-0", null, SystemTyp.DCC, false, 1230, 126,
+  public static final Lok lok230_001_0 = new Lok("230 001-0", null, SystemTyp.DCC_L_126, 1230,
       new Lok.LokFunktion(1, Lok.LokFunktion.LokFunktionsGruppe.BG, "Horn kurz", true, true),
       new Lok.LokFunktion(2, Lok.LokFunktion.LokFunktionsGruppe.BG, "Motor", false, false),
       new Lok.LokFunktion(3, Lok.LokFunktion.LokFunktionsGruppe.BG, "Horn lang", true, false),
@@ -109,9 +109,9 @@ public class TestLokData {
       new Lok.LokFunktion(32, Lok.LokFunktion.LokFunktionsGruppe.FL, "Nur Seite 2", false, false, 0b0000_0000_1010_0000, 0b0000_0000_0010_0000),
       new Lok.LokFunktion(31, Lok.LokFunktion.LokFunktionsGruppe.FL, "Nur Seite 1", false, false, 0b0000_0000_1010_0000, 0b0000_0000_1000_0000),
       new Lok.LokFunktion(33, Lok.LokFunktion.LokFunktionsGruppe.FL, "Doppel-A", false, false, 0b0000_0000_1010_0000, 0b0000_0000_1010_0000));
-  public static final Lok lok332_262_5 = new Lok("332 262-5", "DHL100", SystemTyp.SX1, false, 14, 31);
-  public static final Lok lok430_119_8 = new Lok("430 119-8", "DHL100", SystemTyp.SX1, false, 16, 31);
-  public static final Lok lokE10_472 = new Lok("E10 472", null, SystemTyp.DCC, false, 1104, 126,
+  public static final Lok lok332_262_5 = new Lok("332 262-5", "DHL100", SystemTyp.SX1, 14);
+  public static final Lok lok430_119_8 = new Lok("430 119-8", "DHL100", SystemTyp.SX1, 16);
+  public static final Lok lokE10_472 = new Lok("E10 472", null, SystemTyp.DCC_L_126, 1104,
       new Lok.LokFunktion(1, Lok.LokFunktion.LokFunktionsGruppe.BG, "Motor", false, false),
       new Lok.LokFunktion(2, Lok.LokFunktion.LokFunktionsGruppe.BG, "Pfeife lang", true, false),
       new Lok.LokFunktion(3, Lok.LokFunktion.LokFunktionsGruppe.BA, "Schaffnerpfiff", true, false),
@@ -128,7 +128,7 @@ public class TestLokData {
       new Lok.LokFunktion(32, Lok.LokFunktion.LokFunktionsGruppe.FL, "Nur Seite 1", false, false, 0b0000_1100_0000_0000, 0b0000_0100_0000_0000),
       new Lok.LokFunktion(31, Lok.LokFunktion.LokFunktionsGruppe.FL, "Nur Seite 2", false, false, 0b0000_1100_0000_0000, 0b0000_1000_0000_0000),
       new Lok.LokFunktion(33, Lok.LokFunktion.LokFunktionsGruppe.FL, "Doppel-A", false, false, 0b0000_1100_0000_0000, 0b0000_1100_0000_0000));
-  public static final Lok lokE50_047 = new Lok("E50 047", null, SystemTyp.SX2, false, 1050, 127,
+  public static final Lok lokE50_047 = new Lok("E50 047", null, SystemTyp.SX2, 1050,
       new Lok.LokFunktion(1, Lok.LokFunktion.LokFunktionsGruppe.AF, "Führerstandsbeleuchtung", false, false),
       new Lok.LokFunktion(2, Lok.LokFunktion.LokFunktionsGruppe.BG, "Motor", false, false),
       new Lok.LokFunktion(3, Lok.LokFunktion.LokFunktionsGruppe.BG, "Pfeife lang", true, false),
@@ -141,8 +141,8 @@ public class TestLokData {
       new Lok.LokFunktion(32, Lok.LokFunktion.LokFunktionsGruppe.FL, "Nur Seite 1", false, false, 0b0000_0000_1010_0000, 0b0000_0000_0010_0000),
       new Lok.LokFunktion(31, Lok.LokFunktion.LokFunktionsGruppe.FL, "Nur Seite 2", false, false, 0b0000_0000_1010_0000, 0b0000_0000_1000_0000),
       new Lok.LokFunktion(33, Lok.LokFunktion.LokFunktionsGruppe.FL, "Doppel-A", false, false, 0b0000_0000_1010_0000, 0b0000_0000_1010_0000));
-  public static final Lok lokE9103 = new Lok("E9103", "DHL100", SystemTyp.SX1, false, 28, 31);
-  public static final Lok lokV100_1365 = new Lok("V100 1365", null, SystemTyp.SX2, false, 1365, 127,
+  public static final Lok lokE9103 = new Lok("E9103", "DHL100", SystemTyp.SX1, 28);
+  public static final Lok lokV100_1365 = new Lok("V100 1365", null, SystemTyp.SX2, 1365,
       new Lok.LokFunktion(1, Lok.LokFunktion.LokFunktionsGruppe.FL, "Spitzensignal nur vorn", false, false),
       new Lok.LokFunktion(2, Lok.LokFunktion.LokFunktionsGruppe.BG, "Motor", false, false),
       new Lok.LokFunktion(3, Lok.LokFunktion.LokFunktionsGruppe.BG, "Signalhorn hoch", true, false),
@@ -159,7 +159,7 @@ public class TestLokData {
       new Lok.LokFunktion(32, Lok.LokFunktion.LokFunktionsGruppe.FL, "Nur Seite 1", false, false, 0b0000_0000_1010_0000, 0b0000_0000_0010_0000),
       new Lok.LokFunktion(31, Lok.LokFunktion.LokFunktionsGruppe.FL, "Nur Seite 2", false, false, 0b0000_0000_1010_0000, 0b0000_0000_1000_0000),
       new Lok.LokFunktion(33, Lok.LokFunktion.LokFunktionsGruppe.FL, "Doppel-A", false, false, 0b0000_0000_1010_0000, 0b0000_0000_1010_0000));
-  public static final Lok lokV200_116 = new Lok("V200 116", null, SystemTyp.DCC, false, 1200, 126,
+  public static final Lok lokV200_116 = new Lok("V200 116", null, SystemTyp.DCC_L_126, 1200,
       new Lok.LokFunktion(1, Lok.LokFunktion.LokFunktionsGruppe.BG, "Motor", false, false),
       new Lok.LokFunktion(2, Lok.LokFunktion.LokFunktionsGruppe.BG, "Signalhorn", true, true),
       new Lok.LokFunktion(3, Lok.LokFunktion.LokFunktionsGruppe.BG, "Motor 2", false, false),
@@ -177,7 +177,7 @@ public class TestLokData {
       new Lok.LokFunktion(30, Lok.LokFunktion.LokFunktionsGruppe.FL, "Beidseitig", false, false, 0b0000_0000_0001_1000, 0b0000_0000_0000_0000),
       new Lok.LokFunktion(31, Lok.LokFunktion.LokFunktionsGruppe.FL, "Nur weiß", false, false, 0b0000_0000_0001_1000, 0b0000_0000_0000_1000),
       new Lok.LokFunktion(32, Lok.LokFunktion.LokFunktionsGruppe.FL, "Nur rot", false, false, 0b0000_0000_0001_1000, 0b0000_0000_0001_0000));
-  public static final Lok lok612_509_0 = new Lok("612 509-0", null, SystemTyp.DCC, false, 1612, 126,
+  public static final Lok lok612_509_0 = new Lok("612 509-0", null, SystemTyp.DCC_L_126, 1612,
       new Lok.LokFunktion(1, Lok.LokFunktion.LokFunktionsGruppe.BG, "Motor", false, false),
       new Lok.LokFunktion(2, Lok.LokFunktion.LokFunktionsGruppe.AF, "Innenbeleuchtung", false, false),
       new Lok.LokFunktion(3, Lok.LokFunktion.LokFunktionsGruppe.BG, "Signalhorn hoch", true, true),
@@ -188,9 +188,9 @@ public class TestLokData {
       new Lok.LokFunktion(10, Lok.LokFunktion.LokFunktionsGruppe.AF, "Geräusche ausblenden", false, false),
       new Lok.LokFunktion(15, Lok.LokFunktion.LokFunktionsGruppe.BG, "Signalhorn tief kurz", true, false),
       new Lok.LokFunktion(16, Lok.LokFunktion.LokFunktionsGruppe.BG, "Signalhorn tief lang", true, false));
-  public static final Lok lokET_90_5019 = new Lok("ET 90.5019", "DHL100", SystemTyp.SX1, false, 21, 31);
-  public static final Lok lokVT_11_5019 = new Lok("VT 11.5019", "DHL100", SystemTyp.SX1, false, 1, 31);
-  public static final Lok lokVT_98_9667 = new Lok("VT 98 9667", null, SystemTyp.DCC, false, 1098, 126,
+  public static final Lok lokET_90_5019 = new Lok("ET 90.5019", "DHL100", SystemTyp.SX1, 21);
+  public static final Lok lokVT_11_5019 = new Lok("VT 11.5019", "DHL100", SystemTyp.SX1, 1);
+  public static final Lok lokVT_98_9667 = new Lok("VT 98 9667", null, SystemTyp.DCC_L_126, 1098,
       new Lok.LokFunktion(1, Lok.LokFunktion.LokFunktionsGruppe.BG, "Motor", false, false),
       new Lok.LokFunktion(2, Lok.LokFunktion.LokFunktionsGruppe.BA, "Türenschließen", true, false),
       new Lok.LokFunktion(3, Lok.LokFunktion.LokFunktionsGruppe.BG, "Signalhorn", true, false),

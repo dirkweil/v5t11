@@ -68,13 +68,6 @@ public class Lok extends SingleIdEntity<String> implements Comparable<Lok> {
   private SystemTyp systemTyp;
 
   /**
-   * Kurze Adresse?
-   * Hat nur bei DCC Bedeutung.
-   */
-  @Column(name = "KURZE_ADRESSE")
-  private boolean kurzeAdresse;
-
-  /**
    * Lokadresse.
    * Muss im gültigen Bereich sein:
    * - Selectrix: 1-103,
@@ -93,39 +86,14 @@ public class Lok extends SingleIdEntity<String> implements Comparable<Lok> {
     switch (this.systemTyp) {
     case SX1:
       return this.adresse >= 1 && this.adresse <= 103;
-    case SX2:
+
+    case DCC_K_14:
+    case DCC_K_28:
+    case DCC_K_126:
+      return this.adresse >= 1 && this.adresse <= 99;
+
     default:
       return this.adresse >= 1 && this.adresse <= 9999;
-    case DCC:
-      return this.adresse >= 1 && this.adresse <= (this.kurzeAdresse ? 99 : 9999);
-    }
-  }
-
-  /**
-   * Maximale Fahrstufe.
-   * Gültige Werte:
-   * - Selectrix: 31,
-   * - Selecrix 2: 127,
-   * - DCC: 14, 28 oder 126.
-   */
-  @Column(name = "MAX_FAHRSTUFE", nullable = false)
-  @Getter(onMethod_ = @JsonbInclude(full = true))
-  private int maxFahrstufe;
-
-  @AssertTrue(message = "Ungültige maximale Fahrstufe")
-  boolean isMaxFahrstufeValid() {
-    if (this.systemTyp == null) {
-      return true;
-    }
-
-    switch (this.systemTyp) {
-    case SX1:
-      return this.maxFahrstufe == 31;
-    case SX2:
-    default:
-      return this.maxFahrstufe == 127;
-    case DCC:
-      return this.maxFahrstufe == 14 || this.maxFahrstufe == 28 || this.maxFahrstufe == 126;
     }
   }
 
@@ -137,7 +105,7 @@ public class Lok extends SingleIdEntity<String> implements Comparable<Lok> {
 
   @AssertTrue(message = "Ungültige Fahrstufe")
   boolean isfahrstufeValid() {
-    return this.fahrstufe >= 0 && this.fahrstufe <= this.maxFahrstufe;
+    return this.fahrstufe >= 0 && this.fahrstufe <= this.systemTyp.getMaxFahrstufe();
   }
 
   @Getter(onMethod_ = @JsonbInclude)
@@ -169,13 +137,11 @@ public class Lok extends SingleIdEntity<String> implements Comparable<Lok> {
   @Getter(onMethod_ = @JsonbInclude)
   private boolean aktiv;
 
-  public Lok(String id, String decoder, @NotNull SystemTyp systemTyp, boolean kurzeAdresse, int adresse, int maxFahrstufe, LokFunktion... funktionen) {
+  public Lok(String id, String decoder, @NotNull SystemTyp systemTyp, int adresse, LokFunktion... funktionen) {
     this.id = id;
     this.decoder = decoder;
     this.systemTyp = systemTyp;
-    this.kurzeAdresse = kurzeAdresse;
     this.adresse = adresse;
-    this.maxFahrstufe = maxFahrstufe;
     for (LokFunktion funktion : funktionen) {
       this.funktionen.add(funktion);
     }
@@ -202,11 +168,8 @@ public class Lok extends SingleIdEntity<String> implements Comparable<Lok> {
         .append('@')
         .append(this.adresse)
         .append('(')
-        .append(this.systemTyp);
-    if (this.systemTyp == SystemTyp.DCC && this.kurzeAdresse) {
-      sb.append(",kurz");
-    }
-    sb.append(")}");
+        .append(this.systemTyp)
+        .append(")}");
     return sb.toString();
   }
 
@@ -218,7 +181,7 @@ public class Lok extends SingleIdEntity<String> implements Comparable<Lok> {
     synchronized (Zentrale.class) {
 
       if (fahrstufe != this.fahrstufe) {
-        if (fahrstufe < 0 || fahrstufe > this.maxFahrstufe) {
+        if (fahrstufe < 0 || fahrstufe > this.systemTyp.getMaxFahrstufe()) {
           throw new IllegalArgumentException("Ungültige Fahrstufe: " + fahrstufe);
         }
 
@@ -293,7 +256,8 @@ public class Lok extends SingleIdEntity<String> implements Comparable<Lok> {
    * Lok-Zustand an SX1-Kanal anpassen.
    * Diese Methode wird nur für SX1-Loks aufgerufen.
    *
-   * @param kanal SX1-Kanal
+   * @param kanal
+   *          SX1-Kanal
    */
   public void adjustTo(Kanal kanal) {
     synchronized (Zentrale.class) {
@@ -335,7 +299,8 @@ public class Lok extends SingleIdEntity<String> implements Comparable<Lok> {
    * Lok-Zustand an SX2-Kanal anpassen.
    * Diese Methode wird nicht für SX1-Loks aufgerufen.
    *
-   * @param kanal SX2-Kanal
+   * @param kanal
+   *          SX2-Kanal
    */
   public void adjustTo(SX2Kanal kanal) {
     synchronized (Zentrale.class) {

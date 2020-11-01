@@ -249,7 +249,7 @@ public class SystemControlPresenter implements Serializable {
   }
 
   public int getLokMaxFahrstufe() {
-    return this.lok != null ? this.lok.getMaxFahrstufe() : 31;
+    return this.lok != null ? this.lok.getSystemTyp().getMaxFahrstufe() : 31;
   }
 
   public int getLokFahrstufe() {
@@ -258,7 +258,7 @@ public class SystemControlPresenter implements Serializable {
 
   public void setLokFahrstufe(int fahrstufe) {
     if (this.lok != null) {
-      if (fahrstufe >= 0 && fahrstufe <= this.lok.getMaxFahrstufe()) {
+      if (fahrstufe >= 0 && fahrstufe <= this.lok.getSystemTyp().getMaxFahrstufe()) {
         this.lok.setFahrstufe(fahrstufe);
       } else {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("ungültige Fahrstufe: " + fahrstufe));

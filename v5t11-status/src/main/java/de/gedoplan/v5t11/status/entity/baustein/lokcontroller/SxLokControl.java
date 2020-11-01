@@ -60,7 +60,7 @@ public class SxLokControl extends Lokcontroller {
    * Wert setzen: {@link #lok}.
    *
    * @param lok
-   *        Wert
+   *          Wert
    */
   @Override
   public void setLok(Lok lok) {
@@ -85,7 +85,7 @@ public class SxLokControl extends Lokcontroller {
         }
 
         // Fahrstufen-Umrechnungsfaktor errechnen
-        this.fahrstufenFaktor = (double) this.lok.getMaxFahrstufe() / MAX_FAHRSTUFE;
+        this.fahrstufenFaktor = (double) this.lok.getSystemTyp().getMaxFahrstufe() / MAX_FAHRSTUFE;
 
         // Lok aktiv setzen
         this.lok.setAktiv(true);
