@@ -309,31 +309,23 @@ public class FCC extends Zentrale {
 
   }
 
-  public static boolean decodeLicht(byte adrLowLicht) {
+  private static boolean decodeLicht(byte adrLowLicht) {
     return (adrLowLicht & 0b0000_0010) != 0;
   }
 
-  public static boolean decodeRueckwaerts(byte rueckwaertsFahrstufe) {
+  private static boolean decodeRueckwaerts(byte rueckwaertsFahrstufe) {
     return (rueckwaertsFahrstufe & 0b1000_0000) != 0;
   }
 
-  public static int decodeFahrstufe(SystemTyp systemTyp, byte rueckwaertsFahrstufe) {
-    if (systemTyp != null) {
-      int fahrstufe = rueckwaertsFahrstufe & 0b0111_1111;
-      switch (systemTyp) {
-      case SX1:
-      case SX2:
-        return fahrstufe;
-
-      default:
-        return fahrstufe < 2 ? 0 : fahrstufe - 1;
-      }
+  private static int decodeFahrstufe(SystemTyp systemTyp, byte rueckwaertsFahrstufe) {
+    int fahrstufe = rueckwaertsFahrstufe & 0b0111_1111;
+    if (systemTyp.isDcc()) {
+      fahrstufe = fahrstufe < 2 ? 0 : fahrstufe - 1;
     }
-
-    throw new IllegalArgumentException("Ungültiger Systemtyp: " + systemTyp);
+    return fahrstufe;
   }
 
-  public static int decodeFunktionsstatus(byte funktion9_16, byte funktion1_8) {
+  private static int decodeFunktionsstatus(byte funktion9_16, byte funktion1_8) {
     return Byte.toUnsignedInt(funktion9_16) << 8 | Byte.toUnsignedInt(funktion1_8);
   }
 
@@ -509,17 +501,12 @@ public class FCC extends Zentrale {
 
     // Falls Lok aktiv, Fahrstufe und alle Funktionen setzen
     if (lok.isAktiv()) {
-      setSX2FahrstufeUndRichtung(idx, lok.getFahrstufe(), lok.isRueckwaerts());
-      setSX2Licht(idx, lok.isLicht());
-      setSX2Funktionen(idx, lok.getFunktionStatus());
-
+      setSX2Werte(idx, lok.getSystemTyp(), lok.getFahrstufe(), lok.isRueckwaerts(), lok.isLicht(), lok.getFunktionStatus());
       return;
     }
 
     // Inaktive Lok: Fahrstufe und alle Funktionen löschen und Lok abmelden
-    setSX2FahrstufeUndRichtung(idx, 0, false);
-    setSX2Licht(idx, false);
-    setSX2Funktionen(idx, 0);
+    setSX2Werte(idx, lok.getSystemTyp(), 0, false, false, 0);
     sx2Abmelden(idx);
 
     // Slot freigeben
@@ -569,38 +556,35 @@ public class FCC extends Zentrale {
     }
   }
 
-  private void setSX2Funktionen(int idx, int funktionStatus) {
+  private void setSX2Werte(int idx, SystemTyp systemTyp, int fahrstufe, boolean rueckwaerts, boolean licht, int funktionStatus) {
     synchronized (Zentrale.class) {
-      if (this.log.isDebugEnabled()) {
-        this.log.debug(String.format("Lok-Funktionen setzen: idx=%d, f=0x%04x", idx, funktionStatus));
+      int wertFahrstufeRichtung = fahrstufe & 0x7f;
+      if (wertFahrstufeRichtung > 0 && systemTyp.isDcc()) {
+        wertFahrstufeRichtung++;
       }
-      byte f1_8 = (byte) (funktionStatus & 0x00ff);
-      byte f9_16 = (byte) ((funktionStatus >>> 8) & 0x00ff);
-      send(new byte[] { 0x79, 0x16, (byte) idx, f1_8, f9_16 }, null);
-    }
-  }
 
-  private void setSX2Licht(int idx, boolean licht) {
-    synchronized (Zentrale.class) {
-      if (this.log.isDebugEnabled()) {
-        this.log.debug(String.format("Lok-Licht setzen: idx=%d, licht=%b", idx, licht));
+      if (rueckwaerts) {
+        wertFahrstufeRichtung |= 0x80;
       }
-      byte wert = licht ? (byte) 0x02 : (byte) 0x00;
-      send(new byte[] { 0x79, 0x05, (byte) idx, wert, 0x00 }, null);
-    }
-  }
 
-  private void setSX2FahrstufeUndRichtung(int idx, int fahrstufe, boolean rueckwaerts) {
-    int wert = fahrstufe & 0x7f;
-    if (rueckwaerts) {
-      wert |= 0x80;
-    }
+      byte wertLicht = licht ? (byte) 0x02 : (byte) 0x00;
 
-    synchronized (Zentrale.class) {
+      byte wertF1_8 = (byte) (funktionStatus & 0x00ff);
+      byte wertF9_16 = (byte) ((funktionStatus >>> 8) & 0x00ff);
+
       if (this.log.isDebugEnabled()) {
-        this.log.debug(String.format("Lok-Fahrstufe und Richtung setzen: idx=%d, fahrstufe=%d, rückwärts=%b", idx, wert & 0x7f, (wert & 0x80) != 0));
+        this.log.debug(String.format(
+            "Fahrzeugdaten setzen: idx=%d, fahrstufe=%d, rückwärts=%b, licht=%b, f=0x%04x",
+            idx,
+            fahrstufe,
+            rueckwaerts,
+            licht,
+            funktionStatus));
       }
-      send(new byte[] { 0x79, 0x13, (byte) idx, (byte) wert, 0x00 }, null);
+
+      send(new byte[] { 0x79, 0x13, (byte) idx, (byte) wertFahrstufeRichtung, 0x00 }, null);
+      send(new byte[] { 0x79, 0x05, (byte) idx, wertLicht, 0x00 }, null);
+      send(new byte[] { 0x79, 0x16, (byte) idx, wertF1_8, wertF9_16 }, null);
     }
   }
 
