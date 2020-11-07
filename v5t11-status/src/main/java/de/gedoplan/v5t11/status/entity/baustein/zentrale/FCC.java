@@ -5,14 +5,11 @@ import de.gedoplan.v5t11.status.entity.SX2Kanal;
 import de.gedoplan.v5t11.status.entity.baustein.Zentrale;
 import de.gedoplan.v5t11.status.entity.lok.Lok;
 import de.gedoplan.v5t11.status.entity.lok.Lok.LokFunktion;
-import de.gedoplan.v5t11.util.domain.entity.SystemTyp;
+import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 import de.gedoplan.v5t11.util.misc.V5t11Exception;
 
 import java.io.EOFException;
 import java.io.IOException;
-import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
@@ -52,32 +49,23 @@ public class FCC extends Zentrale {
   // Maximale normal verwendbare SX1-Adresse
   private static final int MAX_SX1_ADR = 103;
 
-  private static final Map<SystemTyp, Byte> SYSTEMTYP_ANMELDECODE_MAP = new EnumMap<>(SystemTyp.class);
-  static {
-    SYSTEMTYP_ANMELDECODE_MAP.put(SystemTyp.SX1, (byte) 0x00);
-    SYSTEMTYP_ANMELDECODE_MAP.put(SystemTyp.SX2, (byte) 0x04);
-    SYSTEMTYP_ANMELDECODE_MAP.put(SystemTyp.DCC_K_14, (byte) 0x91);
-    SYSTEMTYP_ANMELDECODE_MAP.put(SystemTyp.DCC_K_28, (byte) 0x81);
-    SYSTEMTYP_ANMELDECODE_MAP.put(SystemTyp.DCC_K_126, (byte) 0x05);
-    SYSTEMTYP_ANMELDECODE_MAP.put(SystemTyp.DCC_L_14, (byte) 0x93);
-    SYSTEMTYP_ANMELDECODE_MAP.put(SystemTyp.DCC_L_28, (byte) 0x83);
-    SYSTEMTYP_ANMELDECODE_MAP.put(SystemTyp.DCC_L_126, (byte) 0x07);
-  }
-
-  private static final Map<Byte, SystemTyp> MELDECODE_SYSTEMTYP_MAP = new HashMap<>();
-  static {
-    MELDECODE_SYSTEMTYP_MAP.put((byte) 0x00, SystemTyp.SX1);
-    MELDECODE_SYSTEMTYP_MAP.put((byte) 0x11, SystemTyp.DCC_K_14);
-    MELDECODE_SYSTEMTYP_MAP.put((byte) 0x01, SystemTyp.DCC_K_28);
-    MELDECODE_SYSTEMTYP_MAP.put((byte) 0x13, SystemTyp.DCC_L_14);
-    MELDECODE_SYSTEMTYP_MAP.put((byte) 0x03, SystemTyp.DCC_L_28);
-    MELDECODE_SYSTEMTYP_MAP.put((byte) 0x04, SystemTyp.SX2);
-    MELDECODE_SYSTEMTYP_MAP.put((byte) 0x14, SystemTyp.SX2);
-    MELDECODE_SYSTEMTYP_MAP.put((byte) 0x05, SystemTyp.DCC_K_126);
-    MELDECODE_SYSTEMTYP_MAP.put((byte) 0x15, SystemTyp.DCC_K_126);
-    MELDECODE_SYSTEMTYP_MAP.put((byte) 0x07, SystemTyp.DCC_L_126);
-    MELDECODE_SYSTEMTYP_MAP.put((byte) 0x17, SystemTyp.DCC_L_126);
-  }
+  // private static final Map<SystemTyp, Byte> SYSTEMTYP_ANMELDECODE_MAP = new EnumMap<>(SystemTyp.class);
+  // static {
+  // SYSTEMTYP_ANMELDECODE_MAP.put(SystemTyp.SX1, (byte) 0x00);
+  // SYSTEMTYP_ANMELDECODE_MAP.put(SystemTyp.SX2, (byte) 0x04);
+  // SYSTEMTYP_ANMELDECODE_MAP.put(SystemTyp.DCC, (byte) 0x05);
+  // SYSTEMTYP_ANMELDECODE_MAP.put(SystemTyp.DCC, (byte) 0x07);
+  // }
+  //
+  // private static final Map<Byte, SystemTyp> MELDECODE_SYSTEMTYP_MAP = new HashMap<>();
+  // static {
+  // MELDECODE_SYSTEMTYP_MAP.put((byte) 0x04, SystemTyp.SX2);
+  // MELDECODE_SYSTEMTYP_MAP.put((byte) 0x14, SystemTyp.SX2);
+  // MELDECODE_SYSTEMTYP_MAP.put((byte) 0x05, SystemTyp.DCC);
+  // MELDECODE_SYSTEMTYP_MAP.put((byte) 0x15, SystemTyp.DCC);
+  // MELDECODE_SYSTEMTYP_MAP.put((byte) 0x07, SystemTyp.DCC);
+  // MELDECODE_SYSTEMTYP_MAP.put((byte) 0x17, SystemTyp.DCC);
+  // }
 
   private int syncCycleNo = 0;
 
@@ -290,8 +278,24 @@ public class FCC extends Zentrale {
   }
 
   private static SystemTyp decodeSystemTyp(byte codeHigh, byte codeLow) {
-    byte meldeCode = (byte) ((codeLow & 0x0f) | ((codeHigh & 0x01) << 4));
-    return MELDECODE_SYSTEMTYP_MAP.get(meldeCode);
+    int meldeCode = ((codeLow & 0x0f) | ((codeHigh & 0x01) << 4));
+    switch (meldeCode) {
+    case 0x00:
+      return null;
+
+    case 0x04:
+    case 0x14:
+      return SystemTyp.SX2;
+
+    case 0x05:
+    case 0x07:
+    case 0x15:
+    case 0x17:
+      return SystemTyp.DCC;
+
+    default:
+      throw new IllegalArgumentException(String.format("Ungültiger Meldecode: 0x%02x", meldeCode));
+    }
   }
 
   private static int decodeAdresse(SystemTyp systemTyp, byte adrHigh, byte adrLow) {
@@ -319,7 +323,7 @@ public class FCC extends Zentrale {
 
   private static int decodeFahrstufe(SystemTyp systemTyp, byte rueckwaertsFahrstufe) {
     int fahrstufe = rueckwaertsFahrstufe & 0b0111_1111;
-    if (systemTyp.isDcc()) {
+    if (systemTyp == SystemTyp.DCC) {
       fahrstufe = fahrstufe < 2 ? 0 : fahrstufe - 1;
     }
     return fahrstufe;
@@ -519,8 +523,16 @@ public class FCC extends Zentrale {
         this.log.debug("Lok anmelden: " + lok);
       }
 
-      byte[] wert = encodeAdresse(lok.getSystemTyp(), lok.getAdresse());
-      int idx = send(new byte[] { 0x79, 0x01, wert[1], wert[0], SYSTEMTYP_ANMELDECODE_MAP.get(lok.getSystemTyp()) }, ack -> ack >= 0 && ack <= BUSEXT_MAX_IDX);
+      byte anmeldeCode = 0x04; // SX2
+      if (lok.getSystemTyp() == SystemTyp.DCC) {
+        if (lok.getAdresse() <= 127) {
+          anmeldeCode = 0x05; // DCC, kurze Adresse
+        } else {
+          anmeldeCode = 0x07; // DCC, lange Adresse
+        }
+      }
+      byte[] adressWert = encodeAdresse(lok.getSystemTyp(), lok.getAdresse());
+      int idx = send(new byte[] { 0x79, 0x01, adressWert[1], adressWert[0], anmeldeCode }, ack -> ack >= 0 && ack <= BUSEXT_MAX_IDX);
 
       if (this.log.isDebugEnabled()) {
         this.log.debug("Lok " + lok + " hat Index " + idx);
@@ -559,7 +571,7 @@ public class FCC extends Zentrale {
   private void setSX2Werte(int idx, SystemTyp systemTyp, int fahrstufe, boolean rueckwaerts, boolean licht, int funktionStatus) {
     synchronized (Zentrale.class) {
       int wertFahrstufeRichtung = fahrstufe & 0x7f;
-      if (wertFahrstufeRichtung > 0 && systemTyp.isDcc()) {
+      if (wertFahrstufeRichtung > 0 && systemTyp == SystemTyp.DCC) {
         wertFahrstufeRichtung++;
       }
 

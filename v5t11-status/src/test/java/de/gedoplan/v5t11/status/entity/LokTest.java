@@ -8,7 +8,7 @@ import de.gedoplan.v5t11.status.entity.baustein.zentrale.DummyZentrale;
 import de.gedoplan.v5t11.status.entity.lok.Lok;
 import de.gedoplan.v5t11.status.entity.lok.Lok.LokFunktion;
 import de.gedoplan.v5t11.status.service.init.TestLokData;
-import de.gedoplan.v5t11.util.domain.entity.SystemTyp;
+import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 
 import java.util.Set;
@@ -202,7 +202,7 @@ public class LokTest extends CdiTestBase {
     String lokId = TestLokData.lok103_003_0.getId();
     Lok lok = this.steuerung.getLok(lokId);
     assertNotNull(lok, "Lok " + lokId + " in Testdaten");
-    assertEquals(SystemTyp.DCC_L_126, lok.getSystemTyp(), "Lok-Typ von " + lokId);
+    assertEquals(SystemTyp.DCC, lok.getSystemTyp(), "Lok-Typ von " + lokId);
 
     lok.reset();
 

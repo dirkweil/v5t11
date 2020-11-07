@@ -6,7 +6,7 @@ import de.gedoplan.v5t11.status.entity.Kanal;
 import de.gedoplan.v5t11.status.entity.SX2Kanal;
 import de.gedoplan.v5t11.status.entity.baustein.Zentrale;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
-import de.gedoplan.v5t11.util.domain.entity.SystemTyp;
+import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
 import java.util.Set;
@@ -83,18 +83,11 @@ public class Lok extends SingleIdEntity<String> implements Comparable<Lok> {
       return true;
     }
 
-    switch (this.systemTyp) {
-    case SX1:
+    if (this.systemTyp == SystemTyp.SX1) {
       return this.adresse >= 1 && this.adresse <= 103;
-
-    case DCC_K_14:
-    case DCC_K_28:
-    case DCC_K_126:
-      return this.adresse >= 1 && this.adresse <= 99;
-
-    default:
-      return this.adresse >= 1 && this.adresse <= 9999;
     }
+
+    return this.adresse >= 1 && this.adresse <= 9999;
   }
 
   /**

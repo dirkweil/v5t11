@@ -3,7 +3,7 @@ package de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug;
 import de.gedoplan.baselibs.persistence.entity.SingleIdEntity;
 import de.gedoplan.baselibs.utils.inject.InjectionUtil;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
-import de.gedoplan.v5t11.util.domain.entity.SystemTyp;
+import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
 import java.io.Serializable;
@@ -25,6 +25,7 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -37,7 +38,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = Fahrzeug.TABLE_NAME)
+@Table(name = Fahrzeug.TABLE_NAME, uniqueConstraints = @UniqueConstraint(columnNames = { "SYSTEM_TYP", "ADRESSE" }))
 @Access(AccessType.FIELD)
 public class Fahrzeug extends SingleIdEntity<String> implements Comparable<Fahrzeug> {
 
@@ -87,18 +88,11 @@ public class Fahrzeug extends SingleIdEntity<String> implements Comparable<Fahrz
       return true;
     }
 
-    switch (this.systemTyp) {
-    case SX1:
+    if (this.systemTyp == SystemTyp.SX1) {
       return this.adresse >= 1 && this.adresse <= 103;
-
-    case DCC_K_14:
-    case DCC_K_28:
-    case DCC_K_126:
-      return this.adresse >= 1 && this.adresse <= 99;
-
-    default:
-      return this.adresse >= 1 && this.adresse <= 9999;
     }
+
+    return this.adresse >= 1 && this.adresse <= 9999;
   }
 
   @ElementCollection(fetch = FetchType.EAGER)
