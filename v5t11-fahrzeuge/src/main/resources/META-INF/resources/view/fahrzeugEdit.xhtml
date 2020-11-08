@@ -4,14 +4,20 @@
 <ui:composition template="/WEB-INF/templates/fahrzeugManagement.xhtml">
   <ui:define name="content">
     <h:panelGrid columns="1">
-      <h:panelGrid columns="4" cellpadding="10px">
-        <h:outputText value="#{fahrzeugPresenter.currentFahrzeug.id}" style="font-size: 30px;" />
-        <p:graphicImage name="#{fahrzeugPresenter.getImage(fahrzeugPresenter.currentFahrzeug)}" height="50px" />
-        <p:inputText value="#{fahrzeugPresenter.currentFahrzeug.adresse}" id="adresse" />
-        <p:selectOneMenu value="#{fahrzeugPresenter.currentFahrzeug.systemTyp}" id="systemTyp">
-          <f:selectItems value="#{fahrzeugPresenter.systemTypen}" />
-        </p:selectOneMenu>
-      </h:panelGrid>
+      <p:toolbar>
+        <f:facet name="left">
+          <h:outputText value="#{fahrzeugPresenter.currentFahrzeug.id}" style="font-size: 30px; vertical-align: middle;" />
+          <p:graphicImage name="#{fahrzeugPresenter.getImage(fahrzeugPresenter.currentFahrzeug)}" height="50px" style="vertical-align: middle; margin-left: 20px; margin-right: 20px;"/>
+          <p:inputText value="#{fahrzeugPresenter.currentFahrzeug.adresse}" id="adresse" style="vertical-align: middle;"/>
+          <p:selectOneMenu value="#{fahrzeugPresenter.currentFahrzeug.systemTyp}" id="systemTyp" style="vertical-align: middle;">
+            <f:selectItems value="#{fahrzeugPresenter.systemTypen}" />
+          </p:selectOneMenu>
+        </f:facet>
+        <f:facet name="right">
+          <p:button value="Abbrechen" icon="fa fa-times" title="Abbrechen"/>
+          <p:button value="Speichern" icon="fa fa-save" title="Speichern"/>
+        </f:facet>
+      </p:toolbar>
 
       <p:dataTable value="#{fahrzeugPresenter.currentFahrzeug.funktionen}" var="funktion" sortBy="#{funktion.gruppe}" id="funktionen">
         <p:column headerText="Funktionsgruppe" sortBy="#{funktion.gruppe}" width="15%">
