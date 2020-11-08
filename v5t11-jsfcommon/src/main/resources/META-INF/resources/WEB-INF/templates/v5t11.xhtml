@@ -15,7 +15,7 @@
       <h:graphicImage name="v5t11.png" height="100%" width="100%" alt="v5t1" />
     </p:layoutUnit>
 
-    <p:layoutUnit position="west" resizable="true" size="225" minSize="200" maxSize="400" >
+    <p:layoutUnit position="west" resizable="true" size="225" minSize="200" maxSize="400">
       <h:form id="navigation">
         <p:menu model="#{navigationPresenter.menuModel}" style="width: 98%; border: none;" />
       </h:form>
@@ -31,7 +31,8 @@
       <f:ajax event="menuRefresh" render=":navigation" />
     </f:websocket>
   </h:form>
-    
+
+  <h:outputStylesheet name="primeicons/primeicons.css" library="primefaces" />
   <h:outputStylesheet library="webjars" name="primeflex/primeflex.css" />
   <h:outputStylesheet name="v5t11.css" />
 </h:body>
