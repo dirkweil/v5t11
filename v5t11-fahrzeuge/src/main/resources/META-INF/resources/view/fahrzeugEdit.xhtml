@@ -1,0 +1,63 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+  xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/templates/fahrzeugManagement.xhtml">
+  <ui:define name="content">
+    <h:panelGrid columns="1">
+      <h:panelGrid columns="4" cellpadding="10px">
+        <h:outputText value="#{fahrzeugPresenter.currentFahrzeug.id}" style="font-size: 30px;" />
+        <p:graphicImage name="#{fahrzeugPresenter.getImage(fahrzeugPresenter.currentFahrzeug)}" height="50px" />
+        <p:inputText value="#{fahrzeugPresenter.currentFahrzeug.adresse}" id="adresse" />
+        <p:selectOneMenu value="#{fahrzeugPresenter.currentFahrzeug.systemTyp}" id="systemTyp">
+          <f:selectItems value="#{fahrzeugPresenter.systemTypen}" />
+        </p:selectOneMenu>
+      </h:panelGrid>
+
+      <p:dataTable value="#{fahrzeugPresenter.currentFahrzeug.funktionen}" var="funktion" sortBy="#{funktion.gruppe}" id="funktionen">
+        <p:column headerText="Funktionsgruppe" sortBy="#{funktion.gruppe}" width="15%">
+          <p:selectOneMenu value="#{funktion.gruppe}" style="width: 90%">
+            <f:selectItems value="#{fahrzeugPresenter.funktionsGruppen}" var="fg" itemValue="#{fg}" itemLabel="#{fg.name}" />
+          </p:selectOneMenu>
+        </p:column>
+        <p:column headerText="Funktionsbeschreibung" sortBy="#{funktion.beschreibung}">
+          <p:inputText value="#{funktion.beschreibung}" style="width: 100%" />
+        </p:column>
+        <p:column headerText="Eigenschaften" width="15%">
+          <p:selectBooleanCheckbox value="#{funktion.impuls}" itemLabel="Impuls" />
+          <p:selectBooleanCheckbox value="#{funktion.horn}" itemLabel="Horn" />
+          <p:selectBooleanCheckbox value="#{funktion.fader}" itemLabel="Fader" />
+        </p:column>
+        <p:column headerText="Bits" width="20%">
+          <h:outputText value="15" />
+          <p:triStateCheckbox value="#{fahrzeugPresenter.getTriStateAdapter(funktion, 15).value}" />
+          <p:triStateCheckbox value="#{fahrzeugPresenter.getTriStateAdapter(funktion, 14).value}" />
+          <p:triStateCheckbox value="#{fahrzeugPresenter.getTriStateAdapter(funktion, 13).value}" />
+          <p:triStateCheckbox value="#{fahrzeugPresenter.getTriStateAdapter(funktion, 12).value}" />
+          <h:outputText value=" " />
+          <p:triStateCheckbox value="#{fahrzeugPresenter.getTriStateAdapter(funktion, 11).value}" />
+          <p:triStateCheckbox value="#{fahrzeugPresenter.getTriStateAdapter(funktion, 10).value}" />
+          <p:triStateCheckbox value="#{fahrzeugPresenter.getTriStateAdapter(funktion, 9).value}" />
+          <p:triStateCheckbox value="#{fahrzeugPresenter.getTriStateAdapter(funktion, 8).value}" />
+          <h:outputText value=" " />
+          <p:triStateCheckbox value="#{fahrzeugPresenter.getTriStateAdapter(funktion, 7).value}" />
+          <p:triStateCheckbox value="#{fahrzeugPresenter.getTriStateAdapter(funktion, 6).value}" />
+          <p:triStateCheckbox value="#{fahrzeugPresenter.getTriStateAdapter(funktion, 5).value}" />
+          <p:triStateCheckbox value="#{fahrzeugPresenter.getTriStateAdapter(funktion, 4).value}" />
+          <h:outputText value=" " />
+          <p:triStateCheckbox value="#{fahrzeugPresenter.getTriStateAdapter(funktion, 3).value}" />
+          <p:triStateCheckbox value="#{fahrzeugPresenter.getTriStateAdapter(funktion, 2).value}" />
+          <p:triStateCheckbox value="#{fahrzeugPresenter.getTriStateAdapter(funktion, 1).value}" />
+          <p:triStateCheckbox value="#{fahrzeugPresenter.getTriStateAdapter(funktion, 0).value}" />
+          <h:outputText value="0" />
+        </p:column>
+        <p:column width="2%">
+          <f:facet name="header">
+            <p:button icon="fa fa-plus-square" title="Neu" style="width: 100%" />
+          </f:facet>
+          <p:button icon="fa fa-trash" title="Löschen" style="width: 100%" />
+        </p:column>
+      </p:dataTable>
+    </h:panelGrid>
+  </ui:define>
+</ui:composition>
+</html>

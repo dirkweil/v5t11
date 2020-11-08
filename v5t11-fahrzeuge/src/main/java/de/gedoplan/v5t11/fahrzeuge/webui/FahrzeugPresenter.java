@@ -2,12 +2,16 @@ package de.gedoplan.v5t11.fahrzeuge.webui;
 
 import de.gedoplan.baselibs.utils.util.ResourceUtil;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug;
+import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug.FahrzeugFunktion;
+import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe;
 import de.gedoplan.v5t11.fahrzeuge.persistence.FahrzeugRepository;
+import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.view.ViewScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -17,8 +21,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Named
-@ViewScoped
-public class FahrzeugPresenter {
+@SessionScoped
+public class FahrzeugPresenter implements Serializable {
 
   @Inject
   FahrzeugRepository fahrzeugRepository;
@@ -75,5 +79,61 @@ public class FahrzeugPresenter {
       return "images/loks/none.png";
 
     }
+  }
+
+  public SystemTyp[] getSystemTypen() {
+    return SystemTyp.values();
+  }
+
+  public FahrzeugFunktionsGruppe[] getFunktionsGruppen() {
+    return FahrzeugFunktionsGruppe.values();
+  }
+
+  public TriStateAdapter getTriStateAdapter(FahrzeugFunktion fahrzeugFunktion, int bitNr) {
+    return new TriStateAdapter(fahrzeugFunktion, bitNr);
+  }
+
+  public static class TriStateAdapter {
+
+    private FahrzeugFunktion fahrzeugFunktion;
+    private int maske;
+
+    public TriStateAdapter(FahrzeugFunktion fahrzeugFunktion, int bitNr) {
+      this.fahrzeugFunktion = fahrzeugFunktion;
+      this.maske = (1 << bitNr);
+
+      System.out.println("##### " + bitNr);
+    }
+
+    public String getValue() {
+      if ((this.fahrzeugFunktion.getMaske() & this.maske) == 0) {
+        return "0";
+      }
+      if ((this.fahrzeugFunktion.getWert() & this.maske) == 0) {
+        return "2";
+      }
+      return "1";
+    }
+
+    public void setValue(String s) {
+      switch (s) {
+      default:
+      case "0":
+        this.fahrzeugFunktion.setMaske(this.fahrzeugFunktion.getMaske() & (~this.maske));
+        this.fahrzeugFunktion.setWert(this.fahrzeugFunktion.getWert() & (~this.maske));
+        break;
+
+      case "1":
+        this.fahrzeugFunktion.setMaske(this.fahrzeugFunktion.getMaske() | this.maske);
+        this.fahrzeugFunktion.setWert(this.fahrzeugFunktion.getWert() | this.maske);
+        break;
+
+      case "2":
+        this.fahrzeugFunktion.setMaske(this.fahrzeugFunktion.getMaske() | this.maske);
+        this.fahrzeugFunktion.setWert(this.fahrzeugFunktion.getWert() & (~this.maske));
+        break;
+      }
+    }
+
   }
 }

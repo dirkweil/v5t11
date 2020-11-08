@@ -151,7 +151,7 @@ public class NavigationPresenter {
           try {
             this.eventFirer.fire(navigationItem);
           } catch (Exception e) {
-            this.log.warn("Kann NavigationItem nicht senden" + e);
+            this.log.warn("Kann NavigationItem nicht senden: " + e);
           }
         }
       } else {

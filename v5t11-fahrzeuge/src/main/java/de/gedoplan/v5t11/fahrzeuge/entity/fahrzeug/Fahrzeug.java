@@ -7,8 +7,8 @@ import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
 import java.io.Serializable;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.persistence.Access;
@@ -98,7 +98,7 @@ public class Fahrzeug extends SingleIdEntity<String> implements Comparable<Fahrz
   @ElementCollection(fetch = FetchType.EAGER)
   @CollectionTable(name = TABLE_NAME_FUNKTION)
   @Getter(onMethod_ = @JsonbInclude(full = true))
-  private Set<@NotNull FahrzeugFunktion> funktionen = new TreeSet<>((a, b) -> Integer.compare(a.nr, b.nr));
+  private List<@NotNull FahrzeugFunktion> funktionen = new ArrayList<>();
 
   @JsonbInclude
   @Override
@@ -142,38 +142,70 @@ public class Fahrzeug extends SingleIdEntity<String> implements Comparable<Fahrz
 
   @Embeddable
   @Getter(onMethod_ = @JsonbInclude(full = true))
+  @Setter
   @NoArgsConstructor(access = AccessLevel.PROTECTED)
   @ToString
   public static class FahrzeugFunktion {
-    private int nr;
     @NotNull
     @Enumerated(EnumType.STRING)
     private FahrzeugFunktionsGruppe gruppe;
     @NotEmpty
     private String beschreibung;
+    private int maske;
+    private int wert;
     private boolean impuls;
     private boolean horn;
-    private int mask;
-    private int value;
+    private boolean fader;
 
-    public FahrzeugFunktion(int nr, FahrzeugFunktionsGruppe gruppe, String beschreibung, boolean impuls, boolean horn, int mask, int value) {
-      this.nr = nr;
+    public FahrzeugFunktion(FahrzeugFunktionsGruppe gruppe, int maske, int wert, boolean impuls, boolean horn, boolean fader, String beschreibung) {
       this.gruppe = gruppe;
-      this.beschreibung = beschreibung;
       this.impuls = impuls;
       this.horn = horn;
-      this.mask = mask;
-      this.value = value;
+      this.maske = maske;
+      this.wert = wert;
+      this.fader = fader;
+      this.beschreibung = beschreibung;
     }
 
-    public FahrzeugFunktion(int nr, FahrzeugFunktionsGruppe gruppe, String beschreibung, boolean impuls, boolean horn) {
-      this(nr, gruppe, beschreibung, impuls, horn, 1 << (nr - 1), 1 << (nr - 1));
+    public FahrzeugFunktion(FahrzeugFunktionsGruppe gruppe, int nr, boolean impuls, boolean horn, boolean fader, String beschreibung) {
+      this(gruppe, 1 << (nr - 1), 1 << (nr - 1), impuls, horn, fader, beschreibung);
+    }
+
+    @Override
+    public int hashCode() {
+      final int prime = 31;
+      int result = 1;
+      result = prime * result + this.maske;
+      result = prime * result + this.wert;
+      return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      }
+      if (obj == null) {
+        return false;
+      }
+      if (getClass() != obj.getClass()) {
+        return false;
+      }
+      FahrzeugFunktion other = (FahrzeugFunktion) obj;
+      if (this.maske != other.maske) {
+        return false;
+      }
+      if (this.wert != other.wert) {
+        return false;
+      }
+      return true;
     }
 
     @AllArgsConstructor
     @Getter
     public static enum FahrzeugFunktionsGruppe {
       FL("Fahrlicht"),
+      FG("Fahrgeräusch"),
       BG("Betriebsgeräusch"),
       BA("Bahnsteigansage"),
       AF("Andere Funktion");
