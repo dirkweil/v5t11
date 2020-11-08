@@ -11,6 +11,15 @@
     </navigation-case>
   </navigation-rule>
 
+  <navigation-rule>
+    <from-view-id>/view/fahrzeugEdit.xhtml</from-view-id>
+    <navigation-case>
+      <from-outcome>finished</from-outcome>
+      <to-view-id>/view/fahrzeugManagement.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>
+  </navigation-rule>
+
   <factory>
     <exception-handler-factory>de.gedoplan.v5t11.util.jsf.ViewExpiredExceptionHandlerFactory</exception-handler-factory>
   </factory>

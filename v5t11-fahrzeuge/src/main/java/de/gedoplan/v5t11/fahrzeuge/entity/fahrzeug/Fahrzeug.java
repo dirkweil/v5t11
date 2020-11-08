@@ -61,6 +61,7 @@ public class Fahrzeug extends SingleIdEntity<String> implements Comparable<Fahrz
   private Serializable image;
 
   @Getter
+  @Setter
   private String decoder;
 
   /**
@@ -70,6 +71,7 @@ public class Fahrzeug extends SingleIdEntity<String> implements Comparable<Fahrz
   @Column(name = "SYSTEM_TYP")
   @NotNull
   @Getter
+  @Setter
   private SystemTyp systemTyp;
 
   /**
@@ -80,6 +82,7 @@ public class Fahrzeug extends SingleIdEntity<String> implements Comparable<Fahrz
    * - DCC: 1-99 bei kurzer Adresse, 1-9999 sonst.
    */
   @Getter
+  @Setter
   private int adresse;
 
   @AssertTrue(message = "Ungültige Adresse")

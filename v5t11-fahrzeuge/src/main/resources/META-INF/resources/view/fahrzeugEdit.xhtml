@@ -3,67 +3,76 @@
 
 <ui:composition template="/WEB-INF/templates/fahrzeugManagement.xhtml">
   <ui:define name="content">
-    <h:panelGrid columns="1">
-      <p:toolbar>
-        <f:facet name="left">
-          <h:outputText value="#{fahrzeugPresenter.currentFahrzeug.id}" style="font-size: 30px; vertical-align: middle;" />
-          <p:graphicImage name="#{fahrzeugPresenter.getImage(fahrzeugPresenter.currentFahrzeug)}" height="50px" style="vertical-align: middle; margin-left: 20px; margin-right: 20px;"/>
-          <p:inputText value="#{fahrzeugPresenter.currentFahrzeug.adresse}" id="adresse" style="vertical-align: middle;"/>
-          <p:selectOneMenu value="#{fahrzeugPresenter.currentFahrzeug.systemTyp}" id="systemTyp" style="vertical-align: middle;">
-            <f:selectItems value="#{fahrzeugPresenter.systemTypen}" />
-          </p:selectOneMenu>
-        </f:facet>
-        <f:facet name="right">
-          <p:button value="Abbrechen" icon="fa fa-times" title="Abbrechen"/>
-          <p:button value="Speichern" icon="fa fa-save" title="Speichern"/>
-        </f:facet>
-      </p:toolbar>
-
-      <p:dataTable value="#{fahrzeugPresenter.currentFahrzeug.funktionen}" var="funktion" sortBy="#{funktion.gruppe}" id="funktionen">
-        <p:column headerText="Funktionsgruppe" sortBy="#{funktion.gruppe}" width="200">
-          <p:selectOneMenu value="#{funktion.gruppe}" style="width: 90%">
-            <f:selectItems value="#{fahrzeugPresenter.funktionsGruppen}" var="fg" itemValue="#{fg}" itemLabel="#{fg.name}" />
-          </p:selectOneMenu>
-        </p:column>
-        <p:column headerText="Funktionsbeschreibung" sortBy="#{funktion.beschreibung}">
-          <p:inputText value="#{funktion.beschreibung}" style="width: 100%" />
-        </p:column>
-        <p:column headerText="Eigenschaften" width="15%">
-          <p:selectBooleanCheckbox value="#{funktion.impuls}" itemLabel="Impuls" />
-          <p:selectBooleanCheckbox value="#{funktion.horn}" itemLabel="Horn" />
-          <p:selectBooleanCheckbox value="#{funktion.fader}" itemLabel="Fader" />
-        </p:column>
-        <p:column headerText="Bits" width="340">
-          <h:outputText value="15" />
-          <p:triStateCheckbox value="#{fahrzeugPresenter.getTriStateAdapter(funktion, 15).value}" />
-          <p:triStateCheckbox value="#{fahrzeugPresenter.getTriStateAdapter(funktion, 14).value}" />
-          <p:triStateCheckbox value="#{fahrzeugPresenter.getTriStateAdapter(funktion, 13).value}" />
-          <p:triStateCheckbox value="#{fahrzeugPresenter.getTriStateAdapter(funktion, 12).value}" />
-          <h:outputText value=" " />
-          <p:triStateCheckbox value="#{fahrzeugPresenter.getTriStateAdapter(funktion, 11).value}" />
-          <p:triStateCheckbox value="#{fahrzeugPresenter.getTriStateAdapter(funktion, 10).value}" />
-          <p:triStateCheckbox value="#{fahrzeugPresenter.getTriStateAdapter(funktion, 9).value}" />
-          <p:triStateCheckbox value="#{fahrzeugPresenter.getTriStateAdapter(funktion, 8).value}" />
-          <h:outputText value=" " />
-          <p:triStateCheckbox value="#{fahrzeugPresenter.getTriStateAdapter(funktion, 7).value}" />
-          <p:triStateCheckbox value="#{fahrzeugPresenter.getTriStateAdapter(funktion, 6).value}" />
-          <p:triStateCheckbox value="#{fahrzeugPresenter.getTriStateAdapter(funktion, 5).value}" />
-          <p:triStateCheckbox value="#{fahrzeugPresenter.getTriStateAdapter(funktion, 4).value}" />
-          <h:outputText value=" " />
-          <p:triStateCheckbox value="#{fahrzeugPresenter.getTriStateAdapter(funktion, 3).value}" />
-          <p:triStateCheckbox value="#{fahrzeugPresenter.getTriStateAdapter(funktion, 2).value}" />
-          <p:triStateCheckbox value="#{fahrzeugPresenter.getTriStateAdapter(funktion, 1).value}" />
-          <p:triStateCheckbox value="#{fahrzeugPresenter.getTriStateAdapter(funktion, 0).value}" />
-          <h:outputText value="0" />
-        </p:column>
-        <p:column width="40">
-          <f:facet name="header">
-            <p:button icon="fa fa-plus-square" title="Neu" style="width: 100%" />
+    <h:form>
+      <h:panelGrid columns="1">
+        <p:toolbar>
+          <f:facet name="left">
+            <h:outputText value="#{fahrzeugPresenter.currentFahrzeug.id}" style="font-size: 30px; vertical-align: middle;" />
+            <p:graphicImage name="#{fahrzeugPresenter.getImage(fahrzeugPresenter.currentFahrzeug)}" height="50px" style="vertical-align: middle; margin-left: 20px; margin-right: 20px;" />
+            <p:inputText value="#{fahrzeugPresenter.currentFahrzeug.adresse}" size="6" id="adresse" style="vertical-align: middle;" />
+            <p:selectOneMenu value="#{fahrzeugPresenter.currentFahrzeug.systemTyp}" id="systemTyp" style="vertical-align: middle;">
+              <f:selectItems value="#{fahrzeugPresenter.systemTypen}" />
+            </p:selectOneMenu>
           </f:facet>
-          <p:button icon="fa fa-trash" title="Löschen" style="width: 100%" />
-        </p:column>
-      </p:dataTable>
-    </h:panelGrid>
+          <f:facet name="right">
+            <p:commandButton value="Löschen" icon="fa fa-trash" action="#{fahrzeugPresenter.remove()}" ajax="false" immediate="true" />
+
+            <span class="ui-separator"> <span class="ui-icon pi pi-ellipsis-v" />
+            </span>
+            
+            <p:commandButton value="Abbrechen" icon="fa fa-times" action="#{fahrzeugPresenter.cancel()}" ajax="false" immediate="true" />
+            <p:commandButton value="Speichern" icon="fa fa-save" action="#{fahrzeugPresenter.save()}" ajax="false" />
+          </f:facet>
+        </p:toolbar>
+
+        <p:dataTable value="#{fahrzeugPresenter.currentFahrzeug.funktionen}" var="funktion" sortBy="#{funktion.gruppe}" id="funktionen">
+          <p:column headerText="Funktionsgruppe" sortBy="#{funktion.gruppe}" width="200">
+            <p:selectOneMenu value="#{funktion.gruppe}" style="width: 90%">
+              <f:selectItems value="#{fahrzeugPresenter.funktionsGruppen}" var="fg" itemValue="#{fg}" itemLabel="#{fg.name}" />
+            </p:selectOneMenu>
+          </p:column>
+          <p:column headerText="Funktionsbeschreibung" sortBy="#{funktion.beschreibung}">
+            <p:inputText value="#{funktion.beschreibung}" style="width: 100%" />
+          </p:column>
+          <p:column headerText="Eigenschaften" width="15%">
+            <p:selectBooleanCheckbox value="#{funktion.impuls}" itemLabel="Impuls" />
+            <p:selectBooleanCheckbox value="#{funktion.horn}" itemLabel="Horn" />
+            <p:selectBooleanCheckbox value="#{funktion.fader}" itemLabel="Fader" />
+          </p:column>
+          <p:column headerText="Bits" width="340">
+            <h:outputText value="15" />
+            <p:triStateCheckbox value="#{fahrzeugPresenter.getTriStateAdapter(funktion, 15).value}" />
+            <p:triStateCheckbox value="#{fahrzeugPresenter.getTriStateAdapter(funktion, 14).value}" />
+            <p:triStateCheckbox value="#{fahrzeugPresenter.getTriStateAdapter(funktion, 13).value}" />
+            <p:triStateCheckbox value="#{fahrzeugPresenter.getTriStateAdapter(funktion, 12).value}" />
+            <h:outputText value=" " />
+            <p:triStateCheckbox value="#{fahrzeugPresenter.getTriStateAdapter(funktion, 11).value}" />
+            <p:triStateCheckbox value="#{fahrzeugPresenter.getTriStateAdapter(funktion, 10).value}" />
+            <p:triStateCheckbox value="#{fahrzeugPresenter.getTriStateAdapter(funktion, 9).value}" />
+            <p:triStateCheckbox value="#{fahrzeugPresenter.getTriStateAdapter(funktion, 8).value}" />
+            <h:outputText value=" " />
+            <p:triStateCheckbox value="#{fahrzeugPresenter.getTriStateAdapter(funktion, 7).value}" />
+            <p:triStateCheckbox value="#{fahrzeugPresenter.getTriStateAdapter(funktion, 6).value}" />
+            <p:triStateCheckbox value="#{fahrzeugPresenter.getTriStateAdapter(funktion, 5).value}" />
+            <p:triStateCheckbox value="#{fahrzeugPresenter.getTriStateAdapter(funktion, 4).value}" />
+            <h:outputText value=" " />
+            <p:triStateCheckbox value="#{fahrzeugPresenter.getTriStateAdapter(funktion, 3).value}" />
+            <p:triStateCheckbox value="#{fahrzeugPresenter.getTriStateAdapter(funktion, 2).value}" />
+            <p:triStateCheckbox value="#{fahrzeugPresenter.getTriStateAdapter(funktion, 1).value}" />
+            <p:triStateCheckbox value="#{fahrzeugPresenter.getTriStateAdapter(funktion, 0).value}" />
+            <h:outputText value="0" />
+          </p:column>
+          <p:column width="40">
+            <f:facet name="header">
+              <p:commandButton icon="fa fa-plus-square" title="Neu" style="width: 100%" action="#{fahrzeugPresenter.addFunktion()}" update="funktionen" />
+            </f:facet>
+            <p:commandButton icon="fa fa-trash" title="Löschen" style="width: 100%" action="#{fahrzeugPresenter.removeFunktion(funktion)}" update="funktionen" />
+          </p:column>
+        </p:dataTable>
+      </h:panelGrid>
+    </h:form>
+    
+    <h:outputStylesheet name="primeicons/primeicons.css" library="primefaces" />
   </ui:define>
 </ui:composition>
 </html>

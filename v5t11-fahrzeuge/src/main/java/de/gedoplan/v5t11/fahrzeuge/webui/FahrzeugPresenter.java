@@ -8,6 +8,7 @@ import de.gedoplan.v5t11.fahrzeuge.persistence.FahrzeugRepository;
 import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 
 import java.io.Serializable;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -38,7 +39,7 @@ public class FahrzeugPresenter implements Serializable {
   private Fahrzeug currentFahrzeug;
 
   @PostConstruct
-  void postConstruct() {
+  void refreshFahrzeuge() {
     this.fahrzeuge = this.fahrzeugRepository.findAll();
   }
 
@@ -50,6 +51,49 @@ public class FahrzeugPresenter implements Serializable {
     }
 
     return "edit";
+  }
+
+  public void addFunktion() {
+    this.currentFahrzeug.getFunktionen().add(0, new FahrzeugFunktion(FahrzeugFunktionsGruppe.AF, 0, 0, false, false, false, ""));
+  }
+
+  public void removeFunktion(FahrzeugFunktion funktion) {
+    Iterator<FahrzeugFunktion> iterator = this.currentFahrzeug.getFunktionen().iterator();
+    while (iterator.hasNext()) {
+      if (iterator.next() == funktion) {
+        iterator.remove();
+        break;
+      }
+    }
+  }
+
+  public String save() {
+    Iterator<FahrzeugFunktion> iterator = this.currentFahrzeug.getFunktionen().iterator();
+    while (iterator.hasNext()) {
+      FahrzeugFunktion funktion = iterator.next();
+      if (funktion.getMaske() == 0 || funktion.getBeschreibung() == null || funktion.getBeschreibung().strip().isEmpty()) {
+        iterator.remove();
+      }
+    }
+    this.fahrzeugRepository.merge(this.currentFahrzeug);
+
+    return "finished";
+
+  }
+
+  public String remove() {
+    // TODO Confirmation!
+
+    this.fahrzeugRepository.removeById(this.currentFahrzeug.getId());
+    refreshFahrzeuge();
+
+    return "finished";
+  }
+
+  public String cancel() {
+    refreshFahrzeuge();
+
+    return "finished";
   }
 
   public String program(Fahrzeug fahrzeug) {
@@ -101,8 +145,6 @@ public class FahrzeugPresenter implements Serializable {
     public TriStateAdapter(FahrzeugFunktion fahrzeugFunktion, int bitNr) {
       this.fahrzeugFunktion = fahrzeugFunktion;
       this.maske = (1 << bitNr);
-
-      System.out.println("##### " + bitNr);
     }
 
     public String getValue() {
