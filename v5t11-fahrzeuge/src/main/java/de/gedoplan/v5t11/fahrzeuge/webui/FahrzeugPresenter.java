@@ -10,11 +10,17 @@ import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
+import javax.validation.constraints.NotEmpty;
 
 import org.apache.commons.logging.Log;
 
@@ -38,16 +44,32 @@ public class FahrzeugPresenter implements Serializable {
   @Setter
   private Fahrzeug currentFahrzeug;
 
+  @Getter
+  @Setter
+  @NotEmpty
+  private String newId;
+
   @PostConstruct
   void refreshFahrzeuge() {
     this.fahrzeuge = this.fahrzeugRepository.findAll();
+  }
+
+  public String create() {
+    this.currentFahrzeug = new Fahrzeug(this.newId, null, SystemTyp.DCC, 0);
+    this.fahrzeuge.add(this.currentFahrzeug);
+
+    if (this.log.isDebugEnabled()) {
+      this.log.debug("Create " + this.currentFahrzeug);
+    }
+
+    return "edit";
   }
 
   public String edit(Fahrzeug fahrzeug) {
     this.currentFahrzeug = fahrzeug;
 
     if (this.log.isDebugEnabled()) {
-      this.log.debug("Edit " + fahrzeug);
+      this.log.debug("Edit " + this.currentFahrzeug);
     }
 
     return "edit";
@@ -67,7 +89,22 @@ public class FahrzeugPresenter implements Serializable {
     }
   }
 
+  @Inject
+  Validator validator;
+
   public String save() {
+    Set<ConstraintViolation<Fahrzeug>> violations = this.validator.validate(this.currentFahrzeug);
+    if (!violations.isEmpty()) {
+      FacesContext facesContext = FacesContext.getCurrentInstance();
+      violations.forEach(cv -> {
+        FacesMessage facesMessage = new FacesMessage(cv.getMessage());
+        facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
+        facesContext.addMessage(null, facesMessage);
+      });
+      facesContext.validationFailed();
+      return null;
+    }
+
     Iterator<FahrzeugFunktion> iterator = this.currentFahrzeug.getFunktionen().iterator();
     while (iterator.hasNext()) {
       FahrzeugFunktion funktion = iterator.next();
