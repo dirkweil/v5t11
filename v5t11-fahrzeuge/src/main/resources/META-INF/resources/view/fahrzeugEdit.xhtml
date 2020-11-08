@@ -20,7 +20,7 @@
       </p:toolbar>
 
       <p:dataTable value="#{fahrzeugPresenter.currentFahrzeug.funktionen}" var="funktion" sortBy="#{funktion.gruppe}" id="funktionen">
-        <p:column headerText="Funktionsgruppe" sortBy="#{funktion.gruppe}" width="15%">
+        <p:column headerText="Funktionsgruppe" sortBy="#{funktion.gruppe}" width="200">
           <p:selectOneMenu value="#{funktion.gruppe}" style="width: 90%">
             <f:selectItems value="#{fahrzeugPresenter.funktionsGruppen}" var="fg" itemValue="#{fg}" itemLabel="#{fg.name}" />
           </p:selectOneMenu>
@@ -33,7 +33,7 @@
           <p:selectBooleanCheckbox value="#{funktion.horn}" itemLabel="Horn" />
           <p:selectBooleanCheckbox value="#{funktion.fader}" itemLabel="Fader" />
         </p:column>
-        <p:column headerText="Bits" width="20%">
+        <p:column headerText="Bits" width="340">
           <h:outputText value="15" />
           <p:triStateCheckbox value="#{fahrzeugPresenter.getTriStateAdapter(funktion, 15).value}" />
           <p:triStateCheckbox value="#{fahrzeugPresenter.getTriStateAdapter(funktion, 14).value}" />
@@ -56,7 +56,7 @@
           <p:triStateCheckbox value="#{fahrzeugPresenter.getTriStateAdapter(funktion, 0).value}" />
           <h:outputText value="0" />
         </p:column>
-        <p:column width="2%">
+        <p:column width="40">
           <f:facet name="header">
             <p:button icon="fa fa-plus-square" title="Neu" style="width: 100%" />
           </f:facet>
