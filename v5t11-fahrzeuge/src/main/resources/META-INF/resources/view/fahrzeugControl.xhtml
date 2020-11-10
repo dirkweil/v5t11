@@ -1,0 +1,52 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+  xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/templates/fahrzeugManagement.xhtml">
+  <ui:define name="content">
+    <h:form id="form">
+      <h2>Fahrzeug steuern</h2>
+
+      <p:toolbar>
+        <f:facet name="left">
+          <h:outputText value="#{fahrzeugPresenter.currentFahrzeug.id}" style="font-size: 30px; vertical-align: middle;" />
+          <p:graphicImage name="#{fahrzeugPresenter.getImage(fahrzeugPresenter.currentFahrzeug)}" height="50px" style="vertical-align: middle; margin-left: 20px; margin-right: 20px;" />
+        </f:facet>
+        <f:facet name="right">
+          <p:commandButton value="zurück" icon="fa fa-times" action="finished" ajax="false" immediate="true" />
+        </f:facet>
+      </p:toolbar>
+
+      <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5" id="lok">
+        <p:outputLabel for="lokAktiv" value="Aktiv:" />
+        <p:selectBooleanButton id="lokAktiv" value="#{fahrzeugPresenter.lokAktiv}" onLabel="aktiv" offLabel="inaktiv" style="width:120px">
+          <p:ajax />
+        </p:selectBooleanButton>
+
+        <p:outputLabel for="lokFahrstufe" value="Fahrstufe:" />
+        <h:panelGrid id="lokFahrstufe" columns="2">
+          <p:inputText id="fahrstufe" value="#{fahrzeugPresenter.lokFahrstufe}" />
+          <p:selectBooleanButton id="lokRueckwaerts" value="#{fahrzeugPresenter.lokRueckwaerts}" onLabel="rückwärts" offLabel="vorwärts" style="width:120px">
+            <p:ajax />
+          </p:selectBooleanButton>
+          <p:slider for="fahrstufe" minValue="0" maxValue="#{fahrzeugPresenter.lokMaxFahrstufe}">
+            <p:ajax process="fahrstufe" />
+          </p:slider>
+        </h:panelGrid>
+
+        <c:forEach items="#{fahrzeugPresenter.funktionsGruppen}" var="lfcg">
+          <p:outputLabel value="#{lfcg.name}:" />
+          <h:panelGroup>
+            <c:forEach items="#{fahrzeugPresenter.getLokFunktionen(lfcg)}" var="fc">
+              <p:selectBooleanButton onLabel="#{fc.beschreibung}" offLabel="#{fc.beschreibung}" value="#{fahrzeugPresenter.funktionAktiv}">
+                <p:ajax update="lok" />
+              </p:selectBooleanButton>
+            </c:forEach>
+          </h:panelGroup>
+        </c:forEach>
+      </h:panelGrid>
+
+
+    </h:form>
+  </ui:define>
+</ui:composition>
+</html>

@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
@@ -213,6 +214,39 @@ public class FahrzeugPresenter implements Serializable {
         break;
       }
     }
-
   }
+
+  public String control(Fahrzeug fahrzeug) {
+    this.currentFahrzeug = fahrzeug;
+    return "control";
+  }
+
+  @Getter
+  @Setter
+  boolean lokAktiv;
+
+  @Getter
+  @Setter
+  boolean lokRueckwaerts;
+
+  @Getter
+  @Setter
+  int lokFahrstufe;
+
+  public int getLokMaxFahrstufe() {
+    return this.currentFahrzeug.getSystemTyp().getMaxFahrstufe();
+  }
+
+  public List<FahrzeugFunktion> getLokFunktionen(FahrzeugFunktionsGruppe fahrzeugFunktionsGruppe) {
+    return this.currentFahrzeug
+        .getFunktionen()
+        .stream()
+        .filter(f -> f.getGruppe() == fahrzeugFunktionsGruppe)
+        .collect(Collectors.toList());
+  }
+
+  @Getter
+  @Setter
+  boolean funktionAktiv;
+
 }

@@ -4,6 +4,12 @@
   <navigation-rule>
     <from-view-id>/view/fahrzeug*</from-view-id>
     <navigation-case>
+      <from-outcome>control</from-outcome>
+      <to-view-id>/view/fahrzeugControl.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>
+
+    <navigation-case>
       <from-outcome>create</from-outcome>
       <to-view-id>/view/fahrzeugCreate.xhtml</to-view-id>
       <redirect />

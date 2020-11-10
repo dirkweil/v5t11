@@ -17,12 +17,13 @@
             </f:facet>
 
             <p:row>
-              <p:column rowspan="2" styleClass="width70Percent">
-                <p:graphicImage name="#{fahrzeugPresenter.getImage(fahrzeug)}" height="50px" />
+              <p:column rowspan="2" styleClass="width60Percent">
+                <p:graphicImage name="#{fahrzeugPresenter.getImage(fahrzeug)}" style="height: auto; max-height: 50px; width: auto; max-width=200px;" />
               </p:column>
 
-              <p:column styleClass="width30Percent rightAligned">
+              <p:column styleClass="rightAligned">
                 <h:panelGroup>
+                  <p:commandButton action="#{fahrzeugPresenter.control(fahrzeug)}" icon="pi pi-sliders-v" title="steuern" ajax="false" />
                   <p:selectBooleanButton onLabel="1" offLabel="1" />
                   <p:selectBooleanButton onLabel="2" offLabel="2" />
                 </h:panelGroup>
@@ -30,10 +31,10 @@
             </p:row>
 
             <p:row>
-              <p:column styleClass="width30Percent rightAligned">
+              <p:column styleClass="rightAligned">
                 <h:panelGroup>
-                  <p:commandButton action="#{fahrzeugPresenter.edit(fahrzeug)}" icon="fa fa-edit" title="Bearbeiten" ajax="false" />
-                  <p:commandButton action="#{fahrzeugPresenter.program(fahrzeug)}" icon="fa fa-cog" title="Programmieren" ajax="false" />
+                  <p:commandButton action="#{fahrzeugPresenter.edit(fahrzeug)}" icon="fa fa-edit" title="bearbeiten" ajax="false" />
+                  <p:commandButton action="#{fahrzeugPresenter.program(fahrzeug)}" icon="fa fa-cog" title="programmieren" ajax="false" />
                 </h:panelGroup>
               </p:column>
             </p:row>
