@@ -1,7 +1,7 @@
 package de.gedoplan.v5t11.status.entity.baustein.lokcontroller;
 
 import de.gedoplan.v5t11.status.entity.baustein.Lokcontroller;
-import de.gedoplan.v5t11.status.entity.lok.Lok;
+import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
 
 import java.util.Objects;
@@ -63,12 +63,13 @@ public class SxLokControl extends Lokcontroller {
    *          Wert
    */
   @Override
-  public void setLok(Lok lok) {
+  public void setLok(Fahrzeug lok) {
     if (!Objects.equals(lok, this.lok)) {
 
       // Falls bisher zugeordnete Lok steht, inaktiv setzen
       if (this.lok != null && this.lok.getFahrstufe() == 0) {
-        this.lok.setAktiv(false);
+        // TODO
+        // this.lok.setAktiv(false);
       }
 
       this.lok = lok;
@@ -85,10 +86,11 @@ public class SxLokControl extends Lokcontroller {
         }
 
         // Fahrstufen-Umrechnungsfaktor errechnen
-        this.fahrstufenFaktor = (double) this.lok.getSystemTyp().getMaxFahrstufe() / MAX_FAHRSTUFE;
+        this.fahrstufenFaktor = (double) this.lok.getId().getSystemTyp().getMaxFahrstufe() / MAX_FAHRSTUFE;
 
         // Lok aktiv setzen
-        this.lok.setAktiv(true);
+        // TODO
+        // this.lok.setAktiv(true);
       }
 
       this.eventFirer.fire(this);

@@ -5,7 +5,7 @@ import de.gedoplan.v5t11.status.entity.baustein.Zentrale;
 import de.gedoplan.v5t11.status.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
-import de.gedoplan.v5t11.status.entity.lok.Lok;
+import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
 import de.gedoplan.v5t11.util.jms.MessageCategory;
 import de.gedoplan.v5t11.util.jsf.NavigationItem;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
@@ -76,7 +76,7 @@ public class StatusPublisher {
     publish(MessageCategory.SIGNAL, signal);
   }
 
-  void publish(@Observes Lok lok) {
+  void publish(@Observes Fahrzeug lok) {
     publish(MessageCategory.LOK, lok);
   }
 

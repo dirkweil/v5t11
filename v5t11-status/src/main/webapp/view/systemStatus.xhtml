@@ -17,12 +17,8 @@
             <h:outputText value="#{lok.id}" />
           </p:column>
           <p:column>
-            <f:facet name="header">Adresse</f:facet>
-            <h:outputText value="#{lok.systemTyp}: #{lok.adresse}" />
-          </p:column>
-          <p:column>
             <f:facet name="header">Fahrstufe</f:facet>
-            <h:outputText value="#{lok.fahrstufe} (max. #{lok.maxFahrstufe})" />
+            <h:outputText value="#{lok.fahrstufe} (max. #{lok.id.systemTyp.maxFahrstufe})" />
           </p:column>
           <p:column>
             <f:facet name="header">rückwärts</f:facet>

@@ -1,217 +1,33 @@
 package de.gedoplan.v5t11.status.service.init;
 
-import de.gedoplan.v5t11.status.entity.lok.Lok;
+import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
+import de.gedoplan.v5t11.status.entity.fahrzeug.FahrzeugId;
 import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 
 public class TestLokData {
 
-  public static final Lok lok103_003_0 = new Lok("103 003-0", null, SystemTyp.DCC, 1103,
-      new Lok.LokFunktion(1, Lok.LokFunktion.LokFunktionsGruppe.AF, "Maschinenraumbeleuchtung", false, false),
-      new Lok.LokFunktion(2, Lok.LokFunktion.LokFunktionsGruppe.BG, "Motor", false, false),
-      new Lok.LokFunktion(3, Lok.LokFunktion.LokFunktionsGruppe.BG, "Pfeife", true, true),
-      new Lok.LokFunktion(4, Lok.LokFunktion.LokFunktionsGruppe.AF, "Direktsteuerung", false, false),
-      new Lok.LokFunktion(5, Lok.LokFunktion.LokFunktionsGruppe.AF, "Führerstandsbeleuchtung", false, false),
-      new Lok.LokFunktion(7, Lok.LokFunktion.LokFunktionsGruppe.BA, "Schaffnerpfiff", true, false),
-      new Lok.LokFunktion(9, Lok.LokFunktion.LokFunktionsGruppe.BG, "Bremsenquietschen aus", false, false),
-      new Lok.LokFunktion(10, Lok.LokFunktion.LokFunktionsGruppe.BA, "Bitte einsteigen ...", true, false),
-      new Lok.LokFunktion(11, Lok.LokFunktion.LokFunktionsGruppe.BG, "Lüfter", false, false),
-      new Lok.LokFunktion(12, Lok.LokFunktion.LokFunktionsGruppe.BG, "Sanden", true, false),
-      new Lok.LokFunktion(13, Lok.LokFunktion.LokFunktionsGruppe.BA, "... an Gleis 1 fährt ein Zug durch ...", true, false),
-      new Lok.LokFunktion(14, Lok.LokFunktion.LokFunktionsGruppe.BA, "Betriebsgefahr ...", true, false),
-      new Lok.LokFunktion(15, Lok.LokFunktion.LokFunktionsGruppe.BG, "Lüfter2", false, false),
-      new Lok.LokFunktion(30, Lok.LokFunktion.LokFunktionsGruppe.FL, "Beidseitig", false, false, 0b0000_0000_1010_0000, 0b0000_0000_0000_0000),
-      new Lok.LokFunktion(32, Lok.LokFunktion.LokFunktionsGruppe.FL, "Nur Seite 1", false, false, 0b0000_0000_1010_0000, 0b0000_0000_0010_0000),
-      new Lok.LokFunktion(31, Lok.LokFunktion.LokFunktionsGruppe.FL, "Nur Seite 2", false, false, 0b0000_0000_1010_0000, 0b0000_0000_1000_0000),
-      new Lok.LokFunktion(33, Lok.LokFunktion.LokFunktionsGruppe.FL, "Doppel-A", false, false, 0b0000_0000_1010_0000, 0b0000_0000_1010_0000));
-  public static final Lok lok110_389_4 = new Lok("110 389-4", null, SystemTyp.DCC, 1110,
-      new Lok.LokFunktion(1, Lok.LokFunktion.LokFunktionsGruppe.BG, "Pfeife lang", true, false),
-      new Lok.LokFunktion(2, Lok.LokFunktion.LokFunktionsGruppe.BG, "Motor", false, false),
-      new Lok.LokFunktion(3, Lok.LokFunktion.LokFunktionsGruppe.BG, "Pfeife kurz", true, true),
-      new Lok.LokFunktion(4, Lok.LokFunktion.LokFunktionsGruppe.AF, "Direktsteuerung", false, false),
-      new Lok.LokFunktion(5, Lok.LokFunktion.LokFunktionsGruppe.BG, "Bremsenquietschen aus", false, false),
-      new Lok.LokFunktion(7, Lok.LokFunktion.LokFunktionsGruppe.BA, "Schaffnerpfiff", true, false),
-      new Lok.LokFunktion(9, Lok.LokFunktion.LokFunktionsGruppe.BA, "Türen schließen", true, false),
-      new Lok.LokFunktion(10, Lok.LokFunktion.LokFunktionsGruppe.BA, "???", true, false),
-      new Lok.LokFunktion(11, Lok.LokFunktion.LokFunktionsGruppe.BG, "Kompressor", false, false),
-      new Lok.LokFunktion(12, Lok.LokFunktion.LokFunktionsGruppe.BG, "Sanden", true, false),
-      new Lok.LokFunktion(13, Lok.LokFunktion.LokFunktionsGruppe.BG, "Kabinenfunk", true, false),
-      new Lok.LokFunktion(14, Lok.LokFunktion.LokFunktionsGruppe.BG, "Lüfter", true, false),
-      new Lok.LokFunktion(15, Lok.LokFunktion.LokFunktionsGruppe.BG, "Türenschließen", false, false),
-      new Lok.LokFunktion(16, Lok.LokFunktion.LokFunktionsGruppe.AF, "Geräusche ausblenden", false, false),
-      new Lok.LokFunktion(30, Lok.LokFunktion.LokFunktionsGruppe.FL, "Beidseitig", false, false, 0b0000_0000_1010_0000, 0b0000_0000_0000_0000),
-      new Lok.LokFunktion(32, Lok.LokFunktion.LokFunktionsGruppe.FL, "Nur Seite 1", false, false, 0b0000_0000_1010_0000, 0b0000_0000_0010_0000),
-      new Lok.LokFunktion(31, Lok.LokFunktion.LokFunktionsGruppe.FL, "Nur Seite 2", false, false, 0b0000_0000_1010_0000, 0b0000_0000_1000_0000),
-      new Lok.LokFunktion(33, Lok.LokFunktion.LokFunktionsGruppe.FL, "Doppel-A", false, false, 0b0000_0000_1010_0000, 0b0000_0000_1010_0000));
-  public static final Lok lok112_491_6 = new Lok("112 491-6", null, SystemTyp.DCC, 1112,
-      new Lok.LokFunktion(1, Lok.LokFunktion.LokFunktionsGruppe.BG, "Motor", false, false),
-      new Lok.LokFunktion(2, Lok.LokFunktion.LokFunktionsGruppe.BG, "Pfeife lang", true, false),
-      new Lok.LokFunktion(3, Lok.LokFunktion.LokFunktionsGruppe.BA, "Schaffnerpfiff", true, false),
-      new Lok.LokFunktion(4, Lok.LokFunktion.LokFunktionsGruppe.BG, "Kompressor", true, false),
-      new Lok.LokFunktion(5, Lok.LokFunktion.LokFunktionsGruppe.BG, "Ankuppeln", true, false),
-      new Lok.LokFunktion(6, Lok.LokFunktion.LokFunktionsGruppe.AF, "Direktsteuerung", false, false),
-      new Lok.LokFunktion(7, Lok.LokFunktion.LokFunktionsGruppe.BA, "???", true, false),
-      new Lok.LokFunktion(8, Lok.LokFunktion.LokFunktionsGruppe.BG, "Sanden", true, false),
-      new Lok.LokFunktion(9, Lok.LokFunktion.LokFunktionsGruppe.AF, "Rangiergang", false, false),
-      new Lok.LokFunktion(10, Lok.LokFunktion.LokFunktionsGruppe.AF, "Geräusche ausblenden", false, false),
-      new Lok.LokFunktion(13, Lok.LokFunktion.LokFunktionsGruppe.BG, "Pfeife kurz", true, true),
-      new Lok.LokFunktion(14, Lok.LokFunktion.LokFunktionsGruppe.BG, "Kurvenquietschen", true, true),
-      new Lok.LokFunktion(30, Lok.LokFunktion.LokFunktionsGruppe.FL, "Beidseitig", false, false, 0b0000_1100_0000_0000, 0b0000_0000_0000_0000),
-      new Lok.LokFunktion(32, Lok.LokFunktion.LokFunktionsGruppe.FL, "Nur Seite 1", false, false, 0b0000_1100_0000_0000, 0b0000_0100_0000_0000),
-      new Lok.LokFunktion(31, Lok.LokFunktion.LokFunktionsGruppe.FL, "Nur Seite 2", false, false, 0b0000_1100_0000_0000, 0b0000_1000_0000_0000));
-  public static final Lok lok151_032_0 = new Lok("151 032-0", "DHL100", SystemTyp.SX1, 20);
-  public static final Lok lok194_183_0 = new Lok("194 183-0", "Zimo", SystemTyp.DCC, 1194,
-      new Lok.LokFunktion(1, Lok.LokFunktion.LokFunktionsGruppe.BG, "Motor", false, false),
-      new Lok.LokFunktion(2, Lok.LokFunktion.LokFunktionsGruppe.BG, "Pfeife kurz", true, true),
-      new Lok.LokFunktion(3, Lok.LokFunktion.LokFunktionsGruppe.BG, "Pfeife lang", true, false),
-      new Lok.LokFunktion(4, Lok.LokFunktion.LokFunktionsGruppe.BA, "Schaffnerpfiff", true, false),
-      new Lok.LokFunktion(5, Lok.LokFunktion.LokFunktionsGruppe.BG, "Ankuppeln", true, false),
-      new Lok.LokFunktion(6, Lok.LokFunktion.LokFunktionsGruppe.AF, "Direktsteuerung", false, false),
-      new Lok.LokFunktion(7, Lok.LokFunktion.LokFunktionsGruppe.BG, "Kurvenquietschen", false, false),
-      new Lok.LokFunktion(8, Lok.LokFunktion.LokFunktionsGruppe.BG, "Handpumpe", false, false),
-      new Lok.LokFunktion(9, Lok.LokFunktion.LokFunktionsGruppe.AF, "Rangiergang", false, false),
-      new Lok.LokFunktion(10, Lok.LokFunktion.LokFunktionsGruppe.BG, "Lüfter", false, false),
-      new Lok.LokFunktion(11, Lok.LokFunktion.LokFunktionsGruppe.BG, "Kompressor", false, false),
-      new Lok.LokFunktion(12, Lok.LokFunktion.LokFunktionsGruppe.BG, "Tür", false, false),
-      new Lok.LokFunktion(14, Lok.LokFunktion.LokFunktionsGruppe.AF, "Geräusche ausblenden", false, false),
-      new Lok.LokFunktion(15, Lok.LokFunktion.LokFunktionsGruppe.BG, "Sanden", true, false));
-  public static final Lok lok210_004_8 = new Lok("210 004-8", "DHL100", SystemTyp.SX1, 2);
-  public static final Lok lok217_001_7 = new Lok("217 001-7", null, SystemTyp.SX2, 1217,
-      new Lok.LokFunktion(1, Lok.LokFunktion.LokFunktionsGruppe.AF, "Führerstandsbeleuchtung", false, false),
-      new Lok.LokFunktion(2, Lok.LokFunktion.LokFunktionsGruppe.BG, "Motor", false, false),
-      new Lok.LokFunktion(3, Lok.LokFunktion.LokFunktionsGruppe.BG, "Signalhorn hoch", true, true),
-      new Lok.LokFunktion(4, Lok.LokFunktion.LokFunktionsGruppe.AF, "Direktsteuerung", false, false),
-      new Lok.LokFunktion(5, Lok.LokFunktion.LokFunktionsGruppe.BG, "Bremsenquietschen aus", false, false),
-      new Lok.LokFunktion(7, Lok.LokFunktion.LokFunktionsGruppe.BG, "Signalhorn hoch", true, false),
-      new Lok.LokFunktion(9, Lok.LokFunktion.LokFunktionsGruppe.BG, "Hilfsdiesel", true, false),
-      new Lok.LokFunktion(10, Lok.LokFunktion.LokFunktionsGruppe.BG, "Kompressor", true, false),
-      new Lok.LokFunktion(11, Lok.LokFunktion.LokFunktionsGruppe.BA, "Schaffnerpfiff", true, false),
-      new Lok.LokFunktion(12, Lok.LokFunktion.LokFunktionsGruppe.BA, "... an Gleis 1 fährt ein Zug durch ...", true, false),
-      new Lok.LokFunktion(13, Lok.LokFunktion.LokFunktionsGruppe.BG, "Sanden", true, false),
-      new Lok.LokFunktion(14, Lok.LokFunktion.LokFunktionsGruppe.BA, "Bitte einsteigen ...", true, false),
-      new Lok.LokFunktion(15, Lok.LokFunktion.LokFunktionsGruppe.BG, "Geräusche ein/ausblenden", true, false),
-      new Lok.LokFunktion(30, Lok.LokFunktion.LokFunktionsGruppe.FL, "Beidseitig", false, false, 0b0000_0000_1010_0000, 0b0000_0000_0000_0000),
-      new Lok.LokFunktion(32, Lok.LokFunktion.LokFunktionsGruppe.FL, "Nur Seite 1", false, false, 0b0000_0000_1010_0000, 0b0000_0000_0010_0000),
-      new Lok.LokFunktion(31, Lok.LokFunktion.LokFunktionsGruppe.FL, "Nur Seite 2", false, false, 0b0000_0000_1010_0000, 0b0000_0000_1000_0000),
-      new Lok.LokFunktion(33, Lok.LokFunktion.LokFunktionsGruppe.FL, "Doppel-A", false, false, 0b0000_0000_1010_0000, 0b0000_0000_1010_0000));
-  public static final Lok lok230_001_0 = new Lok("230 001-0", null, SystemTyp.DCC, 1230,
-      new Lok.LokFunktion(1, Lok.LokFunktion.LokFunktionsGruppe.BG, "Horn kurz", true, true),
-      new Lok.LokFunktion(2, Lok.LokFunktion.LokFunktionsGruppe.BG, "Motor", false, false),
-      new Lok.LokFunktion(3, Lok.LokFunktion.LokFunktionsGruppe.BG, "Horn lang", true, false),
-      new Lok.LokFunktion(4, Lok.LokFunktion.LokFunktionsGruppe.AF, "Direktsteuerung", false, false),
-      new Lok.LokFunktion(5, Lok.LokFunktion.LokFunktionsGruppe.BG, "Druckluft ablassen", true, false),
-      new Lok.LokFunktion(7, Lok.LokFunktion.LokFunktionsGruppe.BG, "Bremsenquietschen aus", false, false),
-      new Lok.LokFunktion(9, Lok.LokFunktion.LokFunktionsGruppe.BG, "Sanden", true, false),
-      new Lok.LokFunktion(10, Lok.LokFunktion.LokFunktionsGruppe.BA, "Schaffnerpfiff", true, false),
-      new Lok.LokFunktion(11, Lok.LokFunktion.LokFunktionsGruppe.BA, "???", true, false),
-      new Lok.LokFunktion(12, Lok.LokFunktion.LokFunktionsGruppe.BG, "Türen schließen", true, false),
-      new Lok.LokFunktion(30, Lok.LokFunktion.LokFunktionsGruppe.FL, "Beidseitig", false, false, 0b0000_0000_1010_0000, 0b0000_0000_0000_0000),
-      new Lok.LokFunktion(32, Lok.LokFunktion.LokFunktionsGruppe.FL, "Nur Seite 2", false, false, 0b0000_0000_1010_0000, 0b0000_0000_0010_0000),
-      new Lok.LokFunktion(31, Lok.LokFunktion.LokFunktionsGruppe.FL, "Nur Seite 1", false, false, 0b0000_0000_1010_0000, 0b0000_0000_1000_0000),
-      new Lok.LokFunktion(33, Lok.LokFunktion.LokFunktionsGruppe.FL, "Doppel-A", false, false, 0b0000_0000_1010_0000, 0b0000_0000_1010_0000));
-  public static final Lok lok323_673_4 = new Lok("323 673-4", "DHL050", SystemTyp.SX1, 4);
-  public static final Lok lok332_262_5 = new Lok("332 262-5", "DHL100", SystemTyp.SX1, 14);
-  public static final Lok lok430_119_8 = new Lok("430 119-8", "DHL100", SystemTyp.SX1, 16);
-  public static final Lok lokE10_472 = new Lok("E10 472", null, SystemTyp.DCC, 1104,
-      new Lok.LokFunktion(1, Lok.LokFunktion.LokFunktionsGruppe.BG, "Motor", false, false),
-      new Lok.LokFunktion(2, Lok.LokFunktion.LokFunktionsGruppe.BG, "Pfeife lang", true, false),
-      new Lok.LokFunktion(3, Lok.LokFunktion.LokFunktionsGruppe.BA, "Schaffnerpfiff", true, false),
-      new Lok.LokFunktion(4, Lok.LokFunktion.LokFunktionsGruppe.BG, "Kompressor", true, false),
-      new Lok.LokFunktion(5, Lok.LokFunktion.LokFunktionsGruppe.BG, "Ankuppeln", true, false),
-      new Lok.LokFunktion(6, Lok.LokFunktion.LokFunktionsGruppe.AF, "Direktsteuerung", false, false),
-      new Lok.LokFunktion(7, Lok.LokFunktion.LokFunktionsGruppe.BA, "???", true, false),
-      new Lok.LokFunktion(8, Lok.LokFunktion.LokFunktionsGruppe.BG, "Sanden", true, false),
-      new Lok.LokFunktion(9, Lok.LokFunktion.LokFunktionsGruppe.AF, "Rangiergang", false, false),
-      new Lok.LokFunktion(10, Lok.LokFunktion.LokFunktionsGruppe.AF, "Geräusche ausblenden", false, false),
-      new Lok.LokFunktion(13, Lok.LokFunktion.LokFunktionsGruppe.BG, "Pfeife kurz", true, true),
-      new Lok.LokFunktion(14, Lok.LokFunktion.LokFunktionsGruppe.BG, "Kurvenquietschen", true, true),
-      new Lok.LokFunktion(30, Lok.LokFunktion.LokFunktionsGruppe.FL, "Beidseitig", false, false, 0b0000_1100_0000_0000, 0b0000_0000_0000_0000),
-      new Lok.LokFunktion(32, Lok.LokFunktion.LokFunktionsGruppe.FL, "Nur Seite 1", false, false, 0b0000_1100_0000_0000, 0b0000_0100_0000_0000),
-      new Lok.LokFunktion(31, Lok.LokFunktion.LokFunktionsGruppe.FL, "Nur Seite 2", false, false, 0b0000_1100_0000_0000, 0b0000_1000_0000_0000),
-      new Lok.LokFunktion(33, Lok.LokFunktion.LokFunktionsGruppe.FL, "Doppel-A", false, false, 0b0000_1100_0000_0000, 0b0000_1100_0000_0000));
-  public static final Lok lokE50_047 = new Lok("E50 047", null, SystemTyp.SX2, 1050,
-      new Lok.LokFunktion(1, Lok.LokFunktion.LokFunktionsGruppe.AF, "Führerstandsbeleuchtung", false, false),
-      new Lok.LokFunktion(2, Lok.LokFunktion.LokFunktionsGruppe.BG, "Motor", false, false),
-      new Lok.LokFunktion(3, Lok.LokFunktion.LokFunktionsGruppe.BG, "Pfeife lang", true, false),
-      new Lok.LokFunktion(4, Lok.LokFunktion.LokFunktionsGruppe.AF, "Direktsteuerung", false, false),
-      new Lok.LokFunktion(5, Lok.LokFunktion.LokFunktionsGruppe.BG, "Pfeife kurz", true, true),
-      new Lok.LokFunktion(7, Lok.LokFunktion.LokFunktionsGruppe.BA, "Schaffnerpfiff", true, false),
-      new Lok.LokFunktion(9, Lok.LokFunktion.LokFunktionsGruppe.BG, "Bremsenquietschen aus", false, false),
-      new Lok.LokFunktion(10, Lok.LokFunktion.LokFunktionsGruppe.BG, "Ankuppeln", true, false),
-      new Lok.LokFunktion(30, Lok.LokFunktion.LokFunktionsGruppe.FL, "Beidseitig", false, false, 0b0000_0000_1010_0000, 0b0000_0000_0000_0000),
-      new Lok.LokFunktion(32, Lok.LokFunktion.LokFunktionsGruppe.FL, "Nur Seite 1", false, false, 0b0000_0000_1010_0000, 0b0000_0000_0010_0000),
-      new Lok.LokFunktion(31, Lok.LokFunktion.LokFunktionsGruppe.FL, "Nur Seite 2", false, false, 0b0000_0000_1010_0000, 0b0000_0000_1000_0000),
-      new Lok.LokFunktion(33, Lok.LokFunktion.LokFunktionsGruppe.FL, "Doppel-A", false, false, 0b0000_0000_1010_0000, 0b0000_0000_1010_0000));
-  public static final Lok lokE9103 = new Lok("E9103", "DHL100", SystemTyp.SX1, 28);
-  public static final Lok lokV100_1365 = new Lok("V100 1365", null, SystemTyp.SX2, 1365,
-      new Lok.LokFunktion(1, Lok.LokFunktion.LokFunktionsGruppe.FL, "Spitzensignal nur vorn", false, false),
-      new Lok.LokFunktion(2, Lok.LokFunktion.LokFunktionsGruppe.BG, "Motor", false, false),
-      new Lok.LokFunktion(3, Lok.LokFunktion.LokFunktionsGruppe.BG, "Signalhorn hoch", true, false),
-      new Lok.LokFunktion(4, Lok.LokFunktion.LokFunktionsGruppe.AF, "Direktsteuerung", false, false),
-      new Lok.LokFunktion(5, Lok.LokFunktion.LokFunktionsGruppe.BG, "Bremsenquietschen aus", false, false),
-      new Lok.LokFunktion(7, Lok.LokFunktion.LokFunktionsGruppe.AF, "Führerstandsbeleuchtung", false, false),
-      new Lok.LokFunktion(9, Lok.LokFunktion.LokFunktionsGruppe.BG, "Glocke", true, false),
-      new Lok.LokFunktion(10, Lok.LokFunktion.LokFunktionsGruppe.BG, "Signalhorn tief", true, false),
-      new Lok.LokFunktion(11, Lok.LokFunktion.LokFunktionsGruppe.BG, "Kompressor", false, false),
-      new Lok.LokFunktion(12, Lok.LokFunktion.LokFunktionsGruppe.BA, "Stuttgart Hauptbahnhof, bitte alle aussteigen", true, false),
-      new Lok.LokFunktion(13, Lok.LokFunktion.LokFunktionsGruppe.BA, "Schaffnerpfiff", true, false),
-      new Lok.LokFunktion(14, Lok.LokFunktion.LokFunktionsGruppe.BA, "Türenschließen", true, false),
-      new Lok.LokFunktion(30, Lok.LokFunktion.LokFunktionsGruppe.FL, "Beidseitig", false, false, 0b0000_0000_1010_0000, 0b0000_0000_0000_0000),
-      new Lok.LokFunktion(32, Lok.LokFunktion.LokFunktionsGruppe.FL, "Nur Seite 1", false, false, 0b0000_0000_1010_0000, 0b0000_0000_0010_0000),
-      new Lok.LokFunktion(31, Lok.LokFunktion.LokFunktionsGruppe.FL, "Nur Seite 2", false, false, 0b0000_0000_1010_0000, 0b0000_0000_1000_0000),
-      new Lok.LokFunktion(33, Lok.LokFunktion.LokFunktionsGruppe.FL, "Doppel-A", false, false, 0b0000_0000_1010_0000, 0b0000_0000_1010_0000));
-  public static final Lok lokV200_116 = new Lok("V200 116", null, SystemTyp.DCC, 1200,
-      new Lok.LokFunktion(1, Lok.LokFunktion.LokFunktionsGruppe.BG, "Motor", false, false),
-      new Lok.LokFunktion(2, Lok.LokFunktion.LokFunktionsGruppe.BG, "Signalhorn", true, true),
-      new Lok.LokFunktion(3, Lok.LokFunktion.LokFunktionsGruppe.BG, "Motor 2", false, false),
-      new Lok.LokFunktion(6, Lok.LokFunktion.LokFunktionsGruppe.BG, "Abschlammen", true, false),
-      new Lok.LokFunktion(7, Lok.LokFunktion.LokFunktionsGruppe.AF, "Rangiergang", false, false),
-      new Lok.LokFunktion(8, Lok.LokFunktion.LokFunktionsGruppe.BG, "Handbremse", false, false),
-      new Lok.LokFunktion(9, Lok.LokFunktion.LokFunktionsGruppe.BG, "Kompressor", false, false),
-      new Lok.LokFunktion(10, Lok.LokFunktion.LokFunktionsGruppe.BG, "Führerstandstür", false, false),
-      new Lok.LokFunktion(11, Lok.LokFunktion.LokFunktionsGruppe.BG, "Maschinenraumtür", false, false),
-      new Lok.LokFunktion(12, Lok.LokFunktion.LokFunktionsGruppe.BG, "Führerstandsfenster", false, false),
-      new Lok.LokFunktion(13, Lok.LokFunktion.LokFunktionsGruppe.BG, "Seitenfenster", false, false),
-      new Lok.LokFunktion(14, Lok.LokFunktion.LokFunktionsGruppe.BG, "Kraftstoffpumpe", false, false),
-      new Lok.LokFunktion(15, Lok.LokFunktion.LokFunktionsGruppe.BG, "Speisepumpe", false, false),
-      new Lok.LokFunktion(16, Lok.LokFunktion.LokFunktionsGruppe.BG, "Vorwärmgerät", true, false),
-      new Lok.LokFunktion(30, Lok.LokFunktion.LokFunktionsGruppe.FL, "Beidseitig", false, false, 0b0000_0000_0001_1000, 0b0000_0000_0000_0000),
-      new Lok.LokFunktion(31, Lok.LokFunktion.LokFunktionsGruppe.FL, "Nur weiß", false, false, 0b0000_0000_0001_1000, 0b0000_0000_0000_1000),
-      new Lok.LokFunktion(32, Lok.LokFunktion.LokFunktionsGruppe.FL, "Nur rot", false, false, 0b0000_0000_0001_1000, 0b0000_0000_0001_0000));
-  public static final Lok lok612_509_0 = new Lok("612 509-0", null, SystemTyp.DCC, 1612,
-      new Lok.LokFunktion(1, Lok.LokFunktion.LokFunktionsGruppe.BG, "Motor", false, false),
-      new Lok.LokFunktion(2, Lok.LokFunktion.LokFunktionsGruppe.AF, "Innenbeleuchtung", false, false),
-      new Lok.LokFunktion(3, Lok.LokFunktion.LokFunktionsGruppe.BG, "Signalhorn hoch", true, true),
-      new Lok.LokFunktion(4, Lok.LokFunktion.LokFunktionsGruppe.BG, "Kompressor", false, false),
-      new Lok.LokFunktion(5, Lok.LokFunktion.LokFunktionsGruppe.BA, "Schaffnerpfiff", true, false),
-      new Lok.LokFunktion(7, Lok.LokFunktion.LokFunktionsGruppe.BA, "Bitte einsteigen ..., Türenschließen, Pfiff", true, false),
-      new Lok.LokFunktion(8, Lok.LokFunktion.LokFunktionsGruppe.BA, "Bitte einsteigen ...", true, false),
-      new Lok.LokFunktion(10, Lok.LokFunktion.LokFunktionsGruppe.AF, "Geräusche ausblenden", false, false),
-      new Lok.LokFunktion(15, Lok.LokFunktion.LokFunktionsGruppe.BG, "Signalhorn tief kurz", true, false),
-      new Lok.LokFunktion(16, Lok.LokFunktion.LokFunktionsGruppe.BG, "Signalhorn tief lang", true, false));
-  public static final Lok lokET_90_5019 = new Lok("ET 90.5019", "DHL100", SystemTyp.SX1, 21);
-  public static final Lok lokVT_11_5019 = new Lok("VT 11.5019", "DHL100", SystemTyp.SX1, 1);
-  public static final Lok lokVT_98_9667 = new Lok("VT 98 9667", null, SystemTyp.DCC, 1098,
-      new Lok.LokFunktion(1, Lok.LokFunktion.LokFunktionsGruppe.BG, "Motor", false, false),
-      new Lok.LokFunktion(2, Lok.LokFunktion.LokFunktionsGruppe.BA, "Türenschließen", true, false),
-      new Lok.LokFunktion(3, Lok.LokFunktion.LokFunktionsGruppe.BG, "Signalhorn", true, false),
-      new Lok.LokFunktion(5, Lok.LokFunktion.LokFunktionsGruppe.BG, "Glocke", true, false),
-      new Lok.LokFunktion(6, Lok.LokFunktion.LokFunktionsGruppe.AF, "Geräusche ausblenden", false, false),
-      new Lok.LokFunktion(7, Lok.LokFunktion.LokFunktionsGruppe.AF, "Innenbeleuchtung", false, false));
+  public static final Fahrzeug lok103_003_0 = new Fahrzeug(new FahrzeugId(SystemTyp.DCC, 1103));
+  public static final Fahrzeug lok110_389_4 = new Fahrzeug(new FahrzeugId(SystemTyp.DCC, 1110));
+  public static final Fahrzeug lok112_491_6 = new Fahrzeug(new FahrzeugId(SystemTyp.DCC, 1112));
+  public static final Fahrzeug lok151_032_0 = new Fahrzeug(new FahrzeugId(SystemTyp.SX1, 20));
+  public static final Fahrzeug lok194_183_0 = new Fahrzeug(new FahrzeugId(SystemTyp.DCC, 1194));
+  public static final Fahrzeug lok210_004_8 = new Fahrzeug(new FahrzeugId(SystemTyp.SX1, 2));
+  public static final Fahrzeug lok217_001_7 = new Fahrzeug(new FahrzeugId(SystemTyp.SX2, 1217));
+  public static final Fahrzeug lok230_001_0 = new Fahrzeug(new FahrzeugId(SystemTyp.DCC, 1230));
+  public static final Fahrzeug lok323_673_4 = new Fahrzeug(new FahrzeugId(SystemTyp.SX1, 4));
+  public static final Fahrzeug lok332_262_5 = new Fahrzeug(new FahrzeugId(SystemTyp.SX1, 14));
+  public static final Fahrzeug lok430_119_8 = new Fahrzeug(new FahrzeugId(SystemTyp.SX1, 16));
+  public static final Fahrzeug lokE10_472 = new Fahrzeug(new FahrzeugId(SystemTyp.DCC, 1104));
+  public static final Fahrzeug lokE50_047 = new Fahrzeug(new FahrzeugId(SystemTyp.SX2, 1050));
+  public static final Fahrzeug lokE9103 = new Fahrzeug(new FahrzeugId(SystemTyp.SX1, 28));
+  public static final Fahrzeug lokV100_1365 = new Fahrzeug(new FahrzeugId(SystemTyp.SX2, 1365));
+  public static final Fahrzeug lokV200_116 = new Fahrzeug(new FahrzeugId(SystemTyp.DCC, 1200));
+  public static final Fahrzeug lok612_509_0 = new Fahrzeug(new FahrzeugId(SystemTyp.DCC, 1612));
+  public static final Fahrzeug lokET_90_5019 = new Fahrzeug(new FahrzeugId(SystemTyp.SX1, 21));
+  public static final Fahrzeug lokVT_11_5019 = new Fahrzeug(new FahrzeugId(SystemTyp.SX1, 1));
+  public static final Fahrzeug lokVT_98_9667 = new Fahrzeug(new FahrzeugId(SystemTyp.DCC, 1098));
 
-  // public static final Lok lokX_VT_98_9731 = new Lok("X VT 98.9731", "DHL100", SystemTyp.SX1, false, 6, 31);
-  // public static final Lok lokX_103_118_6 = new Lok("X 103 118-6", "DHL100", SystemTyp.SX1, false, 13, 31);
-  // public static final Lok lokX_110_222_7 = new Lok("X 110 222-7", "DHL100", SystemTyp.SX1, false, 17, 31,
-  // new Lok.LokFunktion(1, Lok.LokFunktion.LokFunktionsGruppe.AF, "Horn", true, true));
-  // public static final Lok lokX_111_205_1 = new Lok("X 111 205-1", "DHL100", SystemTyp.SX1, false, 15, 31);
-  // public static final Lok lokX_120_002_1 = new Lok("X 120 002-1", "Tr66830", SystemTyp.SX1, false, 18, 31);
-  // public static final Lok lokX_14283 = new Lok("X 14283", "DHL050", SystemTyp.SX1, false, 3, 31);
-  // public static final Lok lok151_073_4 = new Lok("151 073-4", "DH10", SystemTyp.SX2, 1151);
-  // public static final Lok lokX_212_216_6 = new Lok("X 212 216-6", "Tr66825", SystemTyp.SX1, false, 5, 31);
-  // public static final Lok lokX_221_137_3 = new Lok("X 221 137-3", "Tr66835", SystemTyp.SX1, false, 19, 31);
-  // public static final Lok lokX_614_083_4 = new Lok("X 614 083-4", "Tr66832", SystemTyp.SX1, false, 11, 31);
-  // public static final Lok lokX_89_005 = new Lok("X 89 005", "DH05", SystemTyp.SX1, false, 7, 31);
-
-  public static final Lok[] loks = {
+  public static final Fahrzeug[] loks = {
       lok103_003_0,
       lok110_389_4,
       lok112_491_6,

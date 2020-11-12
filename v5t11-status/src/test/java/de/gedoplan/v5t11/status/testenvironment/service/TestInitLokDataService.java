@@ -2,11 +2,13 @@ package de.gedoplan.v5t11.status.testenvironment.service;
 
 import de.gedoplan.v5t11.status.service.init.InitLokDataService;
 
+import javax.annotation.Priority;
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Specializes;
+import javax.enterprise.inject.Alternative;
 
 @ApplicationScoped
-@Specializes
+@Alternative
+@Priority(1)
 public class TestInitLokDataService extends InitLokDataService {
 
   @Override

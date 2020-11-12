@@ -1,7 +1,7 @@
 package de.gedoplan.v5t11.status.entity.baustein;
 
 import de.gedoplan.baselibs.utils.inject.InjectionUtil;
-import de.gedoplan.v5t11.status.entity.lok.Lok;
+import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
 import de.gedoplan.v5t11.status.service.ConfigService;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
@@ -270,7 +270,7 @@ public abstract class Zentrale implements Closeable {
 
   public abstract void setSX1Kanal(int adr, int wert);
 
-  public void lokChanged(Lok lok) {
+  public void lokChanged(Fahrzeug lok) {
   }
 
   public void injectFields() {

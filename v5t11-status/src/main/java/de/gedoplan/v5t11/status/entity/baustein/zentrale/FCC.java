@@ -3,8 +3,7 @@ package de.gedoplan.v5t11.status.entity.baustein.zentrale;
 import de.gedoplan.v5t11.status.entity.Kanal;
 import de.gedoplan.v5t11.status.entity.SX2Kanal;
 import de.gedoplan.v5t11.status.entity.baustein.Zentrale;
-import de.gedoplan.v5t11.status.entity.lok.Lok;
-import de.gedoplan.v5t11.status.entity.lok.Lok.LokFunktion;
+import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
 import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 import de.gedoplan.v5t11.util.misc.V5t11Exception;
 
@@ -450,11 +449,11 @@ public class FCC extends Zentrale {
     }
   }
 
-  private AtomicReferenceArray<Lok> sx2BusSlot = new AtomicReferenceArray<>(BUSEXT_MAX_IDX + 1);
+  private AtomicReferenceArray<Fahrzeug> sx2BusSlot = new AtomicReferenceArray<>(BUSEXT_MAX_IDX + 1);
 
   @Override
-  public void lokChanged(Lok lok) {
-    if (lok.getSystemTyp() == SystemTyp.SX1) {
+  public void lokChanged(Fahrzeug lok) {
+    if (lok.getId().getSystemTyp() == SystemTyp.SX1) {
       /*
        * Lok ist eine SX(1)-Lok.
        * SX1-Kanalwert komponieren: 0bHLRFFFFF
@@ -475,14 +474,15 @@ public class FCC extends Zentrale {
           wert |= 0b0100_0000;
         }
 
-        for (LokFunktion funktion : lok.getFunktionen()) {
-          if (funktion != null && funktion.isHorn() && funktion.isAktiv()) {
-            wert |= 0b1000_0000;
-            break;
-          }
-        }
+        // TODO Horn unterstützen? Dann müsste Fahrzeug eine entsprechende Maske für die Funktion enthalten.
+        // for (LokFunktion funktion : lok.getFunktionen()) {
+        // if (funktion != null && funktion.isHorn() && funktion.isAktiv()) {
+        // wert |= 0b1000_0000;
+        // break;
+        // }
+        // }
       }
-      setSX1Kanal(lok.getAdresse(), wert);
+      setSX1Kanal(lok.getId().getAdresse(), wert);
 
       return;
     }
@@ -505,37 +505,37 @@ public class FCC extends Zentrale {
 
     // Falls Lok aktiv, Fahrstufe und alle Funktionen setzen
     if (lok.isAktiv()) {
-      setSX2Werte(idx, lok.getSystemTyp(), lok.getFahrstufe(), lok.isRueckwaerts(), lok.isLicht(), lok.getFunktionStatus());
+      setSX2Werte(idx, lok.getId().getSystemTyp(), lok.getFahrstufe(), lok.isRueckwaerts(), lok.isLicht(), lok.getFunktionStatus());
       return;
     }
 
     // Inaktive Lok: Fahrstufe und alle Funktionen löschen und Lok abmelden
-    setSX2Werte(idx, lok.getSystemTyp(), 0, false, false, 0);
+    setSX2Werte(idx, lok.getId().getSystemTyp(), 0, false, false, 0);
     sx2Abmelden(idx);
 
     // Slot freigeben
     this.sx2BusSlot.set(idx, null);
   }
 
-  private int sx2Anmelden(Lok lok) {
+  private int sx2Anmelden(Fahrzeug lok) {
     synchronized (Zentrale.class) {
       if (this.log.isDebugEnabled()) {
-        this.log.debug("Lok anmelden: " + lok);
+        this.log.debug("Fahrzeug anmelden: " + lok);
       }
 
       byte anmeldeCode = 0x04; // SX2
-      if (lok.getSystemTyp() == SystemTyp.DCC) {
-        if (lok.getAdresse() <= 127) {
+      if (lok.getId().getSystemTyp() == SystemTyp.DCC) {
+        if (lok.getId().getAdresse() <= 127) {
           anmeldeCode = 0x05; // DCC, kurze Adresse
         } else {
           anmeldeCode = 0x07; // DCC, lange Adresse
         }
       }
-      byte[] adressWert = encodeAdresse(lok.getSystemTyp(), lok.getAdresse());
+      byte[] adressWert = encodeAdresse(lok.getId().getSystemTyp(), lok.getId().getAdresse());
       int idx = send(new byte[] { 0x79, 0x01, adressWert[1], adressWert[0], anmeldeCode }, ack -> ack >= 0 && ack <= BUSEXT_MAX_IDX);
 
       if (this.log.isDebugEnabled()) {
-        this.log.debug("Lok " + lok + " hat Index " + idx);
+        this.log.debug("Fahrzeug " + lok + " hat Index " + idx);
       }
 
       return idx;
@@ -562,7 +562,7 @@ public class FCC extends Zentrale {
   private void sx2Abmelden(int idx) {
     synchronized (Zentrale.class) {
       if (this.log.isDebugEnabled()) {
-        this.log.debug("Lok abmelden: idx=" + idx);
+        this.log.debug("Fahrzeug abmelden: idx=" + idx);
       }
       send(new byte[] { 0x79, 0x02, (byte) idx, 0x00, 0x00 }, null);
     }
@@ -600,7 +600,7 @@ public class FCC extends Zentrale {
     }
   }
 
-  private int findSx2BusSlot(Lok lok) {
+  private int findSx2BusSlot(Fahrzeug lok) {
     for (int idx = 0; idx <= BUSEXT_MAX_IDX; ++idx) {
       if (lok.equals(this.sx2BusSlot.get(idx))) {
         return idx;

@@ -2,7 +2,7 @@ package de.gedoplan.v5t11.status.webservice;
 
 import de.gedoplan.v5t11.status.entity.Steuerung;
 import de.gedoplan.v5t11.status.entity.baustein.Lokcontroller;
-import de.gedoplan.v5t11.status.entity.lok.Lok;
+import de.gedoplan.v5t11.status.entity.fahrzeug.FahrzeugId;
 
 import java.util.SortedSet;
 
@@ -19,7 +19,7 @@ import javax.ws.rs.core.MediaType;
 
 @Path("lokcontroller")
 @Dependent
-public class LokcontrollerResource {
+public class LokcontrollerEndpoint {
 
   @Inject
   Steuerung steuerung;
@@ -33,21 +33,7 @@ public class LokcontrollerResource {
 
   @GET
   @Path("{id}")
-  @Produces(MediaType.TEXT_PLAIN + "; qs=1.0")
-  public String getLok(@PathParam("id") String id) {
-
-    Lokcontroller lokcontroller = this.steuerung.getLokcontroller(id);
-    if (lokcontroller == null) {
-      throw new NotFoundException();
-    }
-
-    Lok lok = lokcontroller.getLok();
-    return lok != null ? lok.getId() : "null";
-  }
-
-  @GET
-  @Path("{id}")
-  @Produces(MediaType.APPLICATION_JSON + "; qs=0.7")
+  @Produces(MediaType.APPLICATION_JSON)
   public Lokcontroller getLokcontroller(@PathParam("id") String id) {
 
     Lokcontroller lokcontroller = this.steuerung.getLokcontroller(id);
@@ -60,10 +46,10 @@ public class LokcontrollerResource {
 
   @PUT
   @Path("{id}")
-  @Consumes(MediaType.TEXT_PLAIN)
-  public void setLok(@PathParam("id") String id, String lokId) {
+  @Consumes(MediaType.APPLICATION_JSON)
+  public void setLok(@PathParam("id") String id, FahrzeugId lokId) {
 
-    if ("null".equals(lokId)) {
+    if (lokId.getSystemTyp() == null || lokId.getAdresse() == 0) {
       lokId = null;
     }
 

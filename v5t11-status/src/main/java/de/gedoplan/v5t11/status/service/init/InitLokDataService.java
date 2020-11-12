@@ -1,7 +1,7 @@
 package de.gedoplan.v5t11.status.service.init;
 
-import de.gedoplan.v5t11.status.entity.lok.Lok;
-import de.gedoplan.v5t11.status.persistence.LokRepository;
+import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
+import de.gedoplan.v5t11.status.persistence.FahrzeugRepository;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.Initialized;
@@ -23,7 +23,7 @@ import org.apache.commons.logging.Log;
 public class InitLokDataService {
 
   @Inject
-  LokRepository lokRepository;
+  FahrzeugRepository lokRepository;
 
   @Inject
   private Log log;
@@ -33,7 +33,7 @@ public class InitLokDataService {
    * Attn: Interceptors may not be called, when method is private!
    *
    * @param event
-   *        Application scope initialization event
+   *          Application scope initialization event
    */
   @Transactional
   protected void createDemoData(@Observes @Initialized(ApplicationScoped.class) Object event) {
@@ -44,12 +44,11 @@ public class InitLokDataService {
       this.lokRepository.findAll().forEach(this.lokRepository::remove);
 
       if (this.lokRepository.countAll() == 0) {
-        for (Lok lok : TestLokData.loks) {
+        for (Fahrzeug lok : TestLokData.loks) {
           this.lokRepository.persist(lok);
         }
       }
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       this.log.warn("Kann keine Lok-Daten erzeugen", e);
     }
 

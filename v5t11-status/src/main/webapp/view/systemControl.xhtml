@@ -53,13 +53,13 @@
       </p:fieldset>
 
       <p:fieldset id="lok" legend="Lok">
-        <p:remoteCommand name="updateLok" process="@none" update="lok msgs"/>
+        <p:remoteCommand name="updateLok" process="@none" update="lok msgs" />
         <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
           <p:outputLabel for="lokIdAktiv" value="Lok:" />
           <h:panelGroup id="lokIdAktiv">
             <p:selectOneMenu id="lokId" value="#{systemControlPresenter.lokId}" style="width:125px">
-              <f:selectItems value="#{systemControlPresenter.loks}" var="lok" itemLabel="#{lok.id}" itemValue="#{lok.id}" />
-              <p:ajax event="itemSelect"  oncomplete="updateLok();" />
+              <f:selectItems value="#{systemControlPresenter.loks}" var="lok" itemLabel="#{lok.id.adresse}@#{lok.id.systemTyp}" itemValue="#{lok.id}" />
+              <p:ajax event="itemSelect" oncomplete="updateLok();" />
             </p:selectOneMenu>
             <p:selectBooleanButton id="lokAktiv" value="#{systemControlPresenter.lokAktiv}" onLabel="aktiv" offLabel="inaktiv" style="width:120px">
               <p:ajax />
@@ -77,16 +77,18 @@
             </p:slider>
           </h:panelGrid>
 
-          <c:forEach items="#{systemControlPresenter.lokFunktionsGruppen}" var="lfcg">
-            <p:outputLabel value="#{lfcg.name}:" />
-            <h:panelGroup >
-              <c:forEach items="#{systemControlPresenter.getLokFunktionen(lfcg)}" var="fc">
-                <p:selectBooleanButton onLabel="#{fc.beschreibung}" offLabel="#{fc.beschreibung}" value="#{fc.aktiv}">
-                  <p:ajax update="lok"/>
-                </p:selectBooleanButton>
-              </c:forEach>
-            </h:panelGroup>
-          </c:forEach>
+          <p:outputLabel for="lokFunktionen" value="Funktionen:" />
+          <h:panelGroup id="lokFunktionen">
+            <p:selectBooleanButton id="lokLicht" value="#{systemControlPresenter.lokLicht}" onLabel="Licht" offLabel="Licht" style="width:120px">
+              <p:ajax />
+            </p:selectBooleanButton>
+            
+            <c:forEach var="fn" items="#{systemControlPresenter.lokFunktionen}">
+              <p:selectBooleanButton value="#{fn.on}" onLabel="#{fn.nr+1}" offLabel="#{fn.nr+1}" style="width:50px">
+                <p:ajax />
+              </p:selectBooleanButton>
+            </c:forEach>
+          </h:panelGroup>
         </h:panelGrid>
       </p:fieldset>
     </h:form>

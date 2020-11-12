@@ -27,8 +27,9 @@ import de.gedoplan.v5t11.status.entity.fahrweg.geraet.FunktionsdecoderGeraet;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Schalter;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
-import de.gedoplan.v5t11.status.entity.lok.Lok;
-import de.gedoplan.v5t11.status.persistence.LokRepository;
+import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
+import de.gedoplan.v5t11.status.entity.fahrzeug.FahrzeugId;
+import de.gedoplan.v5t11.status.persistence.FahrzeugRepository;
 import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 import de.gedoplan.v5t11.util.domain.entity.Bereichselement;
 
@@ -37,7 +38,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedMap;
 import java.util.SortedSet;
+import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -54,9 +57,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.commons.logging.Log;
 
-import com.google.common.collect.HashBasedTable;
-import com.google.common.collect.Table;
-
 import lombok.Getter;
 
 /**
@@ -71,7 +71,7 @@ import lombok.Getter;
 public class Steuerung {
 
   @Inject
-  LokRepository lokRepository;
+  FahrzeugRepository fahrzeugRepository;
 
   @Inject
   Log log;
@@ -132,36 +132,36 @@ public class Steuerung {
   @Getter
   private SortedSet<Weiche> weichen = new TreeSet<>();
 
-  private Table<SystemTyp, Integer, Lok> loks = HashBasedTable.create();
+  private SortedMap<FahrzeugId, Fahrzeug> fahrzeuge = new TreeMap<>();
 
   @XmlElementWrapper(name = "AutoSkripte")
   @XmlElement(name = "AutoSkript")
   @Getter
   private List<AutoSkript> autoSkripte = new ArrayList<>();
 
-  /**
-   * Loks liefern.
-   *
-   * @return alle Loks
-   */
-  public SortedSet<Lok> getLoks() {
-    return new TreeSet<>(this.loks.values());
+  public Collection<Fahrzeug> getFahrzeuge() {
+    return this.fahrzeuge.values();
   }
 
-  /**
-   * Lok liefern.
-   *
-   * @param id
-   *          Id
-   * @return gefundene Lok oder <code>null</code>
-   */
-  public Lok getLok(String id) {
-    for (Lok lok : this.loks.values()) {
-      if (id.equals(lok.getId())) {
-        return lok;
-      }
+  public Fahrzeug getFahrzeug(FahrzeugId id) {
+    return this.fahrzeuge.get(id);
+  }
+
+  public void addFahrzeug(Fahrzeug fahrzeug) {
+    if (this.fahrzeuge.containsKey(fahrzeug.getId())) {
+      return;
     }
-    return null;
+
+    this.fahrzeuge.put(fahrzeug.getId(), fahrzeug);
+    // TODO Fahrzeug in Zentrale anmelden
+  }
+
+  public void removeFahrzeug(FahrzeugId id) {
+    if (this.fahrzeuge.remove(id) == null) {
+      return;
+    }
+
+    // TODO Fahrzeug in Zentrale abmelden
   }
 
   /**
@@ -357,17 +357,17 @@ public class Steuerung {
     this.autoSkripte.forEach(as -> as.linkSteuerungsObjekte(this));
   }
 
-  public void assignLokcontroller(String lokcontrollerId, String lokId) {
+  public void assignLokcontroller(String lokcontrollerId, FahrzeugId fahrzeugId) {
     Lokcontroller lokcontroller = getLokcontroller(lokcontrollerId);
     if (lokcontroller == null) {
       throw new IllegalArgumentException("Lokcontroller nicht gefunden: " + lokcontrollerId);
     }
 
-    Lok lok = null;
-    if (lokId != null) {
-      lok = getLok(lokId);
+    Fahrzeug lok = null;
+    if (fahrzeugId != null) {
+      lok = getFahrzeug(fahrzeugId);
       if (lok == null) {
-        throw new IllegalArgumentException("Lok nicht gefunden: " + lokId);
+        throw new IllegalArgumentException("Lok nicht gefunden: " + fahrzeugId);
       }
 
       for (Lokcontroller lc : getLokcontroller()) {
@@ -453,9 +453,9 @@ public class Steuerung {
     this.funktionsdecoder.forEach(Funktionsdecoder::injectFields);
     this.lokcontroller.forEach(Lokcontroller::injectFields);
 
-    this.lokRepository.findAll().forEach(lok -> {
-      this.loks.put(lok.getSystemTyp(), lok.getAdresse(), lok);
-      lok.injectFields();
+    this.fahrzeugRepository.findAll().forEach(f -> {
+      this.fahrzeuge.put(f.getId(), f);
+      f.injectFields();
     });
   }
 
@@ -492,16 +492,16 @@ public class Steuerung {
 
   public void adjustTo(Kanal kanal) {
     int adr = kanal.getAdresse();
-    int wert = kanal.getWert();
 
     if (!this.supressedKanaele.contains(adr)) {
       Baustein baustein = this.kanalBausteine.get(adr);
       if (baustein != null) {
+        int wert = kanal.getWert();
         baustein.adjustWert(adr, wert);
         return;
       }
 
-      Lok lok = this.loks.get(SystemTyp.SX1, adr);
+      Fahrzeug lok = this.fahrzeuge.get(new FahrzeugId(SystemTyp.SX1, adr));
       if (lok != null) {
         lok.adjustTo(kanal);
       }
@@ -509,7 +509,7 @@ public class Steuerung {
   }
 
   public void adjustTo(SX2Kanal kanal) {
-    Lok lok = this.loks.get(kanal.getSystemTyp(), kanal.getAdresse());
+    Fahrzeug lok = this.fahrzeuge.get(new FahrzeugId(kanal.getSystemTyp(), kanal.getAdresse()));
     if (lok != null) {
       lok.adjustTo(kanal);
     }
@@ -533,4 +533,5 @@ public class Steuerung {
     }
     this.supressedKanaele.remove(adr);
   }
+
 }
