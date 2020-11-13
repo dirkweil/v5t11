@@ -31,7 +31,8 @@ public class BootStrap {
     log.info("statusJmsUrl: " + configService.getStatusJmsUrl());
     log.info("fahrstrassenRestUrl: " + configService.getFahrstrassenRestUrl());
 
-    scheduler.submit(statusUpdater);
+    // TODO JMS -> RM
+    // scheduler.submit(statusUpdater);
 
     try {
       StellwerkUI.start();

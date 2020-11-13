@@ -32,7 +32,8 @@ public class BootStrap {
 
     log.info("#fahrstrassen: " + parcours.getFahrstrassen().size());
 
-    scheduler.submit(statusUpdater);
+    // TODO JMS -> RM
+    // scheduler.submit(statusUpdater);
   }
 
   void terminate(@Observes ShutdownEvent shutdownEvent) {

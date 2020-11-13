@@ -27,7 +27,8 @@ public class BootStrap {
     log.info("statusRestUrl: " + configService.getStatusRestUrl());
     log.info("statusJmsUrl: " + configService.getStatusJmsUrl());
 
-    scheduler.submit(statusUpdater);
+    // TODO JMS -> RM
+    // scheduler.submit(statusUpdater);
   }
 
   void terminate(@Observes ShutdownEvent shutdownEvent) {
