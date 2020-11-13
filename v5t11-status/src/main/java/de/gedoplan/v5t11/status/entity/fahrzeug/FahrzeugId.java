@@ -18,6 +18,7 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 @Embeddable
@@ -25,7 +26,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter(onMethod_ = @JsonbInclude)
-// @Setter
+@Setter(onMethod_ = @JsonbInclude)
 @EqualsAndHashCode
 @ToString
 public class FahrzeugId implements Serializable, Comparable<FahrzeugId> {

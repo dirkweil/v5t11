@@ -8,7 +8,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-@FacesConverter(forClass = FahrzeugId.class)
+@FacesConverter(forClass = FahrzeugId.class, value = "??")
 public class FahrzeugIdConverter implements Converter<FahrzeugId> {
 
   @Override

@@ -2,7 +2,6 @@ package de.gedoplan.v5t11.status;
 
 import de.gedoplan.baselibs.utils.util.ApplicationProperties;
 
-import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.spi.CreationalContext;
 import javax.enterprise.inject.se.SeContainer;
 import javax.enterprise.inject.se.SeContainerInitializer;
@@ -10,7 +9,6 @@ import javax.enterprise.inject.spi.AnnotatedType;
 import javax.enterprise.inject.spi.BeanManager;
 import javax.enterprise.inject.spi.InjectionTarget;
 
-import org.apache.deltaspike.cdise.api.ContextControl;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -34,8 +32,8 @@ public abstract class CdiTestBase extends TestBase {
   @SuppressWarnings({ "rawtypes", "unchecked" })
   void startRequestContextAndHandleInjectsInTestClass() {
 
-    ContextControl contextControl = container.select(ContextControl.class).get();
-    contextControl.startContext(RequestScoped.class);
+    // ContextControl contextControl = container.select(ContextControl.class).get();
+    // contextControl.startContext(RequestScoped.class);
 
     BeanManager beanManager = container.getBeanManager();
 
@@ -48,8 +46,8 @@ public abstract class CdiTestBase extends TestBase {
 
   @AfterEach
   void stopRequestContext() {
-    ContextControl contextControl = container.select(ContextControl.class).get();
-    contextControl.stopContext(RequestScoped.class);
+    // ContextControl contextControl = container.select(ContextControl.class).get();
+    // contextControl.stopContext(RequestScoped.class);
   }
 
   @AfterAll

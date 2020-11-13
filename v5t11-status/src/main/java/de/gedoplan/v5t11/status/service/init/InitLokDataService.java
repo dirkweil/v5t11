@@ -4,12 +4,13 @@ import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
 import de.gedoplan.v5t11.status.persistence.FahrzeugRepository;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.Initialized;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 
 import org.apache.commons.logging.Log;
+
+import io.quarkus.runtime.StartupEvent;
 
 /**
  * Initialisierungsservice für Demo-Daten.
@@ -36,7 +37,8 @@ public class InitLokDataService {
    *          Application scope initialization event
    */
   @Transactional
-  protected void createDemoData(@Observes @Initialized(ApplicationScoped.class) Object event) {
+  // protected void createDemoData(@Observes @Initialized(ApplicationScoped.class) Object event) {
+  protected void createDemoData(@Observes StartupEvent event) {
     try {
       this.log.debug("Lok-Daten erzeugen");
 

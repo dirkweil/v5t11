@@ -49,7 +49,7 @@ public class LokcontrollerEndpoint {
   @Consumes(MediaType.APPLICATION_JSON)
   public void setLok(@PathParam("id") String id, FahrzeugId lokId) {
 
-    if (lokId.getSystemTyp() == null || lokId.getAdresse() == 0) {
+    if (lokId != null && (lokId.getSystemTyp() == null || lokId.getAdresse() == 0)) {
       lokId = null;
     }
 

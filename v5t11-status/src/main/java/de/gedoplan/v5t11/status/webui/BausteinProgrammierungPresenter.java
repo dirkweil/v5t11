@@ -49,7 +49,7 @@ public class BausteinProgrammierungPresenter implements Serializable {
   @Inject
   BausteinConfigurationService bausteinConfigurationService;
 
-  @Inject
+  // @Inject
   Conversation conversation;
 
   @Inject
@@ -97,7 +97,7 @@ public class BausteinProgrammierungPresenter implements Serializable {
    * Aktuellen Baustein wählen und Programm-Session beginnen.
    *
    * @param baustein
-   *        Wert
+   *          Wert
    */
   public String selectBaustein(Baustein baustein) {
     this.steuerung.getZentrale().setGleisspannung(false);
@@ -131,8 +131,7 @@ public class BausteinProgrammierungPresenter implements Serializable {
       this.configurationRuntimeService.saveProgKanalWerte();
 
       return "openProgMode";
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       this.log.error("Kann ConfigurationRuntimeService nicht erzeugen", e);
 
       String message = e.getMessage();

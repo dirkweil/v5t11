@@ -68,8 +68,7 @@ public class SxLokControl extends Lokcontroller {
 
       // Falls bisher zugeordnete Lok steht, inaktiv setzen
       if (this.lok != null && this.lok.getFahrstufe() == 0) {
-        // TODO
-        // this.lok.setAktiv(false);
+        this.lok.setAktiv(false);
       }
 
       this.lok = lok;
@@ -89,8 +88,7 @@ public class SxLokControl extends Lokcontroller {
         this.fahrstufenFaktor = (double) this.lok.getId().getSystemTyp().getMaxFahrstufe() / MAX_FAHRSTUFE;
 
         // Lok aktiv setzen
-        // TODO
-        // this.lok.setAktiv(true);
+        this.lok.setAktiv(true);
       }
 
       this.eventFirer.fire(this);
