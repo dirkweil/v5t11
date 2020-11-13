@@ -16,7 +16,7 @@ import javax.inject.Inject;
 @Model
 public class SystemStatusPresenter implements Serializable {
   @Inject
-  private Steuerung steuerung;
+  Steuerung steuerung;
 
   public Zentrale getZentrale() {
     return this.steuerung.getZentrale();

@@ -25,8 +25,22 @@ public class TestFahrzeugRepository extends FahrzeugRepository {
   private static final Fahrzeug[] fahrzeuge = { lok103_003_0, lok210_004_8, lok217_001_7 };
 
   @Override
+  public long countAll() {
+    return fahrzeuge.length;
+  }
+
+  @Override
   public List<Fahrzeug> findAll() {
     return Arrays.asList(fahrzeuge);
+  }
+
+  @Override
+  public void persist(Fahrzeug entity) {
+  }
+
+  @Override
+  public boolean remove(Fahrzeug entity) {
+    return false;
   }
 
   /*

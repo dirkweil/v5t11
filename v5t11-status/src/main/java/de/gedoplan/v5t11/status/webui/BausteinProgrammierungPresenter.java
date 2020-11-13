@@ -181,7 +181,7 @@ public class BausteinProgrammierungPresenter implements Serializable {
   }
 
   @PostConstruct
-  private void init() {
+  void init() {
     this.konfigurierteBausteine = // Stream.concat(
         Stream.concat(
             this.steuerung.getBesetztmelder().stream(),

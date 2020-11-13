@@ -27,7 +27,7 @@ public class InitLokDataService {
   FahrzeugRepository lokRepository;
 
   @Inject
-  private Log log;
+  Log log;
 
   /**
    * Create test/demo data.

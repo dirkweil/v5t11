@@ -7,7 +7,7 @@
   <parent>
     <groupId>de.gedoplan</groupId>
     <artifactId>build-master</artifactId>
-    <version>2020.6.3</version>
+    <version>2020.9.1</version>
   </parent>
 
   <artifactId>v5t11</artifactId>
@@ -315,6 +315,7 @@
     <module>v5t11-leitstand</module>
     <module>v5t11-status</module>
     <module>v5t11-util</module>
+    <module>v5t11-util-test</module>
   </modules>
 
 </project>

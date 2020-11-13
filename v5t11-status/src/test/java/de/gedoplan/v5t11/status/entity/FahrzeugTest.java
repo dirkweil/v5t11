@@ -2,7 +2,6 @@ package de.gedoplan.v5t11.status.entity;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import de.gedoplan.v5t11.status.CdiTestBase;
 import de.gedoplan.v5t11.status.StatusEventCollector;
 import de.gedoplan.v5t11.status.entity.baustein.zentrale.DummyZentrale;
 import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
@@ -10,19 +9,31 @@ import de.gedoplan.v5t11.status.entity.fahrzeug.FahrzeugId;
 import de.gedoplan.v5t11.status.testenvironment.service.TestFahrzeugRepository;
 import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
+import de.gedoplan.v5t11.util.test.V5t11TestConfigDirExtension;
 
 import javax.inject.Inject;
 
+import org.apache.commons.logging.Log;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.skyscreamer.jsonassert.JSONAssert;
 
-public class FahrzeugTest extends CdiTestBase {
+import io.quarkus.test.junit.QuarkusTestExtension;
+
+@ExtendWith({ V5t11TestConfigDirExtension.class, QuarkusTestExtension.class })
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+public class FahrzeugTest {
 
   @Inject
   Steuerung steuerung;
 
   @Inject
   StatusEventCollector statusEventCollector;
+
+  @Inject
+  Log log;
 
   @Test
   public void test_01_toShortJson() throws Exception {
@@ -164,6 +175,9 @@ public class FahrzeugTest extends CdiTestBase {
       return;
     }
 
-    delay(1000);
+    try {
+      Thread.sleep(1000);
+    } catch (Exception e) {
+    }
   }
 }

@@ -5,7 +5,6 @@ import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
 import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
 import de.gedoplan.v5t11.status.entity.fahrzeug.FahrzeugId;
-import de.gedoplan.v5t11.status.util.TraceCall;
 import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
 
@@ -30,7 +29,6 @@ import lombok.Getter;
 
 @Named
 @SessionScoped
-@TraceCall
 public class SystemControlPresenter implements Serializable {
 
   @Inject
