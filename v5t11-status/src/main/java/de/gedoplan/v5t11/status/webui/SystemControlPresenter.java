@@ -238,9 +238,8 @@ public class SystemControlPresenter implements Serializable {
     }
   }
 
-  public List<LokFunktion> getLokFunktionen() {
-    return IntStream.range(0, 16).mapToObj(LokFunktion::new).collect(Collectors.toList());
-  }
+  @Getter
+  private List<LokFunktion> lokFunktionen = IntStream.range(0, 16).mapToObj(LokFunktion::new).collect(Collectors.toList());
 
   public class LokFunktion {
     @Getter
