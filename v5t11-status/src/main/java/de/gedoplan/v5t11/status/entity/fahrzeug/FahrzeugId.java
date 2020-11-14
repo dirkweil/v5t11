@@ -5,6 +5,7 @@ import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
 import java.io.Serializable;
 
+import javax.json.bind.annotation.JsonbTypeAdapter;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Embeddable;
@@ -29,6 +30,7 @@ import lombok.ToString;
 @Setter(onMethod_ = @JsonbInclude)
 @EqualsAndHashCode
 @ToString
+@JsonbTypeAdapter(FahrzeugIdTypeAdapter.class)
 public class FahrzeugId implements Serializable, Comparable<FahrzeugId> {
 
   @NotNull

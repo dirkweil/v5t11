@@ -14,6 +14,7 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.MessageBodyWriter;
+import javax.ws.rs.ext.Provider;
 
 /**
  * Message Body Writer für Object -> application/json.
@@ -29,7 +30,7 @@ public abstract class JsonMessageBodyWriter implements MessageBodyWriter<Object>
 
   private static Charset CHARSET_UTF_8 = Charset.forName("UTF-8");
 
-  // @Provider
+  @Provider
   @Produces("application/json")
   public static class SHORT extends JsonMessageBodyWriter {
 
@@ -38,7 +39,7 @@ public abstract class JsonMessageBodyWriter implements MessageBodyWriter<Object>
     }
   }
 
-  // @Provider
+  @Provider
   @Produces("application/json")
   public static class FULL extends JsonMessageBodyWriter {
 

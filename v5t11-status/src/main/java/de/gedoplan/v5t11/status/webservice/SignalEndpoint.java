@@ -20,7 +20,7 @@ import javax.ws.rs.core.MediaType;
 
 @Path("signal")
 @Dependent
-public class SignalResource {
+public class SignalEndpoint {
 
   @Inject
   Steuerung steuerung;
@@ -67,7 +67,7 @@ public class SignalResource {
 
   @PUT
   @Path("{bereich}/{name}")
-  @Consumes(MediaType.TEXT_PLAIN)
+  @Consumes("*/*")
   public void putSignalStellung(@PathParam("bereich") String bereich, @PathParam("name") String name, String stellungsAngabe) {
 
     Signal signal = getSignal(bereich, name);

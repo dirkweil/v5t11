@@ -14,7 +14,7 @@ import javax.ws.rs.core.MediaType;
 
 @Path("zentrale")
 @Dependent
-public class ZentraleResource {
+public class ZentraleEndpoint {
 
   @Inject
   Steuerung steuerung;
@@ -34,7 +34,7 @@ public class ZentraleResource {
   }
 
   @PUT
-  @Consumes(MediaType.TEXT_PLAIN)
+  @Consumes("*/*")
   public void putGleisspannung(String aktivAsString) {
 
     this.steuerung.getZentrale().setGleisspannung(aktivAsString.startsWith("t"));

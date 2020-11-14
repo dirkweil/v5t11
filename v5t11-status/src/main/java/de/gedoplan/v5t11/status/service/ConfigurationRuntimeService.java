@@ -26,7 +26,7 @@ public abstract class ConfigurationRuntimeService implements Serializable {
   private static final int WAIT_MILLIS = 1000;
 
   @Inject
-  private Steuerung steuerung;
+  Steuerung steuerung;
 
   @Inject
   BausteinConfigurationService bausteinConfigurationService;

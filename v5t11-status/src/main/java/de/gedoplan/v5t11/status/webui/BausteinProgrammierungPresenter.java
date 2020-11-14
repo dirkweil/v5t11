@@ -82,7 +82,7 @@ public class BausteinProgrammierungPresenter implements Serializable {
   @Produces
   @Current
   @Getter
-  private Baustein currentBaustein;
+  Baustein currentBaustein;
 
   @Getter
   private ConfigurationRuntimeService configurationRuntimeService;

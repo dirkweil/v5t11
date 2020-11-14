@@ -20,7 +20,7 @@ import javax.ws.rs.core.MediaType;
 
 @Path("weiche")
 @Dependent
-public class WeicheResource {
+public class WeicheEndpoint {
 
   @Inject
   Steuerung steuerung;
@@ -67,7 +67,7 @@ public class WeicheResource {
 
   @PUT
   @Path("{bereich}/{name}")
-  @Consumes(MediaType.TEXT_PLAIN)
+  @Consumes("*/*")
   public void putWeichenStellung(@PathParam("bereich") String bereich, @PathParam("name") String name, String stellungsName) {
 
     try {
