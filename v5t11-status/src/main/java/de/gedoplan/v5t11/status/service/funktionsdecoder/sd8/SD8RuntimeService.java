@@ -9,7 +9,7 @@ import de.gedoplan.v5t11.status.service.Current;
 import de.gedoplan.v5t11.status.service.Programmierfamilie;
 import de.gedoplan.v5t11.status.service.funktionsdecoder.sd8.SD8ConfigurationAdapter.ServoConfiguration;
 
-import javax.enterprise.context.ConversationScoped;
+import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
 import lombok.Getter;
@@ -19,7 +19,7 @@ import lombok.Getter;
  *
  * @author dw
  */
-@ConversationScoped
+@Dependent
 @Programmierfamilie(SD8.class)
 public class SD8RuntimeService extends ConfigurationRuntimeService {
 
@@ -32,6 +32,8 @@ public class SD8RuntimeService extends ConfigurationRuntimeService {
 
   @Inject
   public SD8RuntimeService(@Current Baustein baustein, BausteinConfigurationService bausteinConfigurationService) {
+    super(baustein);
+
     BausteinConfiguration bausteinSollConfiguration = bausteinConfigurationService.getBausteinConfiguration(baustein);
     BausteinConfiguration bausteinIstConfiguration = new BausteinConfiguration(baustein.getId());
     this.configuration = new SD8ConfigurationAdapter(bausteinIstConfiguration, bausteinSollConfiguration, this);

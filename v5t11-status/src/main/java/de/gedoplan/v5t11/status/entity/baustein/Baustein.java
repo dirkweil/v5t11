@@ -228,4 +228,13 @@ public abstract class Baustein extends SingleIdEntity<String> implements Compara
    * Status des Bausteins bzw. der angeschlossenen Elemente aktualisieren.
    */
   public abstract void adjustStatus();
+
+  /**
+   * Einfachen Klassennamen liefern. Wird für JSF-EL in der Bausteinprogrammierung verwendet.
+   * 
+   * @return Klassenname
+   */
+  public String getSimpleClassName() {
+    return getClass().getSimpleName();
+  }
 }

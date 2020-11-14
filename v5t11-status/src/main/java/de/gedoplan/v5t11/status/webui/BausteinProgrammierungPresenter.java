@@ -17,15 +17,15 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.Conversation;
 import javax.enterprise.context.SessionScoped;
+import javax.enterprise.inject.Any;
 import javax.enterprise.inject.Instance;
-import javax.enterprise.inject.Model;
 import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.CDI;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import org.apache.commons.logging.Log;
 
@@ -37,7 +37,7 @@ import lombok.Setter;
  *
  * @author dw
  */
-@Model
+@Named
 @SessionScoped
 public class BausteinProgrammierungPresenter implements Serializable {
   @Inject
@@ -47,13 +47,22 @@ public class BausteinProgrammierungPresenter implements Serializable {
   Instance<Baustein> bausteinInstanzen;
 
   @Inject
-  BausteinConfigurationService bausteinConfigurationService;
+  @Any
+  Instance<ConfigurationRuntimeService> configurationRuntimeServices;
 
-  // @Inject
-  Conversation conversation;
+  @Inject
+  BausteinConfigurationService bausteinConfigurationService;
 
   @Inject
   Log log;
+
+  // @PostConstruct
+  // void postConstruct() {
+  // if (this.log.isDebugEnabled()) {
+  // this.log.debug("configurationRuntimeServices: ");
+  // this.configurationRuntimeServices.forEach(crs -> this.log.debug(" " + crs.getClass()));
+  // }
+  // }
 
   /**
    * Liste aller konfigurierter Bausteine.
@@ -107,10 +116,6 @@ public class BausteinProgrammierungPresenter implements Serializable {
       return null;
     }
 
-    if (this.conversation.isTransient()) {
-      this.conversation.begin();
-    }
-
     // Bus-Nr aus Adresse entnehmen
     int adr = this.currentBaustein.getAdresse();
     this.busNr = Kanal.toBusNr(adr);
@@ -130,7 +135,7 @@ public class BausteinProgrammierungPresenter implements Serializable {
 
       this.configurationRuntimeService.saveProgKanalWerte();
 
-      return "openProgMode";
+      return "/view/bausteinProgrammierung_openProgMode.xhtml";
     } catch (Exception e) {
       this.log.error("Kann ConfigurationRuntimeService nicht erzeugen", e);
 
@@ -211,9 +216,7 @@ public class BausteinProgrammierungPresenter implements Serializable {
    * @return Outcome
    */
   public String abort() {
-    if (!this.conversation.isTransient()) {
-      this.conversation.end();
-    }
+    this.configurationRuntimeService = null;
 
     return "bausteinProgrammierung";
   }

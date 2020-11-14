@@ -11,7 +11,7 @@
 
         <h:panelGrid columns="2">
           <p:outputLabel for="typ" value="Typ: " />
-          <p:inputText id="typ" value="#{bausteinProgrammierungPresenter.currentBaustein.class.simpleName}" disabled="true" />
+          <p:inputText id="typ" value="#{bausteinProgrammierungPresenter.currentBaustein.simpleClassName}" disabled="true" />
 
           <p:outputLabel for="id" value="Id: " />
           <p:inputText id="id" value="#{bausteinProgrammierungPresenter.currentBaustein.id}" disabled="true" />
@@ -30,8 +30,8 @@
         <ui:insert name="properties" />
 
         <ui:insert name="buttons">
-          <p:commandButton value="programmieren" actionListener="#{bausteinProgrammierungPresenter.program()}" action="closeProgMode" ajax="false" />
-          <p:commandButton value="abbrechen" action="closeProgMode" immediate="true" ajax="false" />
+          <p:commandButton value="programmieren" actionListener="#{bausteinProgrammierungPresenter.program()}" action="/view/bausteinProgrammierung_closeProgMode.xhtml" ajax="false" />
+          <p:commandButton value="abbrechen" action="/view/bausteinProgrammierung_closeProgMode.xhtml" immediate="true" ajax="false" />
         </ui:insert>
       </p:fieldset>
     </h:form>

@@ -9,7 +9,7 @@ import de.gedoplan.v5t11.status.service.ConfigurationRuntimeService;
 import de.gedoplan.v5t11.status.service.Current;
 import de.gedoplan.v5t11.status.service.Programmierfamilie;
 
-import javax.enterprise.context.ConversationScoped;
+import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
 import lombok.Getter;
@@ -19,7 +19,7 @@ import lombok.Getter;
  *
  * @author dw
  */
-@ConversationScoped
+@Dependent
 @Programmierfamilie(WDMiba3.class)
 public class WDMiba3RuntimeService extends ConfigurationRuntimeService {
 
@@ -34,6 +34,8 @@ public class WDMiba3RuntimeService extends ConfigurationRuntimeService {
 
   @Inject
   public WDMiba3RuntimeService(@Current Baustein baustein, BausteinConfigurationService bausteinConfigurationService) {
+    super(baustein);
+
     BausteinConfiguration bausteinSollConfiguration = bausteinConfigurationService.getBausteinConfiguration(baustein);
     BausteinConfiguration bausteinIstConfiguration = new BausteinConfiguration(baustein.getId());
     this.configuration = new WDMiba3ConfigurationAdapter((Funktionsdecoder) baustein, bausteinIstConfiguration, bausteinSollConfiguration);
