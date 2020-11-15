@@ -23,7 +23,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.apache.commons.logging.Log;
+import org.jboss.logging.Logger;
 
 import lombok.Getter;
 
@@ -35,7 +35,7 @@ public class SystemControlPresenter implements Serializable {
   Steuerung steuerung;
 
   @Inject
-  Log log;
+  Logger log;
 
   @Getter
   private String bereich;
@@ -250,14 +250,16 @@ public class SystemControlPresenter implements Serializable {
     }
 
     public boolean isOn() {
-      return (SystemControlPresenter.this.lok.getFunktionStatus() & this.mask) != 0;
+      return SystemControlPresenter.this.lok != null && (SystemControlPresenter.this.lok.getFunktionStatus() & this.mask) != 0;
     }
 
     public void setOn(boolean on) {
-      if (on) {
-        SystemControlPresenter.this.lok.setFunktionStatus(SystemControlPresenter.this.lok.getFunktionStatus() | this.mask);
-      } else {
-        SystemControlPresenter.this.lok.setFunktionStatus(SystemControlPresenter.this.lok.getFunktionStatus() & ~this.mask);
+      if (SystemControlPresenter.this.lok != null) {
+        if (on) {
+          SystemControlPresenter.this.lok.setFunktionStatus(SystemControlPresenter.this.lok.getFunktionStatus() | this.mask);
+        } else {
+          SystemControlPresenter.this.lok.setFunktionStatus(SystemControlPresenter.this.lok.getFunktionStatus() & ~this.mask);
+        }
       }
     }
   }

@@ -13,7 +13,7 @@ import java.util.stream.Stream;
 
 import javax.inject.Inject;
 
-import org.apache.commons.logging.Log;
+import org.jboss.logging.Logger;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -33,7 +33,7 @@ public class FahrstrasseTest {
   Parcours parcours;
 
   @Inject
-  Log log;
+  Logger log;
 
   @Test
   public void test_01_toShortJson() throws Exception {

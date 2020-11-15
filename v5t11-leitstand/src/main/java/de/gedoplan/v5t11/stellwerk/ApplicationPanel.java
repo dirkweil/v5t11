@@ -2,16 +2,14 @@ package de.gedoplan.v5t11.stellwerk;
 
 import javax.swing.JPanel;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.jboss.logging.Logger;
 
 /**
  * Generelle Klasse von der alle ApplicationPanels ableiten, die in das TabPane eingeh�ngt werden.
  */
 
-public abstract class ApplicationPanel extends JPanel
-{
-  protected Log logger = LogFactory.getLog(this.getClass());
+public abstract class ApplicationPanel extends JPanel {
+  protected Logger logger = Logger.getLogger(this.getClass());
 
   /**
    * Namen des Dialogs liefern.
@@ -22,8 +20,7 @@ public abstract class ApplicationPanel extends JPanel
   /**
    * Dialog starten. Wird aufgerufen, wenn das entsprechende Tab aktiviert wird.
    */
-  public void start()
-  {
+  public void start() {
   }
 
   /**
@@ -31,8 +28,7 @@ public abstract class ApplicationPanel extends JPanel
    * 
    * @return true: Verlassen des Dialogs ist erlaubt false: Dialog darf nicht verlassen werden.
    */
-  public boolean stop()
-  {
+  public boolean stop() {
     return true;
   }
 }

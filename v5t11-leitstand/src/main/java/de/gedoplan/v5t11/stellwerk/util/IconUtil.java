@@ -11,13 +11,12 @@ import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.jboss.logging.Logger;
 
 public class IconUtil {
   private static Map<String, Icon> iconMap = new HashMap<String, Icon>();
 
-  private static final Log LOG = LogFactory.getLog(IconUtil.class);
+  private static final Logger LOG = Logger.getLogger(IconUtil.class);
 
   public static Icon getIcon(String key) {
     return getIcon(key, 35, 35);

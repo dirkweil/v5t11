@@ -14,8 +14,8 @@ import javax.enterprise.event.ObservesAsync;
 import javax.enterprise.inject.spi.EventMetadata;
 import javax.inject.Inject;
 
-import org.apache.commons.logging.Log;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
+import org.jboss.logging.Logger;
 
 @ApplicationScoped
 public class FahrstrasseRueckstellenService {
@@ -25,7 +25,7 @@ public class FahrstrasseRueckstellenService {
   StatusGateway statusGateway;
 
   @Inject
-  Log log;
+  Logger log;
 
   void fahrstrasseRueckstellen(@ObservesAsync @Freigegeben Fahrstrasse fahrstrasse, EventMetadata eventMetadata) {
 

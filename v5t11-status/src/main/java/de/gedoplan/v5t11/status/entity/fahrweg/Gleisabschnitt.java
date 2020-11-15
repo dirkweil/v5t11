@@ -10,8 +10,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.jboss.logging.Logger;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -70,7 +69,7 @@ public class Gleisabschnitt extends AbstractGleisabschnitt {
   }
 
   private long lastChangeMillis = 0;
-  private Log log = LogFactory.getLog(getClass());
+  private Logger log = Logger.getLogger(getClass());
 
   public void adjustStatus() {
     boolean alt = isBesetzt();

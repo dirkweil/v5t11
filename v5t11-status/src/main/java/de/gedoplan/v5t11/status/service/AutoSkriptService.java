@@ -8,7 +8,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
-import org.apache.commons.logging.Log;
+import org.jboss.logging.Logger;
 
 /**
  * Automatisierungs-Skript-Ausführung.
@@ -18,8 +18,9 @@ import org.apache.commons.logging.Log;
  */
 @ApplicationScoped
 public class AutoSkriptService {
+
   @Inject
-  Log log;
+  Logger log;
 
   @Inject
   Steuerung steuerung;

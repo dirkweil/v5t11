@@ -17,7 +17,7 @@ import javax.enterprise.event.Observes;
 import javax.enterprise.inject.spi.EventMetadata;
 import javax.inject.Inject;
 
-import org.apache.commons.logging.Log;
+import org.jboss.logging.Logger;
 
 import lombok.Getter;
 
@@ -27,7 +27,7 @@ public class FahrstrasseMonitor {
   private Map<Gleisabschnitt, GleisabschnittStatus> statusMap = new HashMap<>();
 
   @Inject
-  Log log;
+  Logger log;
 
   /**
    * Überwachung einer Fahrstrasse beginnen.

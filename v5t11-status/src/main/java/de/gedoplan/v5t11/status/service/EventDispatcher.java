@@ -10,12 +10,13 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
-import org.apache.commons.logging.Log;
+import org.jboss.logging.Logger;
 
 @ApplicationScoped
 public class EventDispatcher {
+
   @Inject
-  Log log;
+  Logger log;
 
   @Inject
   Steuerung steuerung;

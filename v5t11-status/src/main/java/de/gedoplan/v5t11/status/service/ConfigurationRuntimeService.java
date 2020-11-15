@@ -11,8 +11,7 @@ import java.util.Map;
 import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.jboss.logging.Logger;
 
 import lombok.Setter;
 
@@ -38,7 +37,7 @@ public abstract class ConfigurationRuntimeService implements Serializable {
 
   private Map<Integer, Integer> savedKanalWerte = new HashMap<>();
 
-  protected Log log = LogFactory.getLog(getClass());
+  protected Logger log = Logger.getLogger(getClass());
 
   public abstract ConfigurationAdapter getConfiguration();
 

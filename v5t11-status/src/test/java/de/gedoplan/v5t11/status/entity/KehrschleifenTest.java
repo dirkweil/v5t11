@@ -10,7 +10,7 @@ import de.gedoplan.v5t11.util.test.V5t11TestConfigDirExtension;
 
 import javax.inject.Inject;
 
-import org.apache.commons.logging.Log;
+import org.jboss.logging.Logger;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -23,7 +23,7 @@ import io.quarkus.test.junit.QuarkusTestExtension;
 public class KehrschleifenTest {
 
   @Inject
-  Log log;
+  Logger log;
 
   @Inject
   Steuerung steuerung;

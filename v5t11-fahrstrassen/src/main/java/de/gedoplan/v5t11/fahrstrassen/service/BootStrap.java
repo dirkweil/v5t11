@@ -8,7 +8,7 @@ import java.util.concurrent.Executors;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.event.Observes;
 
-import org.apache.commons.logging.Log;
+import org.jboss.logging.Logger;
 
 import io.quarkus.runtime.ShutdownEvent;
 import io.quarkus.runtime.StartupEvent;
@@ -19,7 +19,7 @@ public class BootStrap {
   private final static ExecutorService scheduler = Executors.newSingleThreadExecutor();
 
   void boot(@Observes StartupEvent startupEvent,
-      Log log,
+      Logger log,
       ConfigService configService,
       Parcours parcours,
       StatusUpdater statusUpdater) {

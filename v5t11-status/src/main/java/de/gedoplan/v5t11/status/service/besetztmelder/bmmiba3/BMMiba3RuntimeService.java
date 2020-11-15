@@ -14,7 +14,7 @@ import de.gedoplan.v5t11.status.service.besetztmelder.bmmiba3.BMMiba3Configurati
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
-import org.apache.commons.logging.Log;
+import org.jboss.logging.Logger;
 
 import lombok.Getter;
 
@@ -37,7 +37,7 @@ public class BMMiba3RuntimeService extends ConfigurationRuntimeService {
   private BMMiba3ConfigurationAdapter configuration;
 
   @Inject
-  Log log;
+  Logger log;
 
   @Inject
   public BMMiba3RuntimeService(@Current Baustein baustein, BausteinConfigurationService bausteinConfigurationService) {

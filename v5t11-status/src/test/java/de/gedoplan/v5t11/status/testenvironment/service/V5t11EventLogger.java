@@ -10,7 +10,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
-import org.apache.commons.logging.Log;
+import org.jboss.logging.Logger;
 
 /**
  * Event-Logger.
@@ -22,8 +22,9 @@ import org.apache.commons.logging.Log;
  */
 @ApplicationScoped
 public class V5t11EventLogger {
+
   @Inject
-  Log log;
+  Logger log;
 
   void logEvent(@Observes SX2Kanal event) {
     this.log.debug("Event: " + event);

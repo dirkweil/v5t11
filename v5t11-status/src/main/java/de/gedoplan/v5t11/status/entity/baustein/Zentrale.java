@@ -22,8 +22,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.jboss.logging.Logger;
 
 import com.fazecast.jSerialComm.SerialPort;
 
@@ -45,7 +44,7 @@ public abstract class Zentrale implements Closeable {
   @Getter
   protected String portName;
 
-  protected Log log = LogFactory.getLog(getClass());
+  protected Logger log = Logger.getLogger(getClass());
 
   // Device kann ein SerialPort oder ein Socket sein
   private volatile Object device;

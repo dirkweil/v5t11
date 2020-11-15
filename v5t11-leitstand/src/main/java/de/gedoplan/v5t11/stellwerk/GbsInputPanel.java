@@ -34,9 +34,8 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.SwingConstants;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
+import org.jboss.logging.Logger;
 
 public class GbsInputPanel extends JPanel {
   private static final long FAHRSTRASSEN_INPUT_MAXDELAY = 5000;
@@ -69,7 +68,7 @@ public class GbsInputPanel extends JPanel {
   @RestClient
   StatusGateway statusGateway;
 
-  private static final Log LOG = LogFactory.getLog(GbsInputPanel.class);
+  private static final Logger LOG = Logger.getLogger(GbsInputPanel.class);
 
   public GbsInputPanel(String bereich, Gbs gbs) {
     InjectionUtil.injectFields(this);

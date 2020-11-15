@@ -27,7 +27,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.apache.commons.logging.Log;
+import org.jboss.logging.Logger;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -54,7 +54,7 @@ public class BausteinProgrammierungPresenter implements Serializable {
   BausteinConfigurationService bausteinConfigurationService;
 
   @Inject
-  Log log;
+  Logger log;
 
   // @PostConstruct
   // void postConstruct() {

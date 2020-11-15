@@ -19,7 +19,7 @@ import java.util.Random;
 
 import javax.inject.Inject;
 
-import org.apache.commons.logging.Log;
+import org.jboss.logging.Logger;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -32,7 +32,7 @@ import io.quarkus.test.junit.QuarkusTestExtension;
 public class SteuerungTest {
 
   @Inject
-  Log log;
+  Logger log;
 
   @Inject
   Steuerung steuerung;

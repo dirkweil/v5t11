@@ -20,8 +20,8 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.ObservesAsync;
 import javax.inject.Inject;
 
-import org.apache.commons.logging.Log;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
+import org.jboss.logging.Logger;
 
 @ApplicationScoped
 public class FahrstrasseStellenService {
@@ -31,7 +31,7 @@ public class FahrstrasseStellenService {
   StatusGateway statusGateway;
 
   @Inject
-  Log log;
+  Logger log;
 
   void fahrstrasseStellen(@ObservesAsync @Reserviert Fahrstrasse fahrstrasse) {
     if (this.log.isDebugEnabled()) {

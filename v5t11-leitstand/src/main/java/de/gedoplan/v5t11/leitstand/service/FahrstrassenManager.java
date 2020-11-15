@@ -12,7 +12,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.NotFoundException;
 
-import org.apache.commons.logging.Log;
+import org.jboss.logging.Logger;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
@@ -24,7 +24,7 @@ public class FahrstrassenManager {
   FahrstrassenGatewayWrapper fahrstrassenGateway;
 
   @Inject
-  Log log;
+  Logger log;
 
   private Table<String, String, Fahrstrasse> aktiveFahrstrassen = HashBasedTable.create();
 

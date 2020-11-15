@@ -22,7 +22,7 @@ import javax.faces.push.PushContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.apache.commons.logging.Log;
+import org.jboss.logging.Logger;
 import org.primefaces.model.menu.DefaultMenuModel;
 import org.primefaces.model.menu.DefaultSubMenu;
 
@@ -78,7 +78,7 @@ public class NavigationPresenter {
   EventFirer eventFirer;
 
   @Inject
-  Log log;
+  Logger log;
 
   @Inject
   @Push

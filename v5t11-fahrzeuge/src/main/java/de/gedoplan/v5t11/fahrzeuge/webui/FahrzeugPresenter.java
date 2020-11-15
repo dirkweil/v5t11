@@ -23,7 +23,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import javax.validation.constraints.NotEmpty;
 
-import org.apache.commons.logging.Log;
+import org.jboss.logging.Logger;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -36,7 +36,7 @@ public class FahrzeugPresenter implements Serializable {
   FahrzeugRepository fahrzeugRepository;
 
   @Inject
-  Log log;
+  Logger log;
 
   @Getter
   private List<Fahrzeug> fahrzeuge;

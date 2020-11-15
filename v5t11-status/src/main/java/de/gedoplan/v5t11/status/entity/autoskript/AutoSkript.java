@@ -24,8 +24,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlValue;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.jboss.logging.Logger;
 
 import lombok.Getter;
 
@@ -55,7 +54,7 @@ public class AutoSkript {
   @Getter
   private Skript skript;
 
-  private static final Log LOG = LogFactory.getLog(AutoSkript.class);
+  private static final Logger LOG = Logger.getLogger(AutoSkript.class);
 
   @Override
   public String toString() {

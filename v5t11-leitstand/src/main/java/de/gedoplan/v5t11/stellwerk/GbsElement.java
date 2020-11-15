@@ -35,8 +35,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.jboss.logging.Logger;
 
 /**
  * GBS-Element.
@@ -121,7 +120,7 @@ public abstract class GbsElement extends JPanel {
 
   protected GbsInputPanel inputPanel = null;
 
-  protected Log logger = LogFactory.getLog(this.getClass());
+  protected Logger logger = Logger.getLogger(this.getClass());
 
   @Inject
   Leitstand leitstand;

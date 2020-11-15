@@ -55,7 +55,7 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.apache.commons.logging.Log;
+import org.jboss.logging.Logger;
 
 import lombok.Getter;
 
@@ -74,7 +74,7 @@ public class Steuerung {
   FahrzeugRepository fahrzeugRepository;
 
   @Inject
-  Log log;
+  Logger log;
 
   @XmlElements({
       @XmlElement(name = "DummyZentrale", type = DummyZentrale.class),
