@@ -1,7 +1,7 @@
 package de.gedoplan.v5t11.util.domain.entity.fahrweg.geraet;
 
 import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
-import de.gedoplan.v5t11.util.domain.entity.fahrweg.Geraet;
+import de.gedoplan.v5t11.util.domain.entity.fahrweg.AbstractGeraet;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
 import javax.persistence.MappedSuperclass;
@@ -21,7 +21,7 @@ import lombok.Setter;
 @XmlAccessorType(XmlAccessType.NONE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @MappedSuperclass
-public abstract class AbstractSignal extends Geraet {
+public abstract class AbstractSignal extends AbstractGeraet {
 
   /**
    * Aktuelle Signalstellung.

@@ -19,8 +19,8 @@ import lombok.NoArgsConstructor;
 @XmlAccessorType(XmlAccessType.NONE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @MappedSuperclass
-public abstract class Geraet extends Fahrwegelement {
-  protected Geraet(String bereich, String name) {
+public abstract class AbstractGeraet extends Fahrwegelement {
+  protected AbstractGeraet(String bereich, String name) {
     super(bereich, name);
   }
 }

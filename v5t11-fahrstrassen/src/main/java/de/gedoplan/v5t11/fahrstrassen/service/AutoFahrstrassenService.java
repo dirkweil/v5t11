@@ -1,7 +1,7 @@
 package de.gedoplan.v5t11.fahrstrassen.service;
 
 import de.gedoplan.v5t11.fahrstrassen.entity.Parcours;
-import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrasse;
+import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.OldFahrstrasse;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
 
@@ -19,7 +19,7 @@ public class AutoFahrstrassenService {
   @Inject
   Parcours parcours;
 
-  private ListMultimap<Gleisabschnitt, Fahrstrasse> autoFahrstrassen = MultimapBuilder.hashKeys().arrayListValues().build();
+  private ListMultimap<Gleisabschnitt, OldFahrstrasse> autoFahrstrassen = MultimapBuilder.hashKeys().arrayListValues().build();
 
   @PostConstruct
   void postConstruct() {
@@ -41,7 +41,7 @@ public class AutoFahrstrassenService {
 
   void autoReserviere(@Observes Gleisabschnitt gleisabschnitt) {
     if (gleisabschnitt.isBesetzt()) {
-      for (Fahrstrasse fs : this.autoFahrstrassen.get(gleisabschnitt)) {
+      for (OldFahrstrasse fs : this.autoFahrstrassen.get(gleisabschnitt)) {
         if (fs.reservieren(FahrstrassenReservierungsTyp.ZUGFAHRT, false, true)) {
           break;
         }

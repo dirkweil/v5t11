@@ -6,6 +6,8 @@ import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Signal;
 import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -14,11 +16,13 @@ import javax.xml.bind.annotation.XmlAttribute;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@Entity
 @XmlAccessorType(XmlAccessType.NONE)
 @NoArgsConstructor
 public abstract class FahrstrassenSignal extends FahrstrassenGeraet implements Cloneable {
 
   @Getter
+  @ManyToOne
   private Signal signal;
 
   @Getter(onMethod_ = @JsonbInclude(full = true))
@@ -32,11 +36,12 @@ public abstract class FahrstrassenSignal extends FahrstrassenGeraet implements C
 
   @Override
   public void linkFahrwegelement(Parcours parcours) {
-    this.signal = parcours.getSignal(getBereich(), getName());
-    if (this.signal == null) {
-      this.signal = new Signal(getBereich(), getName());
-      parcours.addSignal(this.signal);
-    }
+    // TODO
+    // this.signal = parcours.getSignal(getBereich(), getName());
+    // if (this.signal == null) {
+    // this.signal = new Signal(getBereich(), getName());
+    // parcours.addSignal(this.signal);
+    // }
   }
 
   @Override

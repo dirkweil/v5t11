@@ -1,10 +1,10 @@
 package de.gedoplan.v5t11.fahrstrassen.service;
 
-import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrasse;
-import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrasse.Freigegeben;
-import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrasse.Reserviert;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.FahrstrassenGleisabschnitt;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrassenelement;
+import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.OldFahrstrasse;
+import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.OldFahrstrasse.Freigegeben;
+import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.OldFahrstrasse.Reserviert;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleisabschnitt;
 
 import java.lang.annotation.Annotation;
@@ -35,7 +35,7 @@ public class FahrstrasseMonitor {
    * @param fahrstrasse
    *          Fahrstrasse
    */
-  void start(@Observes @Reserviert Fahrstrasse fahrstrasse) {
+  void start(@Observes @Reserviert OldFahrstrasse fahrstrasse) {
     // Alle Gleisabschnitte der Fahrstrasse in statusMap eintragen
     Stream<Gleisabschnitt> stream = fahrstrasse.getElemente().stream()
         .filter(fe -> fe instanceof FahrstrassenGleisabschnitt)
@@ -48,7 +48,7 @@ public class FahrstrasseMonitor {
     stream.forEach(g -> this.statusMap.put(g, new GleisabschnittStatus(g)));
   }
 
-  void stop(@Observes @Freigegeben Fahrstrasse fahrstrasse, EventMetadata eventMetadata) {
+  void stop(@Observes @Freigegeben OldFahrstrasse fahrstrasse, EventMetadata eventMetadata) {
 
     Freigegeben freigegeben = null;
     for (Annotation annotation : eventMetadata.getQualifiers()) {
@@ -91,10 +91,11 @@ public class FahrstrasseMonitor {
     // return;
     // }
 
-    checkFreigabe(gleisabschnitt.getReserviertefahrstrasse());
+    // TODO
+    // checkFreigabe(gleisabschnitt.getReserviertefahrstrasse());
   }
 
-  private void checkFreigabe(Fahrstrasse fahrstrasse) {
+  private void checkFreigabe(OldFahrstrasse fahrstrasse) {
     /*
      * Im reservierten Teil der Fahrstrasse den Gleisabschnitt suchen, der noch nicht durchfahren wurde,
      * und vor dem nur durchfahrene Gleisabschnitte liegen.

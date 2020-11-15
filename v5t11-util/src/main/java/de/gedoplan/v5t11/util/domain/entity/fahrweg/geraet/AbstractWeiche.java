@@ -4,7 +4,7 @@
 package de.gedoplan.v5t11.util.domain.entity.fahrweg.geraet;
 
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
-import de.gedoplan.v5t11.util.domain.entity.fahrweg.Geraet;
+import de.gedoplan.v5t11.util.domain.entity.fahrweg.AbstractGeraet;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
 import javax.persistence.MappedSuperclass;
@@ -25,7 +25,7 @@ import lombok.Setter;
 @XmlAccessorType(XmlAccessType.NONE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @MappedSuperclass
-public abstract class AbstractWeiche extends Geraet {
+public abstract class AbstractWeiche extends AbstractGeraet {
 
   public static final String PREFIX_WEICHEN_GLEISABSCHNITT = "W";
 

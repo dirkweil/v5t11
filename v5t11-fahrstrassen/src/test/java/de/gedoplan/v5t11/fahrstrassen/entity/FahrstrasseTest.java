@@ -3,8 +3,8 @@ package de.gedoplan.v5t11.fahrstrassen.entity;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
-import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrassenelement;
+import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.OldFahrstrasse;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 import de.gedoplan.v5t11.util.test.V5t11TestConfigDirExtension;
@@ -38,7 +38,7 @@ public class FahrstrasseTest {
   @Test
   public void test_01_toShortJson() throws Exception {
 
-    Fahrstrasse fahrstrasse = this.parcours.getFahrstrasse(FS_BEREICH, FS_NAME);
+    OldFahrstrasse fahrstrasse = this.parcours.getFahrstrasse(FS_BEREICH, FS_NAME);
 
     String json = JsonbWithIncludeVisibility.SHORT.toJson(fahrstrasse);
 
@@ -55,7 +55,7 @@ public class FahrstrasseTest {
   @Test
   public void test_02_toFullJson() throws Exception {
 
-    Fahrstrasse fahrstrasse = this.parcours.getFahrstrasse(FS_BEREICH, FS_NAME);
+    OldFahrstrasse fahrstrasse = this.parcours.getFahrstrasse(FS_BEREICH, FS_NAME);
 
     String json = JsonbWithIncludeVisibility.FULL.toJson(fahrstrasse);
 
@@ -78,7 +78,7 @@ public class FahrstrasseTest {
   @Test
   public void test_03_reservieren() throws Exception {
 
-    Fahrstrasse fahrstrasse = this.parcours.getFahrstrasse(FS_BEREICH, FS_NAME);
+    OldFahrstrasse fahrstrasse = this.parcours.getFahrstrasse(FS_BEREICH, FS_NAME);
 
     assertThat("Fahrstrassenreservierung zu Beginn", fahrstrasse.getReservierungsTyp(), is(FahrstrassenReservierungsTyp.UNRESERVIERT));
 
@@ -114,7 +114,7 @@ public class FahrstrasseTest {
   @Test
   public void test_04_komplettFreigeben() throws Exception {
 
-    Fahrstrasse fahrstrasse = this.parcours.getFahrstrasse(FS_BEREICH, FS_NAME);
+    OldFahrstrasse fahrstrasse = this.parcours.getFahrstrasse(FS_BEREICH, FS_NAME);
 
     assertThat("Fahrstrassenreservierung zu Beginn", fahrstrasse.getReservierungsTyp(), is(FahrstrassenReservierungsTyp.UNRESERVIERT));
 
@@ -149,7 +149,7 @@ public class FahrstrasseTest {
   @Test
   public void test_05_teilFreigeben() throws Exception {
 
-    Fahrstrasse fahrstrasse = this.parcours.getFahrstrasse(FS_BEREICH, FS_NAME);
+    OldFahrstrasse fahrstrasse = this.parcours.getFahrstrasse(FS_BEREICH, FS_NAME);
 
     assertThat("Fahrstrassenreservierung zu Beginn", fahrstrasse.getReservierungsTyp(), is(FahrstrassenReservierungsTyp.UNRESERVIERT));
 

@@ -6,15 +6,24 @@ import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.ReservierbaresFahrwegelemen
 import de.gedoplan.v5t11.util.domain.entity.Bereichselement;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
+import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 
 import lombok.NoArgsConstructor;
 
+@Entity
+@Table(name = Fahrstrassenelement.TABLE_NAME)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @XmlAccessorType(XmlAccessType.NONE)
 @NoArgsConstructor
 public abstract class Fahrstrassenelement extends Bereichselement implements Cloneable {
+
+  public static final String TABLE_NAME = "FS_ELEMENT";
 
   @XmlAttribute
   protected Boolean zaehlrichtung;
@@ -88,7 +97,7 @@ public abstract class Fahrstrassenelement extends Bereichselement implements Clo
   public abstract ReservierbaresFahrwegelement getFahrwegelement();
 
   /**
-   * Rang für Anordnung von Fahrstzrassenvorschlägen liefern.
+   * Rang für Anordnung von Fahrstrassenvorschlägen liefern.
    *
    * @return Rang der Fahrstrasse (kleiner = besser passend)
    */
@@ -137,5 +146,10 @@ public abstract class Fahrstrassenelement extends Bereichselement implements Clo
     } catch (CloneNotSupportedException e) {
       throw new BugException(e);
     }
+  }
+
+  // TODO Löschen, wenn Xxx weg ist
+  public Object oldReservieren(OldFahrstrasse xxx) {
+    throw new UnsupportedOperationException();
   }
 }

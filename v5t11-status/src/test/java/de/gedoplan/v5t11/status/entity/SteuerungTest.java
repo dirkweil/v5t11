@@ -10,7 +10,7 @@ import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
 import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
-import de.gedoplan.v5t11.util.domain.entity.fahrweg.Geraet;
+import de.gedoplan.v5t11.util.domain.entity.fahrweg.AbstractGeraet;
 import de.gedoplan.v5t11.util.test.V5t11TestConfigDirExtension;
 
 import java.util.ArrayList;
@@ -111,7 +111,7 @@ public class SteuerungTest {
   public void test_03_adjustGeraete() {
     this.log.info("----- test_03_adjustGeraete -----");
 
-    Geraet[] geraete = {
+    AbstractGeraet[] geraete = {
         this.steuerung.getSignal("test", "P2"),
         this.steuerung.getSignal("test", "P3"),
         this.steuerung.getSignal("test", "P4"),
@@ -148,7 +148,7 @@ public class SteuerungTest {
 
       int anschluss = 0;
       for (int i = 0; i < geraete.length; ++i) {
-        Geraet geraet = geraete[i];
+        AbstractGeraet geraet = geraete[i];
         int bitCount;
         long mask;
         long geraeteWert;
@@ -204,7 +204,7 @@ public class SteuerungTest {
   public void test_04_setGeraete() {
     this.log.info("----- test_04_setGeraete -----");
 
-    Geraet[] geraete = {
+    AbstractGeraet[] geraete = {
         this.steuerung.getSignal("test", "P2"),
         this.steuerung.getSignal("test", "P3"),
         this.steuerung.getSignal("test", "P4"),
@@ -235,7 +235,7 @@ public class SteuerungTest {
 
       long newWert = 0;
 
-      Geraet geraet = geraete[random.nextInt(geraete.length)];
+      AbstractGeraet geraet = geraete[random.nextInt(geraete.length)];
 
       int bitCount;
       int anschluss;

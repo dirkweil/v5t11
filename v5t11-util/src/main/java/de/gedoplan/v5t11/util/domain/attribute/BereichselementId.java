@@ -2,6 +2,8 @@ package de.gedoplan.v5t11.util.domain.attribute;
 
 import de.gedoplan.v5t11.util.misc.NameComparator;
 
+import java.io.Serializable;
+
 import javax.persistence.Embeddable;
 
 import lombok.AccessLevel;
@@ -17,7 +19,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @EqualsAndHashCode
 @ToString
-public class BereichselementId implements Comparable<BereichselementId> {
+public class BereichselementId implements Comparable<BereichselementId>, Serializable {
   private String bereich;
   private String name;
 

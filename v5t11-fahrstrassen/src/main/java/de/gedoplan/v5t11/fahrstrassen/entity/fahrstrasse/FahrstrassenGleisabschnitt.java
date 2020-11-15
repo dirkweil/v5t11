@@ -5,6 +5,10 @@ import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.util.domain.entity.fahrweg.geraet.AbstractWeiche;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -13,17 +17,22 @@ import javax.xml.bind.annotation.XmlAttribute;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@Entity
+@DiscriminatorValue("GA")
 @XmlAccessorType(XmlAccessType.NONE)
 @NoArgsConstructor
 public class FahrstrassenGleisabschnitt extends Fahrstrassenelement {
 
+  @Column(name = "START_ERLAUBT")
   @XmlAttribute
   private Boolean startErlaubt;
 
+  @Column(name = "ENDE_ERLAUBT")
   @XmlAttribute
   private Boolean endeErlaubt;
 
   @Getter
+  @ManyToOne
   private Gleisabschnitt gleisabschnitt;
 
   public FahrstrassenGleisabschnitt(String bereich, String name, boolean zaehlrichtung) {
@@ -45,11 +54,12 @@ public class FahrstrassenGleisabschnitt extends Fahrstrassenelement {
 
   @Override
   public void linkFahrwegelement(Parcours parcours) {
-    this.gleisabschnitt = parcours.getGleisabschnitt(getBereich(), getName());
-    if (this.gleisabschnitt == null) {
-      this.gleisabschnitt = new Gleisabschnitt(getBereich(), getName());
-      parcours.addGleisabschnitt(this.gleisabschnitt);
-    }
+    // TOD
+    // this.gleisabschnitt = parcours.getGleisabschnitt(getBereich(), getName());
+    // if (this.gleisabschnitt == null) {
+    // this.gleisabschnitt = new Gleisabschnitt(getBereich(), getName());
+    // parcours.addGleisabschnitt(this.gleisabschnitt);
+    // }
   }
 
   @Override

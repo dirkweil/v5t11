@@ -1,8 +1,8 @@
 package de.gedoplan.v5t11.fahrstrassen.service;
 
-import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrasse;
-import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrasse.Freigegeben;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.FahrstrassenSignal;
+import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.OldFahrstrasse;
+import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.OldFahrstrasse.Freigegeben;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Signal;
 import de.gedoplan.v5t11.fahrstrassen.gateway.StatusGateway;
 import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
@@ -27,7 +27,7 @@ public class FahrstrasseRueckstellenService {
   @Inject
   Logger log;
 
-  void fahrstrasseRueckstellen(@ObservesAsync @Freigegeben Fahrstrasse fahrstrasse, EventMetadata eventMetadata) {
+  void fahrstrasseRueckstellen(@ObservesAsync @Freigegeben OldFahrstrasse fahrstrasse, EventMetadata eventMetadata) {
 
     Freigegeben freigegeben = null;
     for (Annotation annotation : eventMetadata.getQualifiers()) {
@@ -53,7 +53,7 @@ public class FahrstrasseRueckstellenService {
         .forEach(fs -> signalRueckstellen(fahrstrasse, fs));
   }
 
-  private void signalRueckstellen(Fahrstrasse fahrstrasse, FahrstrassenSignal fahrstrassenSignal) {
+  private void signalRueckstellen(OldFahrstrasse fahrstrasse, FahrstrassenSignal fahrstrassenSignal) {
     Signal signal = fahrstrassenSignal.getFahrwegelement();
     SignalStellung stellung = SignalStellung.HALT;
     try {

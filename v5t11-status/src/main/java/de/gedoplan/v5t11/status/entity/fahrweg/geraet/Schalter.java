@@ -5,7 +5,7 @@ package de.gedoplan.v5t11.status.entity.fahrweg.geraet;
 
 import de.gedoplan.v5t11.status.entity.baustein.Funktionsdecoder;
 import de.gedoplan.v5t11.util.domain.attribute.SchalterStellung;
-import de.gedoplan.v5t11.util.domain.entity.fahrweg.Geraet;
+import de.gedoplan.v5t11.util.domain.entity.fahrweg.AbstractGeraet;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
 import javax.xml.bind.Unmarshaller;
@@ -24,7 +24,7 @@ import lombok.Getter;
  *
  */
 @XmlAccessorType(XmlAccessType.NONE)
-public class Schalter extends Geraet implements FunktionsdecoderGeraet {
+public class Schalter extends AbstractGeraet implements FunktionsdecoderGeraet {
 
   /**
    * Aktuelle Stellung.

@@ -6,6 +6,9 @@ import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
 import de.gedoplan.v5t11.util.domain.entity.fahrweg.geraet.AbstractWeiche;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -13,11 +16,14 @@ import javax.xml.bind.annotation.XmlAttribute;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@Entity
+@DiscriminatorValue("W")
 @XmlAccessorType(XmlAccessType.NONE)
 @NoArgsConstructor
 public class FahrstrassenWeiche extends FahrstrassenGeraet {
 
   @Getter
+  @ManyToOne
   private Weiche weiche;
 
   @Getter(onMethod_ = @JsonbInclude(full = true))
@@ -50,11 +56,12 @@ public class FahrstrassenWeiche extends FahrstrassenGeraet {
 
   @Override
   public void linkFahrwegelement(Parcours parcours) {
-    this.weiche = parcours.getWeiche(getBereich(), getName());
-    if (this.weiche == null) {
-      this.weiche = new Weiche(getBereich(), getName());
-      parcours.addWeiche(this.weiche);
-    }
+    // TODO
+    // this.weiche = parcours.getWeiche(getBereich(), getName());
+    // if (this.weiche == null) {
+    // this.weiche = new Weiche(getBereich(), getName());
+    // parcours.addWeiche(this.weiche);
+    // }
   }
 
   @Override

@@ -6,8 +6,10 @@ import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
 import javax.inject.Inject;
+import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -28,14 +30,17 @@ import lombok.NoArgsConstructor;
 public abstract class Bereichselement extends SingleIdEntity<BereichselementId> implements Comparable<Bereichselement> {
   @XmlAttribute
   @Getter(onMethod_ = @JsonbInclude)
+  @Id
   private String bereich;
 
   @XmlAttribute
   @Getter(onMethod_ = @JsonbInclude)
+  @Id
   private String name;
 
   private transient BereichselementId id;
 
+  @Transient
   @Inject
   protected EventFirer eventFirer;
 
