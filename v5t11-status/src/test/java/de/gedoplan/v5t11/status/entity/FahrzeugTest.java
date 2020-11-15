@@ -53,7 +53,7 @@ public class FahrzeugTest {
         + "{\"aktiv\":" + lok.isAktiv()
         + ",\"fahrstufe\":" + lok.getFahrstufe()
         + ",\"funktionStatus\":" + lok.getFunktionStatus()
-        + ",\"id\":{\"adresse\":" + lokId.getAdresse() + ",\"systemTyp\":\"" + lokId.getSystemTyp() + "\"}"
+        + ",\"id\":\"" + lok.getId().getAdresse() + "@" + lok.getId().getSystemTyp().name() + "\""
         + ",\"licht\":" + lok.isLicht()
         + ",\"rueckwaerts\":" + lok.isRueckwaerts()
         + "}",
