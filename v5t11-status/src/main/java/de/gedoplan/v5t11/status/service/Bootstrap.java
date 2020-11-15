@@ -5,10 +5,12 @@ import de.gedoplan.v5t11.status.entity.Steuerung;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import javax.annotation.Priority;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.event.Observes;
+import javax.interceptor.Interceptor;
 
-import org.apache.commons.logging.Log;
+import org.jboss.logging.Logger;
 
 import io.quarkus.runtime.ShutdownEvent;
 import io.quarkus.runtime.StartupEvent;
@@ -18,10 +20,10 @@ public class Bootstrap {
 
   private final static ExecutorService scheduler = Executors.newSingleThreadExecutor();
 
-  void boot(@Observes StartupEvent startupEvent,
+  void boot(@Observes @Priority(Interceptor.Priority.APPLICATION + 999) StartupEvent startupEvent,
       ConfigService configService,
       Steuerung steuerung,
-      Log log) {
+      Logger log) {
     log.info("app: " + configService.getArtifactId() + ":" + configService.getVersion());
 
     log.info("configDir: " + configService.getConfigDir());
