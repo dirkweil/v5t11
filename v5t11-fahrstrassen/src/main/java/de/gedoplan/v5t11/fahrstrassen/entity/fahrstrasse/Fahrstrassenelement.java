@@ -6,18 +6,20 @@ import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.ReservierbaresFahrwegelemen
 import de.gedoplan.v5t11.util.domain.entity.Bereichselement;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
-import javax.persistence.Entity;
+import javax.persistence.Embeddable;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.Table;
+import javax.persistence.MappedSuperclass;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 
 import lombok.NoArgsConstructor;
 
-@Entity
-@Table(name = Fahrstrassenelement.TABLE_NAME)
+@Embeddable
+@MappedSuperclass
+// @Entity
+// @Table(name = Fahrstrassenelement.TABLE_NAME)
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @XmlAccessorType(XmlAccessType.NONE)
 @NoArgsConstructor
@@ -109,7 +111,7 @@ public abstract class Fahrstrassenelement extends Bereichselement implements Clo
    * Zugehöriges Fahrwegelement suchen und eintragen.
    *
    * @param parcours
-   *          Parcours
+   *        Parcours
    */
   public abstract void linkFahrwegelement(Parcours parcours);
 
@@ -122,7 +124,7 @@ public abstract class Fahrstrassenelement extends Bereichselement implements Clo
    * Element für Fahrstrasse reservieren bzw. freigeben.
    *
    * @param fahrstrasse
-   *          <code>null</code> zum Freigeben, sonst Fahrstrasse
+   *        <code>null</code> zum Freigeben, sonst Fahrstrasse
    */
   public abstract void reservieren(Fahrstrasse fahrstrasse);
 

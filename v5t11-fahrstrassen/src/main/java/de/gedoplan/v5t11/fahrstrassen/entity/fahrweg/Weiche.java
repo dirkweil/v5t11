@@ -5,9 +5,8 @@ import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
 import de.gedoplan.v5t11.util.domain.entity.fahrweg.geraet.AbstractWeiche;
 
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
@@ -28,9 +27,10 @@ public class Weiche extends AbstractWeiche implements ReservierbaresFahrwegeleme
    */
   @Getter
   @Setter
-  @ManyToOne
-  @JoinColumn(name = "RESERVIERTE_FAHRSTRASSE_BEREICH", referencedColumnName = "BEREICH")
-  @JoinColumn(name = "RESERVIERTE_FAHRSTRASSE_NAME", referencedColumnName = "NAME")
+  // @ManyToOne
+  // @JoinColumn(name = "RESERVIERTE_FAHRSTRASSE_BEREICH", referencedColumnName = "BEREICH")
+  // @JoinColumn(name = "RESERVIERTE_FAHRSTRASSE_NAME", referencedColumnName = "NAME")
+  @Transient
   protected Fahrstrasse reserviertefahrstrasse;
 
   public Weiche(String bereich, String name) {

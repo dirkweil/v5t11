@@ -20,7 +20,6 @@ import java.util.stream.Stream;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -61,8 +60,10 @@ public class Parcours extends StringIdEntity {
 
   @XmlElement(name = "AutoFahrstrasse")
   @Getter
-  @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-  @JoinColumn(name = "PARCOURS_ID")
+  // TODO
+  @Transient
+  // @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+  // @JoinColumn(name = "PARCOURS_ID")
   private Set<AutoFahrstrasse> autoFahrstrassen = new HashSet<>();
 
   @Getter

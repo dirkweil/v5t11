@@ -30,12 +30,8 @@ import javax.enterprise.util.Nonbinding;
 import javax.inject.Qualifier;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.xml.bind.Unmarshaller;
@@ -66,13 +62,6 @@ public class Fahrstrasse extends Bereichselement {
   private boolean zaehlrichtung;
 
   /**
-   * Kann diese Fahrstrasse umgekehrt genutzt werden?
-   */
-  @XmlAttribute
-  @Getter
-  private boolean umkehrbar;
-
-  /**
    * Aus anderen Fahrstrassen kombiniert?
    */
   @Getter
@@ -94,9 +83,12 @@ public class Fahrstrasse extends Bereichselement {
       @XmlElement(name = "Sperrsignal", type = FahrstrassenSperrsignal.class),
       @XmlElement(name = "Weiche", type = FahrstrassenWeiche.class) })
   @Getter(onMethod_ = @JsonbInclude(full = true))
-  @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-  @JoinColumn(name = "FAHRSTRASSE_BEREICH", referencedColumnName = "BEREICH")
-  @JoinColumn(name = "FAHRSTRASSE_NAME", referencedColumnName = "NAME")
+  // TODO
+  // @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+  // @JoinColumn(name = "FAHRSTRASSE_BEREICH", referencedColumnName = "BEREICH")
+  // @JoinColumn(name = "FAHRSTRASSE_NAME", referencedColumnName = "NAME")^
+  // @ElementCollection(fetch = FetchType.EAGER)
+  @Transient
   private List<Fahrstrassenelement> elemente = new ArrayList<>();
 
   @ManyToOne
@@ -108,6 +100,15 @@ public class Fahrstrasse extends Bereichselement {
    * Es folgen nun weitere Attribute, die davon abgeleitete werden, sowie die zugehörigen
    * Initialisierungsmethoden.
    */
+
+  /**
+   * Kann diese Fahrstrasse umgekehrt genutzt werden?
+   * Ist nur zum Aufbau de rDaten aus dem XML nötig und wird nicht in der DB abgelegt
+   */
+  @XmlAttribute
+  @Getter
+  @Transient
+  private boolean umkehrbar;
 
   /**
    * Erstes Element.
@@ -262,6 +263,8 @@ public class Fahrstrasse extends Bereichselement {
 
     result.start = linkeFahrstrasse.start;
     result.ende = rechteFahrstrasse.ende;
+
+    result.parcours = linkeFahrstrasse.parcours;
 
     // Schutzsignale entfernen, die auch als normale Signale vorhanden sind
     Set<Signal> normaleSignale = new HashSet<>();

@@ -27,10 +27,10 @@ public class ParcoursProducer {
   @ApplicationScoped
   Parcours createParcours(ConfigService configService) {
 
+    long xmlConfigLastModified = configService.getXmlConfigLastModified("_parcours.xml");
     boolean reRead = true;
     Parcours parcours = this.parcoursRepository.findById(configService.getAnlage());
     if (parcours != null) {
-      long xmlConfigLastModified = configService.getXmlConfigLastModified("_parcours.xml");
       reRead = xmlConfigLastModified > parcours.getLastModified();
       if (this.logger.isDebugEnabled()) {
         this.logger.debug(String.format("lastModified: db=%tF %<tT, xml=%tF %<tT ==> reRead=%b", parcours.getLastModified(), xmlConfigLastModified, reRead));
@@ -42,8 +42,13 @@ public class ParcoursProducer {
         this.logger.debug("Parcours aus XML lesen");
       }
 
+      if (parcours != null) {
+        this.parcoursRepository.remove(parcours);
+      }
+
       parcours = configService.readXmlConfig("_parcours.xml", Parcours.class);
       parcours.setId(configService.getAnlage());
+      parcours.setLastModified(xmlConfigLastModified);
       parcours.completeFahrstrassen();
 
       // parcours.getFahrstrasse("show", "1-W1-11").getStart().getGleisabschnitt()

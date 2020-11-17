@@ -7,9 +7,10 @@ import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Entity;
+import javax.persistence.Embeddable;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.persistence.MappedSuperclass;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -18,7 +19,9 @@ import javax.xml.bind.annotation.XmlAttribute;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Entity
+@Embeddable
+@MappedSuperclass
+// @Entity
 @XmlAccessorType(XmlAccessType.NONE)
 @NoArgsConstructor
 public abstract class FahrstrassenSignal extends FahrstrassenGeraet implements Cloneable {
