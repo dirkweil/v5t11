@@ -9,9 +9,7 @@ import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Weiche;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenFilter;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
 import de.gedoplan.v5t11.util.domain.entity.Bereichselement;
-import de.gedoplan.v5t11.util.persistence.LocalDateTimeAttributeConverter;
 
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -19,8 +17,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.persistence.Convert;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -34,6 +33,7 @@ import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
 
 import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Steuerung.
@@ -50,18 +50,18 @@ public class Parcours extends StringIdEntity {
 
   public static final String TABLE_NAME = "FS_PARCOURS";
 
-  // TODO Wieso muss ich das angeben (autoApply=true)?
-  @Convert(converter = LocalDateTimeAttributeConverter.class)
-  private LocalDateTime lastChange;
+  @Getter
+  @Setter
+  private long lastModified;
 
   @XmlElement(name = "Fahrstrasse", type = Fahrstrasse.class)
   @Getter
-  @OneToMany(mappedBy = "parcours")
+  @OneToMany(mappedBy = "parcours", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
   private Set<Fahrstrasse> fahrstrassen = new HashSet<>();
 
   @XmlElement(name = "AutoFahrstrasse")
   @Getter
-  @OneToMany
+  @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
   @JoinColumn(name = "PARCOURS_ID")
   private Set<AutoFahrstrasse> autoFahrstrassen = new HashSet<>();
 
@@ -84,13 +84,17 @@ public class Parcours extends StringIdEntity {
     super(id);
   }
 
+  public void setId(String id) {
+    this.id = id;
+  }
+
   /**
    * Gleisabschnitt liefern.
    *
    * @param bereich
-   *          Bereich
+   *        Bereich
    * @param name
-   *          Name
+   *        Name
    * @return gefundener Gleisabschnitt oder <code>null</code>
    */
   public Gleisabschnitt getGleisabschnitt(String bereich, String name) {
@@ -101,9 +105,9 @@ public class Parcours extends StringIdEntity {
    * Signal liefern.
    *
    * @param bereich
-   *          Bereich
+   *        Bereich
    * @param name
-   *          Name
+   *        Name
    * @return gefundenes Signal oder <code>null</code>
    */
   public Signal getSignal(String bereich, String name) {
@@ -114,9 +118,9 @@ public class Parcours extends StringIdEntity {
    * Weiche liefern.
    *
    * @param bereich
-   *          Bereich
+   *        Bereich
    * @param name
-   *          Name
+   *        Name
    * @return gefundene Weiche oder <code>null</code>
    */
   public Weiche getWeiche(String bereich, String name) {
@@ -127,9 +131,9 @@ public class Parcours extends StringIdEntity {
    * Fahrstrasse liefern.
    *
    * @param bereich
-   *          Bereich
+   *        Bereich
    * @param name
-   *          Name
+   *        Name
    * @return gefundene Fahrstrasse oder <code>null</code>
    */
   public Fahrstrasse getFahrstrasse(String bereich, String name) {
@@ -240,11 +244,11 @@ public class Parcours extends StringIdEntity {
    * Fahrstrassen suchen.
    *
    * @param beginn
-   *          Beginn-Gleisabschnitt
+   *        Beginn-Gleisabschnitt
    * @param ende
-   *          Ende-Gleisabschnitt
+   *        Ende-Gleisabschnitt
    * @param filter
-   *          Filter (nur freie/reservierte/unkombinierte) oder <code>null</code> für alle
+   *        Filter (nur freie/reservierte/unkombinierte) oder <code>null</code> für alle
    * @return gefundene Fahrstrassen in aufsteigender Rang-Reihenfolge
    */
   public List<Fahrstrasse> getFahrstrassen(Gleisabschnitt beginn, Gleisabschnitt ende, FahrstrassenFilter filter) {

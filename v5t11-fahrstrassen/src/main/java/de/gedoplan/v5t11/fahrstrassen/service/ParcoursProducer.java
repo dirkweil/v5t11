@@ -1,6 +1,7 @@
 package de.gedoplan.v5t11.fahrstrassen.service;
 
 import de.gedoplan.v5t11.fahrstrassen.entity.Parcours;
+import de.gedoplan.v5t11.fahrstrassen.persistence.ParcoursRepository;
 import de.gedoplan.v5t11.util.cdi.Created;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
 
@@ -8,8 +9,16 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 
+import org.jboss.logging.Logger;
+
 @ApplicationScoped
 public class ParcoursProducer {
+
+  @Inject
+  ParcoursRepository parcoursRepository;
+
+  @Inject
+  Logger logger;
 
   @Inject
   EventFirer eventFirer;
@@ -18,10 +27,29 @@ public class ParcoursProducer {
   @ApplicationScoped
   Parcours createParcours(ConfigService configService) {
 
-    Parcours parcours = configService.readXmlConfig("_parcours.xml", Parcours.class);
+    boolean reRead = true;
+    Parcours parcours = this.parcoursRepository.findById(configService.getAnlage());
+    if (parcours != null) {
+      long xmlConfigLastModified = configService.getXmlConfigLastModified("_parcours.xml");
+      reRead = xmlConfigLastModified > parcours.getLastModified();
+      if (this.logger.isDebugEnabled()) {
+        this.logger.debug(String.format("lastModified: db=%tF %<tT, xml=%tF %<tT ==> reRead=%b", parcours.getLastModified(), xmlConfigLastModified, reRead));
+      }
+    }
 
-    // Fahrstrassen komplettieren
-    parcours.completeFahrstrassen();
+    if (reRead) {
+      if (this.logger.isDebugEnabled()) {
+        this.logger.debug("Parcours aus XML lesen");
+      }
+
+      parcours = configService.readXmlConfig("_parcours.xml", Parcours.class);
+      parcours.setId(configService.getAnlage());
+      parcours.completeFahrstrassen();
+
+      // parcours.getFahrstrasse("show", "1-W1-11").getStart().getGleisabschnitt()
+
+      this.parcoursRepository.persist(parcours);
+    }
 
     parcours.injectFields();
 

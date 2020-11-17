@@ -1,9 +1,14 @@
 package de.gedoplan.v5t11.util.config;
 
+import de.gedoplan.baselibs.utils.exception.BugException;
+import de.gedoplan.baselibs.utils.util.ResourceUtil;
 import de.gedoplan.baselibs.utils.xml.XmlConverter;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.Reader;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -83,34 +88,52 @@ public abstract class ConfigBase {
   String fahrstrassenRestUrl;
 
   /**
+   * Veränderungs-Zeit der XML-Konfigurationsdatei ermitteln.
+   * 
+   * @param fileNameSuffix Dateinamen-Suffix
+   * @return Letzte Änderung in ms seit 1970.
+   */
+  public long getXmlConfigLastModified(String fileNameSuffix) {
+    File xmlConfigFile = getXmlConfigFile(fileNameSuffix);
+    return xmlConfigFile.lastModified();
+  }
+
+  /**
    * XML-Konfigurationsfile lesen und deserialisieren.
    *
    * Der Dateiname setzt sich aus dem Anwendungsnamen und dem übergebenen Suffix zusammen. Die Datei wird im Konfigurationsverzeichnis oder als Classpath Ressource gesucht.
    *
-   * @param fileNameSuffix
-   *          Dateinamen-Suffix
-   * @param clazz
-   *          Ziel-Klasse
+   * @param fileNameSuffix Dateinamen-Suffix
+   * @param clazz Ziel-Klasse
    * @return deserialisierter Wert
    */
   public <T> T readXmlConfig(String fileNameSuffix, Class<T> clazz) {
-    String fileName = this.anlage + fileNameSuffix;
+    File xmlConfigFile = getXmlConfigFile(fileNameSuffix);
 
-    try {
-      // Wenn vorhanden, Datei aus V5T11-Konfigurationsverzeichnis lesen
-      Path path = Paths.get(this.configDir, fileName);
-      if (Files.exists(path)) {
-        try (Reader reader = new FileReader(path.toFile())) {
-          return XmlConverter.fromXml(clazz, reader);
-        }
-      }
-
-      // Andernfalls Classpath-Ressource lesen
-      return XmlConverter.fromXml(clazz, fileName);
-
+    try (Reader reader = new FileReader(xmlConfigFile)) {
+      return XmlConverter.fromXml(clazz, reader);
     } catch (Exception e) {
-      throw new CreationException("Kann Konfiguration " + fileName + " nicht lesen", e);
+      throw new CreationException("Kann Konfiguration " + xmlConfigFile.getAbsolutePath() + " nicht lesen", e);
     }
+  }
+
+  private File getXmlConfigFile(String fileNameSuffix) {
+    String fileName = this.anlage + fileNameSuffix;
+    Path path = Paths.get(this.configDir, fileName);
+    if (Files.exists(path)) {
+      return path.toFile();
+    }
+
+    URL resourceURL = ResourceUtil.getResource(fileName);
+    if (resourceURL != null) {
+      try {
+        return new File(resourceURL.toURI());
+      } catch (URISyntaxException e) {
+        throw new BugException(e);
+      }
+    }
+
+    throw new IllegalArgumentException("Konfiguration " + fileName + " nicht gefunden");
   }
 
 }

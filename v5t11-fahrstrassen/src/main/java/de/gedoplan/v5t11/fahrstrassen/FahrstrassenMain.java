@@ -1,7 +1,7 @@
 package de.gedoplan.v5t11.fahrstrassen;
 
-import io.quarkus.runtime.*;
-import io.quarkus.runtime.annotations.*;
+import io.quarkus.runtime.Quarkus;
+import io.quarkus.runtime.annotations.QuarkusMain;
 
 @QuarkusMain
 public class FahrstrassenMain {

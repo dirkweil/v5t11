@@ -30,7 +30,9 @@ import javax.enterprise.util.Nonbinding;
 import javax.inject.Qualifier;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -92,7 +94,7 @@ public class Fahrstrasse extends Bereichselement {
       @XmlElement(name = "Sperrsignal", type = FahrstrassenSperrsignal.class),
       @XmlElement(name = "Weiche", type = FahrstrassenWeiche.class) })
   @Getter(onMethod_ = @JsonbInclude(full = true))
-  @OneToMany
+  @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
   @JoinColumn(name = "FAHRSTRASSE_BEREICH", referencedColumnName = "BEREICH")
   @JoinColumn(name = "FAHRSTRASSE_NAME", referencedColumnName = "NAME")
   private List<Fahrstrassenelement> elemente = new ArrayList<>();
