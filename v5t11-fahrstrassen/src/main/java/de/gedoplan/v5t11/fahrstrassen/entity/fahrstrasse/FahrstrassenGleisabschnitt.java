@@ -54,12 +54,11 @@ public class FahrstrassenGleisabschnitt extends Fahrstrassenelement {
 
   @Override
   public void linkFahrwegelement(Parcours parcours) {
-    // TOD
-    // this.gleisabschnitt = parcours.getGleisabschnitt(getBereich(), getName());
-    // if (this.gleisabschnitt == null) {
-    // this.gleisabschnitt = new Gleisabschnitt(getBereich(), getName());
-    // parcours.addGleisabschnitt(this.gleisabschnitt);
-    // }
+    this.gleisabschnitt = parcours.getGleisabschnitt(getBereich(), getName());
+    if (this.gleisabschnitt == null) {
+      this.gleisabschnitt = new Gleisabschnitt(getBereich(), getName());
+      parcours.getGleisabschnitte().add(this.gleisabschnitt);
+    }
   }
 
   @Override

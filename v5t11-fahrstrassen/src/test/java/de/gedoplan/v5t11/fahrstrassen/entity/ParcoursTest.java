@@ -10,6 +10,7 @@ import de.gedoplan.v5t11.util.test.V5t11TestConfigDirExtension;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.inject.Inject;
 
@@ -32,40 +33,40 @@ public class ParcoursTest {
   @Inject
   Logger logger;
 
+  @AllArgsConstructor
+  private static class FSParm {
+    String bereich;
+    String name;
+    boolean combi;
+    int rank;
+    boolean zaehlrichtung;
+    String elementTypen;
+  }
+
+  private static final FSParm[] fsParms = {
+      new FSParm("show", "1-W1-11", false, 4, false, "GLEIS,WEICHE,GLEIS,WEICHE,GLEIS"),
+      new FSParm("show", "1-W3-S", false, 4, true, "GLEIS,SIGNAL,WEICHE,GLEIS,SIGNAL,GLEIS"),
+      new FSParm("show", "2-W2-12", false, 4, false, "GLEIS,WEICHE,GLEIS,WEICHE,GLEIS"),
+      new FSParm("show", "2-W2-W1-11", false, 5, false, "GLEIS,WEICHE,GLEIS,WEICHE,GLEIS,GLEIS"),
+      new FSParm("show", "2-W3-S", false, 3, true, "GLEIS,SIGNAL,WEICHE,GLEIS,SIGNAL,GLEIS"),
+      new FSParm("show", "11-W1-1", false, 4, true, "GLEIS,WEICHE,GLEIS,WEICHE,GLEIS"),
+      new FSParm("show", "11-W1-1-W3-S", true, 8, true, "GLEIS,WEICHE,GLEIS,WEICHE,GLEIS,SIGNAL,WEICHE,GLEIS,SIGNAL,GLEIS"),
+      new FSParm("show", "11-W1-W2-2", false, 5, true, "GLEIS,WEICHE,GLEIS,WEICHE,GLEIS,GLEIS"),
+      new FSParm("show", "11-W1-W2-2-W3-S", true, 8, true, "GLEIS,WEICHE,GLEIS,WEICHE,GLEIS,GLEIS,SIGNAL,WEICHE,GLEIS,SIGNAL,GLEIS"),
+      new FSParm("show", "12-W2-2", false, 4, true, "GLEIS,WEICHE,GLEIS,WEICHE,GLEIS"),
+      new FSParm("show", "12-W2-2-W3-S", true, 7, true, "GLEIS,WEICHE,GLEIS,WEICHE,GLEIS,SIGNAL,WEICHE,GLEIS,SIGNAL,GLEIS"),
+      new FSParm("show", "S-W3-1", false, 4, false, "GLEIS,SIGNAL,WEICHE,GLEIS,SIGNAL,GLEIS"),
+      new FSParm("show", "S-W3-1-W1-11", true, 8, false, "GLEIS,SIGNAL,WEICHE,GLEIS,SIGNAL,GLEIS,WEICHE,GLEIS,WEICHE,GLEIS"),
+      new FSParm("show", "S-W3-2", false, 3, false, "GLEIS,SIGNAL,WEICHE,GLEIS,SIGNAL,GLEIS"),
+      new FSParm("show", "S-W3-2-W2-12", true, 7, false, "GLEIS,SIGNAL,WEICHE,GLEIS,SIGNAL,GLEIS,WEICHE,GLEIS,WEICHE,GLEIS"),
+      new FSParm("show", "S-W3-2-W2-W1-11", true, 8, false, "GLEIS,SIGNAL,WEICHE,GLEIS,SIGNAL,GLEIS,WEICHE,GLEIS,WEICHE,GLEIS,GLEIS"),
+  };
+
   /**
    * Test: Erwartete Fahrstrassen da?
    */
   @Test
   public void test_01_fahrstrassen() {
-
-    @AllArgsConstructor
-    class FSParm {
-      String bereich;
-      String name;
-      boolean combi;
-      int rank;
-      boolean zaehlrichtung;
-      String elementTypen;
-    }
-
-    FSParm[] fsParms = {
-        new FSParm("show", "1-W1-11", false, 4, false, "GLEIS,WEICHE,GLEIS,WEICHE,GLEIS"),
-        new FSParm("show", "1-W3-S", false, 4, true, "GLEIS,SIGNAL,WEICHE,GLEIS,SIGNAL,GLEIS"),
-        new FSParm("show", "2-W2-12", false, 4, false, "GLEIS,WEICHE,GLEIS,WEICHE,GLEIS"),
-        new FSParm("show", "2-W2-W1-11", false, 5, false, "GLEIS,WEICHE,GLEIS,WEICHE,GLEIS,GLEIS"),
-        new FSParm("show", "2-W3-S", false, 3, true, "GLEIS,SIGNAL,WEICHE,GLEIS,SIGNAL,GLEIS"),
-        new FSParm("show", "11-W1-1", false, 4, true, "GLEIS,WEICHE,GLEIS,WEICHE,GLEIS"),
-        new FSParm("show", "11-W1-1-W3-S", true, 8, true, "GLEIS,WEICHE,GLEIS,WEICHE,GLEIS,SIGNAL,WEICHE,GLEIS,SIGNAL,GLEIS"),
-        new FSParm("show", "11-W1-W2-2", false, 5, true, "GLEIS,WEICHE,GLEIS,WEICHE,GLEIS,GLEIS"),
-        new FSParm("show", "11-W1-W2-2-W3-S", true, 8, true, "GLEIS,WEICHE,GLEIS,WEICHE,GLEIS,GLEIS,SIGNAL,WEICHE,GLEIS,SIGNAL,GLEIS"),
-        new FSParm("show", "12-W2-2", false, 4, true, "GLEIS,WEICHE,GLEIS,WEICHE,GLEIS"),
-        new FSParm("show", "12-W2-2-W3-S", true, 7, true, "GLEIS,WEICHE,GLEIS,WEICHE,GLEIS,SIGNAL,WEICHE,GLEIS,SIGNAL,GLEIS"),
-        new FSParm("show", "S-W3-1", false, 4, false, "GLEIS,SIGNAL,WEICHE,GLEIS,SIGNAL,GLEIS"),
-        new FSParm("show", "S-W3-1-W1-11", true, 8, false, "GLEIS,SIGNAL,WEICHE,GLEIS,SIGNAL,GLEIS,WEICHE,GLEIS,WEICHE,GLEIS"),
-        new FSParm("show", "S-W3-2", false, 3, false, "GLEIS,SIGNAL,WEICHE,GLEIS,SIGNAL,GLEIS"),
-        new FSParm("show", "S-W3-2-W2-12", true, 7, false, "GLEIS,SIGNAL,WEICHE,GLEIS,SIGNAL,GLEIS,WEICHE,GLEIS,WEICHE,GLEIS"),
-        new FSParm("show", "S-W3-2-W2-W1-11", true, 8, false, "GLEIS,SIGNAL,WEICHE,GLEIS,SIGNAL,GLEIS,WEICHE,GLEIS,WEICHE,GLEIS,GLEIS"),
-    };
 
     Collection<Fahrstrasse> fahrstrassen = this.parcours.getFahrstrassen();
     if (this.logger.isDebugEnabled()) {
@@ -88,6 +89,41 @@ public class ParcoursTest {
     }
   }
 
+  /**
+   * Test: Erwartete Fahrstrassen da?
+   */
+  @Test
+  public void test_02_fahrstrassen() {
+
+    FSParm[] fsParms = {
+        new FSParm("show", "11-W1-1", false, 4, true, "GLEIS,WEICHE,GLEIS,WEICHE,GLEIS"),
+        new FSParm("show", "11-W1-1-W3-S", true, 8, true, "GLEIS,WEICHE,GLEIS,WEICHE,GLEIS,SIGNAL,WEICHE,GLEIS,SIGNAL,GLEIS"),
+        new FSParm("show", "11-W1-W2-2", false, 5, true, "GLEIS,WEICHE,GLEIS,WEICHE,GLEIS,GLEIS"),
+        new FSParm("show", "11-W1-W2-2-W3-S", true, 8, true, "GLEIS,WEICHE,GLEIS,WEICHE,GLEIS,GLEIS,SIGNAL,WEICHE,GLEIS,SIGNAL,GLEIS"),
+    };
+
+    Gleisabschnitt gleisabschnitt = this.parcours.getGleisabschnitt("show", "11");
+    assertNotNull(gleisabschnitt, "Gleisabschnitt show/11 nicht gefunden");
+    Collection<Fahrstrasse> fahrstrassen = this.parcours.getFahrstrassenMitStart(gleisabschnitt);
+    if (this.logger.isDebugEnabled()) {
+      fahrstrassen.forEach(this.logger::debug);
+    }
+
+    assertEquals(fsParms.length, fahrstrassen.size(), "Anzahl Fahrstrassen falsch");
+
+    Stream.of(fsParms)
+        .filter(fsp -> fsp.name.startsWith("11-"))
+        .forEach(fsParm -> {
+          Fahrstrasse fahrstrasse = this.parcours.getFahrstrasse(fsParm.bereich, fsParm.name);
+          String fsDesc = fsParm.bereich + "/" + fsParm.name;
+          assertNotNull(fahrstrasse, "Fahrstrasse nicht gefunden: " + fsDesc);
+          assertEquals(fsParm.combi, fahrstrasse.isCombi(), "Fahrstrasse.combi falsch: " + fsDesc);
+          assertEquals(fsParm.rank, fahrstrasse.getRank(), "Fahrstrasse.rank falsch: " + fsDesc);
+          assertEquals(fsParm.zaehlrichtung, fahrstrasse.isZaehlrichtung(), "Fahrstrasse.zaehlrichtung falsch: " + fsDesc);
+          assertEquals(fsParm.elementTypen, getElementTypen(fahrstrasse), "Element-Typen falsch: " + fsDesc);
+        });
+  }
+
   private String getElementTypen(Fahrstrasse fahrstrasse) {
     return fahrstrasse.getElemente()
         .stream()
@@ -99,7 +135,7 @@ public class ParcoursTest {
    * Test: Erwartete Gleisabschnitte da?
    */
   @Test
-  public void test_02_gleisabschnitte() {
+  public void test_03_gleisabschnitte() {
     Collection<Gleisabschnitt> gleisabschnitte = this.parcours.getGleisabschnitte();
     if (this.logger.isDebugEnabled()) {
       gleisabschnitte.forEach(this.logger::debug);
@@ -111,7 +147,7 @@ public class ParcoursTest {
    * Test: Erwartete Signale da?
    */
   @Test
-  public void test_03_signale() {
+  public void test_04_signale() {
     Collection<Signal> signale = this.parcours.getSignale();
     if (this.logger.isDebugEnabled()) {
       signale.forEach(this.logger::debug);
@@ -123,7 +159,7 @@ public class ParcoursTest {
    * Test: Erwartete Weichen da?
    */
   @Test
-  public void test_04_weichen() {
+  public void test_05_weichen() {
     Collection<Weiche> weichen = this.parcours.getWeichen();
     if (this.logger.isDebugEnabled()) {
       weichen.forEach(this.logger::debug);
@@ -135,7 +171,7 @@ public class ParcoursTest {
    * Test: Erwartete AutoFahrstrassen da?
    */
   @Test
-  public void test_05_autoFahrstrassen() {
+  public void test_06_autoFahrstrassen() {
     Collection<AutoFahrstrasse> autoFahrstrassen = this.parcours.getAutoFahrstrassen();
     if (this.logger.isDebugEnabled()) {
       autoFahrstrassen.forEach(this.logger::debug);

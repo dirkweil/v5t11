@@ -1,7 +1,7 @@
 package de.gedoplan.v5t11.fahrstrassen.webservice;
 
 import de.gedoplan.v5t11.fahrstrassen.entity.Parcours;
-import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.OldFahrstrasse;
+import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenFilter;
@@ -42,7 +42,7 @@ public class FahrstrasseEndpoint {
   @Path("{bereich}/{name}")
   @Produces(MediaType.APPLICATION_JSON)
   public Response getFahrstrasse(@PathParam("bereich") String bereich, @PathParam("name") String name) {
-    OldFahrstrasse fahrstrasse = this.parcours.getFahrstrasse(bereich, name);
+    Fahrstrasse fahrstrasse = this.parcours.getFahrstrasse(bereich, name);
     if (fahrstrasse == null) {
       return ResponseFactory.createNotFoundResponse();
     }
@@ -59,7 +59,7 @@ public class FahrstrasseEndpoint {
       @QueryParam("endeName") String endeName,
       @QueryParam("filter") String filterAsString) {
 
-    List<OldFahrstrasse> fahrstrassen = getFahrstrassen(startBereich, startName, endeBereich, endeName, filterAsString);
+    List<Fahrstrasse> fahrstrassen = getFahrstrassen(startBereich, startName, endeBereich, endeName, filterAsString);
     return fahrstrassen != null
         ? ResponseFactory.createJsonResponse(fahrstrassen, JsonbWithIncludeVisibility.FULL)
         : ResponseFactory.createNotFoundResponse();
@@ -74,7 +74,7 @@ public class FahrstrasseEndpoint {
       @QueryParam("endeName") String endeName,
       @QueryParam("filter") String filterAsString) {
 
-    List<OldFahrstrasse> fahrstrassen = getFahrstrassen(startBereich, startName, endeBereich, endeName, filterAsString);
+    List<Fahrstrasse> fahrstrassen = getFahrstrassen(startBereich, startName, endeBereich, endeName, filterAsString);
     if (fahrstrassen == null) {
       throw new NotFoundException();
     }
@@ -82,7 +82,7 @@ public class FahrstrasseEndpoint {
     return fahrstrassen.stream().map(fs -> fs.getId().getBereich() + "/" + fs.getId().getName()).collect(Collectors.toList());
   }
 
-  private List<OldFahrstrasse> getFahrstrassen(
+  private List<Fahrstrasse> getFahrstrassen(
       String startBereich,
       String startName,
       String endeBereich,
@@ -130,7 +130,7 @@ public class FahrstrasseEndpoint {
       this.log.debug(String.format("reserviereFahrstrasse: fahrstrasse=%s/%s, reservierungsTyp=%s", bereich, name, reservierungsTypAsString));
     }
 
-    OldFahrstrasse fahrstrasse = this.parcours.getFahrstrasse(bereich, name);
+    Fahrstrasse fahrstrasse = this.parcours.getFahrstrasse(bereich, name);
     if (fahrstrasse == null) {
       return ResponseFactory.createNotFoundResponse();
     }

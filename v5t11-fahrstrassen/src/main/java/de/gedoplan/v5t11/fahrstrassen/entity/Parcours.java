@@ -2,7 +2,7 @@ package de.gedoplan.v5t11.fahrstrassen.entity;
 
 import de.gedoplan.baselibs.persistence.entity.StringIdEntity;
 import de.gedoplan.baselibs.utils.inject.InjectionUtil;
-import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.OldFahrstrasse;
+import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Signal;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Weiche;
@@ -12,7 +12,6 @@ import de.gedoplan.v5t11.util.domain.entity.Bereichselement;
 import de.gedoplan.v5t11.util.persistence.LocalDateTimeAttributeConverter;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -21,6 +20,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.persistence.Convert;
+import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -44,7 +44,7 @@ import lombok.Getter;
  */
 @XmlRootElement(name = "Parcours")
 @XmlAccessorType(XmlAccessType.NONE)
-// @Entity
+@Entity
 @Table(name = Parcours.TABLE_NAME)
 public class Parcours extends StringIdEntity {
 
@@ -54,20 +54,16 @@ public class Parcours extends StringIdEntity {
   @Convert(converter = LocalDateTimeAttributeConverter.class)
   private LocalDateTime lastChange;
 
-  @XmlElement(name = "Fahrstrasse", type = OldFahrstrasse.class)
+  @XmlElement(name = "Fahrstrasse", type = Fahrstrasse.class)
   @Getter
-  @OneToMany
-  @JoinColumn(name = "PARCOURS_ID")
-  private Set<OldFahrstrasse> fahrstrassen = new HashSet<>();
+  @OneToMany(mappedBy = "parcours")
+  private Set<Fahrstrasse> fahrstrassen = new HashSet<>();
 
   @XmlElement(name = "AutoFahrstrasse")
   @Getter
-  @Transient
-  private List<AutoFahrstrasse> autoFahrstrassen = new ArrayList<>();
-
-  @Getter
-  @Transient
-  private Set<String> bereiche = new HashSet<>();
+  @OneToMany
+  @JoinColumn(name = "PARCOURS_ID")
+  private Set<AutoFahrstrasse> autoFahrstrassen = new HashSet<>();
 
   @Getter
   @Transient
@@ -102,17 +98,6 @@ public class Parcours extends StringIdEntity {
   }
 
   /**
-   * Gleisabschnitt hinzufügen.
-   * 
-   * @param gleisabschnitt
-   *          Gleisabschnitt
-   */
-  public void addGleisabschnitt(Gleisabschnitt gleisabschnitt) {
-    this.gleisabschnitte.add(gleisabschnitt);
-    this.bereiche.add(gleisabschnitt.getBereich());
-  }
-
-  /**
    * Signal liefern.
    *
    * @param bereich
@@ -123,17 +108,6 @@ public class Parcours extends StringIdEntity {
    */
   public Signal getSignal(String bereich, String name) {
     return getBereichselement(bereich, name, this.signale);
-  }
-
-  /**
-   * Signal hinzufügen.
-   * 
-   * @param signal
-   *          Signal
-   */
-  public void addSignal(Signal signal) {
-    this.signale.add(signal);
-    this.bereiche.add(signal.getBereich());
   }
 
   /**
@@ -150,17 +124,6 @@ public class Parcours extends StringIdEntity {
   }
 
   /**
-   * Weiche hinzufügen.
-   * 
-   * @param weiche
-   *          Weiche
-   */
-  public void addWeiche(Weiche weiche) {
-    this.weichen.add(weiche);
-    this.bereiche.add(weiche.getBereich());
-  }
-
-  /**
    * Fahrstrasse liefern.
    *
    * @param bereich
@@ -169,7 +132,7 @@ public class Parcours extends StringIdEntity {
    *          Name
    * @return gefundene Fahrstrasse oder <code>null</code>
    */
-  public OldFahrstrasse getFahrstrasse(String bereich, String name) {
+  public Fahrstrasse getFahrstrasse(String bereich, String name) {
     return getBereichselement(bereich, name, this.fahrstrassen);
   }
 
@@ -197,26 +160,26 @@ public class Parcours extends StringIdEntity {
   }
 
   @Transient
-  private SetMultimap<Gleisabschnitt, OldFahrstrasse> mapStartToFahrstrassen = MultimapBuilder.hashKeys().hashSetValues().build();
+  private SetMultimap<Gleisabschnitt, Fahrstrasse> mapStartToFahrstrassen = MultimapBuilder.hashKeys().hashSetValues().build();
 
-  public Set<OldFahrstrasse> getFahrstrassenMitStart(Gleisabschnitt gleisabschnitt) {
+  public Set<Fahrstrasse> getFahrstrassenMitStart(Gleisabschnitt gleisabschnitt) {
     return this.mapStartToFahrstrassen.get(gleisabschnitt);
   }
 
-  private void mapStartToFahrstrassenAdd(Iterable<OldFahrstrasse> fahrstrassen) {
+  private void mapStartToFahrstrassenAdd(Iterable<Fahrstrasse> fahrstrassen) {
     fahrstrassen.forEach(f -> mapStartToFahrstrassenAdd(f));
   }
 
-  private void mapStartToFahrstrassenAdd(OldFahrstrasse fahrstrasse) {
+  private void mapStartToFahrstrassenAdd(Fahrstrasse fahrstrasse) {
     Gleisabschnitt start = fahrstrasse.getStart().getFahrwegelement();
     this.mapStartToFahrstrassen.put(start, fahrstrasse);
   }
 
-  private void mapStartToFahrstrassenRemove(Iterable<OldFahrstrasse> fahrstrassen) {
+  private void mapStartToFahrstrassenRemove(Iterable<Fahrstrasse> fahrstrassen) {
     fahrstrassen.forEach(f -> mapStartToFahrstrassenRemove(f));
   }
 
-  private void mapStartToFahrstrassenRemove(OldFahrstrasse fahrstrasse) {
+  private void mapStartToFahrstrassenRemove(Fahrstrasse fahrstrasse) {
     Gleisabschnitt start = fahrstrasse.getStart().getFahrwegelement();
     this.mapStartToFahrstrassen.remove(start, fahrstrasse);
   }
@@ -230,19 +193,19 @@ public class Parcours extends StringIdEntity {
    */
   public void completeFahrstrassen() {
     // Umkehrbare Fahrstrassen invers duplizieren
-    Set<OldFahrstrasse> umkehrFahrstrassen = new HashSet<>();
-    this.fahrstrassen.stream().filter(OldFahrstrasse::isUmkehrbar).forEach(fs -> umkehrFahrstrassen.add(fs.createUmkehrung()));
+    Set<Fahrstrasse> umkehrFahrstrassen = new HashSet<>();
+    this.fahrstrassen.stream().filter(Fahrstrasse::isUmkehrbar).forEach(fs -> umkehrFahrstrassen.add(fs.createUmkehrung()));
     this.fahrstrassen.addAll(umkehrFahrstrassen);
 
     // Fahrstrassen kombinieren
     mapStartToFahrstrassenAdd(this.fahrstrassen);
 
-    Set<OldFahrstrasse> zuPruefendeFahrstrassen = this.fahrstrassen;
+    Set<Fahrstrasse> zuPruefendeFahrstrassen = this.fahrstrassen;
     while (true) {
-      Set<OldFahrstrasse> weitereFahrstrassen = new HashSet<>();
-      for (OldFahrstrasse fahrstrasse1 : zuPruefendeFahrstrassen) {
-        for (OldFahrstrasse fahrstrasse2 : getFahrstrassenMitStart(fahrstrasse1.getEnde().getFahrwegelement())) {
-          OldFahrstrasse kombiFahrstrasse = OldFahrstrasse.concat(fahrstrasse1, fahrstrasse2);
+      Set<Fahrstrasse> weitereFahrstrassen = new HashSet<>();
+      for (Fahrstrasse fahrstrasse1 : zuPruefendeFahrstrassen) {
+        for (Fahrstrasse fahrstrasse2 : getFahrstrassenMitStart(fahrstrasse1.getEnde().getFahrwegelement())) {
+          Fahrstrasse kombiFahrstrasse = Fahrstrasse.concat(fahrstrasse1, fahrstrasse2);
           if (kombiFahrstrasse != null && !this.fahrstrassen.contains(kombiFahrstrasse)) {
             weitereFahrstrassen.add(kombiFahrstrasse);
           }
@@ -260,7 +223,7 @@ public class Parcours extends StringIdEntity {
     }
 
     // Fahrstrassen entfernen, wenn sie mit einem nicht als Start oder Ende erlaubten Weichengleisabschnitt starten bzw. enden
-    Set<OldFahrstrasse> ungueltigeFahrstrassen = this.fahrstrassen.stream()
+    Set<Fahrstrasse> ungueltigeFahrstrassen = this.fahrstrassen.stream()
         .filter(fs -> !fs.getStart().isStartErlaubt() || !fs.getEnde().isEndeErlaubt())
         .collect(Collectors.toSet());
     this.fahrstrassen.removeAll(ungueltigeFahrstrassen);
@@ -284,8 +247,8 @@ public class Parcours extends StringIdEntity {
    *          Filter (nur freie/reservierte/unkombinierte) oder <code>null</code> für alle
    * @return gefundene Fahrstrassen in aufsteigender Rang-Reihenfolge
    */
-  public List<OldFahrstrasse> getFahrstrassen(Gleisabschnitt beginn, Gleisabschnitt ende, FahrstrassenFilter filter) {
-    Stream<OldFahrstrasse> stream = this.fahrstrassen.stream();
+  public List<Fahrstrasse> getFahrstrassen(Gleisabschnitt beginn, Gleisabschnitt ende, FahrstrassenFilter filter) {
+    Stream<Fahrstrasse> stream = this.fahrstrassen.stream();
 
     if (beginn != null) {
       stream = stream.filter(fs -> fs.startsWith(beginn));
@@ -317,7 +280,7 @@ public class Parcours extends StringIdEntity {
 
   public void injectFields() {
     InjectionUtil.injectFields(this);
-    this.fahrstrassen.forEach(OldFahrstrasse::injectFields);
+    this.fahrstrassen.forEach(Fahrstrasse::injectFields);
   }
 
 }

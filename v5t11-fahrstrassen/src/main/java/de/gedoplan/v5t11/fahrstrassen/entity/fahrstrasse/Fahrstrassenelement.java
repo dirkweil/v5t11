@@ -148,8 +148,4 @@ public abstract class Fahrstrassenelement extends Bereichselement implements Clo
     }
   }
 
-  // TODO Löschen, wenn Xxx weg ist
-  public Object oldReservieren(OldFahrstrasse xxx) {
-    throw new UnsupportedOperationException();
-  }
 }

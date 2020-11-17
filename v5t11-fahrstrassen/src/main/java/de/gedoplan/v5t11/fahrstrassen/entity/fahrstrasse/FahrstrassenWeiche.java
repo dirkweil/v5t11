@@ -56,12 +56,11 @@ public class FahrstrassenWeiche extends FahrstrassenGeraet {
 
   @Override
   public void linkFahrwegelement(Parcours parcours) {
-    // TODO
-    // this.weiche = parcours.getWeiche(getBereich(), getName());
-    // if (this.weiche == null) {
-    // this.weiche = new Weiche(getBereich(), getName());
-    // parcours.addWeiche(this.weiche);
-    // }
+    this.weiche = parcours.getWeiche(getBereich(), getName());
+    if (this.weiche == null) {
+      this.weiche = new Weiche(getBereich(), getName());
+      parcours.getWeichen().add(this.weiche);
+    }
   }
 
   @Override

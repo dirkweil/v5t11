@@ -36,12 +36,11 @@ public abstract class FahrstrassenSignal extends FahrstrassenGeraet implements C
 
   @Override
   public void linkFahrwegelement(Parcours parcours) {
-    // TODO
-    // this.signal = parcours.getSignal(getBereich(), getName());
-    // if (this.signal == null) {
-    // this.signal = new Signal(getBereich(), getName());
-    // parcours.addSignal(this.signal);
-    // }
+    this.signal = parcours.getSignal(getBereich(), getName());
+    if (this.signal == null) {
+      this.signal = new Signal(getBereich(), getName());
+      parcours.getSignale().add(this.signal);
+    }
   }
 
   @Override

@@ -3,8 +3,8 @@ package de.gedoplan.v5t11.fahrstrassen.service;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.FahrstrassenSignal;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.FahrstrassenWeiche;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrassenelement;
-import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.OldFahrstrasse;
-import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.OldFahrstrasse.Reserviert;
+import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrasse;
+import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrasse.Reserviert;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Signal;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Weiche;
 import de.gedoplan.v5t11.fahrstrassen.gateway.StatusGateway;
@@ -33,7 +33,7 @@ public class FahrstrasseStellenService {
   @Inject
   Logger log;
 
-  void fahrstrasseStellen(@ObservesAsync @Reserviert OldFahrstrasse fahrstrasse) {
+  void fahrstrasseStellen(@ObservesAsync @Reserviert Fahrstrasse fahrstrasse) {
     if (this.log.isDebugEnabled()) {
       this.log.debug("Fahrstrasse stellen: " + fahrstrasse);
     }
@@ -51,7 +51,7 @@ public class FahrstrasseStellenService {
     signaleStellen(fahrstrasse, false);
   }
 
-  private void signaleStellen(OldFahrstrasse fahrstrasse, boolean schutz) {
+  private void signaleStellen(Fahrstrasse fahrstrasse, boolean schutz) {
     Stream<Fahrstrassenelement> stream = fahrstrasse.getElemente().stream()
         .filter(fe -> fe instanceof FahrstrassenSignal)
         .filter(fe -> fe.isSchutz() == schutz);
@@ -68,7 +68,7 @@ public class FahrstrasseStellenService {
         .forEach(fs -> signalStellen(fahrstrasse, fs));
   }
 
-  private void signalStellen(OldFahrstrasse fahrstrasse, FahrstrassenSignal fahrstrassenSignal) {
+  private void signalStellen(Fahrstrasse fahrstrasse, FahrstrassenSignal fahrstrassenSignal) {
     Signal signal = fahrstrassenSignal.getFahrwegelement();
     List<SignalStellung> stellungen = getAngepassteStellung(fahrstrassenSignal.getStellung(), fahrstrasse.getReservierungsTyp());
     try {
@@ -86,7 +86,7 @@ public class FahrstrasseStellenService {
     delay();
   }
 
-  private void weichenStellen(OldFahrstrasse fahrstrasse, boolean schutz) {
+  private void weichenStellen(Fahrstrasse fahrstrasse, boolean schutz) {
     Stream<Fahrstrassenelement> stream = fahrstrasse.getElemente().stream()
         .filter(fe -> fe instanceof FahrstrassenWeiche)
         .filter(fe -> fe.isSchutz() == schutz);
@@ -102,7 +102,7 @@ public class FahrstrasseStellenService {
         .forEach(fw -> weicheStellen(fahrstrasse, fw));
   }
 
-  private void weicheStellen(OldFahrstrasse fahrstrasse, FahrstrassenWeiche fahrstrassenWeiche) {
+  private void weicheStellen(Fahrstrasse fahrstrasse, FahrstrassenWeiche fahrstrassenWeiche) {
     Weiche weiche = fahrstrassenWeiche.getFahrwegelement();
     WeichenStellung stellung = fahrstrassenWeiche.getStellung();
     try {
