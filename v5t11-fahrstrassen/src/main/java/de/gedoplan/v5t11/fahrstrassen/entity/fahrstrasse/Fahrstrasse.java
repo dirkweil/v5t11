@@ -157,13 +157,13 @@ public class Fahrstrasse extends Bereichselement {
       }
     });
 
-    // Zu Weichen die entsprechenden Gleisabschitte ergänzen, wenn es nicht nur Schutzweichen sind
+    // Zu Weichen die entsprechenden Gleisabschnitte ergänzen, wenn es nicht nur Schutzweichen sind
     ListIterator<Fahrstrassenelement> iterator = this.elemente.listIterator();
     while (iterator.hasNext()) {
       Fahrstrassenelement fahrstrassenelement = iterator.next();
       if (fahrstrassenelement instanceof FahrstrassenWeiche && !fahrstrassenelement.isSchutz()) {
         FahrstrassenGleisabschnitt fahrstrassenGleisabschnitt = ((FahrstrassenWeiche) fahrstrassenelement).createFahrstrassenGleisabschnitt();
-        if (!this.elemente.contains(fahrstrassenGleisabschnitt)) {
+        if (!containsSame(fahrstrassenGleisabschnitt)) {
           iterator.add(fahrstrassenGleisabschnitt);
         }
       }
@@ -192,6 +192,10 @@ public class Fahrstrasse extends Bereichselement {
     createRank();
 
     injectFields();
+  }
+
+  private boolean containsSame(Fahrstrassenelement fahrstrassenelement) {
+    return this.elemente.stream().anyMatch(e -> e.isSame(fahrstrassenelement));
   }
 
   /*
@@ -324,13 +328,12 @@ public class Fahrstrasse extends Bereichselement {
 
         Fahrstrassenelement element2 = this.elemente.get(i2);
 
-        if (element2.isSchutz()) {
-          // zweites Element ist Schutzelement
-          // ==> zweites Element löschen, weiter nach Doppelvorkommen suchen
+        if (i == 0 || element2.isSchutz()) {
+          // erstes Element ist am Anfang ==> muss stehen bleiben, da FS sonst ggf. nicht mit einem Gleisabschnitt beginnt
+          // zweites Element ist Schutzelement ==> zweites Element löschen, weiter nach Doppelvorkommen suchen
           this.elemente.remove(i2);
         } else {
-          // zweites Element ist kein Schutzelement
-          // ==> erstes Element löschen, weiter mit nächstem Eintrag (der dann am gleichen Index i steht!)
+          // zweites Element ist kein Schutzelement ==> erstes Element löschen, weiter mit nächstem Eintrag (der dann am gleichen Index i steht!)
           this.elemente.remove(i);
           break;
         }

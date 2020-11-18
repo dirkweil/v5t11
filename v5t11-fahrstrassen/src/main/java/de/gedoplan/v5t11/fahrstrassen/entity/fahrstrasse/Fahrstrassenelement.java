@@ -137,11 +137,6 @@ public abstract class Fahrstrassenelement extends UuidEntity implements Cloneabl
    */
   public abstract void linkFahrwegelement(Parcours parcours);
 
-  @Override
-  public String toString() {
-    return getFahrwegelement() + ", zaehlrichtung=" + this.zaehlrichtung;
-  }
-
   /**
    * Element für Fahrstrasse reservieren bzw. freigeben.
    *
@@ -153,7 +148,7 @@ public abstract class Fahrstrassenelement extends UuidEntity implements Cloneabl
   public abstract String getTyp();
 
   public boolean isSame(Fahrstrassenelement other) {
-    return this.bereich.equals(other.bereich) && this.name.equals(other.name);
+    return getClass().equals(other.getClass()) && this.bereich.equals(other.bereich) && this.name.equals(other.name);
   }
 
   /**
@@ -193,6 +188,11 @@ public abstract class Fahrstrassenelement extends UuidEntity implements Cloneabl
     // TODO Die UUID-Erzeugung sollte als Hilfsmethode in UUIDEntity sein
     fahrstrassenelement.id = UUID.randomUUID().toString();
     return fahrstrassenelement;
+  }
+
+  @Override
+  public String toString() {
+    return "Fahrstrassenelement{bereich=" + this.bereich + ", name=" + this.name + ", zaehlrichtung=" + this.zaehlrichtung + ", schutz=" + isSchutz() + "}";
   }
 
 }
