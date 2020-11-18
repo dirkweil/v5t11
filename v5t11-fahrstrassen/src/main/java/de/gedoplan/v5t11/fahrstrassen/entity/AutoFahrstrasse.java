@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.ElementCollection;
 import javax.persistence.Embeddable;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Table;
 import javax.xml.bind.Unmarshaller;
@@ -17,7 +18,7 @@ import javax.xml.bind.annotation.XmlElement;
 import lombok.Getter;
 import lombok.ToString;
 
-//@Entity
+@Entity
 @Table(name = AutoFahrstrasse.TABLE_NAME)
 @XmlAccessorType(XmlAccessType.NONE)
 @Getter

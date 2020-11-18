@@ -1,79 +1,66 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Parcours>
-  <!-- Fahrstrassen in Zählrichtung -->
+  <Fahrstrasse bereich="show" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="11" />
+    <Weiche name="1" stellung="ABZWEIGEND" />
+    <Weiche name="2" stellung="GERADE" schutz="true" />
+    <Gleisabschnitt name="1" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="show" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="11" />
+    <Weiche name="1" stellung="GERADE" />
+    <Weiche name="2" stellung="ABZWEIGEND" />
+    <Gleisabschnitt name="2" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="show" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="12" />
+    <Weiche name="2" stellung="GERADE" />
+    <Weiche name="1" stellung="ABZWEIGEND" schutz="true" />
+    <Gleisabschnitt name="2" />
+  </Fahrstrasse>
+
   <Fahrstrasse bereich="show" zaehlrichtung="true">
     <Gleisabschnitt name="1" />
     <Hauptsignal name="N1" stellung="LANGSAMFAHRT" />
-    <Weiche name="3" stellung="ABZWEIGEND" />
     <Hauptsignal name="N2" stellung="HALT" schutz="true" />
-    <Gleisabschnitt name="S" />
+    <Weiche name="3" stellung="ABZWEIGEND" />
+    <Gleisabschnitt name="W3" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="show" zaehlrichtung="true">
     <Gleisabschnitt name="2" />
     <Hauptsignal name="N2" stellung="FAHRT" />
-    <Weiche name="3" stellung="GERADE" />
     <Hauptsignal name="N1" stellung="HALT" schutz="true" />
+    <Weiche name="3" stellung="GERADE" />
+    <Gleisabschnitt name="W3" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="show" zaehlrichtung="true">
+    <Gleisabschnitt name="W3" />
+    <Hauptsignal name="F" stellung="HALT" schutz="true" />
     <Gleisabschnitt name="S" />
   </Fahrstrasse>
 
-  <Fahrstrasse bereich="show" zaehlrichtung="true">
-    <Gleisabschnitt name="11" />
-    <Weiche name="1" stellung="ABZWEIGEND" />
-    <Weiche name="2" stellung="GERADE" schutz="true" />
-    <Gleisabschnitt name="1" />
-  </Fahrstrasse>
-
-  <Fahrstrasse bereich="show" zaehlrichtung="true">
-    <Gleisabschnitt name="11" />
-    <Weiche name="1" stellung="GERADE" />
-    <Weiche name="2" stellung="ABZWEIGEND" />
-    <Gleisabschnitt name="2" />
-  </Fahrstrasse>
-
-  <Fahrstrasse bereich="show" zaehlrichtung="true">
-    <Gleisabschnitt name="12" />
-    <Weiche name="2" stellung="GERADE" />
-    <Weiche name="1" stellung="ABZWEIGEND" schutz="true" />
-    <Gleisabschnitt name="2" />
-  </Fahrstrasse>
-
-  <!-- Fahrstrassen entgegen der Zählrichtung -->
   <Fahrstrasse bereich="show" zaehlrichtung="false">
     <Gleisabschnitt name="S" />
-    <Hauptsignal name="F" stellung="LANGSAMFAHRT" />
-    <Weiche name="3" stellung="ABZWEIGEND" />
+    <Hauptsignal name="F" stellung="LANGSAMFAHRT" schutz="true" />
+    <Gleisabschnitt name="W3" />
+    <Hauptsignal name="N1" stellung="HALT" schutz="true" />
     <Hauptsignal name="N2" stellung="HALT" schutz="true" />
+    <Weiche name="3" stellung="ABZWEIGEND" />
     <Gleisabschnitt name="1" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="show" zaehlrichtung="false">
     <Gleisabschnitt name="S" />
-    <Hauptsignal name="F" stellung="FAHRT" />
-    <Weiche name="3" stellung="GERADE" />
+    <Hauptsignal name="F" stellung="FAHRT" schutz="true" />
+    <Gleisabschnitt name="W3" />
     <Hauptsignal name="N1" stellung="HALT" schutz="true" />
+    <Hauptsignal name="N2" stellung="HALT" schutz="true" />
+    <Weiche name="3" stellung="GERADE" />
     <Gleisabschnitt name="2" />
-  </Fahrstrasse>
-
-  <Fahrstrasse bereich="show" zaehlrichtung="false">
-    <Gleisabschnitt name="1" />
-    <Weiche name="1" stellung="ABZWEIGEND" />
-    <Weiche name="2" stellung="GERADE" schutz="true" />
-    <Gleisabschnitt name="11" />
-  </Fahrstrasse>
-
-  <Fahrstrasse bereich="show" zaehlrichtung="false">
-    <Gleisabschnitt name="2" />
-    <Weiche name="2" stellung="ABZWEIGEND" />
-    <Weiche name="1" stellung="GERADE" />
-    <Gleisabschnitt name="11" />
-  </Fahrstrasse>
-
-  <Fahrstrasse bereich="show" zaehlrichtung="false">
-    <Gleisabschnitt name="2" />
-    <Weiche name="2" stellung="GERADE" />
-    <Weiche name="1" stellung="ABZWEIGEND" schutz="true" />
-    <Gleisabschnitt name="12" />
   </Fahrstrasse>
 
   <AutoFahrstrasse bereich="show" trigger="S">

@@ -8,7 +8,7 @@ import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
-import javax.persistence.Embeddable;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.xml.bind.Unmarshaller;
@@ -19,8 +19,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Embeddable
-// @Entity
+@Entity
 @DiscriminatorValue("GA")
 @XmlAccessorType(XmlAccessType.NONE)
 @NoArgsConstructor

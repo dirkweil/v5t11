@@ -10,6 +10,7 @@ import javax.enterprise.event.Observes;
 
 import org.jboss.logging.Logger;
 
+import io.quarkus.runtime.Quarkus;
 import io.quarkus.runtime.ShutdownEvent;
 import io.quarkus.runtime.StartupEvent;
 
@@ -23,17 +24,22 @@ public class BootStrap {
       ConfigService configService,
       Parcours parcours,
       StatusUpdater statusUpdater) {
-    log.info("app: " + configService.getArtifactId() + ":" + configService.getVersion());
+    try {
+      log.info("app: " + configService.getArtifactId() + ":" + configService.getVersion());
 
-    log.info("configDir: " + configService.getConfigDir());
-    log.info("anlage: " + configService.getAnlage());
-    log.info("statusRestUrl: " + configService.getStatusRestUrl());
-    log.info("statusJmsUrl: " + configService.getStatusJmsUrl());
+      log.info("configDir: " + configService.getConfigDir());
+      log.info("anlage: " + configService.getAnlage());
+      log.info("statusRestUrl: " + configService.getStatusRestUrl());
+      log.info("statusJmsUrl: " + configService.getStatusJmsUrl());
 
-    log.info("#fahrstrassen: " + parcours.getFahrstrassen().size());
+      log.info("#fahrstrassen: " + parcours.getFahrstrassen().size());
 
-    // TODO JMS -> RM
-    // scheduler.submit(statusUpdater);
+      // TODO JMS -> RM
+      // scheduler.submit(statusUpdater);
+    } catch (Exception e) {
+      log.error("Kann Anwendung nicht starten", e);
+      Quarkus.asyncExit(1);
+    }
   }
 
   void terminate(@Observes ShutdownEvent shutdownEvent) {

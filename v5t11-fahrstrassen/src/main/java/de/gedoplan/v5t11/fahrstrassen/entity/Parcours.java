@@ -17,9 +17,11 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.inject.Inject;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -28,6 +30,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.jboss.logging.Logger;
+
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
 
@@ -35,9 +39,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Steuerung.
+ * Parcours.
  *
- * Diese Klasse fasst alle zur Steuerung gehörenden Elemente zusammen.
+ * Diese Klasse fasst alle zum Parcours gehörenden Elemente zusammen.
  *
  * @author dw
  */
@@ -48,6 +52,10 @@ import lombok.Setter;
 public class Parcours extends StringIdEntity {
 
   public static final String TABLE_NAME = "FS_PARCOURS";
+
+  @Inject
+  @Transient
+  Logger logger;
 
   @Getter
   @Setter
@@ -60,10 +68,8 @@ public class Parcours extends StringIdEntity {
 
   @XmlElement(name = "AutoFahrstrasse")
   @Getter
-  // TODO
-  @Transient
-  // @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-  // @JoinColumn(name = "PARCOURS_ID")
+  @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+  @JoinColumn(name = "PARCOURS_ID")
   private Set<AutoFahrstrasse> autoFahrstrassen = new HashSet<>();
 
   @Getter
@@ -197,12 +203,21 @@ public class Parcours extends StringIdEntity {
    * - Doppeleinträge entfernen.
    */
   public void completeFahrstrassen() {
+    if (this.logger.isDebugEnabled()) {
+      this.logger.debug("# Fahrstrassen initial: " + this.fahrstrassen.size());
+    }
+
     // Umkehrbare Fahrstrassen invers duplizieren
     Set<Fahrstrasse> umkehrFahrstrassen = new HashSet<>();
     this.fahrstrassen.stream().filter(Fahrstrasse::isUmkehrbar).forEach(fs -> umkehrFahrstrassen.add(fs.createUmkehrung()));
     this.fahrstrassen.addAll(umkehrFahrstrassen);
+    if (this.logger.isDebugEnabled()) {
+      this.logger.debug("# UmkehrFahrstrassen: " + umkehrFahrstrassen.size());
+    }
 
     // Fahrstrassen kombinieren
+    int combiAnzahl = 0;
+
     mapStartToFahrstrassenAdd(this.fahrstrassen);
 
     Set<Fahrstrasse> zuPruefendeFahrstrassen = this.fahrstrassen;
@@ -221,10 +236,15 @@ public class Parcours extends StringIdEntity {
         break;
       }
 
+      combiAnzahl += weitereFahrstrassen.size();
       this.fahrstrassen.addAll(weitereFahrstrassen);
       mapStartToFahrstrassenAdd(weitereFahrstrassen);
 
       zuPruefendeFahrstrassen = weitereFahrstrassen;
+    }
+
+    if (this.logger.isDebugEnabled()) {
+      this.logger.debug("# CombiFahrstrassen: " + combiAnzahl);
     }
 
     // Fahrstrassen entfernen, wenn sie mit einem nicht als Start oder Ende erlaubten Weichengleisabschnitt starten bzw. enden
@@ -234,10 +254,14 @@ public class Parcours extends StringIdEntity {
     this.fahrstrassen.removeAll(ungueltigeFahrstrassen);
     mapStartToFahrstrassenRemove(ungueltigeFahrstrassen);
 
-    // Doppeleinträge in Fahrstrassen eliminieren und Signale auf Langsamfahrt korrigieren, wenn nötig.
+    if (this.logger.isDebugEnabled()) {
+      this.logger.debug("# Ungültige Fahrstrassen: " + ungueltigeFahrstrassen.size());
+    }
+
+    // Signale auf Langsamfahrt korrigieren, wenn nötig.
     this.fahrstrassen.forEach(f -> {
-      f.removeDoppeleintraege();
       f.adjustLangsamfahrt();
+      // f.injectFields();
     });
   }
 

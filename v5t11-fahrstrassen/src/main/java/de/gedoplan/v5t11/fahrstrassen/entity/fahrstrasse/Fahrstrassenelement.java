@@ -1,37 +1,50 @@
 package de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse;
 
+import de.gedoplan.baselibs.persistence.entity.UuidEntity;
 import de.gedoplan.baselibs.utils.exception.BugException;
 import de.gedoplan.v5t11.fahrstrassen.entity.Parcours;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.ReservierbaresFahrwegelement;
-import de.gedoplan.v5t11.util.domain.entity.Bereichselement;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
-import javax.persistence.Embeddable;
+import java.util.UUID;
+
+import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Embeddable
-@MappedSuperclass
-// @Entity
-// @Table(name = Fahrstrassenelement.TABLE_NAME)
+@Entity
+@Table(name = Fahrstrassenelement.TABLE_NAME)
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @XmlAccessorType(XmlAccessType.NONE)
 @NoArgsConstructor
-public abstract class Fahrstrassenelement extends Bereichselement implements Cloneable {
+public abstract class Fahrstrassenelement extends UuidEntity implements Cloneable {
 
   public static final String TABLE_NAME = "FS_ELEMENT";
+
+  @XmlAttribute
+  @Getter(onMethod_ = @JsonbInclude)
+  @Setter
+  private String bereich;
+
+  @XmlAttribute
+  @Getter(onMethod_ = @JsonbInclude)
+  @Setter
+  private String name;
 
   @XmlAttribute
   protected Boolean zaehlrichtung;
 
   public Fahrstrassenelement(String bereich, String name, boolean zaehlrichtung) {
-    super(bereich, name);
+    this.bereich = bereich;
+    this.name = name;
     this.zaehlrichtung = zaehlrichtung;
   }
 
@@ -53,6 +66,15 @@ public abstract class Fahrstrassenelement extends Bereichselement implements Clo
    */
   public boolean isSchutz() {
     return false;
+  }
+
+  /**
+   * Benötigte Stellung.
+   * 
+   * @return Bei Geräten, die gestellt werden, die benötigte Stellung, sonst <code>null</code>
+   */
+  public Enum<?> getStellung() {
+    return null;
   }
 
   /**
@@ -130,24 +152,47 @@ public abstract class Fahrstrassenelement extends Bereichselement implements Clo
 
   public abstract String getTyp();
 
+  public boolean isSame(Fahrstrassenelement other) {
+    return this.bereich.equals(other.bereich) && this.name.equals(other.name);
+  }
+
+  /**
+   * Kopie erzeugen.
+   *
+   * Es wird eine Kopie des Elementes mit neuer ID erzeugt.
+   *
+   * @return umgekehrtes Element
+   */
+  public Fahrstrassenelement createKopie() {
+
+    try {
+      return (Fahrstrassenelement) this.clone();
+    } catch (CloneNotSupportedException e) {
+      throw new BugException(e);
+    }
+  }
+
   /**
    * Umgekehrtes Element erzeugen.
    *
-   * Es wird eine Kopie des Elemtes erzeugt und die gegenteilige Richtung eingetragen.
+   * Wie {@link #createKopie()}, aber mit umgekehrter Zählrichtung
    *
    * @return umgekehrtes Element
    */
   public Fahrstrassenelement createUmkehrung() {
 
-    try {
-      Fahrstrassenelement fahrstrassenelement = (Fahrstrassenelement) this.clone();
+    Fahrstrassenelement fahrstrassenelement = createKopie();
+    fahrstrassenelement.zaehlrichtung = !fahrstrassenelement.isZaehlrichtung();
+    return fahrstrassenelement;
+  }
 
-      fahrstrassenelement.zaehlrichtung = !fahrstrassenelement.isZaehlrichtung();
+  @Override
+  protected Object clone() throws CloneNotSupportedException {
 
-      return fahrstrassenelement;
-    } catch (CloneNotSupportedException e) {
-      throw new BugException(e);
-    }
+    Fahrstrassenelement fahrstrassenelement = (Fahrstrassenelement) super.clone();
+    // TODO Die UUID-Erzeugung sollte als Hilfsmethode in UUIDEntity sein
+    fahrstrassenelement.id = UUID.randomUUID().toString();
+    return fahrstrassenelement;
   }
 
 }

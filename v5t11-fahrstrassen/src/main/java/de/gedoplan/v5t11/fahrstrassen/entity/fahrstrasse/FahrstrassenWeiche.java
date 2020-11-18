@@ -8,7 +8,9 @@ import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
 import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
-import javax.persistence.Embeddable;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -18,8 +20,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Embeddable
-// @Entity
+@Entity
 @DiscriminatorValue("W")
 @XmlAccessorType(XmlAccessType.NONE)
 @NoArgsConstructor
@@ -31,6 +32,7 @@ public class FahrstrassenWeiche extends FahrstrassenGeraet {
 
   @Getter(onMethod_ = @JsonbInclude(full = true))
   @XmlAttribute
+  @Enumerated(EnumType.STRING)
   private WeichenStellung stellung;
 
   @Override

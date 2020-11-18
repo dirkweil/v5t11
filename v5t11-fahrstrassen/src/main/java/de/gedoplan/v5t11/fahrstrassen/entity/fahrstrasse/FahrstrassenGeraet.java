@@ -2,17 +2,14 @@ package de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse;
 
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
-import javax.persistence.Embeddable;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.Entity;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 
 import lombok.Getter;
 
-@Embeddable
-@MappedSuperclass
-// @Entity
+@Entity
 @XmlAccessorType(XmlAccessType.NONE)
 public abstract class FahrstrassenGeraet extends Fahrstrassenelement {
 

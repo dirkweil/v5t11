@@ -1,10 +1,10 @@
 package de.gedoplan.v5t11.fahrstrassen.service;
 
-import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.FahrstrassenGleisabschnitt;
-import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrassenelement;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrasse.Freigegeben;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrasse.Reserviert;
+import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.FahrstrassenGleisabschnitt;
+import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrassenelement;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleisabschnitt;
 
 import java.lang.annotation.Annotation;
@@ -33,7 +33,7 @@ public class FahrstrasseMonitor {
    * Überwachung einer Fahrstrasse beginnen.
    *
    * @param fahrstrasse
-   *          Fahrstrasse
+   *        Fahrstrasse
    */
   void start(@Observes @Reserviert Fahrstrasse fahrstrasse) {
     // Alle Gleisabschnitte der Fahrstrasse in statusMap eintragen
@@ -76,7 +76,7 @@ public class FahrstrasseMonitor {
    * Auf Belegtänderung eines Gleisabschnitts reagieren.
    *
    * @param gleisabschnitt
-   *          Gleisabschnitt
+   *        Gleisabschnitt
    */
   void processGleisabschnitt(@Observes Gleisabschnitt gleisabschnitt) {
     // Status zum Gleisabschnitt heraussuchen
@@ -91,8 +91,7 @@ public class FahrstrasseMonitor {
     // return;
     // }
 
-    // TODO
-    // checkFreigabe(gleisabschnitt.getReserviertefahrstrasse());
+    checkFreigabe(gleisabschnitt.getReserviertefahrstrasse());
   }
 
   private void checkFreigabe(Fahrstrasse fahrstrasse) {

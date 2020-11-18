@@ -4,6 +4,7 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrasse;
+import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.FahrstrassenGeraet;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrassenelement;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
@@ -12,6 +13,9 @@ import de.gedoplan.v5t11.util.test.V5t11TestConfigDirExtension;
 import java.util.stream.Stream;
 
 import javax.inject.Inject;
+import javax.json.Json;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObjectBuilder;
 
 import org.jboss.logging.Logger;
 import org.junit.jupiter.api.MethodOrderer;
@@ -44,12 +48,14 @@ public class FahrstrasseTest {
 
     this.log.debug("JSON string: " + json);
 
-    assertThat(json, is("{"
-        + "\"bereich\":\"show\""
-        + ",\"name\":\"11-W1-1-W3-S\""
-        + ",\"reservierungsTyp\":\"" + fahrstrasse.getReservierungsTyp() + "\""
-        + ",\"teilFreigabeAnzahl\":" + fahrstrasse.getTeilFreigabeAnzahl()
-        + "}"));
+    String expected = Json.createObjectBuilder()
+        .add("bereich", fahrstrasse.getBereich())
+        .add("name", fahrstrasse.getName())
+        .add("reservierungsTyp", fahrstrasse.getReservierungsTyp().name())
+        .add("teilFreigabeAnzahl", fahrstrasse.getTeilFreigabeAnzahl())
+        .build().toString();
+
+    JSONAssert.assertEquals(expected, json, true);
   }
 
   @Test
@@ -61,18 +67,31 @@ public class FahrstrasseTest {
 
     this.log.debug("JSON string: " + json);
 
-    JSONAssert.assertEquals(""
-        + "{"
-        + "\"bereich\":\"show\""
-        + ",\"elemente\":[{\"bereich\":\"show\",\"name\":\"11\",\"typ\":\"GLEIS\",\"zaehlrichtung\":true},{\"bereich\":\"show\",\"name\":\"1\",\"schutz\":false,\"stellung\":\"ABZWEIGEND\",\"typ\":\"WEICHE\",\"zaehlrichtung\":true},{\"bereich\":\"show\",\"name\":\"W1\",\"typ\":\"GLEIS\",\"zaehlrichtung\":true},{\"bereich\":\"show\",\"name\":\"2\",\"schutz\":true,\"stellung\":\"GERADE\",\"typ\":\"WEICHE\",\"zaehlrichtung\":true},{\"bereich\":\"show\",\"name\":\"1\",\"typ\":\"GLEIS\",\"zaehlrichtung\":true},{\"bereich\":\"show\",\"name\":\"N1\",\"schutz\":false,\"stellung\":\"LANGSAMFAHRT\",\"typ\":\"SIGNAL\",\"zaehlrichtung\":true},{\"bereich\":\"show\",\"name\":\"3\",\"schutz\":false,\"stellung\":\"ABZWEIGEND\",\"typ\":\"WEICHE\",\"zaehlrichtung\":true},{\"bereich\":\"show\",\"name\":\"W3\",\"typ\":\"GLEIS\",\"zaehlrichtung\":true},{\"bereich\":\"show\",\"name\":\"N2\",\"schutz\":true,\"stellung\":\"HALT\",\"typ\":\"SIGNAL\",\"zaehlrichtung\":true},{\"bereich\":\"show\",\"name\":\"S\",\"typ\":\"GLEIS\",\"zaehlrichtung\":true}]"
-        + ",\"name\":\"11-W1-1-W3-S\""
-        + ",\"rank\":" + fahrstrasse.getRank()
-        + ",\"reservierungsTyp\":\"" + fahrstrasse.getReservierungsTyp() + "\""
-        + ",\"teilFreigabeAnzahl\":" + fahrstrasse.getTeilFreigabeAnzahl()
-        + ",\"zaehlrichtung\":" + fahrstrasse.isZaehlrichtung()
-        + "}",
-        json,
-        true);
+    JsonArrayBuilder elementeBuilder = Json.createArrayBuilder();
+    fahrstrasse.getElemente().forEach(fe -> {
+      JsonObjectBuilder elementBuilder = Json.createObjectBuilder()
+          .add("bereich", fe.getBereich())
+          .add("name", fe.getName())
+          .add("typ", fe.getTyp())
+          .add("zaehlrichtung", fe.isZaehlrichtung());
+      if (fe instanceof FahrstrassenGeraet) {
+        elementBuilder.add("schutz", fe.isSchutz());
+        elementBuilder.add("stellung", fe.getStellung().name());
+      }
+      elementeBuilder.add(elementBuilder.build());
+    });
+    String expected = Json.createObjectBuilder()
+        .add("bereich", fahrstrasse.getBereich())
+        .add("name", fahrstrasse.getName())
+        .add("elemente", elementeBuilder.build())
+        .add("rank", fahrstrasse.getRank())
+        .add("reservierungsTyp", fahrstrasse.getReservierungsTyp().name())
+        .add("teilFreigabeAnzahl", fahrstrasse.getTeilFreigabeAnzahl())
+        .add("zaehlrichtung", fahrstrasse.isZaehlrichtung())
+        .build()
+        .toString();
+
+    JSONAssert.assertEquals(expected, json, true);
   }
 
   @Test

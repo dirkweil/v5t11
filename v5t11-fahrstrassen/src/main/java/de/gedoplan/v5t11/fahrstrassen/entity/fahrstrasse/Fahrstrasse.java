@@ -18,7 +18,6 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -30,8 +29,13 @@ import javax.enterprise.util.Nonbinding;
 import javax.inject.Qualifier;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.xml.bind.Unmarshaller;
@@ -83,12 +87,10 @@ public class Fahrstrasse extends Bereichselement {
       @XmlElement(name = "Sperrsignal", type = FahrstrassenSperrsignal.class),
       @XmlElement(name = "Weiche", type = FahrstrassenWeiche.class) })
   @Getter(onMethod_ = @JsonbInclude(full = true))
-  // TODO
-  // @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-  // @JoinColumn(name = "FAHRSTRASSE_BEREICH", referencedColumnName = "BEREICH")
-  // @JoinColumn(name = "FAHRSTRASSE_NAME", referencedColumnName = "NAME")^
-  // @ElementCollection(fetch = FetchType.EAGER)
-  @Transient
+  @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+  @JoinColumn(name = "FAHRSTRASSE_BEREICH", referencedColumnName = "BEREICH")
+  @JoinColumn(name = "FAHRSTRASSE_NAME", referencedColumnName = "NAME")
+  @OrderColumn(name = "REIHENFOLGE")
   private List<Fahrstrassenelement> elemente = new ArrayList<>();
 
   @ManyToOne
@@ -103,7 +105,7 @@ public class Fahrstrasse extends Bereichselement {
 
   /**
    * Kann diese Fahrstrasse umgekehrt genutzt werden?
-   * Ist nur zum Aufbau de rDaten aus dem XML nötig und wird nicht in der DB abgelegt
+   * Ist nur zum Aufbau der Daten aus dem XML nötig und wird nicht in der DB abgelegt
    */
   @XmlAttribute
   @Getter
@@ -183,10 +185,13 @@ public class Fahrstrasse extends Bereichselement {
       throw new IllegalArgumentException("Erster Gleisabschnitte muss im gleichen Bereich wie die Fahrstrasse liegen");
     }
 
-    // Ranking berechnen
-    this.rank = this.elemente.stream().mapToInt(e -> e.getRank()).sum();
+    // Doppelte entfernen
+    removeDoppeleintraege();
 
     createName();
+    createRank();
+
+    injectFields();
   }
 
   /*
@@ -200,6 +205,13 @@ public class Fahrstrasse extends Bereichselement {
         // .filter(g -> !g.isWeichenGleisabschnitt())
         .map(g -> g.getBereich().equals(getBereich()) ? g.getName() : g.getName() + "@" + g.getBereich())
         .collect(Collectors.joining("-")));
+  }
+
+  /**
+   * Rang als Summe der Einzelwerte erstellen.
+   */
+  private void createRank() {
+    this.rank = this.elemente.stream().mapToInt(e -> e.getRank()).sum();
   }
 
   /*
@@ -226,40 +238,41 @@ public class Fahrstrasse extends Bereichselement {
       return null;
     }
 
-    // Wenn Ende links nicht Anfang rechts, nicht kombinieren
+    // Wenn Ende links nicht Anfang rechts oder unterschiedliche Zählrichtung, nicht kombinieren
     Fahrstrassenelement linksLast = linkeFahrstrasse.getEnde();
     Fahrstrassenelement rechtsFirst = rechteFahrstrasse.getStart();
-    if (!linksLast.equals(rechtsFirst)) {
-      return null;
-    }
-
-    // Wenn Zählrichtung nicht passt, nicht kombinieren
-    if (linksLast.isZaehlrichtung() != rechtsFirst.isZaehlrichtung()) {
+    if (!linksLast.isSame(rechtsFirst)
+        || linksLast.isZaehlrichtung() != rechtsFirst.isZaehlrichtung()) {
       return null;
     }
 
     // Wenn Zyklen entstehen würden, nicht kombinieren
-    Set<Fahrstrassenelement> rechteFahrstrassenGleisabschnitte = rechteFahrstrasse
+    Set<ReservierbaresFahrwegelement> linkeGleisabschnitte = linkeFahrstrasse
+        .getElemente()
+        .stream()
+        .filter(e -> e instanceof FahrstrassenGleisabschnitt)
+        .map(e -> e.getFahrwegelement())
+        .collect(Collectors.toSet());
+    boolean zyklus = rechteFahrstrasse
         .getElemente()
         .stream()
         .skip(1)
         .filter(e -> e instanceof FahrstrassenGleisabschnitt)
-        .collect(Collectors.toSet());
-    for (Fahrstrassenelement fe : linkeFahrstrasse.getElemente()) {
-      if (rechteFahrstrassenGleisabschnitte.contains(fe)) {
-        return null;
-      }
+        .map(e -> e.getFahrwegelement())
+        .anyMatch(linkeGleisabschnitte::contains);
+    if (zyklus) {
+      return null;
     }
 
     Fahrstrasse result = new Fahrstrasse();
     result.setBereich(linkeFahrstrasse.getBereich());
-    result.setName(createConcatName(linkeFahrstrasse.getName(), rechteFahrstrasse.getName()));
     result.combi = true;
-    result.rank = linkeFahrstrasse.rank + rechteFahrstrasse.rank;
     result.zaehlrichtung = linkeFahrstrasse.zaehlrichtung;
 
-    result.elemente.addAll(linkeFahrstrasse.elemente);
-    result.elemente.addAll(rechteFahrstrasse.elemente.subList(1, rechteFahrstrasse.elemente.size()));
+    linkeFahrstrasse.elemente.stream().map(Fahrstrassenelement::createKopie).forEach(result.elemente::add);
+    rechteFahrstrasse.elemente.stream().skip(1).map(Fahrstrassenelement::createKopie).forEach(result.elemente::add);
+
+    result.removeDoppeleintraege();
 
     result.start = linkeFahrstrasse.start;
     result.ende = rechteFahrstrasse.ende;
@@ -267,15 +280,12 @@ public class Fahrstrasse extends Bereichselement {
     result.parcours = linkeFahrstrasse.parcours;
 
     // Schutzsignale entfernen, die auch als normale Signale vorhanden sind
-    Set<Signal> normaleSignale = new HashSet<>();
-    for (Fahrstrassenelement element : result.elemente) {
-      if (element instanceof FahrstrassenSignal && !element.isSchutz()) {
-        Signal signal = ((FahrstrassenSignal) element).getFahrwegelement();
-        if (signal != null) {
-          normaleSignale.add(signal);
-        }
-      }
-    }
+    Set<Signal> normaleSignale = result.elemente
+        .stream()
+        .filter(e -> !e.isSchutz())
+        .filter(e -> e instanceof FahrstrassenSignal)
+        .map(e -> ((FahrstrassenSignal) e).getFahrwegelement())
+        .collect(Collectors.toSet());
 
     Iterator<Fahrstrassenelement> iterator = result.elemente.iterator();
     while (iterator.hasNext()) {
@@ -287,24 +297,13 @@ public class Fahrstrasse extends Bereichselement {
         }
       }
     }
+
+    result.createName();
+    result.createRank();
+
+    result.injectFields();
+
     return result;
-  }
-
-  private static String createConcatName(String name1, String name2) {
-    String[] part1 = name1.split("-");
-    String[] part2 = name2.split("-");
-    int i = 0;
-    if (part1[part1.length - 1].endsWith(part2[0])) {
-      ++i;
-    }
-
-    StringBuilder concatName = new StringBuilder(name1);
-    while (i < part2.length) {
-      concatName.append("-").append(part2[i]);
-      ++i;
-    }
-
-    return concatName.toString();
   }
 
   /**
@@ -316,22 +315,38 @@ public class Fahrstrasse extends Bereichselement {
       Fahrstrassenelement element = this.elemente.get(i);
 
       while (true) {
-        int i2 = this.elemente.lastIndexOf(element);
+        int i2 = findLastSame(element);
         if (i2 <= i) {
           // kein Doppelvorkommen; weiter mit nächstem Eintrag
           ++i;
           break;
         }
 
-        if (element instanceof FahrstrassenGeraet && element.isSchutz()) {
-          // aktuelles Element ist Schutzelement; löschen, 2. Eintrag bestehen lassen, weiter mit nächstem Eintrag (der dann am
-          // gleichen Index steht!)
+        Fahrstrassenelement element2 = this.elemente.get(i2);
+
+        if (element2.isSchutz()) {
+          // zweites Element ist Schutzelement
+          // ==> zweites Element löschen, weiter nach Doppelvorkommen suchen
+          this.elemente.remove(i2);
+        } else {
+          // zweites Element ist kein Schutzelement
+          // ==> erstes Element löschen, weiter mit nächstem Eintrag (der dann am gleichen Index i steht!)
           this.elemente.remove(i);
           break;
-        } else {
-          // aktuelles Element ist kein Schutzelement; 2. Eintrag löschen, weiter nach Doppelvorkommen suchen
-          this.elemente.remove(i2);
         }
+      }
+    }
+  }
+
+  private int findLastSame(Fahrstrassenelement element) {
+    int i = this.elemente.size();
+    while (true) {
+      --i;
+      if (i < 0) {
+        return -1;
+      }
+      if (this.elemente.get(i).isSame(element)) {
+        return i;
       }
     }
   }
@@ -386,6 +401,8 @@ public class Fahrstrasse extends Bereichselement {
   public Fahrstrasse createUmkehrung() {
     Fahrstrasse fahrstrasse = new Fahrstrasse();
 
+    fahrstrasse.parcours = this.parcours;
+
     this.elemente.forEach(fse -> fahrstrasse.elemente.add(0, fse.createUmkehrung()));
 
     fahrstrasse.rank = this.rank;
@@ -397,6 +414,8 @@ public class Fahrstrasse extends Bereichselement {
 
     fahrstrasse.setBereich(fahrstrasse.start.getBereich());
     fahrstrasse.createName();
+
+    fahrstrasse.injectFields();
 
     return fahrstrasse;
   }
@@ -573,7 +592,9 @@ public class Fahrstrasse extends Bereichselement {
   @Documented
   public static @interface Freigegeben {
     @Nonbinding
-    int bisher() default 0;
+    int bisher()
+
+    default 0;
 
     @Nonbinding
     int neu() default 0;
