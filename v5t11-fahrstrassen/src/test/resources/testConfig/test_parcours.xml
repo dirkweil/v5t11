@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Parcours>
+  <!-- Fahrstrassen auf der Show-Anlage -->
   <Fahrstrasse bereich="show" zaehlrichtung="true" umkehrbar="true">
     <Gleisabschnitt name="11" />
     <Weiche name="1" stellung="ABZWEIGEND" />
@@ -61,6 +62,114 @@
     <Hauptsignal name="N2" stellung="HALT" schutz="true" />
     <Weiche name="3" stellung="GERADE" />
     <Gleisabschnitt name="2" />
+  </Fahrstrasse>
+
+  <!-- Zum Test zusätzlich Fahrstrassen vom NBf der "großen" Anlage -->
+  <Fahrstrasse bereich="NBf" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="102" />
+    <Gleisabschnitt name="W1" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="NBf" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="W1" />
+    <Weiche name="1" stellung="ABZWEIGEND" />
+    <Weiche name="4" stellung="ABZWEIGEND" />
+    <Gleisabschnitt name="W4" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="NBf" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="11" />
+    <Weiche name="4" stellung="GERADE" />
+    <Weiche name="1" stellung="ABZWEIGEND" schutz="true" />
+    <Gleisabschnitt name="W4" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="NBf" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="W4" />
+    <Gleisabschnitt name="1" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="NBf" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="W1" />
+    <Weiche name="1" stellung="GERADE" />
+    <Weiche name="4" stellung="GERADE" schutz="true" />
+    <Gleisabschnitt name="W2" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="NBf" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="W2" />
+    <Weiche name="2" stellung="GERADE" />
+    <Weiche name="3" stellung="ABZWEIGEND" />
+    <Gleisabschnitt name="W3" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="NBf" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="W2" />
+    <Weiche name="2" stellung="ABZWEIGEND" />
+    <Weiche name="3" stellung="GERADE" schutz="true" />
+    <Gleisabschnitt name="2" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="NBf" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="13" />
+    <Weiche name="3" stellung="GERADE" />
+    <Weiche name="2" stellung="GERADE" schutz="true" />
+    <Gleisabschnitt name="W3" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="NBf" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="W3" />
+    <Gleisabschnitt name="3" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="NBf" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="1" />
+    <Weiche name="7" stellung="ABZWEIGEND" />
+    <Gleisabschnitt name="W7" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="NBf" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="2" />
+    <Weiche name="6" stellung="ABZWEIGEND" />
+    <Weiche name="5b" stellung="GERADE" schutz="true" />
+    <Gleisabschnitt name="W6" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="NBf" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="W6" />
+    <Weiche name="7" stellung="GERADE" />
+    <Gleisabschnitt name="W7" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="NBf" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="3" />
+    <Weiche name="5a" stellung="GERADE" />
+    <Gleisabschnitt name="W5" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="NBf" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="W5" />
+    <Weiche name="5b" stellung="GERADE" />
+    <Weiche name="6" stellung="ABZWEIGEND" schutz="true" />
+    <Gleisabschnitt name="23" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="NBf" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="W5" />
+    <Weiche name="5b" stellung="ABZWEIGEND" />
+    <Weiche name="6" stellung="GERADE" />
+    <Gleisabschnitt name="W6" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="NBf" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="4" />
+    <Weiche name="5a" stellung="ABZWEIGEND" />
+    <Gleisabschnitt name="W5" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="NBf" zaehlrichtung="true" umkehrbar="true">
+    <Gleisabschnitt name="W7" />
+    <Gleisabschnitt name="202" />
   </Fahrstrasse>
 
   <AutoFahrstrasse bereich="show" trigger="S">

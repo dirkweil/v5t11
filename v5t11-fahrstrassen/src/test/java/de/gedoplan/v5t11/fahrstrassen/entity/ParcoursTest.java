@@ -45,22 +45,58 @@ public class ParcoursTest {
   }
 
   private static final FSParm[] fsParms = {
-      new FSParm("show", "11-W1-1-W3-S", true, 6, true, "GLEIS,GLEIS,WEICHE,GLEIS,SIGNAL,SIGNAL,WEICHE,GLEIS,SIGNAL,GLEIS"),
-      new FSParm("show", "11-W1-1", false, 3, true, "GLEIS,GLEIS,WEICHE,GLEIS"),
-      new FSParm("show", "11-W1-W2-2", false, 4, true, "GLEIS,WEICHE,GLEIS,GLEIS,GLEIS"),
-      new FSParm("show", "S-W3-2-W2-W1-11", true, 6, false, "GLEIS,SIGNAL,SIGNAL,SIGNAL,WEICHE,GLEIS,GLEIS,GLEIS,GLEIS,WEICHE,GLEIS"),
-      new FSParm("show", "S-W3-1", false, 4, false, "GLEIS,SIGNAL,SIGNAL,SIGNAL,WEICHE,GLEIS,GLEIS"),
-      new FSParm("show", "2-W2-12", false, 4, false, "GLEIS,WEICHE,GLEIS,GLEIS"),
-      new FSParm("show", "S-W3-2-W2-12", true, 6, false, "GLEIS,SIGNAL,SIGNAL,SIGNAL,WEICHE,GLEIS,GLEIS,WEICHE,GLEIS,GLEIS"),
-      new FSParm("show", "12-W2-2-W3-S", true, 6, true, "GLEIS,GLEIS,WEICHE,GLEIS,SIGNAL,SIGNAL,WEICHE,GLEIS,SIGNAL,GLEIS"),
-      new FSParm("show", "S-W3-2", false, 3, false, "GLEIS,SIGNAL,SIGNAL,SIGNAL,WEICHE,GLEIS,GLEIS"),
-      new FSParm("show", "11-W1-W2-2-W3-S", true, 6, true, "GLEIS,WEICHE,GLEIS,GLEIS,GLEIS,SIGNAL,SIGNAL,WEICHE,GLEIS,SIGNAL,GLEIS"),
-      new FSParm("show", "1-W3-S", true, 4, true, "GLEIS,SIGNAL,SIGNAL,WEICHE,GLEIS,SIGNAL,GLEIS"),
-      new FSParm("show", "2-W2-W1-11", false, 4, false, "GLEIS,GLEIS,GLEIS,WEICHE,GLEIS"),
-      new FSParm("show", "S-W3-1-W1-11", true, 6, false, "GLEIS,SIGNAL,SIGNAL,SIGNAL,WEICHE,GLEIS,GLEIS,WEICHE,GLEIS,GLEIS"),
-      new FSParm("show", "1-W1-11", false, 3, false, "GLEIS,WEICHE,GLEIS,GLEIS"),
-      new FSParm("show", "12-W2-2", false, 4, true, "GLEIS,GLEIS,WEICHE,GLEIS"),
-      new FSParm("show", "2-W3-S", true, 3, true, "GLEIS,SIGNAL,SIGNAL,WEICHE,GLEIS,SIGNAL,GLEIS"),
+      new FSParm("NBf", "1-W4-11", true, 4, false, "G-1,G-W4,W-1,W-4,G-11"),
+      new FSParm("NBf", "1-W4-W1-102", true, 6, false, "G-1,G-W4,W-4,W-1,G-W1,G-102"),
+      new FSParm("NBf", "1-W7-202", true, 4, true, "G+1,W+7,G+W7,G+202"),
+      new FSParm("NBf", "102-W1-W2-2", true, 5, true, "G+102,G+W1,W+1,W+4,G+W2,W+2,W+3,G+2"),
+      new FSParm("NBf", "102-W1-W2-2-W6-W7-202", true, 9, true, "G+102,G+W1,W+1,W+4,G+W2,W+2,W+3,G+2,W+6,W+5b,G+W6,W+7,G+W7,G+202"),
+      new FSParm("NBf", "102-W1-W2-W3-3", true, 6, true, "G+102,G+W1,W+1,W+4,G+W2,W+2,W+3,G+W3,G+3"),
+      new FSParm("NBf", "102-W1-W2-W3-3-W5-23", true, 9, true, "G+102,G+W1,W+1,W+4,G+W2,W+2,W+3,G+W3,G+3,W+5a,G+W5,W+5b,W+6,G+23"),
+      new FSParm("NBf", "102-W1-W2-W3-3-W5-W6-W7-202", true, 11, true, "G+102,G+W1,W+1,W+4,G+W2,W+2,W+3,G+W3,G+3,W+5a,G+W5,W+5b,W+6,G+W6,W+7,G+W7,G+202"),
+      new FSParm("NBf", "102-W1-W4-1", true, 6, true, "G+102,G+W1,W+1,W+4,G+W4,G+1"),
+      new FSParm("NBf", "102-W1-W4-1-W7-202", true, 9, true, "G+102,G+W1,W+1,W+4,G+W4,G+1,W+7,G+W7,G+202"),
+      new FSParm("NBf", "11-W4-1", true, 4, true, "G+11,W+4,W+1,G+W4,G+1"),
+      new FSParm("NBf", "11-W4-1-W7-202", true, 7, true, "G+11,W+4,W+1,G+W4,G+1,W+7,G+W7,G+202"),
+      new FSParm("NBf", "13-W3-3", true, 3, true, "G+13,W+3,W+2,G+W3,G+3"),
+      new FSParm("NBf", "13-W3-3-W5-23", true, 6, true, "G+13,W+3,W+2,G+W3,G+3,W+5a,G+W5,W+5b,W+6,G+23"),
+      new FSParm("NBf", "13-W3-3-W5-W6-W7-202", true, 8, true, "G+13,W+3,W+2,G+W3,G+3,W+5a,G+W5,W+5b,W+6,G+W6,W+7,G+W7,G+202"),
+      new FSParm("NBf", "2-W2-W1-102", true, 5, false, "G-2,W-3,W-2,G-W2,W-4,W-1,G-W1,G-102"),
+      new FSParm("NBf", "2-W6-W7-202", true, 5, true, "G+2,W+6,W+5b,G+W6,W+7,G+W7,G+202"),
+      new FSParm("NBf", "202-W7-1", true, 4, false, "G-202,G-W7,W-7,G-1"),
+      new FSParm("NBf", "202-W7-1-W4-11", true, 7, false, "G-202,G-W7,W-7,G-1,G-W4,W-1,W-4,G-11"),
+      new FSParm("NBf", "202-W7-1-W4-W1-102", true, 9, false, "G-202,G-W7,W-7,G-1,G-W4,W-4,W-1,G-W1,G-102"),
+      new FSParm("NBf", "202-W7-W6-2", true, 5, false, "G-202,G-W7,W-7,G-W6,W-5b,W-6,G-2"),
+      new FSParm("NBf", "202-W7-W6-2-W2-W1-102", true, 9, false, "G-202,G-W7,W-7,G-W6,W-5b,W-6,G-2,W-3,W-2,G-W2,W-4,W-1,G-W1,G-102"),
+      new FSParm("NBf", "202-W7-W6-W5-3", true, 6, false, "G-202,G-W7,W-7,G-W6,W-6,W-5b,G-W5,W-5a,G-3"),
+      new FSParm("NBf", "202-W7-W6-W5-3-W3-13", true, 8, false, "G-202,G-W7,W-7,G-W6,W-6,W-5b,G-W5,W-5a,G-3,G-W3,W-2,W-3,G-13"),
+      new FSParm("NBf", "202-W7-W6-W5-3-W3-W2-W1-102", true, 11, false, "G-202,G-W7,W-7,G-W6,W-6,W-5b,G-W5,W-5a,G-3,G-W3,W-3,W-2,G-W2,W-4,W-1,G-W1,G-102"),
+      new FSParm("NBf", "202-W7-W6-W5-4", true, 7, false, "G-202,G-W7,W-7,G-W6,W-6,W-5b,G-W5,W-5a,G-4"),
+      new FSParm("NBf", "23-W5-3", true, 4, false, "G-23,W-6,W-5b,G-W5,W-5a,G-3"),
+      new FSParm("NBf", "23-W5-3-W3-13", true, 6, false, "G-23,W-6,W-5b,G-W5,W-5a,G-3,G-W3,W-2,W-3,G-13"),
+      new FSParm("NBf", "23-W5-3-W3-W2-W1-102", true, 9, false, "G-23,W-6,W-5b,G-W5,W-5a,G-3,G-W3,W-3,W-2,G-W2,W-4,W-1,G-W1,G-102"),
+      new FSParm("NBf", "23-W5-4", true, 5, false, "G-23,W-6,W-5b,G-W5,W-5a,G-4"),
+      new FSParm("NBf", "3-W3-13", true, 3, false, "G-3,G-W3,W-2,W-3,G-13"),
+      new FSParm("NBf", "3-W3-W2-W1-102", true, 6, false, "G-3,G-W3,W-3,W-2,G-W2,W-4,W-1,G-W1,G-102"),
+      new FSParm("NBf", "3-W5-23", true, 4, true, "G+3,W+5a,G+W5,W+5b,W+6,G+23"),
+      new FSParm("NBf", "3-W5-W6-W7-202", true, 6, true, "G+3,W+5a,G+W5,W+5b,W+6,G+W6,W+7,G+W7,G+202"),
+      new FSParm("NBf", "4-W5-23", true, 5, true, "G+4,W+5a,G+W5,W+5b,W+6,G+23"),
+      new FSParm("NBf", "4-W5-W6-W7-202", true, 7, true, "G+4,W+5a,G+W5,W+5b,W+6,G+W6,W+7,G+W7,G+202"),
+      new FSParm("show", "1-W1-11", false, 4, false, "G-1,W-2,G-W1,W-1,G-11"),
+      new FSParm("show", "1-W3-S", true, 4, true, "G+1,S+N1,S+N2,W+3,G+W3,S+F,G+S"),
+      new FSParm("show", "11-W1-1", false, 4, true, "G+11,W+1,G+W1,W+2,G+1"),
+      new FSParm("show", "11-W1-1-W3-S", true, 7, true, "G+11,W+1,G+W1,W+2,G+1,S+N1,S+N2,W+3,G+W3,S+F,G+S"),
+      new FSParm("show", "11-W1-W2-2", false, 5, true, "G+11,W+1,G+W1,W+2,G+W2,G+2"),
+      new FSParm("show", "11-W1-W2-2-W3-S", true, 7, true, "G+11,W+1,G+W1,W+2,G+W2,G+2,S+N2,S+N1,W+3,G+W3,S+F,G+S"),
+      new FSParm("show", "12-W2-2", false, 4, true, "G+12,W+2,G+W2,W+1,G+2"),
+      new FSParm("show", "12-W2-2-W3-S", true, 6, true, "G+12,W+2,G+W2,W+1,G+2,S+N2,S+N1,W+3,G+W3,S+F,G+S"),
+      new FSParm("show", "2-W2-12", false, 4, false, "G-2,W-1,G-W2,W-2,G-12"),
+      new FSParm("show", "2-W2-W1-11", false, 5, false, "G-2,G-W2,W-2,G-W1,W-1,G-11"),
+      new FSParm("show", "2-W3-S", true, 3, true, "G+2,S+N2,S+N1,W+3,G+W3,S+F,G+S"),
+      new FSParm("show", "S-W3-1", false, 4, false, "G-S,S-F,G-W3,S-N1,S-N2,W-3,G-1"),
+      new FSParm("show", "S-W3-1-W1-11", true, 7, false, "G-S,S-F,G-W3,S-N1,S-N2,W-3,G-1,W-2,G-W1,W-1,G-11"),
+      new FSParm("show", "S-W3-2", false, 3, false, "G-S,S-F,G-W3,S-N1,S-N2,W-3,G-2"),
+      new FSParm("show", "S-W3-2-W2-12", true, 6, false, "G-S,S-F,G-W3,S-N1,S-N2,W-3,G-2,W-1,G-W2,W-2,G-12"),
+      new FSParm("show", "S-W3-2-W2-W1-11", true, 7, false, "G-S,S-F,G-W3,S-N1,S-N2,W-3,G-2,G-W2,W-2,G-W1,W-1,G-11"),
   };
 
   /**
@@ -74,8 +110,12 @@ public class ParcoursTest {
       fahrstrassen.forEach(this.logger::debug);
     }
 
-    // fahrstrassen.forEach(fs -> System.out.printf("new FSParm(\"%s\", \"%s\", %b, %d, %b, \"%s\"),\n",
-    // fs.getBereich(), fs.getName(), fs.isCombi(), fs.getRank(), fs.isZaehlrichtung(), getElementTypen(fs)));
+    fahrstrassen
+        .stream()
+        .sorted((a, b) -> a.getName().compareTo(b.getName()))
+        .sorted((a, b) -> a.getBereich().compareTo(b.getBereich()))
+        .forEach(fs -> System.out.printf("new FSParm(\"%s\", \"%s\", %b, %d, %b, \"%s\"),\n",
+            fs.getBereich(), fs.getName(), fs.isCombi(), fs.getRank(), fs.isZaehlrichtung(), getElementCodes(fs)));
 
     assertEquals(fsParms.length, fahrstrassen.size(), "Anzahl Fahrstrassen falsch");
 
@@ -86,7 +126,7 @@ public class ParcoursTest {
       assertEquals(fsParm.combi, fahrstrasse.isCombi(), "Fahrstrasse.combi falsch: " + fsDesc);
       assertEquals(fsParm.rank, fahrstrasse.getRank(), "Fahrstrasse.rank falsch: " + fsDesc);
       assertEquals(fsParm.zaehlrichtung, fahrstrasse.isZaehlrichtung(), "Fahrstrasse.zaehlrichtung falsch: " + fsDesc);
-      assertEquals(fsParm.elementTypen, getElementTypen(fahrstrasse), "Element-Typen falsch: " + fsDesc);
+      assertEquals(fsParm.elementTypen, getElementCodes(fahrstrasse), "Element-Typen falsch: " + fsDesc);
     }
   }
 
@@ -104,6 +144,7 @@ public class ParcoursTest {
     }
 
     List<FSParm> fs11Parms = Stream.of(fsParms)
+        .filter(fsp -> fsp.bereich.equals("show"))
         .filter(fsp -> fsp.name.startsWith("11-"))
         .collect(Collectors.toList());
 
@@ -116,14 +157,20 @@ public class ParcoursTest {
       assertEquals(fsParm.combi, fahrstrasse.isCombi(), "Fahrstrasse.combi falsch: " + fsDesc);
       assertEquals(fsParm.rank, fahrstrasse.getRank(), "Fahrstrasse.rank falsch: " + fsDesc);
       assertEquals(fsParm.zaehlrichtung, fahrstrasse.isZaehlrichtung(), "Fahrstrasse.zaehlrichtung falsch: " + fsDesc);
-      assertEquals(fsParm.elementTypen, getElementTypen(fahrstrasse), "Element-Typen falsch: " + fsDesc);
+      assertEquals(fsParm.elementTypen, getElementCodes(fahrstrasse), "Element-Typen falsch: " + fsDesc);
     });
   }
 
-  private String getElementTypen(Fahrstrasse fahrstrasse) {
+  private String getElementCodes(Fahrstrasse fahrstrasse) {
     return fahrstrasse.getElemente()
         .stream()
-        .map(fe -> fe.getTyp())
+        .map(fe -> {
+          StringBuilder b = new StringBuilder();
+          b.append(fe.getTyp().charAt(0));
+          b.append(fe.isZaehlrichtung() ? '+' : '-');
+          b.append(fe.getName());
+          return b.toString();
+        })
         .collect(Collectors.joining(","));
   }
 
@@ -136,7 +183,7 @@ public class ParcoursTest {
     if (this.logger.isDebugEnabled()) {
       gleisabschnitte.forEach(this.logger::debug);
     }
-    assertEquals(8, gleisabschnitte.size(), "Anzahl Gleisabschnitte falsch");
+    assertEquals(24, gleisabschnitte.size(), "Anzahl Gleisabschnitte falsch");
   }
 
   /**
@@ -160,7 +207,7 @@ public class ParcoursTest {
     if (this.logger.isDebugEnabled()) {
       weichen.forEach(this.logger::debug);
     }
-    assertEquals(3, weichen.size(), "Anzahl Weichen falsch");
+    assertEquals(11, weichen.size(), "Anzahl Weichen falsch");
   }
 
   /**
