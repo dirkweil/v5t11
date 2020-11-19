@@ -17,12 +17,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.inject.Inject;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.PostLoad;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -53,9 +53,8 @@ public class Parcours extends StringIdEntity {
 
   public static final String TABLE_NAME = "FS_PARCOURS";
 
-  @Inject
   @Transient
-  Logger logger;
+  Logger logger = Logger.getLogger(Parcours.class);
 
   @Getter
   @Setter
@@ -63,7 +62,7 @@ public class Parcours extends StringIdEntity {
 
   @XmlElement(name = "Fahrstrasse", type = Fahrstrasse.class)
   @Getter
-  @OneToMany(mappedBy = "parcours", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(mappedBy = "parcours", cascade = CascadeType.ALL, orphanRemoval = true)
   private Set<Fahrstrasse> fahrstrassen = new HashSet<>();
 
   @XmlElement(name = "AutoFahrstrasse")
@@ -261,7 +260,6 @@ public class Parcours extends StringIdEntity {
     // Signale auf Langsamfahrt korrigieren, wenn nötig.
     this.fahrstrassen.forEach(f -> {
       f.adjustLangsamfahrt();
-      // f.injectFields();
     });
   }
 
@@ -310,6 +308,25 @@ public class Parcours extends StringIdEntity {
   public void injectFields() {
     InjectionUtil.injectFields(this);
     this.fahrstrassen.forEach(Fahrstrasse::injectFields);
+  }
+
+  @PostLoad
+  void fillTransientFields() {
+    this.fahrstrassen
+        .stream()
+        .flatMap(f -> f.getElemente().stream())
+        .map(fe -> fe.getFahrwegelement())
+        .forEach(fwe -> {
+          if (fwe instanceof Gleisabschnitt) {
+            this.gleisabschnitte.add((Gleisabschnitt) fwe);
+          } else if (fwe instanceof Signal) {
+            this.signale.add((Signal) fwe);
+          } else if (fwe instanceof Weiche) {
+            this.weichen.add((Weiche) fwe);
+          }
+        });
+
+    this.fahrstrassen.forEach(f -> this.mapStartToFahrstrassen.put(f.getStart().getFahrwegelement(), f));
   }
 
 }

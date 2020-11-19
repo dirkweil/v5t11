@@ -9,7 +9,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -34,7 +33,7 @@ public class FahrstrassenGleisabschnitt extends Fahrstrassenelement {
   private Boolean endeErlaubt;
 
   @Getter
-  @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+  @ManyToOne(cascade = CascadeType.ALL)
   private Gleisabschnitt gleisabschnitt;
 
   public FahrstrassenGleisabschnitt(String bereich, String name, boolean zaehlrichtung) {

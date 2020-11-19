@@ -31,7 +31,6 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -87,7 +86,7 @@ public class Fahrstrasse extends Bereichselement {
       @XmlElement(name = "Sperrsignal", type = FahrstrassenSperrsignal.class),
       @XmlElement(name = "Weiche", type = FahrstrassenWeiche.class) })
   @Getter(onMethod_ = @JsonbInclude(full = true))
-  @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
   @JoinColumn(name = "FAHRSTRASSE_BEREICH", referencedColumnName = "BEREICH")
   @JoinColumn(name = "FAHRSTRASSE_NAME", referencedColumnName = "NAME")
   @OrderColumn(name = "REIHENFOLGE")
@@ -115,16 +114,28 @@ public class Fahrstrasse extends Bereichselement {
   /**
    * Erstes Element.
    */
-  @Getter
   @Transient
   private FahrstrassenGleisabschnitt start;
+
+  public FahrstrassenGleisabschnitt getStart() {
+    if (this.start == null) {
+      this.start = (FahrstrassenGleisabschnitt) this.elemente.get(0);
+    }
+    return this.start;
+  }
 
   /**
    * Letztes Element.
    */
-  @Getter
   @Transient
   private FahrstrassenGleisabschnitt ende;
+
+  public FahrstrassenGleisabschnitt getEnde() {
+    if (this.ende == null) {
+      this.ende = (FahrstrassenGleisabschnitt) this.elemente.get(this.elemente.size() - 1);
+    }
+    return this.ende;
+  }
 
   /**
    * Falls reserviert, Typ der Reservierung, sonst <code>null</code>.
@@ -177,11 +188,9 @@ public class Fahrstrasse extends Bereichselement {
     if (count < 2 || !(this.elemente.get(0) instanceof FahrstrassenGleisabschnitt) || !(this.elemente.get(count - 1) instanceof FahrstrassenGleisabschnitt)) {
       throw new IllegalArgumentException("Fahrstrasse muss min. 2 Elemente haben und mit Gleisabschnitten beginnen und enden");
     }
-    this.start = (FahrstrassenGleisabschnitt) this.elemente.get(0);
-    this.ende = (FahrstrassenGleisabschnitt) this.elemente.get(count - 1);
 
     // Bereich der Stecke und des Startelements müssen gleich sein
-    if (!getBereich().equals(this.start.getBereich())) {
+    if (!getBereich().equals(this.getStart().getBereich())) {
       throw new IllegalArgumentException("Erster Gleisabschnitte muss im gleichen Bereich wie die Fahrstrasse liegen");
     }
 
@@ -190,8 +199,6 @@ public class Fahrstrasse extends Bereichselement {
 
     createName();
     createRank();
-
-    injectFields();
   }
 
   private boolean containsSame(Fahrstrassenelement fahrstrassenelement) {
@@ -278,8 +285,8 @@ public class Fahrstrasse extends Bereichselement {
 
     result.removeDoppeleintraege();
 
-    result.start = linkeFahrstrasse.start;
-    result.ende = rechteFahrstrasse.ende;
+    result.start = linkeFahrstrasse.getStart();
+    result.ende = rechteFahrstrasse.getEnde();
 
     result.parcours = linkeFahrstrasse.parcours;
 
@@ -304,8 +311,6 @@ public class Fahrstrasse extends Bereichselement {
 
     result.createName();
     result.createRank();
-
-    result.injectFields();
 
     return result;
   }
@@ -412,13 +417,8 @@ public class Fahrstrasse extends Bereichselement {
 
     fahrstrasse.zaehlrichtung = !this.zaehlrichtung;
 
-    fahrstrasse.start = (FahrstrassenGleisabschnitt) fahrstrasse.elemente.get(0);
-    fahrstrasse.ende = (FahrstrassenGleisabschnitt) fahrstrasse.elemente.get(fahrstrasse.elemente.size() - 1);
-
-    fahrstrasse.setBereich(fahrstrasse.start.getBereich());
+    fahrstrasse.setBereich(fahrstrasse.getStart().getBereich());
     fahrstrasse.createName();
-
-    fahrstrasse.injectFields();
 
     return fahrstrasse;
   }

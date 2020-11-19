@@ -10,7 +10,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -26,7 +25,7 @@ import lombok.NoArgsConstructor;
 public abstract class FahrstrassenSignal extends FahrstrassenGeraet implements Cloneable {
 
   @Getter
-  @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+  @ManyToOne(cascade = CascadeType.ALL)
   private Signal signal;
 
   @Getter(onMethod_ = @JsonbInclude(full = true))

@@ -4,6 +4,7 @@ import de.gedoplan.baselibs.persistence.entity.UuidEntity;
 
 import java.util.List;
 
+import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Embeddable;
 import javax.persistence.Entity;
@@ -33,6 +34,7 @@ public class AutoFahrstrasse extends UuidEntity {
   private String trigger;
 
   @ElementCollection(fetch = FetchType.EAGER)
+  @CollectionTable(name = TABLE_NAME + "_ELEMENTE")
   @XmlElement(name = "Fahrstrasse")
   private List<AutoFahrstrassenElement> elemente;
 

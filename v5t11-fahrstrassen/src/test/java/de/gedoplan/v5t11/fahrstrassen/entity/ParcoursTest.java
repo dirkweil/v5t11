@@ -110,12 +110,12 @@ public class ParcoursTest {
       fahrstrassen.forEach(this.logger::debug);
     }
 
-    fahrstrassen
-        .stream()
-        .sorted((a, b) -> a.getName().compareTo(b.getName()))
-        .sorted((a, b) -> a.getBereich().compareTo(b.getBereich()))
-        .forEach(fs -> System.out.printf("new FSParm(\"%s\", \"%s\", %b, %d, %b, \"%s\"),\n",
-            fs.getBereich(), fs.getName(), fs.isCombi(), fs.getRank(), fs.isZaehlrichtung(), getElementCodes(fs)));
+    // fahrstrassen
+    // .stream()
+    // .sorted((a, b) -> a.getName().compareTo(b.getName()))
+    // .sorted((a, b) -> a.getBereich().compareTo(b.getBereich()))
+    // .forEach(fs -> System.out.printf("new FSParm(\"%s\", \"%s\", %b, %d, %b, \"%s\"),\n",
+    // fs.getBereich(), fs.getName(), fs.isCombi(), fs.getRank(), fs.isZaehlrichtung(), getElementCodes(fs)));
 
     assertEquals(fsParms.length, fahrstrassen.size(), "Anzahl Fahrstrassen falsch");
 
