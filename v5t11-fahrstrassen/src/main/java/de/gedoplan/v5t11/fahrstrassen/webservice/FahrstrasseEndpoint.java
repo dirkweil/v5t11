@@ -101,7 +101,8 @@ public class FahrstrasseEndpoint {
         startBereich = endeBereich;
       }
 
-      start = this.parcours.getGleisabschnitt(startBereich, startName);
+      // TODO Wie ermittelt man den Start?
+      // start = this.parcours.getGleisabschnitt(startBereich, startName);
       if (start == null) {
         return null;
       }
@@ -113,7 +114,8 @@ public class FahrstrasseEndpoint {
         endeBereich = startBereich;
       }
 
-      ende = this.parcours.getGleisabschnitt(endeBereich, endeName);
+      // TODO Wie ermittelt man das Ende?
+      // ende = this.parcours.getGleisabschnitt(endeBereich, endeName);
       if (ende == null) {
         return null;
       }

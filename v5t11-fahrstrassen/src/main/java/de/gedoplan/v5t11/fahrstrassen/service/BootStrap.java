@@ -1,6 +1,9 @@
 package de.gedoplan.v5t11.fahrstrassen.service;
 
 import de.gedoplan.v5t11.fahrstrassen.entity.Parcours;
+import de.gedoplan.v5t11.fahrstrassen.persistence.GleisabschnittRepository;
+import de.gedoplan.v5t11.fahrstrassen.persistence.SignalRepository;
+import de.gedoplan.v5t11.fahrstrassen.persistence.WeicheRepository;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -23,7 +26,10 @@ public class BootStrap {
       Logger log,
       ConfigService configService,
       Parcours parcours,
-      StatusUpdater statusUpdater) {
+      StatusUpdater statusUpdater,
+      GleisabschnittRepository gleisabschnittRepository,
+      SignalRepository signalRepository,
+      WeicheRepository weicheRepository) {
     try {
       log.info("app: " + configService.getArtifactId() + ":" + configService.getVersion());
 
@@ -33,6 +39,11 @@ public class BootStrap {
       log.info("statusJmsUrl: " + configService.getStatusJmsUrl());
 
       log.info("#fahrstrassen: " + parcours.getFahrstrassen().size());
+      log.info("#autoFahrstrassen: " + parcours.getAutoFahrstrassen().size());
+
+      log.info("#gleisabschnitte: " + gleisabschnittRepository.countAll());
+      log.info("#signale: " + signalRepository.countAll());
+      log.info("#weichen: " + weicheRepository.countAll());
 
       // TODO JMS -> RM
       // scheduler.submit(statusUpdater);

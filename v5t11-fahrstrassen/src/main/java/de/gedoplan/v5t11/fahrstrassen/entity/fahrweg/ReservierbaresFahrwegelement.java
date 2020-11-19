@@ -1,16 +1,9 @@
 package de.gedoplan.v5t11.fahrstrassen.entity.fahrweg;
 
-import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrasse;
+import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 
 public interface ReservierbaresFahrwegelement {
-  Fahrstrasse getReserviertefahrstrasse();
+  BereichselementId getReserviertefahrstrasseId();
 
-  void setReserviertefahrstrasse(Fahrstrasse fahrstrasse);
-
-  default void reserviereFuerFahrstrasse(Fahrstrasse fahrstrasse, boolean zaehlrichtung) {
-    if (getReserviertefahrstrasse() != fahrstrasse) {
-      setReserviertefahrstrasse(fahrstrasse);
-      // this.zaehlrichtung = zaehlrichtung;
-    }
-  }
+  void setReserviertefahrstrasseId(BereichselementId fahrstrasseId);
 }

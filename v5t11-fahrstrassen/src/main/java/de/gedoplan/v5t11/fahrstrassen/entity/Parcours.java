@@ -1,11 +1,8 @@
 package de.gedoplan.v5t11.fahrstrassen.entity;
 
-import de.gedoplan.baselibs.persistence.entity.StringIdEntity;
 import de.gedoplan.baselibs.utils.inject.InjectionUtil;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleisabschnitt;
-import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Signal;
-import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Weiche;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenFilter;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
 import de.gedoplan.v5t11.util.domain.entity.Bereichselement;
@@ -17,14 +14,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.PostLoad;
-import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -36,7 +25,6 @@ import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
 
 import lombok.Getter;
-import lombok.Setter;
 
 /**
  * Parcours.
@@ -47,91 +35,17 @@ import lombok.Setter;
  */
 @XmlRootElement(name = "Parcours")
 @XmlAccessorType(XmlAccessType.NONE)
-@Entity
-@Table(name = Parcours.TABLE_NAME)
-public class Parcours extends StringIdEntity {
+public class Parcours {
 
-  public static final String TABLE_NAME = "FS_PARCOURS";
-
-  @Transient
   Logger logger = Logger.getLogger(Parcours.class);
-
-  @Getter
-  @Setter
-  private long lastModified;
 
   @XmlElement(name = "Fahrstrasse", type = Fahrstrasse.class)
   @Getter
-  @OneToMany(mappedBy = "parcours", cascade = CascadeType.ALL, orphanRemoval = true)
   private Set<Fahrstrasse> fahrstrassen = new HashSet<>();
 
   @XmlElement(name = "AutoFahrstrasse")
   @Getter
-  @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-  @JoinColumn(name = "PARCOURS_ID")
   private Set<AutoFahrstrasse> autoFahrstrassen = new HashSet<>();
-
-  @Getter
-  @Transient
-  private Set<Gleisabschnitt> gleisabschnitte = new HashSet<>();
-
-  @Getter
-  @Transient
-  private Set<Signal> signale = new HashSet<>();
-
-  @Getter
-  @Transient
-  private Set<Weiche> weichen = new HashSet<>();
-
-  protected Parcours() {
-  }
-
-  public Parcours(String id) {
-    super(id);
-  }
-
-  public void setId(String id) {
-    this.id = id;
-  }
-
-  /**
-   * Gleisabschnitt liefern.
-   *
-   * @param bereich
-   *        Bereich
-   * @param name
-   *        Name
-   * @return gefundener Gleisabschnitt oder <code>null</code>
-   */
-  public Gleisabschnitt getGleisabschnitt(String bereich, String name) {
-    return getBereichselement(bereich, name, this.gleisabschnitte);
-  }
-
-  /**
-   * Signal liefern.
-   *
-   * @param bereich
-   *        Bereich
-   * @param name
-   *        Name
-   * @return gefundenes Signal oder <code>null</code>
-   */
-  public Signal getSignal(String bereich, String name) {
-    return getBereichselement(bereich, name, this.signale);
-  }
-
-  /**
-   * Weiche liefern.
-   *
-   * @param bereich
-   *        Bereich
-   * @param name
-   *        Name
-   * @return gefundene Weiche oder <code>null</code>
-   */
-  public Weiche getWeiche(String bereich, String name) {
-    return getBereichselement(bereich, name, this.weichen);
-  }
 
   /**
    * Fahrstrasse liefern.
@@ -169,7 +83,6 @@ public class Parcours extends StringIdEntity {
     return sb.toString();
   }
 
-  @Transient
   private SetMultimap<Gleisabschnitt, Fahrstrasse> mapStartToFahrstrassen = MultimapBuilder.hashKeys().hashSetValues().build();
 
   public Set<Fahrstrasse> getFahrstrassenMitStart(Gleisabschnitt gleisabschnitt) {
@@ -181,7 +94,7 @@ public class Parcours extends StringIdEntity {
   }
 
   private void mapStartToFahrstrassenAdd(Fahrstrasse fahrstrasse) {
-    Gleisabschnitt start = fahrstrasse.getStart().getFahrwegelement();
+    Gleisabschnitt start = fahrstrasse.getStart().getOrCreateFahrwegelement();
     this.mapStartToFahrstrassen.put(start, fahrstrasse);
   }
 
@@ -190,7 +103,7 @@ public class Parcours extends StringIdEntity {
   }
 
   private void mapStartToFahrstrassenRemove(Fahrstrasse fahrstrasse) {
-    Gleisabschnitt start = fahrstrasse.getStart().getFahrwegelement();
+    Gleisabschnitt start = fahrstrasse.getStart().getOrCreateFahrwegelement();
     this.mapStartToFahrstrassen.remove(start, fahrstrasse);
   }
 
@@ -223,7 +136,7 @@ public class Parcours extends StringIdEntity {
     while (true) {
       Set<Fahrstrasse> weitereFahrstrassen = new HashSet<>();
       for (Fahrstrasse fahrstrasse1 : zuPruefendeFahrstrassen) {
-        for (Fahrstrasse fahrstrasse2 : getFahrstrassenMitStart(fahrstrasse1.getEnde().getFahrwegelement())) {
+        for (Fahrstrasse fahrstrasse2 : getFahrstrassenMitStart(fahrstrasse1.getEnde().getOrCreateFahrwegelement())) {
           Fahrstrasse kombiFahrstrasse = Fahrstrasse.concat(fahrstrasse1, fahrstrasse2);
           if (kombiFahrstrasse != null && !this.fahrstrassen.contains(kombiFahrstrasse)) {
             weitereFahrstrassen.add(kombiFahrstrasse);
@@ -261,6 +174,12 @@ public class Parcours extends StringIdEntity {
     this.fahrstrassen.forEach(f -> {
       f.adjustLangsamfahrt();
     });
+
+    // Noch nicht erzeugte Fahrwegelemente erzeugen
+    this.fahrstrassen
+        .stream()
+        .flatMap(f -> f.getElemente().stream())
+        .forEach(e -> e.getOrCreateFahrwegelement());
   }
 
   /**
@@ -308,25 +227,7 @@ public class Parcours extends StringIdEntity {
   public void injectFields() {
     InjectionUtil.injectFields(this);
     this.fahrstrassen.forEach(Fahrstrasse::injectFields);
-  }
-
-  @PostLoad
-  void fillTransientFields() {
-    this.fahrstrassen
-        .stream()
-        .flatMap(f -> f.getElemente().stream())
-        .map(fe -> fe.getFahrwegelement())
-        .forEach(fwe -> {
-          if (fwe instanceof Gleisabschnitt) {
-            this.gleisabschnitte.add((Gleisabschnitt) fwe);
-          } else if (fwe instanceof Signal) {
-            this.signale.add((Signal) fwe);
-          } else if (fwe instanceof Weiche) {
-            this.weichen.add((Weiche) fwe);
-          }
-        });
-
-    this.fahrstrassen.forEach(f -> this.mapStartToFahrstrassen.put(f.getStart().getFahrwegelement(), f));
+    this.autoFahrstrassen.forEach(AutoFahrstrasse::injectFields);
   }
 
 }

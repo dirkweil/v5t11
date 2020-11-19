@@ -1,16 +1,12 @@
 package de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse;
 
 import de.gedoplan.baselibs.utils.exception.BugException;
-import de.gedoplan.v5t11.fahrstrassen.entity.Parcours;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Signal;
+import de.gedoplan.v5t11.fahrstrassen.persistence.SignalRepository;
 import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.ManyToOne;
+import javax.inject.Inject;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -19,32 +15,25 @@ import javax.xml.bind.annotation.XmlAttribute;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Entity
 @XmlAccessorType(XmlAccessType.NONE)
 @NoArgsConstructor
 public abstract class FahrstrassenSignal extends FahrstrassenGeraet implements Cloneable {
 
-  @Getter
-  @ManyToOne(cascade = CascadeType.ALL)
-  private Signal signal;
+  @Inject
+  SignalRepository signalRepository;
 
   @Getter(onMethod_ = @JsonbInclude(full = true))
   @XmlAttribute
-  @Enumerated(EnumType.STRING)
   private SignalStellung stellung;
 
   @Override
-  public Signal getFahrwegelement() {
-    return this.signal;
-  }
-
-  @Override
-  public void linkFahrwegelement(Parcours parcours) {
-    this.signal = parcours.getSignal(getBereich(), getName());
-    if (this.signal == null) {
-      this.signal = new Signal(getBereich(), getName());
-      parcours.getSignale().add(this.signal);
+  public Signal getOrCreateFahrwegelement() {
+    Signal signal = this.signalRepository.findById(getId());
+    if (signal == null) {
+      signal = new Signal(getBereich(), getName());
+      this.signalRepository.persist(signal);
     }
+    return signal;
   }
 
   @Override
@@ -66,15 +55,6 @@ public abstract class FahrstrassenSignal extends FahrstrassenGeraet implements C
   private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
     if (isSchutz()) {
       this.stellung = SignalStellung.HALT;
-    }
-  }
-
-  @Override
-  public void reservieren(Fahrstrasse fahrstrasse) {
-    if (this.signal != null) {
-      if (!this.schutz) {
-        this.signal.reserviereFuerFahrstrasse(fahrstrasse, isZaehlrichtung());
-      }
     }
   }
 

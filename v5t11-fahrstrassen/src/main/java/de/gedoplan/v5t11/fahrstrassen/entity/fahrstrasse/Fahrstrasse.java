@@ -27,16 +27,6 @@ import java.util.stream.Collectors;
 import javax.enterprise.util.AnnotationLiteral;
 import javax.enterprise.util.Nonbinding;
 import javax.inject.Qualifier;
-import javax.persistence.Access;
-import javax.persistence.AccessType;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderColumn;
-import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -49,12 +39,7 @@ import lombok.Getter;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.NONE)
-@Entity
-@Table(name = Fahrstrasse.TABLE_NAME)
-@Access(AccessType.FIELD)
 public class Fahrstrasse extends Bereichselement {
-
-  public static final String TABLE_NAME = "FS_FAHRSTRASSE";
 
   /**
    * In Zählrichtung orientiert?
@@ -86,14 +71,7 @@ public class Fahrstrasse extends Bereichselement {
       @XmlElement(name = "Sperrsignal", type = FahrstrassenSperrsignal.class),
       @XmlElement(name = "Weiche", type = FahrstrassenWeiche.class) })
   @Getter(onMethod_ = @JsonbInclude(full = true))
-  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-  @JoinColumn(name = "FAHRSTRASSE_BEREICH", referencedColumnName = "BEREICH")
-  @JoinColumn(name = "FAHRSTRASSE_NAME", referencedColumnName = "NAME")
-  @OrderColumn(name = "REIHENFOLGE")
   private List<Fahrstrassenelement> elemente = new ArrayList<>();
-
-  @ManyToOne
-  private Parcours parcours;
 
   /*
    * ************************************************************************************************
@@ -108,13 +86,11 @@ public class Fahrstrasse extends Bereichselement {
    */
   @XmlAttribute
   @Getter
-  @Transient
   private boolean umkehrbar;
 
   /**
    * Erstes Element.
    */
-  @Transient
   private FahrstrassenGleisabschnitt start;
 
   public FahrstrassenGleisabschnitt getStart() {
@@ -127,7 +103,6 @@ public class Fahrstrasse extends Bereichselement {
   /**
    * Letztes Element.
    */
-  @Transient
   private FahrstrassenGleisabschnitt ende;
 
   public FahrstrassenGleisabschnitt getEnde() {
@@ -155,7 +130,7 @@ public class Fahrstrasse extends Bereichselement {
       throw new IllegalArgumentException("Parent von Fahrstrasse muss Parcours sein");
     }
 
-    this.parcours = (Parcours) parent;
+    Parcours parcours = (Parcours) parent;
 
     // Fuer alle Elemente Defaults übernehmen wenn nötig
     this.elemente.forEach(element -> {
@@ -174,14 +149,15 @@ public class Fahrstrasse extends Bereichselement {
       Fahrstrassenelement fahrstrassenelement = iterator.next();
       if (fahrstrassenelement instanceof FahrstrassenWeiche && !fahrstrassenelement.isSchutz()) {
         FahrstrassenGleisabschnitt fahrstrassenGleisabschnitt = ((FahrstrassenWeiche) fahrstrassenelement).createFahrstrassenGleisabschnitt();
-        if (!containsSame(fahrstrassenGleisabschnitt)) {
+        if (!this.elemente.contains(fahrstrassenGleisabschnitt)) {
           iterator.add(fahrstrassenGleisabschnitt);
         }
       }
     }
 
     // Für alle Elemente die zugehörigen Fahrwegelemente erzeugen bzw. zuordnen
-    this.elemente.forEach(element -> element.linkFahrwegelement(this.parcours));
+    // TODO ist zu früh wg. Injektion
+    // this.elemente.forEach(element -> element.getOrCreateFahrwegelement());
 
     // Erstes und letztes Element müssen FahrstrassenGleisabschnitte sein
     int count = this.elemente.size();
@@ -199,10 +175,6 @@ public class Fahrstrasse extends Bereichselement {
 
     createName();
     createRank();
-  }
-
-  private boolean containsSame(Fahrstrassenelement fahrstrassenelement) {
-    return this.elemente.stream().anyMatch(e -> e.isSame(fahrstrassenelement));
   }
 
   /*
@@ -252,7 +224,7 @@ public class Fahrstrasse extends Bereichselement {
     // Wenn Ende links nicht Anfang rechts oder unterschiedliche Zählrichtung, nicht kombinieren
     Fahrstrassenelement linksLast = linkeFahrstrasse.getEnde();
     Fahrstrassenelement rechtsFirst = rechteFahrstrasse.getStart();
-    if (!linksLast.isSame(rechtsFirst)
+    if (!linksLast.equals(rechtsFirst)
         || linksLast.isZaehlrichtung() != rechtsFirst.isZaehlrichtung()) {
       return null;
     }
@@ -262,14 +234,14 @@ public class Fahrstrasse extends Bereichselement {
         .getElemente()
         .stream()
         .filter(e -> e instanceof FahrstrassenGleisabschnitt)
-        .map(e -> e.getFahrwegelement())
+        .map(e -> e.getOrCreateFahrwegelement())
         .collect(Collectors.toSet());
     boolean zyklus = rechteFahrstrasse
         .getElemente()
         .stream()
         .skip(1)
         .filter(e -> e instanceof FahrstrassenGleisabschnitt)
-        .map(e -> e.getFahrwegelement())
+        .map(e -> e.getOrCreateFahrwegelement())
         .anyMatch(linkeGleisabschnitte::contains);
     if (zyklus) {
       return null;
@@ -288,21 +260,19 @@ public class Fahrstrasse extends Bereichselement {
     result.start = linkeFahrstrasse.getStart();
     result.ende = rechteFahrstrasse.getEnde();
 
-    result.parcours = linkeFahrstrasse.parcours;
-
     // Schutzsignale entfernen, die auch als normale Signale vorhanden sind
     Set<Signal> normaleSignale = result.elemente
         .stream()
         .filter(e -> !e.isSchutz())
         .filter(e -> e instanceof FahrstrassenSignal)
-        .map(e -> ((FahrstrassenSignal) e).getFahrwegelement())
+        .map(e -> ((FahrstrassenSignal) e).getOrCreateFahrwegelement())
         .collect(Collectors.toSet());
 
     Iterator<Fahrstrassenelement> iterator = result.elemente.iterator();
     while (iterator.hasNext()) {
       Fahrstrassenelement element = iterator.next();
       if (element instanceof FahrstrassenSignal && element.isSchutz()) {
-        Signal schutzSignal = ((FahrstrassenSignal) element).getFahrwegelement();
+        Signal schutzSignal = ((FahrstrassenSignal) element).getOrCreateFahrwegelement();
         if (schutzSignal != null && normaleSignale.contains(schutzSignal)) {
           iterator.remove();
         }
@@ -353,7 +323,7 @@ public class Fahrstrasse extends Bereichselement {
       if (i < 0) {
         return -1;
       }
-      if (this.elemente.get(i).isSame(element)) {
+      if (this.elemente.get(i).equals(element)) {
         return i;
       }
     }
@@ -409,8 +379,6 @@ public class Fahrstrasse extends Bereichselement {
   public Fahrstrasse createUmkehrung() {
     Fahrstrasse fahrstrasse = new Fahrstrasse();
 
-    fahrstrasse.parcours = this.parcours;
-
     this.elemente.forEach(fse -> fahrstrasse.elemente.add(0, fse.createUmkehrung()));
 
     fahrstrasse.rank = this.rank;
@@ -437,7 +405,7 @@ public class Fahrstrasse extends Bereichselement {
    */
   public boolean startsWith(Gleisabschnitt gleisabschnitt) {
     FahrstrassenGleisabschnitt start = getStart();
-    return gleisabschnitt.equals(start.getFahrwegelement());
+    return gleisabschnitt.equals(start.getOrCreateFahrwegelement());
   }
 
   /**
@@ -449,7 +417,7 @@ public class Fahrstrasse extends Bereichselement {
    */
   public boolean endsWith(Gleisabschnitt gleisabschnitt) {
     FahrstrassenGleisabschnitt ende = getEnde();
-    return gleisabschnitt.equals(ende.getFahrwegelement());
+    return gleisabschnitt.equals(ende.getOrCreateFahrwegelement());
   }
 
   /**
@@ -471,9 +439,9 @@ public class Fahrstrasse extends Bereichselement {
       int elementCount = this.elemente.size();
       for (int index = 0; index < elementCount; ++index) {
         Fahrstrassenelement element = this.elemente.get(index);
-        ReservierbaresFahrwegelement fahrwegelement = element.getFahrwegelement();
+        ReservierbaresFahrwegelement fahrwegelement = element.getOrCreateFahrwegelement();
 
-        if (!element.isSchutz() && fahrwegelement.getReserviertefahrstrasse() != null) {
+        if (!element.isSchutz() && fahrwegelement.getReserviertefahrstrasseId() != null) {
           return false;
         }
 
@@ -533,7 +501,7 @@ public class Fahrstrasse extends Bereichselement {
 
       this.reservierungsTyp = reservierungsTyp;
       this.teilFreigabeAnzahl = 0;
-      this.elemente.forEach(fe -> fe.reservieren(this));
+      this.elemente.forEach(fe -> fe.reservieren(getId()));
     }
 
     this.eventFirer.fire(this, Reserviert.Literal.INSTANCE);
@@ -560,7 +528,7 @@ public class Fahrstrasse extends Bereichselement {
     synchronized (Fahrstrasse.class) {
       while (neueTeilFreigabeAnzahl < this.elemente.size()) {
         Fahrstrassenelement element = this.elemente.get(neueTeilFreigabeAnzahl);
-        if (teilFreigabeEnde != null && element instanceof FahrstrassenGleisabschnitt && teilFreigabeEnde.equals(element.getFahrwegelement())) {
+        if (teilFreigabeEnde != null && element instanceof FahrstrassenGleisabschnitt && teilFreigabeEnde.equals(element.getOrCreateFahrwegelement())) {
           break;
         }
         element.reservieren(null);
@@ -639,7 +607,7 @@ public class Fahrstrasse extends Bereichselement {
     for (int i = startIndex; i < this.elemente.size(); ++i) {
       Fahrstrassenelement fe = this.elemente.get(i);
       if (fe instanceof FahrstrassenGleisabschnitt) {
-        Gleisabschnitt g = ((FahrstrassenGleisabschnitt) fe).getFahrwegelement();
+        Gleisabschnitt g = ((FahrstrassenGleisabschnitt) fe).getOrCreateFahrwegelement();
         if (!g.isBesetzt()) {
           return false;
         }
@@ -677,6 +645,7 @@ public class Fahrstrasse extends Bereichselement {
 
   public void injectFields() {
     InjectionUtil.injectFields(this);
+    this.elemente.forEach(Fahrstrassenelement::injectFields);
   }
 
 }

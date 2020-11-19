@@ -1,50 +1,27 @@
 package de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse;
 
-import de.gedoplan.baselibs.persistence.entity.UuidEntity;
 import de.gedoplan.baselibs.utils.exception.BugException;
-import de.gedoplan.v5t11.fahrstrassen.entity.Parcours;
+import de.gedoplan.baselibs.utils.inject.InjectionUtil;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.ReservierbaresFahrwegelement;
+import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
+import de.gedoplan.v5t11.util.domain.entity.Bereichselement;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
-import java.util.UUID;
-
-import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Entity
-@Table(name = Fahrstrassenelement.TABLE_NAME)
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @XmlAccessorType(XmlAccessType.NONE)
 @NoArgsConstructor
-public abstract class Fahrstrassenelement extends UuidEntity implements Cloneable {
-
-  public static final String TABLE_NAME = "FS_ELEMENT";
-
-  @XmlAttribute
-  @Getter(onMethod_ = @JsonbInclude)
-  @Setter
-  private String bereich;
-
-  @XmlAttribute
-  @Getter(onMethod_ = @JsonbInclude)
-  @Setter
-  private String name;
+public abstract class Fahrstrassenelement extends Bereichselement implements Cloneable {
 
   @XmlAttribute
   protected Boolean zaehlrichtung;
 
   public Fahrstrassenelement(String bereich, String name, boolean zaehlrichtung) {
-    this.bereich = bereich;
-    this.name = name;
+    super(bereich, name);
     this.zaehlrichtung = zaehlrichtung;
   }
 
@@ -115,10 +92,11 @@ public abstract class Fahrstrassenelement extends UuidEntity implements Cloneabl
 
   /**
    * Zugehöriges Fahrwegelement liefern.
+   * Wenn nötig, zuvor anlegen.
    *
    * @return Fahrwegelement
    */
-  public abstract ReservierbaresFahrwegelement getFahrwegelement();
+  public abstract ReservierbaresFahrwegelement getOrCreateFahrwegelement();
 
   /**
    * Rang für Anordnung von Fahrstrassenvorschlägen liefern.
@@ -130,26 +108,15 @@ public abstract class Fahrstrassenelement extends UuidEntity implements Cloneabl
   }
 
   /**
-   * Zugehöriges Fahrwegelement suchen und eintragen.
-   *
-   * @param parcours
-   *        Parcours
-   */
-  public abstract void linkFahrwegelement(Parcours parcours);
-
-  /**
    * Element für Fahrstrasse reservieren bzw. freigeben.
    *
-   * @param fahrstrasse
-   *        <code>null</code> zum Freigeben, sonst Fahrstrasse
+   * @param reserviertefahrstrasseId <code>null</code> zum Freigeben, sonst Id der Fahrstrasse
    */
-  public abstract void reservieren(Fahrstrasse fahrstrasse);
+  public void reservieren(BereichselementId reserviertefahrstrasseId) {
+    getOrCreateFahrwegelement().setReserviertefahrstrasseId(reserviertefahrstrasseId);
+  }
 
   public abstract String getTyp();
-
-  public boolean isSame(Fahrstrassenelement other) {
-    return getClass().equals(other.getClass()) && this.bereich.equals(other.bereich) && this.name.equals(other.name);
-  }
 
   /**
    * Kopie erzeugen.
@@ -181,18 +148,8 @@ public abstract class Fahrstrassenelement extends UuidEntity implements Cloneabl
     return fahrstrassenelement;
   }
 
-  @Override
-  protected Object clone() throws CloneNotSupportedException {
-
-    Fahrstrassenelement fahrstrassenelement = (Fahrstrassenelement) super.clone();
-    // TODO Die UUID-Erzeugung sollte als Hilfsmethode in UUIDEntity sein
-    fahrstrassenelement.id = UUID.randomUUID().toString();
-    return fahrstrassenelement;
-  }
-
-  @Override
-  public String toString() {
-    return "Fahrstrassenelement{bereich=" + this.bereich + ", name=" + this.name + ", zaehlrichtung=" + this.zaehlrichtung + ", schutz=" + isSchutz() + "}";
+  public void injectFields() {
+    InjectionUtil.injectFields(this);
   }
 
 }

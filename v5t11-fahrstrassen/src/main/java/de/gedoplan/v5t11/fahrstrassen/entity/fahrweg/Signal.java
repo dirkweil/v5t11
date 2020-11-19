@@ -1,12 +1,12 @@
 package de.gedoplan.v5t11.fahrstrassen.entity.fahrweg;
 
-import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrasse;
-import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
+import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import de.gedoplan.v5t11.util.domain.entity.fahrweg.geraet.AbstractSignal;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
@@ -23,28 +23,16 @@ public class Signal extends AbstractSignal implements ReservierbaresFahrwegeleme
   public static final String TABLE_NAME = "FS_SIGNAL";
 
   /**
-   * Falls dieses Element Teil einer reservierten Fahrstrasse ist, diese Fahrstrasse, sonst <code>null</code>
+   * Falls dieses Element Teil einer reservierten Fahrstrasse ist, Id dieser Fahrstrasse, sonst <code>null</code>
    */
   @Getter
   @Setter
-  // @ManyToOne
-  // @JoinColumn(name = "RESERVIERTE_FAHRSTRASSE_BEREICH", referencedColumnName = "BEREICH")
-  // @JoinColumn(name = "RESERVIERTE_FAHRSTRASSE_NAME", referencedColumnName = "NAME")
-  @Transient
-  protected Fahrstrasse reserviertefahrstrasse;
+  @AttributeOverride(name = "bereich", column = @Column(name = "RES_FS_BEREICH"))
+  @AttributeOverride(name = "name", column = @Column(name = "RES_FS_NAME"))
+  private BereichselementId reserviertefahrstrasseId;
 
   public Signal(String bereich, String name) {
     super(bereich, name);
-  }
-
-  @Override
-  public SignalStellung getStellung() {
-    throw new UnsupportedOperationException("Stellung wird nicht mit v5t11-status synchroniert");
-  }
-
-  @Override
-  public void setStellung(SignalStellung stellung) {
-    throw new UnsupportedOperationException("Stellung wird nicht mit v5t11-status synchroniert");
   }
 
 }

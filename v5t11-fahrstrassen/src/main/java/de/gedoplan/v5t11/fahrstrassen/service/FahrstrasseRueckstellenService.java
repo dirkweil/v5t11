@@ -1,8 +1,8 @@
 package de.gedoplan.v5t11.fahrstrassen.service;
 
-import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.FahrstrassenSignal;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrasse.Freigegeben;
+import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.FahrstrassenSignal;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Signal;
 import de.gedoplan.v5t11.fahrstrassen.gateway.StatusGateway;
 import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
@@ -47,14 +47,14 @@ public class FahrstrasseRueckstellenService {
         .skip(freigegeben.bisher())
         .filter(fe -> fe instanceof FahrstrassenSignal)
         .filter(fe -> !fe.isSchutz())
-        .filter(fe -> fe.getFahrwegelement().getReserviertefahrstrasse() == null)
+        .filter(fe -> fe.getOrCreateFahrwegelement().getReserviertefahrstrasseId() == null)
         .map(fe -> (FahrstrassenSignal) fe)
         .filter(fs -> !fs.isVorsignal()) // TODO Vorsignalhandling
         .forEach(fs -> signalRueckstellen(fahrstrasse, fs));
   }
 
   private void signalRueckstellen(Fahrstrasse fahrstrasse, FahrstrassenSignal fahrstrassenSignal) {
-    Signal signal = fahrstrassenSignal.getFahrwegelement();
+    Signal signal = fahrstrassenSignal.getOrCreateFahrwegelement();
     SignalStellung stellung = SignalStellung.HALT;
     try {
       if (this.log.isDebugEnabled()) {

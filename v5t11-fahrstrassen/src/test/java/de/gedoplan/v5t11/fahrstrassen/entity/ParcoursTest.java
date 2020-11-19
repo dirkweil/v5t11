@@ -6,6 +6,10 @@ import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Signal;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Weiche;
+import de.gedoplan.v5t11.fahrstrassen.persistence.GleisabschnittRepository;
+import de.gedoplan.v5t11.fahrstrassen.persistence.SignalRepository;
+import de.gedoplan.v5t11.fahrstrassen.persistence.WeicheRepository;
+import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import de.gedoplan.v5t11.util.test.V5t11TestConfigDirExtension;
 
 import java.util.Collection;
@@ -30,6 +34,15 @@ public class ParcoursTest {
 
   @Inject
   Parcours parcours;
+
+  @Inject
+  GleisabschnittRepository gleisabschnittRepository;
+
+  @Inject
+  SignalRepository signalRepository;
+
+  @Inject
+  WeicheRepository weicheRepository;
 
   @Inject
   Logger logger;
@@ -136,7 +149,7 @@ public class ParcoursTest {
   @Test
   public void test_02_fahrstrassen() {
 
-    Gleisabschnitt gleisabschnitt = this.parcours.getGleisabschnitt("show", "11");
+    Gleisabschnitt gleisabschnitt = this.gleisabschnittRepository.findById(new BereichselementId("show", "11"));
     assertNotNull(gleisabschnitt, "Gleisabschnitt show/11 nicht gefunden");
     Collection<Fahrstrasse> fahrstrassen = this.parcours.getFahrstrassenMitStart(gleisabschnitt);
     if (this.logger.isDebugEnabled()) {
@@ -179,7 +192,7 @@ public class ParcoursTest {
    */
   @Test
   public void test_03_gleisabschnitte() {
-    Collection<Gleisabschnitt> gleisabschnitte = this.parcours.getGleisabschnitte();
+    Collection<Gleisabschnitt> gleisabschnitte = this.gleisabschnittRepository.findAll();
     if (this.logger.isDebugEnabled()) {
       gleisabschnitte.forEach(this.logger::debug);
     }
@@ -191,7 +204,7 @@ public class ParcoursTest {
    */
   @Test
   public void test_04_signale() {
-    Collection<Signal> signale = this.parcours.getSignale();
+    Collection<Signal> signale = this.signalRepository.findAll();
     if (this.logger.isDebugEnabled()) {
       signale.forEach(this.logger::debug);
     }
@@ -203,7 +216,7 @@ public class ParcoursTest {
    */
   @Test
   public void test_05_weichen() {
-    Collection<Weiche> weichen = this.parcours.getWeichen();
+    Collection<Weiche> weichen = this.weicheRepository.findAll();
     if (this.logger.isDebugEnabled()) {
       weichen.forEach(this.logger::debug);
     }

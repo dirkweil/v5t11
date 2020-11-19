@@ -69,7 +69,7 @@ public class FahrstrasseStellenService {
   }
 
   private void signalStellen(Fahrstrasse fahrstrasse, FahrstrassenSignal fahrstrassenSignal) {
-    Signal signal = fahrstrassenSignal.getFahrwegelement();
+    Signal signal = fahrstrassenSignal.getOrCreateFahrwegelement();
     List<SignalStellung> stellungen = getAngepassteStellung(fahrstrassenSignal.getStellung(), fahrstrasse.getReservierungsTyp());
     try {
       if (this.log.isDebugEnabled()) {
@@ -103,7 +103,7 @@ public class FahrstrasseStellenService {
   }
 
   private void weicheStellen(Fahrstrasse fahrstrasse, FahrstrassenWeiche fahrstrassenWeiche) {
-    Weiche weiche = fahrstrassenWeiche.getFahrwegelement();
+    Weiche weiche = fahrstrassenWeiche.getOrCreateFahrwegelement();
     WeichenStellung stellung = fahrstrassenWeiche.getStellung();
     try {
       if (this.log.isDebugEnabled()) {

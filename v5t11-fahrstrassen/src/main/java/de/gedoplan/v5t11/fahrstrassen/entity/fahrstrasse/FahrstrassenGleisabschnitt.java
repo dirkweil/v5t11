@@ -1,40 +1,30 @@
 package de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse;
 
-import de.gedoplan.v5t11.fahrstrassen.entity.Parcours;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleisabschnitt;
+import de.gedoplan.v5t11.fahrstrassen.persistence.GleisabschnittRepository;
 import de.gedoplan.v5t11.util.domain.entity.fahrweg.geraet.AbstractWeiche;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.inject.Inject;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Entity
-@DiscriminatorValue("GA")
 @XmlAccessorType(XmlAccessType.NONE)
 @NoArgsConstructor
 public class FahrstrassenGleisabschnitt extends Fahrstrassenelement {
 
-  @Column(name = "START_ERLAUBT")
+  @Inject
+  GleisabschnittRepository gleisabschnittRepository;
+
   @XmlAttribute
   private Boolean startErlaubt;
 
-  @Column(name = "ENDE_ERLAUBT")
   @XmlAttribute
   private Boolean endeErlaubt;
-
-  @Getter
-  @ManyToOne(cascade = CascadeType.ALL)
-  private Gleisabschnitt gleisabschnitt;
 
   public FahrstrassenGleisabschnitt(String bereich, String name, boolean zaehlrichtung) {
     super(bereich, name, zaehlrichtung);
@@ -49,29 +39,18 @@ public class FahrstrassenGleisabschnitt extends Fahrstrassenelement {
   }
 
   @Override
-  public Gleisabschnitt getFahrwegelement() {
-    return this.gleisabschnitt;
-  }
-
-  @Override
-  public void linkFahrwegelement(Parcours parcours) {
-    this.gleisabschnitt = parcours.getGleisabschnitt(getBereich(), getName());
-    if (this.gleisabschnitt == null) {
-      this.gleisabschnitt = new Gleisabschnitt(getBereich(), getName());
-      parcours.getGleisabschnitte().add(this.gleisabschnitt);
+  public Gleisabschnitt getOrCreateFahrwegelement() {
+    Gleisabschnitt gleisabschnitt = this.gleisabschnittRepository.findById(getId());
+    if (gleisabschnitt == null) {
+      gleisabschnitt = new Gleisabschnitt(getBereich(), getName());
+      this.gleisabschnittRepository.persist(gleisabschnitt);
     }
+    return gleisabschnitt;
   }
 
   @Override
   public int getRank() {
     return 1;
-  }
-
-  @Override
-  public void reservieren(Fahrstrasse fahrstrasse) {
-    if (this.gleisabschnitt != null) {
-      this.gleisabschnitt.reserviereFuerFahrstrasse(fahrstrasse, isZaehlrichtung());
-    }
   }
 
   @Override

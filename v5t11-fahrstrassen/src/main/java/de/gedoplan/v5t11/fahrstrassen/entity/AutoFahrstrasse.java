@@ -1,15 +1,10 @@
 package de.gedoplan.v5t11.fahrstrassen.entity;
 
 import de.gedoplan.baselibs.persistence.entity.UuidEntity;
+import de.gedoplan.baselibs.utils.inject.InjectionUtil;
 
 import java.util.List;
 
-import javax.persistence.CollectionTable;
-import javax.persistence.ElementCollection;
-import javax.persistence.Embeddable;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Table;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -19,8 +14,6 @@ import javax.xml.bind.annotation.XmlElement;
 import lombok.Getter;
 import lombok.ToString;
 
-@Entity
-@Table(name = AutoFahrstrasse.TABLE_NAME)
 @XmlAccessorType(XmlAccessType.NONE)
 @Getter
 public class AutoFahrstrasse extends UuidEntity {
@@ -33,8 +26,6 @@ public class AutoFahrstrasse extends UuidEntity {
   @XmlAttribute(required = true)
   private String trigger;
 
-  @ElementCollection(fetch = FetchType.EAGER)
-  @CollectionTable(name = TABLE_NAME + "_ELEMENTE")
   @XmlElement(name = "Fahrstrasse")
   private List<AutoFahrstrassenElement> elemente;
 
@@ -48,7 +39,6 @@ public class AutoFahrstrasse extends UuidEntity {
     return builder.toString();
   }
 
-  @Embeddable
   @XmlAccessorType(XmlAccessType.NONE)
   @Getter
   @ToString
@@ -81,6 +71,10 @@ public class AutoFahrstrasse extends UuidEntity {
         e.endeBereich = this.bereich;
       }
     });
+  }
+
+  public void injectFields() {
+    InjectionUtil.injectFields(this);
   }
 
 }
