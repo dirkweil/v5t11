@@ -27,13 +27,20 @@ public abstract class FahrstrassenSignal extends FahrstrassenGeraet implements C
   private SignalStellung stellung;
 
   @Override
-  public Signal getOrCreateFahrwegelement() {
+  public Signal getFahrwegelement() {
     Signal signal = this.signalRepository.findById(getId());
     if (signal == null) {
-      signal = new Signal(getBereich(), getName());
-      this.signalRepository.persist(signal);
+      throw new IllegalStateException("Signal nicht vorhanden: " + getId());
     }
     return signal;
+  }
+
+  @Override
+  public void createFahrwegelement() {
+    Signal signal = this.signalRepository.findById(getId());
+    if (signal == null) {
+      this.signalRepository.persist(new Signal(getBereich(), getName()));
+    }
   }
 
   @Override

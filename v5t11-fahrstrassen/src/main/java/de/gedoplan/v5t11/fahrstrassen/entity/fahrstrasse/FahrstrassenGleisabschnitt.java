@@ -39,13 +39,20 @@ public class FahrstrassenGleisabschnitt extends Fahrstrassenelement {
   }
 
   @Override
-  public Gleisabschnitt getOrCreateFahrwegelement() {
+  public Gleisabschnitt getFahrwegelement() {
     Gleisabschnitt gleisabschnitt = this.gleisabschnittRepository.findById(getId());
     if (gleisabschnitt == null) {
-      gleisabschnitt = new Gleisabschnitt(getBereich(), getName());
-      this.gleisabschnittRepository.persist(gleisabschnitt);
+      throw new IllegalStateException("Gleisabschnitt nicht vorhanden: " + getId());
     }
     return gleisabschnitt;
+  }
+
+  @Override
+  public void createFahrwegelement() {
+    Gleisabschnitt gleisabschnitt = this.gleisabschnittRepository.findById(getId());
+    if (gleisabschnitt == null) {
+      this.gleisabschnittRepository.persist(new Gleisabschnitt(getBereich(), getName()));
+    }
   }
 
   @Override

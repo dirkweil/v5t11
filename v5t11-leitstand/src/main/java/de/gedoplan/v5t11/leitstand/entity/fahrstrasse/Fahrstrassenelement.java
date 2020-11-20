@@ -35,7 +35,7 @@ public class Fahrstrassenelement extends Bereichselement {
    * Zugehöriges Fahrwegelement suchen und eintragen.
    *
    * @param leitstand
-   *          Parcours
+   *        Parcours
    */
   public void linkFahrwegelement(Leitstand leitstand) {
     switch (this.typ) {
@@ -80,4 +80,5 @@ public class Fahrstrassenelement extends Bereichselement {
   public SignalStellung getSignalstellung() {
     return SignalStellung.valueOf(this.stellung);
   }
+
 }

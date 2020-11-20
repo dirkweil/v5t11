@@ -47,14 +47,14 @@ public class FahrstrasseRueckstellenService {
         .skip(freigegeben.bisher())
         .filter(fe -> fe instanceof FahrstrassenSignal)
         .filter(fe -> !fe.isSchutz())
-        .filter(fe -> fe.getOrCreateFahrwegelement().getReserviertefahrstrasseId() == null)
+        .filter(fe -> fe.getFahrwegelement().getReserviertefahrstrasseId() == null)
         .map(fe -> (FahrstrassenSignal) fe)
         .filter(fs -> !fs.isVorsignal()) // TODO Vorsignalhandling
         .forEach(fs -> signalRueckstellen(fahrstrasse, fs));
   }
 
   private void signalRueckstellen(Fahrstrasse fahrstrasse, FahrstrassenSignal fahrstrassenSignal) {
-    Signal signal = fahrstrassenSignal.getOrCreateFahrwegelement();
+    Signal signal = fahrstrassenSignal.getFahrwegelement();
     SignalStellung stellung = SignalStellung.HALT;
     try {
       if (this.log.isDebugEnabled()) {

@@ -20,6 +20,7 @@ import javax.inject.Inject;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;
+import javax.transaction.Transactional;
 
 import org.jboss.logging.Logger;
 import org.junit.jupiter.api.MethodOrderer;
@@ -55,8 +56,9 @@ public class FahrstrasseTest {
     String expected = Json.createObjectBuilder()
         .add("bereich", fahrstrasse.getBereich())
         .add("name", fahrstrasse.getName())
-        .add("reservierungsTyp", fahrstrasse.getReservierungsTyp().name())
-        .add("teilFreigabeAnzahl", fahrstrasse.getTeilFreigabeAnzahl())
+        // TODO wird das Kurz-JSON gebraucht?
+        // .add("reservierungsTyp", fahrstrasse.getReservierungsTyp().name())
+        // .add("teilFreigabeAnzahl", fahrstrasse.getTeilFreigabeAnzahl())
         .build().toString();
 
     JSONAssert.assertEquals(expected, json, true);
@@ -89,8 +91,9 @@ public class FahrstrasseTest {
         .add("name", fahrstrasse.getName())
         .add("elemente", elementeBuilder.build())
         .add("rank", fahrstrasse.getRank())
-        .add("reservierungsTyp", fahrstrasse.getReservierungsTyp().name())
-        .add("teilFreigabeAnzahl", fahrstrasse.getTeilFreigabeAnzahl())
+        // TODO wird das Full-JSON gebraucht?
+        // .add("reservierungsTyp", fahrstrasse.getReservierungsTyp().name())
+        // .add("teilFreigabeAnzahl", fahrstrasse.getTeilFreigabeAnzahl())
         .add("zaehlrichtung", fahrstrasse.isZaehlrichtung())
         .build()
         .toString();
@@ -99,11 +102,12 @@ public class FahrstrasseTest {
   }
 
   @Test
+  @Transactional
   public void test_03_reservieren() throws Exception {
 
     Fahrstrasse fahrstrasse = this.parcours.getFahrstrasse(FS_BEREICH, FS_NAME);
 
-    assertThat("Fahrstrassenreservierung zu Beginn", fahrstrasse.getReservierungsTyp(), is(FahrstrassenReservierungsTyp.UNRESERVIERT));
+    assertThat("Fahrstrassenreservierung zu Beginn", fahrstrasse.getFahrstrassenStatus().getReservierungsTyp(), is(FahrstrassenReservierungsTyp.UNRESERVIERT));
 
     try {
       // Fahrstrasse reservieren
@@ -111,19 +115,20 @@ public class FahrstrasseTest {
       assertThat("Reservierungsergebnis", reservierenResult, is(true));
 
       // Ist der FS-Status richtig?
-      assertThat("Fahrstrassenreservierung nach Reservierung", fahrstrasse.getReservierungsTyp(), is(FahrstrassenReservierungsTyp.ZUGFAHRT));
+      assertThat("Fahrstrassenreservierung nach Reservierung", fahrstrasse.getFahrstrassenStatus().getReservierungsTyp(), is(FahrstrassenReservierungsTyp.ZUGFAHRT));
 
       // Sind alle FS-Elemente reserviert?
       fahrstrasse.getElemente().forEach(fe -> {
+        String reason = String.format("Zuordnung des FS-Elements %s", fe.getCode());
         if (fe.isSchutz()) {
-          assertThat("Fahrstrassenelement reserviert (d. h. der FS zugeordnet)", fe.getOrCreateFahrwegelement().getReserviertefahrstrasseId(), nullValue());
+          assertThat(reason, fe.getFahrwegelement().getReserviertefahrstrasseId(), nullValue());
         } else {
-          assertThat("Fahrstrassenelement reserviert (d. h. der FS zugeordnet)", fe.getOrCreateFahrwegelement().getReserviertefahrstrasseId(), is(fahrstrasse.getId()));
+          assertThat(reason, fe.getFahrwegelement().getReserviertefahrstrasseId(), is(fahrstrasse.getId()));
         }
       });
 
       // Ist die Teilfreigabeanzahl richtig?
-      assertThat("Teilfreigabeanzahl", fahrstrasse.getTeilFreigabeAnzahl(), is(0));
+      assertThat("Teilfreigabeanzahl", fahrstrasse.getFahrstrassenStatus().getTeilFreigabeAnzahl(), is(0));
 
     } finally {
       // FS wieder auf Ausgangszustand (unreserviert) setzen
@@ -135,30 +140,33 @@ public class FahrstrasseTest {
   }
 
   @Test
+  @Transactional
   public void test_04_komplettFreigeben() throws Exception {
 
     Fahrstrasse fahrstrasse = this.parcours.getFahrstrasse(FS_BEREICH, FS_NAME);
 
-    assertThat("Fahrstrassenreservierung zu Beginn", fahrstrasse.getReservierungsTyp(), is(FahrstrassenReservierungsTyp.UNRESERVIERT));
+    assertThat("Fahrstrassenreservierung zu Beginn", fahrstrasse.getFahrstrassenStatus().getReservierungsTyp(), is(FahrstrassenReservierungsTyp.UNRESERVIERT));
 
     try {
       // Fahrstrasse reservieren
-      fahrstrasse.reservieren(FahrstrassenReservierungsTyp.ZUGFAHRT);
+      boolean reservierenResult = fahrstrasse.reservieren(FahrstrassenReservierungsTyp.ZUGFAHRT);
+      assertThat("Reservierungsergebnis", reservierenResult, is(true));
 
       // Fahrstrasse wieder freigeben
       boolean freigabeResult = fahrstrasse.reservieren(FahrstrassenReservierungsTyp.UNRESERVIERT);
       assertThat("Freigabeergebnis", freigabeResult, is(true));
 
       // Ist der FS-Status richtig?
-      assertThat("Fahrstrassenreservierung nach Freigabe", fahrstrasse.getReservierungsTyp(), is(FahrstrassenReservierungsTyp.UNRESERVIERT));
+      assertThat("Fahrstrassenreservierung nach Freigabe", fahrstrasse.getFahrstrassenStatus().getReservierungsTyp(), is(FahrstrassenReservierungsTyp.UNRESERVIERT));
 
       // Sind alle FS-Elemente unreserviert?
       fahrstrasse.getElemente().forEach(fe -> {
-        assertThat("Fahrstrassenelement reserviert (d. h. der FS zugeordnet)", fe.getOrCreateFahrwegelement().getReserviertefahrstrasseId(), nullValue());
+        String reason = String.format("Zuordnung des FS-Elements %s", fe.getCode());
+        assertThat(reason, fe.getFahrwegelement().getReserviertefahrstrasseId(), nullValue());
       });
 
       // Ist die Teilfreigabeanzahl richtig?
-      assertThat("Teilfreigabeanzahl", fahrstrasse.getTeilFreigabeAnzahl(), is(fahrstrasse.getElemente().size()));
+      assertThat("Teilfreigabeanzahl", fahrstrasse.getFahrstrassenStatus().getTeilFreigabeAnzahl(), is(fahrstrasse.getElemente().size()));
 
     } finally {
       // FS wieder auf Ausgangszustand (unreserviert) setzen
@@ -173,6 +181,7 @@ public class FahrstrasseTest {
   GleisabschnittRepository gleisabschnittRepository;
 
   @Test
+  @Transactional
   public void test_05_teilFreigeben() throws Exception {
 
     Fahrstrasse fahrstrasse = this.parcours.getFahrstrasse(FS_BEREICH, FS_NAME);
@@ -185,11 +194,12 @@ public class FahrstrasseTest {
     Gleisabschnitt gleisabschnittS = this.gleisabschnittRepository.findById(new BereichselementId(FS_BEREICH, "S"));
     assertNotNull(gleisabschnittS);
 
-    assertThat("Fahrstrassenreservierung zu Beginn", fahrstrasse.getReservierungsTyp(), is(FahrstrassenReservierungsTyp.UNRESERVIERT));
+    assertThat("Fahrstrassenreservierung zu Beginn", fahrstrasse.getFahrstrassenStatus().getReservierungsTyp(), is(FahrstrassenReservierungsTyp.UNRESERVIERT));
 
     try {
       // Fahrstrasse reservieren
-      fahrstrasse.reservieren(FahrstrassenReservierungsTyp.ZUGFAHRT);
+      boolean reservierenResult = fahrstrasse.reservieren(FahrstrassenReservierungsTyp.ZUGFAHRT);
+      assertThat("Reservierungsergebnis", reservierenResult, is(true));
 
       Stream.of(gleisabschnitt11, gleisabschnitt1, gleisabschnittS)
           .forEach(g -> {
@@ -199,24 +209,24 @@ public class FahrstrasseTest {
             // Ist die Anzahl bislang freigegebener Elemente richtig?
             int teilFreigabeAnzahl = 0;
             for (Fahrstrassenelement fe : fahrstrasse.getElemente()) {
-              if (g.equals(fe.getOrCreateFahrwegelement())) {
+              if (g.equals(fe.getFahrwegelement())) {
                 break;
               }
               ++teilFreigabeAnzahl;
             }
-            assertThat("Teilfreigabeanzahl", fahrstrasse.getTeilFreigabeAnzahl(), is(teilFreigabeAnzahl));
+            assertThat("Teilfreigabeanzahl", fahrstrasse.getFahrstrassenStatus().getTeilFreigabeAnzahl(), is(teilFreigabeAnzahl));
 
             // Sind die teilfreigegebenen Elemente auch freigegeben?
             fahrstrasse.getElemente().stream().limit(teilFreigabeAnzahl).forEach(fe -> {
-              assertThat("Fahrstrassenelement reserviert (d. h. der FS zugeordnet)", fe.getOrCreateFahrwegelement().getReserviertefahrstrasseId(), nullValue());
+              assertThat("Fahrstrassenelement reserviert (d. h. der FS zugeordnet)", fe.getFahrwegelement().getReserviertefahrstrasseId(), nullValue());
             });
 
             // Sind die restlichen Elemente noch reserviert?
             fahrstrasse.getElemente().stream().skip(teilFreigabeAnzahl).forEach(fe -> {
               if (fe.isSchutz()) {
-                assertThat("Fahrstrassenelement reserviert (d. h. der FS zugeordnet)", fe.getOrCreateFahrwegelement().getReserviertefahrstrasseId(), nullValue());
+                assertThat("Fahrstrassenelement reserviert (d. h. der FS zugeordnet)", fe.getFahrwegelement().getReserviertefahrstrasseId(), nullValue());
               } else {
-                assertThat("Fahrstrassenelement reserviert (d. h. der FS zugeordnet)", fe.getOrCreateFahrwegelement().getReserviertefahrstrasseId(), is(fahrstrasse.getId()));
+                assertThat("Fahrstrassenelement reserviert (d. h. der FS zugeordnet)", fe.getFahrwegelement().getReserviertefahrstrasseId(), is(fahrstrasse.getId()));
               }
             });
           });

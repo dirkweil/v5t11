@@ -92,11 +92,15 @@ public abstract class Fahrstrassenelement extends Bereichselement implements Clo
 
   /**
    * Zugehöriges Fahrwegelement liefern.
-   * Wenn nötig, zuvor anlegen.
    *
    * @return Fahrwegelement
    */
-  public abstract ReservierbaresFahrwegelement getOrCreateFahrwegelement();
+  public abstract ReservierbaresFahrwegelement getFahrwegelement();
+
+  /**
+   * Fahrwegelement anlegen.
+   */
+  public abstract void createFahrwegelement();
 
   /**
    * Rang für Anordnung von Fahrstrassenvorschlägen liefern.
@@ -113,10 +117,27 @@ public abstract class Fahrstrassenelement extends Bereichselement implements Clo
    * @param reserviertefahrstrasseId <code>null</code> zum Freigeben, sonst Id der Fahrstrasse
    */
   public void reservieren(BereichselementId reserviertefahrstrasseId) {
-    getOrCreateFahrwegelement().setReserviertefahrstrasseId(reserviertefahrstrasseId);
+    if (!isSchutz()) {
+      getFahrwegelement().setReserviertefahrstrasseId(reserviertefahrstrasseId);
+    }
   }
 
   public abstract String getTyp();
+
+  /**
+   * Kurz-Kennung für Element liefern.
+   * Wird nur für Logging/Debugging benötigt.
+   * 
+   * @return Code
+   */
+  public String getCode() {
+    StringBuilder b = new StringBuilder();
+    b.append(getTyp().charAt(0));
+    b.append(isZaehlrichtung() ? '+' : '-');
+    b.append(getName());
+    String code = b.toString();
+    return isSchutz() ? code.toLowerCase() + "~" : code;
+  }
 
   /**
    * Kopie erzeugen.

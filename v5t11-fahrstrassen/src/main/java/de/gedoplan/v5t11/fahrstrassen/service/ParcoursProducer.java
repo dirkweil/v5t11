@@ -36,8 +36,10 @@ public class ParcoursProducer {
     // Parcours aus XML lesen
     Parcours parcours = configService.readXmlConfig("_parcours.xml", Parcours.class);
     parcours.injectFields();
+    parcours.addPersistentEntries();
     parcours.completeFahrstrassen();
     parcours.injectFields();
+    parcours.addPersistentEntries();
 
     this.eventFirer.fire(parcours, Created.Literal.INSTANCE);
 

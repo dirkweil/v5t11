@@ -26,13 +26,20 @@ public class FahrstrassenWeiche extends FahrstrassenGeraet {
   private WeichenStellung stellung;
 
   @Override
-  public Weiche getOrCreateFahrwegelement() {
+  public Weiche getFahrwegelement() {
     Weiche weiche = this.weicheRepository.findById(getId());
     if (weiche == null) {
-      weiche = new Weiche(getBereich(), getName());
-      this.weicheRepository.persist(weiche);
+      throw new IllegalStateException("Weiche nicht vorhanden: " + getId());
     }
     return weiche;
+  }
+
+  @Override
+  public void createFahrwegelement() {
+    Weiche weiche = this.weicheRepository.findById(getId());
+    if (weiche == null) {
+      this.weicheRepository.persist(new Weiche(getBereich(), getName()));
+    }
   }
 
   public FahrstrassenGleisabschnitt createFahrstrassenGleisabschnitt() {

@@ -39,7 +39,7 @@ public class FahrstrasseMonitor {
     // Alle Gleisabschnitte der Fahrstrasse in statusMap eintragen
     Stream<Gleisabschnitt> stream = fahrstrasse.getElemente().stream()
         .filter(fe -> fe instanceof FahrstrassenGleisabschnitt)
-        .map(fe -> ((FahrstrassenGleisabschnitt) fe).getOrCreateFahrwegelement());
+        .map(fe -> ((FahrstrassenGleisabschnitt) fe).getFahrwegelement());
 
     if (this.log.isDebugEnabled()) {
       stream = stream.peek(g -> this.log.debug("start: " + g + " überwachen"));
@@ -63,7 +63,7 @@ public class FahrstrasseMonitor {
         .limit(freigegeben.neu())
         .skip(freigegeben.bisher())
         .filter(fe -> fe instanceof FahrstrassenGleisabschnitt)
-        .map(fe -> ((FahrstrassenGleisabschnitt) fe).getOrCreateFahrwegelement());
+        .map(fe -> ((FahrstrassenGleisabschnitt) fe).getFahrwegelement());
 
     if (this.log.isDebugEnabled()) {
       stream = stream.peek(g -> this.log.debug("stop: " + g + " nicht mehr überwachen"));
@@ -101,12 +101,12 @@ public class FahrstrasseMonitor {
      * und vor dem nur durchfahrene Gleisabschnitte liegen.
      */
     int elementAnzahl = fahrstrasse.getElemente().size();
-    int idxGrenze = fahrstrasse.getTeilFreigabeAnzahl();
+    int idxGrenze = fahrstrasse.getFahrstrassenStatus().getTeilFreigabeAnzahl();
     Gleisabschnitt grenze = null;
     while (idxGrenze < elementAnzahl) {
       Fahrstrassenelement fe = fahrstrasse.getElemente().get(idxGrenze);
       if (fe instanceof FahrstrassenGleisabschnitt) {
-        Gleisabschnitt g = ((FahrstrassenGleisabschnitt) fe).getOrCreateFahrwegelement();
+        Gleisabschnitt g = ((FahrstrassenGleisabschnitt) fe).getFahrwegelement();
         GleisabschnittStatus gs = this.statusMap.get(g);
 
         if (!gs.isDurchfahren()) {

@@ -1,10 +1,10 @@
 package de.gedoplan.v5t11.fahrstrassen.service;
 
+import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrasse;
+import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrasse.Reserviert;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.FahrstrassenSignal;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.FahrstrassenWeiche;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrassenelement;
-import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrasse;
-import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrasse.Reserviert;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Signal;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Weiche;
 import de.gedoplan.v5t11.fahrstrassen.gateway.StatusGateway;
@@ -69,8 +69,8 @@ public class FahrstrasseStellenService {
   }
 
   private void signalStellen(Fahrstrasse fahrstrasse, FahrstrassenSignal fahrstrassenSignal) {
-    Signal signal = fahrstrassenSignal.getOrCreateFahrwegelement();
-    List<SignalStellung> stellungen = getAngepassteStellung(fahrstrassenSignal.getStellung(), fahrstrasse.getReservierungsTyp());
+    Signal signal = fahrstrassenSignal.getFahrwegelement();
+    List<SignalStellung> stellungen = getAngepassteStellung(fahrstrassenSignal.getStellung(), fahrstrasse.getFahrstrassenStatus().getReservierungsTyp());
     try {
       if (this.log.isDebugEnabled()) {
         this.log.debug("Stelle " + signal + " auf " + stellungen);
@@ -103,7 +103,7 @@ public class FahrstrasseStellenService {
   }
 
   private void weicheStellen(Fahrstrasse fahrstrasse, FahrstrassenWeiche fahrstrassenWeiche) {
-    Weiche weiche = fahrstrassenWeiche.getOrCreateFahrwegelement();
+    Weiche weiche = fahrstrassenWeiche.getFahrwegelement();
     WeichenStellung stellung = fahrstrassenWeiche.getStellung();
     try {
       if (this.log.isDebugEnabled()) {
@@ -128,9 +128,9 @@ public class FahrstrasseStellenService {
    * Stellung passend zum Reservierungstyp liefern.
    *
    * @param stellung
-   *          gewünschte Stellung
+   *        gewünschte Stellung
    * @param reservierungsTyp
-   *          Reservierungstyp, falls Signal für eine Fahrstrasse gestellt wird, sonst <code>null</code>
+   *        Reservierungstyp, falls Signal für eine Fahrstrasse gestellt wird, sonst <code>null</code>
    * @return angepasste Stellung
    */
   private static List<SignalStellung> getAngepassteStellung(SignalStellung stellung, FahrstrassenReservierungsTyp reservierungsTyp) {

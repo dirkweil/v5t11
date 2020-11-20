@@ -2,8 +2,9 @@ package de.gedoplan.v5t11.fahrstrassen.webservice;
 
 import de.gedoplan.v5t11.fahrstrassen.entity.Parcours;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrasse;
-import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleisabschnitt;
+import de.gedoplan.v5t11.fahrstrassen.persistence.FahrstrassenStatusRepository;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
+import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenFilter;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.NotFoundException;
@@ -30,10 +32,14 @@ import org.jboss.logging.Logger;
 
 @Path("fahrstrasse")
 @ApplicationScoped
+@Transactional(rollbackOn = Exception.class)
 public class FahrstrasseEndpoint {
 
   @Inject
   Parcours parcours;
+
+  @Inject
+  FahrstrassenStatusRepository fahrstrassenStatusRepository;
 
   @Inject
   Logger log;
@@ -95,33 +101,19 @@ public class FahrstrasseEndpoint {
       this.log.debug(String.format("getFahrstrassen: start=%s/%s, ende=%s/%s, filter=%s", startBereich, startName, endeBereich, endeName, filter));
     }
 
-    Gleisabschnitt start = null;
     if (startBereich != null || startName != null) {
       if (startBereich == null) {
         startBereich = endeBereich;
       }
-
-      // TODO Wie ermittelt man den Start?
-      // start = this.parcours.getGleisabschnitt(startBereich, startName);
-      if (start == null) {
-        return null;
-      }
     }
 
-    Gleisabschnitt ende = null;
     if (endeBereich != null || endeName != null) {
       if (endeBereich == null) {
         endeBereich = startBereich;
       }
-
-      // TODO Wie ermittelt man das Ende?
-      // ende = this.parcours.getGleisabschnitt(endeBereich, endeName);
-      if (ende == null) {
-        return null;
-      }
     }
 
-    return this.parcours.getFahrstrassen(start, ende, filter);
+    return this.parcours.getFahrstrassen(new BereichselementId(startBereich, startName), new BereichselementId(endeBereich, endeName), filter);
   }
 
   @PUT

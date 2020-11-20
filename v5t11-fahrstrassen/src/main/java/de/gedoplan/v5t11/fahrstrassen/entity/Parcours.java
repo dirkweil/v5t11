@@ -3,6 +3,7 @@ package de.gedoplan.v5t11.fahrstrassen.entity;
 import de.gedoplan.baselibs.utils.inject.InjectionUtil;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleisabschnitt;
+import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenFilter;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
 import de.gedoplan.v5t11.util.domain.entity.Bereichselement;
@@ -94,7 +95,7 @@ public class Parcours {
   }
 
   private void mapStartToFahrstrassenAdd(Fahrstrasse fahrstrasse) {
-    Gleisabschnitt start = fahrstrasse.getStart().getOrCreateFahrwegelement();
+    Gleisabschnitt start = fahrstrasse.getStart().getFahrwegelement();
     this.mapStartToFahrstrassen.put(start, fahrstrasse);
   }
 
@@ -103,7 +104,7 @@ public class Parcours {
   }
 
   private void mapStartToFahrstrassenRemove(Fahrstrasse fahrstrasse) {
-    Gleisabschnitt start = fahrstrasse.getStart().getOrCreateFahrwegelement();
+    Gleisabschnitt start = fahrstrasse.getStart().getFahrwegelement();
     this.mapStartToFahrstrassen.remove(start, fahrstrasse);
   }
 
@@ -136,7 +137,7 @@ public class Parcours {
     while (true) {
       Set<Fahrstrasse> weitereFahrstrassen = new HashSet<>();
       for (Fahrstrasse fahrstrasse1 : zuPruefendeFahrstrassen) {
-        for (Fahrstrasse fahrstrasse2 : getFahrstrassenMitStart(fahrstrasse1.getEnde().getOrCreateFahrwegelement())) {
+        for (Fahrstrasse fahrstrasse2 : getFahrstrassenMitStart(fahrstrasse1.getEnde().getFahrwegelement())) {
           Fahrstrasse kombiFahrstrasse = Fahrstrasse.concat(fahrstrasse1, fahrstrasse2);
           if (kombiFahrstrasse != null && !this.fahrstrassen.contains(kombiFahrstrasse)) {
             weitereFahrstrassen.add(kombiFahrstrasse);
@@ -175,11 +176,21 @@ public class Parcours {
       f.adjustLangsamfahrt();
     });
 
-    // Noch nicht erzeugte Fahrwegelemente erzeugen
+  }
+
+  /**
+   * Noch nicht erzeugte persistente Elemente erzeugen.
+   */
+  public void addPersistentEntries() {
+    this.fahrstrassen
+        .stream()
+        .forEach(f -> f.createFahrstrassenStatus());
+
     this.fahrstrassen
         .stream()
         .flatMap(f -> f.getElemente().stream())
-        .forEach(e -> e.getOrCreateFahrwegelement());
+        .forEach(e -> e.createFahrwegelement());
+
   }
 
   /**
@@ -193,15 +204,15 @@ public class Parcours {
    *        Filter (nur freie/reservierte/unkombinierte) oder <code>null</code> für alle
    * @return gefundene Fahrstrassen in aufsteigender Rang-Reihenfolge
    */
-  public List<Fahrstrasse> getFahrstrassen(Gleisabschnitt beginn, Gleisabschnitt ende, FahrstrassenFilter filter) {
+  public List<Fahrstrasse> getFahrstrassen(BereichselementId beginnGleisabschnittId, BereichselementId endeGleisabschnittId, FahrstrassenFilter filter) {
     Stream<Fahrstrasse> stream = this.fahrstrassen.stream();
 
-    if (beginn != null) {
-      stream = stream.filter(fs -> fs.startsWith(beginn));
+    if (beginnGleisabschnittId != null) {
+      stream = stream.filter(fs -> fs.startsWith(beginnGleisabschnittId));
     }
 
-    if (ende != null) {
-      stream = stream.filter(fs -> fs.endsWith(ende));
+    if (endeGleisabschnittId != null) {
+      stream = stream.filter(fs -> fs.endsWith(endeGleisabschnittId));
     }
 
     if (filter != null) {
@@ -211,7 +222,7 @@ public class Parcours {
         break;
 
       case RESERVIERT:
-        stream = stream.filter(fs -> fs.getReservierungsTyp() != FahrstrassenReservierungsTyp.UNRESERVIERT);
+        stream = stream.filter(fs -> fs.getFahrstrassenStatus().getReservierungsTyp() != FahrstrassenReservierungsTyp.UNRESERVIERT);
         break;
 
       case NON_COMBI:
