@@ -95,25 +95,29 @@ public class FahrstrasseEndpoint {
       String endeName,
       String filterAsString) {
 
-    FahrstrassenFilter filter = filterAsString != null ? FahrstrassenFilter.valueOfLenient(filterAsString) : null;
+    FahrstrassenFilter filter = filterAsString != null ? FahrstrassenFilter.ofCode(filterAsString) : null;
 
     if (this.log.isDebugEnabled()) {
       this.log.debug(String.format("getFahrstrassen: start=%s/%s, ende=%s/%s, filter=%s", startBereich, startName, endeBereich, endeName, filter));
     }
 
+    BereichselementId startId = null;
     if (startBereich != null || startName != null) {
       if (startBereich == null) {
         startBereich = endeBereich;
       }
+      startId = new BereichselementId(startBereich, startName);
     }
 
+    BereichselementId endeId = null;
     if (endeBereich != null || endeName != null) {
       if (endeBereich == null) {
         endeBereich = startBereich;
       }
+      endeId = new BereichselementId(endeBereich, endeName);
     }
 
-    return this.parcours.getFahrstrassen(new BereichselementId(startBereich, startName), new BereichselementId(endeBereich, endeName), filter);
+    return this.parcours.getFahrstrassen(startId, endeId, filter);
   }
 
   @PUT
@@ -130,7 +134,7 @@ public class FahrstrasseEndpoint {
     }
 
     try {
-      if (!fahrstrasse.reservieren(FahrstrassenReservierungsTyp.valueOfLenient(reservierungsTypAsString))) {
+      if (!fahrstrasse.reservieren(FahrstrassenReservierungsTyp.ofCode(reservierungsTypAsString))) {
         return ResponseFactory.createConflictResponse();
       }
     } catch (IllegalArgumentException e) {

@@ -5,6 +5,7 @@ import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 import de.gedoplan.v5t11.util.test.V5t11TestConfigDirExtension;
 
 import javax.inject.Inject;
+import javax.json.Json;
 
 import org.jboss.logging.Logger;
 import org.junit.jupiter.api.MethodOrderer;
@@ -36,13 +37,13 @@ public class WeicheTest {
 
     this.log.debug("JSON string: " + json);
 
-    JSONAssert.assertEquals(""
-        + "{\"bereich\":\"test\""
-        + ",\"name\":\"10\""
-        + ",\"stellung\":\"" + weiche.getStellung() + "\""
-        + "}",
-        json,
-        true);
+    String expected = Json.createObjectBuilder()
+        .add("bereich", weiche.getBereich())
+        .add("name", weiche.getName())
+        .add("stellung", weiche.getStellung().getCode())
+        .build().toString();
+
+    JSONAssert.assertEquals(expected, json, true);
   }
 
   @Test
@@ -56,13 +57,13 @@ public class WeicheTest {
 
     this.log.debug("JSON string: " + json);
 
-    JSONAssert.assertEquals(""
-        + "{\"bereich\":\"test\""
-        + ",\"name\":\"10\""
-        + ",\"stellung\":\"" + weiche.getStellung() + "\""
-        + ",\"gleisabschnittName\":\"W10\""
-        + "}",
-        json,
-        true);
+    String expected = Json.createObjectBuilder()
+        .add("bereich", weiche.getBereich())
+        .add("name", weiche.getName())
+        .add("stellung", weiche.getStellung().getCode())
+        .add("gleisabschnittName", weiche.getGleisabschnittName())
+        .build().toString();
+
+    JSONAssert.assertEquals(expected, json, true);
   }
 }

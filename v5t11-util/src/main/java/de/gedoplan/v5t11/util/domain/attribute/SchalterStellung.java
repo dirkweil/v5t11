@@ -1,26 +1,63 @@
 package de.gedoplan.v5t11.util.domain.attribute;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.json.bind.adapter.JsonbAdapter;
+import javax.json.bind.annotation.JsonbTypeAdapter;
+
+import lombok.Getter;
+
 /**
  * Schalterstellung.
  *
  * @author dw
  */
+@JsonbTypeAdapter(SchalterStellung.Adapter4Json.class)
 public enum SchalterStellung {
   // Achtung: Die Reihenfolge der beiden Konstanten muss erhalten bleiben, da die Ordinalwerte als Stellungswerte genutzt werden!
-  AUS, EIN;
+  AUS("0"),
+  EIN("1");
 
-  public static SchalterStellung valueOfLenient(String s) {
-    try {
-      return SchalterStellung.valueOf(s);
-    } catch (IllegalArgumentException e) {
-      for (SchalterStellung value : values()) {
-        if (value.name().startsWith(s)) {
-          return value;
-        }
-      }
+  @Getter
+  private String code;
 
-      throw e;
+  private static Map<String, SchalterStellung> lookup = new HashMap<>();
+  static {
+    for (SchalterStellung s : SchalterStellung.values()) {
+      lookup.put(s.code, s);
     }
   }
 
+  private SchalterStellung(String code) {
+    this.code = code;
+  }
+
+  public static SchalterStellung ofCode(String code) {
+    return ofCode(code, false);
+  }
+
+  public static SchalterStellung ofCode(String code, boolean strict) {
+    var stellung = lookup.get(code);
+    if (stellung == null) {
+      stellung = valueOf(code);
+    }
+    if (stellung == null && strict) {
+      throw new IllegalArgumentException("Unbekannte SchalterStellung: " + code);
+    }
+    return stellung;
+  }
+
+  public static class Adapter4Json implements JsonbAdapter<SchalterStellung, String> {
+
+    @Override
+    public String adaptToJson(SchalterStellung obj) throws Exception {
+      return obj == null ? null : obj.getCode();
+    }
+
+    @Override
+    public SchalterStellung adaptFromJson(String s) throws Exception {
+      return s == null ? null : ofCode(s, true);
+    }
+  }
 }

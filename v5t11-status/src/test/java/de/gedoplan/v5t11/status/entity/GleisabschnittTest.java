@@ -5,6 +5,7 @@ import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 import de.gedoplan.v5t11.util.test.V5t11TestConfigDirExtension;
 
 import javax.inject.Inject;
+import javax.json.Json;
 
 import org.jboss.logging.Logger;
 import org.junit.jupiter.api.MethodOrderer;
@@ -36,12 +37,12 @@ public class GleisabschnittTest {
 
     this.log.debug("JSON string: " + json);
 
-    JSONAssert.assertEquals(""
-        + "{\"bereich\":\"test\""
-        + ",\"name\":\"1\""
-        + ",\"besetzt\":" + gleisabschnitt.isBesetzt()
-        + "}",
-        json,
-        true);
+    String expected = Json.createObjectBuilder()
+        .add("bereich", gleisabschnitt.getBereich())
+        .add("name", gleisabschnitt.getName())
+        .add("besetzt", gleisabschnitt.isBesetzt())
+        .build().toString();
+
+    JSONAssert.assertEquals(expected, json, true);
   }
 }
