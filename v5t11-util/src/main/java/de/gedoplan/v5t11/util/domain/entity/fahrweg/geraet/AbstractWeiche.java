@@ -7,6 +7,7 @@ import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
 import de.gedoplan.v5t11.util.domain.entity.fahrweg.AbstractGeraet;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
+import javax.persistence.Convert;
 import javax.persistence.MappedSuperclass;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -34,6 +35,7 @@ public abstract class AbstractWeiche extends AbstractGeraet {
    */
   @Getter(onMethod_ = @JsonbInclude)
   @Setter(onMethod_ = @JsonbInclude)
+  @Convert(converter = WeichenStellung.Adapter4Jpa.class)
   private WeichenStellung stellung = WeichenStellung.GERADE;
 
   protected AbstractWeiche(String bereich, String name) {

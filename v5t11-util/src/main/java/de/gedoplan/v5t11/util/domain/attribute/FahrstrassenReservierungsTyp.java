@@ -5,6 +5,8 @@ import java.util.Map;
 
 import javax.json.bind.adapter.JsonbAdapter;
 import javax.json.bind.annotation.JsonbTypeAdapter;
+import javax.persistence.AttributeConverter;
+import javax.persistence.Converter;
 
 import lombok.Getter;
 
@@ -55,4 +57,21 @@ public enum FahrstrassenReservierungsTyp {
       return s == null ? null : ofCode(s, true);
     }
   }
+
+  // TODO autoApply wirkt nicht; warum?
+  @Converter(autoApply = true)
+  public static class Adapter4Jpa implements AttributeConverter<FahrstrassenReservierungsTyp, String> {
+
+    @Override
+    public String convertToDatabaseColumn(FahrstrassenReservierungsTyp attribute) {
+      return attribute == null ? null : attribute.getCode();
+    }
+
+    @Override
+    public FahrstrassenReservierungsTyp convertToEntityAttribute(String dbData) {
+      return dbData == null ? null : ofCode(dbData);
+    }
+
+  }
+
 }

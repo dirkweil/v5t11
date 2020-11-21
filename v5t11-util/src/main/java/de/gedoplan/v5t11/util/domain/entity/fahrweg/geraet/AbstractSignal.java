@@ -4,6 +4,7 @@ import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
 import de.gedoplan.v5t11.util.domain.entity.fahrweg.AbstractGeraet;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
+import javax.persistence.Convert;
 import javax.persistence.MappedSuperclass;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -28,6 +29,7 @@ public abstract class AbstractSignal extends AbstractGeraet {
    */
   @Getter(onMethod_ = @JsonbInclude)
   @Setter(onMethod_ = @JsonbInclude)
+  @Convert(converter = SignalStellung.Adapter4Jpa.class)
   private SignalStellung stellung = SignalStellung.HALT;
 
   protected AbstractSignal(String bereich, String name) {

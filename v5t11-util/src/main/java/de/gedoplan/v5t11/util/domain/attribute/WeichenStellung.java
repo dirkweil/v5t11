@@ -6,6 +6,8 @@ import java.util.stream.Stream;
 
 import javax.json.bind.adapter.JsonbAdapter;
 import javax.json.bind.annotation.JsonbTypeAdapter;
+import javax.persistence.AttributeConverter;
+import javax.persistence.Converter;
 
 import lombok.Getter;
 
@@ -57,4 +59,19 @@ public enum WeichenStellung {
     }
   }
 
+  // TODO autoApply wirkt nicht; warum?
+  @Converter(autoApply = true)
+  public static class Adapter4Jpa implements AttributeConverter<WeichenStellung, String> {
+
+    @Override
+    public String convertToDatabaseColumn(WeichenStellung attribute) {
+      return attribute == null ? null : attribute.getCode();
+    }
+
+    @Override
+    public WeichenStellung convertToEntityAttribute(String dbData) {
+      return dbData == null ? null : ofCode(dbData);
+    }
+
+  }
 }

@@ -5,6 +5,8 @@ import java.util.Map;
 
 import javax.json.bind.adapter.JsonbAdapter;
 import javax.json.bind.annotation.JsonbTypeAdapter;
+import javax.persistence.AttributeConverter;
+import javax.persistence.Converter;
 
 import lombok.Getter;
 
@@ -80,6 +82,22 @@ public enum SignalStellung {
     public SignalStellung adaptFromJson(String s) throws Exception {
       return s == null ? null : ofCode(s, true);
     }
+  }
+
+  // TODO autoApply wirkt nicht; warum?
+  @Converter(autoApply = true)
+  public static class Adapter4Jpa implements AttributeConverter<SignalStellung, String> {
+
+    @Override
+    public String convertToDatabaseColumn(SignalStellung attribute) {
+      return attribute == null ? null : attribute.getCode();
+    }
+
+    @Override
+    public SignalStellung convertToEntityAttribute(String dbData) {
+      return dbData == null ? null : ofCode(dbData);
+    }
+
   }
 
 };

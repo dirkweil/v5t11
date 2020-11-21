@@ -4,6 +4,7 @@ import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
 import de.gedoplan.v5t11.util.domain.entity.Bereichselement;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -29,6 +30,7 @@ public class FahrstrassenStatus extends Bereichselement {
    */
   @Getter(onMethod_ = @JsonbInclude)
   @Setter
+  @Convert(converter = FahrstrassenReservierungsTyp.Adapter4Jpa.class)
   private FahrstrassenReservierungsTyp reservierungsTyp = FahrstrassenReservierungsTyp.UNRESERVIERT;
 
   /**
