@@ -58,7 +58,6 @@
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-resteasy-jsonb</artifactId>
-      <scope></scope>
     </dependency>
 
     <dependency>

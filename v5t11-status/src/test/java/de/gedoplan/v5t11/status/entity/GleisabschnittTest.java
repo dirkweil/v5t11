@@ -38,8 +38,8 @@ public class GleisabschnittTest {
     this.log.debug("JSON string: " + json);
 
     String expected = Json.createObjectBuilder()
-        .add("bereich", gleisabschnitt.getBereich())
-        .add("name", gleisabschnitt.getName())
+        .add("id", gleisabschnitt.getId().encode())
+        .add("lastChangeMillis", gleisabschnitt.getLastChangeMillis())
         .add("besetzt", gleisabschnitt.isBesetzt())
         .build().toString();
 

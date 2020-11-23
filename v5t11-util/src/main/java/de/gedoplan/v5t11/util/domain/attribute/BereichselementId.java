@@ -36,10 +36,21 @@ public class BereichselementId implements Comparable<BereichselementId>, Seriali
     return NameComparator.compare(this.name, other.name);
   }
 
+  /**
+   * Code für Id aus Name und Bereich kombinieren.
+   * 
+   * @return Name + '@' + Bereich
+   */
   public String encode() {
     return this.name + "@" + this.bereich;
   }
 
+  /**
+   * Code in Name und Bereich aufteilen.
+   * 
+   * @param Name + '@' + Bereich
+   * @return Decodierte Id
+   */
   public static BereichselementId decode(String s) {
     String[] parts = s.split("@");
     if (parts.length != 2) {

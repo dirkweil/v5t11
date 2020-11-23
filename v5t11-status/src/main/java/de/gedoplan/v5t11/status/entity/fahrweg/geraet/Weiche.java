@@ -51,7 +51,7 @@ public class Weiche extends AbstractWeiche implements FunktionsdecoderGeraet {
   protected void setStellung(WeichenStellung stellung, boolean updateInterface) {
     if (getStellung() != stellung) {
       this.lastChangeMillis = System.currentTimeMillis();
-      this.stellung = stellung;
+      super.setStellung(stellung);
 
       if (updateInterface) {
         long fdWert = this.funktionsdecoderZuordnung.getFunktionsdecoder().getWert();

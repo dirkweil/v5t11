@@ -6,6 +6,8 @@ import javax.annotation.Priority;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Alternative;
 
+import org.eclipse.microprofile.reactive.messaging.Emitter;
+
 //TODO JMS -> RM
 
 @ApplicationScoped
@@ -13,8 +15,8 @@ import javax.enterprise.inject.Alternative;
 @Priority(1)
 public class TestStatusPublisher extends StatusPublisher {
 
-  // @Override
-  // public void publish(MessageCategory category, Object status) {
-  // }
+  @Override
+  protected void send(Emitter<String> emitter, Object obj) {
+  }
 
 }

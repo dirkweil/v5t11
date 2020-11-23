@@ -48,9 +48,9 @@ public class Gleisabschnitt extends AbstractGleisabschnitt {
   public String toString() {
     return this.getClass().getSimpleName()
         + "{"
-        + getBereich() + "/" + getName()
-        + " @ " + this.besetztmelder.getAdressen().get(0) + "/" + this.anschluss
-        + "}";
+        + getId().encode()
+        + " [" + this.besetztmelder.getAdressen().get(0) + "/" + this.anschluss
+        + "]}";
   }
 
   /**

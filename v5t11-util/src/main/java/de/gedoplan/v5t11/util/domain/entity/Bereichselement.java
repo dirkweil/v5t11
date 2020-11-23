@@ -29,12 +29,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class Bereichselement extends SingleIdEntity<BereichselementId> implements Comparable<Bereichselement> {
   @XmlAttribute
-  @Getter(onMethod_ = @JsonbInclude)
+  @Getter
   @Id
   private String bereich;
 
   @XmlAttribute
-  @Getter(onMethod_ = @JsonbInclude)
+  @Getter
   @Id
   private String name;
 
@@ -67,6 +67,23 @@ public abstract class Bereichselement extends SingleIdEntity<BereichselementId> 
       this.id = new BereichselementId(this.bereich, this.name);
     }
     return this.id;
+  }
+
+  /*
+   * Aus irgendeinem schleierhaften Grund nimmt Jsonb die id nur, wenn sie mit einer anderen Methode
+   * geliefert wird - nicht getId()!
+   * Könnte ein Bug in Yasson sein.
+   */
+  @JsonbInclude
+  public BereichselementId getKey() {
+    return getId();
+  }
+
+  @JsonbInclude
+  public void setKey(BereichselementId id) {
+    this.id = id;
+    this.bereich = id.getBereich();
+    this.name = id.getName();
   }
 
   public String toDisplayString() {

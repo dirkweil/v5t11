@@ -1,5 +1,7 @@
 package de.gedoplan.v5t11.fahrstrassen.service;
 
+import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleisabschnitt;
+import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Signal;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Weiche;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 
@@ -11,6 +13,20 @@ import org.eclipse.microprofile.reactive.messaging.Incoming;
 
 @ApplicationScoped
 public class StatusUpdater {
+
+  @Incoming("gleis-changed")
+  void gleisabschnittChanged(byte[] msg) {
+    String json = new String(msg);
+    Gleisabschnitt gleisabschnitt = JsonbWithIncludeVisibility.SHORT.fromJson(json, Gleisabschnitt.class);
+    System.out.println("msg: " + gleisabschnitt);
+  }
+
+  @Incoming("signal-changed")
+  void signalChanged(byte[] msg) {
+    String json = new String(msg);
+    Signal signal = JsonbWithIncludeVisibility.SHORT.fromJson(json, Signal.class);
+    System.out.println("msg: " + signal);
+  }
 
   @Incoming("weiche-changed")
   void weicheChanged(byte[] msg) {

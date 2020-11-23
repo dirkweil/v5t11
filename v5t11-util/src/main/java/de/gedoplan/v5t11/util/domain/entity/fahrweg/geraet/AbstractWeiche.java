@@ -36,7 +36,7 @@ public abstract class AbstractWeiche extends AbstractGeraet {
   @Getter(onMethod_ = @JsonbInclude)
   @Setter(onMethod_ = @JsonbInclude)
   @Convert(converter = WeichenStellung.Adapter4Jpa.class)
-  protected WeichenStellung stellung = WeichenStellung.GERADE;
+  private WeichenStellung stellung = WeichenStellung.GERADE;
 
   protected AbstractWeiche(String bereich, String name) {
     super(bereich, name);
