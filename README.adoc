@@ -1,0 +1,56 @@
+= v5t11 =
+
+. Überblick
++
+v5t11 steht für Visual Traincontrol und stellt eine Anwendung zur Steuerung einer Modellbahn dar.
++
+Auf seiten der Modellbahn wird eine Digitalsteuerung erwartet, die Weichen, Signale, Loks etc. steuern und die Belegung von Gleisabschnitten melden kann. 
++
+v5t11 unterstützt in der derzeitigen Version die Multiprotokoll-Zentrale FCC von Döhler & Haass sowie den kompatiblen Nachbau Mini FCC von Joachim Havekost. Gerätesteuerung und Rückmeldung werden über den Selectrix-Bus durchgeführt. Für die Lokdekoder werden die Gleisprotokolle Selectrix 1 & 2 sowie DCC unterstützt.
+
+. Historie und Technik
++
+v5t11 war ursprünglich eine Anwendung auf Basis von Java SE mit einem Swing-GUI. In einem Code Camp meiner Firma GEDOPLAN GmbH (www.gedoplan.de) haben wir daraus vor einigen Jahren eine Java-EE-Anwendung gebaut, deren Backend auf einem WildFly lief und die weiterhin ein Swing-GUI besaß. Mit dem Auftauchen von Microservices wurde v5t11 in separate Teilanwendungen aufgeteilt, die weiterhin Java-EE-basiert waren und teilweise wie zuvor WildFly als Ablaufumgebung nutzten, teilweise aber auch mit dem dedizierten Microservice-Framework Apache Meecrowave aufgebaut waren. 
++
+Aktuell befindet sich v5t11 im Umbau auf reaktiv gekoppelte Microservices. Dazu wird zur asynchronen Kommunikation zwischen den Teilanwendungen MicroProfile Reactive Messaging genutzt. Aufrufe, die ein unmittelbares Ergebnis benötigen, nutzen synchrone Rest Calls mit MicroProflie Rest Client und Fault Tolerance. Alle Teilanwendungen basieren nun auf Quarkus als Laufzeitframework.
+
+. Anwendungsteile
++
+[cols="3,5a,5a"]
+|===
+|Anwendung|Aufgabe|Technische Details, Bemerkungen
+
+|v5t11-status
+|
+* Kommunikation mit der Digitalzentrale
+* Ansteuerung von Funktionsdecodern und Besetztmeldern
+* Bereitstellung von Gleisabschnitten, Weichen, Signalen, etc. als Abstraktion der Selectrix/DCC-Daten
+* Melden von Änderungen mittels Messaging
+|
+* Konfiguration der Anlagenhardware mittels XML-File
+* Anbindung der Zentrale über USB
+* JSF-GUI für Ad-hoc-Steuerung oder Debugging
+
+|v5t11-fahrstrassen
+|
+* Erstellung eines Gesamt-Parcours durch Kombination der konfigurierten Fahrstraßen
+* Ermittelung verfügbarer und freier Fahrstraßen von a nach b
+* Reservierung und Freigabe von Fahrstraßen
+|
+* Konfiguration von Fahrstraßen in XML-File
+* Reine Backend-Anwendung
+
+|v5t11-fahrzeuge
+|
+* Verwalten und Steuern von Loks und anderen Fahrzeugen mit Decodern
+* Ermittelung der Fahrzeugposition auf der Anlage
+|
+* JSF-GUI für Fahrzeugauswahl, Konfiguration und Steuerung
+
+|v5t11-leitstand
+|
+* Visualisierung des Anlagen- und Fahrzeugzustandes
+* GUI für Anlagenbedienung
+|
+* Swing-GUI (!)
+|===
