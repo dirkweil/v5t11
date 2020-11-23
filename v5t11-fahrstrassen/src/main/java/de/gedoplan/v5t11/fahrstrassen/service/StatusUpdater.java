@@ -1,13 +1,24 @@
 package de.gedoplan.v5t11.fahrstrassen.service;
 
-import de.gedoplan.v5t11.util.service.AbstractStatusUpdater;
+import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Weiche;
+import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 
 import javax.enterprise.context.ApplicationScoped;
+
+import org.eclipse.microprofile.reactive.messaging.Incoming;
 
 //TODO JMS -> RM
 
 @ApplicationScoped
-public class StatusUpdater extends AbstractStatusUpdater {
+public class StatusUpdater {
+
+  @Incoming("weiche-changed")
+  void weicheChanged(byte[] msg) {
+    String json = new String(msg);
+    Weiche weiche = JsonbWithIncludeVisibility.SHORT.fromJson(json, Weiche.class);
+    System.out.println("msg: " + weiche);
+  }
+
   //
   // @Inject
   // @RestClient

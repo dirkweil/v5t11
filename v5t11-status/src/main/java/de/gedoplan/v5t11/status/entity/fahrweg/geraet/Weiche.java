@@ -41,7 +41,7 @@ public class Weiche extends AbstractWeiche implements FunktionsdecoderGeraet {
    * Wert setzen: {@link #stellung}.
    *
    * @param stellung
-   *          Wert
+   *        Wert
    */
   @Override
   public void setStellung(WeichenStellung stellung) {
@@ -50,7 +50,8 @@ public class Weiche extends AbstractWeiche implements FunktionsdecoderGeraet {
 
   protected void setStellung(WeichenStellung stellung, boolean updateInterface) {
     if (getStellung() != stellung) {
-      super.setStellung(stellung);
+      this.lastChangeMillis = System.currentTimeMillis();
+      this.stellung = stellung;
 
       if (updateInterface) {
         long fdWert = this.funktionsdecoderZuordnung.getFunktionsdecoder().getWert();
@@ -67,7 +68,7 @@ public class Weiche extends AbstractWeiche implements FunktionsdecoderGeraet {
    * Stellungswert für Stellung ermitteln.
    *
    * @param stellung
-   *          Stellung
+   *        Stellung
    * @return Stellungswert
    */
   public long getWertForStellung(WeichenStellung stellung) {
@@ -82,7 +83,7 @@ public class Weiche extends AbstractWeiche implements FunktionsdecoderGeraet {
    * Stellung für Stellungswert ermitteln.
    *
    * @param stellungsWert
-   *          Stellungswert
+   *        Stellungswert
    * @return Stellung
    */
   public WeichenStellung getStellungForWert(long stellungsWert) {
@@ -127,7 +128,7 @@ public class Weiche extends AbstractWeiche implements FunktionsdecoderGeraet {
    * Bei JAXB-Unmarshal Attribut idx als anschluss in die Funktionsdecoder-Zuordnung speichern.
    *
    * @param idx
-   *          Anschlussnummer
+   *        Anschlussnummer
    */
   @XmlAttribute
   public void setIdx(int idx) {
@@ -138,9 +139,9 @@ public class Weiche extends AbstractWeiche implements FunktionsdecoderGeraet {
    * Nach JAXB-Unmarshal Funktionsdecoder in die Funktionsdecoder-Zuordnung speichern.
    *
    * @param unmarshaller
-   *          Unmarshaller
+   *        Unmarshaller
    * @param parent
-   *          Parent
+   *        Parent
    */
   @SuppressWarnings("unused")
   private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {

@@ -30,7 +30,7 @@ public abstract class AbstractSignal extends AbstractGeraet {
   @Getter(onMethod_ = @JsonbInclude)
   @Setter(onMethod_ = @JsonbInclude)
   @Convert(converter = SignalStellung.Adapter4Jpa.class)
-  private SignalStellung stellung = SignalStellung.HALT;
+  protected SignalStellung stellung = SignalStellung.HALT;
 
   protected AbstractSignal(String bereich, String name) {
     super(bereich, name);

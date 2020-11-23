@@ -28,6 +28,7 @@ public class Bootstrap {
 
     log.info("configDir: " + configService.getConfigDir());
     log.info("anlage: " + configService.getAnlage());
+    log.info("mqttBroker: " + configService.getMqttHost() + ":" + configService.getMqttPort());
 
     steuerung.open(scheduler);
   }

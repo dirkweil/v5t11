@@ -41,16 +41,14 @@ public abstract class ConfigBase {
   public static final String PROPERTY_VERSION = "v5t11.version";
 
   public static final String PROPERTY_ANLAGE = "v5t11.anlage";
-  public static final String DEFAULT_ANLAGE = "show";
+
+  public static final String PROPERTY_MQTT_HOST = "v5t11.mqtt.host";
+
+  public static final String PROPERTY_MQTT_PORT = "v5t11.mqtt.port";
 
   public static final String PROPERTY_STATUS_REST_URL = "v5t11.status/mp-rest/url";
-  public static final String DEFAULT_STATUS_REST_URL = "http://v5t11-status:8080/rs";
-
-  public static final String PROPERTY_STATUS_JMS_URL = "v5t11.status/jms/url";
-  public static final String DEFAULT_STATUS_JMS_URL = "http-remoting://v5t11-status:8080";
 
   public static final String PROPERTY_FAHRSTRASSEN_REST_URL = "v5t11.fahrstrassen/mp-rest/url";
-  public static final String DEFAULT_FAHRSTRASSEN_REST_URL = "http://v5t11-fahrstrassen:8080";
 
   @Inject
   @ConfigProperty(name = PROPERTY_CONFIG_DIR)
@@ -58,7 +56,7 @@ public abstract class ConfigBase {
   String configDir;
 
   @Inject
-  @ConfigProperty(name = PROPERTY_ANLAGE, defaultValue = DEFAULT_ANLAGE)
+  @ConfigProperty(name = PROPERTY_ANLAGE)
   @Getter
   String anlage;
 
@@ -73,17 +71,22 @@ public abstract class ConfigBase {
   String version;
 
   @Inject
-  @ConfigProperty(name = PROPERTY_STATUS_REST_URL, defaultValue = DEFAULT_STATUS_REST_URL)
+  @ConfigProperty(name = PROPERTY_MQTT_HOST)
+  @Getter
+  String mqttHost;
+
+  @Inject
+  @ConfigProperty(name = PROPERTY_MQTT_PORT)
+  @Getter
+  int mqttPort;
+
+  @Inject
+  @ConfigProperty(name = PROPERTY_STATUS_REST_URL)
   @Getter
   String statusRestUrl;
 
   @Inject
-  @ConfigProperty(name = PROPERTY_STATUS_JMS_URL, defaultValue = DEFAULT_STATUS_JMS_URL)
-  @Getter
-  String statusJmsUrl;
-
-  @Inject
-  @ConfigProperty(name = PROPERTY_FAHRSTRASSEN_REST_URL, defaultValue = DEFAULT_FAHRSTRASSEN_REST_URL)
+  @ConfigProperty(name = PROPERTY_FAHRSTRASSEN_REST_URL)
   @Getter
   String fahrstrassenRestUrl;
 

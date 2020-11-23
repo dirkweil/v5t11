@@ -37,6 +37,8 @@ public class Gleisabschnitt extends AbstractGleisabschnitt {
   @XmlAttribute(name = "idx")
   private int anschluss;
 
+  private Logger log = Logger.getLogger(getClass());
+
   /**
    * {@inheritDoc}
    *
@@ -55,9 +57,9 @@ public class Gleisabschnitt extends AbstractGleisabschnitt {
    * Nachbearbeitung nach JAXB-Unmarshal.
    *
    * @param unmarshaller
-   *          Unmarshaller
+   *        Unmarshaller
    * @param parent
-   *          Parent
+   *        Parent
    */
   @SuppressWarnings("unused")
   private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
@@ -68,21 +70,18 @@ public class Gleisabschnitt extends AbstractGleisabschnitt {
     }
   }
 
-  private long lastChangeMillis = 0;
-  private Logger log = Logger.getLogger(getClass());
-
   public void adjustStatus() {
     boolean alt = isBesetzt();
     boolean neu = (this.besetztmelder.getWert() & (1 << this.anschluss)) != 0;
     if (alt != neu) {
-      setBesetzt(neu);
-      this.eventFirer.fire(this);
-
       long currentTimeMillis = System.currentTimeMillis();
       if (currentTimeMillis - this.lastChangeMillis < 1000) {
         this.log.warn(this + ": Schnelle Statuswechsel");
       }
       this.lastChangeMillis = currentTimeMillis;
+
+      setBesetzt(neu);
+      this.eventFirer.fire(this);
     }
   }
 

@@ -1,11 +1,31 @@
 package de.gedoplan.v5t11.status.service;
 
+import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
+import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
+
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Observes;
+import javax.inject.Inject;
+
+import org.eclipse.microprofile.reactive.messaging.Channel;
+import org.eclipse.microprofile.reactive.messaging.Emitter;
+import org.jboss.logging.Logger;
 
 // TODO JMS -> RM
 
 @ApplicationScoped
 public class StatusPublisher {
+  // @Inject
+  // @Channel("gleis-changed")
+  // Emitter<Gleisabschnitt> gleisabschnittEmitter;
+
+  @Inject
+  @Channel("weiche-changed")
+  Emitter<String> weicheEmitter;
+
+  @Inject
+  Logger logger;
+
   //
   // @Resource
   // ConnectionFactory connectionFactory;
@@ -46,13 +66,16 @@ public class StatusPublisher {
   // }
   //
   // void publish(@Observes Gleisabschnitt gleisabschnitt) {
-  // publish(MessageCategory.GLEIS, gleisabschnitt);
+  // this.gleisabschnittEmitter.send(gleisabschnitt);
   // }
-  //
-  // void publish(@Observes Weiche weiche) {
-  // publish(MessageCategory.WEICHE, weiche);
-  // }
-  //
+
+  void publish(@Observes Weiche weiche) {
+    if (this.logger.isDebugEnabled()) {
+      this.logger.debug("Send " + weiche);
+    }
+    this.weicheEmitter.send(JsonbWithIncludeVisibility.SHORT.toJson(weiche));
+  }
+
   // void publish(@Observes Signal signal) {
   // publish(MessageCategory.SIGNAL, signal);
   // }

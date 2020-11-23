@@ -46,7 +46,7 @@ public class Schalter extends AbstractGeraet implements FunktionsdecoderGeraet {
    * Wert setzen: {@link #stellung}.
    *
    * @param stellung
-   *          Wert
+   *        Wert
    */
   public void setStellung(SchalterStellung stellung) {
     setStellung(stellung, true);
@@ -54,6 +54,7 @@ public class Schalter extends AbstractGeraet implements FunktionsdecoderGeraet {
 
   protected void setStellung(SchalterStellung stellung, boolean updateInterface) {
     if (this.stellung != stellung) {
+      this.lastChangeMillis = System.currentTimeMillis();
       this.stellung = stellung;
 
       if (updateInterface) {
@@ -71,7 +72,7 @@ public class Schalter extends AbstractGeraet implements FunktionsdecoderGeraet {
    * Stellungswert für Stellung ermitteln.
    *
    * @param stellung
-   *          Stellung
+   *        Stellung
    * @return Stellungswert
    */
   public long getWertForStellung(SchalterStellung stellung) {
@@ -82,7 +83,7 @@ public class Schalter extends AbstractGeraet implements FunktionsdecoderGeraet {
    * Stellung für Stellungswert ermitteln.
    *
    * @param stellungsWert
-   *          Stellungswert
+   *        Stellungswert
    * @return Stellung
    */
   public SchalterStellung getStellungForWert(long stellungsWert) {
@@ -113,7 +114,7 @@ public class Schalter extends AbstractGeraet implements FunktionsdecoderGeraet {
    * Bei JAXB-Unmarshal Attribut idx als anschluss in die Funktionsdecoder-Zuordnung speichern.
    *
    * @param idx
-   *          Anschlussnummer
+   *        Anschlussnummer
    */
   @XmlAttribute
   public void setIdx(int idx) {
@@ -124,9 +125,9 @@ public class Schalter extends AbstractGeraet implements FunktionsdecoderGeraet {
    * Nach JAXB-Unmarshal Funktionsdecoder in die Funktionsdecoder-Zuordnung speichern.
    *
    * @param unmarshaller
-   *          Unmarshaller
+   *        Unmarshaller
    * @param parent
-   *          Parent
+   *        Parent
    */
   @SuppressWarnings("unused")
   private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {

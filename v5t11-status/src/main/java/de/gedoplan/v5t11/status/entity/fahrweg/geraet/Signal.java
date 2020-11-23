@@ -45,7 +45,7 @@ public abstract class Signal extends AbstractSignal implements FunktionsdecoderG
    * Konstruktor.
    *
    * @param bitCount
-   *          Anzahl genutzter Bits
+   *        Anzahl genutzter Bits
    */
   protected Signal(int bitCount) {
     this.funktionsdecoderZuordnung = new FunktionsdecoderZuordnung(bitCount);
@@ -55,9 +55,9 @@ public abstract class Signal extends AbstractSignal implements FunktionsdecoderG
    * Erlaubte Stellung hinzufügen.
    *
    * @param stellung
-   *          Stellung
+   *        Stellung
    * @param stellungswert
-   *          Stellungswert
+   *        Stellungswert
    */
   protected void addErlaubteStellung(SignalStellung stellung, long stellungswert) {
     this.stellung2wert.put(stellung, stellungswert);
@@ -78,7 +78,7 @@ public abstract class Signal extends AbstractSignal implements FunktionsdecoderG
    * Wert setzen: {@link #stellung}.
    *
    * @param stellung
-   *          Wert
+   *        Wert
    */
   @Override
   public void setStellung(SignalStellung stellung) {
@@ -91,7 +91,8 @@ public abstract class Signal extends AbstractSignal implements FunktionsdecoderG
         throw new IllegalArgumentException("Ungueltige Signalstellung)");
       }
 
-      super.setStellung(stellung);
+      this.lastChangeMillis = System.currentTimeMillis();
+      this.stellung = stellung;
 
       if (updateInterface) {
         long fdWert = this.funktionsdecoderZuordnung.getFunktionsdecoder().getWert();
@@ -108,7 +109,7 @@ public abstract class Signal extends AbstractSignal implements FunktionsdecoderG
    * Stellungswert für Stellung ermitteln.
    *
    * @param stellung
-   *          Stellung
+   *        Stellung
    * @return Stellungswert
    */
   public long getWertForStellung(SignalStellung stellung) {
@@ -120,7 +121,7 @@ public abstract class Signal extends AbstractSignal implements FunktionsdecoderG
    * Stellung für Stellungswert ermitteln.
    *
    * @param stellungsWert
-   *          Stellungswert
+   *        Stellungswert
    * @return Stellung oder null, wenn ungueltiger Stellungswert
    */
   public SignalStellung getStellungForWert(long stellungsWert) {
@@ -152,7 +153,7 @@ public abstract class Signal extends AbstractSignal implements FunktionsdecoderG
    * Bei JAXB-Unmarshal Attribut idx als anschluss in die Funktionsdecoder-Zuordnung speichern.
    *
    * @param idx
-   *          Anschlussnummer
+   *        Anschlussnummer
    */
   @XmlAttribute
   public void setIdx(int idx) {
@@ -163,9 +164,9 @@ public abstract class Signal extends AbstractSignal implements FunktionsdecoderG
    * Nach JAXB-Unmarshal Funktionsdecoder in die Funktionsdecoder-Zuordnung speichern.
    *
    * @param unmarshaller
-   *          Unmarshaller
+   *        Unmarshaller
    * @param parent
-   *          Parent
+   *        Parent
    */
   @SuppressWarnings("unused")
   private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {

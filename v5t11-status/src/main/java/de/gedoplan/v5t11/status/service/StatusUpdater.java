@@ -7,7 +7,9 @@ package de.gedoplan.v5t11.status.service;
 //    @ActivationConfigProperty(propertyName = "destinationLookup", propertyValue = "jms/topic/v5t11-status"),
 //    @ActivationConfigProperty(propertyName = "messageSelector", propertyValue = "category='NAVIGATIONITEM' and origin<>'v5t11-status'")
 //})
+//@ApplicationScoped
 public class StatusUpdater /* implements MessageListener */ {
+
   //
   // @Inject
   // NavigationPresenter navigationPresenter;

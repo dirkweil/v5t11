@@ -1,14 +1,20 @@
 package de.gedoplan.v5t11.fahrzeuge.service;
 
-import de.gedoplan.v5t11.util.service.AbstractStatusUpdater;
-
 import javax.enterprise.context.ApplicationScoped;
+
+import org.eclipse.microprofile.reactive.messaging.Incoming;
 
 //TODO JMS -> RM
 
 @ApplicationScoped
-public class StatusUpdater extends AbstractStatusUpdater {
-  //
+public class StatusUpdater {
+
+  @Incoming("weiche-changed")
+  void weicheChanged(byte[] msg) {
+    String json = new String(msg);
+    System.out.println("msg: " + json);
+  }
+
   // @Inject
   // @RestClient
   // StatusGateway statusGateway;

@@ -24,8 +24,8 @@ public class BootStrap {
 
     log.info("configDir: " + configService.getConfigDir());
     log.info("anlage: " + configService.getAnlage());
+    log.info("mqttBroker: " + configService.getMqttHost() + ":" + configService.getMqttPort());
     log.info("statusRestUrl: " + configService.getStatusRestUrl());
-    log.info("statusJmsUrl: " + configService.getStatusJmsUrl());
 
     // TODO JMS -> RM
     // scheduler.submit(statusUpdater);
