@@ -6,6 +6,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.FahrstrassenGeraet;
+import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.FahrstrassenSignal;
+import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.FahrstrassenWeiche;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrassenelement;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.fahrstrassen.persistence.GleisabschnittRepository;
@@ -54,11 +56,9 @@ public class FahrstrasseTest {
     this.log.debug("JSON string: " + json);
 
     String expected = Json.createObjectBuilder()
-        .add("bereich", fahrstrasse.getBereich())
-        .add("name", fahrstrasse.getName())
-        // TODO wird das Kurz-JSON gebraucht?
-        // .add("reservierungsTyp", fahrstrasse.getReservierungsTyp().name())
-        // .add("teilFreigabeAnzahl", fahrstrasse.getTeilFreigabeAnzahl())
+        .add("key", fahrstrasse.getKey().encode())
+        .add("reservierungsTyp", fahrstrasse.getReservierungsTyp().getCode())
+        .add("teilFreigabeAnzahl", fahrstrasse.getTeilFreigabeAnzahl())
         .build().toString();
 
     JSONAssert.assertEquals(expected, json, true);
@@ -76,24 +76,27 @@ public class FahrstrasseTest {
     JsonArrayBuilder elementeBuilder = Json.createArrayBuilder();
     fahrstrasse.getElemente().forEach(fe -> {
       JsonObjectBuilder elementBuilder = Json.createObjectBuilder()
-          .add("bereich", fe.getBereich())
-          .add("name", fe.getName())
+          .add("key", fe.getKey().encode())
           .add("typ", fe.getTyp())
           .add("zaehlrichtung", fe.isZaehlrichtung());
       if (fe instanceof FahrstrassenGeraet) {
         elementBuilder.add("schutz", fe.isSchutz());
-        elementBuilder.add("stellung", fe.getStellung().name());
+        String code = "?";
+        if (fe instanceof FahrstrassenSignal) {
+          code = ((FahrstrassenSignal) fe).getStellung().getCode();
+        } else if (fe instanceof FahrstrassenWeiche) {
+          code = ((FahrstrassenWeiche) fe).getStellung().getCode();
+        }
+        elementBuilder.add("stellung", code);
       }
       elementeBuilder.add(elementBuilder.build());
     });
     String expected = Json.createObjectBuilder()
-        .add("bereich", fahrstrasse.getBereich())
-        .add("name", fahrstrasse.getName())
+        .add("key", fahrstrasse.getKey().encode())
         .add("elemente", elementeBuilder.build())
         .add("rank", fahrstrasse.getRank())
-        // TODO wird das Full-JSON gebraucht?
-        // .add("reservierungsTyp", fahrstrasse.getReservierungsTyp().name())
-        // .add("teilFreigabeAnzahl", fahrstrasse.getTeilFreigabeAnzahl())
+        .add("reservierungsTyp", fahrstrasse.getReservierungsTyp().getCode())
+        .add("teilFreigabeAnzahl", fahrstrasse.getTeilFreigabeAnzahl())
         .add("zaehlrichtung", fahrstrasse.isZaehlrichtung())
         .build()
         .toString();

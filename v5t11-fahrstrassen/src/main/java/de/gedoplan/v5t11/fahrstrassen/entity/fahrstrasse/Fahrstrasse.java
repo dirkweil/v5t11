@@ -417,6 +417,11 @@ public class Fahrstrasse extends Bereichselement {
     return gleisabschnittId.equals(getEnde().getId());
   }
 
+  /**
+   * Status der Fahrstrasse liefern.
+   * 
+   * @return Fahrstrassen-Sstatus
+   */
   public FahrstrassenStatus getFahrstrassenStatus() {
     FahrstrassenStatus fahrstrassenStatus = this.fahrstrassenStatusRepository.findById(getId());
     if (fahrstrassenStatus == null) {
@@ -425,6 +430,26 @@ public class Fahrstrasse extends Bereichselement {
       // this.fahrstrassenStatusRepository.persist(fahrstrassenStatus);
     }
     return fahrstrassenStatus;
+  }
+
+  /**
+   * Reservierungstyp liefern (Conveniance-Methode).
+   * 
+   * @return Reservierungstyp
+   */
+  @JsonbInclude
+  public FahrstrassenReservierungsTyp getReservierungsTyp() {
+    return getFahrstrassenStatus().getReservierungsTyp();
+  }
+
+  /**
+   * Teilfreigabeanzahl liefern (Conveniance-Methode).
+   * 
+   * @return Teilfreigabeanzahl
+   */
+  @JsonbInclude
+  public int getTeilFreigabeAnzahl() {
+    return getFahrstrassenStatus().getTeilFreigabeAnzahl();
   }
 
   /**

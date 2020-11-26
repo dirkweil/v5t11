@@ -29,7 +29,7 @@ public class FahrstrassenStatus extends Bereichselement {
    * Falls reserviert, Typ der Reservierung, sonst <code>null</code>.
    */
   @Getter(onMethod_ = @JsonbInclude)
-  @Setter
+  @Setter(onMethod_ = @JsonbInclude)
   @Convert(converter = FahrstrassenReservierungsTyp.Adapter4Jpa.class)
   private FahrstrassenReservierungsTyp reservierungsTyp = FahrstrassenReservierungsTyp.UNRESERVIERT;
 
@@ -37,7 +37,7 @@ public class FahrstrassenStatus extends Bereichselement {
    * Anzahl der bereits freigegebenen Elemente.
    */
   @Getter(onMethod_ = @JsonbInclude)
-  @Setter
+  @Setter(onMethod_ = @JsonbInclude)
   private int teilFreigabeAnzahl = 0;
 
   public FahrstrassenStatus(String bereich, String name) {
