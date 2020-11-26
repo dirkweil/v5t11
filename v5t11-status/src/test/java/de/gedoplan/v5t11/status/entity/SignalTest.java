@@ -40,7 +40,7 @@ public class SignalTest {
     this.log.debug("JSON string: " + json);
 
     String expected = Json.createObjectBuilder()
-        .add("id", signal.getId().encode())
+        .add("key", signal.getKey().encode())
         .add("lastChangeMillis", signal.getLastChangeMillis())
         .add("stellung", signal.getStellung().getCode())
         .build().toString();
@@ -60,7 +60,7 @@ public class SignalTest {
     this.log.debug("JSON string: " + json);
 
     String expected = Json.createObjectBuilder()
-        .add("id", signal.getId().encode())
+        .add("key", signal.getKey().encode())
         .add("lastChangeMillis", signal.getLastChangeMillis())
         .add("stellung", signal.getStellung().getCode())
         // TODO Jsonb scheint bei Arrays den TypeAdapter nicht zu benutzen (Bug in Yasson?)

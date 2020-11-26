@@ -5,6 +5,7 @@ import static org.hamcrest.Matchers.*;
 
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
+import de.gedoplan.v5t11.util.test.V5t11TestConfigDirExtension;
 
 import javax.inject.Inject;
 import javax.json.Json;
@@ -13,9 +14,12 @@ import org.jboss.logging.Logger;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.skyscreamer.jsonassert.JSONAssert;
 
-//@ExtendWith({ V5t11TestConfigDirExtension.class, QuarkusTestExtension.class })
+import io.quarkus.test.junit.QuarkusTestExtension;
+
+@ExtendWith({ V5t11TestConfigDirExtension.class, QuarkusTestExtension.class })
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
 public class WeicheTest {
 
@@ -37,7 +41,7 @@ public class WeicheTest {
     this.log.debug("JSON string: " + json);
 
     String expected = Json.createObjectBuilder()
-        .add("id", weiche.getId().encode())
+        .add("key", weiche.getKey().encode())
         .add("lastChangeMillis", weiche.getLastChangeMillis())
         .add("stellung", weiche.getStellung().getCode())
         .build().toString();
@@ -57,7 +61,7 @@ public class WeicheTest {
     this.log.debug("JSON string: " + json);
 
     String expected = Json.createObjectBuilder()
-        .add("id", weiche.getId().encode())
+        .add("key", weiche.getKey().encode())
         .add("lastChangeMillis", weiche.getLastChangeMillis())
         .add("stellung", weiche.getStellung().getCode())
         .add("gleisabschnittName", weiche.getGleisabschnittName())
