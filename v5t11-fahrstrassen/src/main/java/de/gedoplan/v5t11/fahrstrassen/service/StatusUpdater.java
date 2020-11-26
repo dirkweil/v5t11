@@ -3,85 +3,86 @@ package de.gedoplan.v5t11.fahrstrassen.service;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Signal;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Weiche;
-import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
+import de.gedoplan.v5t11.fahrstrassen.persistence.GleisabschnittRepository;
+import de.gedoplan.v5t11.fahrstrassen.persistence.SignalRepository;
+import de.gedoplan.v5t11.fahrstrassen.persistence.WeicheRepository;
+import de.gedoplan.v5t11.util.cdi.EventFirer;
+import de.gedoplan.v5t11.util.domain.entity.Fahrwegelement;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.ObservesAsync;
+import javax.inject.Inject;
+import javax.transaction.Transactional;
 
-import org.eclipse.microprofile.reactive.messaging.Incoming;
+import org.jboss.logging.Logger;
 
-//TODO JMS -> RM
-
+/**
+ * Aktualisierung der Status von Gleisabschnitten, Signalen etc.
+ * 
+ * Die Aktualisierung wird durch eingehende Meldungen (von v5t11-status gesendet) ausgelöst. {@link IncomingHandler}
+ * wandelt die Meldungen in CDI Event um, die hier verarbeitet werden.
+ * 
+ * @author dw
+ */
 @ApplicationScoped
+@Transactional(rollbackOn = Exception.class)
 public class StatusUpdater {
 
-  @Incoming("gleis-changed")
-  void gleisabschnittChanged(byte[] msg) {
-    String json = new String(msg);
-    Gleisabschnitt gleisabschnitt = JsonbWithIncludeVisibility.SHORT.fromJson(json, Gleisabschnitt.class);
-    System.out.println("msg: " + gleisabschnitt);
+  @Inject
+  GleisabschnittRepository gleisabschnittRepository;
+
+  @Inject
+  SignalRepository signalRepository;
+
+  @Inject
+  WeicheRepository weicheRepository;
+
+  @Inject
+  Logger logger;
+
+  @Inject
+  EventFirer eventFirer;
+
+  /**
+   * Aktualisierung eines Gleisabschnitts.
+   * 
+   * @param receivedObject Empfangenes Objekt mit dem neuen Status.
+   */
+  void gleisabschnittReceived(@ObservesAsync @Received Gleisabschnitt receivedObject) {
+    Gleisabschnitt gleisabschnitt = this.gleisabschnittRepository.findById(receivedObject.getId());
+    copyStatus(gleisabschnitt, receivedObject);
   }
 
-  @Incoming("signal-changed")
-  void signalChanged(byte[] msg) {
-    String json = new String(msg);
-    Signal signal = JsonbWithIncludeVisibility.SHORT.fromJson(json, Signal.class);
-    System.out.println("msg: " + signal);
+  /**
+   * Aktualisierung eines Signals.
+   * 
+   * @param receivedObject Empfangenes Objekt mit dem neuen Status.
+   */
+  void signalReceived(@ObservesAsync @Received Signal receivedObject) {
+    Signal signal = this.signalRepository.findById(receivedObject.getId());
+    copyStatus(signal, receivedObject);
   }
 
-  @Incoming("weiche-changed")
-  void weicheChanged(byte[] msg) {
-    String json = new String(msg);
-    Weiche weiche = JsonbWithIncludeVisibility.SHORT.fromJson(json, Weiche.class);
-    System.out.println("msg: " + weiche);
+  /**
+   * Aktualisierung einer Weiche.
+   * 
+   * @param receivedObject Empfangenes Objekt mit dem neuen Status.
+   */
+  void weicheReceived(@ObservesAsync @Received Weiche receivedObject) {
+    Weiche signal = this.weicheRepository.findById(receivedObject.getId());
+    copyStatus(signal, receivedObject);
   }
 
-  //
-  // @Inject
-  // @RestClient
-  // StatusGateway statusGateway;
-  //
-  // @Inject
-  // Parcours parcours;
-  //
-  // @Inject
-  // EventFirer eventFirer;
-  //
-  // @Override
-  // protected Map<MessageCategory, Consumer<String>> getMessageHandler() {
-  // Map<MessageCategory, Consumer<String>> messageHandler = new EnumMap<MessageCategory, Consumer<String>>(MessageCategory.class);
-  // messageHandler.put(MessageCategory.GLEIS, this::updateGleisabschnitt);
-  // return messageHandler;
-  // }
-  //
-  // /*
-  // * Aktuelle Zustände von Gleisabschnitten holen
-  // */
-  // @Override
-  // protected void initializeStatus() {
-  // this.statusGateway.getGleisabschnitte().forEach(statusGleisabschnitt -> {
-  // Gleisabschnitt gleisabschnitt = this.parcours.getGleisabschnitt(statusGleisabschnitt.getBereich(), statusGleisabschnitt.getName());
-  // if (gleisabschnitt != null) {
-  // updateGleisabschnitt(gleisabschnitt, statusGleisabschnitt);
-  // }
-  // });
-  // }
-  //
-  // private void updateGleisabschnitt(String messageText) {
-  // Gleisabschnitt statusGleisabschnitt = JsonbWithIncludeVisibility.SHORT.fromJson(messageText, Gleisabschnitt.class);
-  // Gleisabschnitt gleisabschnitt = this.parcours.getGleisabschnitt(statusGleisabschnitt.getBereich(), statusGleisabschnitt.getName());
-  // if (gleisabschnitt != null) {
-  // updateGleisabschnitt(gleisabschnitt, statusGleisabschnitt);
-  // }
-  // }
-  //
-  // private void updateGleisabschnitt(Gleisabschnitt gleisabschnitt, Gleisabschnitt statusGleisabschnitt) {
-  // if (this.log.isDebugEnabled()) {
-  // this.log.debug(statusGleisabschnitt);
-  // }
-  // if (gleisabschnitt != statusGleisabschnitt) {
-  // gleisabschnitt.copyStatus(statusGleisabschnitt);
-  // }
-  // this.eventFirer.fire(gleisabschnitt);
-  // }
+  private void copyStatus(Fahrwegelement to, Fahrwegelement from) {
+    if (to != null) {
+      if (to.copyStatus(from)) {
+        if (this.logger.isDebugEnabled()) {
+          this.logger.debug(to);
+        }
 
+        this.eventFirer.fire(to);
+      }
+    }
+
+  }
 }

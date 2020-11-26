@@ -44,4 +44,17 @@ public abstract class AbstractGleisabschnitt extends Fahrwegelement {
     super(bereich, name);
   }
 
+  @Override
+  public boolean copyStatus(Fahrwegelement other) {
+    if (other instanceof AbstractGleisabschnitt) {
+      AbstractGleisabschnitt source = (AbstractGleisabschnitt) other;
+      if (this.besetzt != source.besetzt) {
+        this.besetzt = source.besetzt;
+        this.lastChangeMillis = source.lastChangeMillis;
+        return true;
+      }
+    }
+    return false;
+  }
+
 }

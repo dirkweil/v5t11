@@ -4,6 +4,7 @@
 package de.gedoplan.v5t11.util.domain.entity.fahrweg.geraet;
 
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
+import de.gedoplan.v5t11.util.domain.entity.Fahrwegelement;
 import de.gedoplan.v5t11.util.domain.entity.fahrweg.AbstractGeraet;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
@@ -51,6 +52,19 @@ public abstract class AbstractWeiche extends AbstractGeraet {
     } else {
       return PREFIX_WEICHEN_GLEISABSCHNITT + name;
     }
+  }
+
+  @Override
+  public boolean copyStatus(Fahrwegelement other) {
+    if (other instanceof AbstractWeiche) {
+      AbstractWeiche source = (AbstractWeiche) other;
+      if (this.stellung != source.stellung) {
+        this.stellung = source.stellung;
+        this.lastChangeMillis = source.lastChangeMillis;
+        return true;
+      }
+    }
+    return false;
   }
 
 }

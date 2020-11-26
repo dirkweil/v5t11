@@ -4,7 +4,6 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
-import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 
 import javax.inject.Inject;
@@ -79,7 +78,11 @@ public class WeicheTest {
     assertThat("Bereich", weiche.getBereich(), is("test"));
     assertThat("Name", weiche.getName(), is("10"));
     assertThat("Lastchange", weiche.getLastChangeMillis(), is(12345L));
-    assertThat("Stellung", weiche.getStellung(), is(WeichenStellung.ABZWEIGEND));
+
+    /*
+     * Achtung: Mehr kann nicht gestestet werden: Stellung ist bei fromJson nicht included!
+     */
+    // assertThat("Stellung", weiche.getStellung(), is(WeichenStellung.ABZWEIGEND));
 
   }
 }
