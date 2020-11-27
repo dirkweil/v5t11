@@ -7,6 +7,7 @@ import de.gedoplan.v5t11.fahrstrassen.persistence.GleisabschnittRepository;
 import de.gedoplan.v5t11.fahrstrassen.persistence.SignalRepository;
 import de.gedoplan.v5t11.fahrstrassen.persistence.WeicheRepository;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
+import de.gedoplan.v5t11.util.cdi.Received;
 import de.gedoplan.v5t11.util.domain.entity.Fahrwegelement;
 
 import javax.enterprise.context.ApplicationScoped;

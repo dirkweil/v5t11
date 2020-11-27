@@ -1,4 +1,4 @@
-package de.gedoplan.v5t11.fahrstrassen.service;
+package de.gedoplan.v5t11.util.cdi;
 
 import static java.lang.annotation.ElementType.*;
 import static java.lang.annotation.RetentionPolicy.*;

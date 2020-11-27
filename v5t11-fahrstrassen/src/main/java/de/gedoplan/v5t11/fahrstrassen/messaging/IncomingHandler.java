@@ -1,9 +1,10 @@
-package de.gedoplan.v5t11.fahrstrassen.service;
+package de.gedoplan.v5t11.fahrstrassen.messaging;
 
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Signal;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Weiche;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
+import de.gedoplan.v5t11.util.cdi.Received;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -29,21 +30,21 @@ public class IncomingHandler {
   @Inject
   EventFirer eventFirer;
 
-  @Incoming("gleis-changed")
+  @Incoming("gleis-in")
   void gleisabschnittChanged(byte[] msg) {
     String json = new String(msg);
     Gleisabschnitt receivedObject = JsonbWithIncludeVisibility.SHORT.fromJson(json, Gleisabschnitt.class);
     this.eventFirer.fire(receivedObject, Received.Literal.INSTANCE);
   }
 
-  @Incoming("signal-changed")
+  @Incoming("signal-in")
   void signalChanged(byte[] msg) {
     String json = new String(msg);
     Signal receivedObject = JsonbWithIncludeVisibility.SHORT.fromJson(json, Signal.class);
     this.eventFirer.fire(receivedObject, Received.Literal.INSTANCE);
   }
 
-  @Incoming("weiche-changed")
+  @Incoming("weiche-in")
   void weicheChanged(byte[] msg) {
     String json = new String(msg);
     Weiche receivedObject = JsonbWithIncludeVisibility.SHORT.fromJson(json, Weiche.class);
