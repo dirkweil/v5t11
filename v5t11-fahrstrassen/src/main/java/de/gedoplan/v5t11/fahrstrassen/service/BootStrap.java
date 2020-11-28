@@ -22,13 +22,9 @@ public class BootStrap {
   void boot(@Observes StartupEvent startupEvent,
       Logger log,
       ConfigService configService,
+      JoinService joinService,
       Parcours parcours,
-      StatusUpdater statusUpdater/*
-                                  * ,
-                                  * GleisabschnittRepository gleisabschnittRepository,
-                                  * SignalRepository signalRepository,
-                                  * WeicheRepository weicheRepository
-                                  */) {
+      StatusUpdater statusUpdater) {
     try {
       log.info("app: " + configService.getArtifactId() + ":" + configService.getVersion());
 
@@ -44,8 +40,7 @@ public class BootStrap {
       // log.info("#signale: " + signalRepository.countAll());
       // log.info("#weichen: " + weicheRepository.countAll());
 
-      // TODO JMS -> RM
-      // scheduler.submit(statusUpdater);
+      joinService.joinMyself();
     } catch (Exception e) {
       log.error("Kann Anwendung nicht starten", e);
       Quarkus.asyncExit(1);

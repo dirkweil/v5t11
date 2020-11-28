@@ -5,6 +5,7 @@ import de.gedoplan.v5t11.status.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
 import de.gedoplan.v5t11.status.service.EventDispatcher;
+import de.gedoplan.v5t11.util.domain.JoinInfo;
 import de.gedoplan.v5t11.util.jsf.NavigationItem;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 
@@ -43,6 +44,10 @@ public class OutgoingHandler {
   Emitter<String> signalEmitter;
 
   @Inject
+  @Channel("join-out")
+  Emitter<String> joinInfoEmitter;
+
+  @Inject
   @Channel("weiche-out")
   Emitter<String> weicheEmitter;
 
@@ -56,6 +61,10 @@ public class OutgoingHandler {
 
   public void publish(Gleisabschnitt gleisabschnitt) {
     send(this.gleisabschnittEmitter, gleisabschnitt);
+  }
+
+  public void publish(JoinInfo joinInfo) {
+    send(this.joinInfoEmitter, joinInfo);
   }
 
   public void publish(Signal signal) {

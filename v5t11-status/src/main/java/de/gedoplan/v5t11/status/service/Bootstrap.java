@@ -22,6 +22,7 @@ public class Bootstrap {
 
   void boot(@Observes @Priority(Interceptor.Priority.APPLICATION + 999) StartupEvent startupEvent,
       ConfigService configService,
+      JoinService joinService,
       Steuerung steuerung,
       Logger log) {
     log.info("app: " + configService.getArtifactId() + ":" + configService.getVersion());
@@ -29,6 +30,8 @@ public class Bootstrap {
     log.info("configDir: " + configService.getConfigDir());
     log.info("anlage: " + configService.getAnlage());
     log.info("mqttBroker: " + configService.getMqttHost() + ":" + configService.getMqttPort());
+
+    joinService.joinMyself();
 
     steuerung.open(scheduler);
   }
