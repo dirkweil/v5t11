@@ -45,7 +45,7 @@
 
   <Fahrstrasse bereich="show" zaehlrichtung="false">
     <Gleisabschnitt name="S" />
-    <Hauptsignal name="F" stellung="LANGSAMFAHRT" schutz="true" />
+    <Hauptsignal name="F" stellung="LANGSAMFAHRT" />
     <Gleisabschnitt name="W3" />
     <Hauptsignal name="N1" stellung="HALT" schutz="true" />
     <Hauptsignal name="N2" stellung="HALT" schutz="true" />
@@ -55,7 +55,7 @@
 
   <Fahrstrasse bereich="show" zaehlrichtung="false">
     <Gleisabschnitt name="S" />
-    <Hauptsignal name="F" stellung="FAHRT" schutz="true" />
+    <Hauptsignal name="F" stellung="FAHRT" />
     <Gleisabschnitt name="W3" />
     <Hauptsignal name="N1" stellung="HALT" schutz="true" />
     <Hauptsignal name="N2" stellung="HALT" schutz="true" />

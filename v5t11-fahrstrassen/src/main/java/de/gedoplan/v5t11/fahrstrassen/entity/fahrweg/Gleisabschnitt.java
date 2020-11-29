@@ -1,6 +1,7 @@
 package de.gedoplan.v5t11.fahrstrassen.entity.fahrweg;
 
 import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
+import de.gedoplan.v5t11.util.domain.entity.Fahrwegelement;
 import de.gedoplan.v5t11.util.domain.entity.fahrweg.AbstractGleisabschnitt;
 
 import javax.persistence.AttributeOverride;
@@ -12,7 +13,6 @@ import javax.xml.bind.annotation.XmlAccessorType;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Table(name = Gleisabschnitt.TABLE_NAME)
@@ -26,12 +26,39 @@ public class Gleisabschnitt extends AbstractGleisabschnitt implements Reservierb
    * Falls dieses Element Teil einer reservierten Fahrstrasse ist, Id dieser Fahrstrasse, sonst <code>null</code>
    */
   @Getter
-  @Setter
   @AttributeOverride(name = "bereich", column = @Column(name = "RES_FS_BEREICH"))
   @AttributeOverride(name = "name", column = @Column(name = "RES_FS_NAME"))
   private BereichselementId reserviertefahrstrasseId;
 
+  @Getter
+  private boolean durchfahren;
+
   public Gleisabschnitt(String bereich, String name) {
     super(bereich, name);
   }
+
+  @Override
+  public void setReserviertefahrstrasseId(BereichselementId fahrstrasseId) {
+    this.reserviertefahrstrasseId = fahrstrasseId;
+    this.durchfahren = false;
+  }
+
+  @Override
+  public boolean copyStatus(Fahrwegelement other) {
+    boolean warBesetzt = this.isBesetzt();
+    if (!super.copyStatus(other)) {
+      return false;
+    }
+
+    if (this.reserviertefahrstrasseId != null) {
+      if (this.isBesetzt()) {
+        this.durchfahren = false;
+      } else if (warBesetzt) {
+        this.durchfahren = true;
+      }
+    }
+
+    return true;
+  }
+
 }
