@@ -84,10 +84,9 @@ public class OutgoingHandler {
   }
 
   protected void send(Emitter<String> emitter, Object obj) {
-    if (this.logger.isDebugEnabled()) {
-      this.logger.debug("Send " + obj);
-    }
-    emitter.send(JsonbWithIncludeVisibility.SHORT.toJson(obj));
+    String json = JsonbWithIncludeVisibility.SHORT.toJson(obj);
+    this.logger.debugf("Send %s: %s", obj, json);
+    emitter.send(json);
   }
 
   // void publish(@Observes Fahrzeug lok) {
