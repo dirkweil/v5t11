@@ -581,7 +581,6 @@ public class Fahrstrasse extends Bereichselement {
       fahrstrassenStatus.setTeilFreigabeAnzahl(neueTeilFreigabeAnzahl);
     }
 
-    // TODO ist das zu früh? ggf. erst bei Commit?
     this.eventFirer.fire(this, Freigegeben.Literal.of(bisherigeTeilFreigabeAnzahl, neueTeilFreigabeAnzahl));
 
     return neueTeilFreigabeAnzahl != bisherigeTeilFreigabeAnzahl;

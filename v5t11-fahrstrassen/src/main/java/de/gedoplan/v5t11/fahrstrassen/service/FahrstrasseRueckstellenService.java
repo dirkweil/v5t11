@@ -10,7 +10,8 @@ import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
 import java.lang.annotation.Annotation;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.ObservesAsync;
+import javax.enterprise.event.Observes;
+import javax.enterprise.event.TransactionPhase;
 import javax.enterprise.inject.spi.EventMetadata;
 import javax.inject.Inject;
 
@@ -27,7 +28,7 @@ public class FahrstrasseRueckstellenService {
   @Inject
   Logger log;
 
-  void fahrstrasseRueckstellen(@ObservesAsync @Freigegeben Fahrstrasse fahrstrasse, EventMetadata eventMetadata) {
+  void fahrstrasseRueckstellen(@Observes(during = TransactionPhase.AFTER_SUCCESS) @Freigegeben Fahrstrasse fahrstrasse, EventMetadata eventMetadata) {
 
     Freigegeben freigegeben = null;
     for (Annotation annotation : eventMetadata.getQualifiers()) {
@@ -67,13 +68,6 @@ public class FahrstrasseRueckstellenService {
     } catch (Exception e) {
       this.log.error("Kann " + signal + " nicht stellen", e);
     }
-    delay();
   }
 
-  private static void delay() {
-    try {
-      Thread.sleep(250);
-    } catch (InterruptedException e) {
-    }
-  }
 }
