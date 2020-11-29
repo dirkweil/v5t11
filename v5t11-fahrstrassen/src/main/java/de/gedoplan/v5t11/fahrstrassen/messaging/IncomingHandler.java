@@ -11,6 +11,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import org.eclipse.microprofile.reactive.messaging.Incoming;
+import org.jboss.logging.Logger;
 
 /**
  * Handler für eingehende Meldungen.
@@ -28,26 +29,32 @@ import org.eclipse.microprofile.reactive.messaging.Incoming;
 public class IncomingHandler {
 
   @Inject
+  Logger logger;
+
+  @Inject
   EventFirer eventFirer;
 
   @Incoming("gleis-in")
   void gleisabschnittChanged(byte[] msg) {
     String json = new String(msg);
-    Gleisabschnitt receivedObject = JsonbWithIncludeVisibility.SHORT.fromJson(json, Gleisabschnitt.class);
-    this.eventFirer.fire(receivedObject, Received.Literal.INSTANCE);
+    Gleisabschnitt obj = JsonbWithIncludeVisibility.SHORT.fromJson(json, Gleisabschnitt.class);
+    this.logger.debugf("Received %s: %s", obj, json);
+    this.eventFirer.fire(obj, Received.Literal.INSTANCE);
   }
 
   @Incoming("signal-in")
   void signalChanged(byte[] msg) {
     String json = new String(msg);
-    Signal receivedObject = JsonbWithIncludeVisibility.SHORT.fromJson(json, Signal.class);
-    this.eventFirer.fire(receivedObject, Received.Literal.INSTANCE);
+    Signal obj = JsonbWithIncludeVisibility.SHORT.fromJson(json, Signal.class);
+    this.logger.debugf("Received %s: %s", obj, json);
+    this.eventFirer.fire(obj, Received.Literal.INSTANCE);
   }
 
   @Incoming("weiche-in")
   void weicheChanged(byte[] msg) {
     String json = new String(msg);
-    Weiche receivedObject = JsonbWithIncludeVisibility.SHORT.fromJson(json, Weiche.class);
-    this.eventFirer.fire(receivedObject, Received.Literal.INSTANCE);
+    Weiche obj = JsonbWithIncludeVisibility.SHORT.fromJson(json, Weiche.class);
+    this.logger.debugf("Received %s: %s", obj, json);
+    this.eventFirer.fire(obj, Received.Literal.INSTANCE);
   }
 }
