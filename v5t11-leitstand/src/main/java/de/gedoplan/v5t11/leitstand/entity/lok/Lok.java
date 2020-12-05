@@ -1,13 +1,13 @@
 package de.gedoplan.v5t11.leitstand.entity.lok;
 
 import de.gedoplan.baselibs.persistence.entity.SingleIdEntity;
-import de.gedoplan.v5t11.leitstand.entity.fahrweg.StatusUpdateable;
+import de.gedoplan.v5t11.leitstand.entity.fahrweg.OldStatusUpdateable;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
 import lombok.Getter;
 import lombok.Setter;
 
-public class Lok extends SingleIdEntity<String> implements Comparable<Lok>, StatusUpdateable<Lok> {
+public class Lok extends SingleIdEntity<String> implements Comparable<Lok>, OldStatusUpdateable<Lok> {
 
   @Getter(onMethod_ = @JsonbInclude)
   @Setter(onMethod_ = @JsonbInclude)

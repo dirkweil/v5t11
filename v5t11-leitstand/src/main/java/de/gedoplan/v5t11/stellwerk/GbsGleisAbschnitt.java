@@ -2,7 +2,7 @@ package de.gedoplan.v5t11.stellwerk;
 
 import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrassenelement;
-import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleisabschnitt;
+import de.gedoplan.v5t11.leitstand.entity.fahrweg.OldGleisabschnitt;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkElement;
 import de.gedoplan.v5t11.stellwerk.util.GbsFarben;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
@@ -16,7 +16,7 @@ import java.awt.Graphics2D;
  * @author dw
  */
 public class GbsGleisAbschnitt extends GbsElement {
-  private Gleisabschnitt gleisabschnitt = null;
+  private OldGleisabschnitt gleisabschnitt = null;
   private boolean label;
   private GbsRichtung[] segmentPos;
 

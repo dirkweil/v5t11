@@ -1,10 +1,10 @@
 package de.gedoplan.v5t11.stellwerk;
 
-import de.gedoplan.v5t11.leitstand.entity.fahrweg.Weiche;
+import de.gedoplan.v5t11.leitstand.entity.fahrweg.OldWeiche;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkElement;
 
 public class GbsWeicheMit2Antrieben extends GbsWeiche {
-  protected Weiche[] weiche = new Weiche[2];
+  protected OldWeiche[] weiche = new OldWeiche[2];
 
   public GbsWeicheMit2Antrieben(String bereich, StellwerkElement stellwerkElement) {
     super(bereich, stellwerkElement);

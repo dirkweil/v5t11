@@ -1,7 +1,7 @@
 package de.gedoplan.v5t11.leitstand.entity.stellwerk;
 
 import de.gedoplan.v5t11.leitstand.entity.Leitstand;
-import de.gedoplan.v5t11.leitstand.entity.fahrweg.Signal;
+import de.gedoplan.v5t11.leitstand.entity.fahrweg.OldSignal;
 
 import java.io.Serializable;
 
@@ -42,7 +42,7 @@ public abstract class StellwerkElement implements Serializable {
   String signalPosition;
 
   @Getter
-  private Signal signal;
+  private OldSignal signal;
 
   @XmlAttribute
   @Getter

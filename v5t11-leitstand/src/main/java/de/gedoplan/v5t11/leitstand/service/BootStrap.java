@@ -1,7 +1,5 @@
 package de.gedoplan.v5t11.leitstand.service;
 
-import de.gedoplan.v5t11.stellwerk.StellwerkUI;
-
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -10,7 +8,6 @@ import javax.enterprise.event.Observes;
 
 import org.jboss.logging.Logger;
 
-import io.quarkus.runtime.Quarkus;
 import io.quarkus.runtime.ShutdownEvent;
 import io.quarkus.runtime.StartupEvent;
 
@@ -22,7 +19,7 @@ public class BootStrap {
   void boot(@Observes StartupEvent startupEvent,
       Logger log,
       ConfigService configService,
-      StatusUpdater statusUpdater) {
+      JoinService joinService) {
     log.info("app: " + configService.getArtifactId() + ":" + configService.getVersion());
 
     log.info("configDir: " + configService.getConfigDir());
@@ -31,16 +28,15 @@ public class BootStrap {
     log.info("statusRestUrl: " + configService.getStatusRestUrl());
     log.info("fahrstrassenRestUrl: " + configService.getFahrstrassenRestUrl());
 
-    // TODO JMS -> RM
-    // scheduler.submit(statusUpdater);
+    joinService.joinMyself();
 
-    try {
-      StellwerkUI.start();
-    } catch (Exception e) {
-      log.error("Kann UI nicht starten", e);
-
-      Quarkus.asyncExit(1);
-    }
+    // try {
+    // StellwerkUI.start();
+    // } catch (Exception e) {
+    // log.error("Kann UI nicht starten", e);
+    //
+    // Quarkus.asyncExit(1);
+    // }
   }
 
   void terminate(@Observes ShutdownEvent shutdownEvent) {

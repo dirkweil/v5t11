@@ -1,7 +1,7 @@
 package de.gedoplan.v5t11.leitstand.entity.baustein;
 
 import de.gedoplan.baselibs.persistence.entity.SingleIdEntity;
-import de.gedoplan.v5t11.leitstand.entity.fahrweg.StatusUpdateable;
+import de.gedoplan.v5t11.leitstand.entity.fahrweg.OldStatusUpdateable;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
 import javax.json.bind.annotation.JsonbNillable;
@@ -10,7 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @JsonbNillable
-public class LokController extends SingleIdEntity<String> implements Comparable<LokController>, StatusUpdateable<LokController> {
+public class LokController extends SingleIdEntity<String> implements Comparable<LokController>, OldStatusUpdateable<LokController> {
 
   @Getter(onMethod_ = @JsonbInclude)
   @Setter(onMethod_ = @JsonbInclude)

@@ -2,9 +2,9 @@ package de.gedoplan.v5t11.leitstand.entity;
 
 import de.gedoplan.v5t11.leitstand.entity.baustein.LokController;
 import de.gedoplan.v5t11.leitstand.entity.baustein.Zentrale;
-import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleisabschnitt;
-import de.gedoplan.v5t11.leitstand.entity.fahrweg.Signal;
-import de.gedoplan.v5t11.leitstand.entity.fahrweg.Weiche;
+import de.gedoplan.v5t11.leitstand.entity.fahrweg.OldGleisabschnitt;
+import de.gedoplan.v5t11.leitstand.entity.fahrweg.OldSignal;
+import de.gedoplan.v5t11.leitstand.entity.fahrweg.OldWeiche;
 import de.gedoplan.v5t11.leitstand.entity.lok.Lok;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.Stellwerk;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkElement;
@@ -42,16 +42,16 @@ public class Leitstand {
   private SortedSet<String> bereiche = new TreeSet<>();
 
   @Getter
-  private SortedSet<Gleisabschnitt> gleisabschnitte = new TreeSet<>();
+  private SortedSet<OldGleisabschnitt> gleisabschnitte = new TreeSet<>();
 
   @Getter
   private Zentrale zentrale = new Zentrale();
 
   @Getter
-  private SortedSet<Signal> signale = new TreeSet<>();
+  private SortedSet<OldSignal> signale = new TreeSet<>();
 
   @Getter
-  private SortedSet<Weiche> weichen = new TreeSet<>();
+  private SortedSet<OldWeiche> weichen = new TreeSet<>();
 
   @Getter
   private SortedSet<Lok> loks = new TreeSet<>();
@@ -77,7 +77,7 @@ public class Leitstand {
    *          Name
    * @return gefundener Gleisabschnitt oder <code>null</code>
    */
-  public Gleisabschnitt getGleisabschnitt(String bereich, String name) {
+  public OldGleisabschnitt getGleisabschnitt(String bereich, String name) {
     return getBereichselement(bereich, name, this.gleisabschnitte);
   }
 
@@ -90,8 +90,8 @@ public class Leitstand {
    *          Name
    * @return gefundener oder erzeugter Gleisabschnitt
    */
-  public Gleisabschnitt getOrCreateGleisabschnitt(String bereich, String name) {
-    return getOrCreateBereichselement(bereich, name, this.gleisabschnitte, Gleisabschnitt::new);
+  public OldGleisabschnitt getOrCreateGleisabschnitt(String bereich, String name) {
+    return getOrCreateBereichselement(bereich, name, this.gleisabschnitte, OldGleisabschnitt::new);
   }
 
   /**
@@ -133,7 +133,7 @@ public class Leitstand {
    *          Name
    * @return gefundenes Signal oder <code>null</code>
    */
-  public Signal getSignal(String bereich, String name) {
+  public OldSignal getSignal(String bereich, String name) {
     return getBereichselement(bereich, name, this.signale);
   }
 
@@ -146,8 +146,8 @@ public class Leitstand {
    *          Name
    * @return gefundenes oder erzeugtes Signal
    */
-  public Signal getOrCreateSignal(String bereich, String name) {
-    return getOrCreateBereichselement(bereich, name, this.signale, Signal::new);
+  public OldSignal getOrCreateSignal(String bereich, String name) {
+    return getOrCreateBereichselement(bereich, name, this.signale, OldSignal::new);
   }
 
   /**
@@ -159,7 +159,7 @@ public class Leitstand {
    *          Name
    * @return gefundene Weiche oder <code>null</code>
    */
-  public Weiche getWeiche(String bereich, String name) {
+  public OldWeiche getWeiche(String bereich, String name) {
     return getBereichselement(bereich, name, this.weichen);
   }
 
@@ -172,8 +172,8 @@ public class Leitstand {
    *          Name
    * @return gefundene oder erzeugte Weiche
    */
-  public Weiche getOrCreateWeiche(String bereich, String name) {
-    return getOrCreateBereichselement(bereich, name, this.weichen, Weiche::new);
+  public OldWeiche getOrCreateWeiche(String bereich, String name) {
+    return getOrCreateBereichselement(bereich, name, this.weichen, OldWeiche::new);
   }
 
   private static <T extends Bereichselement> T getBereichselement(String bereich, String name, Collection<T> set) {

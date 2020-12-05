@@ -1,8 +1,8 @@
 package de.gedoplan.v5t11.leitstand.entity.stellwerk;
 
 import de.gedoplan.v5t11.leitstand.entity.Leitstand;
-import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleisabschnitt;
-import de.gedoplan.v5t11.leitstand.entity.fahrweg.Weiche;
+import de.gedoplan.v5t11.leitstand.entity.fahrweg.OldGleisabschnitt;
+import de.gedoplan.v5t11.leitstand.entity.fahrweg.OldWeiche;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -18,10 +18,10 @@ import lombok.Getter;
 public class StellwerkWeiche extends StellwerkElement {
 
   @Getter
-  private Weiche weiche;
+  private OldWeiche weiche;
 
   @Getter
-  private Gleisabschnitt gleisabschnitt;
+  private OldGleisabschnitt gleisabschnitt;
 
   @Override
   public void linkFahrwegelemente(Leitstand leitstand) {

@@ -1,7 +1,7 @@
 package de.gedoplan.v5t11.leitstand.entity.stellwerk;
 
 import de.gedoplan.v5t11.leitstand.entity.Leitstand;
-import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleisabschnitt;
+import de.gedoplan.v5t11.leitstand.entity.fahrweg.OldGleisabschnitt;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -22,7 +22,7 @@ public class StellwerkGleisabschnitt extends StellwerkElement {
   boolean label;
 
   @Getter
-  private Gleisabschnitt gleisabschnitt;
+  private OldGleisabschnitt gleisabschnitt;
 
   @Override
   public String toString() {

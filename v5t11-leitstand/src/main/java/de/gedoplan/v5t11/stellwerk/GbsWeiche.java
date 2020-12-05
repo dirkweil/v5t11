@@ -1,6 +1,6 @@
 package de.gedoplan.v5t11.stellwerk;
 
-import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleisabschnitt;
+import de.gedoplan.v5t11.leitstand.entity.fahrweg.OldGleisabschnitt;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkElement;
 
 import java.awt.Color;
@@ -10,7 +10,7 @@ import java.awt.geom.AffineTransform;
 public abstract class GbsWeiche extends GbsElement {
   protected GbsRichtung labelPos = null;
   protected String label = null;
-  protected Gleisabschnitt gleisabschnitt;
+  protected OldGleisabschnitt gleisabschnitt;
 
   public GbsWeiche(String bereich, StellwerkElement stellwerkElement) {
     super(bereich, stellwerkElement);

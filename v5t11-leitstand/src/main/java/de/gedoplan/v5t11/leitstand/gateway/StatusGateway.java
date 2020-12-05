@@ -2,9 +2,9 @@ package de.gedoplan.v5t11.leitstand.gateway;
 
 import de.gedoplan.v5t11.leitstand.entity.baustein.LokController;
 import de.gedoplan.v5t11.leitstand.entity.baustein.Zentrale;
-import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleisabschnitt;
-import de.gedoplan.v5t11.leitstand.entity.fahrweg.Signal;
-import de.gedoplan.v5t11.leitstand.entity.fahrweg.Weiche;
+import de.gedoplan.v5t11.leitstand.entity.fahrweg.OldGleisabschnitt;
+import de.gedoplan.v5t11.leitstand.entity.fahrweg.OldSignal;
+import de.gedoplan.v5t11.leitstand.entity.fahrweg.OldWeiche;
 import de.gedoplan.v5t11.leitstand.entity.lok.Lok;
 import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
@@ -28,13 +28,13 @@ public interface StatusGateway {
   @GET
   @Path("gleis")
   @Produces(MediaType.APPLICATION_JSON)
-  Set<Gleisabschnitt> getGleisabschnitte();
+  Set<OldGleisabschnitt> getGleisabschnitte();
 
   // Signale
   @GET
   @Path("signal")
   @Produces(MediaType.APPLICATION_JSON)
-  Set<Signal> getSignale();
+  Set<OldSignal> getSignale();
 
   @PUT
   @Path("signal/{bereich}/{name}")
@@ -50,7 +50,7 @@ public interface StatusGateway {
   @GET
   @Path("weiche")
   @Produces(MediaType.APPLICATION_JSON)
-  Set<Weiche> getWeichen();
+  Set<OldWeiche> getWeichen();
 
   @PUT
   @Path("weiche/{bereich}/{name}")
