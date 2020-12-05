@@ -1,11 +1,9 @@
 package de.gedoplan.v5t11.leitstand.testenvironment;
 
-import de.gedoplan.v5t11.leitstand.entity.baustein.LokController;
 import de.gedoplan.v5t11.leitstand.entity.baustein.Zentrale;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.OldGleisabschnitt;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.OldSignal;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.OldWeiche;
-import de.gedoplan.v5t11.leitstand.entity.lok.Lok;
 import de.gedoplan.v5t11.leitstand.gateway.StatusGateway;
 import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
@@ -132,21 +130,6 @@ public class TestStatusGateway implements StatusGateway {
 
   @Override
   public void putGleisspannung(String on) {
-    throw new UnsupportedOperationException();
-  }
-
-  @Override
-  public Set<Lok> getLoks() {
-    throw new UnsupportedOperationException();
-  }
-
-  @Override
-  public Set<LokController> getLokcontroller() {
-    throw new UnsupportedOperationException();
-  }
-
-  @Override
-  public void assignLokcontrollerLok(String id, String lokId) {
     throw new UnsupportedOperationException();
   }
 

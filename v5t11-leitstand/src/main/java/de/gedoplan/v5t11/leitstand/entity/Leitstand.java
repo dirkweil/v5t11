@@ -1,11 +1,9 @@
 package de.gedoplan.v5t11.leitstand.entity;
 
-import de.gedoplan.v5t11.leitstand.entity.baustein.LokController;
 import de.gedoplan.v5t11.leitstand.entity.baustein.Zentrale;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.OldGleisabschnitt;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.OldSignal;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.OldWeiche;
-import de.gedoplan.v5t11.leitstand.entity.lok.Lok;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.Stellwerk;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkElement;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkZeile;
@@ -53,12 +51,6 @@ public class Leitstand {
   @Getter
   private SortedSet<OldWeiche> weichen = new TreeSet<>();
 
-  @Getter
-  private SortedSet<Lok> loks = new TreeSet<>();
-
-  @Getter
-  private SortedSet<LokController> lokController = new TreeSet<>();
-
   public Stellwerk getStellwerk(String bereich) {
     for (Stellwerk stellwerk : this.stellwerke) {
       if (stellwerk.getBereich().equals(bereich)) {
@@ -72,9 +64,9 @@ public class Leitstand {
    * Gleisabschnitt liefern.
    *
    * @param bereich
-   *          Bereich
+   *        Bereich
    * @param name
-   *          Name
+   *        Name
    * @return gefundener Gleisabschnitt oder <code>null</code>
    */
   public OldGleisabschnitt getGleisabschnitt(String bereich, String name) {
@@ -85,9 +77,9 @@ public class Leitstand {
    * Gleisabschnitt liefern oder bei Bedarf neu anlegen.
    *
    * @param bereich
-   *          Bereich
+   *        Bereich
    * @param name
-   *          Name
+   *        Name
    * @return gefundener oder erzeugter Gleisabschnitt
    */
   public OldGleisabschnitt getOrCreateGleisabschnitt(String bereich, String name) {
@@ -95,42 +87,12 @@ public class Leitstand {
   }
 
   /**
-   * Lok liefern.
-   *
-   * @param id
-   *          Id
-   * @return gefundene Lok oder <code>null</code>
-   */
-  public Lok getLok(String id) {
-    return this.loks
-        .stream()
-        .filter(lc -> lc.getId().equals(id))
-        .findFirst()
-        .orElse(null);
-  }
-
-  /**
-   * Lok-Controller liefern.
-   *
-   * @param id
-   *          Id
-   * @return gefundener Lok-Controller oder <code>null</code>
-   */
-  public LokController getLokController(String id) {
-    return this.lokController
-        .stream()
-        .filter(lc -> lc.getId().equals(id))
-        .findFirst()
-        .orElse(null);
-  }
-
-  /**
    * Signal liefern.
    *
    * @param bereich
-   *          Bereich
+   *        Bereich
    * @param name
-   *          Name
+   *        Name
    * @return gefundenes Signal oder <code>null</code>
    */
   public OldSignal getSignal(String bereich, String name) {
@@ -141,9 +103,9 @@ public class Leitstand {
    * Signal liefern oder bei Bedarf neu anlegen.
    *
    * @param bereich
-   *          Bereich
+   *        Bereich
    * @param name
-   *          Name
+   *        Name
    * @return gefundenes oder erzeugtes Signal
    */
   public OldSignal getOrCreateSignal(String bereich, String name) {
@@ -154,9 +116,9 @@ public class Leitstand {
    * Weiche liefern.
    *
    * @param bereich
-   *          Bereich
+   *        Bereich
    * @param name
-   *          Name
+   *        Name
    * @return gefundene Weiche oder <code>null</code>
    */
   public OldWeiche getWeiche(String bereich, String name) {
@@ -167,9 +129,9 @@ public class Leitstand {
    * Weiche liefern oder bei Bedarf neu anlegen.
    *
    * @param bereich
-   *          Bereich
+   *        Bereich
    * @param name
-   *          Name
+   *        Name
    * @return gefundene oder erzeugte Weiche
    */
   public OldWeiche getOrCreateWeiche(String bereich, String name) {

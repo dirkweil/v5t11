@@ -105,9 +105,6 @@ public class StellwerkUI extends JFrame {
     mainPanel.addApplicationPanel(gbsPanel);
     validate();
 
-    mainPanel.addApplicationPanel(new LokCockpit());
-    validate();
-
     refreshPowerButton();
 
     this.statusDispatcher.addListener(this.leitstand.getZentrale(), this::refreshPowerButton);
