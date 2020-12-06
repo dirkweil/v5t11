@@ -4,6 +4,8 @@
 package de.gedoplan.v5t11.status.entity.fahrweg.geraet;
 
 import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
+import de.gedoplan.v5t11.util.domain.attribute.SignalTyp;
+import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -35,5 +37,11 @@ public class Bahnuebergang extends Signal {
    */
   public void oeffnen() {
     setStellung(SignalStellung.HALT);
+  }
+
+  @Override
+  @JsonbInclude
+  public SignalTyp getTyp() {
+    return SignalTyp.BAHNUEBERGANG;
   }
 }

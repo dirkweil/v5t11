@@ -2,6 +2,8 @@ package de.gedoplan.v5t11.util.domain.attribute;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.json.bind.adapter.JsonbAdapter;
 import javax.json.bind.annotation.JsonbTypeAdapter;
@@ -82,6 +84,20 @@ public enum SignalStellung {
     public SignalStellung adaptFromJson(String s) throws Exception {
       return s == null ? null : ofCode(s, true);
     }
+  }
+
+  public static class Adapter4JsonSet implements JsonbAdapter<Set<SignalStellung>, String> {
+
+    @Override
+    public String adaptToJson(Set<SignalStellung> signalStellungen) throws Exception {
+      return signalStellungen == null ? null : signalStellungen.stream().map(SignalStellung::getCode).collect(Collectors.joining());
+    }
+
+    @Override
+    public Set<SignalStellung> adaptFromJson(String s) throws Exception {
+      return s == null ? null : s.codePoints().mapToObj(c -> String.valueOf(c)).map(x -> SignalStellung.ofCode(x, true)).collect(Collectors.toSet());
+    }
+
   }
 
   // TODO autoApply wirkt nicht; warum?

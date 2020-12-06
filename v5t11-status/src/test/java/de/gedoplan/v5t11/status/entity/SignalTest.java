@@ -4,8 +4,6 @@ import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 import de.gedoplan.v5t11.util.test.V5t11TestConfigDirExtension;
 
-import java.util.stream.Collectors;
-
 import javax.inject.Inject;
 import javax.json.Json;
 
@@ -43,6 +41,7 @@ public class SignalTest {
         .add("key", signal.getKey().encode())
         .add("lastChangeMillis", signal.getLastChangeMillis())
         .add("stellung", signal.getStellung().getCode())
+        .add("typ", signal.getTyp().getCode())
         .build().toString();
 
     JSONAssert.assertEquals(expected, json, true);
@@ -63,10 +62,7 @@ public class SignalTest {
         .add("key", signal.getKey().encode())
         .add("lastChangeMillis", signal.getLastChangeMillis())
         .add("stellung", signal.getStellung().getCode())
-        // TODO Jsonb scheint bei Arrays den TypeAdapter nicht zu benutzen (Bug in Yasson?)
-        // .add("erlaubteStellungen", Json.createArrayBuilder(signal.getErlaubteStellungen().stream().map(s -> s.getCode()).collect(Collectors.toList())).build())
-        .add("erlaubteStellungen", Json.createArrayBuilder(signal.getErlaubteStellungen().stream().map(s -> s.name()).collect(Collectors.toList())).build())
-        .add("typ", signal.getTyp())
+        .add("typ", signal.getTyp().getCode())
         .build().toString();
 
     JSONAssert.assertEquals(expected, json, true);

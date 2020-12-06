@@ -2,12 +2,12 @@ package de.gedoplan.v5t11.status.entity.fahrweg.geraet;
 
 import de.gedoplan.v5t11.status.entity.baustein.Funktionsdecoder;
 import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
+import de.gedoplan.v5t11.util.domain.attribute.SignalTyp;
 import de.gedoplan.v5t11.util.domain.entity.fahrweg.geraet.AbstractSignal;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -64,17 +64,8 @@ public abstract class Signal extends AbstractSignal implements FunktionsdecoderG
     this.wert2stellung.put(stellungswert, stellung);
   }
 
-  // TODO Muss das immer dabei sein?
   @JsonbInclude
-  public Set<SignalStellung> getErlaubteStellungen() {
-    return this.stellung2wert.keySet();
-  }
-
-  // TODO Muss das immer dabei sein?
-  @JsonbInclude
-  public String getTyp() {
-    return getClass().getSimpleName();
-  }
+  public abstract SignalTyp getTyp();
 
   /**
    * Wert setzen: {@link #stellung}.

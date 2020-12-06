@@ -84,7 +84,7 @@ public class SignalEndpoint {
 
         SignalStellung stellung = SignalStellung.ofCode(stellungsName);
 
-        if (signal.getErlaubteStellungen().contains(stellung)) {
+        if (signal.getTyp().getErlaubteStellungen().contains(stellung)) {
           signal.setStellung(stellung);
           return;
         }

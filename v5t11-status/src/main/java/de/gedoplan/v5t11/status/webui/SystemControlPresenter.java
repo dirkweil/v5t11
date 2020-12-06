@@ -146,7 +146,7 @@ public class SystemControlPresenter implements Serializable {
   }
 
   public Set<SignalStellung> getSignalStellungen() {
-    return this.signal != null ? this.signal.getErlaubteStellungen() : Collections.emptySet();
+    return this.signal != null ? this.signal.getTyp().getErlaubteStellungen() : Collections.emptySet();
   }
 
   public SignalStellung getSignalStellung() {

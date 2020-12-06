@@ -267,7 +267,7 @@ public class SteuerungTest {
         mask = ((1L << bitCount) - 1) << anschluss;
 
         SignalStellung oldStellung = signal.getStellung();
-        List<SignalStellung> erlaubteStellungen = new ArrayList<>(signal.getErlaubteStellungen());
+        List<SignalStellung> erlaubteStellungen = new ArrayList<>(signal.getTyp().getErlaubteStellungen());
         SignalStellung stellung = erlaubteStellungen.get(random.nextInt(erlaubteStellungen.size()));
 
         signal.setStellung(stellung);
