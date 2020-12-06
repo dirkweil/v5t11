@@ -1,18 +1,12 @@
 package de.gedoplan.v5t11.leitstand.entity;
 
-import de.gedoplan.v5t11.leitstand.entity.baustein.Zentrale;
-import de.gedoplan.v5t11.leitstand.entity.fahrweg.OldGleisabschnitt;
-import de.gedoplan.v5t11.leitstand.entity.fahrweg.OldSignal;
-import de.gedoplan.v5t11.leitstand.entity.fahrweg.OldWeiche;
+import de.gedoplan.baselibs.utils.inject.InjectionUtil;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.Stellwerk;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkElement;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkZeile;
-import de.gedoplan.v5t11.util.domain.entity.Bereichselement;
 
-import java.util.Collection;
 import java.util.SortedSet;
 import java.util.TreeSet;
-import java.util.function.BiFunction;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -39,18 +33,6 @@ public class Leitstand {
   @Getter
   private SortedSet<String> bereiche = new TreeSet<>();
 
-  @Getter
-  private SortedSet<OldGleisabschnitt> gleisabschnitte = new TreeSet<>();
-
-  @Getter
-  private Zentrale zentrale = new Zentrale();
-
-  @Getter
-  private SortedSet<OldSignal> signale = new TreeSet<>();
-
-  @Getter
-  private SortedSet<OldWeiche> weichen = new TreeSet<>();
-
   public Stellwerk getStellwerk(String bereich) {
     for (Stellwerk stellwerk : this.stellwerke) {
       if (stellwerk.getBereich().equals(bereich)) {
@@ -58,103 +40,6 @@ public class Leitstand {
       }
     }
     return null;
-  }
-
-  /**
-   * Gleisabschnitt liefern.
-   *
-   * @param bereich
-   *        Bereich
-   * @param name
-   *        Name
-   * @return gefundener Gleisabschnitt oder <code>null</code>
-   */
-  public OldGleisabschnitt getGleisabschnitt(String bereich, String name) {
-    return getBereichselement(bereich, name, this.gleisabschnitte);
-  }
-
-  /**
-   * Gleisabschnitt liefern oder bei Bedarf neu anlegen.
-   *
-   * @param bereich
-   *        Bereich
-   * @param name
-   *        Name
-   * @return gefundener oder erzeugter Gleisabschnitt
-   */
-  public OldGleisabschnitt getOrCreateGleisabschnitt(String bereich, String name) {
-    return getOrCreateBereichselement(bereich, name, this.gleisabschnitte, OldGleisabschnitt::new);
-  }
-
-  /**
-   * Signal liefern.
-   *
-   * @param bereich
-   *        Bereich
-   * @param name
-   *        Name
-   * @return gefundenes Signal oder <code>null</code>
-   */
-  public OldSignal getSignal(String bereich, String name) {
-    return getBereichselement(bereich, name, this.signale);
-  }
-
-  /**
-   * Signal liefern oder bei Bedarf neu anlegen.
-   *
-   * @param bereich
-   *        Bereich
-   * @param name
-   *        Name
-   * @return gefundenes oder erzeugtes Signal
-   */
-  public OldSignal getOrCreateSignal(String bereich, String name) {
-    return getOrCreateBereichselement(bereich, name, this.signale, OldSignal::new);
-  }
-
-  /**
-   * Weiche liefern.
-   *
-   * @param bereich
-   *        Bereich
-   * @param name
-   *        Name
-   * @return gefundene Weiche oder <code>null</code>
-   */
-  public OldWeiche getWeiche(String bereich, String name) {
-    return getBereichselement(bereich, name, this.weichen);
-  }
-
-  /**
-   * Weiche liefern oder bei Bedarf neu anlegen.
-   *
-   * @param bereich
-   *        Bereich
-   * @param name
-   *        Name
-   * @return gefundene oder erzeugte Weiche
-   */
-  public OldWeiche getOrCreateWeiche(String bereich, String name) {
-    return getOrCreateBereichselement(bereich, name, this.weichen, OldWeiche::new);
-  }
-
-  private static <T extends Bereichselement> T getBereichselement(String bereich, String name, Collection<T> set) {
-    for (T element : set) {
-      if (element.getBereich().equals(bereich) && element.getName().equals(name)) {
-        return element;
-      }
-    }
-
-    return null;
-  }
-
-  private static synchronized <T extends Bereichselement> T getOrCreateBereichselement(String bereich, String name, Collection<T> set, BiFunction<String, String, T> creator) {
-    T element = getBereichselement(bereich, name, set);
-    if (element == null) {
-      element = creator.apply(bereich, name);
-      set.add(element);
-    }
-    return element;
   }
 
   @Override
@@ -171,6 +56,15 @@ public class Leitstand {
     }
 
     return buf.toString();
+  }
+
+  public void injectFields() {
+    InjectionUtil.injectFields(this);
+    this.stellwerke.forEach(Stellwerk::injectFields);
+  }
+
+  public void addPersistentEntries() {
+    this.stellwerke.forEach(Stellwerk::addPersistentEntries);
   }
 
 }

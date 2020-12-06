@@ -107,7 +107,8 @@ public class StellwerkUI extends JFrame {
 
     refreshPowerButton();
 
-    this.statusDispatcher.addListener(this.leitstand.getZentrale(), this::refreshPowerButton);
+    // TODO Zentrale
+    // this.statusDispatcher.addListener(this.leitstand.getZentrale(), this::refreshPowerButton);
 
     powerButton.addMouseListener(new MouseAdapter() {
       @Override
@@ -121,17 +122,19 @@ public class StellwerkUI extends JFrame {
   }
 
   private void refreshPowerButton() {
-    boolean aktiv = this.leitstand.getZentrale().isGleisspannung();
-    if (aktiv) {
-      boolean kurzschluss = this.leitstand.getZentrale().isKurzschluss();
-      powerButton.setIcon(kurzschluss ? ICON_KURZSCHLUSS : ICON_SCHALTER_EIN);
-    } else {
-      powerButton.setIcon(ICON_SCHALTER_AUS);
-    }
+    // TODO Zentrale
+    // boolean aktiv = this.leitstand.getZentrale().isGleisspannung();
+    // if (aktiv) {
+    // boolean kurzschluss = this.leitstand.getZentrale().isKurzschluss();
+    // powerButton.setIcon(kurzschluss ? ICON_KURZSCHLUSS : ICON_SCHALTER_EIN);
+    // } else {
+    // powerButton.setIcon(ICON_SCHALTER_AUS);
+    // }
   }
 
   private void powerButtonClicked() {
-    this.statusGateway.putGleisspannung("" + (!this.leitstand.getZentrale().isGleisspannung()));
+    // TODO Zentrale
+    // this.statusGateway.putGleisspannung("" + (!this.leitstand.getZentrale().isGleisspannung()));
   }
 
   private void terminate() {

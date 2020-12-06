@@ -1,5 +1,6 @@
 package de.gedoplan.v5t11.leitstand.entity.stellwerk;
 
+import de.gedoplan.baselibs.utils.inject.InjectionUtil;
 import de.gedoplan.v5t11.leitstand.entity.Leitstand;
 
 import java.io.Serializable;
@@ -50,9 +51,9 @@ public class Stellwerk implements Serializable, Comparable<Stellwerk> {
    * Nachbearbeitung nach JAXB-Unmarshal.
    *
    * @param unmarshaller
-   *          Unmarshaller
+   *        Unmarshaller
    * @param parent
-   *          Parent
+   *        Parent
    */
   @SuppressWarnings("unused")
   private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
@@ -110,8 +111,14 @@ public class Stellwerk implements Serializable, Comparable<Stellwerk> {
       }
     }
 
-    // Gleisabschnitte, Weichen und Signale zuordnen
-    this.zeilen.forEach(z -> z.getElemente().forEach(e -> e.linkFahrwegelemente(leitstand)));
+  }
 
+  public void injectFields() {
+    InjectionUtil.injectFields(this);
+    this.zeilen.forEach(StellwerkZeile::injectFields);
+  }
+
+  public void addPersistentEntries() {
+    this.zeilen.forEach(StellwerkZeile::addPersistentEntries);
   }
 }

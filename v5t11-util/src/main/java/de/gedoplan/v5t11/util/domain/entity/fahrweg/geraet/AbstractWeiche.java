@@ -3,6 +3,7 @@
  */
 package de.gedoplan.v5t11.util.domain.entity.fahrweg.geraet;
 
+import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
 import de.gedoplan.v5t11.util.domain.entity.Fahrwegelement;
 import de.gedoplan.v5t11.util.domain.entity.fahrweg.AbstractGeraet;
@@ -41,6 +42,10 @@ public abstract class AbstractWeiche extends AbstractGeraet {
 
   protected AbstractWeiche(String bereich, String name) {
     super(bereich, name);
+  }
+
+  protected AbstractWeiche(BereichselementId id) {
+    super(id);
   }
 
   @JsonbInclude(full = true)

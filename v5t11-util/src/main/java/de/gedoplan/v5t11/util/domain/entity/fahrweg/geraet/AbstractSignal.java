@@ -1,5 +1,6 @@
 package de.gedoplan.v5t11.util.domain.entity.fahrweg.geraet;
 
+import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
 import de.gedoplan.v5t11.util.domain.entity.Fahrwegelement;
 import de.gedoplan.v5t11.util.domain.entity.fahrweg.AbstractGeraet;
@@ -35,6 +36,10 @@ public abstract class AbstractSignal extends AbstractGeraet {
 
   protected AbstractSignal(String bereich, String name) {
     super(bereich, name);
+  }
+
+  protected AbstractSignal(BereichselementId id) {
+    super(id);
   }
 
   @Override

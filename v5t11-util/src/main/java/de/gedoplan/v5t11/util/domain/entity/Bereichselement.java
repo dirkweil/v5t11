@@ -49,6 +49,12 @@ public abstract class Bereichselement extends SingleIdEntity<BereichselementId> 
     this.name = name;
   }
 
+  protected Bereichselement(BereichselementId id) {
+    this.id = id;
+    this.bereich = id.getBereich();
+    this.name = id.getName();
+  }
+
   @JsonbInclude
   public void setBereich(String bereich) {
     this.bereich = bereich;

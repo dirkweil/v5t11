@@ -1,5 +1,6 @@
 package de.gedoplan.v5t11.util.domain.entity;
 
+import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
 import javax.persistence.Column;
@@ -31,6 +32,10 @@ public abstract class Fahrwegelement extends Bereichselement {
 
   protected Fahrwegelement(String bereich, String name) {
     super(bereich, name);
+  }
+
+  protected Fahrwegelement(BereichselementId id) {
+    super(id);
   }
 
   /**

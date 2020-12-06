@@ -40,15 +40,18 @@ public class Fahrstrassenelement extends Bereichselement {
   public void linkFahrwegelement(Leitstand leitstand) {
     switch (this.typ) {
     case "GLEIS":
-      this.fahrwegelement = leitstand.getGleisabschnitt(getBereich(), getName());
+      // TODO Gleisabschnitt
+      // this.fahrwegelement = leitstand.getGleisabschnitt(getBereich(), getName());
       break;
 
     case "SIGNAL":
-      this.fahrwegelement = leitstand.getSignal(getBereich(), getName());
+      // TODO Signal
+      // this.fahrwegelement = leitstand.getSignal(getBereich(), getName());
       break;
 
     case "WEICHE":
-      this.fahrwegelement = leitstand.getWeiche(getBereich(), getName());
+      // TODO Weiche
+      // this.fahrwegelement = leitstand.getWeiche(getBereich(), getName());
       break;
     }
   }

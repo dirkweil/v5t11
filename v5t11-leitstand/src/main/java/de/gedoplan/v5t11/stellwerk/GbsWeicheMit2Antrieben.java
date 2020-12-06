@@ -17,12 +17,13 @@ public class GbsWeicheMit2Antrieben extends GbsWeiche {
       throw new IllegalArgumentException("Weiche mit 2 Antrieben benötigt zwei Namen: " + this.name);
     }
 
-    for (int i = 0; i < 2; ++i) {
-      this.weiche[i] = this.leitstand.getWeiche(stellwerkElement.getBereich(), namen[i]);
-      if (this.weiche[i] != null) {
-        this.statusDispatcher.addListener(this.weiche[i], this::repaint);
-      }
-    }
+    // TODO Weiche
+    // for (int i = 0; i < 2; ++i) {
+    // this.weiche[i] = this.leitstand.getWeiche(stellwerkElement.getBereich(), namen[i]);
+    // if (this.weiche[i] != null) {
+    // this.statusDispatcher.addListener(this.weiche[i], this::repaint);
+    // }
+    // }
   }
 
   @Override

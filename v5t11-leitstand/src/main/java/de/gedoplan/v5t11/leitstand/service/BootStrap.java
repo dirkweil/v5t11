@@ -1,7 +1,10 @@
 package de.gedoplan.v5t11.leitstand.service;
 
+import de.gedoplan.v5t11.leitstand.entity.Leitstand;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
 
 import javax.enterprise.context.Dependent;
 import javax.enterprise.event.Observes;
@@ -19,7 +22,8 @@ public class BootStrap {
   void boot(@Observes StartupEvent startupEvent,
       Logger log,
       ConfigService configService,
-      JoinService joinService) {
+      JoinService joinService,
+      Leitstand leitstand) {
     log.info("app: " + configService.getArtifactId() + ":" + configService.getVersion());
 
     log.info("configDir: " + configService.getConfigDir());
@@ -27,6 +31,7 @@ public class BootStrap {
     log.info("mqttBroker: " + configService.getMqttHost() + ":" + configService.getMqttPort());
     log.info("statusRestUrl: " + configService.getStatusRestUrl());
     log.info("fahrstrassenRestUrl: " + configService.getFahrstrassenRestUrl());
+    log.info("bereiche: " + leitstand.getBereiche().stream().collect(Collectors.joining(",")));
 
     joinService.joinMyself();
 

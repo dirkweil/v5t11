@@ -1,5 +1,6 @@
 package de.gedoplan.v5t11.leitstand.entity.fahrweg;
 
+import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import de.gedoplan.v5t11.util.domain.entity.fahrweg.AbstractGleisabschnitt;
 
 import javax.persistence.Entity;
@@ -17,8 +18,8 @@ public class Gleisabschnitt extends AbstractGleisabschnitt {
 
   public static final String TABLE_NAME = "LS_GLEISABSCHNITT";
 
-  public Gleisabschnitt(String bereich, String name) {
-    super(bereich, name);
+  public Gleisabschnitt(BereichselementId id) {
+    super(id);
   }
 
 }

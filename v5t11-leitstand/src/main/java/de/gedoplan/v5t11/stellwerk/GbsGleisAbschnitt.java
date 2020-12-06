@@ -24,17 +24,18 @@ public class GbsGleisAbschnitt extends GbsElement {
    * Konstruktor.
    *
    * @param bereich
-   *          Stellwerksbereich
+   *        Stellwerksbereich
    * @param stellwerkElement
-   *          zugehöriges Stellwerkselement
+   *        zugehöriges Stellwerkselement
    */
   public GbsGleisAbschnitt(String bereich, StellwerkElement stellwerkElement) {
     super(bereich, stellwerkElement);
 
-    this.gleisabschnitt = this.leitstand.getGleisabschnitt(stellwerkElement.getBereich(), stellwerkElement.getName());
-    if (this.gleisabschnitt != null) {
-      this.statusDispatcher.addListener(this.gleisabschnitt, this::repaint);
-    }
+    // TODO Gleisabschnitt
+    // this.gleisabschnitt = this.leitstand.getGleisabschnitt(stellwerkElement.getBereich(), stellwerkElement.getName());
+    // if (this.gleisabschnitt != null) {
+    // this.statusDispatcher.addListener(this.gleisabschnitt, this::repaint);
+    // }
 
     this.label = stellwerkElement.isLabel();
 

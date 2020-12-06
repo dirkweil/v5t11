@@ -148,12 +148,13 @@ public abstract class GbsElement extends JPanel {
 
     String signalName = stellwerkElement.getSignalName();
     if (signalName != null) {
-      this.signal = this.leitstand.getSignal(bereich, signalName);
-      if (this.signal != null) {
-        this.statusDispatcher.addListener(this.signal, this::repaint);
-      }
-
-      this.signalPosition = stellwerkElement.getSignalPosition() != null ? GbsRichtung.valueOf(stellwerkElement.getSignalPosition()) : GbsRichtung.N;
+      // TODO Signal
+      // this.signal = this.leitstand.getSignal(bereich, signalName);
+      // if (this.signal != null) {
+      // this.statusDispatcher.addListener(this.signal, this::repaint);
+      // }
+      //
+      // this.signalPosition = stellwerkElement.getSignalPosition() != null ? GbsRichtung.valueOf(stellwerkElement.getSignalPosition()) : GbsRichtung.N;
     }
 
     addMouseListener(new MouseAdapter() {
@@ -291,11 +292,11 @@ public abstract class GbsElement extends JPanel {
    * Gleis- oder Fahrstrassensegment zeichnen.
    *
    * @param g2d
-   *          Grafik-Kontext
+   *        Grafik-Kontext
    * @param color
-   *          Farbe
+   *        Farbe
    * @param gbsRichtung
-   *          Richtung
+   *        Richtung
    */
   protected void drawGleisSegment(Graphics2D g2d, Color color, GbsRichtung gbsRichtung) {
     AffineTransform oldTransform = g2d.getTransform();
@@ -318,13 +319,13 @@ public abstract class GbsElement extends JPanel {
    * Fahrstrassensegment zeichnen.
    *
    * @param g2d
-   *          Grafik-Kontext
+   *        Grafik-Kontext
    * @param color
-   *          Farbe
+   *        Farbe
    * @param gbsRichtung
-   *          Richtung
+   *        Richtung
    * @param spitze
-   *          <code>true</code>, wenn dieses Segment in Fahrtrichtung weist
+   *        <code>true</code>, wenn dieses Segment in Fahrtrichtung weist
    */
   protected void drawFahrstrassenSegment(Graphics2D g2d, Color color, GbsRichtung gbsRichtung, boolean spitze) {
     AffineTransform oldTransform = g2d.getTransform();
@@ -385,7 +386,7 @@ public abstract class GbsElement extends JPanel {
    * überschrieben.
    *
    * @param g2d
-   *          Grafik-Kontext
+   *        Grafik-Kontext
    */
   protected void translate(Graphics2D g2d) {
   }
@@ -398,9 +399,9 @@ public abstract class GbsElement extends JPanel {
    * GbsElement passend zum angegebenen Stellwerkelement herstellen.
    *
    * @param bereich
-   *          Bereich
+   *        Bereich
    * @param stellwerkElement
-   *          Stellwerkelement
+   *        Stellwerkelement
    * @return GbsElement
    */
   public static GbsElement createInstance(String bereich, StellwerkElement stellwerkElement) {

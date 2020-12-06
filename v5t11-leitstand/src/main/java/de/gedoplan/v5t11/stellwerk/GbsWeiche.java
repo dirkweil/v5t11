@@ -15,10 +15,11 @@ public abstract class GbsWeiche extends GbsElement {
   public GbsWeiche(String bereich, StellwerkElement stellwerkElement) {
     super(bereich, stellwerkElement);
 
-    this.gleisabschnitt = this.leitstand.getGleisabschnitt(stellwerkElement.getBereich(), "W" + stellwerkElement.getName());
-    if (this.gleisabschnitt != null) {
-      this.statusDispatcher.addListener(this.gleisabschnitt, this::repaint);
-    }
+    // TODO Weiche
+    // this.gleisabschnitt = this.leitstand.getGleisabschnitt(stellwerkElement.getBereich(), "W" + stellwerkElement.getName());
+    // if (this.gleisabschnitt != null) {
+    // this.statusDispatcher.addListener(this.gleisabschnitt, this::repaint);
+    // }
 
     this.label = this.name;
   }
