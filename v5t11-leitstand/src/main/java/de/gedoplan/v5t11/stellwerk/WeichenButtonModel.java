@@ -1,7 +1,7 @@
 package de.gedoplan.v5t11.stellwerk;
 
 import de.gedoplan.baselibs.utils.inject.InjectionUtil;
-import de.gedoplan.v5t11.leitstand.entity.fahrweg.OldWeiche;
+import de.gedoplan.v5t11.leitstand.entity.fahrweg.Weiche;
 import de.gedoplan.v5t11.leitstand.gateway.StatusGateway;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
 
@@ -11,7 +11,7 @@ import javax.swing.JToggleButton;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 public class WeichenButtonModel extends JToggleButton.ToggleButtonModel {
-  private OldWeiche weiche;
+  private Weiche weiche;
 
   @Inject
   @RestClient
@@ -19,7 +19,7 @@ public class WeichenButtonModel extends JToggleButton.ToggleButtonModel {
 
   // private static final Log LOG = LogFactory.getLog(WeichenButtonModel.class);
 
-  public WeichenButtonModel(OldWeiche weiche) {
+  public WeichenButtonModel(Weiche weiche) {
     InjectionUtil.injectFields(this);
 
     this.weiche = weiche;

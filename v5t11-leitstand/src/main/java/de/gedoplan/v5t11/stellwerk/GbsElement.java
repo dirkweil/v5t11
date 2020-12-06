@@ -3,8 +3,8 @@ package de.gedoplan.v5t11.stellwerk;
 import de.gedoplan.baselibs.utils.exception.BugException;
 import de.gedoplan.baselibs.utils.inject.InjectionUtil;
 import de.gedoplan.v5t11.leitstand.entity.Leitstand;
-import de.gedoplan.v5t11.leitstand.entity.fahrweg.OldGleisabschnitt;
-import de.gedoplan.v5t11.leitstand.entity.fahrweg.OldSignal;
+import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleisabschnitt;
+import de.gedoplan.v5t11.leitstand.entity.fahrweg.Signal;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkDkw2;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkElement;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkGleisabschnitt;
@@ -115,7 +115,7 @@ public abstract class GbsElement extends JPanel {
   private static Cursor invisibleCursor = Toolkit.getDefaultToolkit().createCustomCursor(
       Toolkit.getDefaultToolkit().createImage(new MemoryImageSource(16, 16, new int[16 * 16], 0, 16)), new Point(0, 0), "noCursor");
 
-  protected OldSignal signal = null;
+  protected Signal signal = null;
   protected GbsRichtung signalPosition = null;
 
   protected GbsInputPanel inputPanel = null;
@@ -464,7 +464,7 @@ public abstract class GbsElement extends JPanel {
     return bestPos;
   }
 
-  protected static Color getGleisFarbe(OldGleisabschnitt gleisabschnitt) {
+  protected static Color getGleisFarbe(Gleisabschnitt gleisabschnitt) {
     if (gleisabschnitt != null && gleisabschnitt.isBesetzt()) {
       return GbsFarben.GLEIS_BESETZT;
     }
@@ -482,7 +482,7 @@ public abstract class GbsElement extends JPanel {
   private static final Color[] FARBEN_NULL = new Color[] { null, null };
 
   @SuppressWarnings("incomplete-switch")
-  private static Color[] getSignalFarben(OldSignal signal) {
+  private static Color[] getSignalFarben(Signal signal) {
     switch (signal.getTyp()) {
     case "HauptsignalRtGe":
     case "HauptsignalRtGn":

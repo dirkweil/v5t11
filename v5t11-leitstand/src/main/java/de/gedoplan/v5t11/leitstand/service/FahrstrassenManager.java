@@ -1,7 +1,7 @@
 package de.gedoplan.v5t11.leitstand.service;
 
 import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrasse;
-import de.gedoplan.v5t11.leitstand.entity.fahrweg.OldGleisabschnitt;
+import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.leitstand.gateway.FahrstrassenGatewayWrapper;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenFilter;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
@@ -86,7 +86,7 @@ public class FahrstrassenManager {
     return null;
   }
 
-  public FahrstrassenReservierungsTyp getGleisabschnittReservierung(OldGleisabschnitt gleisabschnitt) {
+  public FahrstrassenReservierungsTyp getGleisabschnittReservierung(Gleisabschnitt gleisabschnitt) {
     Fahrstrasse fahrstrasse = getReservierteFahrstrasse(gleisabschnitt);
     return fahrstrasse != null ? fahrstrasse.getReservierungsTyp() : FahrstrassenReservierungsTyp.UNRESERVIERT;
   }

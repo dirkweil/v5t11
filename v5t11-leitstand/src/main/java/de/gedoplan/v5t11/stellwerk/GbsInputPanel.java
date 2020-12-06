@@ -2,9 +2,9 @@ package de.gedoplan.v5t11.stellwerk;
 
 import de.gedoplan.baselibs.utils.inject.InjectionUtil;
 import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrasse;
-import de.gedoplan.v5t11.leitstand.entity.fahrweg.OldGleisabschnitt;
-import de.gedoplan.v5t11.leitstand.entity.fahrweg.OldSignal;
-import de.gedoplan.v5t11.leitstand.entity.fahrweg.OldWeiche;
+import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleisabschnitt;
+import de.gedoplan.v5t11.leitstand.entity.fahrweg.Signal;
+import de.gedoplan.v5t11.leitstand.entity.fahrweg.Weiche;
 import de.gedoplan.v5t11.leitstand.gateway.FahrstrassenGatewayWrapper;
 import de.gedoplan.v5t11.leitstand.gateway.StatusGateway;
 import de.gedoplan.v5t11.leitstand.service.FahrstrassenManager;
@@ -42,7 +42,7 @@ public class GbsInputPanel extends JPanel {
 
   private Gbs gbs;
 
-  private OldGleisabschnitt fahrstrassenBeginn = null;
+  private Gleisabschnitt fahrstrassenBeginn = null;
   private long fahrstrassenBeginnStamp = 0;
   private List<Fahrstrasse> fahrstrassen;
 
@@ -141,7 +141,7 @@ public class GbsInputPanel extends JPanel {
     this.gbs.repaint();
   }
 
-  public void addSignal(final OldSignal signal) {
+  public void addSignal(final Signal signal) {
     if (signal != null) {
       if (LOG.isTraceEnabled()) {
         LOG.trace("addSignal: " + signal);
@@ -179,7 +179,7 @@ public class GbsInputPanel extends JPanel {
     }
   }
 
-  public void addWeiche(OldWeiche weiche, OldGleisabschnitt gleisabschnitt) {
+  public void addWeiche(Weiche weiche, Gleisabschnitt gleisabschnitt) {
     if (weiche != null) {
       if (LOG.isTraceEnabled()) {
         LOG.trace("addWeiche: " + weiche);
@@ -202,7 +202,7 @@ public class GbsInputPanel extends JPanel {
     }
   }
 
-  public void addGleisabschnitt(OldGleisabschnitt gleisabschnitt) {
+  public void addGleisabschnitt(Gleisabschnitt gleisabschnitt) {
 
     if (gleisabschnitt != null) {
       if (LOG.isTraceEnabled()) {

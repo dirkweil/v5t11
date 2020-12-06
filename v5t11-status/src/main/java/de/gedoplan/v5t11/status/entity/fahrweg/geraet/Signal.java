@@ -64,12 +64,14 @@ public abstract class Signal extends AbstractSignal implements FunktionsdecoderG
     this.wert2stellung.put(stellungswert, stellung);
   }
 
-  @JsonbInclude(full = true)
+  // TODO Muss das immer dabei sein?
+  @JsonbInclude
   public Set<SignalStellung> getErlaubteStellungen() {
     return this.stellung2wert.keySet();
   }
 
-  @JsonbInclude(full = true)
+  // TODO Muss das immer dabei sein?
+  @JsonbInclude
   public String getTyp() {
     return getClass().getSimpleName();
   }

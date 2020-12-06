@@ -1,10 +1,11 @@
 package de.gedoplan.v5t11.leitstand.testenvironment;
 
 import de.gedoplan.v5t11.leitstand.entity.baustein.Zentrale;
-import de.gedoplan.v5t11.leitstand.entity.fahrweg.OldGleisabschnitt;
-import de.gedoplan.v5t11.leitstand.entity.fahrweg.OldSignal;
-import de.gedoplan.v5t11.leitstand.entity.fahrweg.OldWeiche;
+import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleisabschnitt;
+import de.gedoplan.v5t11.leitstand.entity.fahrweg.Signal;
+import de.gedoplan.v5t11.leitstand.entity.fahrweg.Weiche;
 import de.gedoplan.v5t11.leitstand.gateway.StatusGateway;
+import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
 import de.gedoplan.v5t11.util.domain.entity.fahrweg.AbstractGleisabschnitt;
@@ -29,7 +30,7 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 @Priority(1)
 public class TestStatusGateway implements StatusGateway {
 
-  private static final OldGleisabschnitt[] TEST_GLEISABSCHNITTE = {
+  private static final Gleisabschnitt[] TEST_GLEISABSCHNITTE = {
       createTestGleisabschnitt("show", "1", false),
       createTestGleisabschnitt("show", "2", true),
       createTestGleisabschnitt("show", "11", false),
@@ -41,13 +42,13 @@ public class TestStatusGateway implements StatusGateway {
   };
 
   @Override
-  public Set<OldGleisabschnitt> getGleisabschnitte() {
+  public Set<Gleisabschnitt> getGleisabschnitte() {
     return Stream.of(TEST_GLEISABSCHNITTE).collect(Collectors.toSet());
   }
 
-  private static OldGleisabschnitt createTestGleisabschnitt(String bereich, String name, boolean besetzt) {
+  private static Gleisabschnitt createTestGleisabschnitt(String bereich, String name, boolean besetzt) {
     try {
-      OldGleisabschnitt gleisabschnitt = new OldGleisabschnitt(bereich, name);
+      Gleisabschnitt gleisabschnitt = new Gleisabschnitt(new BereichselementId(bereich, name));
 
       // Gleisabschnitt.besetzt ist private; daher per Reflection setzen
       Field besetztField = AbstractGleisabschnitt.class.getDeclaredField("besetzt");
@@ -59,20 +60,20 @@ public class TestStatusGateway implements StatusGateway {
     }
   }
 
-  private static final OldSignal[] TEST_SIGNALE = {
+  private static final Signal[] TEST_SIGNALE = {
       createTestSignal("show", "F", "HauptsignalRtGnGe", SignalStellung.HALT, SignalStellung.FAHRT, SignalStellung.LANGSAMFAHRT),
       createTestSignal("show", "N1", "HauptsignalRtGe", SignalStellung.HALT, SignalStellung.LANGSAMFAHRT),
       createTestSignal("show", "N2", "HauptsignalRtGn", SignalStellung.HALT, SignalStellung.FAHRT)
   };
 
   @Override
-  public Set<OldSignal> getSignale() {
+  public Set<Signal> getSignale() {
     return Stream.of(TEST_SIGNALE).collect(Collectors.toSet());
   }
 
-  private static OldSignal createTestSignal(String bereich, String name, String typ, SignalStellung... stellung) {
+  private static Signal createTestSignal(String bereich, String name, String typ, SignalStellung... stellung) {
     try {
-      OldSignal signal = new OldSignal(bereich, name);
+      Signal signal = new Signal(new BereichselementId(bereich, name));
       signal.setTyp(typ);
       signal.setErlaubteStellungen(Stream.of(stellung).collect(Collectors.toSet()));
 
@@ -98,20 +99,20 @@ public class TestStatusGateway implements StatusGateway {
   public void weicheStellen(String bereich, String name, WeichenStellung stellung) {
   }
 
-  private static final OldWeiche[] TEST_WEICHEN = {
+  private static final Weiche[] TEST_WEICHEN = {
       createTestWeiche("show", "1", WeichenStellung.GERADE),
       createTestWeiche("show", "2", WeichenStellung.ABZWEIGEND),
       createTestWeiche("show", "3", WeichenStellung.GERADE)
   };
 
   @Override
-  public Set<OldWeiche> getWeichen() {
+  public Set<Weiche> getWeichen() {
     return Stream.of(TEST_WEICHEN).collect(Collectors.toSet());
   }
 
-  private static OldWeiche createTestWeiche(String bereich, String name, WeichenStellung stellung) {
+  private static Weiche createTestWeiche(String bereich, String name, WeichenStellung stellung) {
     try {
-      OldWeiche weiche = new OldWeiche(bereich, name);
+      Weiche weiche = new Weiche(new BereichselementId(bereich, name));
 
       // Weiche.stellung ist private; daher per Reflection setzen
       Field besetztField = AbstractWeiche.class.getDeclaredField("stellung");
