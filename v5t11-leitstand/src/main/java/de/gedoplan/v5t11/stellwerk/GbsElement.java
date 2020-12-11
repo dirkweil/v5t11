@@ -484,9 +484,9 @@ public abstract class GbsElement extends JPanel {
   @SuppressWarnings("incomplete-switch")
   private static Color[] getSignalFarben(Signal signal) {
     switch (signal.getTyp()) {
-    case "HauptsignalRtGe":
-    case "HauptsignalRtGn":
-    case "HauptsignalRtGnGe":
+    case HAUPTSIGNAL_RT_GE:
+    case HAUPTSIGNAL_RT_GN:
+    case HAUPTSIGNAL_RT_GE_GN:
       switch (signal.getStellung()) {
       case HALT:
         return FARBEN_HP0;
@@ -497,7 +497,7 @@ public abstract class GbsElement extends JPanel {
       }
       break;
 
-    case "Hauptsperrsignal":
+    case HAUPTSPERRSIGNAL:
       switch (signal.getStellung()) {
       case HALT:
         return FARBEN_HP00;
@@ -510,7 +510,7 @@ public abstract class GbsElement extends JPanel {
       }
       break;
 
-    case "Sperrsignal":
+    case SPERRSIGNAL:
       switch (signal.getStellung()) {
       case HALT:
         return FARBEN_SH0;
@@ -519,6 +519,7 @@ public abstract class GbsElement extends JPanel {
       }
       break;
     }
+
     return FARBEN_NULL;
   }
 

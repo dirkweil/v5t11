@@ -7,9 +7,9 @@ import de.gedoplan.v5t11.leitstand.entity.fahrweg.Weiche;
 import de.gedoplan.v5t11.leitstand.gateway.StatusGateway;
 import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
+import de.gedoplan.v5t11.util.domain.attribute.SignalTyp;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
 import de.gedoplan.v5t11.util.domain.entity.fahrweg.AbstractGleisabschnitt;
-import de.gedoplan.v5t11.util.domain.entity.fahrweg.geraet.AbstractSignal;
 import de.gedoplan.v5t11.util.domain.entity.fahrweg.geraet.AbstractWeiche;
 
 import java.lang.reflect.Field;
@@ -61,9 +61,9 @@ public class TestStatusGateway implements StatusGateway {
   }
 
   private static final Signal[] TEST_SIGNALE = {
-      createTestSignal("show", "F", "HauptsignalRtGnGe", SignalStellung.HALT, SignalStellung.FAHRT, SignalStellung.LANGSAMFAHRT),
-      createTestSignal("show", "N1", "HauptsignalRtGe", SignalStellung.HALT, SignalStellung.LANGSAMFAHRT),
-      createTestSignal("show", "N2", "HauptsignalRtGn", SignalStellung.HALT, SignalStellung.FAHRT)
+      createTestSignal("show", "F", SignalTyp.HAUPTSIGNAL_RT_GE_GN),
+      createTestSignal("show", "N1", SignalTyp.HAUPTSIGNAL_RT_GE),
+      createTestSignal("show", "N2", SignalTyp.HAUPTSIGNAL_RT_GN)
   };
 
   @Override
@@ -71,20 +71,11 @@ public class TestStatusGateway implements StatusGateway {
     return Stream.of(TEST_SIGNALE).collect(Collectors.toSet());
   }
 
-  private static Signal createTestSignal(String bereich, String name, String typ, SignalStellung... stellung) {
-    try {
-      Signal signal = new Signal(new BereichselementId(bereich, name));
-      signal.setTyp(typ);
-      signal.setErlaubteStellungen(Stream.of(stellung).collect(Collectors.toSet()));
-
-      // Signal.stellung ist private; daher per Reflection setzen
-      Field besetztField = AbstractSignal.class.getDeclaredField("stellung");
-      besetztField.setAccessible(true);
-      besetztField.set(signal, stellung[0]);
-      return signal;
-    } catch (Exception e) {
-      throw new RuntimeException("Cannot create test data", e);
-    }
+  private static Signal createTestSignal(String bereich, String name, SignalTyp typ) {
+    Signal signal = new Signal(new BereichselementId(bereich, name));
+    signal.setTyp(typ);
+    signal.setStellung(SignalStellung.HALT);
+    return signal;
   }
 
   @Override

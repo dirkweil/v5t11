@@ -149,11 +149,12 @@ public class GbsInputPanel extends JPanel {
 
       this.geraetePanel.add(new JLabel(signal.getName()));
 
-      ButtonGroup buttonGroup = new ButtonGroup();
+      var buttonGroup = new ButtonGroup();
 
       for (SignalStellung stellung : SignalStellung.values()) {
-        if (signal.getErlaubteStellungen() == null || signal.getErlaubteStellungen().isEmpty() || signal.getErlaubteStellungen().contains(stellung)) {
-          final JRadioButton rb = new JRadioButton();
+        var erlaubteStellungen = signal.getTyp().getErlaubteStellungen();
+        if (erlaubteStellungen == null || erlaubteStellungen.isEmpty() || erlaubteStellungen.contains(stellung)) {
+          var rb = new JRadioButton();
           rb.setIcon(getUnselectedIcon(stellung));
           rb.setSelectedIcon(getSelectedIcon(stellung));
           buttonGroup.add(rb);
@@ -185,7 +186,7 @@ public class GbsInputPanel extends JPanel {
         LOG.trace("addWeiche: " + weiche);
       }
 
-      JCheckBox cb = new JCheckBox(weiche.getName());
+      var cb = new JCheckBox(weiche.getName());
       cb.setIcon(getIcon(WeichenStellung.GERADE));
       cb.setSelectedIcon(getIcon(WeichenStellung.ABZWEIGEND));
       cb.setHorizontalTextPosition(SwingConstants.LEFT);
