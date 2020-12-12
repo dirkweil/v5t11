@@ -9,8 +9,10 @@ import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkDkw2;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkElement;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkGleisabschnitt;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkWeiche;
+import de.gedoplan.v5t11.leitstand.persistence.SignalRepository;
 import de.gedoplan.v5t11.leitstand.service.FahrstrassenManager;
 import de.gedoplan.v5t11.stellwerk.util.GbsFarben;
+import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -131,6 +133,9 @@ public abstract class GbsElement extends JPanel {
   @Inject
   StatusDispatcher statusDispatcher;
 
+  @Inject
+  SignalRepository signalRepository;
+
   public GbsElement(String bereich, StellwerkElement stellwerkElement) {
     InjectionUtil.injectFields(this);
 
@@ -143,18 +148,19 @@ public abstract class GbsElement extends JPanel {
     Dimension dim = new Dimension(width, height);
     setPreferredSize(dim);
     setMaximumSize(dim);
-    // REVIEW: Das sollte nicht nötig sein
     setMinimumSize(dim);
 
     String signalName = stellwerkElement.getSignalName();
     if (signalName != null) {
-      // TODO Signal
-      // this.signal = this.leitstand.getSignal(bereich, signalName);
-      // if (this.signal != null) {
-      // this.statusDispatcher.addListener(this.signal, this::repaint);
-      // }
-      //
-      // this.signalPosition = stellwerkElement.getSignalPosition() != null ? GbsRichtung.valueOf(stellwerkElement.getSignalPosition()) : GbsRichtung.N;
+      this.signal = this.signalRepository.findById(new BereichselementId(bereich, signalName));
+      if (this.signal != null) {
+        this.statusDispatcher.addListener(this.signal, s -> {
+          this.signal = s;
+          repaint();
+        });
+      }
+
+      this.signalPosition = stellwerkElement.getSignalPosition() != null ? GbsRichtung.valueOf(stellwerkElement.getSignalPosition()) : GbsRichtung.N;
     }
 
     addMouseListener(new MouseAdapter() {

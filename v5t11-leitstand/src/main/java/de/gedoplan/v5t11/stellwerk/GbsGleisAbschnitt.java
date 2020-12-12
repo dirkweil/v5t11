@@ -4,11 +4,14 @@ import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrassenelement;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkElement;
+import de.gedoplan.v5t11.leitstand.persistence.GleisabschnittRepository;
 import de.gedoplan.v5t11.stellwerk.util.GbsFarben;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+
+import javax.inject.Inject;
 
 /**
  * Gleisabschnitt im Stellwerk.
@@ -16,9 +19,13 @@ import java.awt.Graphics2D;
  * @author dw
  */
 public class GbsGleisAbschnitt extends GbsElement {
+
   private Gleisabschnitt gleisabschnitt = null;
   private boolean label;
   private GbsRichtung[] segmentPos;
+
+  @Inject
+  GleisabschnittRepository gleisabschnittRepository;
 
   /**
    * Konstruktor.
@@ -31,11 +38,13 @@ public class GbsGleisAbschnitt extends GbsElement {
   public GbsGleisAbschnitt(String bereich, StellwerkElement stellwerkElement) {
     super(bereich, stellwerkElement);
 
-    // TODO Gleisabschnitt
-    // this.gleisabschnitt = this.leitstand.getGleisabschnitt(stellwerkElement.getBereich(), stellwerkElement.getName());
-    // if (this.gleisabschnitt != null) {
-    // this.statusDispatcher.addListener(this.gleisabschnitt, this::repaint);
-    // }
+    this.gleisabschnitt = this.gleisabschnittRepository.findById(stellwerkElement.getId());
+    if (this.gleisabschnitt != null) {
+      this.statusDispatcher.addListener(this.gleisabschnitt, g -> {
+        this.gleisabschnitt = g;
+        repaint();
+      });
+    }
 
     this.label = stellwerkElement.isLabel();
 

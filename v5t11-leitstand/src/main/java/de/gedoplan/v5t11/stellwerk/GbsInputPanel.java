@@ -22,7 +22,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.function.Consumer;
 
 import javax.inject.Inject;
 import javax.swing.ButtonGroup;
@@ -58,6 +60,8 @@ public class GbsInputPanel extends JPanel {
   private JButton fahrstrassenFreigabeButton = new JButton("freigeben");
   private JButton abbrechenButton = new JButton("abbrechen");
 
+  private Collection<Consumer<?>> actions = new ArrayList<>();
+
   @Inject
   FahrstrassenManager fahrstrassenManager;
 
@@ -67,6 +71,9 @@ public class GbsInputPanel extends JPanel {
   @Inject
   @RestClient
   StatusGateway statusGateway;
+
+  @Inject
+  StatusDispatcher statusDispatcher;
 
   private static final Logger LOG = Logger.getLogger(GbsInputPanel.class);
 
@@ -126,15 +133,13 @@ public class GbsInputPanel extends JPanel {
   }
 
   public void reset() {
-    // if (this.fahrstrassen != null) {
-    // this.fahrstrassen.clear();
-    // }
-
     this.fahrstrassen = null;
 
     this.fahrstrassenLabel.setText(null);
     this.fahrstrassenPanel.removeAll();
     this.geraetePanel.removeAll();
+
+    clearListeners();
 
     validate();
 
@@ -159,7 +164,10 @@ public class GbsInputPanel extends JPanel {
           rb.setSelectedIcon(getSelectedIcon(stellung));
           buttonGroup.add(rb);
 
-          rb.setSelected(stellung.equals(signal.getStellung()));
+          final SignalStellung rbStellung = stellung;
+          rb.setSelected(rbStellung.equals(signal.getStellung()));
+
+          addListener(signal, s -> rb.setSelected(rbStellung.equals(s.getStellung())));
 
           rb.addItemListener(new ItemListener() {
             @Override
@@ -190,7 +198,10 @@ public class GbsInputPanel extends JPanel {
       cb.setIcon(getIcon(WeichenStellung.GERADE));
       cb.setSelectedIcon(getIcon(WeichenStellung.ABZWEIGEND));
       cb.setHorizontalTextPosition(SwingConstants.LEFT);
-      cb.setModel(new WeichenButtonModel(weiche));
+      WeichenButtonModel model = new WeichenButtonModel(weiche);
+      cb.setModel(model);
+
+      addListener(weiche, model::setWeiche);
 
       this.geraetePanel.add(cb);
 
@@ -264,6 +275,17 @@ public class GbsInputPanel extends JPanel {
         }
       }
     }
+  }
+
+  private <T> void addListener(T observed, Consumer<T> action) {
+    this.statusDispatcher.addListener(observed, action);
+
+    this.actions.add(action);
+  }
+
+  private void clearListeners() {
+    this.actions.forEach(a -> this.statusDispatcher.removeListener(a));
+    this.actions.clear();
   }
 
   private void showFahrstrasseZurDeaktivierung(Fahrstrasse aktiveFahrstrasse) {

@@ -2,24 +2,34 @@ package de.gedoplan.v5t11.stellwerk;
 
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkElement;
+import de.gedoplan.v5t11.leitstand.persistence.GleisabschnittRepository;
+import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 
+import javax.inject.Inject;
+
 public abstract class GbsWeiche extends GbsElement {
+
   protected GbsRichtung labelPos = null;
   protected String label = null;
   protected Gleisabschnitt gleisabschnitt;
 
+  @Inject
+  GleisabschnittRepository gleisabschnittRepository;
+
   public GbsWeiche(String bereich, StellwerkElement stellwerkElement) {
     super(bereich, stellwerkElement);
 
-    // TODO Weiche
-    // this.gleisabschnitt = this.leitstand.getGleisabschnitt(stellwerkElement.getBereich(), "W" + stellwerkElement.getName());
-    // if (this.gleisabschnitt != null) {
-    // this.statusDispatcher.addListener(this.gleisabschnitt, this::repaint);
-    // }
+    this.gleisabschnitt = this.gleisabschnittRepository.findById(new BereichselementId(stellwerkElement.getBereich(), "W" + stellwerkElement.getName()));
+    if (this.gleisabschnitt != null) {
+      this.statusDispatcher.addListener(this.gleisabschnitt, g -> {
+        this.gleisabschnitt = g;
+        repaint();
+      });
+    }
 
     this.label = this.name;
   }
