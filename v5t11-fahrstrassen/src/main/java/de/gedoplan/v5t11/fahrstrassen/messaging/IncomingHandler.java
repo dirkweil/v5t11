@@ -5,6 +5,7 @@ import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Signal;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Weiche;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.cdi.Received;
+import de.gedoplan.v5t11.util.domain.JoinInfo;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -33,6 +34,13 @@ public class IncomingHandler {
 
   @Inject
   EventFirer eventFirer;
+
+  @Incoming("join-in")
+  void appJoined(byte[] msg) {
+    String json = new String(msg);
+    JoinInfo receivedObject = JsonbWithIncludeVisibility.SHORT.fromJson(json, JoinInfo.class);
+    this.eventFirer.fire(receivedObject, Received.Literal.INSTANCE);
+  }
 
   @Incoming("gleis-in")
   void gleisabschnittChanged(byte[] msg) {
