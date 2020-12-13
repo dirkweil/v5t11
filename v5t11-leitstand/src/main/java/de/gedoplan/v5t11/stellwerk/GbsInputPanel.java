@@ -5,7 +5,7 @@ import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Signal;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Weiche;
-import de.gedoplan.v5t11.leitstand.gateway.FahrstrassenGatewayWrapper;
+import de.gedoplan.v5t11.leitstand.gateway.FahrstrassenGateway;
 import de.gedoplan.v5t11.leitstand.gateway.StatusGateway;
 import de.gedoplan.v5t11.leitstand.service.FahrstrassenManager;
 import de.gedoplan.v5t11.stellwerk.util.GridBagHelper;
@@ -66,7 +66,8 @@ public class GbsInputPanel extends JPanel {
   FahrstrassenManager fahrstrassenManager;
 
   @Inject
-  FahrstrassenGatewayWrapper fahrstrassenGateway;
+  @RestClient
+  FahrstrassenGateway fahrstrassenGateway;
 
   @Inject
   @RestClient

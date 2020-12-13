@@ -2,7 +2,7 @@ package de.gedoplan.v5t11.leitstand.service;
 
 import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleisabschnitt;
-import de.gedoplan.v5t11.leitstand.gateway.FahrstrassenGatewayWrapper;
+import de.gedoplan.v5t11.leitstand.gateway.FahrstrassenGateway;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenFilter;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
 import de.gedoplan.v5t11.util.domain.entity.Fahrwegelement;
@@ -12,6 +12,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.NotFoundException;
 
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logging.Logger;
 
 import com.google.common.collect.HashBasedTable;
@@ -21,7 +22,8 @@ import com.google.common.collect.Table;
 public class FahrstrassenManager {
 
   @Inject
-  FahrstrassenGatewayWrapper fahrstrassenGateway;
+  @RestClient
+  FahrstrassenGateway fahrstrassenGateway;
 
   @Inject
   Logger log;
