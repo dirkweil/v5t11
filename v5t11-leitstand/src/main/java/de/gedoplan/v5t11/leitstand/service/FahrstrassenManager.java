@@ -3,20 +3,17 @@ package de.gedoplan.v5t11.leitstand.service;
 import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.leitstand.gateway.FahrstrassenGateway;
-import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenFilter;
+import de.gedoplan.v5t11.leitstand.persistence.FahrstrasseRepository;
+import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
-import de.gedoplan.v5t11.util.domain.entity.Fahrwegelement;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import javax.ws.rs.NotFoundException;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logging.Logger;
-
-import com.google.common.collect.HashBasedTable;
-import com.google.common.collect.Table;
 
 @ApplicationScoped
 public class FahrstrassenManager {
@@ -26,31 +23,23 @@ public class FahrstrassenManager {
   FahrstrassenGateway fahrstrassenGateway;
 
   @Inject
+  FahrstrasseRepository fahrstrasseRepository;
+
+  @Inject
   Logger log;
 
-  private Table<String, String, Fahrstrasse> aktiveFahrstrassen = HashBasedTable.create();
+  @Inject
+  EventFirer eventFirer;
 
-  @PostConstruct
-  void postConstruct() {
-    try {
-      this.fahrstrassenGateway.getFahrstrassen(
-          null, null,
-          null, null,
-          FahrstrassenFilter.RESERVIERT)
-          .forEach(fs -> this.aktiveFahrstrassen.put(fs.getBereich(), fs.getName(), fs));
-    } catch (Exception e) {
-      this.log.warn("Kann aktive Fahrstrassen nicht ermitteln", e);
-    }
-  }
-
-  public Fahrstrasse updateFahrstrasse(Fahrstrasse statusFahrstrasse) {
-    Fahrstrasse fahrstrasse = this.aktiveFahrstrassen.get(statusFahrstrasse.getBereich(), statusFahrstrasse.getName());
+  @Transactional(rollbackOn = Exception.class)
+  public void updateFahrstrasse(Fahrstrasse statusFahrstrasse) {
+    Fahrstrasse fahrstrasse = this.fahrstrasseRepository.findById(statusFahrstrasse.getId());
     if (fahrstrasse == null) {
       // Fahrstrasse ist noch nicht hier registriert
 
       // Falls UNRESERVIERT, ist nicht zu tun
       if (statusFahrstrasse.getReservierungsTyp() == FahrstrassenReservierungsTyp.UNRESERVIERT) {
-        return null;
+        return;
       }
 
       // Ansonsten Fahrstrassendaten komplett holen und hier registrieren
@@ -58,39 +47,31 @@ public class FahrstrassenManager {
         fahrstrasse = this.fahrstrassenGateway.getFahrstrasse(statusFahrstrasse.getBereich(), statusFahrstrasse.getName());
       } catch (NotFoundException nfe) {
         this.log.warn("Fahrstrasse nicht gefunden: " + statusFahrstrasse.getBereich() + "/" + statusFahrstrasse.getName());
-        return null;
+        return;
       }
-      this.aktiveFahrstrassen.put(statusFahrstrasse.getBereich(), statusFahrstrasse.getName(), fahrstrasse);
+      this.fahrstrasseRepository.persist(fahrstrasse);
     } else {
       // Fahrstrasse ist bereits hier registriert
 
-      // Daten aktualisieren
-      fahrstrasse.setReservierungsTyp(statusFahrstrasse.getReservierungsTyp());
-      fahrstrasse.setTeilFreigabeAnzahl(statusFahrstrasse.getTeilFreigabeAnzahl());
-
       // Falls UNRESERVIERT, hier entfernen
       if (statusFahrstrasse.getReservierungsTyp() == FahrstrassenReservierungsTyp.UNRESERVIERT) {
-        this.aktiveFahrstrassen.remove(statusFahrstrasse.getBereich(), statusFahrstrasse.getName());
+        this.fahrstrasseRepository.removeById(statusFahrstrasse.getId());
+      } else {
+        // Daten aktualisieren
+        fahrstrasse.setReservierungsTyp(statusFahrstrasse.getReservierungsTyp());
+        fahrstrasse.setTeilFreigabeAnzahl(statusFahrstrasse.getTeilFreigabeAnzahl());
       }
     }
 
-    return fahrstrasse;
+    this.eventFirer.fire(fahrstrasse);
   }
 
-  // TODO Werte cachen?
-  public Fahrstrasse getReservierteFahrstrasse(Fahrwegelement fahrwegelement) {
-    for (Fahrstrasse fahrstrasse : this.aktiveFahrstrassen.values()) {
-      if (fahrstrasse.getElement(fahrwegelement, true) != null) {
-        return fahrstrasse;
-      }
-    }
-
-    return null;
+  public Fahrstrasse getReservierteFahrstrasse(Gleisabschnitt gleisabschnitt) {
+    return this.fahrstrasseRepository
+        .findByGleisabschnitt(gleisabschnitt)
+        .stream()
+        .filter(fs -> fs.getElement(gleisabschnitt, true) != null)
+        .findAny()
+        .orElse(null);
   }
-
-  public FahrstrassenReservierungsTyp getGleisabschnittReservierung(Gleisabschnitt gleisabschnitt) {
-    Fahrstrasse fahrstrasse = getReservierteFahrstrasse(gleisabschnitt);
-    return fahrstrasse != null ? fahrstrasse.getReservierungsTyp() : FahrstrassenReservierungsTyp.UNRESERVIERT;
-  }
-
 }

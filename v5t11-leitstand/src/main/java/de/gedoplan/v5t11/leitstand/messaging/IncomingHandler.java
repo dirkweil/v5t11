@@ -1,5 +1,6 @@
 package de.gedoplan.v5t11.leitstand.messaging;
 
+import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Signal;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Weiche;
@@ -54,6 +55,14 @@ public class IncomingHandler {
   void weicheChanged(byte[] msg) {
     String json = new String(msg);
     Weiche obj = JsonbWithIncludeVisibility.SHORT.fromJson(json, Weiche.class);
+    this.logger.debugf("Received %s: %s", obj, json);
+    this.eventFirer.fire(obj, Received.Literal.INSTANCE);
+  }
+
+  @Incoming("fs-in")
+  void fahrstrasseChanged(byte[] msg) {
+    String json = new String(msg);
+    Fahrstrasse obj = JsonbWithIncludeVisibility.SHORT.fromJson(json, Fahrstrasse.class);
     this.logger.debugf("Received %s: %s", obj, json);
     this.eventFirer.fire(obj, Received.Literal.INSTANCE);
   }

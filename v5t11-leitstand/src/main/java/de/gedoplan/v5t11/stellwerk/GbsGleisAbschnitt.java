@@ -89,7 +89,6 @@ public class GbsGleisAbschnitt extends GbsElement {
         }
 
       } else {
-
         fahrstrasseZuZeichnen = this.inputPanel.getVorgeschlageneFahrstrasse();
         if (fahrstrasseZuZeichnen != null && fahrstrasseZuZeichnen.getReservierungsTyp() == FahrstrassenReservierungsTyp.UNRESERVIERT) {
           fahrstrassenelementZuZeichnen = fahrstrasseZuZeichnen.getElement(this.gleisabschnitt, false);

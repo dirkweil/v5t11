@@ -1,8 +1,11 @@
 package de.gedoplan.v5t11.leitstand.entity.fahrstrasse;
 
+import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleisabschnitt;
+import de.gedoplan.v5t11.leitstand.entity.fahrweg.Weiche;
+import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
+import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenelementTyp;
 import de.gedoplan.v5t11.util.domain.entity.Bereichselement;
-import de.gedoplan.v5t11.util.domain.entity.Fahrwegelement;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
 import java.util.ArrayList;
@@ -14,6 +17,7 @@ import javax.persistence.CollectionTable;
 import javax.persistence.Convert;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Table;
 
 import lombok.Getter;
@@ -34,7 +38,7 @@ public class Fahrstrasse extends Bereichselement {
    */
   @Getter(onMethod_ = @JsonbInclude(full = true))
   @Setter(onMethod_ = @JsonbInclude(full = true))
-  @ElementCollection
+  @ElementCollection(fetch = FetchType.EAGER)
   @CollectionTable(name = TABLE_NAME_ELEMENTE)
   private List<Fahrstrassenelement> elemente = new ArrayList<>();
 
@@ -54,24 +58,31 @@ public class Fahrstrasse extends Bereichselement {
     return getName().replaceAll("-W\\d+", "");
   }
 
-  public Fahrstrassenelement getElement(Fahrwegelement fahrwegelement, boolean nurReserviert) {
+  public Fahrstrassenelement getElement(Gleisabschnitt gleisabschnitt, boolean nurReserviert) {
+    return getElement(gleisabschnitt.getId(), FahrstrassenelementTyp.GLEISABSCHNITT, nurReserviert);
+  }
+
+  public Fahrstrassenelement getElement(Weiche weiche, boolean nurReserviert) {
+    return getElement(weiche.getId(), FahrstrassenelementTyp.WEICHE, nurReserviert);
+  }
+
+  private Fahrstrassenelement getElement(BereichselementId elementId, FahrstrassenelementTyp elementTyp, boolean nurReserviert) {
     if (nurReserviert && this.reservierungsTyp == FahrstrassenReservierungsTyp.UNRESERVIERT) {
       return null;
     }
 
-    // TODO
-    // int idx = 0;
-    // for (Fahrstrassenelement fe : getElemente()) {
-    // if (!fe.isSchutz()) {
-    // if (!nurReserviert || idx >= this.teilFreigabeAnzahl) {
-    // if (fahrwegelement.equals(fe.getFahrwegelement())) {
-    // return fe;
-    // }
-    // }
-    // }
-    //
-    // ++idx;
-    // }
+    int idx = 0;
+    for (Fahrstrassenelement fe : getElemente()) {
+      if (!fe.isSchutz()) {
+        if (!nurReserviert || idx >= this.teilFreigabeAnzahl) {
+          if (fe.getTyp() == elementTyp && fe.getId().equals(elementId)) {
+            return fe;
+          }
+        }
+      }
+
+      ++idx;
+    }
 
     return null;
   }

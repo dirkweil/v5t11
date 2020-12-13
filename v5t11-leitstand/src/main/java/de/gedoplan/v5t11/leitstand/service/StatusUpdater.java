@@ -1,5 +1,6 @@
 package de.gedoplan.v5t11.leitstand.service;
 
+import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Signal;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Weiche;
@@ -29,6 +30,9 @@ public class StatusUpdater {
 
   @Inject
   WeicheRepository weicheRepository;
+
+  @Inject
+  FahrstrassenManager fahrstrassenManager;
 
   @Inject
   Logger logger;
@@ -76,6 +80,15 @@ public class StatusUpdater {
         this.eventFirer.fire(to);
       }
     }
-
   }
+
+  /**
+   * Aktualisierung einer Fahrstrasse.
+   * 
+   * @param receivedObject Empfangenes Objekt mit dem neuen Status.
+   */
+  void FahrstrasseReceived(@ObservesAsync @Received Fahrstrasse receivedObject) {
+    this.fahrstrassenManager.updateFahrstrasse(receivedObject);
+  }
+
 }

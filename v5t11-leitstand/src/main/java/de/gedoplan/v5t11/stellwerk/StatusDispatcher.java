@@ -2,12 +2,16 @@ package de.gedoplan.v5t11.stellwerk;
 
 import de.gedoplan.v5t11.leitstand.entity.baustein.Zentrale;
 import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrasse;
+import de.gedoplan.v5t11.leitstand.persistence.GleisabschnittRepository;
+import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenelementTyp;
 import de.gedoplan.v5t11.util.domain.entity.Fahrwegelement;
 
 import java.util.function.Consumer;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
+import javax.enterprise.event.TransactionPhase;
+import javax.inject.Inject;
 
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
@@ -29,27 +33,30 @@ public class StatusDispatcher {
   /*
    * Bei Fahrstrassenänderungen werden (nur) die Actions zu darin enthaltenen Fahrwegelementen aufgerufen.
    */
-  void changed(@Observes Fahrstrasse fahrstrasse) {
-    // TODO FahrStrasse
-    // fahrstrasse
-    // .getElemente()
-    // .stream()
-    // .map(fse -> fse.getFahrwegelement())
-    // .flatMap(fwe -> this.listener.get(fwe).stream())
-    // .forEach(x -> x.run());
+
+  @Inject
+  GleisabschnittRepository gleisabschnittRepository;
+
+  void changed(@Observes(during = TransactionPhase.AFTER_COMPLETION) Fahrstrasse fahrstrasse) {
+    fahrstrasse
+        .getElemente()
+        .stream()
+        .filter(fse -> fse.getTyp() == FahrstrassenelementTyp.GLEISABSCHNITT)
+        .map(fse -> this.gleisabschnittRepository.findById(fse.getId()))
+        .forEach(x -> changed(x));
   }
 
-  void changed(@Observes Fahrwegelement fahrwegelement) {
+  void changed(@Observes(during = TransactionPhase.AFTER_COMPLETION) Fahrwegelement fahrwegelement) {
     runActions(fahrwegelement);
   }
 
-  void changed(@Observes Zentrale zentrale) {
+  void changed(@Observes(during = TransactionPhase.AFTER_COMPLETION) Zentrale zentrale) {
     runActions(zentrale);
   }
 
   @SuppressWarnings("unchecked")
   void runActions(Object observed) {
     this.listener.get(observed).forEach(x -> x.accept(observed));
-    this.listener.get(observed.getClass()).forEach(x -> x.accept(observed));
+    // this.listener.get(observed.getClass()).forEach(x -> x.accept(observed));
   }
 }
