@@ -1,5 +1,7 @@
 package de.gedoplan.v5t11.leitstand.service;
 
+import de.gedoplan.v5t11.leitstand.entity.Leitstand;
+import de.gedoplan.v5t11.leitstand.entity.baustein.Zentrale;
 import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Signal;
@@ -35,6 +37,9 @@ public class StatusUpdater {
   FahrstrassenManager fahrstrassenManager;
 
   @Inject
+  Leitstand leitstand;
+
+  @Inject
   Logger logger;
 
   @Inject
@@ -68,6 +73,17 @@ public class StatusUpdater {
   void weicheReceived(@ObservesAsync @Received Weiche receivedObject) {
     Weiche signal = this.weicheRepository.findById(receivedObject.getId());
     copyStatus(signal, receivedObject);
+  }
+
+  /**
+   * Aktualisierung der Zentrale.
+   * 
+   * @param receivedObject Empfangenes Objekt mit dem neuen Status.
+   */
+  void zentraleReceived(@ObservesAsync @Received Zentrale receivedObject) {
+    Zentrale zentrale = this.leitstand.getZentrale();
+    zentrale.copyStatus(receivedObject);
+    this.eventFirer.fire(zentrale);
   }
 
   private void copyStatus(Fahrwegelement to, Fahrwegelement from) {

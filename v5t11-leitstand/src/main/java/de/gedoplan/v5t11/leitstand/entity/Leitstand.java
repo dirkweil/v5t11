@@ -1,6 +1,7 @@
 package de.gedoplan.v5t11.leitstand.entity;
 
 import de.gedoplan.baselibs.utils.inject.InjectionUtil;
+import de.gedoplan.v5t11.leitstand.entity.baustein.Zentrale;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.Stellwerk;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkElement;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkZeile;
@@ -32,6 +33,9 @@ public class Leitstand {
 
   @Getter
   private SortedSet<String> bereiche = new TreeSet<>();
+
+  @Getter
+  private Zentrale zentrale = new Zentrale();
 
   public Stellwerk getStellwerk(String bereich) {
     for (Stellwerk stellwerk : this.stellwerke) {
