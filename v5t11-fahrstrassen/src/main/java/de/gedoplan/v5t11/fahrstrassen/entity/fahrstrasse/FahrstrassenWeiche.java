@@ -2,6 +2,7 @@ package de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse;
 
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Weiche;
 import de.gedoplan.v5t11.fahrstrassen.persistence.WeicheRepository;
+import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenelementTyp;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
 import de.gedoplan.v5t11.util.domain.entity.fahrweg.geraet.AbstractWeiche;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
@@ -73,7 +74,7 @@ public class FahrstrassenWeiche extends FahrstrassenGeraet {
 
   @Override
   @JsonbInclude(full = true)
-  public String getTyp() {
-    return "WEICHE";
+  public FahrstrassenelementTyp getTyp() {
+    return FahrstrassenelementTyp.WEICHE;
   }
 }

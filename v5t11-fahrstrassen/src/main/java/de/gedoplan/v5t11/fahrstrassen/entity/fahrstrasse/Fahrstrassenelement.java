@@ -4,6 +4,7 @@ import de.gedoplan.baselibs.utils.exception.BugException;
 import de.gedoplan.baselibs.utils.inject.InjectionUtil;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.ReservierbaresFahrwegelement;
 import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
+import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenelementTyp;
 import de.gedoplan.v5t11.util.domain.entity.Bereichselement;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
@@ -122,7 +123,7 @@ public abstract class Fahrstrassenelement extends Bereichselement implements Clo
     }
   }
 
-  public abstract String getTyp();
+  public abstract FahrstrassenelementTyp getTyp();
 
   /**
    * Kurz-Kennung für Element liefern.
@@ -132,7 +133,7 @@ public abstract class Fahrstrassenelement extends Bereichselement implements Clo
    */
   public String getCode() {
     StringBuilder b = new StringBuilder();
-    b.append(getTyp().charAt(0));
+    b.append(getTyp().getCode());
     b.append(isZaehlrichtung() ? '+' : '-');
     b.append(getName());
     String code = b.toString();

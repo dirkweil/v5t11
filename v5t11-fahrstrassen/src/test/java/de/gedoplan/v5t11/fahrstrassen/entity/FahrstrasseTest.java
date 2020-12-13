@@ -77,7 +77,7 @@ public class FahrstrasseTest {
     fahrstrasse.getElemente().forEach(fe -> {
       JsonObjectBuilder elementBuilder = Json.createObjectBuilder()
           .add("key", fe.getKey().encode())
-          .add("typ", fe.getTyp())
+          .add("typ", fe.getTyp().getCode())
           .add("zaehlrichtung", fe.isZaehlrichtung());
       if (fe instanceof FahrstrassenGeraet) {
         elementBuilder.add("schutz", fe.isSchutz());

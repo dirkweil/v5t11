@@ -3,6 +3,7 @@ package de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse;
 import de.gedoplan.baselibs.utils.exception.BugException;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Signal;
 import de.gedoplan.v5t11.fahrstrassen.persistence.SignalRepository;
+import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenelementTyp;
 import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
@@ -67,7 +68,7 @@ public abstract class FahrstrassenSignal extends FahrstrassenGeraet implements C
 
   @Override
   @JsonbInclude(full = true)
-  public String getTyp() {
-    return "SIGNAL";
+  public FahrstrassenelementTyp getTyp() {
+    return FahrstrassenelementTyp.SIGNAL;
   }
 }

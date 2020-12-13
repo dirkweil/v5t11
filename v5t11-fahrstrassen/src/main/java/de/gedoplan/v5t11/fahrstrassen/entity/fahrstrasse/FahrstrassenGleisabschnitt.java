@@ -2,6 +2,7 @@ package de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse;
 
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.fahrstrassen.persistence.GleisabschnittRepository;
+import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenelementTyp;
 import de.gedoplan.v5t11.util.domain.entity.fahrweg.geraet.AbstractWeiche;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
@@ -62,8 +63,8 @@ public class FahrstrassenGleisabschnitt extends Fahrstrassenelement {
 
   @Override
   @JsonbInclude(full = true)
-  public String getTyp() {
-    return "GLEIS";
+  public FahrstrassenelementTyp getTyp() {
+    return FahrstrassenelementTyp.GLEISABSCHNITT;
   }
 
   /**
