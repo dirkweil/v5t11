@@ -3,14 +3,12 @@ package de.gedoplan.v5t11.fahrstrassen.webservice;
 import de.gedoplan.v5t11.fahrstrassen.entity.Parcours;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.fahrstrassen.persistence.FahrstrassenStatusRepository;
-import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenFilter;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 import de.gedoplan.v5t11.util.webservice.ResponseFactory;
 
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -122,7 +120,7 @@ public class FahrstrasseEndpoint {
 
   @PUT
   @Path("{bereich}/{name}/reservierung")
-  @Consumes(MediaType.TEXT_PLAIN)
+  @Consumes(MediaType.WILDCARD)
   public Response reserviereFahrstrasse(@PathParam("bereich") String bereich, @PathParam("name") String name, String reservierungsTypAsString) {
     if (this.log.isDebugEnabled()) {
       this.log.debug(String.format("reserviereFahrstrasse: fahrstrasse=%s/%s, reservierungsTyp=%s", bereich, name, reservierungsTypAsString));
@@ -144,16 +142,4 @@ public class FahrstrasseEndpoint {
     return ResponseFactory.createNoContentResponse();
   }
 
-  @Inject
-  // Event<String> eventSource;
-  EventFirer eventSource;
-
-  @Path("event")
-  @PUT
-  @Consumes("*/*")
-  public void fireEvent() {
-    String event = "Event of " + new Date();
-    this.eventSource.fire(event);
-    // this.eventSource.fireAsync(event);
-  }
 }
