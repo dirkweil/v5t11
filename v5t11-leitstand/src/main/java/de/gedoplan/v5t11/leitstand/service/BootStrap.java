@@ -1,7 +1,7 @@
 package de.gedoplan.v5t11.leitstand.service;
 
 import de.gedoplan.v5t11.leitstand.entity.Leitstand;
-import de.gedoplan.v5t11.stellwerk.StellwerkUI;
+import de.gedoplan.v5t11.stellwerk.StellwerkUIStarter;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -25,7 +25,8 @@ public class BootStrap {
       Logger log,
       ConfigService configService,
       JoinService joinService,
-      Leitstand leitstand) {
+      Leitstand leitstand,
+      StellwerkUIStarter stellwerkUIStarter) {
     log.info("app: " + configService.getArtifactId() + ":" + configService.getVersion());
 
     log.info("configDir: " + configService.getConfigDir());
@@ -38,7 +39,7 @@ public class BootStrap {
     joinService.joinMyself();
 
     try {
-      StellwerkUI.start();
+      stellwerkUIStarter.start();
     } catch (Exception e) {
       log.error("Kann UI nicht starten", e);
 
