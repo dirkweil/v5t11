@@ -1,5 +1,6 @@
 package de.gedoplan.v5t11.fahrstrassen.messaging;
 
+import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.util.domain.JoinInfo;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 
@@ -30,8 +31,16 @@ public class OutgoingHandler {
   @Channel("join-out")
   Emitter<String> joinInfoEmitter;
 
+  @Inject
+  @Channel("fs-out")
+  Emitter<String> fahrstrasseEmitter;
+
   public void publish(JoinInfo joinInfo) {
     send(this.joinInfoEmitter, joinInfo);
+  }
+
+  public void publish(Fahrstrasse fahrstrasse) {
+    send(this.fahrstrasseEmitter, fahrstrasse);
   }
 
   protected void send(Emitter<String> emitter, Object obj) {

@@ -16,7 +16,7 @@ public class JoinService {
   OutgoingHandler outgoingHandler;
 
   @Inject
-  Parcours steuerung;
+  Parcours parcours;
 
   @Inject
   ConfigService configService;
@@ -46,10 +46,10 @@ public class JoinService {
   }
 
   private void join(long sendUpdatesSinceMillis) {
-    // this.steuerung
-    // .getFahrstrassen()
-    // .stream()
-    // .forEach(x -> this.outgoingHandler.publish(x));
+    this.parcours
+        .getFahrstrassen()
+        .stream()
+        .forEach(x -> this.outgoingHandler.publish(x));
   }
 
 }
