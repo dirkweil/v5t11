@@ -3,7 +3,7 @@ package de.gedoplan.v5t11.status.entity.baustein;
 import de.gedoplan.baselibs.utils.inject.InjectionUtil;
 import de.gedoplan.v5t11.status.entity.Kanal;
 import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
-import de.gedoplan.v5t11.status.entity.fahrzeug.FahrzeugId;
+import de.gedoplan.v5t11.util.domain.attribute.FahrzeugId;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
 import java.util.ArrayList;

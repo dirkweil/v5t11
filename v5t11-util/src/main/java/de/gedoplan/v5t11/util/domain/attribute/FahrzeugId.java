@@ -1,10 +1,11 @@
-package de.gedoplan.v5t11.status.entity.fahrzeug;
+package de.gedoplan.v5t11.util.domain.attribute;
 
-import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
 import java.io.Serializable;
 
+import javax.json.bind.JsonbException;
+import javax.json.bind.adapter.JsonbAdapter;
 import javax.json.bind.annotation.JsonbTypeAdapter;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
@@ -30,7 +31,7 @@ import lombok.ToString;
 @Setter(onMethod_ = @JsonbInclude)
 @EqualsAndHashCode
 @ToString
-@JsonbTypeAdapter(FahrzeugIdTypeAdapter.class)
+@JsonbTypeAdapter(FahrzeugId.JsonTypeAdapter.class)
 public class FahrzeugId implements Serializable, Comparable<FahrzeugId> {
 
   @NotNull
@@ -59,6 +60,42 @@ public class FahrzeugId implements Serializable, Comparable<FahrzeugId> {
     }
 
     return this.systemTyp.compareTo(o.systemTyp);
+  }
+
+  public static class JsonTypeAdapter implements JsonbAdapter<FahrzeugId, String> {
+
+    @Override
+    public String adaptToJson(FahrzeugId fahrzeugId) throws Exception {
+      if (fahrzeugId == null) {
+        return null;
+      }
+      return fahrzeugId.getAdresse() + "@" + fahrzeugId.getSystemTyp().name();
+    }
+
+    @Override
+    public FahrzeugId adaptFromJson(String s) throws Exception {
+      if (s == null) {
+        return null;
+      }
+
+      String[] parts = s.split("@");
+      if (parts.length != 2) {
+        throw new JsonbException("Ungültiges Format der FahrzeugId: " + s);
+      }
+
+      SystemTyp systemTyp = SystemTyp.valueOf(parts[1]);
+      if (systemTyp == null) {
+        throw new JsonbException("Ungültiger SystemTyp in der FahrzeugId: " + s);
+      }
+
+      try {
+        int adresse = Integer.parseInt(parts[0]);
+        return new FahrzeugId(systemTyp, adresse);
+      } catch (Exception e) {
+        throw new JsonbException("Ungültige FahrzeugId: " + s, e);
+      }
+    }
+
   }
 
 }

@@ -5,6 +5,7 @@ import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug.FahrzeugFunktion;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe;
 import de.gedoplan.v5t11.fahrzeuge.persistence.FahrzeugRepository;
+import de.gedoplan.v5t11.util.domain.attribute.FahrzeugId;
 import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 
 import java.io.Serializable;
@@ -48,7 +49,7 @@ public class FahrzeugPresenter implements Serializable {
   @Getter
   @Setter
   @NotEmpty
-  private String newId;
+  private FahrzeugId newId = new FahrzeugId(SystemTyp.DCC, 3);
 
   @PostConstruct
   void refreshFahrzeuge() {
@@ -56,7 +57,7 @@ public class FahrzeugPresenter implements Serializable {
   }
 
   public String create() {
-    this.currentFahrzeug = new Fahrzeug(this.newId, null, SystemTyp.DCC, 0);
+    this.currentFahrzeug = new Fahrzeug(this.newId, null, null);
     this.fahrzeuge.add(this.currentFahrzeug);
 
     if (this.log.isDebugEnabled()) {
@@ -147,8 +148,10 @@ public class FahrzeugPresenter implements Serializable {
   public String getImage(Fahrzeug fahrzeug) {
     if (fahrzeug.getImage() != null) {
       throw new UnsupportedOperationException("not yet implemented");
-    } else {
-      String name = fahrzeug.getId().replaceAll("\\s+", "_");
+    }
+
+    if (fahrzeug.getBetriebsnummer() != null) {
+      String name = fahrzeug.getBetriebsnummer().replaceAll("\\s+", "_");
       while (!name.isEmpty()) {
         String resourceName = "images/loks/" + name + ".png";
         if (ResourceUtil.getResource("META-INF/resources/" + resourceName) != null) {
@@ -157,10 +160,10 @@ public class FahrzeugPresenter implements Serializable {
 
         name = name.substring(0, name.length() - 1);
       }
-
-      return "images/loks/none.png";
-
     }
+
+    return "images/loks/none.png";
+
   }
 
   public SystemTyp[] getSystemTypen() {
@@ -234,7 +237,7 @@ public class FahrzeugPresenter implements Serializable {
   int lokFahrstufe;
 
   public int getLokMaxFahrstufe() {
-    return this.currentFahrzeug.getSystemTyp().getMaxFahrstufe();
+    return this.currentFahrzeug.getId().getSystemTyp().getMaxFahrstufe();
   }
 
   public List<FahrzeugFunktion> getLokFunktionen(FahrzeugFunktionsGruppe fahrzeugFunktionsGruppe) {

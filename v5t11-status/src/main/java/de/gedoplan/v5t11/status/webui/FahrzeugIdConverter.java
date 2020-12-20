@@ -1,6 +1,6 @@
 package de.gedoplan.v5t11.status.webui;
 
-import de.gedoplan.v5t11.status.entity.fahrzeug.FahrzeugId;
+import de.gedoplan.v5t11.util.domain.attribute.FahrzeugId;
 import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 
 import javax.faces.component.UIComponent;

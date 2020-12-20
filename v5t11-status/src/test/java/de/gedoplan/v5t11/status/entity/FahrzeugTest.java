@@ -5,8 +5,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import de.gedoplan.v5t11.status.StatusEventCollector;
 import de.gedoplan.v5t11.status.entity.baustein.zentrale.DummyZentrale;
 import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
-import de.gedoplan.v5t11.status.entity.fahrzeug.FahrzeugId;
 import de.gedoplan.v5t11.status.testenvironment.service.TestFahrzeugRepository;
+import de.gedoplan.v5t11.util.domain.attribute.FahrzeugId;
 import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 import de.gedoplan.v5t11.util.test.V5t11TestConfigDirExtension;
@@ -52,7 +52,7 @@ public class FahrzeugTest {
     JSONAssert.assertEquals(""
         + "{\"aktiv\":" + lok.isAktiv()
         + ",\"fahrstufe\":" + lok.getFahrstufe()
-        + ",\"funktionStatus\":" + lok.getFunktionStatus()
+        + ",\"funktionStatus\":" + lok.getFktBits()
         + ",\"id\":\"" + lok.getId().getAdresse() + "@" + lok.getId().getSystemTyp().name() + "\""
         + ",\"licht\":" + lok.isLicht()
         + ",\"rueckwaerts\":" + lok.isRueckwaerts()

@@ -2,7 +2,7 @@ package de.gedoplan.v5t11.status.webservice;
 
 import de.gedoplan.v5t11.status.entity.Steuerung;
 import de.gedoplan.v5t11.status.entity.baustein.Lokcontroller;
-import de.gedoplan.v5t11.status.entity.fahrzeug.FahrzeugId;
+import de.gedoplan.v5t11.util.domain.attribute.FahrzeugId;
 
 import java.util.SortedSet;
 

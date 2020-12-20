@@ -4,7 +4,7 @@ import de.gedoplan.v5t11.status.entity.Steuerung;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
 import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
-import de.gedoplan.v5t11.status.entity.fahrzeug.FahrzeugId;
+import de.gedoplan.v5t11.util.domain.attribute.FahrzeugId;
 import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
 
@@ -250,15 +250,15 @@ public class SystemControlPresenter implements Serializable {
     }
 
     public boolean isOn() {
-      return SystemControlPresenter.this.lok != null && (SystemControlPresenter.this.lok.getFunktionStatus() & this.mask) != 0;
+      return SystemControlPresenter.this.lok != null && (SystemControlPresenter.this.lok.getFktBits() & this.mask) != 0;
     }
 
     public void setOn(boolean on) {
       if (SystemControlPresenter.this.lok != null) {
         if (on) {
-          SystemControlPresenter.this.lok.setFunktionStatus(SystemControlPresenter.this.lok.getFunktionStatus() | this.mask);
+          SystemControlPresenter.this.lok.setFunktionStatus(SystemControlPresenter.this.lok.getFktBits() | this.mask);
         } else {
-          SystemControlPresenter.this.lok.setFunktionStatus(SystemControlPresenter.this.lok.getFunktionStatus() & ~this.mask);
+          SystemControlPresenter.this.lok.setFunktionStatus(SystemControlPresenter.this.lok.getFktBits() & ~this.mask);
         }
       }
     }

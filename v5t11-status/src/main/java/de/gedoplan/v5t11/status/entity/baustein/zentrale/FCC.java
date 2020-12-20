@@ -505,7 +505,7 @@ public class FCC extends Zentrale {
 
     // Falls Lok aktiv, Fahrstufe und alle Funktionen setzen
     if (lok.isAktiv()) {
-      setSX2Werte(idx, lok.getId().getSystemTyp(), lok.getFahrstufe(), lok.isRueckwaerts(), lok.isLicht(), lok.getFunktionStatus());
+      setSX2Werte(idx, lok.getId().getSystemTyp(), lok.getFahrstufe(), lok.isRueckwaerts(), lok.isLicht(), lok.getFktBits());
       return;
     }
 

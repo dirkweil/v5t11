@@ -8,8 +8,9 @@
 
       <p:toolbar>
         <f:facet name="left">
-          <h:outputText value="#{fahrzeugPresenter.currentFahrzeug.id}" style="font-size: 30px; vertical-align: middle;" />
+          <h:outputText value="#{fahrzeugPresenter.currentFahrzeug.betriebsnummer}" style="font-size: 30px; vertical-align: middle;" />
           <p:graphicImage name="#{fahrzeugPresenter.getImage(fahrzeugPresenter.currentFahrzeug)}" height="50px" style="vertical-align: middle; margin-left: 20px; margin-right: 20px;" />
+          <h:outputText value="#{fahrzeugPresenter.currentFahrzeug.id.adresse}@#{fahrzeugPresenter.currentFahrzeug.id.systemTyp}" id="id" style="vertical-align: middle;" />
         </f:facet>
         <f:facet name="right">
           <p:commandButton value="zurück" icon="fa fa-times" action="finished" ajax="false" immediate="true" />

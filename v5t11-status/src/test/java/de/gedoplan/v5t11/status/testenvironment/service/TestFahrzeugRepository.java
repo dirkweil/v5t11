@@ -1,8 +1,8 @@
 package de.gedoplan.v5t11.status.testenvironment.service;
 
 import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
-import de.gedoplan.v5t11.status.entity.fahrzeug.FahrzeugId;
 import de.gedoplan.v5t11.status.persistence.FahrzeugRepository;
+import de.gedoplan.v5t11.util.domain.attribute.FahrzeugId;
 import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 
 import java.util.Arrays;

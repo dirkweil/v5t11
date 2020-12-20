@@ -7,19 +7,17 @@
       <h:panelGrid columns="1">
         <p:toolbar>
           <f:facet name="left">
-            <h:outputText value="#{fahrzeugPresenter.currentFahrzeug.id}" style="font-size: 30px; vertical-align: middle;" />
+            <h:outputText value="#{fahrzeugPresenter.currentFahrzeug.id.adresse}@#{fahrzeugPresenter.currentFahrzeug.id.systemTyp}" id="id" style="vertical-align: middle;" />
             <p:graphicImage name="#{fahrzeugPresenter.getImage(fahrzeugPresenter.currentFahrzeug)}" height="50px" style="vertical-align: middle; margin-left: 20px; margin-right: 20px;" />
-            <p:inputText value="#{fahrzeugPresenter.currentFahrzeug.adresse}" size="6" id="adresse" style="vertical-align: middle;" />
-            <p:selectOneMenu value="#{fahrzeugPresenter.currentFahrzeug.systemTyp}" id="systemTyp" style="vertical-align: middle;">
-              <f:selectItems value="#{fahrzeugPresenter.systemTypen}" />
-            </p:selectOneMenu>
+            <h:outputLabel value="Betriebsnummer: " for="betriebsnummer" />
+            <p:inputText value="#{fahrzeugPresenter.currentFahrzeug.betriebsnummer}" size="15" style="vertical-align: middle;" id="betriebsnummer" />
           </f:facet>
           <f:facet name="right">
             <p:commandButton value="Löschen" icon="fa fa-trash" action="remove" ajax="false" immediate="true" />
 
             <span class="ui-separator"> <span class="ui-icon pi pi-ellipsis-v" />
             </span>
-            
+
             <p:commandButton value="Abbrechen" icon="fa fa-times" action="#{fahrzeugPresenter.cancel()}" ajax="false" immediate="true" />
             <p:commandButton value="Speichern" icon="fa fa-save" action="#{fahrzeugPresenter.save()}" ajax="false" />
           </f:facet>

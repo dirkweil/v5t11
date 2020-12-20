@@ -1,12 +1,13 @@
 package de.gedoplan.v5t11.status.entity.fahrzeug;
 
-import de.gedoplan.baselibs.persistence.entity.SingleIdEntity;
 import de.gedoplan.baselibs.utils.inject.InjectionUtil;
 import de.gedoplan.v5t11.status.entity.Kanal;
 import de.gedoplan.v5t11.status.entity.SX2Kanal;
 import de.gedoplan.v5t11.status.entity.baustein.Zentrale;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
+import de.gedoplan.v5t11.util.domain.attribute.FahrzeugId;
 import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
+import de.gedoplan.v5t11.util.domain.entity.AbstractFahrzeug;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
 import javax.inject.Inject;
@@ -14,17 +15,19 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.validation.constraints.AssertTrue;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Access(AccessType.FIELD)
 @Table(name = Fahrzeug.TABLE_NAME)
-public class Fahrzeug extends SingleIdEntity<FahrzeugId> implements Comparable<Fahrzeug> {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Fahrzeug extends AbstractFahrzeug {
 
   public static final String TABLE_NAME = "ST_FAHRZEUG";
 
@@ -32,42 +35,14 @@ public class Fahrzeug extends SingleIdEntity<FahrzeugId> implements Comparable<F
   @Inject
   EventFirer eventFirer;
 
-  @Id
-  @Getter(onMethod_ = @JsonbInclude)
-  private FahrzeugId id;
-
-  public Fahrzeug() {
-  }
+  // Bit des Funktionsstatus, das das Signalhorn repräsentiert (können auch mehrere Bits sein)
+  @Column(name = "HORN_BITS", nullable = false)
+  @Getter(onMethod_ = @JsonbInclude(full = true))
+  @Setter
+  protected int hornBits;
 
   public Fahrzeug(FahrzeugId id) {
-    this.id = id;
-  }
-
-  // TODO Müssen die Ist-Werte persistent sein? Die sind doch auch in der Zentrale...
-  @Getter(onMethod_ = @JsonbInclude)
-  private boolean aktiv;
-
-  @Getter(onMethod_ = @JsonbInclude)
-  private int fahrstufe;
-
-  @AssertTrue(message = "Ungültige Fahrstufe")
-  boolean isfahrstufeValid() {
-    return this.fahrstufe >= 0 && this.fahrstufe <= this.id.getSystemTyp().getMaxFahrstufe();
-  }
-
-  @Getter(onMethod_ = @JsonbInclude)
-  private boolean rueckwaerts;
-
-  @Getter(onMethod_ = @JsonbInclude)
-  private boolean licht;
-
-  @Column(name = "FUNKTION_STATUS")
-  @Getter(onMethod_ = @JsonbInclude)
-  private int funktionStatus;
-
-  @Override
-  public int compareTo(Fahrzeug o) {
-    return this.id.compareTo(o.id);
+    super(id);
   }
 
   public void injectFields() {
@@ -114,8 +89,8 @@ public class Fahrzeug extends SingleIdEntity<FahrzeugId> implements Comparable<F
   public void setFunktionStatus(int wert) {
     synchronized (Zentrale.class) {
 
-      if (this.funktionStatus != wert) {
-        this.funktionStatus = wert;
+      if (this.fktBits != wert) {
+        this.fktBits = wert;
         this.eventFirer.fire(this);
       }
 
@@ -136,11 +111,11 @@ public class Fahrzeug extends SingleIdEntity<FahrzeugId> implements Comparable<F
   public void reset() {
     synchronized (Zentrale.class) {
 
-      boolean changed = this.fahrstufe != 0 || this.rueckwaerts || this.licht || this.funktionStatus != 0 || this.aktiv;
+      boolean changed = this.fahrstufe != 0 || this.rueckwaerts || this.licht || this.fktBits != 0 || this.aktiv;
       this.fahrstufe = 0;
       this.rueckwaerts = false;
       this.licht = false;
-      this.funktionStatus = 0;
+      this.fktBits = 0;
       this.aktiv = false;
       if (changed) {
         this.eventFirer.fire(this);
@@ -154,7 +129,7 @@ public class Fahrzeug extends SingleIdEntity<FahrzeugId> implements Comparable<F
    * Diese Methode wird nur für SX1-Loks aufgerufen.
    *
    * @param kanal
-   *          SX1-Kanal
+   *        SX1-Kanal
    */
   public void adjustTo(Kanal kanal) {
     synchronized (Zentrale.class) {
@@ -181,13 +156,12 @@ public class Fahrzeug extends SingleIdEntity<FahrzeugId> implements Comparable<F
 
         setLicht((wert & 0b0100_0000) != 0);
 
-        // TODO Horn unterstützen?
-        // boolean horn = (wert & 0b1000_0000) != 0;
-        // this.funktionen.forEach(entry -> {
-        // if (entry.isHorn()) {
-        // entry.setAktiv(horn);
-        // }
-        // });
+        boolean horn = (wert & 0b1000_0000) != 0;
+        if (horn) {
+          this.fktBits |= this.hornBits;
+        } else {
+          this.fktBits &= (~this.hornBits);
+        }
       }
 
     }
@@ -198,7 +172,7 @@ public class Fahrzeug extends SingleIdEntity<FahrzeugId> implements Comparable<F
    * Diese Methode wird nicht für SX1-Loks aufgerufen.
    *
    * @param kanal
-   *          SX2-Kanal
+   *        SX2-Kanal
    */
   public void adjustTo(SX2Kanal kanal) {
     synchronized (Zentrale.class) {

@@ -7,8 +7,8 @@
       <h2>Fahrzeug löschen</h2>
       
       <h:panelGrid columns="2">
-        <p:outputLabel value="Id:" for="id" />
-        <p:inputText value="#{fahrzeugPresenter.currentFahrzeug.id}" id="id" readonly="true"/>
+        <p:outputLabel value="Betriebsnummer:" for="betriebsnummer" />
+        <p:inputText value="#{fahrzeugPresenter.currentFahrzeug.betriebsnummer}" id="betriebsnummer" readonly="true"/>
 
         <p:commandButton value="löschen" action="#{fahrzeugPresenter.remove()}" ajax="false" />
         <p:commandButton value="abbrechen" action="#{fahrzeugPresenter.cancel()}" immediate="true" ajax="false" />
