@@ -30,14 +30,14 @@ public abstract class JsonMessageBodyWriter implements MessageBodyWriter<Object>
 
   private static Charset CHARSET_UTF_8 = Charset.forName("UTF-8");
 
-  @Provider
-  @Produces("application/json")
-  public static class SHORT extends JsonMessageBodyWriter {
-
-    public SHORT() {
-      super(JsonbWithIncludeVisibility.SHORT);
-    }
-  }
+  // @Provider
+  // @Produces("application/json")
+  // public static class SHORT extends JsonMessageBodyWriter {
+  //
+  // public SHORT() {
+  // super(JsonbWithIncludeVisibility.SHORT);
+  // }
+  // }
 
   @Provider
   @Produces("application/json")
