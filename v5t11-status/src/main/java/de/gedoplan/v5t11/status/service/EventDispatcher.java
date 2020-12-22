@@ -64,10 +64,7 @@ public class EventDispatcher {
   }
 
   void dispatch(@Observes Fahrzeug fahrzeug) {
-    if (this.log.isDebugEnabled()) {
-      this.log.debug("Event: " + fahrzeug);
-    }
-
     this.steuerung.getZentrale().lokChanged(fahrzeug);
+    this.outgoingHandler.publish(fahrzeug);
   }
 }

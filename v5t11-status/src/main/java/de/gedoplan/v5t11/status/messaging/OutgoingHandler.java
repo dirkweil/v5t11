@@ -4,6 +4,7 @@ import de.gedoplan.v5t11.status.entity.baustein.Zentrale;
 import de.gedoplan.v5t11.status.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
+import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
 import de.gedoplan.v5t11.status.service.EventDispatcher;
 import de.gedoplan.v5t11.util.domain.JoinInfo;
 import de.gedoplan.v5t11.util.jsf.NavigationItem;
@@ -36,16 +37,24 @@ public class OutgoingHandler {
   Logger logger;
 
   @Inject
+  @Channel("fahrzeug-out")
+  Emitter<String> fahrzeugEmitter;
+
+  @Inject
   @Channel("gleis-out")
   Emitter<String> gleisabschnittEmitter;
 
   @Inject
-  @Channel("signal-out")
-  Emitter<String> signalEmitter;
-
-  @Inject
   @Channel("join-out")
   Emitter<String> joinInfoEmitter;
+
+  @Inject
+  @Channel("navigation-out")
+  Emitter<String> navigationItemEmitter;
+
+  @Inject
+  @Channel("signal-out")
+  Emitter<String> signalEmitter;
 
   @Inject
   @Channel("weiche-out")
@@ -55,9 +64,9 @@ public class OutgoingHandler {
   @Channel("zentrale-out")
   Emitter<String> zentraleEmitter;
 
-  @Inject
-  @Channel("navigation-out")
-  Emitter<String> navigationItemEmitter;
+  public void publish(Fahrzeug fahrzeug) {
+    send(this.fahrzeugEmitter, fahrzeug);
+  }
 
   public void publish(Gleisabschnitt gleisabschnitt) {
     send(this.gleisabschnittEmitter, gleisabschnitt);
@@ -65,6 +74,10 @@ public class OutgoingHandler {
 
   public void publish(JoinInfo joinInfo) {
     send(this.joinInfoEmitter, joinInfo);
+  }
+
+  public void publish(NavigationItem navigationItem) {
+    send(this.navigationItemEmitter, navigationItem);
   }
 
   public void publish(Signal signal) {
@@ -79,26 +92,10 @@ public class OutgoingHandler {
     send(this.zentraleEmitter, zentrale);
   }
 
-  public void publish(NavigationItem navigationItem) {
-    send(this.navigationItemEmitter, navigationItem);
-  }
-
   protected void send(Emitter<String> emitter, Object obj) {
     String json = JsonbWithIncludeVisibility.SHORT.toJson(obj);
     this.logger.debugf("Send %s: %s", obj, json);
     emitter.send(json);
   }
 
-  // void publish(@Observes Fahrzeug lok) {
-  // publish(MessageCategory.LOK, lok);
-  // }
-  //
-  // void publish(@Observes Lokcontroller lokcontroller) {
-  // publish(MessageCategory.LOKCONTROLLER, lokcontroller);
-  // }
-  //
-  // void publish(@Observes NavigationItem navigationItem) {
-  // publish(MessageCategory.NAVIGATIONITEM, navigationItem);
-  // }
-  //
 }

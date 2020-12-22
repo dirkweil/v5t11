@@ -89,6 +89,25 @@ public class Fahrzeug extends AbstractFahrzeug {
     InjectionUtil.injectFields(this);
   }
 
+  public boolean copyStatus(Fahrzeug from) {
+    boolean changed = (this.aktiv != from.aktiv);
+    this.aktiv = from.aktiv;
+
+    changed |= (this.fahrstufe != from.fahrstufe);
+    this.fahrstufe = from.fahrstufe;
+
+    changed |= (this.fktBits != from.fktBits);
+    this.fktBits = from.fktBits;
+
+    changed |= (this.licht != from.licht);
+    this.licht = from.licht;
+
+    changed |= (this.rueckwaerts != from.rueckwaerts);
+    this.rueckwaerts = from.rueckwaerts;
+
+    return changed;
+  }
+
   @Embeddable
   @Getter(onMethod_ = @JsonbInclude(full = true))
   @Setter

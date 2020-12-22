@@ -1,5 +1,8 @@
 package de.gedoplan.v5t11.fahrzeuge.messaging;
 
+import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug;
+import de.gedoplan.v5t11.util.cdi.EventFirer;
+import de.gedoplan.v5t11.util.cdi.Received;
 import de.gedoplan.v5t11.util.jsf.NavigationItem;
 import de.gedoplan.v5t11.util.jsf.NavigationPresenter;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
@@ -8,6 +11,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import org.eclipse.microprofile.reactive.messaging.Incoming;
+import org.jboss.logging.Logger;
 
 /**
  * Handler für eingehende Meldungen.
@@ -18,11 +22,22 @@ import org.eclipse.microprofile.reactive.messaging.Incoming;
 @ApplicationScoped
 public class IncomingHandler {
 
-  // @Inject
-  // EventFirer eventFirer;
+  @Inject
+  Logger logger;
+
+  @Inject
+  EventFirer eventFirer;
 
   @Inject
   NavigationPresenter navigationPresenter;
+
+  @Incoming("fahrzeug-in")
+  void fahrzeugChanged(byte[] msg) {
+    String json = new String(msg);
+    Fahrzeug obj = JsonbWithIncludeVisibility.SHORT.fromJson(json, Fahrzeug.class);
+    this.logger.debugf("Received %s: %s", obj, json);
+    this.eventFirer.fire(obj, Received.Literal.INSTANCE);
+  }
 
   @Incoming("navigation-in")
   void navigationChanged(byte[] msg) {
