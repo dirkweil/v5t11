@@ -63,6 +63,12 @@ public class JoinService {
         .stream()
         .filter(x -> x.getLastChangeMillis() >= sendUpdatesSinceMillis)
         .forEach(x -> this.outgoingHandler.publish(x));
+
+    this.steuerung
+        .getFahrzeuge()
+        .stream()
+        .filter(x -> x.getLastChangeMillis() >= sendUpdatesSinceMillis)
+        .forEach(x -> this.outgoingHandler.publish(x));
   }
 
 }

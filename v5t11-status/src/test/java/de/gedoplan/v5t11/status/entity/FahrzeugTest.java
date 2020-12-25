@@ -12,6 +12,7 @@ import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 import de.gedoplan.v5t11.util.test.V5t11TestConfigDirExtension;
 
 import javax.inject.Inject;
+import javax.json.Json;
 
 import org.jboss.logging.Logger;
 import org.junit.jupiter.api.MethodOrderer;
@@ -38,27 +39,24 @@ public class FahrzeugTest {
   @Test
   public void test_01_toShortJson() throws Exception {
 
-    FahrzeugId lokId = TestFahrzeugRepository.lok103_003_0.getId();
-    Fahrzeug lok = this.steuerung.getFahrzeug(lokId);
+    FahrzeugId fahrzeugId = TestFahrzeugRepository.lok103_003_0.getId();
+    Fahrzeug fahrzeug = this.steuerung.getFahrzeug(fahrzeugId);
 
-    // System.out.println("##### " + lok);
-    // Method method = lok.getClass().getMethod("getId", null);
-    // System.out.println(" ##### annotations: " + Stream.of(method.getAnnotations()).map(a -> a.toString()).collect(Collectors.joining(",")));
-
-    String json = JsonbWithIncludeVisibility.SHORT.toJson(lok);
+    String json = JsonbWithIncludeVisibility.SHORT.toJson(fahrzeug);
 
     this.log.debug("JSON string: " + json);
 
-    JSONAssert.assertEquals(""
-        + "{\"aktiv\":" + lok.isAktiv()
-        + ",\"fahrstufe\":" + lok.getFahrstufe()
-        + ",\"funktionStatus\":" + lok.getFktBits()
-        + ",\"id\":\"" + lok.getId().getAdresse() + "@" + lok.getId().getSystemTyp().name() + "\""
-        + ",\"licht\":" + lok.isLicht()
-        + ",\"rueckwaerts\":" + lok.isRueckwaerts()
-        + "}",
-        json,
-        true);
+    String expected = Json.createObjectBuilder()
+        .add("id", fahrzeug.getId().encode())
+        .add("lastChangeMillis", fahrzeug.getLastChangeMillis())
+        .add("aktiv", fahrzeug.isAktiv())
+        .add("fahrstufe", fahrzeug.getFahrstufe())
+        .add("licht", fahrzeug.isLicht())
+        .add("rueckwaerts", fahrzeug.isRueckwaerts())
+        .add("fktBits", fahrzeug.getFktBits())
+        .build().toString();
+
+    JSONAssert.assertEquals(expected, json, true);
   }
 
   @Test

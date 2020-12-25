@@ -52,7 +52,7 @@ public class TestLokData {
 
   private static Fahrzeug createFahrzeug(SystemTyp systemTyp, int adresse, int hornBits) {
     Fahrzeug fahrzeug = new Fahrzeug(new FahrzeugId(systemTyp, adresse));
-    fahrzeug.setHornBits(hornBits);
+    // fahrzeug.setHornBits(hornBits);
     return fahrzeug;
   }
 }

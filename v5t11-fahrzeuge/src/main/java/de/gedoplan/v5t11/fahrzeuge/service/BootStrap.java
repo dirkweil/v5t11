@@ -12,6 +12,7 @@ public class BootStrap {
 
   void boot(@Observes StartupEvent startupEvent,
       Logger log,
+      JoinService joinService,
       ConfigService configService) {
     log.info("app: " + configService.getArtifactId() + ":" + configService.getVersion());
 
@@ -20,6 +21,7 @@ public class BootStrap {
     log.info("mqttBroker: " + configService.getMqttHost() + ":" + configService.getMqttPort());
     log.info("statusRestUrl: " + configService.getStatusRestUrl());
 
+    joinService.joinMyself();
   }
 
 }

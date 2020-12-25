@@ -62,38 +62,50 @@ public class FahrzeugId implements Serializable, Comparable<FahrzeugId> {
     return this.systemTyp.compareTo(o.systemTyp);
   }
 
+  /**
+   * Code für Id aus Adresse und Systemtypnamen kombinieren.
+   * 
+   * @return Adresse + '@' + Systemtypname
+   */
+  public String encode() {
+    return this.adresse + "@" + this.systemTyp.name();
+  }
+
+  /**
+   * Code in Adresse und Systemtyp aufteilen.
+   * 
+   * @param Adresse + '@' + Systemtypname
+   * @return Decodierte Id
+   */
+  public static FahrzeugId decode(String s) {
+    String[] parts = s.split("@");
+    if (parts.length != 2) {
+      throw new JsonbException("Ungültiges Format der FahrzeugId: " + s);
+    }
+
+    SystemTyp systemTyp = SystemTyp.valueOf(parts[1]);
+    if (systemTyp == null) {
+      throw new JsonbException("Ungültiger SystemTyp in der FahrzeugId: " + s);
+    }
+
+    try {
+      int adresse = Integer.parseInt(parts[0]);
+      return new FahrzeugId(systemTyp, adresse);
+    } catch (Exception e) {
+      throw new IllegalArgumentException("Ungültige FahrzeugId: " + s, e);
+    }
+  }
+
   public static class JsonTypeAdapter implements JsonbAdapter<FahrzeugId, String> {
 
     @Override
     public String adaptToJson(FahrzeugId fahrzeugId) throws Exception {
-      if (fahrzeugId == null) {
-        return null;
-      }
-      return fahrzeugId.getAdresse() + "@" + fahrzeugId.getSystemTyp().name();
+      return fahrzeugId == null ? null : fahrzeugId.encode();
     }
 
     @Override
     public FahrzeugId adaptFromJson(String s) throws Exception {
-      if (s == null) {
-        return null;
-      }
-
-      String[] parts = s.split("@");
-      if (parts.length != 2) {
-        throw new JsonbException("Ungültiges Format der FahrzeugId: " + s);
-      }
-
-      SystemTyp systemTyp = SystemTyp.valueOf(parts[1]);
-      if (systemTyp == null) {
-        throw new JsonbException("Ungültiger SystemTyp in der FahrzeugId: " + s);
-      }
-
-      try {
-        int adresse = Integer.parseInt(parts[0]);
-        return new FahrzeugId(systemTyp, adresse);
-      } catch (Exception e) {
-        throw new JsonbException("Ungültige FahrzeugId: " + s, e);
-      }
+      return s == null ? null : FahrzeugId.decode(s);
     }
 
   }

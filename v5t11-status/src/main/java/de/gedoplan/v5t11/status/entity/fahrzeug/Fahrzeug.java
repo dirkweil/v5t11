@@ -1,5 +1,6 @@
 package de.gedoplan.v5t11.status.entity.fahrzeug;
 
+import de.gedoplan.baselibs.persistence.entity.SingleIdEntity;
 import de.gedoplan.baselibs.utils.inject.InjectionUtil;
 import de.gedoplan.v5t11.status.entity.Kanal;
 import de.gedoplan.v5t11.status.entity.SX2Kanal;
@@ -7,27 +8,36 @@ import de.gedoplan.v5t11.status.entity.baustein.Zentrale;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.domain.attribute.FahrzeugId;
 import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
-import de.gedoplan.v5t11.util.domain.entity.AbstractFahrzeug;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
 import javax.inject.Inject;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.AssertTrue;
 
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Entity-Klasse für Fahrzeuge.
+ * 
+ * Persistent sind nur die identizierenden Attribute, da der Rest sich aus dem Status der Steuerung ergibt.
+ * 
+ * @author dw
+ *
+ */
 @Entity
 @Access(AccessType.FIELD)
 @Table(name = Fahrzeug.TABLE_NAME)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Fahrzeug extends AbstractFahrzeug {
+public class Fahrzeug extends SingleIdEntity<FahrzeugId> {
 
   public static final String TABLE_NAME = "ST_FAHRZEUG";
 
@@ -35,14 +45,51 @@ public class Fahrzeug extends AbstractFahrzeug {
   @Inject
   EventFirer eventFirer;
 
-  // Bit des Funktionsstatus, das das Signalhorn repräsentiert (können auch mehrere Bits sein)
-  @Column(name = "HORN_BITS", nullable = false)
-  @Getter(onMethod_ = @JsonbInclude(full = true))
-  @Setter
-  protected int hornBits;
+  @EmbeddedId
+  @Getter(onMethod_ = @JsonbInclude)
+  @Setter(onMethod_ = @JsonbInclude)
+  private FahrzeugId id;
+
+  // Fahrzeug ist aktiv, d. h. in der Zentrale angemeldet
+  @Getter(onMethod_ = @JsonbInclude)
+  @Transient
+  private boolean aktiv;
+
+  // Aktuelle Fahrstufe
+  @Getter(onMethod_ = @JsonbInclude)
+  @Transient
+  private int fahrstufe;
+
+  @AssertTrue(message = "Ungültige Fahrstufe")
+  boolean isfahrstufeValid() {
+    return this.fahrstufe >= 0 && this.fahrstufe <= this.id.getSystemTyp().getMaxFahrstufe();
+  }
+
+  // Rückwärtsfahrt
+  @Getter(onMethod_ = @JsonbInclude)
+  @Transient
+  private boolean rueckwaerts;
+
+  // Fahrlicht
+  @Getter(onMethod_ = @JsonbInclude)
+  @Transient
+  private boolean licht;
+
+  // Status der Funktionen (pro Funktion 1 Bit, nur 16 Bits releavant)
+  @Column(name = "FKT_BITS", nullable = false)
+  @Getter(onMethod_ = @JsonbInclude)
+  @Transient
+  private int fktBits;
+
+  // Letze Statusänderung
+  @Getter(onMethod_ = @JsonbInclude)
+  @Setter(onMethod_ = @JsonbInclude)
+  @Column(name = "LAST_CHANGE_MS")
+  @Transient
+  private long lastChangeMillis;
 
   public Fahrzeug(FahrzeugId id) {
-    super(id);
+    this.id = id;
   }
 
   public void injectFields() {
@@ -57,7 +104,9 @@ public class Fahrzeug extends AbstractFahrzeug {
           throw new IllegalArgumentException("Ungültige Fahrstufe: " + fahrstufe);
         }
 
+        this.lastChangeMillis = System.currentTimeMillis();
         this.fahrstufe = fahrstufe;
+
         this.eventFirer.fire(this);
       }
 
@@ -69,6 +118,8 @@ public class Fahrzeug extends AbstractFahrzeug {
 
       if (rueckwaerts != this.rueckwaerts) {
         this.rueckwaerts = rueckwaerts;
+        this.lastChangeMillis = System.currentTimeMillis();
+
         this.eventFirer.fire(this);
       }
 
@@ -80,6 +131,8 @@ public class Fahrzeug extends AbstractFahrzeug {
 
       if (licht != this.licht) {
         this.licht = licht;
+        this.lastChangeMillis = System.currentTimeMillis();
+
         this.eventFirer.fire(this);
       }
 
@@ -91,6 +144,8 @@ public class Fahrzeug extends AbstractFahrzeug {
 
       if (this.fktBits != wert) {
         this.fktBits = wert;
+        this.lastChangeMillis = System.currentTimeMillis();
+
         this.eventFirer.fire(this);
       }
 
@@ -102,6 +157,8 @@ public class Fahrzeug extends AbstractFahrzeug {
 
       if (aktiv != this.aktiv) {
         this.aktiv = aktiv;
+        this.lastChangeMillis = System.currentTimeMillis();
+
         this.eventFirer.fire(this);
       }
 
@@ -118,6 +175,8 @@ public class Fahrzeug extends AbstractFahrzeug {
       this.fktBits = 0;
       this.aktiv = false;
       if (changed) {
+        this.lastChangeMillis = System.currentTimeMillis();
+
         this.eventFirer.fire(this);
       }
 
@@ -155,13 +214,6 @@ public class Fahrzeug extends AbstractFahrzeug {
         setRueckwaerts((wert & 0b0010_0000) != 0);
 
         setLicht((wert & 0b0100_0000) != 0);
-
-        boolean horn = (wert & 0b1000_0000) != 0;
-        if (horn) {
-          this.fktBits |= this.hornBits;
-        } else {
-          this.fktBits &= (~this.hornBits);
-        }
       }
 
     }

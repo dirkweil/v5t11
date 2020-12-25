@@ -3,6 +3,7 @@ package de.gedoplan.v5t11.fahrzeuge.messaging;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.cdi.Received;
+import de.gedoplan.v5t11.util.domain.JoinInfo;
 import de.gedoplan.v5t11.util.jsf.NavigationItem;
 import de.gedoplan.v5t11.util.jsf.NavigationPresenter;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
@@ -37,6 +38,13 @@ public class IncomingHandler {
     Fahrzeug obj = JsonbWithIncludeVisibility.SHORT.fromJson(json, Fahrzeug.class);
     this.logger.debugf("Received %s: %s", obj, json);
     this.eventFirer.fire(obj, Received.Literal.INSTANCE);
+  }
+
+  @Incoming("join-in")
+  void appJoined(byte[] msg) {
+    String json = new String(msg);
+    JoinInfo receivedObject = JsonbWithIncludeVisibility.SHORT.fromJson(json, JoinInfo.class);
+    this.eventFirer.fire(receivedObject, Received.Literal.INSTANCE);
   }
 
   @Incoming("navigation-in")

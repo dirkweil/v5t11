@@ -42,7 +42,6 @@ public class StatusUpdater {
   void fahrzeugReceived(@ObservesAsync @Received Fahrzeug receivedObject) {
     Fahrzeug fahrzeug = this.fahrzeugRepository.findById(receivedObject.getId());
     copyStatus(fahrzeug, receivedObject);
-    System.out.println(this.fahrzeugRepository.isAttached(fahrzeug));
   }
 
   private void copyStatus(Fahrzeug to, Fahrzeug from) {

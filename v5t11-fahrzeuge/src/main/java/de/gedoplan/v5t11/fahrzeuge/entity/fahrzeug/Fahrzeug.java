@@ -1,10 +1,10 @@
 package de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug;
 
+import de.gedoplan.baselibs.persistence.entity.SingleIdEntity;
 import de.gedoplan.baselibs.utils.inject.InjectionUtil;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.domain.attribute.FahrzeugId;
 import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
-import de.gedoplan.v5t11.util.domain.entity.AbstractFahrzeug;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
 import java.io.Serializable;
@@ -18,6 +18,7 @@ import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Embeddable;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -25,6 +26,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -40,7 +42,7 @@ import lombok.ToString;
 @Access(AccessType.FIELD)
 @Table(name = Fahrzeug.TABLE_NAME)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Fahrzeug extends AbstractFahrzeug {
+public class Fahrzeug extends SingleIdEntity<FahrzeugId> {
 
   public static final String TABLE_NAME = "FZ_FAHRZEUG";
   public static final String TABLE_NAME_FUNKTION = "FZ_FAHRZEUG_FUNKTION";
@@ -49,6 +51,46 @@ public class Fahrzeug extends AbstractFahrzeug {
   @Inject
   EventFirer eventFirer;
 
+  @EmbeddedId
+  @Getter(onMethod_ = @JsonbInclude)
+  @Setter(onMethod_ = @JsonbInclude)
+  private FahrzeugId id;
+
+  // Fahrzeug ist aktiv, d. h. in der Zentrale angemeldet
+  @Getter(onMethod_ = @JsonbInclude)
+  @Setter(onMethod_ = @JsonbInclude)
+  private boolean aktiv;
+
+  // Aktuelle Fahrstufe
+  @Getter(onMethod_ = @JsonbInclude)
+  @Setter(onMethod_ = @JsonbInclude)
+  private int fahrstufe;
+
+  @AssertTrue(message = "Ungültige Fahrstufe")
+  boolean isfahrstufeValid() {
+    return this.fahrstufe >= 0 && this.fahrstufe <= this.id.getSystemTyp().getMaxFahrstufe();
+  }
+
+  // Rückwärtsfahrt
+  @Getter(onMethod_ = @JsonbInclude)
+  @Setter(onMethod_ = @JsonbInclude)
+  private boolean rueckwaerts;
+
+  // Fahrlicht
+  @Getter(onMethod_ = @JsonbInclude)
+  @Setter(onMethod_ = @JsonbInclude)
+  private boolean licht;
+
+  // Status der Funktionen (pro Funktion 1 Bit, nur 16 Bits releavant)
+  @Column(name = "FKT_BITS", nullable = false)
+  @Getter(onMethod_ = @JsonbInclude)
+  @Setter(onMethod_ = @JsonbInclude)
+  private int fktBits;
+
+  @Getter(onMethod_ = @JsonbInclude)
+  @Setter(onMethod_ = @JsonbInclude)
+  @Column(name = "LAST_CHANGE_MS")
+  private long lastChangeMillis;
   /**
    * Betriebsnummer des Fahrzeugs (DB-Nr. ö. ä.).
    */
@@ -73,7 +115,7 @@ public class Fahrzeug extends AbstractFahrzeug {
   private List<@NotNull FahrzeugFunktion> funktionen = new ArrayList<>();
 
   public Fahrzeug(FahrzeugId id, String betriebsnummer, String decoder, FahrzeugFunktion... funktionen) {
-    super(id);
+    this.id = id;
     this.betriebsnummer = betriebsnummer;
     this.decoder = decoder;
     for (FahrzeugFunktion funktion : funktionen) {
@@ -104,6 +146,10 @@ public class Fahrzeug extends AbstractFahrzeug {
 
     changed |= (this.rueckwaerts != from.rueckwaerts);
     this.rueckwaerts = from.rueckwaerts;
+
+    if (changed) {
+      this.lastChangeMillis = from.lastChangeMillis;
+    }
 
     return changed;
   }
