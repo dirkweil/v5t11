@@ -39,9 +39,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
-import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.ExecutorService;
 
@@ -128,7 +128,7 @@ public class Steuerung {
   @Getter
   private SortedSet<Weiche> weichen = new TreeSet<>();
 
-  private SortedMap<FahrzeugId, Fahrzeug> fahrzeuge = new TreeMap<>();
+  private SortedMap<FahrzeugId, Fahrzeug> fahrzeuge = new ConcurrentSkipListMap<>();
 
   @XmlElementWrapper(name = "AutoSkripte")
   @XmlElement(name = "AutoSkript")
@@ -141,6 +141,14 @@ public class Steuerung {
 
   public Fahrzeug getFahrzeug(FahrzeugId id) {
     return this.fahrzeuge.get(id);
+  }
+
+  public Fahrzeug getOrCreateFahrzeug(FahrzeugId id) {
+    return this.fahrzeuge.computeIfAbsent(id, x -> {
+      Fahrzeug fahrzeug = new Fahrzeug(x);
+      addFahrzeug(fahrzeug);
+      return fahrzeug;
+    });
   }
 
   public void addFahrzeug(Fahrzeug fahrzeug) {
@@ -499,41 +507,14 @@ public class Steuerung {
       }
 
       FahrzeugId fahrzeugId = new FahrzeugId(SystemTyp.SX1, adr);
-      Fahrzeug fahrzeug = this.fahrzeuge.get(fahrzeugId);
-      if (fahrzeug == null) {
-        /*
-         * Falls ein unbekannter (SX1-)Kanal gemeldet wird, ist die Anwendung vermutlich bei
-         * laufender Anlage neu gestartet worden und ein entsprechendes Fahrzeug ist
-         * noch aktiv. Dann Fahrzeug einfach wieder aufnehmen.
-         */
-        fahrzeug = new Fahrzeug(fahrzeugId);
-        addFahrzeug(fahrzeug);
-
-        this.log.debugf("Bereits aktives Fahrzeug wieder ergänzt: %s", fahrzeug);
-      }
-
+      Fahrzeug fahrzeug = getOrCreateFahrzeug(fahrzeugId);
       fahrzeug.adjustTo(kanal);
     }
   }
 
   public void adjustTo(SX2Kanal kanal) {
-    this.log.debugf("sx2kanal: %s", kanal);
-
     FahrzeugId fahrzeugId = new FahrzeugId(kanal.getSystemTyp(), kanal.getAdresse());
-    Fahrzeug fahrzeug = this.fahrzeuge.get(fahrzeugId);
-
-    if (fahrzeug == null) {
-      /*
-       * Falls ein unbekannter SX2Kanal gemeldet wird, ist die Anwendung vermutlich bei
-       * laufender Anlage neu gestartet worden und ein entsprechendes Fahrzeug ist
-       * noch aktiv. Dann Fahrzeug einfach wieder aufnehmen.
-       */
-      fahrzeug = new Fahrzeug(fahrzeugId);
-      addFahrzeug(fahrzeug);
-
-      this.log.debugf("Bereits aktives Fahrzeug wieder ergänzt: %s", fahrzeug);
-    }
-
+    Fahrzeug fahrzeug = getOrCreateFahrzeug(fahrzeugId);
     fahrzeug.adjustTo(kanal);
   }
 

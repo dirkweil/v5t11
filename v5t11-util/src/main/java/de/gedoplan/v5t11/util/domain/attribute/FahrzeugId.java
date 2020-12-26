@@ -77,7 +77,7 @@ public class FahrzeugId implements Serializable, Comparable<FahrzeugId> {
    * @param Adresse + '@' + Systemtypname
    * @return Decodierte Id
    */
-  public static FahrzeugId decode(String s) {
+  public static FahrzeugId valueOf(String s) {
     String[] parts = s.split("@");
     if (parts.length != 2) {
       throw new JsonbException("Ungültiges Format der FahrzeugId: " + s);
@@ -105,7 +105,7 @@ public class FahrzeugId implements Serializable, Comparable<FahrzeugId> {
 
     @Override
     public FahrzeugId adaptFromJson(String s) throws Exception {
-      return s == null ? null : FahrzeugId.decode(s);
+      return s == null ? null : FahrzeugId.valueOf(s);
     }
 
   }
