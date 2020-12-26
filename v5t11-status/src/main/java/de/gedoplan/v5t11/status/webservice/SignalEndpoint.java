@@ -67,7 +67,7 @@ public class SignalEndpoint {
 
   @PUT
   @Path("{bereich}/{name}")
-  @Consumes("*/*")
+  @Consumes(MediaType.MEDIA_TYPE_WILDCARD)
   public void putSignalStellung(@PathParam("bereich") String bereich, @PathParam("name") String name, String stellungsAngabe) {
 
     Signal signal = getSignal(bereich, name);

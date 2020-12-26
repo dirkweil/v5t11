@@ -67,7 +67,7 @@ public class WeicheEndpoint {
 
   @PUT
   @Path("{bereich}/{name}")
-  @Consumes("*/*")
+  @Consumes(MediaType.MEDIA_TYPE_WILDCARD)
   public void putWeichenStellung(@PathParam("bereich") String bereich, @PathParam("name") String name, String stellungsName) {
 
     try {
