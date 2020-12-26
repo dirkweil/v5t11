@@ -57,8 +57,9 @@
         <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
           <p:outputLabel for="lokIdAktiv" value="Lok:" />
           <h:panelGroup id="lokIdAktiv">
-            <p:selectOneMenu id="lokId" value="#{systemControlPresenter.lokId}" style="width:125px">
+            <p:selectOneMenu id="lokId" value="#{systemControlPresenter.lokId}" editable="true" style="width:125px">
               <f:selectItems value="#{systemControlPresenter.loks}" var="lok" itemLabel="#{lok.id.adresse}@#{lok.id.systemTyp}" itemValue="#{lok.id}" />
+              <p:ajax event="valueChange" oncomplete="updateLok();" />
               <p:ajax event="itemSelect" oncomplete="updateLok();" />
             </p:selectOneMenu>
             <p:selectBooleanButton id="lokAktiv" value="#{systemControlPresenter.lokAktiv}" onLabel="aktiv" offLabel="inaktiv" style="width:120px">

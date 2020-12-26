@@ -172,8 +172,9 @@ public class SystemControlPresenter implements Serializable {
     this.lok = this.steuerung.getFahrzeug(lokId);
 
     if (this.lok == null) {
-      FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("unbekannte Lok: " + this.lokId));
-      return;
+      this.lok = new Fahrzeug(lokId);
+      this.lok.injectFields();
+      this.steuerung.addFahrzeug(this.lok);
     }
 
     if (this.log.isTraceEnabled()) {

@@ -11,85 +11,53 @@ import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
 import javax.inject.Inject;
-import javax.persistence.Access;
-import javax.persistence.AccessType;
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-import javax.validation.constraints.AssertTrue;
 
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
  * Entity-Klasse für Fahrzeuge.
  * 
- * Persistent sind nur die identizierenden Attribute, da der Rest sich aus dem Status der Steuerung ergibt.
- * 
  * @author dw
  *
  */
-@Entity
-@Access(AccessType.FIELD)
-@Table(name = Fahrzeug.TABLE_NAME)
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Fahrzeug extends SingleIdEntity<FahrzeugId> {
 
-  public static final String TABLE_NAME = "ST_FAHRZEUG";
-
-  @Transient
   @Inject
   EventFirer eventFirer;
 
-  @EmbeddedId
   @Getter(onMethod_ = @JsonbInclude)
   @Setter(onMethod_ = @JsonbInclude)
   private FahrzeugId id;
 
   // Fahrzeug ist aktiv, d. h. in der Zentrale angemeldet
   @Getter(onMethod_ = @JsonbInclude)
-  @Transient
   private boolean aktiv;
 
   // Aktuelle Fahrstufe
   @Getter(onMethod_ = @JsonbInclude)
-  @Transient
   private int fahrstufe;
-
-  @AssertTrue(message = "Ungültige Fahrstufe")
-  boolean isfahrstufeValid() {
-    return this.fahrstufe >= 0 && this.fahrstufe <= this.id.getSystemTyp().getMaxFahrstufe();
-  }
 
   // Rückwärtsfahrt
   @Getter(onMethod_ = @JsonbInclude)
-  @Transient
   private boolean rueckwaerts;
 
   // Fahrlicht
   @Getter(onMethod_ = @JsonbInclude)
-  @Transient
   private boolean licht;
 
   // Status der Funktionen (pro Funktion 1 Bit, nur 16 Bits releavant)
-  @Column(name = "FKT_BITS", nullable = false)
   @Getter(onMethod_ = @JsonbInclude)
-  @Transient
   private int fktBits;
 
   // Letze Statusänderung
   @Getter(onMethod_ = @JsonbInclude)
   @Setter(onMethod_ = @JsonbInclude)
-  @Column(name = "LAST_CHANGE_MS")
-  @Transient
   private long lastChangeMillis;
 
   public Fahrzeug(FahrzeugId id) {
     this.id = id;
+    InjectionUtil.injectFields(this);
   }
 
   public void injectFields() {

@@ -5,12 +5,12 @@ import static org.junit.jupiter.api.Assertions.*;
 import de.gedoplan.v5t11.status.StatusEventCollector;
 import de.gedoplan.v5t11.status.entity.baustein.zentrale.DummyZentrale;
 import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
-import de.gedoplan.v5t11.status.testenvironment.service.TestFahrzeugRepository;
 import de.gedoplan.v5t11.util.domain.attribute.FahrzeugId;
 import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 import de.gedoplan.v5t11.util.test.V5t11TestConfigDirExtension;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.json.Json;
 
@@ -27,6 +27,12 @@ import io.quarkus.test.junit.QuarkusTestExtension;
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
 public class FahrzeugTest {
 
+  public static final Fahrzeug lok103_003_0 = new Fahrzeug(new FahrzeugId(SystemTyp.DCC, 1103));
+  public static final Fahrzeug lok210_004_8 = new Fahrzeug(new FahrzeugId(SystemTyp.SX1, 2));
+  public static final Fahrzeug lok217_001_7 = new Fahrzeug(new FahrzeugId(SystemTyp.SX2, 1217));
+
+  public static final Fahrzeug[] loks = { lok103_003_0, lok210_004_8, lok217_001_7 };
+
   @Inject
   Steuerung steuerung;
 
@@ -36,11 +42,18 @@ public class FahrzeugTest {
   @Inject
   Logger log;
 
+  @PostConstruct
+  void postConstruct() {
+    for (Fahrzeug lok : loks) {
+      lok.injectFields();
+      this.steuerung.addFahrzeug(lok);
+    }
+  }
+
   @Test
   public void test_01_toShortJson() throws Exception {
 
-    FahrzeugId fahrzeugId = TestFahrzeugRepository.lok103_003_0.getId();
-    Fahrzeug fahrzeug = this.steuerung.getFahrzeug(fahrzeugId);
+    Fahrzeug fahrzeug = lok103_003_0;
 
     String json = JsonbWithIncludeVisibility.SHORT.toJson(fahrzeug);
 
@@ -64,10 +77,8 @@ public class FahrzeugTest {
 
     this.steuerung.getZentrale().setGleisspannung(true);
 
-    FahrzeugId lokId = TestFahrzeugRepository.lok210_004_8.getId();
-    Fahrzeug lok = this.steuerung.getFahrzeug(lokId);
-    assertNotNull(lok, "Lok " + lokId + " in Testdaten");
-    assertEquals(lok.getId().getSystemTyp(), SystemTyp.SX1, "Lok-Typ von " + lokId);
+    Fahrzeug lok = lok210_004_8;
+    assertEquals(lok.getId().getSystemTyp(), SystemTyp.SX1, "Lok-Typ von " + lok.getId());
 
     lok.reset();
 
@@ -99,10 +110,8 @@ public class FahrzeugTest {
 
     this.steuerung.getZentrale().setGleisspannung(true);
 
-    FahrzeugId lokId = TestFahrzeugRepository.lok217_001_7.getId();
-    Fahrzeug lok = this.steuerung.getFahrzeug(lokId);
-    assertNotNull(lok, "Lok " + lokId + " in Testdaten");
-    assertEquals(SystemTyp.SX2, lok.getId().getSystemTyp(), "Lok-Typ von " + lokId);
+    Fahrzeug lok = lok217_001_7;
+    assertEquals(SystemTyp.SX2, lok.getId().getSystemTyp(), "Lok-Typ von " + lok.getId());
 
     lok.reset();
 
@@ -134,10 +143,8 @@ public class FahrzeugTest {
 
     this.steuerung.getZentrale().setGleisspannung(true);
 
-    FahrzeugId lokId = TestFahrzeugRepository.lok103_003_0.getId();
-    Fahrzeug lok = this.steuerung.getFahrzeug(lokId);
-    assertNotNull(lok, "Lok " + lokId + " in Testdaten");
-    assertEquals(SystemTyp.DCC, lok.getId().getSystemTyp(), "Lok-Typ von " + lokId);
+    Fahrzeug lok = lok103_003_0;
+    assertEquals(SystemTyp.DCC, lok.getId().getSystemTyp(), "Lok-Typ von " + lok.getId());
 
     lok.reset();
 

@@ -28,7 +28,6 @@ import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Schalter;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
 import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
-import de.gedoplan.v5t11.status.persistence.FahrzeugRepository;
 import de.gedoplan.v5t11.util.domain.attribute.FahrzeugId;
 import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 import de.gedoplan.v5t11.util.domain.entity.Bereichselement;
@@ -69,9 +68,6 @@ import lombok.Getter;
 @XmlRootElement(name = "sx")
 @XmlAccessorType(XmlAccessType.NONE)
 public class Steuerung {
-
-  @Inject
-  FahrzeugRepository fahrzeugRepository;
 
   @Inject
   Logger log;
@@ -148,11 +144,17 @@ public class Steuerung {
   }
 
   public void addFahrzeug(Fahrzeug fahrzeug) {
-    if (this.fahrzeuge.containsKey(fahrzeug.getId())) {
+    FahrzeugId id = fahrzeug.getId();
+    if (this.fahrzeuge.containsKey(id)) {
       return;
     }
 
-    this.fahrzeuge.put(fahrzeug.getId(), fahrzeug);
+    int adresse = id.getAdresse();
+    if (id.getSystemTyp() == SystemTyp.SX1 && this.kanalBausteine.containsKey(adresse)) {
+      throw new IllegalArgumentException("Adresse " + adresse + " bereits belegt");
+    }
+
+    this.fahrzeuge.put(id, fahrzeug);
     // TODO Fahrzeug in Zentrale anmelden
   }
 
@@ -192,9 +194,9 @@ public class Steuerung {
    * Gleisabschnitt liefern.
    *
    * @param bereich
-   *          Bereich
+   *        Bereich
    * @param name
-   *          Name
+   *        Name
    * @return gefundener Gleisabschnitt oder <code>null</code>
    */
   public Gleisabschnitt getGleisabschnitt(String bereich, String name) {
@@ -214,9 +216,9 @@ public class Steuerung {
    * Signal liefern.
    *
    * @param bereich
-   *          Bereich
+   *        Bereich
    * @param name
-   *          Name
+   *        Name
    * @return gefundenes Signal oder <code>null</code>
    */
   public Signal getSignal(String bereich, String name) {
@@ -236,9 +238,9 @@ public class Steuerung {
    * Schalter liefern.
    *
    * @param bereich
-   *          Bereich
+   *        Bereich
    * @param name
-   *          Name
+   *        Name
    * @return gefundener Schalter oder <code>null</code>
    */
   public Schalter getSchalter(String bereich, String name) {
@@ -258,9 +260,9 @@ public class Steuerung {
    * Weiche liefern.
    *
    * @param bereich
-   *          Bereich
+   *        Bereich
    * @param name
-   *          Name
+   *        Name
    * @return gefundene Weiche oder <code>null</code>
    */
   public Weiche getWeiche(String bereich, String name) {
@@ -292,9 +294,9 @@ public class Steuerung {
    * Nachbearbeitung nach JAXB-Unmarshal.
    *
    * @param unmarshaller
-   *          Unmarshaller
+   *        Unmarshaller
    * @param parent
-   *          Parent
+   *        Parent
    */
   @SuppressWarnings("unused")
   private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
@@ -395,7 +397,7 @@ public class Steuerung {
    * Textliche Repräsentation der Steuerung erstellen.
    *
    * @param idOnly
-   *          nur IDs?
+   *        nur IDs?
    * @return Steuerung als String
    */
   public String toDebugString(boolean idOnly) {
@@ -452,11 +454,6 @@ public class Steuerung {
     this.besetztmelder.forEach(Besetztmelder::injectFields);
     this.funktionsdecoder.forEach(Funktionsdecoder::injectFields);
     this.lokcontroller.forEach(Lokcontroller::injectFields);
-
-    this.fahrzeugRepository.findAll().forEach(f -> {
-      this.fahrzeuge.put(f.getId(), f);
-      f.injectFields();
-    });
   }
 
   public void postConstruct() {
@@ -501,19 +498,43 @@ public class Steuerung {
         return;
       }
 
-      Fahrzeug lok = this.fahrzeuge.get(new FahrzeugId(SystemTyp.SX1, adr));
-      if (lok != null) {
-        lok.adjustTo(kanal);
+      FahrzeugId fahrzeugId = new FahrzeugId(SystemTyp.SX1, adr);
+      Fahrzeug fahrzeug = this.fahrzeuge.get(fahrzeugId);
+      if (fahrzeug == null) {
+        /*
+         * Falls ein unbekannter (SX1-)Kanal gemeldet wird, ist die Anwendung vermutlich bei
+         * laufender Anlage neu gestartet worden und ein entsprechendes Fahrzeug ist
+         * noch aktiv. Dann Fahrzeug einfach wieder aufnehmen.
+         */
+        fahrzeug = new Fahrzeug(fahrzeugId);
+        addFahrzeug(fahrzeug);
+
+        this.log.debugf("Bereits aktives Fahrzeug wieder ergänzt: %s", fahrzeug);
       }
+
+      fahrzeug.adjustTo(kanal);
     }
   }
 
   public void adjustTo(SX2Kanal kanal) {
-    Fahrzeug lok = this.fahrzeuge.get(new FahrzeugId(kanal.getSystemTyp(), kanal.getAdresse()));
-    if (lok != null) {
-      lok.adjustTo(kanal);
+    this.log.debugf("sx2kanal: %s", kanal);
+
+    FahrzeugId fahrzeugId = new FahrzeugId(kanal.getSystemTyp(), kanal.getAdresse());
+    Fahrzeug fahrzeug = this.fahrzeuge.get(fahrzeugId);
+
+    if (fahrzeug == null) {
+      /*
+       * Falls ein unbekannter SX2Kanal gemeldet wird, ist die Anwendung vermutlich bei
+       * laufender Anlage neu gestartet worden und ein entsprechendes Fahrzeug ist
+       * noch aktiv. Dann Fahrzeug einfach wieder aufnehmen.
+       */
+      fahrzeug = new Fahrzeug(fahrzeugId);
+      addFahrzeug(fahrzeug);
+
+      this.log.debugf("Bereits aktives Fahrzeug wieder ergänzt: %s", fahrzeug);
     }
 
+    fahrzeug.adjustTo(kanal);
   }
 
   public void awaitSync() {

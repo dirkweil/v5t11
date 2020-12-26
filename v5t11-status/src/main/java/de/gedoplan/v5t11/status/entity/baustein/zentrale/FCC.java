@@ -298,13 +298,20 @@ public class FCC extends Zentrale {
   }
 
   private static int decodeAdresse(SystemTyp systemTyp, byte adrHigh, byte adrLow) {
+    /*
+     * adrHigh: HHHH_HHHL
+     * adrLow: LLLL_LLxx
+     * 
+     * adr: 00HH_HHHH_HLLL_LLLL
+     */
     int adr = Byte.toUnsignedInt(adrHigh) << 6 | (Byte.toUnsignedInt(adrLow) & 0b1111_1100) >>> 2;
     switch (systemTyp) {
     case SX1:
       throw new IllegalArgumentException("Ungültiger Systemtyp: " + systemTyp);
 
     case SX2:
-      return ((adr & 0b0011_1111_1000_0000) >>> 7) * 100 + (adr & 0b0011_1111);
+      // Für SX2 sind die Hs oben Tausender und Hunderter, die Ls Zehner und Einer
+      return ((adr & 0b0011_1111_1000_0000) >>> 7) * 100 + (adr & 0b0111_1111);
 
     default:
       return adr;
