@@ -1,5 +1,6 @@
 package de.gedoplan.v5t11.status.messaging;
 
+import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.cdi.Received;
 import de.gedoplan.v5t11.util.domain.JoinInfo;
@@ -11,6 +12,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import org.eclipse.microprofile.reactive.messaging.Incoming;
+import org.jboss.logging.Logger;
 
 /**
  * Handler für eingehende Meldungen.
@@ -32,11 +34,23 @@ public class IncomingHandler {
   EventFirer eventFirer;
 
   @Inject
+  Logger logger;
+
+  @Inject
   NavigationPresenter navigationPresenter;
+
+  @Incoming("fahrzeug-def-in")
+  void fahrzeugDefined(byte[] msg) {
+    String json = new String(msg);
+    this.logger.debugf("Received: %s", json);
+    Fahrzeug receivedObject = JsonbWithIncludeVisibility.SHORT.fromJson(json, Fahrzeug.class);
+    this.eventFirer.fire(receivedObject, Received.Literal.INSTANCE);
+  }
 
   @Incoming("join-in")
   void appJoined(byte[] msg) {
     String json = new String(msg);
+    this.logger.debugf("Received: %s", json);
     JoinInfo receivedObject = JsonbWithIncludeVisibility.SHORT.fromJson(json, JoinInfo.class);
     this.eventFirer.fire(receivedObject, Received.Literal.INSTANCE);
   }
@@ -44,6 +58,7 @@ public class IncomingHandler {
   @Incoming("navigation-in")
   void navigationChanged(byte[] msg) {
     String json = new String(msg);
+    this.logger.debugf("Received: %s", json);
     NavigationItem receivedObject = JsonbWithIncludeVisibility.SHORT.fromJson(json, NavigationItem.class);
     this.navigationPresenter.heartBeat(receivedObject);
   }

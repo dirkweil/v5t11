@@ -21,7 +21,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @Embeddable
 @Access(AccessType.FIELD)
@@ -30,7 +29,6 @@ import lombok.ToString;
 @Getter(onMethod_ = @JsonbInclude)
 @Setter(onMethod_ = @JsonbInclude)
 @EqualsAndHashCode
-@ToString
 @JsonbTypeAdapter(FahrzeugId.JsonTypeAdapter.class)
 public class FahrzeugId implements Serializable, Comparable<FahrzeugId> {
 
@@ -67,7 +65,8 @@ public class FahrzeugId implements Serializable, Comparable<FahrzeugId> {
    * 
    * @return Adresse + '@' + Systemtypname
    */
-  public String encode() {
+  @Override
+  public String toString() {
     return this.adresse + "@" + this.systemTyp.name();
   }
 
@@ -100,7 +99,7 @@ public class FahrzeugId implements Serializable, Comparable<FahrzeugId> {
 
     @Override
     public String adaptToJson(FahrzeugId fahrzeugId) throws Exception {
-      return fahrzeugId == null ? null : fahrzeugId.encode();
+      return fahrzeugId == null ? null : fahrzeugId.toString();
     }
 
     @Override

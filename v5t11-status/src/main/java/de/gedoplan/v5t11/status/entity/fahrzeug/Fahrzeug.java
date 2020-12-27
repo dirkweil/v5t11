@@ -12,7 +12,9 @@ import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
 import javax.inject.Inject;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
@@ -21,6 +23,7 @@ import lombok.Setter;
  * @author dw
  *
  */
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Fahrzeug extends SingleIdEntity<FahrzeugId> {
 
   @Inject

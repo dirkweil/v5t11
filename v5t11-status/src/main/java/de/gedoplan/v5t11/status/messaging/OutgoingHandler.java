@@ -37,7 +37,7 @@ public class OutgoingHandler {
   Logger logger;
 
   @Inject
-  @Channel("fahrzeug-out")
+  @Channel("fahrzeug-status-out")
   Emitter<String> fahrzeugEmitter;
 
   @Inject

@@ -60,7 +60,7 @@ public class FahrzeugTest {
     this.log.debug("JSON string: " + json);
 
     String expected = Json.createObjectBuilder()
-        .add("id", fahrzeug.getId().encode())
+        .add("id", fahrzeug.getId().toString())
         .add("lastChangeMillis", fahrzeug.getLastChangeMillis())
         .add("aktiv", fahrzeug.isAktiv())
         .add("fahrstufe", fahrzeug.getFahrstufe())

@@ -1,12 +1,16 @@
 package de.gedoplan.v5t11.fahrzeuge.service;
 
+import de.gedoplan.v5t11.fahrzeuge.gateway.StatusGateway;
 import de.gedoplan.v5t11.fahrzeuge.messaging.OutgoingHandler;
+import de.gedoplan.v5t11.fahrzeuge.persistence.FahrzeugRepository;
 import de.gedoplan.v5t11.util.cdi.Received;
 import de.gedoplan.v5t11.util.domain.JoinInfo;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.ObservesAsync;
 import javax.inject.Inject;
+
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 @ApplicationScoped
 public class JoinService {
@@ -16,6 +20,13 @@ public class JoinService {
 
   @Inject
   ConfigService configService;
+
+  @Inject
+  @RestClient
+  StatusGateway statusGateway;
+
+  @Inject
+  FahrzeugRepository fahrzeugRepository;
 
   /**
    * Andere Teilanwendungen vom eigenen Anwendungsstart informieren.
@@ -42,7 +53,10 @@ public class JoinService {
   }
 
   private void join(long sendUpdatesSinceMillis) {
-    // Nix zu tun
+    this.fahrzeugRepository
+        .findAll()
+        .forEach(this.outgoingHandler::publish);
+
   }
 
 }

@@ -32,7 +32,7 @@ public class IncomingHandler {
   @Inject
   NavigationPresenter navigationPresenter;
 
-  @Incoming("fahrzeug-in")
+  @Incoming("fahrzeug-status-in")
   void fahrzeugChanged(byte[] msg) {
     String json = new String(msg);
     Fahrzeug obj = JsonbWithIncludeVisibility.SHORT.fromJson(json, Fahrzeug.class);

@@ -56,13 +56,20 @@ public class Fahrzeug extends SingleIdEntity<FahrzeugId> {
   @Setter(onMethod_ = @JsonbInclude)
   private FahrzeugId id;
 
-  // Fahrzeug ist aktiv, d. h. in der Zentrale angemeldet
+  // Fahrzeug ist/wird gelöscht
+  // nur für temporäre Benachrichtigung; wird nicht in der DB gespeichert
   @Getter(onMethod_ = @JsonbInclude)
+  @Setter
+  @Transient
+  private boolean removed;
+
+  // Fahrzeug ist aktiv, d. h. in der Zentrale angemeldet
+  @Getter(onMethod_ = @JsonbInclude(full = true))
   @Setter(onMethod_ = @JsonbInclude)
   private boolean aktiv;
 
   // Aktuelle Fahrstufe
-  @Getter(onMethod_ = @JsonbInclude)
+  @Getter(onMethod_ = @JsonbInclude(full = true))
   @Setter(onMethod_ = @JsonbInclude)
   private int fahrstufe;
 
@@ -72,29 +79,30 @@ public class Fahrzeug extends SingleIdEntity<FahrzeugId> {
   }
 
   // Rückwärtsfahrt
-  @Getter(onMethod_ = @JsonbInclude)
+  @Getter(onMethod_ = @JsonbInclude(full = true))
   @Setter(onMethod_ = @JsonbInclude)
   private boolean rueckwaerts;
 
   // Fahrlicht
-  @Getter(onMethod_ = @JsonbInclude)
+  @Getter(onMethod_ = @JsonbInclude(full = true))
   @Setter(onMethod_ = @JsonbInclude)
   private boolean licht;
 
   // Status der Funktionen (pro Funktion 1 Bit, nur 16 Bits releavant)
   @Column(name = "FKT_BITS", nullable = false)
-  @Getter(onMethod_ = @JsonbInclude)
+  @Getter(onMethod_ = @JsonbInclude(full = true))
   @Setter(onMethod_ = @JsonbInclude)
   private int fktBits;
 
-  @Getter(onMethod_ = @JsonbInclude)
+  @Getter(onMethod_ = @JsonbInclude(full = true))
   @Setter(onMethod_ = @JsonbInclude)
   @Column(name = "LAST_CHANGE_MS")
   private long lastChangeMillis;
+
   /**
    * Betriebsnummer des Fahrzeugs (DB-Nr. ö. ä.).
    */
-  @Getter
+  @Getter(onMethod_ = @JsonbInclude)
   @Setter
   @NotBlank
   @Column(nullable = false, unique = true)
@@ -105,7 +113,7 @@ public class Fahrzeug extends SingleIdEntity<FahrzeugId> {
   @Setter
   private Serializable image;
 
-  @Getter
+  @Getter(onMethod_ = @JsonbInclude)
   @Setter
   private String decoder;
 
