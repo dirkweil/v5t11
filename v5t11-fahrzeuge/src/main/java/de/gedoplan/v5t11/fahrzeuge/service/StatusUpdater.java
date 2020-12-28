@@ -3,6 +3,7 @@ package de.gedoplan.v5t11.fahrzeuge.service;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug;
 import de.gedoplan.v5t11.fahrzeuge.messaging.IncomingHandler;
 import de.gedoplan.v5t11.fahrzeuge.persistence.FahrzeugRepository;
+import de.gedoplan.v5t11.util.cdi.Changed;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.cdi.Received;
 
@@ -51,7 +52,7 @@ public class StatusUpdater {
           this.logger.debug(to);
         }
 
-        this.eventFirer.fire(to);
+        this.eventFirer.fire(to, Changed.Literal.INSTANCE);
       }
     }
 

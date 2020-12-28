@@ -1,6 +1,7 @@
 package de.gedoplan.v5t11.status;
 
 import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
+import de.gedoplan.v5t11.util.cdi.Changed;
 import de.gedoplan.v5t11.util.domain.entity.Fahrwegelement;
 
 import java.util.Collection;
@@ -21,12 +22,12 @@ public class StatusEventCollector {
     this.events.clear();
   }
 
-  void fahrwegelementChanged(@Observes Fahrwegelement fahrwegelement) {
+  void fahrwegelementChanged(@Observes @Changed Fahrwegelement fahrwegelement) {
     this.events.add(fahrwegelement);
   }
 
-  void lokChanged(@Observes Fahrzeug lok) {
-    this.events.add(lok);
+  void lokChanged(@Observes @Changed Fahrzeug fahrzeug) {
+    this.events.add(fahrzeug);
   }
 
 }

@@ -3,9 +3,11 @@ package de.gedoplan.v5t11.fahrstrassen.service;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Signal;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Weiche;
+import de.gedoplan.v5t11.fahrstrassen.messaging.IncomingHandler;
 import de.gedoplan.v5t11.fahrstrassen.persistence.GleisabschnittRepository;
 import de.gedoplan.v5t11.fahrstrassen.persistence.SignalRepository;
 import de.gedoplan.v5t11.fahrstrassen.persistence.WeicheRepository;
+import de.gedoplan.v5t11.util.cdi.Changed;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.cdi.Received;
 import de.gedoplan.v5t11.util.domain.entity.Fahrwegelement;
@@ -81,7 +83,7 @@ public class StatusUpdater {
           this.logger.debug(to);
         }
 
-        this.eventFirer.fire(to);
+        this.eventFirer.fire(to, Changed.Literal.INSTANCE);
       }
     }
 

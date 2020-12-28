@@ -2,6 +2,7 @@ package de.gedoplan.v5t11.status.entity.fahrweg;
 
 import de.gedoplan.baselibs.utils.inject.InjectionUtil;
 import de.gedoplan.v5t11.status.entity.baustein.Besetztmelder;
+import de.gedoplan.v5t11.util.cdi.Changed;
 import de.gedoplan.v5t11.util.domain.entity.fahrweg.AbstractGleisabschnitt;
 
 import javax.xml.bind.Unmarshaller;
@@ -46,11 +47,17 @@ public class Gleisabschnitt extends AbstractGleisabschnitt {
    */
   @Override
   public String toString() {
-    return this.getClass().getSimpleName()
-        + "{"
-        + getId().encode()
-        + " [" + this.besetztmelder.getAdressen().get(0) + "/" + this.anschluss
-        + "]}";
+    StringBuilder sb = new StringBuilder(getClass().getSimpleName());
+    sb.append('{');
+    sb.append(getId().encode());
+    sb.append('[');
+    sb.append(this.anschluss);
+    sb.append('@');
+    sb.append(this.besetztmelder.getAdressen().get(0));
+    sb.append(']');
+    sb.append(isBesetzt() ? " besetzt" : " frei");
+    sb.append('}');
+    return sb.toString();
   }
 
   /**
@@ -81,7 +88,7 @@ public class Gleisabschnitt extends AbstractGleisabschnitt {
       this.lastChangeMillis = currentTimeMillis;
 
       setBesetzt(neu);
-      this.eventFirer.fire(this);
+      this.eventFirer.fire(this, Changed.Literal.INSTANCE);
     }
   }
 

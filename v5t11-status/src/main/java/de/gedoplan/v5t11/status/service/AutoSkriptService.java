@@ -3,6 +3,7 @@ package de.gedoplan.v5t11.status.service;
 import de.gedoplan.v5t11.status.entity.Steuerung;
 import de.gedoplan.v5t11.status.entity.autoskript.AutoSkript;
 import de.gedoplan.v5t11.status.entity.fahrweg.Gleisabschnitt;
+import de.gedoplan.v5t11.util.cdi.Changed;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
@@ -25,7 +26,7 @@ public class AutoSkriptService {
   @Inject
   Steuerung steuerung;
 
-  void gleisChanged(@Observes Gleisabschnitt gleisabschnitt) {
+  void gleisChanged(@Observes @Changed Gleisabschnitt gleisabschnitt) {
     this.steuerung.getAutoSkripte().stream()
         .filter(as -> as.getSteuerungsObjekte().contains(gleisabschnitt))
         .forEach(AutoSkript::execute);

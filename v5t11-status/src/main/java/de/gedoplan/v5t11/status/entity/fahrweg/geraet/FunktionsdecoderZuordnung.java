@@ -44,7 +44,7 @@ public class FunktionsdecoderZuordnung {
    * Konstruktor.
    *
    * @param bitCount
-   *          Anzahl belegter Bits
+   *        Anzahl belegter Bits
    */
   FunktionsdecoderZuordnung(int bitCount) {
     this.bitCount = bitCount;
@@ -60,9 +60,7 @@ public class FunktionsdecoderZuordnung {
   public String toString() {
     return this.funktionsdecoder.getAdressen().isEmpty()
         ? "none"
-        : this.funktionsdecoder.getAdressen().get(0)
-            + "/"
-            + this.anschluss;
+        : this.anschluss + "@" + this.funktionsdecoder.getAdressen().get(0);
   }
 
 }

@@ -5,6 +5,7 @@ import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.FahrstrassenGleisabschnitt;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrassenelement;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleisabschnitt;
+import de.gedoplan.v5t11.util.cdi.Changed;
 import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -28,7 +29,7 @@ public class FahrstrasseMonitor {
    * @param gleisabschnitt
    *        Gleisabschnitt
    */
-  void processGleisabschnitt(@Observes Gleisabschnitt gleisabschnitt) {
+  void processGleisabschnitt(@Observes @Changed Gleisabschnitt gleisabschnitt) {
 
     // Wenn Gleisabschnitt nicht Teil einer Fahrstrasse ist, nichts tun
     BereichselementId fahrstrasseId = gleisabschnitt.getReserviertefahrstrasseId();

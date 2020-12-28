@@ -2,6 +2,7 @@ package de.gedoplan.v5t11.status.entity.baustein.zentrale;
 
 import de.gedoplan.v5t11.status.entity.Kanal;
 import de.gedoplan.v5t11.status.entity.baustein.Zentrale;
+import de.gedoplan.v5t11.util.cdi.Changed;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -46,7 +47,7 @@ public class DummyZentrale extends Zentrale {
     boolean gleisspannungAlt = this.gleisspannung;
     this.gleisspannung = gleisspannung;
     if (this.gleisspannung != gleisspannungAlt) {
-      this.eventFirer.fire(this);
+      this.eventFirer.fire(this, Changed.Literal.INSTANCE);
     }
   }
 
@@ -65,7 +66,7 @@ public class DummyZentrale extends Zentrale {
     byte neu = (byte) wert;
     Byte alt = this.kanalwerte.put(adr, neu);
     if (alt == null || alt.byteValue() != neu) {
-      this.eventFirer.fire(new Kanal(adr, neu));
+      this.eventFirer.fire(new Kanal(adr, neu), Changed.Literal.INSTANCE);
     }
   }
 

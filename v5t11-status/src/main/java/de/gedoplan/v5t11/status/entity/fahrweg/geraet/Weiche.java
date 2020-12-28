@@ -4,6 +4,7 @@
 package de.gedoplan.v5t11.status.entity.fahrweg.geraet;
 
 import de.gedoplan.v5t11.status.entity.baustein.Funktionsdecoder;
+import de.gedoplan.v5t11.util.cdi.Changed;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
 import de.gedoplan.v5t11.util.domain.entity.fahrweg.geraet.AbstractWeiche;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
@@ -60,7 +61,7 @@ public class Weiche extends AbstractWeiche implements FunktionsdecoderGeraet {
         this.funktionsdecoderZuordnung.getFunktionsdecoder().setWert(fdWert);
       }
 
-      this.eventFirer.fire(this);
+      this.eventFirer.fire(this, Changed.Literal.INSTANCE);
     }
   }
 
@@ -114,14 +115,16 @@ public class Weiche extends AbstractWeiche implements FunktionsdecoderGeraet {
 
   @Override
   public String toString() {
-    return this.getClass().getSimpleName()
-        + "{"
-        + getBereich()
-        + "/"
-        + getName()
-        + " @ "
-        + this.funktionsdecoderZuordnung
-        + "}";
+    StringBuilder sb = new StringBuilder(getClass().getSimpleName());
+    sb.append('{');
+    sb.append(getId().encode());
+    sb.append('[');
+    sb.append(this.funktionsdecoderZuordnung);
+    sb.append(']');
+    sb.append(' ');
+    sb.append(getStellung());
+    sb.append('}');
+    return sb.toString();
   }
 
   /**

@@ -30,6 +30,7 @@ import org.jboss.logging.Logger;
 @ApplicationScoped
 public class IncomingHandler {
 
+  // @Received JoinInfo, Fahrzeug
   @Inject
   EventFirer eventFirer;
 

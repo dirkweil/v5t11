@@ -74,6 +74,7 @@ public class NavigationPresenter {
 
   private AtomicBoolean menuChanged = new AtomicBoolean();
 
+  // NavigationItem
   @Inject
   EventFirer eventFirer;
 

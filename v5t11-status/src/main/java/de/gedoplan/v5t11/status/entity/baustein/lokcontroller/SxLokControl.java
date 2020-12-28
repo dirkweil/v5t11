@@ -2,6 +2,7 @@ package de.gedoplan.v5t11.status.entity.baustein.lokcontroller;
 
 import de.gedoplan.v5t11.status.entity.baustein.Lokcontroller;
 import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
+import de.gedoplan.v5t11.util.cdi.Changed;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
 
 import java.util.Objects;
@@ -49,6 +50,7 @@ public class SxLokControl extends Lokcontroller {
 
   private double fahrstufenFaktor;
 
+  // SxLokControl
   @Inject
   EventFirer eventFirer;
 
@@ -60,7 +62,7 @@ public class SxLokControl extends Lokcontroller {
    * Wert setzen: {@link #lok}.
    *
    * @param lok
-   *          Wert
+   *        Wert
    */
   @Override
   public void setLok(Fahrzeug lok) {
@@ -91,7 +93,7 @@ public class SxLokControl extends Lokcontroller {
         this.lok.setAktiv(true);
       }
 
-      this.eventFirer.fire(this);
+      this.eventFirer.fire(this, Changed.Literal.INSTANCE);
     }
   }
 

@@ -9,12 +9,11 @@ import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
 import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
 import de.gedoplan.v5t11.status.messaging.OutgoingHandler;
+import de.gedoplan.v5t11.util.cdi.Changed;
 import de.gedoplan.v5t11.util.jsf.NavigationItem;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
-import javax.enterprise.inject.Default;
-import javax.enterprise.inject.spi.EventMetadata;
 import javax.inject.Inject;
 
 import org.jboss.logging.Logger;
@@ -31,41 +30,41 @@ public class EventDispatcher {
   @Inject
   OutgoingHandler outgoingHandler;
 
-  void dispatch(@Observes @Default Kanal kanal) {
+  void dispatch(@Observes @Changed Kanal kanal) {
     if (this.log.isDebugEnabled()) {
       this.log.debug("Event: " + kanal);
     }
     this.steuerung.adjustTo(kanal);
   }
 
-  void dispatch(@Observes @Default SX2Kanal kanal) {
+  void dispatch(@Observes @Changed SX2Kanal kanal) {
     if (this.log.isDebugEnabled()) {
       this.log.debug("Event: " + kanal);
     }
     this.steuerung.adjustTo(kanal);
   }
 
-  void dispatch(@Observes @Default Gleisabschnitt gleisabschnitt) {
+  void dispatch(@Observes @Changed Gleisabschnitt gleisabschnitt) {
     this.outgoingHandler.publish(gleisabschnitt);
   }
 
-  void dispatch(@Observes @Default Signal signal) {
+  void dispatch(@Observes @Changed Signal signal) {
     this.outgoingHandler.publish(signal);
   }
 
-  void dispatch(@Observes @Default Weiche weiche) {
+  void dispatch(@Observes @Changed Weiche weiche) {
     this.outgoingHandler.publish(weiche);
   }
 
-  void dispatch(@Observes @Default Zentrale zentrale) {
+  void dispatch(@Observes @Changed Zentrale zentrale) {
     this.outgoingHandler.publish(zentrale);
   }
 
-  void dispatch(@Observes @Default NavigationItem navigationItem) {
+  void dispatch(@Observes NavigationItem navigationItem) {
     this.outgoingHandler.publish(navigationItem);
   }
 
-  void dispatch(@Observes @Default Fahrzeug fahrzeug, EventMetadata eventMetadata) {
+  void dispatch(@Observes @Changed Fahrzeug fahrzeug) {
     this.steuerung.getZentrale().lokChanged(fahrzeug);
     this.outgoingHandler.publish(fahrzeug);
   }

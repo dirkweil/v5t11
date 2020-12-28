@@ -5,6 +5,7 @@ import de.gedoplan.baselibs.utils.inject.InjectionUtil;
 import de.gedoplan.v5t11.status.entity.Kanal;
 import de.gedoplan.v5t11.status.entity.SX2Kanal;
 import de.gedoplan.v5t11.status.entity.baustein.Zentrale;
+import de.gedoplan.v5t11.util.cdi.Changed;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.domain.attribute.FahrzeugId;
 import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
@@ -26,6 +27,7 @@ import lombok.Setter;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Fahrzeug extends SingleIdEntity<FahrzeugId> {
 
+  // Fahrzeug
   @Inject
   EventFirer eventFirer;
 
@@ -78,7 +80,7 @@ public class Fahrzeug extends SingleIdEntity<FahrzeugId> {
         this.lastChangeMillis = System.currentTimeMillis();
         this.fahrstufe = fahrstufe;
 
-        this.eventFirer.fire(this);
+        this.eventFirer.fire(this, Changed.Literal.INSTANCE);
       }
 
     }
@@ -91,7 +93,7 @@ public class Fahrzeug extends SingleIdEntity<FahrzeugId> {
         this.rueckwaerts = rueckwaerts;
         this.lastChangeMillis = System.currentTimeMillis();
 
-        this.eventFirer.fire(this);
+        this.eventFirer.fire(this, Changed.Literal.INSTANCE);
       }
 
     }
@@ -104,7 +106,7 @@ public class Fahrzeug extends SingleIdEntity<FahrzeugId> {
         this.licht = licht;
         this.lastChangeMillis = System.currentTimeMillis();
 
-        this.eventFirer.fire(this);
+        this.eventFirer.fire(this, Changed.Literal.INSTANCE);
       }
 
     }
@@ -117,7 +119,7 @@ public class Fahrzeug extends SingleIdEntity<FahrzeugId> {
         this.fktBits = wert;
         this.lastChangeMillis = System.currentTimeMillis();
 
-        this.eventFirer.fire(this);
+        this.eventFirer.fire(this, Changed.Literal.INSTANCE);
       }
 
     }
@@ -130,7 +132,7 @@ public class Fahrzeug extends SingleIdEntity<FahrzeugId> {
         this.aktiv = aktiv;
         this.lastChangeMillis = System.currentTimeMillis();
 
-        this.eventFirer.fire(this);
+        this.eventFirer.fire(this, Changed.Literal.INSTANCE);
       }
 
     }
@@ -148,7 +150,7 @@ public class Fahrzeug extends SingleIdEntity<FahrzeugId> {
       if (changed) {
         this.lastChangeMillis = System.currentTimeMillis();
 
-        this.eventFirer.fire(this);
+        this.eventFirer.fire(this, Changed.Literal.INSTANCE);
       }
 
     }

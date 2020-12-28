@@ -4,6 +4,7 @@ import de.gedoplan.v5t11.status.entity.Kanal;
 import de.gedoplan.v5t11.status.entity.SX2Kanal;
 import de.gedoplan.v5t11.status.entity.baustein.Zentrale;
 import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
+import de.gedoplan.v5t11.util.cdi.Changed;
 import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 import de.gedoplan.v5t11.util.misc.V5t11Exception;
 
@@ -226,7 +227,7 @@ public class FCC extends Zentrale {
         this.kurzschluss = (blockDaten[BLOCK_DATEN_LEN_SX2 + 109] & 0b0001_0000) != 0;
 
         if (gleisspannungAlt != this.gleisspannung || kurzschlussAlt != this.kurzschluss) {
-          this.eventFirer.fire(this);
+          this.eventFirer.fire(this, Changed.Literal.INSTANCE);
         }
 
         // SX2-Buserweiterungseinträge vergleichen
@@ -270,7 +271,8 @@ public class FCC extends Zentrale {
               decodeLicht(blockDaten[offset + BUSEXT_OFFSET_ADR_LOW_LICHT]),
               decodeRueckwaerts(blockDaten[offset + BUSEXT_OFFSET_RUECKWAERTS_FAHRSTUFE]),
               decodeFahrstufe(systemTyp, blockDaten[offset + BUSEXT_OFFSET_RUECKWAERTS_FAHRSTUFE]),
-              decodeFunktionsstatus(blockDaten[offset + BUSEXT_OFFSET_FUNKTION_9_16], blockDaten[offset + BUSEXT_OFFSET_FUNKTION_1_8])));
+              decodeFunktionsstatus(blockDaten[offset + BUSEXT_OFFSET_FUNKTION_9_16], blockDaten[offset + BUSEXT_OFFSET_FUNKTION_1_8])),
+              Changed.Literal.INSTANCE);
         }
       }
     }
@@ -351,7 +353,7 @@ public class FCC extends Zentrale {
 
   private void fireSX1Changed(int adr, byte wert) {
     this.log.trace("syncCycleNo: " + this.syncCycleNo);
-    this.eventFirer.fire(new Kanal(adr, wert));
+    this.eventFirer.fire(new Kanal(adr, wert), Changed.Literal.INSTANCE);
   }
 
   private byte[] blockAbfrage() throws IOException {

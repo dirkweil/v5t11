@@ -59,6 +59,7 @@ public abstract class Zentrale implements Closeable {
   @Getter(onMethod_ = @JsonbInclude)
   protected boolean kurzschluss;
 
+  // Zentrale, Kanal, SX2Kanal
   @Inject
   protected EventFirer eventFirer;
 

@@ -2,7 +2,6 @@ package de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug;
 
 import de.gedoplan.baselibs.persistence.entity.SingleIdEntity;
 import de.gedoplan.baselibs.utils.inject.InjectionUtil;
-import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.domain.attribute.FahrzeugId;
 import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
@@ -11,7 +10,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.CollectionTable;
@@ -47,9 +45,9 @@ public class Fahrzeug extends SingleIdEntity<FahrzeugId> {
   public static final String TABLE_NAME = "FZ_FAHRZEUG";
   public static final String TABLE_NAME_FUNKTION = "FZ_FAHRZEUG_FUNKTION";
 
-  @Transient
-  @Inject
-  EventFirer eventFirer;
+  // @Transient
+  // @Inject
+  // EventFirer eventFirer;
 
   @EmbeddedId
   @Getter(onMethod_ = @JsonbInclude)
