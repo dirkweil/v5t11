@@ -42,14 +42,20 @@ public class SystemControlPresenter implements Serializable {
 
   @Getter
   private String weichenName;
+
+  @Getter
   private Weiche weiche;
 
   @Getter
   private String signalName;
+
+  @Getter
   private Signal signal;
 
   @Getter
   private FahrzeugId lokId;
+
+  @Getter
   private Fahrzeug lok;
 
   @PostConstruct

@@ -5,7 +5,7 @@
   <ui:param name="title" value="System Control" />
 
   <ui:define name="content">
-    <h:form prependId="false">
+    <h:form prependId="false" id="content">
       <p:growl id="msgs" showDetail="true" />
 
       <p:fieldset legend="Allgemein">
@@ -92,6 +92,13 @@
           </h:panelGroup>
         </h:panelGrid>
       </p:fieldset>
+
+      <f:websocket channel="uiRefresh">
+        <f:ajax event="fahrzeug" render=":content" />
+        <f:ajax event="signal" render=":content" />
+        <f:ajax event="weiche" render=":content" />
+        <f:ajax event="zentrale" render=":content" />
+      </f:websocket>
     </h:form>
 
   </ui:define>
