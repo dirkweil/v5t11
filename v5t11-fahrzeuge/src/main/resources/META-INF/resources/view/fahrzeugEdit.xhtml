@@ -8,7 +8,7 @@
         <p:toolbar>
           <f:facet name="left">
             <h:outputText value="#{fahrzeugEditPresenter.currentFahrzeug.id.adresse}@#{fahrzeugEditPresenter.currentFahrzeug.id.systemTyp}" id="id" style="vertical-align: middle;" />
-            <p:graphicImage name="#{fahrzeugPresenter.getImage(fahrzeugPresenter.currentFahrzeug)}" height="50px" style="vertical-align: middle; margin-left: 20px; margin-right: 20px;" />
+            <p:graphicImage name="#{fahrzeugPresenter.getImage(fahrzeugPresenter.currentFahrzeug)}" id="image" height="50px" style="vertical-align: middle; margin-left: 20px; margin-right: 20px;" />
             <h:outputLabel value="Betriebsnummer: " for="betriebsnummer" />
             <p:inputText value="#{fahrzeugEditPresenter.currentFahrzeug.betriebsnummer}" size="15" style="vertical-align: middle;" id="betriebsnummer" />
           </f:facet>
@@ -25,39 +25,39 @@
 
         <p:dataTable value="#{fahrzeugEditPresenter.currentFahrzeug.funktionen}" var="funktion" sortBy="#{funktion.gruppe}" id="funktionen">
           <p:column headerText="Funktionsgruppe" sortBy="#{funktion.gruppe}" width="200">
-            <p:selectOneMenu value="#{funktion.gruppe}" style="width: 90%">
+            <p:selectOneMenu value="#{funktion.gruppe}" style="width: 90%" id="gruppe">
               <f:selectItems value="#{fahrzeugPresenter.funktionsGruppen}" var="fg" itemValue="#{fg}" itemLabel="#{fg.name}" />
             </p:selectOneMenu>
           </p:column>
           <p:column headerText="Funktionsbeschreibung" sortBy="#{funktion.beschreibung}">
-            <p:inputText value="#{funktion.beschreibung}" style="width: 100%" />
+            <p:inputText value="#{funktion.beschreibung}" style="width: 100%" id="beschreibung"/>
           </p:column>
           <p:column headerText="Eigenschaften" width="15%">
-            <p:selectBooleanCheckbox value="#{funktion.impuls}" itemLabel="Impuls" />
-            <p:selectBooleanCheckbox value="#{funktion.horn}" itemLabel="Horn" />
-            <p:selectBooleanCheckbox value="#{funktion.fader}" itemLabel="Fader" />
+            <p:selectBooleanCheckbox value="#{funktion.impuls}" itemLabel="Impuls" id="impuls"/>
+            <p:selectBooleanCheckbox value="#{funktion.horn}" itemLabel="Horn" id="horn"/>
+            <p:selectBooleanCheckbox value="#{funktion.fader}" itemLabel="Fader" id="fader"/>
           </p:column>
           <p:column headerText="Bits" width="340">
             <h:outputText value="15" />
-            <p:triStateCheckbox value="#{fahrzeugEditPresenter.getTriStateAdapter(funktion, 15).value}" />
-            <p:triStateCheckbox value="#{fahrzeugEditPresenter.getTriStateAdapter(funktion, 14).value}" />
-            <p:triStateCheckbox value="#{fahrzeugEditPresenter.getTriStateAdapter(funktion, 13).value}" />
-            <p:triStateCheckbox value="#{fahrzeugEditPresenter.getTriStateAdapter(funktion, 12).value}" />
+            <p:triStateCheckbox value="#{fahrzeugEditPresenter.getTriStateAdapter(funktion, 15).value}" id="f15"/>
+            <p:triStateCheckbox value="#{fahrzeugEditPresenter.getTriStateAdapter(funktion, 14).value}" id="f14"/>
+            <p:triStateCheckbox value="#{fahrzeugEditPresenter.getTriStateAdapter(funktion, 13).value}" id="f13"/>
+            <p:triStateCheckbox value="#{fahrzeugEditPresenter.getTriStateAdapter(funktion, 12).value}" id="f12"/>
             <h:outputText value=" " />
-            <p:triStateCheckbox value="#{fahrzeugEditPresenter.getTriStateAdapter(funktion, 11).value}" />
-            <p:triStateCheckbox value="#{fahrzeugEditPresenter.getTriStateAdapter(funktion, 10).value}" />
-            <p:triStateCheckbox value="#{fahrzeugEditPresenter.getTriStateAdapter(funktion, 9).value}" />
-            <p:triStateCheckbox value="#{fahrzeugEditPresenter.getTriStateAdapter(funktion, 8).value}" />
+            <p:triStateCheckbox value="#{fahrzeugEditPresenter.getTriStateAdapter(funktion, 11).value}" id="f11"/>
+            <p:triStateCheckbox value="#{fahrzeugEditPresenter.getTriStateAdapter(funktion, 10).value}" id="f10"/>
+            <p:triStateCheckbox value="#{fahrzeugEditPresenter.getTriStateAdapter(funktion, 9).value}" id="f9"/>
+            <p:triStateCheckbox value="#{fahrzeugEditPresenter.getTriStateAdapter(funktion, 8).value}" id="f8"/>
             <h:outputText value=" " />
-            <p:triStateCheckbox value="#{fahrzeugEditPresenter.getTriStateAdapter(funktion, 7).value}" />
-            <p:triStateCheckbox value="#{fahrzeugEditPresenter.getTriStateAdapter(funktion, 6).value}" />
-            <p:triStateCheckbox value="#{fahrzeugEditPresenter.getTriStateAdapter(funktion, 5).value}" />
-            <p:triStateCheckbox value="#{fahrzeugEditPresenter.getTriStateAdapter(funktion, 4).value}" />
+            <p:triStateCheckbox value="#{fahrzeugEditPresenter.getTriStateAdapter(funktion, 7).value}" id="f7"/>
+            <p:triStateCheckbox value="#{fahrzeugEditPresenter.getTriStateAdapter(funktion, 6).value}" id="f6"/>
+            <p:triStateCheckbox value="#{fahrzeugEditPresenter.getTriStateAdapter(funktion, 5).value}" id="f5"/>
+            <p:triStateCheckbox value="#{fahrzeugEditPresenter.getTriStateAdapter(funktion, 4).value}" id="f4"/>
             <h:outputText value=" " />
-            <p:triStateCheckbox value="#{fahrzeugEditPresenter.getTriStateAdapter(funktion, 3).value}" />
-            <p:triStateCheckbox value="#{fahrzeugEditPresenter.getTriStateAdapter(funktion, 2).value}" />
-            <p:triStateCheckbox value="#{fahrzeugEditPresenter.getTriStateAdapter(funktion, 1).value}" />
-            <p:triStateCheckbox value="#{fahrzeugEditPresenter.getTriStateAdapter(funktion, 0).value}" />
+            <p:triStateCheckbox value="#{fahrzeugEditPresenter.getTriStateAdapter(funktion, 3).value}" id="f3"/>
+            <p:triStateCheckbox value="#{fahrzeugEditPresenter.getTriStateAdapter(funktion, 2).value}" id="f2"/>
+            <p:triStateCheckbox value="#{fahrzeugEditPresenter.getTriStateAdapter(funktion, 1).value}" id="f1"/>
+            <p:triStateCheckbox value="#{fahrzeugEditPresenter.getTriStateAdapter(funktion, 0).value}" id="f0"/>
             <h:outputText value="0" />
           </p:column>
           <p:column width="40">

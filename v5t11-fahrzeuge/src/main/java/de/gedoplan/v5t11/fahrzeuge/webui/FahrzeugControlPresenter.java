@@ -13,8 +13,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.faces.push.Push;
-import javax.faces.push.PushContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -43,10 +41,6 @@ public class FahrzeugControlPresenter implements Serializable {
 
   @Inject
   Logger logger;
-
-  @Inject
-  @Push
-  PushContext fahrzeugRefresh;
 
   private Fahrzeug getRefreshedFahrzeug() {
     if (!this.fahrzeugRepository.isAttached(this.currentFahrzeug)) {

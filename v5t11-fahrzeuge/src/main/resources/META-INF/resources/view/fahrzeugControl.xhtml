@@ -3,7 +3,7 @@
 
 <ui:composition template="/WEB-INF/templates/fahrzeugManagement.xhtml">
   <ui:define name="content">
-    <h:form id="form">
+    <h:form id="fahrzeug">
       <h2>Fahrzeug steuern</h2>
 
       <p:toolbar>
@@ -32,13 +32,14 @@
           <p:slider for="fahrstufe" minValue="0" maxValue="#{fahrzeugControlPresenter.lokMaxFahrstufe}">
             <p:ajax process="fahrstufe" />
           </p:slider>
+          <h:panelGroup/>
         </h:panelGrid>
 
         <c:forEach items="#{fahrzeugControlPresenter.currentFunktionsGruppen}" var="lfcg">
           <p:outputLabel value="#{lfcg.name}:" />
           <h:panelGroup>
             <c:forEach items="#{fahrzeugControlPresenter.getLokFunktionen(lfcg)}" var="fc">
-              <p:selectBooleanButton onLabel="#{fc.onLabel}" offLabel="#{fc.offLabel}" value="#{fc.aktiv}" >
+              <p:selectBooleanButton onLabel="#{fc.onLabel}" offLabel="#{fc.offLabel}" value="#{fc.aktiv}">
                 <p:ajax update="lok" />
               </p:selectBooleanButton>
             </c:forEach>
@@ -48,6 +49,13 @@
 
 
     </h:form>
+
+    <h:form>
+      <f:websocket channel="fahrzeugChanged">
+        <f:ajax event="#{pushService.getEventName(fahrzeugControlPresenter.currentFahrzeug)}" render=":fahrzeug" />
+      </f:websocket>
+    </h:form>
+
   </ui:define>
 </ui:composition>
 </html>
