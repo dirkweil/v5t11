@@ -15,6 +15,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 @Path("lokcontroller")
@@ -46,15 +47,15 @@ public class LokcontrollerEndpoint {
 
   @PUT
   @Path("{id}")
-  @Consumes(MediaType.APPLICATION_JSON)
-  public void setLok(@PathParam("id") String id, FahrzeugId lokId) {
+  @Consumes(MediaType.MEDIA_TYPE_WILDCARD)
+  public void setLok(@PathParam("id") String id, @QueryParam("lokId") FahrzeugId lokId, @QueryParam("hornBits") int hornBits) {
 
     if (lokId != null && (lokId.getSystemTyp() == null || lokId.getAdresse() == 0)) {
       lokId = null;
     }
 
     try {
-      this.steuerung.assignLokcontroller(id, lokId);
+      this.steuerung.assignLokcontroller(id, lokId, hornBits);
     } catch (IllegalArgumentException e) {
       throw new NotFoundException();
     }

@@ -47,10 +47,10 @@ public abstract class Lokcontroller extends Baustein implements Encoder {
   /**
    * Lok zuweisen.
    *
-   * @param lok
-   *          Lok
+   * @param lok Lok
+   * @param hornBits Bits für das Signalhorn
    */
-  public abstract void setLok(Fahrzeug lok);
+  public abstract void setLok(Fahrzeug lok, int hornBits);
 
   @Override
   public String getLabelPrefix() {

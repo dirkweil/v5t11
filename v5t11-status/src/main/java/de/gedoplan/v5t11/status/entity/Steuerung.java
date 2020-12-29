@@ -367,7 +367,7 @@ public class Steuerung {
     this.autoSkripte.forEach(as -> as.linkSteuerungsObjekte(this));
   }
 
-  public void assignLokcontroller(String lokcontrollerId, FahrzeugId fahrzeugId) {
+  public void assignLokcontroller(String lokcontrollerId, FahrzeugId fahrzeugId, int hornBits) {
     Lokcontroller lokcontroller = getLokcontroller(lokcontrollerId);
     if (lokcontroller == null) {
       throw new IllegalArgumentException("Lokcontroller nicht gefunden: " + lokcontrollerId);
@@ -382,12 +382,12 @@ public class Steuerung {
 
       for (Lokcontroller lc : getLokcontroller()) {
         if (!lc.equals(lokcontroller) && lok.equals(lc.getLok())) {
-          lc.setLok(null);
+          lc.setLok(null, 0);
         }
       }
     }
 
-    lokcontroller.setLok(lok);
+    lokcontroller.setLok(lok, hornBits);
   }
 
   private void registerAdressen(Baustein baustein) {
