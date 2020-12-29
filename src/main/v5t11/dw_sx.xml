@@ -373,8 +373,8 @@
   </Funktionsdecoder>
 
   <Lokcontroller>
-    <SxLokControl id="LokControl 1" adr="30" />
-    <SxLokControl id="LokControl 2" adr="31" />
+    <SxLokControl id="1" adr="30" />
+    <SxLokControl id="2" adr="31" />
   </Lokcontroller>
 
   <AutoSkripte>
@@ -412,67 +412,5 @@
       </Skript>
     </AutoSkript>
 
-<!--     <AutoSkript bereich="SBf" beschreibung="Weiche 2 zur Einfahrt SBf stellen"> -->
-<!--       <Gleisabschnitt name="108" /> -->
-<!--       <Gleisabschnitt name="109" /> -->
-<!--       <Weiche name="2" /> -->
-<!--       <Skript sprache="groovy"> -->
-<!--         if (gleis108.isBesetzt()) { -->
-<!--           weiche2.setStellung(GERADE); -->
-<!--         } else if (gleis109.isBesetzt()) { -->
-<!--           weiche2.setStellung(ABZWEIGEND); -->
-<!--         } -->
-<!--       </Skript> -->
-<!--     </AutoSkript> -->
-
-<!--     <AutoSkript bereich="SBf" beschreibung="Weiche 34 zur Einfahrt SBf stellen"> -->
-<!--       <Gleisabschnitt name="402" /> -->
-<!--       <Weiche name="34" /> -->
-<!--       <Skript sprache="groovy"> -->
-<!--         if (gleis402.isBesetzt()) { -->
-<!--           weiche34.setStellung(GERADE); -->
-<!--         } -->
-<!--       </Skript> -->
-<!--     </AutoSkript> -->
-
-<!--     <AutoSkript bereich="SBf" beschreibung="Bei Einfahrt von rechts Gleise 1-8 ansteuern"> -->
-<!--       <Gleisabschnitt name="108" /> -->
-<!--       <Weiche name="3" /> -->
-<!--       <Skript sprache="groovy"> -->
-<!--         if (gleis108.isBesetzt()) { -->
-<!--           weiche3.setStellung(GERADE); -->
-<!--         } -->
-<!--       </Skript> -->
-<!--     </AutoSkript> -->
-
-<!--     <AutoSkript bereich="SBf" beschreibung="Bei Einfahrt von links Gleise 9-16 ansteuern"> -->
-<!--       <Gleisabschnitt name="109" /> -->
-<!--       <Weiche name="3" /> -->
-<!--       <Skript sprache="groovy"> -->
-<!--         if (gleis109.isBesetzt()) { -->
-<!--           weiche3.setStellung(ABZWEIGEND); -->
-<!--         } -->
-<!--       </Skript> -->
-<!--     </AutoSkript> -->
-
-<!--     <AutoSkript bereich="SBf" beschreibung="Bei Ausfahrt aus Gleis 1-8 nach rechts ausfahren"> -->
-<!--       <Gleisabschnitt name="202" /> -->
-<!--       <Weiche name="34" /> -->
-<!--       <Skript sprache="groovy"> -->
-<!--         if (gleis202.isBesetzt()) { -->
-<!--           weiche34.setStellung(ABZWEIGEND); -->
-<!--         } -->
-<!--       </Skript> -->
-<!--     </AutoSkript> -->
-
-<!--     <AutoSkript bereich="SBf" beschreibung="Bei Ausfahrt aus Gleis 9-16 nach links ausfahren"> -->
-<!--       <Gleisabschnitt name="W32" /> -->
-<!--       <Weiche name="34" /> -->
-<!--       <Skript sprache="groovy"> -->
-<!--         if (gleisW32.isBesetzt()) { -->
-<!--           weiche34.setStellung(GERADE); -->
-<!--         } -->
-<!--       </Skript> -->
-<!--     </AutoSkript> -->
   </AutoSkripte>
 </sx>
