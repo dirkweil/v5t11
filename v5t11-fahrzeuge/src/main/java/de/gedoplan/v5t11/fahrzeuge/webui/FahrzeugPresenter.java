@@ -38,7 +38,7 @@ public class FahrzeugPresenter implements Serializable {
   @Getter
   @Produces
   @Current
-  private Fahrzeug currentFahrzeug;
+  Fahrzeug currentFahrzeug;
 
   @Getter
   @NotNull

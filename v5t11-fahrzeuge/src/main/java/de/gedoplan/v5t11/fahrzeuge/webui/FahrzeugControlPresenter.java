@@ -30,7 +30,7 @@ public class FahrzeugControlPresenter implements Serializable {
   @Inject
   @Current
   @Getter
-  private Fahrzeug currentFahrzeug;
+  Fahrzeug currentFahrzeug;
 
   @Inject
   FahrzeugRepository fahrzeugRepository;
