@@ -112,11 +112,11 @@ public class Fahrzeug extends SingleIdEntity<FahrzeugId> {
     }
   }
 
-  public void setFunktionStatus(int wert) {
+  public void setFktBits(int fktBits) {
     synchronized (Zentrale.class) {
 
-      if (this.fktBits != wert) {
-        this.fktBits = wert;
+      if (this.fktBits != fktBits) {
+        this.fktBits = fktBits;
         this.lastChangeMillis = System.currentTimeMillis();
 
         this.eventFirer.fire(this, Changed.Literal.INSTANCE);
@@ -222,7 +222,7 @@ public class Fahrzeug extends SingleIdEntity<FahrzeugId> {
 
         setLicht(kanal.isLicht());
 
-        setFunktionStatus(kanal.getFunktionStatus());
+        setFktBits(kanal.getFunktionStatus());
       }
 
     }

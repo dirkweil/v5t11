@@ -263,9 +263,9 @@ public class SystemControlPresenter implements Serializable {
     public void setOn(boolean on) {
       if (SystemControlPresenter.this.lok != null) {
         if (on) {
-          SystemControlPresenter.this.lok.setFunktionStatus(SystemControlPresenter.this.lok.getFktBits() | this.mask);
+          SystemControlPresenter.this.lok.setFktBits(SystemControlPresenter.this.lok.getFktBits() | this.mask);
         } else {
-          SystemControlPresenter.this.lok.setFunktionStatus(SystemControlPresenter.this.lok.getFktBits() & ~this.mask);
+          SystemControlPresenter.this.lok.setFktBits(SystemControlPresenter.this.lok.getFktBits() & ~this.mask);
         }
       }
     }

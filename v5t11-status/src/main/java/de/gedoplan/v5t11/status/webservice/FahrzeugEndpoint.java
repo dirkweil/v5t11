@@ -50,7 +50,7 @@ public class FahrzeugEndpoint {
       fahrzeug.setFahrstufe(fahrstufe);
     }
     if (fktBits != null) {
-      fahrzeug.setFunktionStatus(fktBits);
+      fahrzeug.setFktBits(fktBits);
     }
     if (licht != null) {
       fahrzeug.setLicht(licht);
