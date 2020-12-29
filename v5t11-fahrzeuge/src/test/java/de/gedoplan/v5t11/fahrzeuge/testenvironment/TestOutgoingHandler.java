@@ -1,6 +1,6 @@
-package de.gedoplan.v5t11.status.testenvironment.service;
+package de.gedoplan.v5t11.fahrzeuge.testenvironment;
 
-import de.gedoplan.v5t11.status.messaging.OutgoingHandler;
+import de.gedoplan.v5t11.fahrzeuge.messaging.OutgoingHandler;
 
 import javax.annotation.Priority;
 import javax.enterprise.context.ApplicationScoped;

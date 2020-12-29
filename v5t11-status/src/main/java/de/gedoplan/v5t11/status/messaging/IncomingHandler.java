@@ -42,24 +42,25 @@ public class IncomingHandler {
 
   @Incoming("fahrzeug-def-in")
   void fahrzeugDefined(byte[] msg) {
-    String json = new String(msg);
-    this.logger.debugf("Received: %s", json);
-    Fahrzeug receivedObject = JsonbWithIncludeVisibility.SHORT.fromJson(json, Fahrzeug.class);
-    this.eventFirer.fire(receivedObject, Received.Literal.INSTANCE);
+    fireReceived(msg, Fahrzeug.class);
   }
 
   @Incoming("join-in")
   void appJoined(byte[] msg) {
+    fireReceived(msg, JoinInfo.class);
+  }
+
+  private void fireReceived(byte[] msg, Class<?> eventClass) {
     String json = new String(msg);
     this.logger.debugf("Received: %s", json);
-    JoinInfo receivedObject = JsonbWithIncludeVisibility.SHORT.fromJson(json, JoinInfo.class);
+    Object receivedObject = JsonbWithIncludeVisibility.SHORT.fromJson(json, eventClass);
     this.eventFirer.fire(receivedObject, Received.Literal.INSTANCE);
   }
 
   @Incoming("navigation-in")
   void navigationChanged(byte[] msg) {
     String json = new String(msg);
-    this.logger.debugf("Received: %s", json);
+    this.logger.tracef("Received: %s", json);
     NavigationItem receivedObject = JsonbWithIncludeVisibility.SHORT.fromJson(json, NavigationItem.class);
     this.navigationPresenter.heartBeat(receivedObject);
   }

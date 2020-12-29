@@ -12,6 +12,7 @@ import javax.inject.Inject;
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.jboss.logging.Logger;
+import org.jboss.logging.Logger.Level;
 
 /**
  * Handler für ausgehende Meldungen.
@@ -52,14 +53,17 @@ public class OutgoingHandler {
   }
 
   public void publish(NavigationItem navigationItem) {
-    send(this.navigationItemEmitter, navigationItem);
+    send(this.navigationItemEmitter, navigationItem, Level.TRACE);
   }
 
-  protected void send(Emitter<String> emitter, Object obj) {
-    if (this.logger.isDebugEnabled()) {
-      this.logger.debug("Send " + obj);
-    }
-    emitter.send(JsonbWithIncludeVisibility.SHORT.toJson(obj));
+  private void send(Emitter<String> emitter, Object obj) {
+    send(emitter, obj, Level.DEBUG);
+  }
+
+  protected void send(Emitter<String> emitter, Object obj, Level logLevel) {
+    String json = JsonbWithIncludeVisibility.SHORT.toJson(obj);
+    this.logger.logf(logLevel, "Send %s: %s", obj, json);
+    emitter.send(json);
   }
 
 }
