@@ -78,9 +78,9 @@ public class FahrzeugControlPresenter implements Serializable {
   }
 
   public List<FahrzeugFunktionsGruppe> getCurrentFunktionsGruppen() {
-    return this.currentFahrzeug.getFunktionen()
-        .stream()
-        .map(FahrzeugFunktion::getGruppe)
+    return Stream.concat(
+        Stream.of(FahrzeugFunktionsGruppe.FL),
+        this.currentFahrzeug.getFunktionen().stream().map(FahrzeugFunktion::getGruppe))
         .sorted()
         .distinct()
         .collect(Collectors.toList());
