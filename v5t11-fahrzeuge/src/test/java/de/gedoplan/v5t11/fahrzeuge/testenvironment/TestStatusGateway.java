@@ -20,4 +20,9 @@ public class TestStatusGateway implements StatusGateway {
     throw new UnsupportedOperationException();
   }
 
+  @Override
+  public void setLokcontrollerAssignment(String id, FahrzeugId lokId, int hornBits) {
+    throw new UnsupportedOperationException();
+  }
+
 }

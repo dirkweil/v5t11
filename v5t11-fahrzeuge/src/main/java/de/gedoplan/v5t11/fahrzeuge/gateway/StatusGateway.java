@@ -25,4 +25,10 @@ public interface StatusGateway {
       @QueryParam("licht") Boolean licht,
       @QueryParam("rueckwaerts") Boolean rueckwaerts);
 
+  // Lokcontroller
+  @PUT
+  @Path("lokcontroller/{id}")
+  @Consumes(MediaType.MEDIA_TYPE_WILDCARD)
+  public void setLokcontrollerAssignment(@PathParam("id") String id, @QueryParam("lokId") FahrzeugId lokId, @QueryParam("hornBits") int hornBits);
+
 }

@@ -24,8 +24,12 @@
               <p:column styleClass="rightAligned">
                 <h:panelGroup>
                   <p:commandButton action="#{fahrzeugPresenter.control(fahrzeug)}" icon="pi pi-sliders-v" title="steuern" ajax="false" />
-                  <p:selectBooleanButton onLabel="1" offLabel="1" />
-                  <p:selectBooleanButton onLabel="2" offLabel="2" />
+                  <p:selectBooleanButton onLabel="1" offLabel="1" value="#{fahrzeugPresenter.getLokcontrollerAdapter(fahrzeug,0).assigned}">
+                    <p:ajax update="@form"/>
+                  </p:selectBooleanButton>
+                  <p:selectBooleanButton onLabel="2" offLabel="2" value="#{fahrzeugPresenter.getLokcontrollerAdapter(fahrzeug,1).assigned}">
+                    <p:ajax update="@form"/>
+                  </p:selectBooleanButton>
                 </h:panelGroup>
               </p:column>
             </p:row>
