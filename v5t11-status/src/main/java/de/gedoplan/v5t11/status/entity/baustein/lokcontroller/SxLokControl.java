@@ -1,7 +1,8 @@
 package de.gedoplan.v5t11.status.entity.baustein.lokcontroller;
 
 import de.gedoplan.v5t11.status.entity.baustein.Lokcontroller;
-import de.gedoplan.v5t11.status.entity.lok.Lok;
+import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
+import de.gedoplan.v5t11.util.cdi.Changed;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
 
 import java.util.Objects;
@@ -45,10 +46,13 @@ public class SxLokControl extends Lokcontroller {
    */
   public static final int MAX_FAHRSTUFE = 31;
 
+  private int hornBits;
+
   private long invertMask;
 
   private double fahrstufenFaktor;
 
+  // SxLokControl
   @Inject
   EventFirer eventFirer;
 
@@ -57,13 +61,10 @@ public class SxLokControl extends Lokcontroller {
   }
 
   /**
-   * Wert setzen: {@link #lok}.
-   *
-   * @param lok
-   *          Wert
+   * {@inheritDoc}
    */
   @Override
-  public void setLok(Lok lok) {
+  public void setLok(Fahrzeug lok, int hornBits) {
     if (!Objects.equals(lok, this.lok)) {
 
       // Falls bisher zugeordnete Lok steht, inaktiv setzen
@@ -75,6 +76,8 @@ public class SxLokControl extends Lokcontroller {
 
       // Falls nun neue Lok zugeordnet, ...
       if (this.lok != null) {
+        this.hornBits = hornBits;
+
         // Falls Licht oder Richtung von Controller und Lok nicht übereinstimmen, zugehöriges Bit in invertMask merken
         this.invertMask = 0;
         if (this.lok.isLicht() != ((this.wert & MASK_LICHT) != 0)) {
@@ -85,13 +88,13 @@ public class SxLokControl extends Lokcontroller {
         }
 
         // Fahrstufen-Umrechnungsfaktor errechnen
-        this.fahrstufenFaktor = (double) this.lok.getSystemTyp().getMaxFahrstufe() / MAX_FAHRSTUFE;
+        this.fahrstufenFaktor = (double) this.lok.getId().getSystemTyp().getMaxFahrstufe() / MAX_FAHRSTUFE;
 
         // Lok aktiv setzen
         this.lok.setAktiv(true);
       }
 
-      this.eventFirer.fire(this);
+      this.eventFirer.fire(this, Changed.Literal.INSTANCE);
     }
   }
 
@@ -111,6 +114,16 @@ public class SxLokControl extends Lokcontroller {
       this.lok.setLicht(licht);
       this.lok.setRueckwaerts(rueckwaerts);
       this.lok.setFahrstufe(fahrstufe);
+
+      if (this.hornBits != 0) {
+        int fktBits = this.lok.getFktBits();
+        if ((thisWert & MASK_HORN) != 0) {
+          fktBits |= this.hornBits;
+        } else {
+          fktBits &= (~this.hornBits);
+        }
+        this.lok.setFktBits(fktBits);
+      }
     }
   }
 }

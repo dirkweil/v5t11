@@ -1,11 +1,14 @@
 package de.gedoplan.v5t11.leitstand.entity.fahrweg;
 
-import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
+import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
+import de.gedoplan.v5t11.util.domain.attribute.SignalTyp;
+import de.gedoplan.v5t11.util.domain.entity.Fahrwegelement;
 import de.gedoplan.v5t11.util.domain.entity.fahrweg.geraet.AbstractSignal;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
-import java.util.Set;
-
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
@@ -13,32 +16,31 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@Entity
+@Table(name = Signal.TABLE_NAME)
 @XmlAccessorType(XmlAccessType.NONE)
 @NoArgsConstructor
-public class Signal extends AbstractSignal implements StatusUpdateable<Signal> {
+public class Signal extends AbstractSignal {
+
+  public static final String TABLE_NAME = "LS_SIGNAL";
 
   @Getter
   @Setter
   @JsonbInclude
-  private Set<SignalStellung> erlaubteStellungen;
+  @Convert(converter = SignalTyp.Adapter4Jpa.class)
+  private SignalTyp typ;
 
-  @Getter
-  @Setter
-  @JsonbInclude
-  private String typ;
-
-  public Signal(String bereich, String name) {
-    super(bereich, name);
+  public Signal(BereichselementId id) {
+    super(id);
   }
 
-  public synchronized void copyStatus(Signal other) {
-    setStellung(other.getStellung());
-    if (other.erlaubteStellungen != null) {
-      this.erlaubteStellungen = other.erlaubteStellungen;
+  @Override
+  public boolean copyStatus(Fahrwegelement other) {
+    Signal otherSignal = (Signal) other;
+    if (otherSignal.typ != null) {
+      this.typ = otherSignal.typ;
     }
-    if (other.typ != null) {
-      this.typ = other.typ;
-    }
+    return super.copyStatus(other);
   }
 
 }

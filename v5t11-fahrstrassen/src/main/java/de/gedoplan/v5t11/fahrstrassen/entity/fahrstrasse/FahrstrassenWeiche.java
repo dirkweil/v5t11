@@ -1,11 +1,13 @@
 package de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse;
 
-import de.gedoplan.v5t11.fahrstrassen.entity.Parcours;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Weiche;
+import de.gedoplan.v5t11.fahrstrassen.persistence.WeicheRepository;
+import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenelementTyp;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
 import de.gedoplan.v5t11.util.domain.entity.fahrweg.geraet.AbstractWeiche;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
+import javax.inject.Inject;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -17,8 +19,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class FahrstrassenWeiche extends FahrstrassenGeraet {
 
-  @Getter
-  private Weiche weiche;
+  @Inject
+  WeicheRepository weicheRepository;
 
   @Getter(onMethod_ = @JsonbInclude(full = true))
   @XmlAttribute
@@ -26,7 +28,19 @@ public class FahrstrassenWeiche extends FahrstrassenGeraet {
 
   @Override
   public Weiche getFahrwegelement() {
-    return this.weiche;
+    Weiche weiche = this.weicheRepository.findById(getId());
+    if (weiche == null) {
+      throw new IllegalStateException("Weiche nicht vorhanden: " + getId());
+    }
+    return weiche;
+  }
+
+  @Override
+  public void createFahrwegelement() {
+    Weiche weiche = this.weicheRepository.findById(getId());
+    if (weiche == null) {
+      this.weicheRepository.persist(new Weiche(getBereich(), getName()));
+    }
   }
 
   public FahrstrassenGleisabschnitt createFahrstrassenGleisabschnitt() {
@@ -49,15 +63,6 @@ public class FahrstrassenWeiche extends FahrstrassenGeraet {
   }
 
   @Override
-  public void linkFahrwegelement(Parcours parcours) {
-    this.weiche = parcours.getWeiche(getBereich(), getName());
-    if (this.weiche == null) {
-      this.weiche = new Weiche(getBereich(), getName());
-      parcours.addWeiche(this.weiche);
-    }
-  }
-
-  @Override
   public int getRank() {
     return this.stellung == WeichenStellung.ABZWEIGEND ? 1 : 0;
   }
@@ -68,17 +73,8 @@ public class FahrstrassenWeiche extends FahrstrassenGeraet {
   }
 
   @Override
-  public void reservieren(Fahrstrasse fahrstrasse) {
-    if (this.weiche != null) {
-      if (!this.schutz) {
-        this.weiche.reserviereFuerFahrstrasse(fahrstrasse, isZaehlrichtung());
-      }
-    }
-  }
-
-  @Override
   @JsonbInclude(full = true)
-  public String getTyp() {
-    return "WEICHE";
+  public FahrstrassenelementTyp getTyp() {
+    return FahrstrassenelementTyp.WEICHE;
   }
 }

@@ -1,12 +1,16 @@
 package de.gedoplan.v5t11.util.jsonb;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.logging.Logger;
 
 import javax.json.bind.config.PropertyVisibilityStrategy;
 
-public class JsonbIncludeVisibilityStrategy implements PropertyVisibilityStrategy {
+public enum JsonbIncludeVisibilityStrategy implements PropertyVisibilityStrategy {
+  SHORT(false),
+  FULL(true);
 
   private boolean full;
 
@@ -14,36 +18,41 @@ public class JsonbIncludeVisibilityStrategy implements PropertyVisibilityStrateg
     this.full = full;
   }
 
+  private static final Logger LOGGER = Logger.getLogger(JsonbIncludeVisibilityStrategy.class.getName());
+
   @Override
   public boolean isVisible(Field field) {
-    JsonbInclude jsonBInclude = field.getAnnotation(JsonbInclude.class);
-    return jsonBInclude != null && (this.full || !jsonBInclude.full());
+    return isVisible(field, field.getAnnotation(JsonbInclude.class));
   }
 
   @Override
   public boolean isVisible(Method method) {
     if ((method.getModifiers() & Modifier.ABSTRACT) != 0) {
+      LOGGER.finer(() -> method + " not visible (abstract)");
       return false;
     }
 
-    JsonbInclude jsonBInclude = method.getAnnotation(JsonbInclude.class);
-
-    // Suche nach dem unerklärlichen Phänomen, dass getId manchmal keine Annotationen hat (scheinbar nur wenn Yasson genutzt wird ...
-    // if ("getId".equals(method.getName())) {
-    // System.out.println("### method: " + method);
-    // System.out.println(" ### jsonBInclude: " + jsonBInclude);
-    // System.out.println(" ### dito, declared: " + method.getDeclaredAnnotation(JsonbInclude.class));
-    // System.out.println(" ### declaringClass: " + method.getDeclaringClass());
-    // System.out.println(" ### annotations: " + Stream.of(method.getAnnotations()).map(a -> a.toString()).collect(Collectors.joining(",")));
-    //
-    // if (jsonBInclude == null) {
-    // return false;
-    // }
-    // }
-
-    return jsonBInclude != null && (this.full || !jsonBInclude.full());
+    return isVisible(method, method.getAnnotation(JsonbInclude.class));
   }
 
-  public static final JsonbIncludeVisibilityStrategy SHORT = new JsonbIncludeVisibilityStrategy(false);
-  public static final JsonbIncludeVisibilityStrategy FULL = new JsonbIncludeVisibilityStrategy(true);
+  private boolean isVisible(Member member, JsonbInclude jsonBInclude) {
+    if (jsonBInclude == null) {
+      LOGGER.finer(() -> member + " not visible (not annotated)");
+      return false;
+    }
+
+    if (this.full) {
+      LOGGER.finer(() -> member + " visible (full view)");
+      return true;
+    }
+
+    if (jsonBInclude.full()) {
+      LOGGER.finer(() -> member + " not visible (full item in short view)");
+      return false;
+    }
+
+    LOGGER.finer(() -> member + " visible (short item in short view)");
+    return true;
+
+  }
 }

@@ -1,0 +1,107 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+  xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/templates/v5t11.xhtml">
+  <ui:param name="title" value="System Status" />
+  <ui:define name="content">
+    <p:tabView>
+      <p:tab title="Zentrale">
+        <h:outputLabel value="Gleisspannung: " for="gleisspannung" />
+        <h:outputText value="#{systemStatusPresenter.zentrale.gleisspannung}" id="gleisspannung" />
+      </p:tab>
+
+      <p:tab title="Loks">
+        <p:dataTable var="lok" value="#{systemStatusPresenter.loks}" rules="all">
+          <p:column>
+            <f:facet name="header">Lok</f:facet>
+            <h:outputText value="#{lok.id}" />
+          </p:column>
+          <p:column>
+            <f:facet name="header">Fahrstufe</f:facet>
+            <h:outputText value="#{lok.fahrstufe} (max. #{lok.id.systemTyp.maxFahrstufe})" />
+          </p:column>
+          <p:column>
+            <f:facet name="header">rückwärts</f:facet>
+            <h:outputText value="#{lok.rueckwaerts}" />
+          </p:column>
+          <p:column>
+            <f:facet name="header">Licht</f:facet>
+            <h:outputText value="#{lok.licht}" />
+          </p:column>
+        </p:dataTable>
+      </p:tab>
+
+      <p:tab title="Weichen">
+        <p:scrollPanel style="width:100%" mode="native">
+          <!-- TODO: Vertical Alignment = Top -->
+          <p:dataGrid var="bereich" value="#{systemStatusPresenter.bereiche}" columns="4">
+            <p:panel header="#{bereich}">
+              <!-- Achtung: p:dataTable wertet getWeichen(String) nicht korrekt aus; daher 'nur' h:dataTable -->
+              <h:dataTable var="weiche" value="#{systemStatusPresenter.getWeichen(bereich)}" rules="all">
+                <h:column>
+                  <f:facet name="header">Weiche</f:facet>
+                  <h:outputText value="#{weiche.bereich}/#{weiche.name}" />
+                </h:column>
+                <h:column>
+                  <f:facet name="header">Adresse</f:facet>
+                  <h:outputText value="#{weiche.funktionsdecoderZuordnung}" />
+                </h:column>
+                <h:column>
+                  <f:facet name="header">Stellung</f:facet>
+                  <h:outputText value="#{weiche.stellung.toString()}" />
+                </h:column>
+              </h:dataTable>
+            </p:panel>
+          </p:dataGrid>
+        </p:scrollPanel>
+      </p:tab>
+
+      <p:tab title="Signale">
+        <!-- TODO: Vertical Alignment = Top -->
+        <p:dataGrid var="bereich" value="#{systemStatusPresenter.bereiche}" columns="4">
+          <p:panel header="#{bereich}">
+            <!-- Achtung: p:dataTable wertet getWeichen(String) nicht korrekt aus; daher 'nur' h:dataTable -->
+            <h:dataTable var="signal" value="#{systemStatusPresenter.getSignale(bereich)}" rules="all">
+              <h:column>
+                <f:facet name="header">Signal</f:facet>
+                <h:outputText value="#{signal.bereich}/#{signal.name}" />
+              </h:column>
+              <h:column>
+                <f:facet name="header">Adresse</f:facet>
+                <h:outputText value="#{signal.funktionsdecoderZuordnung}" />
+              </h:column>
+              <h:column>
+                <f:facet name="header">Stellung</f:facet>
+                <h:outputText value="#{signal.stellung.toString()}" />
+              </h:column>
+            </h:dataTable>
+          </p:panel>
+        </p:dataGrid>
+      </p:tab>
+
+      <p:tab title="Gleise">
+        <!-- TODO: Vertical Alignment = Top -->
+        <p:dataGrid var="bereich" value="#{systemStatusPresenter.bereiche}" columns="4">
+          <p:panel header="#{bereich}">
+            <!-- Achtung: p:dataTable wertet getWeichen(String) nicht korrekt aus; daher 'nur' h:dataTable -->
+            <h:dataTable var="gleis" value="#{systemStatusPresenter.getGleisabschnitte(bereich)}" rules="all">
+              <h:column>
+                <f:facet name="header">Gleisabschnitt</f:facet>
+                <h:outputText value="#{gleis.bereich}/#{gleis.name}" />
+              </h:column>
+              <h:column>
+                <f:facet name="header">Adresse</f:facet>
+                <h:outputText value="#{gleis.besetztmelder.adresse}/#{gleis.anschluss}" />
+              </h:column>
+              <h:column>
+                <f:facet name="header">besetzt</f:facet>
+                <h:outputText value="#{gleis.besetzt}" />
+              </h:column>
+            </h:dataTable>
+          </p:panel>
+        </p:dataGrid>
+      </p:tab>
+    </p:tabView>
+  </ui:define>
+</ui:composition>
+</html>

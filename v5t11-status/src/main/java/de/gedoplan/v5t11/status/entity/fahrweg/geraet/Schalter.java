@@ -4,8 +4,9 @@
 package de.gedoplan.v5t11.status.entity.fahrweg.geraet;
 
 import de.gedoplan.v5t11.status.entity.baustein.Funktionsdecoder;
+import de.gedoplan.v5t11.util.cdi.Changed;
 import de.gedoplan.v5t11.util.domain.attribute.SchalterStellung;
-import de.gedoplan.v5t11.util.domain.entity.fahrweg.Geraet;
+import de.gedoplan.v5t11.util.domain.entity.fahrweg.AbstractGeraet;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
 import javax.xml.bind.Unmarshaller;
@@ -24,7 +25,7 @@ import lombok.Getter;
  *
  */
 @XmlAccessorType(XmlAccessType.NONE)
-public class Schalter extends Geraet implements FunktionsdecoderGeraet {
+public class Schalter extends AbstractGeraet implements FunktionsdecoderGeraet {
 
   /**
    * Aktuelle Stellung.
@@ -46,7 +47,7 @@ public class Schalter extends Geraet implements FunktionsdecoderGeraet {
    * Wert setzen: {@link #stellung}.
    *
    * @param stellung
-   *          Wert
+   *        Wert
    */
   public void setStellung(SchalterStellung stellung) {
     setStellung(stellung, true);
@@ -54,6 +55,7 @@ public class Schalter extends Geraet implements FunktionsdecoderGeraet {
 
   protected void setStellung(SchalterStellung stellung, boolean updateInterface) {
     if (this.stellung != stellung) {
+      this.lastChangeMillis = System.currentTimeMillis();
       this.stellung = stellung;
 
       if (updateInterface) {
@@ -63,7 +65,7 @@ public class Schalter extends Geraet implements FunktionsdecoderGeraet {
         this.funktionsdecoderZuordnung.getFunktionsdecoder().setWert(fdWert);
       }
 
-      this.eventFirer.fire(this);
+      this.eventFirer.fire(this, Changed.Literal.INSTANCE);
     }
   }
 
@@ -71,7 +73,7 @@ public class Schalter extends Geraet implements FunktionsdecoderGeraet {
    * Stellungswert für Stellung ermitteln.
    *
    * @param stellung
-   *          Stellung
+   *        Stellung
    * @return Stellungswert
    */
   public long getWertForStellung(SchalterStellung stellung) {
@@ -82,7 +84,7 @@ public class Schalter extends Geraet implements FunktionsdecoderGeraet {
    * Stellung für Stellungswert ermitteln.
    *
    * @param stellungsWert
-   *          Stellungswert
+   *        Stellungswert
    * @return Stellung
    */
   public SchalterStellung getStellungForWert(long stellungsWert) {
@@ -99,21 +101,23 @@ public class Schalter extends Geraet implements FunktionsdecoderGeraet {
 
   @Override
   public String toString() {
-    return this.getClass().getSimpleName()
-        + "{"
-        + getBereich()
-        + "/"
-        + getName()
-        + " @ "
-        + this.funktionsdecoderZuordnung
-        + "}";
+    StringBuilder sb = new StringBuilder(getClass().getSimpleName());
+    sb.append('{');
+    sb.append(getId().toString());
+    sb.append('[');
+    sb.append(this.funktionsdecoderZuordnung);
+    sb.append(']');
+    sb.append(' ');
+    sb.append(getStellung());
+    sb.append('}');
+    return sb.toString();
   }
 
   /**
    * Bei JAXB-Unmarshal Attribut idx als anschluss in die Funktionsdecoder-Zuordnung speichern.
    *
    * @param idx
-   *          Anschlussnummer
+   *        Anschlussnummer
    */
   @XmlAttribute
   public void setIdx(int idx) {
@@ -124,9 +128,9 @@ public class Schalter extends Geraet implements FunktionsdecoderGeraet {
    * Nach JAXB-Unmarshal Funktionsdecoder in die Funktionsdecoder-Zuordnung speichern.
    *
    * @param unmarshaller
-   *          Unmarshaller
+   *        Unmarshaller
    * @param parent
-   *          Parent
+   *        Parent
    */
   @SuppressWarnings("unused")
   private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {

@@ -27,8 +27,8 @@ import de.gedoplan.v5t11.status.entity.fahrweg.geraet.FunktionsdecoderGeraet;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Schalter;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
-import de.gedoplan.v5t11.status.entity.lok.Lok;
-import de.gedoplan.v5t11.status.persistence.LokRepository;
+import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
+import de.gedoplan.v5t11.util.domain.attribute.FahrzeugId;
 import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 import de.gedoplan.v5t11.util.domain.entity.Bereichselement;
 
@@ -37,9 +37,11 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.ExecutorService;
 
@@ -52,10 +54,7 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.apache.commons.logging.Log;
-
-import com.google.common.collect.HashBasedTable;
-import com.google.common.collect.Table;
+import org.jboss.logging.Logger;
 
 import lombok.Getter;
 
@@ -71,10 +70,7 @@ import lombok.Getter;
 public class Steuerung {
 
   @Inject
-  LokRepository lokRepository;
-
-  @Inject
-  Log log;
+  Logger log;
 
   @XmlElements({
       @XmlElement(name = "DummyZentrale", type = DummyZentrale.class),
@@ -132,36 +128,50 @@ public class Steuerung {
   @Getter
   private SortedSet<Weiche> weichen = new TreeSet<>();
 
-  private Table<SystemTyp, Integer, Lok> loks = HashBasedTable.create();
+  private SortedMap<FahrzeugId, Fahrzeug> fahrzeuge = new ConcurrentSkipListMap<>();
 
   @XmlElementWrapper(name = "AutoSkripte")
   @XmlElement(name = "AutoSkript")
   @Getter
   private List<AutoSkript> autoSkripte = new ArrayList<>();
 
-  /**
-   * Loks liefern.
-   *
-   * @return alle Loks
-   */
-  public SortedSet<Lok> getLoks() {
-    return new TreeSet<>(this.loks.values());
+  public Collection<Fahrzeug> getFahrzeuge() {
+    return this.fahrzeuge.values();
   }
 
-  /**
-   * Lok liefern.
-   *
-   * @param id
-   *          Id
-   * @return gefundene Lok oder <code>null</code>
-   */
-  public Lok getLok(String id) {
-    for (Lok lok : this.loks.values()) {
-      if (id.equals(lok.getId())) {
-        return lok;
-      }
+  public Fahrzeug getFahrzeug(FahrzeugId id) {
+    return this.fahrzeuge.get(id);
+  }
+
+  public Fahrzeug getOrCreateFahrzeug(FahrzeugId id) {
+    return this.fahrzeuge.computeIfAbsent(id, x -> {
+      Fahrzeug fahrzeug = new Fahrzeug(x);
+      addFahrzeug(fahrzeug);
+      return fahrzeug;
+    });
+  }
+
+  public void addFahrzeug(Fahrzeug fahrzeug) {
+    FahrzeugId id = fahrzeug.getId();
+    if (this.fahrzeuge.containsKey(id)) {
+      return;
     }
-    return null;
+
+    int adresse = id.getAdresse();
+    if (id.getSystemTyp() == SystemTyp.SX1 && this.kanalBausteine.containsKey(adresse)) {
+      throw new IllegalArgumentException("Adresse " + adresse + " bereits belegt");
+    }
+
+    this.fahrzeuge.put(id, fahrzeug);
+    // TODO Fahrzeug in Zentrale anmelden
+  }
+
+  public void removeFahrzeug(FahrzeugId id) {
+    if (this.fahrzeuge.remove(id) == null) {
+      return;
+    }
+
+    // TODO Fahrzeug in Zentrale abmelden
   }
 
   /**
@@ -192,9 +202,9 @@ public class Steuerung {
    * Gleisabschnitt liefern.
    *
    * @param bereich
-   *          Bereich
+   *        Bereich
    * @param name
-   *          Name
+   *        Name
    * @return gefundener Gleisabschnitt oder <code>null</code>
    */
   public Gleisabschnitt getGleisabschnitt(String bereich, String name) {
@@ -214,9 +224,9 @@ public class Steuerung {
    * Signal liefern.
    *
    * @param bereich
-   *          Bereich
+   *        Bereich
    * @param name
-   *          Name
+   *        Name
    * @return gefundenes Signal oder <code>null</code>
    */
   public Signal getSignal(String bereich, String name) {
@@ -236,9 +246,9 @@ public class Steuerung {
    * Schalter liefern.
    *
    * @param bereich
-   *          Bereich
+   *        Bereich
    * @param name
-   *          Name
+   *        Name
    * @return gefundener Schalter oder <code>null</code>
    */
   public Schalter getSchalter(String bereich, String name) {
@@ -258,9 +268,9 @@ public class Steuerung {
    * Weiche liefern.
    *
    * @param bereich
-   *          Bereich
+   *        Bereich
    * @param name
-   *          Name
+   *        Name
    * @return gefundene Weiche oder <code>null</code>
    */
   public Weiche getWeiche(String bereich, String name) {
@@ -292,9 +302,9 @@ public class Steuerung {
    * Nachbearbeitung nach JAXB-Unmarshal.
    *
    * @param unmarshaller
-   *          Unmarshaller
+   *        Unmarshaller
    * @param parent
-   *          Parent
+   *        Parent
    */
   @SuppressWarnings("unused")
   private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
@@ -357,27 +367,27 @@ public class Steuerung {
     this.autoSkripte.forEach(as -> as.linkSteuerungsObjekte(this));
   }
 
-  public void assignLokcontroller(String lokcontrollerId, String lokId) {
+  public void assignLokcontroller(String lokcontrollerId, FahrzeugId fahrzeugId, int hornBits) {
     Lokcontroller lokcontroller = getLokcontroller(lokcontrollerId);
     if (lokcontroller == null) {
       throw new IllegalArgumentException("Lokcontroller nicht gefunden: " + lokcontrollerId);
     }
 
-    Lok lok = null;
-    if (lokId != null) {
-      lok = getLok(lokId);
+    Fahrzeug lok = null;
+    if (fahrzeugId != null) {
+      lok = getFahrzeug(fahrzeugId);
       if (lok == null) {
-        throw new IllegalArgumentException("Lok nicht gefunden: " + lokId);
+        throw new IllegalArgumentException("Lok nicht gefunden: " + fahrzeugId);
       }
 
       for (Lokcontroller lc : getLokcontroller()) {
         if (!lc.equals(lokcontroller) && lok.equals(lc.getLok())) {
-          lc.setLok(null);
+          lc.setLok(null, 0);
         }
       }
     }
 
-    lokcontroller.setLok(lok);
+    lokcontroller.setLok(lok, hornBits);
   }
 
   private void registerAdressen(Baustein baustein) {
@@ -395,7 +405,7 @@ public class Steuerung {
    * Textliche Repräsentation der Steuerung erstellen.
    *
    * @param idOnly
-   *          nur IDs?
+   *        nur IDs?
    * @return Steuerung als String
    */
   public String toDebugString(boolean idOnly) {
@@ -452,11 +462,6 @@ public class Steuerung {
     this.besetztmelder.forEach(Besetztmelder::injectFields);
     this.funktionsdecoder.forEach(Funktionsdecoder::injectFields);
     this.lokcontroller.forEach(Lokcontroller::injectFields);
-
-    this.lokRepository.findAll().forEach(lok -> {
-      this.loks.put(lok.getSystemTyp(), lok.getAdresse(), lok);
-      lok.injectFields();
-    });
   }
 
   public void postConstruct() {
@@ -492,28 +497,25 @@ public class Steuerung {
 
   public void adjustTo(Kanal kanal) {
     int adr = kanal.getAdresse();
-    int wert = kanal.getWert();
 
     if (!this.supressedKanaele.contains(adr)) {
       Baustein baustein = this.kanalBausteine.get(adr);
       if (baustein != null) {
+        int wert = kanal.getWert();
         baustein.adjustWert(adr, wert);
         return;
       }
 
-      Lok lok = this.loks.get(SystemTyp.SX1, adr);
-      if (lok != null) {
-        lok.adjustTo(kanal);
-      }
+      FahrzeugId fahrzeugId = new FahrzeugId(SystemTyp.SX1, adr);
+      Fahrzeug fahrzeug = getOrCreateFahrzeug(fahrzeugId);
+      fahrzeug.adjustTo(kanal);
     }
   }
 
   public void adjustTo(SX2Kanal kanal) {
-    Lok lok = this.loks.get(kanal.getSystemTyp(), kanal.getAdresse());
-    if (lok != null) {
-      lok.adjustTo(kanal);
-    }
-
+    FahrzeugId fahrzeugId = new FahrzeugId(kanal.getSystemTyp(), kanal.getAdresse());
+    Fahrzeug fahrzeug = getOrCreateFahrzeug(fahrzeugId);
+    fahrzeug.adjustTo(kanal);
   }
 
   public void awaitSync() {
@@ -533,4 +535,5 @@ public class Steuerung {
     }
     this.supressedKanaele.remove(adr);
   }
+
 }

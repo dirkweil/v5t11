@@ -38,4 +38,9 @@ public class WeichenButtonModel extends JToggleButton.ToggleButtonModel {
     StellwerkUI.setStatusLineText(null);
   }
 
+  public void setWeiche(Weiche weiche) {
+    this.weiche = weiche;
+    fireStateChanged();
+  }
+
 }

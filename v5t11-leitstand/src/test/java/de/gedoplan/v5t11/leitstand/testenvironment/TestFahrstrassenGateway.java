@@ -2,6 +2,7 @@ package de.gedoplan.v5t11.leitstand.testenvironment;
 
 import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.leitstand.gateway.FahrstrassenGateway;
+import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenFilter;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
 
@@ -20,7 +21,7 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 public class TestFahrstrassenGateway implements FahrstrassenGateway {
 
   @Override
-  public Fahrstrasse getFahrstrasse(String bereich, String name) {
+  public Fahrstrasse getFahrstrasse(BereichselementId id) {
     throw new UnsupportedOperationException();
   }
 
@@ -30,7 +31,7 @@ public class TestFahrstrassenGateway implements FahrstrassenGateway {
   }
 
   @Override
-  public void reserviereFahrstrasse(String bereich, String name, FahrstrassenReservierungsTyp reservierungsTyp) {
+  public void reserviereFahrstrasse(BereichselementId id, FahrstrassenReservierungsTyp reservierungsTyp) {
     throw new UnsupportedOperationException();
   }
 

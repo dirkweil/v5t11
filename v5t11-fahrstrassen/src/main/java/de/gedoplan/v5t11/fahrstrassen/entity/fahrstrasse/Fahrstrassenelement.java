@@ -1,8 +1,10 @@
 package de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse;
 
 import de.gedoplan.baselibs.utils.exception.BugException;
-import de.gedoplan.v5t11.fahrstrassen.entity.Parcours;
+import de.gedoplan.baselibs.utils.inject.InjectionUtil;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.ReservierbaresFahrwegelement;
+import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
+import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenelementTyp;
 import de.gedoplan.v5t11.util.domain.entity.Bereichselement;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
@@ -42,6 +44,15 @@ public abstract class Fahrstrassenelement extends Bereichselement implements Clo
    */
   public boolean isSchutz() {
     return false;
+  }
+
+  /**
+   * Benötigte Stellung.
+   * 
+   * @return Bei Geräten, die gestellt werden, die benötigte Stellung, sonst <code>null</code>
+   */
+  public Enum<?> getStellung() {
+    return null;
   }
 
   /**
@@ -88,7 +99,12 @@ public abstract class Fahrstrassenelement extends Bereichselement implements Clo
   public abstract ReservierbaresFahrwegelement getFahrwegelement();
 
   /**
-   * Rang für Anordnung von Fahrstzrassenvorschlägen liefern.
+   * Fahrwegelement anlegen.
+   */
+  public abstract void createFahrwegelement();
+
+  /**
+   * Rang für Anordnung von Fahrstrassenvorschlägen liefern.
    *
    * @return Rang der Fahrstrasse (kleiner = besser passend)
    */
@@ -97,45 +113,65 @@ public abstract class Fahrstrassenelement extends Bereichselement implements Clo
   }
 
   /**
-   * Zugehöriges Fahrwegelement suchen und eintragen.
+   * Element für Fahrstrasse reservieren bzw. freigeben.
    *
-   * @param parcours
-   *          Parcours
+   * @param reserviertefahrstrasseId <code>null</code> zum Freigeben, sonst Id der Fahrstrasse
    */
-  public abstract void linkFahrwegelement(Parcours parcours);
+  public void reservieren(BereichselementId reserviertefahrstrasseId) {
+    if (!isSchutz()) {
+      getFahrwegelement().setReserviertefahrstrasseId(reserviertefahrstrasseId);
+    }
+  }
 
-  @Override
-  public String toString() {
-    return getFahrwegelement() + ", zaehlrichtung=" + this.zaehlrichtung;
+  public abstract FahrstrassenelementTyp getTyp();
+
+  /**
+   * Kurz-Kennung für Element liefern.
+   * Wird nur für Logging/Debugging benötigt.
+   * 
+   * @return Code
+   */
+  public String getCode() {
+    StringBuilder b = new StringBuilder();
+    b.append(getTyp().toString());
+    b.append(isZaehlrichtung() ? '+' : '-');
+    b.append(getName());
+    String code = b.toString();
+    return isSchutz() ? code.toLowerCase() + "~" : code;
   }
 
   /**
-   * Element für Fahrstrasse reservieren bzw. freigeben.
+   * Kopie erzeugen.
    *
-   * @param fahrstrasse
-   *          <code>null</code> zum Freigeben, sonst Fahrstrasse
+   * Es wird eine Kopie des Elementes mit neuer ID erzeugt.
+   *
+   * @return umgekehrtes Element
    */
-  public abstract void reservieren(Fahrstrasse fahrstrasse);
+  public Fahrstrassenelement createKopie() {
 
-  public abstract String getTyp();
+    try {
+      return (Fahrstrassenelement) this.clone();
+    } catch (CloneNotSupportedException e) {
+      throw new BugException(e);
+    }
+  }
 
   /**
    * Umgekehrtes Element erzeugen.
    *
-   * Es wird eine Kopie des Elemtes erzeugt und die gegenteilige Richtung eingetragen.
+   * Wie {@link #createKopie()}, aber mit umgekehrter Zählrichtung
    *
    * @return umgekehrtes Element
    */
   public Fahrstrassenelement createUmkehrung() {
 
-    try {
-      Fahrstrassenelement fahrstrassenelement = (Fahrstrassenelement) this.clone();
-
-      fahrstrassenelement.zaehlrichtung = !fahrstrassenelement.isZaehlrichtung();
-
-      return fahrstrassenelement;
-    } catch (CloneNotSupportedException e) {
-      throw new BugException(e);
-    }
+    Fahrstrassenelement fahrstrassenelement = createKopie();
+    fahrstrassenelement.zaehlrichtung = !fahrstrassenelement.isZaehlrichtung();
+    return fahrstrassenelement;
   }
+
+  public void injectFields() {
+    InjectionUtil.injectFields(this);
+  }
+
 }

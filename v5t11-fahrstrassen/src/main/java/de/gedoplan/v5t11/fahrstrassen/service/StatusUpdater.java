@@ -1,71 +1,91 @@
 package de.gedoplan.v5t11.fahrstrassen.service;
 
-import de.gedoplan.v5t11.fahrstrassen.entity.Parcours;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleisabschnitt;
-import de.gedoplan.v5t11.fahrstrassen.gateway.StatusGateway;
+import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Signal;
+import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Weiche;
+import de.gedoplan.v5t11.fahrstrassen.messaging.IncomingHandler;
+import de.gedoplan.v5t11.fahrstrassen.persistence.GleisabschnittRepository;
+import de.gedoplan.v5t11.fahrstrassen.persistence.SignalRepository;
+import de.gedoplan.v5t11.fahrstrassen.persistence.WeicheRepository;
+import de.gedoplan.v5t11.util.cdi.Changed;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
-import de.gedoplan.v5t11.util.jms.MessageCategory;
-import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
-import de.gedoplan.v5t11.util.service.AbstractStatusUpdater;
-
-import java.util.EnumMap;
-import java.util.Map;
-import java.util.function.Consumer;
+import de.gedoplan.v5t11.util.cdi.Received;
+import de.gedoplan.v5t11.util.domain.entity.Fahrwegelement;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.ObservesAsync;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 
-import org.eclipse.microprofile.rest.client.inject.RestClient;
+import org.jboss.logging.Logger;
 
+/**
+ * Aktualisierung der Status von Gleisabschnitten, Signalen etc.
+ * 
+ * Die Aktualisierung wird durch eingehende Meldungen (von v5t11-status gesendet) ausgelöst. {@link IncomingHandler}
+ * wandelt die Meldungen in CDI Event um, die hier verarbeitet werden.
+ * 
+ * @author dw
+ */
 @ApplicationScoped
-public class StatusUpdater extends AbstractStatusUpdater {
+@Transactional(rollbackOn = Exception.class)
+public class StatusUpdater {
 
   @Inject
-  @RestClient
-  StatusGateway statusGateway;
+  GleisabschnittRepository gleisabschnittRepository;
 
   @Inject
-  Parcours parcours;
+  SignalRepository signalRepository;
+
+  @Inject
+  WeicheRepository weicheRepository;
+
+  @Inject
+  Logger logger;
 
   @Inject
   EventFirer eventFirer;
 
-  @Override
-  protected Map<MessageCategory, Consumer<String>> getMessageHandler() {
-    Map<MessageCategory, Consumer<String>> messageHandler = new EnumMap<MessageCategory, Consumer<String>>(MessageCategory.class);
-    messageHandler.put(MessageCategory.GLEIS, this::updateGleisabschnitt);
-    return messageHandler;
-  }
-
-  /*
-   * Aktuelle Zustände von Gleisabschnitten holen
+  /**
+   * Aktualisierung eines Gleisabschnitts.
+   * 
+   * @param receivedObject Empfangenes Objekt mit dem neuen Status.
    */
-  @Override
-  protected void initializeStatus() {
-    this.statusGateway.getGleisabschnitte().forEach(statusGleisabschnitt -> {
-      Gleisabschnitt gleisabschnitt = this.parcours.getGleisabschnitt(statusGleisabschnitt.getBereich(), statusGleisabschnitt.getName());
-      if (gleisabschnitt != null) {
-        updateGleisabschnitt(gleisabschnitt, statusGleisabschnitt);
+  void gleisabschnittReceived(@ObservesAsync @Received Gleisabschnitt receivedObject) {
+    Gleisabschnitt gleisabschnitt = this.gleisabschnittRepository.findById(receivedObject.getId());
+    copyStatus(gleisabschnitt, receivedObject);
+  }
+
+  /**
+   * Aktualisierung eines Signals.
+   * 
+   * @param receivedObject Empfangenes Objekt mit dem neuen Status.
+   */
+  void signalReceived(@ObservesAsync @Received Signal receivedObject) {
+    Signal signal = this.signalRepository.findById(receivedObject.getId());
+    copyStatus(signal, receivedObject);
+  }
+
+  /**
+   * Aktualisierung einer Weiche.
+   * 
+   * @param receivedObject Empfangenes Objekt mit dem neuen Status.
+   */
+  void weicheReceived(@ObservesAsync @Received Weiche receivedObject) {
+    Weiche signal = this.weicheRepository.findById(receivedObject.getId());
+    copyStatus(signal, receivedObject);
+  }
+
+  private void copyStatus(Fahrwegelement to, Fahrwegelement from) {
+    if (to != null) {
+      if (to.copyStatus(from)) {
+        if (this.logger.isDebugEnabled()) {
+          this.logger.debug(to);
+        }
+
+        this.eventFirer.fire(to, Changed.Literal.INSTANCE);
       }
-    });
-  }
-
-  private void updateGleisabschnitt(String messageText) {
-    Gleisabschnitt statusGleisabschnitt = JsonbWithIncludeVisibility.SHORT.fromJson(messageText, Gleisabschnitt.class);
-    Gleisabschnitt gleisabschnitt = this.parcours.getGleisabschnitt(statusGleisabschnitt.getBereich(), statusGleisabschnitt.getName());
-    if (gleisabschnitt != null) {
-      updateGleisabschnitt(gleisabschnitt, statusGleisabschnitt);
     }
-  }
 
-  private void updateGleisabschnitt(Gleisabschnitt gleisabschnitt, Gleisabschnitt statusGleisabschnitt) {
-    if (this.log.isDebugEnabled()) {
-      this.log.debug(statusGleisabschnitt);
-    }
-    if (gleisabschnitt != statusGleisabschnitt) {
-      gleisabschnitt.copyStatus(statusGleisabschnitt);
-    }
-    this.eventFirer.fire(gleisabschnitt);
   }
-
 }

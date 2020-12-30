@@ -13,6 +13,7 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.MessageBodyReader;
+import javax.ws.rs.ext.Provider;
 
 /**
  * Message Body Reader für application/json -> Object.
@@ -26,7 +27,7 @@ import javax.ws.rs.ext.MessageBodyReader;
  */
 public abstract class JsonMessageBodyReader implements MessageBodyReader<Object> {
 
-  // @Provider
+  @Provider
   @Consumes("application/json")
   public static class SHORT extends JsonMessageBodyReader {
 
@@ -35,7 +36,7 @@ public abstract class JsonMessageBodyReader implements MessageBodyReader<Object>
     }
   }
 
-  // @Provider
+  @Provider
   @Consumes("application/json")
   public static class FULL extends JsonMessageBodyReader {
 

@@ -1,20 +1,13 @@
 package de.gedoplan.v5t11.leitstand.entity;
 
-import de.gedoplan.v5t11.leitstand.entity.baustein.LokController;
+import de.gedoplan.baselibs.utils.inject.InjectionUtil;
 import de.gedoplan.v5t11.leitstand.entity.baustein.Zentrale;
-import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleisabschnitt;
-import de.gedoplan.v5t11.leitstand.entity.fahrweg.Signal;
-import de.gedoplan.v5t11.leitstand.entity.fahrweg.Weiche;
-import de.gedoplan.v5t11.leitstand.entity.lok.Lok;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.Stellwerk;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkElement;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkZeile;
-import de.gedoplan.v5t11.util.domain.entity.Bereichselement;
 
-import java.util.Collection;
 import java.util.SortedSet;
 import java.util.TreeSet;
-import java.util.function.BiFunction;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -42,22 +35,7 @@ public class Leitstand {
   private SortedSet<String> bereiche = new TreeSet<>();
 
   @Getter
-  private SortedSet<Gleisabschnitt> gleisabschnitte = new TreeSet<>();
-
-  @Getter
   private Zentrale zentrale = new Zentrale();
-
-  @Getter
-  private SortedSet<Signal> signale = new TreeSet<>();
-
-  @Getter
-  private SortedSet<Weiche> weichen = new TreeSet<>();
-
-  @Getter
-  private SortedSet<Lok> loks = new TreeSet<>();
-
-  @Getter
-  private SortedSet<LokController> lokController = new TreeSet<>();
 
   public Stellwerk getStellwerk(String bereich) {
     for (Stellwerk stellwerk : this.stellwerke) {
@@ -66,133 +44,6 @@ public class Leitstand {
       }
     }
     return null;
-  }
-
-  /**
-   * Gleisabschnitt liefern.
-   *
-   * @param bereich
-   *          Bereich
-   * @param name
-   *          Name
-   * @return gefundener Gleisabschnitt oder <code>null</code>
-   */
-  public Gleisabschnitt getGleisabschnitt(String bereich, String name) {
-    return getBereichselement(bereich, name, this.gleisabschnitte);
-  }
-
-  /**
-   * Gleisabschnitt liefern oder bei Bedarf neu anlegen.
-   *
-   * @param bereich
-   *          Bereich
-   * @param name
-   *          Name
-   * @return gefundener oder erzeugter Gleisabschnitt
-   */
-  public Gleisabschnitt getOrCreateGleisabschnitt(String bereich, String name) {
-    return getOrCreateBereichselement(bereich, name, this.gleisabschnitte, Gleisabschnitt::new);
-  }
-
-  /**
-   * Lok liefern.
-   *
-   * @param id
-   *          Id
-   * @return gefundene Lok oder <code>null</code>
-   */
-  public Lok getLok(String id) {
-    return this.loks
-        .stream()
-        .filter(lc -> lc.getId().equals(id))
-        .findFirst()
-        .orElse(null);
-  }
-
-  /**
-   * Lok-Controller liefern.
-   *
-   * @param id
-   *          Id
-   * @return gefundener Lok-Controller oder <code>null</code>
-   */
-  public LokController getLokController(String id) {
-    return this.lokController
-        .stream()
-        .filter(lc -> lc.getId().equals(id))
-        .findFirst()
-        .orElse(null);
-  }
-
-  /**
-   * Signal liefern.
-   *
-   * @param bereich
-   *          Bereich
-   * @param name
-   *          Name
-   * @return gefundenes Signal oder <code>null</code>
-   */
-  public Signal getSignal(String bereich, String name) {
-    return getBereichselement(bereich, name, this.signale);
-  }
-
-  /**
-   * Signal liefern oder bei Bedarf neu anlegen.
-   *
-   * @param bereich
-   *          Bereich
-   * @param name
-   *          Name
-   * @return gefundenes oder erzeugtes Signal
-   */
-  public Signal getOrCreateSignal(String bereich, String name) {
-    return getOrCreateBereichselement(bereich, name, this.signale, Signal::new);
-  }
-
-  /**
-   * Weiche liefern.
-   *
-   * @param bereich
-   *          Bereich
-   * @param name
-   *          Name
-   * @return gefundene Weiche oder <code>null</code>
-   */
-  public Weiche getWeiche(String bereich, String name) {
-    return getBereichselement(bereich, name, this.weichen);
-  }
-
-  /**
-   * Weiche liefern oder bei Bedarf neu anlegen.
-   *
-   * @param bereich
-   *          Bereich
-   * @param name
-   *          Name
-   * @return gefundene oder erzeugte Weiche
-   */
-  public Weiche getOrCreateWeiche(String bereich, String name) {
-    return getOrCreateBereichselement(bereich, name, this.weichen, Weiche::new);
-  }
-
-  private static <T extends Bereichselement> T getBereichselement(String bereich, String name, Collection<T> set) {
-    for (T element : set) {
-      if (element.getBereich().equals(bereich) && element.getName().equals(name)) {
-        return element;
-      }
-    }
-
-    return null;
-  }
-
-  private static synchronized <T extends Bereichselement> T getOrCreateBereichselement(String bereich, String name, Collection<T> set, BiFunction<String, String, T> creator) {
-    T element = getBereichselement(bereich, name, set);
-    if (element == null) {
-      element = creator.apply(bereich, name);
-      set.add(element);
-    }
-    return element;
   }
 
   @Override
@@ -209,6 +60,15 @@ public class Leitstand {
     }
 
     return buf.toString();
+  }
+
+  public void injectFields() {
+    InjectionUtil.injectFields(this);
+    this.stellwerke.forEach(Stellwerk::injectFields);
+  }
+
+  public void addPersistentEntries() {
+    this.stellwerke.forEach(Stellwerk::addPersistentEntries);
   }
 
 }

@@ -5,10 +5,12 @@
   <ui:define name="content">
     <h:form id="form">
       <h2>Neues Fahrzeug</h2>
-      
+
       <h:panelGrid columns="2">
-        <p:outputLabel value="Id:" for="id" />
-        <p:inputText value="#{fahrzeugPresenter.newId}" id="id" />
+        <p:inputText value="#{fahrzeugPresenter.newId.adresse}" size="6" id="adresse" style="vertical-align: middle;" />
+        <p:selectOneMenu value="#{fahrzeugPresenter.newId.systemTyp}" id="systemTyp" style="vertical-align: middle;">
+          <f:selectItems value="#{fahrzeugPresenter.systemTypen}" />
+        </p:selectOneMenu>
 
         <p:commandButton value="anlegen" action="#{fahrzeugPresenter.create}" ajax="false" />
         <p:commandButton value="abbrechen" action="#{fahrzeugPresenter.cancel()}" immediate="true" ajax="false" />

@@ -4,11 +4,14 @@ import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrassenelement;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkElement;
+import de.gedoplan.v5t11.leitstand.persistence.GleisabschnittRepository;
 import de.gedoplan.v5t11.stellwerk.util.GbsFarben;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+
+import javax.inject.Inject;
 
 /**
  * Gleisabschnitt im Stellwerk.
@@ -16,24 +19,31 @@ import java.awt.Graphics2D;
  * @author dw
  */
 public class GbsGleisAbschnitt extends GbsElement {
+
   private Gleisabschnitt gleisabschnitt = null;
   private boolean label;
   private GbsRichtung[] segmentPos;
+
+  @Inject
+  GleisabschnittRepository gleisabschnittRepository;
 
   /**
    * Konstruktor.
    *
    * @param bereich
-   *          Stellwerksbereich
+   *        Stellwerksbereich
    * @param stellwerkElement
-   *          zugehöriges Stellwerkselement
+   *        zugehöriges Stellwerkselement
    */
   public GbsGleisAbschnitt(String bereich, StellwerkElement stellwerkElement) {
     super(bereich, stellwerkElement);
 
-    this.gleisabschnitt = this.leitstand.getGleisabschnitt(stellwerkElement.getBereich(), stellwerkElement.getName());
+    this.gleisabschnitt = this.gleisabschnittRepository.findById(stellwerkElement.getId());
     if (this.gleisabschnitt != null) {
-      this.statusDispatcher.addListener(this.gleisabschnitt, this::repaint);
+      this.statusDispatcher.addListener(this.gleisabschnitt, g -> {
+        this.gleisabschnitt = g;
+        repaint();
+      });
     }
 
     this.label = stellwerkElement.isLabel();
@@ -79,7 +89,6 @@ public class GbsGleisAbschnitt extends GbsElement {
         }
 
       } else {
-
         fahrstrasseZuZeichnen = this.inputPanel.getVorgeschlageneFahrstrasse();
         if (fahrstrasseZuZeichnen != null && fahrstrasseZuZeichnen.getReservierungsTyp() == FahrstrassenReservierungsTyp.UNRESERVIERT) {
           fahrstrassenelementZuZeichnen = fahrstrasseZuZeichnen.getElement(this.gleisabschnitt, false);

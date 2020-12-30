@@ -1,7 +1,7 @@
 package de.gedoplan.v5t11.status.entity.baustein;
 
 import de.gedoplan.baselibs.utils.inject.InjectionUtil;
-import de.gedoplan.v5t11.status.entity.lok.Lok;
+import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
 import de.gedoplan.v5t11.status.service.ConfigService;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
@@ -22,8 +22,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.jboss.logging.Logger;
 
 import com.fazecast.jSerialComm.SerialPort;
 
@@ -45,7 +44,7 @@ public abstract class Zentrale implements Closeable {
   @Getter
   protected String portName;
 
-  protected Log log = LogFactory.getLog(getClass());
+  protected Logger log = Logger.getLogger(getClass());
 
   // Device kann ein SerialPort oder ein Socket sein
   private volatile Object device;
@@ -60,6 +59,7 @@ public abstract class Zentrale implements Closeable {
   @Getter(onMethod_ = @JsonbInclude)
   protected boolean kurzschluss;
 
+  // Zentrale, Kanal, SX2Kanal
   @Inject
   protected EventFirer eventFirer;
 
@@ -270,7 +270,7 @@ public abstract class Zentrale implements Closeable {
 
   public abstract void setSX1Kanal(int adr, int wert);
 
-  public void lokChanged(Lok lok) {
+  public void lokChanged(Fahrzeug lok) {
   }
 
   public void injectFields() {

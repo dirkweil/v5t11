@@ -5,7 +5,7 @@ import de.gedoplan.v5t11.status.entity.baustein.Zentrale;
 import de.gedoplan.v5t11.status.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
-import de.gedoplan.v5t11.status.entity.lok.Lok;
+import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -16,14 +16,14 @@ import javax.inject.Inject;
 @Model
 public class SystemStatusPresenter implements Serializable {
   @Inject
-  private Steuerung steuerung;
+  Steuerung steuerung;
 
   public Zentrale getZentrale() {
     return this.steuerung.getZentrale();
   }
 
-  public Collection<Lok> getLoks() {
-    return this.steuerung.getLoks();
+  public Collection<Fahrzeug> getLoks() {
+    return this.steuerung.getFahrzeuge();
   }
 
   public Collection<String> getBereiche() {

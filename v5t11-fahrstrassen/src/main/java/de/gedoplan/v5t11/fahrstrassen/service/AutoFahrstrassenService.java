@@ -3,6 +3,7 @@ package de.gedoplan.v5t11.fahrstrassen.service;
 import de.gedoplan.v5t11.fahrstrassen.entity.Parcours;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleisabschnitt;
+import de.gedoplan.v5t11.util.cdi.Changed;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
 
 import javax.annotation.PostConstruct;
@@ -23,23 +24,24 @@ public class AutoFahrstrassenService {
 
   @PostConstruct
   void postConstruct() {
-    this.parcours.getAutoFahrstrassen().forEach(afs -> {
-      Gleisabschnitt trigger = this.parcours.getGleisabschnitt(afs.getBereich(), afs.getTrigger());
-      if (trigger != null) {
-        afs.getElemente().forEach(e -> {
-          Gleisabschnitt start = this.parcours.getGleisabschnitt(e.getStartBereich(), e.getStart());
-          if (start != null) {
-            Gleisabschnitt ende = this.parcours.getGleisabschnitt(e.getEndeBereich(), e.getEnde());
-            if (ende != null) {
-              this.parcours.getFahrstrassen(start, ende, null).forEach(fs -> this.autoFahrstrassen.put(trigger, fs));
-            }
-          }
-        });
-      }
-    });
+    // TODO Abbildung Gleisabschnitt -> Fahrstrasse neu machen
+    // this.parcours.getAutoFahrstrassen().forEach(afs -> {
+    // Gleisabschnitt trigger = this.parcours.getGleisabschnitt(afs.getBereich(), afs.getTrigger());
+    // if (trigger != null) {
+    // afs.getElemente().forEach(e -> {
+    // Gleisabschnitt start = this.parcours.getGleisabschnitt(e.getStartBereich(), e.getStart());
+    // if (start != null) {
+    // Gleisabschnitt ende = this.parcours.getGleisabschnitt(e.getEndeBereich(), e.getEnde());
+    // if (ende != null) {
+    // this.parcours.getFahrstrassen(start, ende, null).forEach(fs -> this.autoFahrstrassen.put(trigger, fs));
+    // }
+    // }
+    // });
+    // }
+    // });
   }
 
-  void autoReserviere(@Observes Gleisabschnitt gleisabschnitt) {
+  void autoReserviere(@Observes @Changed Gleisabschnitt gleisabschnitt) {
     if (gleisabschnitt.isBesetzt()) {
       for (Fahrstrasse fs : this.autoFahrstrassen.get(gleisabschnitt)) {
         if (fs.reservieren(FahrstrassenReservierungsTyp.ZUGFAHRT, false, true)) {

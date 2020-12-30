@@ -9,8 +9,10 @@ import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkDkw2;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkElement;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkGleisabschnitt;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkWeiche;
+import de.gedoplan.v5t11.leitstand.persistence.SignalRepository;
 import de.gedoplan.v5t11.leitstand.service.FahrstrassenManager;
 import de.gedoplan.v5t11.stellwerk.util.GbsFarben;
+import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -35,8 +37,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.jboss.logging.Logger;
 
 /**
  * GBS-Element.
@@ -121,7 +122,7 @@ public abstract class GbsElement extends JPanel {
 
   protected GbsInputPanel inputPanel = null;
 
-  protected Log logger = LogFactory.getLog(this.getClass());
+  protected Logger logger = Logger.getLogger(this.getClass());
 
   @Inject
   Leitstand leitstand;
@@ -131,6 +132,9 @@ public abstract class GbsElement extends JPanel {
 
   @Inject
   StatusDispatcher statusDispatcher;
+
+  @Inject
+  SignalRepository signalRepository;
 
   public GbsElement(String bereich, StellwerkElement stellwerkElement) {
     InjectionUtil.injectFields(this);
@@ -144,14 +148,16 @@ public abstract class GbsElement extends JPanel {
     Dimension dim = new Dimension(width, height);
     setPreferredSize(dim);
     setMaximumSize(dim);
-    // REVIEW: Das sollte nicht nötig sein
     setMinimumSize(dim);
 
     String signalName = stellwerkElement.getSignalName();
     if (signalName != null) {
-      this.signal = this.leitstand.getSignal(bereich, signalName);
+      this.signal = this.signalRepository.findById(new BereichselementId(bereich, signalName));
       if (this.signal != null) {
-        this.statusDispatcher.addListener(this.signal, this::repaint);
+        this.statusDispatcher.addListener(this.signal, s -> {
+          this.signal = s;
+          repaint();
+        });
       }
 
       this.signalPosition = stellwerkElement.getSignalPosition() != null ? GbsRichtung.valueOf(stellwerkElement.getSignalPosition()) : GbsRichtung.N;
@@ -292,11 +298,11 @@ public abstract class GbsElement extends JPanel {
    * Gleis- oder Fahrstrassensegment zeichnen.
    *
    * @param g2d
-   *          Grafik-Kontext
+   *        Grafik-Kontext
    * @param color
-   *          Farbe
+   *        Farbe
    * @param gbsRichtung
-   *          Richtung
+   *        Richtung
    */
   protected void drawGleisSegment(Graphics2D g2d, Color color, GbsRichtung gbsRichtung) {
     AffineTransform oldTransform = g2d.getTransform();
@@ -319,13 +325,13 @@ public abstract class GbsElement extends JPanel {
    * Fahrstrassensegment zeichnen.
    *
    * @param g2d
-   *          Grafik-Kontext
+   *        Grafik-Kontext
    * @param color
-   *          Farbe
+   *        Farbe
    * @param gbsRichtung
-   *          Richtung
+   *        Richtung
    * @param spitze
-   *          <code>true</code>, wenn dieses Segment in Fahrtrichtung weist
+   *        <code>true</code>, wenn dieses Segment in Fahrtrichtung weist
    */
   protected void drawFahrstrassenSegment(Graphics2D g2d, Color color, GbsRichtung gbsRichtung, boolean spitze) {
     AffineTransform oldTransform = g2d.getTransform();
@@ -386,7 +392,7 @@ public abstract class GbsElement extends JPanel {
    * überschrieben.
    *
    * @param g2d
-   *          Grafik-Kontext
+   *        Grafik-Kontext
    */
   protected void translate(Graphics2D g2d) {
   }
@@ -399,9 +405,9 @@ public abstract class GbsElement extends JPanel {
    * GbsElement passend zum angegebenen Stellwerkelement herstellen.
    *
    * @param bereich
-   *          Bereich
+   *        Bereich
    * @param stellwerkElement
-   *          Stellwerkelement
+   *        Stellwerkelement
    * @return GbsElement
    */
   public static GbsElement createInstance(String bereich, StellwerkElement stellwerkElement) {
@@ -484,9 +490,9 @@ public abstract class GbsElement extends JPanel {
   @SuppressWarnings("incomplete-switch")
   private static Color[] getSignalFarben(Signal signal) {
     switch (signal.getTyp()) {
-    case "HauptsignalRtGe":
-    case "HauptsignalRtGn":
-    case "HauptsignalRtGnGe":
+    case HAUPTSIGNAL_RT_GE:
+    case HAUPTSIGNAL_RT_GN:
+    case HAUPTSIGNAL_RT_GE_GN:
       switch (signal.getStellung()) {
       case HALT:
         return FARBEN_HP0;
@@ -497,7 +503,7 @@ public abstract class GbsElement extends JPanel {
       }
       break;
 
-    case "Hauptsperrsignal":
+    case HAUPTSPERRSIGNAL:
       switch (signal.getStellung()) {
       case HALT:
         return FARBEN_HP00;
@@ -510,7 +516,7 @@ public abstract class GbsElement extends JPanel {
       }
       break;
 
-    case "Sperrsignal":
+    case SPERRSIGNAL:
       switch (signal.getStellung()) {
       case HALT:
         return FARBEN_SH0;
@@ -519,6 +525,7 @@ public abstract class GbsElement extends JPanel {
       }
       break;
     }
+
     return FARBEN_NULL;
   }
 

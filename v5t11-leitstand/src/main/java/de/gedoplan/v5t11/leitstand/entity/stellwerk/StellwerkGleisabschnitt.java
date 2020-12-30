@@ -1,8 +1,9 @@
 package de.gedoplan.v5t11.leitstand.entity.stellwerk;
 
-import de.gedoplan.v5t11.leitstand.entity.Leitstand;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleisabschnitt;
+import de.gedoplan.v5t11.leitstand.persistence.GleisabschnittRepository;
 
+import javax.inject.Inject;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -21,18 +22,24 @@ public class StellwerkGleisabschnitt extends StellwerkElement {
   @Getter
   boolean label;
 
-  @Getter
-  private Gleisabschnitt gleisabschnitt;
+  @Inject
+  GleisabschnittRepository gleisabschnittRepository;
 
   @Override
-  public String toString() {
-    return super.toString() + " label=" + this.label;
+  public void addPersistentEntries() {
+    super.addPersistentEntries();
+    createIfNotPresent(this.gleisabschnittRepository, getId(), Gleisabschnitt::new);
   }
 
-  @Override
-  public void linkFahrwegelemente(Leitstand leitstand) {
-    super.linkFahrwegelemente(leitstand);
-    this.gleisabschnitt = leitstand.getOrCreateGleisabschnitt(this.bereich, this.name);
+  /**
+   * Zugehörigen Gleisabschnitt aus der DB lesen.
+   * 
+   * @return Gleisabschnitt
+   */
+  public Gleisabschnitt findGleisabschnitt() {
+    Gleisabschnitt gleisabschnitt = this.gleisabschnittRepository.findById(getId());
+    assert gleisabschnitt != null;
+    return gleisabschnitt;
   }
 
 }

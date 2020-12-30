@@ -3,20 +3,27 @@ package de.gedoplan.v5t11.status.entity;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
-import de.gedoplan.v5t11.status.CdiTestBase;
 import de.gedoplan.v5t11.status.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Schalter;
 import de.gedoplan.v5t11.util.domain.attribute.SchalterStellung;
+import de.gedoplan.v5t11.util.test.V5t11TestConfigDirExtension;
 
 import javax.inject.Inject;
 
-import org.apache.commons.logging.Log;
+import org.jboss.logging.Logger;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.extension.ExtendWith;
 
-public class KehrschleifenTest extends CdiTestBase {
+import io.quarkus.test.junit.QuarkusTestExtension;
+
+@ExtendWith({ V5t11TestConfigDirExtension.class, QuarkusTestExtension.class })
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+public class KehrschleifenTest {
 
   @Inject
-  Log log;
+  Logger log;
 
   @Inject
   Steuerung steuerung;

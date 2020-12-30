@@ -9,7 +9,7 @@ import de.gedoplan.v5t11.status.service.Current;
 import de.gedoplan.v5t11.status.service.Programmierfamilie;
 import de.gedoplan.v5t11.status.service.besetztmelder.muet8i.Muet8iConfigurationAdapter.MeldungsModus;
 
-import javax.enterprise.context.ConversationScoped;
+import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
 import lombok.Getter;
@@ -19,7 +19,7 @@ import lombok.Getter;
  *
  * @author dw
  */
-@ConversationScoped
+@Dependent
 @Programmierfamilie(Muet8i.class)
 public class Muet8iRuntimeService extends ConfigurationRuntimeService {
 
@@ -32,6 +32,8 @@ public class Muet8iRuntimeService extends ConfigurationRuntimeService {
 
   @Inject
   public Muet8iRuntimeService(@Current Baustein baustein, BausteinConfigurationService bausteinConfigurationService) {
+    super(baustein);
+
     BausteinConfiguration bausteinSollConfiguration = bausteinConfigurationService.getBausteinConfiguration(baustein);
     BausteinConfiguration bausteinIstConfiguration = new BausteinConfiguration(baustein.getId());
     this.configuration = new Muet8iConfigurationAdapter(bausteinIstConfiguration, bausteinSollConfiguration);

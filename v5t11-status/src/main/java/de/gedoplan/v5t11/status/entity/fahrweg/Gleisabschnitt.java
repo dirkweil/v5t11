@@ -2,6 +2,7 @@ package de.gedoplan.v5t11.status.entity.fahrweg;
 
 import de.gedoplan.baselibs.utils.inject.InjectionUtil;
 import de.gedoplan.v5t11.status.entity.baustein.Besetztmelder;
+import de.gedoplan.v5t11.util.cdi.Changed;
 import de.gedoplan.v5t11.util.domain.entity.fahrweg.AbstractGleisabschnitt;
 
 import javax.xml.bind.Unmarshaller;
@@ -10,8 +11,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.jboss.logging.Logger;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -38,6 +38,8 @@ public class Gleisabschnitt extends AbstractGleisabschnitt {
   @XmlAttribute(name = "idx")
   private int anschluss;
 
+  private Logger log = Logger.getLogger(getClass());
+
   /**
    * {@inheritDoc}
    *
@@ -45,20 +47,26 @@ public class Gleisabschnitt extends AbstractGleisabschnitt {
    */
   @Override
   public String toString() {
-    return this.getClass().getSimpleName()
-        + "{"
-        + getBereich() + "/" + getName()
-        + " @ " + this.besetztmelder.getAdressen().get(0) + "/" + this.anschluss
-        + "}";
+    StringBuilder sb = new StringBuilder(getClass().getSimpleName());
+    sb.append('{');
+    sb.append(getId().toString());
+    sb.append('[');
+    sb.append(this.anschluss);
+    sb.append('@');
+    sb.append(this.besetztmelder.getAdressen().get(0));
+    sb.append(']');
+    sb.append(isBesetzt() ? " besetzt" : " frei");
+    sb.append('}');
+    return sb.toString();
   }
 
   /**
    * Nachbearbeitung nach JAXB-Unmarshal.
    *
    * @param unmarshaller
-   *          Unmarshaller
+   *        Unmarshaller
    * @param parent
-   *          Parent
+   *        Parent
    */
   @SuppressWarnings("unused")
   private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
@@ -69,21 +77,18 @@ public class Gleisabschnitt extends AbstractGleisabschnitt {
     }
   }
 
-  private long lastChangeMillis = 0;
-  private Log log = LogFactory.getLog(getClass());
-
   public void adjustStatus() {
     boolean alt = isBesetzt();
     boolean neu = (this.besetztmelder.getWert() & (1 << this.anschluss)) != 0;
     if (alt != neu) {
-      setBesetzt(neu);
-      this.eventFirer.fire(this);
-
       long currentTimeMillis = System.currentTimeMillis();
       if (currentTimeMillis - this.lastChangeMillis < 1000) {
         this.log.warn(this + ": Schnelle Statuswechsel");
       }
       this.lastChangeMillis = currentTimeMillis;
+
+      setBesetzt(neu);
+      this.eventFirer.fire(this, Changed.Literal.INSTANCE);
     }
   }
 

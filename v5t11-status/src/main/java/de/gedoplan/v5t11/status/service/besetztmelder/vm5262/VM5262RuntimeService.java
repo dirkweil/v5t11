@@ -8,7 +8,7 @@ import de.gedoplan.v5t11.status.service.ConfigurationRuntimeService;
 import de.gedoplan.v5t11.status.service.Current;
 import de.gedoplan.v5t11.status.service.Programmierfamilie;
 
-import javax.enterprise.context.ConversationScoped;
+import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
 import lombok.Getter;
@@ -18,7 +18,7 @@ import lombok.Getter;
  *
  * @author dw
  */
-@ConversationScoped
+@Dependent
 @Programmierfamilie(VM5262.class)
 public class VM5262RuntimeService extends ConfigurationRuntimeService {
 
@@ -32,6 +32,8 @@ public class VM5262RuntimeService extends ConfigurationRuntimeService {
 
   @Inject
   public VM5262RuntimeService(@Current Baustein baustein, BausteinConfigurationService bausteinConfigurationService) {
+    super(baustein);
+
     BausteinConfiguration bausteinSollConfiguration = bausteinConfigurationService.getBausteinConfiguration(baustein);
     BausteinConfiguration bausteinIstConfiguration = new BausteinConfiguration(baustein.getId());
     this.configuration = new VM5262ConfigurationAdapter(bausteinIstConfiguration, bausteinSollConfiguration);

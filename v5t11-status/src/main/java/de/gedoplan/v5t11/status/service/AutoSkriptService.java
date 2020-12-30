@@ -3,12 +3,13 @@ package de.gedoplan.v5t11.status.service;
 import de.gedoplan.v5t11.status.entity.Steuerung;
 import de.gedoplan.v5t11.status.entity.autoskript.AutoSkript;
 import de.gedoplan.v5t11.status.entity.fahrweg.Gleisabschnitt;
+import de.gedoplan.v5t11.util.cdi.Changed;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
-import org.apache.commons.logging.Log;
+import org.jboss.logging.Logger;
 
 /**
  * Automatisierungs-Skript-Ausführung.
@@ -18,13 +19,14 @@ import org.apache.commons.logging.Log;
  */
 @ApplicationScoped
 public class AutoSkriptService {
+
   @Inject
-  Log log;
+  Logger log;
 
   @Inject
   Steuerung steuerung;
 
-  void gleisChanged(@Observes Gleisabschnitt gleisabschnitt) {
+  void gleisChanged(@Observes @Changed Gleisabschnitt gleisabschnitt) {
     this.steuerung.getAutoSkripte().stream()
         .filter(as -> as.getSteuerungsObjekte().contains(gleisabschnitt))
         .forEach(AutoSkript::execute);

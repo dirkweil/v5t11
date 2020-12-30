@@ -5,7 +5,7 @@ import de.gedoplan.v5t11.util.test.V5t11TestConfigDirExtension;
 
 import javax.inject.Inject;
 
-import org.apache.commons.logging.Log;
+import org.jboss.logging.Logger;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -32,7 +32,7 @@ public class DbInit extends TestBase {
   FahrzeugRepository fahrzeugRepository;
 
   @Inject
-  Log log;
+  Logger log;
 
   @Test
   public void showFahrzeuge() {

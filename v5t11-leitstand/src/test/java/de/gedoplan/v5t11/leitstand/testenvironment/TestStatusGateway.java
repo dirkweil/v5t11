@@ -1,16 +1,15 @@
 package de.gedoplan.v5t11.leitstand.testenvironment;
 
-import de.gedoplan.v5t11.leitstand.entity.baustein.LokController;
 import de.gedoplan.v5t11.leitstand.entity.baustein.Zentrale;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Signal;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Weiche;
-import de.gedoplan.v5t11.leitstand.entity.lok.Lok;
 import de.gedoplan.v5t11.leitstand.gateway.StatusGateway;
+import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
+import de.gedoplan.v5t11.util.domain.attribute.SignalTyp;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
 import de.gedoplan.v5t11.util.domain.entity.fahrweg.AbstractGleisabschnitt;
-import de.gedoplan.v5t11.util.domain.entity.fahrweg.geraet.AbstractSignal;
 import de.gedoplan.v5t11.util.domain.entity.fahrweg.geraet.AbstractWeiche;
 
 import java.lang.reflect.Field;
@@ -49,7 +48,7 @@ public class TestStatusGateway implements StatusGateway {
 
   private static Gleisabschnitt createTestGleisabschnitt(String bereich, String name, boolean besetzt) {
     try {
-      Gleisabschnitt gleisabschnitt = new Gleisabschnitt(bereich, name);
+      Gleisabschnitt gleisabschnitt = new Gleisabschnitt(new BereichselementId(bereich, name));
 
       // Gleisabschnitt.besetzt ist private; daher per Reflection setzen
       Field besetztField = AbstractGleisabschnitt.class.getDeclaredField("besetzt");
@@ -62,9 +61,9 @@ public class TestStatusGateway implements StatusGateway {
   }
 
   private static final Signal[] TEST_SIGNALE = {
-      createTestSignal("show", "F", "HauptsignalRtGnGe", SignalStellung.HALT, SignalStellung.FAHRT, SignalStellung.LANGSAMFAHRT),
-      createTestSignal("show", "N1", "HauptsignalRtGe", SignalStellung.HALT, SignalStellung.LANGSAMFAHRT),
-      createTestSignal("show", "N2", "HauptsignalRtGn", SignalStellung.HALT, SignalStellung.FAHRT)
+      createTestSignal("show", "F", SignalTyp.HAUPTSIGNAL_RT_GE_GN),
+      createTestSignal("show", "N1", SignalTyp.HAUPTSIGNAL_RT_GE),
+      createTestSignal("show", "N2", SignalTyp.HAUPTSIGNAL_RT_GN)
   };
 
   @Override
@@ -72,20 +71,11 @@ public class TestStatusGateway implements StatusGateway {
     return Stream.of(TEST_SIGNALE).collect(Collectors.toSet());
   }
 
-  private static Signal createTestSignal(String bereich, String name, String typ, SignalStellung... stellung) {
-    try {
-      Signal signal = new Signal(bereich, name);
-      signal.setTyp(typ);
-      signal.setErlaubteStellungen(Stream.of(stellung).collect(Collectors.toSet()));
-
-      // Signal.stellung ist private; daher per Reflection setzen
-      Field besetztField = AbstractSignal.class.getDeclaredField("stellung");
-      besetztField.setAccessible(true);
-      besetztField.set(signal, stellung[0]);
-      return signal;
-    } catch (Exception e) {
-      throw new RuntimeException("Cannot create test data", e);
-    }
+  private static Signal createTestSignal(String bereich, String name, SignalTyp typ) {
+    Signal signal = new Signal(new BereichselementId(bereich, name));
+    signal.setTyp(typ);
+    signal.setStellung(SignalStellung.HALT);
+    return signal;
   }
 
   @Override
@@ -113,7 +103,7 @@ public class TestStatusGateway implements StatusGateway {
 
   private static Weiche createTestWeiche(String bereich, String name, WeichenStellung stellung) {
     try {
-      Weiche weiche = new Weiche(bereich, name);
+      Weiche weiche = new Weiche(new BereichselementId(bereich, name));
 
       // Weiche.stellung ist private; daher per Reflection setzen
       Field besetztField = AbstractWeiche.class.getDeclaredField("stellung");
@@ -132,21 +122,6 @@ public class TestStatusGateway implements StatusGateway {
 
   @Override
   public void putGleisspannung(String on) {
-    throw new UnsupportedOperationException();
-  }
-
-  @Override
-  public Set<Lok> getLoks() {
-    throw new UnsupportedOperationException();
-  }
-
-  @Override
-  public Set<LokController> getLokcontroller() {
-    throw new UnsupportedOperationException();
-  }
-
-  @Override
-  public void assignLokcontrollerLok(String id, String lokId) {
     throw new UnsupportedOperationException();
   }
 

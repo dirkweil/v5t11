@@ -2,19 +2,19 @@ package de.gedoplan.v5t11.fahrstrassen.webservice;
 
 import de.gedoplan.v5t11.fahrstrassen.entity.Parcours;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrasse;
-import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleisabschnitt;
-import de.gedoplan.v5t11.util.cdi.EventFirer;
+import de.gedoplan.v5t11.fahrstrassen.persistence.FahrstrassenStatusRepository;
+import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenFilter;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 import de.gedoplan.v5t11.util.webservice.ResponseFactory;
 
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.NotFoundException;
@@ -26,23 +26,27 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.apache.commons.logging.Log;
+import org.jboss.logging.Logger;
 
 @Path("fahrstrasse")
 @ApplicationScoped
+@Transactional(rollbackOn = Exception.class)
 public class FahrstrasseEndpoint {
 
   @Inject
   Parcours parcours;
 
   @Inject
-  Log log;
+  FahrstrassenStatusRepository fahrstrassenStatusRepository;
+
+  @Inject
+  Logger log;
 
   @GET
-  @Path("{bereich}/{name}")
+  @Path("{id}")
   @Produces(MediaType.APPLICATION_JSON)
-  public Response getFahrstrasse(@PathParam("bereich") String bereich, @PathParam("name") String name) {
-    Fahrstrasse fahrstrasse = this.parcours.getFahrstrasse(bereich, name);
+  public Response getFahrstrasse(@PathParam("id") BereichselementId id) {
+    Fahrstrasse fahrstrasse = this.parcours.getFahrstrasse(id);
     if (fahrstrasse == null) {
       return ResponseFactory.createNotFoundResponse();
     }
@@ -89,54 +93,46 @@ public class FahrstrasseEndpoint {
       String endeName,
       String filterAsString) {
 
-    FahrstrassenFilter filter = filterAsString != null ? FahrstrassenFilter.valueOfLenient(filterAsString) : null;
+    FahrstrassenFilter filter = filterAsString != null ? FahrstrassenFilter.fromString(filterAsString) : null;
 
     if (this.log.isDebugEnabled()) {
       this.log.debug(String.format("getFahrstrassen: start=%s/%s, ende=%s/%s, filter=%s", startBereich, startName, endeBereich, endeName, filter));
     }
 
-    Gleisabschnitt start = null;
+    BereichselementId startId = null;
     if (startBereich != null || startName != null) {
       if (startBereich == null) {
         startBereich = endeBereich;
       }
-
-      start = this.parcours.getGleisabschnitt(startBereich, startName);
-      if (start == null) {
-        return null;
-      }
+      startId = new BereichselementId(startBereich, startName);
     }
 
-    Gleisabschnitt ende = null;
+    BereichselementId endeId = null;
     if (endeBereich != null || endeName != null) {
       if (endeBereich == null) {
         endeBereich = startBereich;
       }
-
-      ende = this.parcours.getGleisabschnitt(endeBereich, endeName);
-      if (ende == null) {
-        return null;
-      }
+      endeId = new BereichselementId(endeBereich, endeName);
     }
 
-    return this.parcours.getFahrstrassen(start, ende, filter);
+    return this.parcours.getFahrstrassen(startId, endeId, filter);
   }
 
   @PUT
-  @Path("{bereich}/{name}/reservierung")
-  @Consumes(MediaType.TEXT_PLAIN)
-  public Response reserviereFahrstrasse(@PathParam("bereich") String bereich, @PathParam("name") String name, String reservierungsTypAsString) {
+  @Path("{id}/reservierung")
+  @Consumes(MediaType.WILDCARD)
+  public Response reserviereFahrstrasse(@PathParam("id") BereichselementId id, String reservierungsTypAsString) {
     if (this.log.isDebugEnabled()) {
-      this.log.debug(String.format("reserviereFahrstrasse: fahrstrasse=%s/%s, reservierungsTyp=%s", bereich, name, reservierungsTypAsString));
+      this.log.debug(String.format("reserviereFahrstrasse: id=%s, reservierungsTyp=%s", id, reservierungsTypAsString));
     }
 
-    Fahrstrasse fahrstrasse = this.parcours.getFahrstrasse(bereich, name);
+    Fahrstrasse fahrstrasse = this.parcours.getFahrstrasse(id);
     if (fahrstrasse == null) {
       return ResponseFactory.createNotFoundResponse();
     }
 
     try {
-      if (!fahrstrasse.reservieren(FahrstrassenReservierungsTyp.valueOfLenient(reservierungsTypAsString))) {
+      if (!fahrstrasse.reservieren(FahrstrassenReservierungsTyp.fromString(reservierungsTypAsString))) {
         return ResponseFactory.createConflictResponse();
       }
     } catch (IllegalArgumentException e) {
@@ -146,16 +142,4 @@ public class FahrstrasseEndpoint {
     return ResponseFactory.createNoContentResponse();
   }
 
-  @Inject
-  // Event<String> eventSource;
-  EventFirer eventSource;
-
-  @Path("event")
-  @PUT
-  @Consumes("*/*")
-  public void fireEvent() {
-    String event = "Event of " + new Date();
-    this.eventSource.fire(event);
-    // this.eventSource.fireAsync(event);
-  }
 }

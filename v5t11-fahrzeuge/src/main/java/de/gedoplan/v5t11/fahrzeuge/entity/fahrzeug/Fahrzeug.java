@@ -2,7 +2,7 @@ package de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug;
 
 import de.gedoplan.baselibs.persistence.entity.SingleIdEntity;
 import de.gedoplan.baselibs.utils.inject.InjectionUtil;
-import de.gedoplan.v5t11.util.cdi.EventFirer;
+import de.gedoplan.v5t11.util.domain.attribute.FahrzeugId;
 import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
@@ -10,23 +10,22 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Embeddable;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
-import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -38,109 +37,127 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = Fahrzeug.TABLE_NAME, uniqueConstraints = @UniqueConstraint(columnNames = { "SYSTEM_TYP", "ADRESSE" }))
 @Access(AccessType.FIELD)
-public class Fahrzeug extends SingleIdEntity<String> implements Comparable<Fahrzeug> {
+@Table(name = Fahrzeug.TABLE_NAME)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Fahrzeug extends SingleIdEntity<FahrzeugId> {
 
   public static final String TABLE_NAME = "FZ_FAHRZEUG";
   public static final String TABLE_NAME_FUNKTION = "FZ_FAHRZEUG_FUNKTION";
 
+  // @Transient
+  // @Inject
+  // EventFirer eventFirer;
+
+  @EmbeddedId
+  @Getter(onMethod_ = @JsonbInclude)
+  @Setter(onMethod_ = @JsonbInclude)
+  private FahrzeugId id;
+
+  // Fahrzeug ist/wird gelöscht
+  // nur für temporäre Benachrichtigung; wird nicht in der DB gespeichert
+  @Getter(onMethod_ = @JsonbInclude)
+  @Setter
   @Transient
-  @Inject
-  EventFirer eventFirer;
+  private boolean removed;
+
+  // Fahrzeug ist aktiv, d. h. in der Zentrale angemeldet
+  @Getter(onMethod_ = @JsonbInclude(full = true))
+  @Setter(onMethod_ = @JsonbInclude)
+  private boolean aktiv;
+
+  // Aktuelle Fahrstufe
+  @Getter(onMethod_ = @JsonbInclude(full = true))
+  @Setter(onMethod_ = @JsonbInclude)
+  private int fahrstufe;
+
+  @AssertTrue(message = "Ungültige Fahrstufe")
+  boolean isfahrstufeValid() {
+    return this.fahrstufe >= 0 && this.fahrstufe <= this.id.getSystemTyp().getMaxFahrstufe();
+  }
+
+  // Rückwärtsfahrt
+  @Getter(onMethod_ = @JsonbInclude(full = true))
+  @Setter(onMethod_ = @JsonbInclude)
+  private boolean rueckwaerts;
+
+  // Fahrlicht
+  @Getter(onMethod_ = @JsonbInclude(full = true))
+  @Setter(onMethod_ = @JsonbInclude)
+  private boolean licht;
+
+  // Status der Funktionen (pro Funktion 1 Bit, nur 16 Bits releavant)
+  @Column(name = "FKT_BITS", nullable = false)
+  @Getter(onMethod_ = @JsonbInclude(full = true))
+  @Setter(onMethod_ = @JsonbInclude)
+  private int fktBits;
+
+  @Getter(onMethod_ = @JsonbInclude(full = true))
+  @Setter(onMethod_ = @JsonbInclude)
+  @Column(name = "LAST_CHANGE_MS")
+  private long lastChangeMillis;
 
   /**
-   * Id des Fahrzeugs (DB-Nr. ö. ä.).
+   * Betriebsnummer des Fahrzeugs (DB-Nr. ö. ä.).
    */
-  @Id
-  private String id;
+  @Getter(onMethod_ = @JsonbInclude)
+  @Setter
+  @NotBlank
+  @Column(nullable = false, unique = true)
+  private String betriebsnummer;
 
   @Lob
   @Getter
   @Setter
   private Serializable image;
 
-  @Getter
+  @Getter(onMethod_ = @JsonbInclude)
   @Setter
   private String decoder;
-
-  /**
-   * Systemtyp (Selectrix 1/2 oder NMRA-DCC)
-   */
-  @Enumerated(EnumType.STRING)
-  @Column(name = "SYSTEM_TYP")
-  @NotNull
-  @Getter
-  @Setter
-  private SystemTyp systemTyp;
-
-  /**
-   * Fahrzeugadresse.
-   * Muss im gültigen Bereich sein:
-   * - Selectrix: 1-103,
-   * - Selecrix 2: 1-9999,
-   * - DCC: 1-99 bei kurzer Adresse, 1-9999 sonst.
-   */
-  @Getter
-  @Setter
-  private int adresse;
-
-  @AssertTrue(message = "Ungültige Adresse")
-  boolean isAdresseValid() {
-    if (this.systemTyp == null) {
-      return true;
-    }
-
-    if (this.systemTyp == SystemTyp.SX1) {
-      return this.adresse >= 1 && this.adresse <= 103;
-    }
-
-    return this.adresse >= 1 && this.adresse <= 9999;
-  }
 
   @ElementCollection(fetch = FetchType.EAGER)
   @CollectionTable(name = TABLE_NAME_FUNKTION)
   @Getter(onMethod_ = @JsonbInclude(full = true))
   private List<@NotNull FahrzeugFunktion> funktionen = new ArrayList<>();
 
-  @JsonbInclude
-  @Override
-  public String getId() {
-    return this.id;
-  }
-
-  public Fahrzeug(String id, String decoder, @NotNull SystemTyp systemTyp, int adresse, FahrzeugFunktion... funktionen) {
+  public Fahrzeug(FahrzeugId id, String betriebsnummer, String decoder, FahrzeugFunktion... funktionen) {
     this.id = id;
+    this.betriebsnummer = betriebsnummer;
     this.decoder = decoder;
-    this.systemTyp = systemTyp;
-    this.adresse = adresse;
     for (FahrzeugFunktion funktion : funktionen) {
       this.funktionen.add(funktion);
     }
   }
 
-  protected Fahrzeug() {
-  }
-
-  @Override
-  public int compareTo(Fahrzeug other) {
-    return this.id.compareTo(other.id);
-  }
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder("Fahrzeug{");
-    sb.append(this.id)
-        .append('@')
-        .append(this.adresse)
-        .append('(')
-        .append(this.systemTyp)
-        .append(")}");
-    return sb.toString();
+  public Fahrzeug(String betriebsnummer, String decoder, @NotNull SystemTyp systemTyp, int adresse, FahrzeugFunktion... funktionen) {
+    this(new FahrzeugId(systemTyp, adresse), betriebsnummer, decoder, funktionen);
   }
 
   public void injectFields() {
     InjectionUtil.injectFields(this);
+  }
+
+  public boolean copyStatus(Fahrzeug from) {
+    boolean changed = (this.aktiv != from.aktiv);
+    this.aktiv = from.aktiv;
+
+    changed |= (this.fahrstufe != from.fahrstufe);
+    this.fahrstufe = from.fahrstufe;
+
+    changed |= (this.fktBits != from.fktBits);
+    this.fktBits = from.fktBits;
+
+    changed |= (this.licht != from.licht);
+    this.licht = from.licht;
+
+    changed |= (this.rueckwaerts != from.rueckwaerts);
+    this.rueckwaerts = from.rueckwaerts;
+
+    if (changed) {
+      this.lastChangeMillis = from.lastChangeMillis;
+    }
+
+    return changed;
   }
 
   @Embeddable
@@ -216,30 +233,5 @@ public class Fahrzeug extends SingleIdEntity<String> implements Comparable<Fahrz
       private String name;
     }
   }
-
-  // Ab hier Ist-Daten
-  // TODO: Bleiben die hier?
-
-  // @Transient
-  // @Getter(onMethod_ = @JsonbInclude)
-  // private boolean aktiv;
-  //
-  // @Getter(onMethod_ = @JsonbInclude)
-  // private int fahrstufe;
-  //
-  // @AssertTrue(message = "Ungültige Fahrstufe")
-  // boolean isfahrstufeValid() {
-  // return this.fahrstufe >= 0 && this.fahrstufe <= this.maxFahrstufe;
-  // }
-  //
-  // @Getter(onMethod_ = @JsonbInclude)
-  // private boolean rueckwaerts;
-  //
-  // @Getter(onMethod_ = @JsonbInclude)
-  // private boolean licht;
-  //
-  // @Column(name = "FUNKTION_STATUS")
-  // @Getter(onMethod_ = @JsonbInclude)
-  // private int funktionStatus;
 
 }

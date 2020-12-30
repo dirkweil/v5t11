@@ -17,17 +17,17 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.Conversation;
 import javax.enterprise.context.SessionScoped;
+import javax.enterprise.inject.Any;
 import javax.enterprise.inject.Instance;
-import javax.enterprise.inject.Model;
 import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.CDI;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.inject.Named;
 
-import org.apache.commons.logging.Log;
+import org.jboss.logging.Logger;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -37,7 +37,7 @@ import lombok.Setter;
  *
  * @author dw
  */
-@Model
+@Named
 @SessionScoped
 public class BausteinProgrammierungPresenter implements Serializable {
   @Inject
@@ -47,13 +47,22 @@ public class BausteinProgrammierungPresenter implements Serializable {
   Instance<Baustein> bausteinInstanzen;
 
   @Inject
+  @Any
+  Instance<ConfigurationRuntimeService> configurationRuntimeServices;
+
+  @Inject
   BausteinConfigurationService bausteinConfigurationService;
 
   @Inject
-  Conversation conversation;
+  Logger log;
 
-  @Inject
-  Log log;
+  // @PostConstruct
+  // void postConstruct() {
+  // if (this.log.isDebugEnabled()) {
+  // this.log.debug("configurationRuntimeServices: ");
+  // this.configurationRuntimeServices.forEach(crs -> this.log.debug(" " + crs.getClass()));
+  // }
+  // }
 
   /**
    * Liste aller konfigurierter Bausteine.
@@ -73,7 +82,7 @@ public class BausteinProgrammierungPresenter implements Serializable {
   @Produces
   @Current
   @Getter
-  private Baustein currentBaustein;
+  Baustein currentBaustein;
 
   @Getter
   private ConfigurationRuntimeService configurationRuntimeService;
@@ -97,7 +106,7 @@ public class BausteinProgrammierungPresenter implements Serializable {
    * Aktuellen Baustein wählen und Programm-Session beginnen.
    *
    * @param baustein
-   *        Wert
+   *          Wert
    */
   public String selectBaustein(Baustein baustein) {
     this.steuerung.getZentrale().setGleisspannung(false);
@@ -105,10 +114,6 @@ public class BausteinProgrammierungPresenter implements Serializable {
     this.currentBaustein = baustein;
     if (this.currentBaustein == null) {
       return null;
-    }
-
-    if (this.conversation.isTransient()) {
-      this.conversation.begin();
     }
 
     // Bus-Nr aus Adresse entnehmen
@@ -130,9 +135,8 @@ public class BausteinProgrammierungPresenter implements Serializable {
 
       this.configurationRuntimeService.saveProgKanalWerte();
 
-      return "openProgMode";
-    }
-    catch (Exception e) {
+      return "/view/bausteinProgrammierung_openProgMode.xhtml";
+    } catch (Exception e) {
       this.log.error("Kann ConfigurationRuntimeService nicht erzeugen", e);
 
       String message = e.getMessage();
@@ -182,7 +186,7 @@ public class BausteinProgrammierungPresenter implements Serializable {
   }
 
   @PostConstruct
-  private void init() {
+  void init() {
     this.konfigurierteBausteine = // Stream.concat(
         Stream.concat(
             this.steuerung.getBesetztmelder().stream(),
@@ -212,9 +216,7 @@ public class BausteinProgrammierungPresenter implements Serializable {
    * @return Outcome
    */
   public String abort() {
-    if (!this.conversation.isTransient()) {
-      this.conversation.end();
-    }
+    this.configurationRuntimeService = null;
 
     return "bausteinProgrammierung";
   }

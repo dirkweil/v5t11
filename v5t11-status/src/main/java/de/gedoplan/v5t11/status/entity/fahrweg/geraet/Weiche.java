@@ -4,6 +4,7 @@
 package de.gedoplan.v5t11.status.entity.fahrweg.geraet;
 
 import de.gedoplan.v5t11.status.entity.baustein.Funktionsdecoder;
+import de.gedoplan.v5t11.util.cdi.Changed;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
 import de.gedoplan.v5t11.util.domain.entity.fahrweg.geraet.AbstractWeiche;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
@@ -41,7 +42,7 @@ public class Weiche extends AbstractWeiche implements FunktionsdecoderGeraet {
    * Wert setzen: {@link #stellung}.
    *
    * @param stellung
-   *          Wert
+   *        Wert
    */
   @Override
   public void setStellung(WeichenStellung stellung) {
@@ -50,6 +51,7 @@ public class Weiche extends AbstractWeiche implements FunktionsdecoderGeraet {
 
   protected void setStellung(WeichenStellung stellung, boolean updateInterface) {
     if (getStellung() != stellung) {
+      this.lastChangeMillis = System.currentTimeMillis();
       super.setStellung(stellung);
 
       if (updateInterface) {
@@ -59,7 +61,7 @@ public class Weiche extends AbstractWeiche implements FunktionsdecoderGeraet {
         this.funktionsdecoderZuordnung.getFunktionsdecoder().setWert(fdWert);
       }
 
-      this.eventFirer.fire(this);
+      this.eventFirer.fire(this, Changed.Literal.INSTANCE);
     }
   }
 
@@ -67,7 +69,7 @@ public class Weiche extends AbstractWeiche implements FunktionsdecoderGeraet {
    * Stellungswert für Stellung ermitteln.
    *
    * @param stellung
-   *          Stellung
+   *        Stellung
    * @return Stellungswert
    */
   public long getWertForStellung(WeichenStellung stellung) {
@@ -82,7 +84,7 @@ public class Weiche extends AbstractWeiche implements FunktionsdecoderGeraet {
    * Stellung für Stellungswert ermitteln.
    *
    * @param stellungsWert
-   *          Stellungswert
+   *        Stellungswert
    * @return Stellung
    */
   public WeichenStellung getStellungForWert(long stellungsWert) {
@@ -113,21 +115,23 @@ public class Weiche extends AbstractWeiche implements FunktionsdecoderGeraet {
 
   @Override
   public String toString() {
-    return this.getClass().getSimpleName()
-        + "{"
-        + getBereich()
-        + "/"
-        + getName()
-        + " @ "
-        + this.funktionsdecoderZuordnung
-        + "}";
+    StringBuilder sb = new StringBuilder(getClass().getSimpleName());
+    sb.append('{');
+    sb.append(getId().toString());
+    sb.append('[');
+    sb.append(this.funktionsdecoderZuordnung);
+    sb.append(']');
+    sb.append(' ');
+    sb.append(getStellung());
+    sb.append('}');
+    return sb.toString();
   }
 
   /**
    * Bei JAXB-Unmarshal Attribut idx als anschluss in die Funktionsdecoder-Zuordnung speichern.
    *
    * @param idx
-   *          Anschlussnummer
+   *        Anschlussnummer
    */
   @XmlAttribute
   public void setIdx(int idx) {
@@ -138,9 +142,9 @@ public class Weiche extends AbstractWeiche implements FunktionsdecoderGeraet {
    * Nach JAXB-Unmarshal Funktionsdecoder in die Funktionsdecoder-Zuordnung speichern.
    *
    * @param unmarshaller
-   *          Unmarshaller
+   *        Unmarshaller
    * @param parent
-   *          Parent
+   *        Parent
    */
   @SuppressWarnings("unused")
   private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {

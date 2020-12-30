@@ -1,5 +1,6 @@
 package de.gedoplan.v5t11.util.domain.entity.fahrweg;
 
+import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import de.gedoplan.v5t11.util.domain.entity.Fahrwegelement;
 import de.gedoplan.v5t11.util.domain.entity.fahrweg.geraet.AbstractWeiche;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
@@ -42,6 +43,23 @@ public abstract class AbstractGleisabschnitt extends Fahrwegelement {
 
   protected AbstractGleisabschnitt(String bereich, String name) {
     super(bereich, name);
+  }
+
+  protected AbstractGleisabschnitt(BereichselementId id) {
+    super(id);
+  }
+
+  @Override
+  public boolean copyStatus(Fahrwegelement other) {
+    if (other instanceof AbstractGleisabschnitt) {
+      AbstractGleisabschnitt source = (AbstractGleisabschnitt) other;
+      if (this.besetzt != source.besetzt) {
+        this.besetzt = source.besetzt;
+        this.lastChangeMillis = source.lastChangeMillis;
+        return true;
+      }
+    }
+    return false;
   }
 
 }

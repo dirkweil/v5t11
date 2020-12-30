@@ -1,0 +1,1 @@
+java -Dv5t11.configDir=../src/main/v5t11/ -Dv5t11.anlage=dw -jar target/v5t11-fahrstrassen-runner.jar

@@ -6,8 +6,10 @@ import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
 import javax.inject.Inject;
+import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -27,21 +29,31 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class Bereichselement extends SingleIdEntity<BereichselementId> implements Comparable<Bereichselement> {
   @XmlAttribute
-  @Getter(onMethod_ = @JsonbInclude)
+  @Getter
+  @Id
   private String bereich;
 
   @XmlAttribute
-  @Getter(onMethod_ = @JsonbInclude)
+  @Getter
+  @Id
   private String name;
 
   private transient BereichselementId id;
 
+  // Gleisabschnitt, Schalter, Signal, Weiche
+  @Transient
   @Inject
   protected EventFirer eventFirer;
 
   protected Bereichselement(String bereich, String name) {
     this.bereich = bereich;
     this.name = name;
+  }
+
+  protected Bereichselement(BereichselementId id) {
+    this.id = id;
+    this.bereich = id.getBereich();
+    this.name = id.getName();
   }
 
   @JsonbInclude
@@ -62,6 +74,23 @@ public abstract class Bereichselement extends SingleIdEntity<BereichselementId> 
       this.id = new BereichselementId(this.bereich, this.name);
     }
     return this.id;
+  }
+
+  /*
+   * Aus irgendeinem schleierhaften Grund nimmt Jsonb die id nur, wenn sie mit einer anderen Methode
+   * geliefert wird - nicht getId()!
+   * Könnte ein Bug in Yasson sein.
+   */
+  @JsonbInclude
+  public BereichselementId getKey() {
+    return getId();
+  }
+
+  @JsonbInclude
+  public void setKey(BereichselementId id) {
+    this.id = id;
+    this.bereich = id.getBereich();
+    this.name = id.getName();
   }
 
   public String toDisplayString() {

@@ -1,5 +1,8 @@
 package de.gedoplan.v5t11.fahrstrassen.entity;
 
+import de.gedoplan.baselibs.persistence.entity.UuidEntity;
+import de.gedoplan.baselibs.utils.inject.InjectionUtil;
+
 import java.util.List;
 
 import javax.xml.bind.Unmarshaller;
@@ -13,7 +16,9 @@ import lombok.ToString;
 
 @XmlAccessorType(XmlAccessType.NONE)
 @Getter
-public class AutoFahrstrasse {
+public class AutoFahrstrasse extends UuidEntity {
+
+  public static final String TABLE_NAME = "FS_AUTO_FAHRSTRASSE";
 
   @XmlAttribute(required = true)
   private String bereich;
@@ -66,6 +71,10 @@ public class AutoFahrstrasse {
         e.endeBereich = this.bereich;
       }
     });
+  }
+
+  public void injectFields() {
+    InjectionUtil.injectFields(this);
   }
 
 }

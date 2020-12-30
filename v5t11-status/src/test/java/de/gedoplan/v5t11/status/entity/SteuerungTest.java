@@ -4,14 +4,14 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-import de.gedoplan.v5t11.status.CdiTestBase;
 import de.gedoplan.v5t11.status.StatusEventCollector;
 import de.gedoplan.v5t11.status.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
 import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
-import de.gedoplan.v5t11.util.domain.entity.fahrweg.Geraet;
+import de.gedoplan.v5t11.util.domain.entity.fahrweg.AbstractGeraet;
+import de.gedoplan.v5t11.util.test.V5t11TestConfigDirExtension;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,13 +19,20 @@ import java.util.Random;
 
 import javax.inject.Inject;
 
-import org.apache.commons.logging.Log;
+import org.jboss.logging.Logger;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.extension.ExtendWith;
 
-public class SteuerungTest extends CdiTestBase {
+import io.quarkus.test.junit.QuarkusTestExtension;
+
+@ExtendWith({ V5t11TestConfigDirExtension.class, QuarkusTestExtension.class })
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+public class SteuerungTest {
 
   @Inject
-  Log log;
+  Logger log;
 
   @Inject
   Steuerung steuerung;
@@ -104,7 +111,7 @@ public class SteuerungTest extends CdiTestBase {
   public void test_03_adjustGeraete() {
     this.log.info("----- test_03_adjustGeraete -----");
 
-    Geraet[] geraete = {
+    AbstractGeraet[] geraete = {
         this.steuerung.getSignal("test", "P2"),
         this.steuerung.getSignal("test", "P3"),
         this.steuerung.getSignal("test", "P4"),
@@ -141,7 +148,7 @@ public class SteuerungTest extends CdiTestBase {
 
       int anschluss = 0;
       for (int i = 0; i < geraete.length; ++i) {
-        Geraet geraet = geraete[i];
+        AbstractGeraet geraet = geraete[i];
         int bitCount;
         long mask;
         long geraeteWert;
@@ -197,7 +204,7 @@ public class SteuerungTest extends CdiTestBase {
   public void test_04_setGeraete() {
     this.log.info("----- test_04_setGeraete -----");
 
-    Geraet[] geraete = {
+    AbstractGeraet[] geraete = {
         this.steuerung.getSignal("test", "P2"),
         this.steuerung.getSignal("test", "P3"),
         this.steuerung.getSignal("test", "P4"),
@@ -228,7 +235,7 @@ public class SteuerungTest extends CdiTestBase {
 
       long newWert = 0;
 
-      Geraet geraet = geraete[random.nextInt(geraete.length)];
+      AbstractGeraet geraet = geraete[random.nextInt(geraete.length)];
 
       int bitCount;
       int anschluss;
@@ -260,7 +267,7 @@ public class SteuerungTest extends CdiTestBase {
         mask = ((1L << bitCount) - 1) << anschluss;
 
         SignalStellung oldStellung = signal.getStellung();
-        List<SignalStellung> erlaubteStellungen = new ArrayList<>(signal.getErlaubteStellungen());
+        List<SignalStellung> erlaubteStellungen = new ArrayList<>(signal.getTyp().getErlaubteStellungen());
         SignalStellung stellung = erlaubteStellungen.get(random.nextInt(erlaubteStellungen.size()));
 
         signal.setStellung(stellung);

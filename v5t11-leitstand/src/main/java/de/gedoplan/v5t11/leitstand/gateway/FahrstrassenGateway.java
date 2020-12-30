@@ -1,6 +1,7 @@
 package de.gedoplan.v5t11.leitstand.gateway;
 
 import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrasse;
+import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenFilter;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
 
@@ -21,9 +22,9 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 public interface FahrstrassenGateway {
 
   @GET
-  @Path("fahrstrasse/{bereich}/{name}")
+  @Path("fahrstrasse/{id}")
   @Produces(MediaType.APPLICATION_JSON)
-  Fahrstrasse getFahrstrasse(@PathParam("bereich") String bereich, @PathParam("name") String name);
+  Fahrstrasse getFahrstrasse(@PathParam("id") BereichselementId id);
 
   @GET
   @Path("fahrstrasse")
@@ -36,8 +37,8 @@ public interface FahrstrassenGateway {
       @QueryParam("filter") FahrstrassenFilter filter);
 
   @PUT
-  @Path("fahrstrasse/{bereich}/{name}/reservierung")
+  @Path("fahrstrasse/{id}/reservierung")
   @Consumes(MediaType.TEXT_PLAIN)
-  void reserviereFahrstrasse(@PathParam("bereich") String bereich, @PathParam("name") String name, FahrstrassenReservierungsTyp reservierungsTyp);
+  void reserviereFahrstrasse(@PathParam("id") BereichselementId id, FahrstrassenReservierungsTyp reservierungsTyp);
 
 }

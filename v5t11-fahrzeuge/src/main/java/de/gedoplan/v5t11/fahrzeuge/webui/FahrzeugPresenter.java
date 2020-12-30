@@ -4,29 +4,27 @@ import de.gedoplan.baselibs.utils.util.ResourceUtil;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug.FahrzeugFunktion;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe;
+import de.gedoplan.v5t11.fahrzeuge.gateway.StatusGateway;
 import de.gedoplan.v5t11.fahrzeuge.persistence.FahrzeugRepository;
+import de.gedoplan.v5t11.util.cdi.Current;
+import de.gedoplan.v5t11.util.domain.attribute.FahrzeugId;
 import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 
 import java.io.Serializable;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
+import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
-import org.apache.commons.logging.Log;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
+import org.jboss.logging.Logger;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 
 @Named
 @SessionScoped
@@ -36,119 +34,44 @@ public class FahrzeugPresenter implements Serializable {
   FahrzeugRepository fahrzeugRepository;
 
   @Inject
-  Log log;
+  @RestClient
+  StatusGateway statusGateway;
+
+  @Inject
+  Logger logger;
 
   @Getter
   private List<Fahrzeug> fahrzeuge;
 
   @Getter
-  @Setter
-  private Fahrzeug currentFahrzeug;
+  @Produces
+  @Current
+  Fahrzeug currentFahrzeug;
 
   @Getter
-  @Setter
-  @NotEmpty
-  private String newId;
+  @NotNull
+  private FahrzeugId newId = new FahrzeugId(SystemTyp.DCC, 3);
+
+  /*
+   * Achtung: Die Lokcontroller-Ansteuerung ist eine Quick&Dirty-Implementierung.
+   * Es wird davon ausgegangen, dass es zwei Lokcontroller mit den Ids 0 und 1 gibt.
+   * Mittelfristig werden die Lokcontroller durch selbstentwickelte mobile Geräte
+   * ersetzt.
+   */
+  private Fahrzeug[] lokcontrollerAssignment = new Fahrzeug[2];
 
   @PostConstruct
   void refreshFahrzeuge() {
     this.fahrzeuge = this.fahrzeugRepository.findAll();
   }
 
-  public String create() {
-    this.currentFahrzeug = new Fahrzeug(this.newId, null, SystemTyp.DCC, 0);
-    this.fahrzeuge.add(this.currentFahrzeug);
-
-    if (this.log.isDebugEnabled()) {
-      this.log.debug("Create " + this.currentFahrzeug);
-    }
-
-    return "edit";
-  }
-
-  public String edit(Fahrzeug fahrzeug) {
-    this.currentFahrzeug = fahrzeug;
-
-    if (this.log.isDebugEnabled()) {
-      this.log.debug("Edit " + this.currentFahrzeug);
-    }
-
-    return "edit";
-  }
-
-  public void addFunktion() {
-    this.currentFahrzeug.getFunktionen().add(0, new FahrzeugFunktion(FahrzeugFunktionsGruppe.AF, 0, 0, false, false, false, ""));
-  }
-
-  public void removeFunktion(FahrzeugFunktion funktion) {
-    Iterator<FahrzeugFunktion> iterator = this.currentFahrzeug.getFunktionen().iterator();
-    while (iterator.hasNext()) {
-      if (iterator.next() == funktion) {
-        iterator.remove();
-        break;
-      }
-    }
-  }
-
-  @Inject
-  Validator validator;
-
-  public String save() {
-    Set<ConstraintViolation<Fahrzeug>> violations = this.validator.validate(this.currentFahrzeug);
-    if (!violations.isEmpty()) {
-      FacesContext facesContext = FacesContext.getCurrentInstance();
-      violations.forEach(cv -> {
-        FacesMessage facesMessage = new FacesMessage(cv.getMessage());
-        facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
-        facesContext.addMessage(null, facesMessage);
-      });
-      facesContext.validationFailed();
-      return null;
-    }
-
-    Iterator<FahrzeugFunktion> iterator = this.currentFahrzeug.getFunktionen().iterator();
-    while (iterator.hasNext()) {
-      FahrzeugFunktion funktion = iterator.next();
-      if (funktion.getMaske() == 0 || funktion.getBeschreibung() == null || funktion.getBeschreibung().strip().isEmpty()) {
-        iterator.remove();
-      }
-    }
-    this.fahrzeugRepository.merge(this.currentFahrzeug);
-
-    return "finished";
-
-  }
-
-  public String remove() {
-    // TODO Confirmation!
-
-    this.fahrzeugRepository.removeById(this.currentFahrzeug.getId());
-    refreshFahrzeuge();
-
-    return "finished";
-  }
-
-  public String cancel() {
-    refreshFahrzeuge();
-
-    return "finished";
-  }
-
-  public String program(Fahrzeug fahrzeug) {
-    this.currentFahrzeug = fahrzeug;
-
-    if (this.log.isDebugEnabled()) {
-      this.log.debug("Program " + fahrzeug);
-    }
-
-    return null;
-  }
-
   public String getImage(Fahrzeug fahrzeug) {
     if (fahrzeug.getImage() != null) {
       throw new UnsupportedOperationException("not yet implemented");
-    } else {
-      String name = fahrzeug.getId().replaceAll("\\s+", "_");
+    }
+
+    if (fahrzeug.getBetriebsnummer() != null) {
+      String name = fahrzeug.getBetriebsnummer().replaceAll("\\s+", "_");
       while (!name.isEmpty()) {
         String resourceName = "images/loks/" + name + ".png";
         if (ResourceUtil.getResource("META-INF/resources/" + resourceName) != null) {
@@ -157,10 +80,10 @@ public class FahrzeugPresenter implements Serializable {
 
         name = name.substring(0, name.length() - 1);
       }
-
-      return "images/loks/none.png";
-
     }
+
+    return "images/loks/none.png";
+
   }
 
   public SystemTyp[] getSystemTypen() {
@@ -171,82 +94,90 @@ public class FahrzeugPresenter implements Serializable {
     return FahrzeugFunktionsGruppe.values();
   }
 
-  public TriStateAdapter getTriStateAdapter(FahrzeugFunktion fahrzeugFunktion, int bitNr) {
-    return new TriStateAdapter(fahrzeugFunktion, bitNr);
+  public String create() {
+    this.currentFahrzeug = new Fahrzeug(this.newId, null, null);
+    this.fahrzeuge.add(this.currentFahrzeug);
+    this.logger.debugf("Create %s", this.currentFahrzeug);
+    return "edit";
   }
 
-  public static class TriStateAdapter {
+  public String edit(Fahrzeug fahrzeug) {
+    this.currentFahrzeug = fahrzeug;
+    this.logger.debugf("Edit %s", this.currentFahrzeug);
+    return "edit";
+  }
 
-    private FahrzeugFunktion fahrzeugFunktion;
-    private int maske;
-
-    public TriStateAdapter(FahrzeugFunktion fahrzeugFunktion, int bitNr) {
-      this.fahrzeugFunktion = fahrzeugFunktion;
-      this.maske = (1 << bitNr);
-    }
-
-    public String getValue() {
-      if ((this.fahrzeugFunktion.getMaske() & this.maske) == 0) {
-        return "0";
-      }
-      if ((this.fahrzeugFunktion.getWert() & this.maske) == 0) {
-        return "2";
-      }
-      return "1";
-    }
-
-    public void setValue(String s) {
-      switch (s) {
-      default:
-      case "0":
-        this.fahrzeugFunktion.setMaske(this.fahrzeugFunktion.getMaske() & (~this.maske));
-        this.fahrzeugFunktion.setWert(this.fahrzeugFunktion.getWert() & (~this.maske));
-        break;
-
-      case "1":
-        this.fahrzeugFunktion.setMaske(this.fahrzeugFunktion.getMaske() | this.maske);
-        this.fahrzeugFunktion.setWert(this.fahrzeugFunktion.getWert() | this.maske);
-        break;
-
-      case "2":
-        this.fahrzeugFunktion.setMaske(this.fahrzeugFunktion.getMaske() | this.maske);
-        this.fahrzeugFunktion.setWert(this.fahrzeugFunktion.getWert() & (~this.maske));
-        break;
-      }
-    }
+  public String program(Fahrzeug fahrzeug) {
+    this.currentFahrzeug = fahrzeug;
+    this.logger.debugf("Program %s", this.currentFahrzeug);
+    return "program";
   }
 
   public String control(Fahrzeug fahrzeug) {
     this.currentFahrzeug = fahrzeug;
+    this.logger.debugf("Control %s", this.currentFahrzeug);
     return "control";
   }
 
-  @Getter
-  @Setter
-  boolean lokAktiv;
-
-  @Getter
-  @Setter
-  boolean lokRueckwaerts;
-
-  @Getter
-  @Setter
-  int lokFahrstufe;
-
-  public int getLokMaxFahrstufe() {
-    return this.currentFahrzeug.getSystemTyp().getMaxFahrstufe();
+  public String remove() {
+    this.fahrzeugRepository.removeById(this.currentFahrzeug.getId());
+    refreshFahrzeuge();
+    return "finished";
   }
 
-  public List<FahrzeugFunktion> getLokFunktionen(FahrzeugFunktionsGruppe fahrzeugFunktionsGruppe) {
-    return this.currentFahrzeug
-        .getFunktionen()
-        .stream()
-        .filter(f -> f.getGruppe() == fahrzeugFunktionsGruppe)
-        .collect(Collectors.toList());
+  public String cancel() {
+    refreshFahrzeuge();
+    return "finished";
   }
 
-  @Getter
-  @Setter
-  boolean funktionAktiv;
+  public LokcontrollerAdapter getLokcontrollerAdapter(Fahrzeug fahrzeug, int lokcontrollerNr) {
+    return new LokcontrollerAdapter(fahrzeug, lokcontrollerNr);
+  }
+
+  @AllArgsConstructor
+  public class LokcontrollerAdapter {
+
+    private Fahrzeug fahrzeug;
+    private int lokcontrollerId;
+
+    public boolean isAssigned() {
+      return this.fahrzeug.equals(FahrzeugPresenter.this.lokcontrollerAssignment[this.lokcontrollerId]);
+    }
+
+    public void setAssigned(boolean assigned) {
+      if (assigned) {
+        FahrzeugPresenter.this.lokcontrollerAssignment[this.lokcontrollerId] = this.fahrzeug;
+
+        int otherLokcontrollerIdx = 1 - this.lokcontrollerId;
+        if (this.fahrzeug.equals(FahrzeugPresenter.this.lokcontrollerAssignment[otherLokcontrollerIdx])) {
+          FahrzeugPresenter.this.lokcontrollerAssignment[otherLokcontrollerIdx] = null;
+          assignLokcontroller(otherLokcontrollerIdx);
+        }
+      } else {
+        FahrzeugPresenter.this.lokcontrollerAssignment[this.lokcontrollerId] = null;
+      }
+
+      assignLokcontroller(this.lokcontrollerId);
+    }
+
+  }
+
+  private void assignLokcontroller(int lokcontrollerId) {
+    FahrzeugId fahrzeugId = null;
+    int hornBits = 0;
+
+    Fahrzeug fahrzeug = this.lokcontrollerAssignment[lokcontrollerId];
+    if (fahrzeug != null) {
+      fahrzeugId = fahrzeug.getId();
+      for (FahrzeugFunktion f : fahrzeug.getFunktionen()) {
+        if (f.isHorn()) {
+          hornBits |= f.getWert();
+        }
+      }
+    }
+
+    this.statusGateway.setLokcontrollerAssignment(Integer.toString(lokcontrollerId), fahrzeugId, hornBits);
+
+  }
 
 }

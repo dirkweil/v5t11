@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
     <groupId>de.gedoplan</groupId>
     <artifactId>build-master</artifactId>
-    <version>2020.6.3</version>
+    <version>2020.9.1</version>
   </parent>
 
   <artifactId>v5t11</artifactId>
@@ -73,18 +72,6 @@
         <version>28.0-jre</version>
       </dependency>
 
-<!--       <dependency> -->
-<!--         <groupId>com.neuronrobotics</groupId> -->
-<!--         <artifactId>nrjavaserial</artifactId> -->
-<!--         <version>5.2.1</version> -->
-<!--       </dependency> -->
-
-      <dependency>
-        <groupId>commons-logging</groupId>
-        <artifactId>commons-logging</artifactId>
-        <version>1.2</version>
-      </dependency>
-
       <dependency>
         <groupId>de.gedoplan</groupId>
         <artifactId>baselibs-wildfly</artifactId>
@@ -140,7 +127,7 @@
         <version>2.3.1</version>
       </dependency>
 
-      <!-- <dependency> <groupId>org.apache.activemq</groupId> <artifactId>artemis-jms-client</artifactId> 
+      <!-- <dependency> <groupId>org.apache.activemq</groupId> <artifactId>artemis-jms-client</artifactId>
         <version>2.6.2</version> </dependency> -->
 
       <dependency>
@@ -157,7 +144,7 @@
         <version>2.3.1</version>
       </dependency>
 
-      <!-- <dependency> <groupId>org.apache.activemq</groupId> <artifactId>artemis-jms-server</artifactId> 
+      <!-- <dependency> <groupId>org.apache.activemq</groupId> <artifactId>artemis-jms-server</artifactId>
         <version>2.6.2</version> </dependency> -->
 
       <dependency>
@@ -202,6 +189,12 @@
         <groupId>org.hibernate</groupId>
         <artifactId>hibernate-validator</artifactId>
         <version>6.1.5.Final</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.jboss.logging</groupId>
+        <artifactId>jboss-logging</artifactId>
+        <version>3.4.1.Final</version>
       </dependency>
 
       <dependency>
@@ -315,6 +308,7 @@
     <module>v5t11-leitstand</module>
     <module>v5t11-status</module>
     <module>v5t11-util</module>
+    <module>v5t11-util-test</module>
   </modules>
 
 </project>

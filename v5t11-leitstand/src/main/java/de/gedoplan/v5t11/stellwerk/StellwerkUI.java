@@ -23,8 +23,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import org.apache.commons.logging.Log;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
+import org.jboss.logging.Logger;
 
 import lombok.Getter;
 
@@ -43,7 +43,7 @@ public class StellwerkUI extends JFrame {
   Leitstand leitstand;
 
   @Inject
-  Log log;
+  Logger log;
 
   @Inject
   StatusDispatcher statusDispatcher;
@@ -105,12 +105,9 @@ public class StellwerkUI extends JFrame {
     mainPanel.addApplicationPanel(gbsPanel);
     validate();
 
-    mainPanel.addApplicationPanel(new LokCockpit());
-    validate();
-
     refreshPowerButton();
 
-    this.statusDispatcher.addListener(this.leitstand.getZentrale(), this::refreshPowerButton);
+    this.statusDispatcher.addListener(this.leitstand.getZentrale(), z -> refreshPowerButton());
 
     powerButton.addMouseListener(new MouseAdapter() {
       @Override

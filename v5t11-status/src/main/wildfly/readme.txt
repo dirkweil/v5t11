@@ -1,1 +1,0 @@
-Die hier enthaltenen Skipte müssen mit $JBOSS_HOME/bin/jboss-cli ausgeführt werden.

@@ -1,0 +1,47 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+  xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/templates/v5t11.xhtml">
+  <ui:param name="title" value="Component Programming" />
+
+  <ui:define name="content">
+
+    <h:form>
+      <p:tabView>
+
+        <p:tab title="Vorkonfigurierte Bausteine">
+          <p:dataTable value="#{bausteinProgrammierungPresenter.konfigurierteBausteine}" var="baustein" sortBy="#{baustein.label}">
+            <p:column sortBy="#{baustein.label}">
+              <f:facet name="header">Id</f:facet>
+              <p:commandButton value="#{baustein.label}" action="#{bausteinProgrammierungPresenter.selectBaustein(baustein)}" ajax="false" />
+            </p:column>
+            <p:column>
+              <f:facet name="header">Typ</f:facet>
+            #{baustein.simpleClassName}
+          </p:column>
+            <p:column sortBy="#{baustein.adresse}">
+              <f:facet name="header">Adresse</f:facet>
+            #{baustein.adresse}
+          </p:column>
+            <p:column>
+              <f:facet name="header">Einbauort</f:facet>
+            #{baustein.einbauOrt}
+          </p:column>
+          </p:dataTable>
+        </p:tab>
+
+        <p:tab title="Neue Bausteine">
+          <p:dataTable value="#{bausteinProgrammierungPresenter.neueBausteine}" var="baustein" sortBy="#{baustein.label}">
+            <p:column sortBy="#{baustein.label}">
+              <f:facet name="header">Typ</f:facet>
+              <p:commandButton value="#{baustein.label}" action="#{bausteinProgrammierungPresenter.selectBaustein(baustein)}" ajax="false" />
+            </p:column>
+          </p:dataTable>
+        </p:tab>
+
+      </p:tabView>
+    </h:form>
+
+  </ui:define>
+</ui:composition>
+</html>

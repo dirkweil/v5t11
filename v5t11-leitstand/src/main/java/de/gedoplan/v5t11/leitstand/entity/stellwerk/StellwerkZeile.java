@@ -1,5 +1,7 @@
 package de.gedoplan.v5t11.leitstand.entity.stellwerk;
 
+import de.gedoplan.baselibs.utils.inject.InjectionUtil;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -25,4 +27,14 @@ public class StellwerkZeile implements Serializable {
   })
   @Getter
   private List<StellwerkElement> elemente;
+
+  public void injectFields() {
+    InjectionUtil.injectFields(this);
+    this.elemente.forEach(StellwerkElement::injectFields);
+  }
+
+  public void addPersistentEntries() {
+    this.elemente.forEach(StellwerkElement::addPersistentEntries);
+  }
+
 }

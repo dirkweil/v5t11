@@ -41,9 +41,9 @@ public class TestBase {
       new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BA, 13, true, false, false, "... an Gleis 1 fährt ein Zug durch ..."),
       new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BA, 14, true, false, false, "Betriebsgefahr ..."),
       new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 15, false, false, false, "Lüfter2"),
-      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_0000_0000, false, false, false, "Beidseitig"),
-      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_0010_0000, false, false, false, "Nur Seite 1"),
-      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_1000_0000, false, false, false, "Nur Seite 2"),
+      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_0000_0000, false, false, false, "beidseitig"),
+      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_0010_0000, false, false, false, "nur Seite 1"),
+      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_1000_0000, false, false, false, "nur Seite 2"),
       new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_1010_0000, false, false, false, "Doppel-A"));
 
   public static final Fahrzeug lok110_389_4 = new Fahrzeug("110 389-4", null, SystemTyp.DCC, 1110,
@@ -61,9 +61,9 @@ public class TestBase {
       new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 14, true, false, false, "Lüfter"),
       new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 15, false, false, false, "Türenschließen"),
       new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.AF, 16, false, false, true, "Geräusche ausblenden"),
-      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_0000_0000, false, false, false, "Beidseitig"),
-      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_0010_0000, false, false, false, "Nur Seite 1"),
-      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_1000_0000, false, false, false, "Nur Seite 2"),
+      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_0000_0000, false, false, false, "beidseitig"),
+      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_0010_0000, false, false, false, "nur Seite 1"),
+      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_1000_0000, false, false, false, "nur Seite 2"),
       new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_1010_0000, false, false, false, "Doppel-A"));
 
   public static final Fahrzeug lok112_491_6 = new Fahrzeug("112 491-6", null, SystemTyp.DCC, 1112,
@@ -78,10 +78,10 @@ public class TestBase {
       new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.AF, 9, false, false, false, "Rangiergang"),
       new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.AF, 10, false, false, true, "Geräusche ausblenden"),
       new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 13, true, true, false, "Pfeife kurz"),
-      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 14, true, true, false, "Kurvenquietschen"),
-      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_1100_0000_0000, 0b0000_0000_0000_0000, false, false, false, "Beidseitig"),
-      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_1100_0000_0000, 0b0000_0100_0000_0000, false, false, false, "Nur Seite 1"),
-      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_1100_0000_0000, 0b0000_1000_0000_0000, false, false, false, "Nur Seite 2"));
+      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 14, true, false, false, "Kurvenquietschen"),
+      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_1100_0000_0000, 0b0000_0000_0000_0000, false, false, false, "beidseitig"),
+      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_1100_0000_0000, 0b0000_0100_0000_0000, false, false, false, "nur Seite 1"),
+      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_1100_0000_0000, 0b0000_1000_0000_0000, false, false, false, "nur Seite 2"));
 
   public static final Fahrzeug lok151_032_0 = new Fahrzeug("151 032-0", "DHL100", SystemTyp.SX1, 20);
 
@@ -101,8 +101,6 @@ public class TestBase {
       new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.AF, 14, false, false, true, "Geräusche ausblenden"),
       new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 15, true, false, false, "Sanden"));
 
-  public static final Fahrzeug lok210_004_8 = new Fahrzeug("210 004-8", "DHL100", SystemTyp.SX1, 2);
-
   public static final Fahrzeug lok217_001_7 = new Fahrzeug("217 001-7", null, SystemTyp.SX2, 1217,
       new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.AF, 1, false, false, false, "Führerstandsbeleuchtung"),
       new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FG, 2, false, false, false, "Motor"),
@@ -117,9 +115,9 @@ public class TestBase {
       new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 13, true, false, false, "Sanden"),
       new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BA, 14, true, false, false, "Bitte einsteigen ..."),
       new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 15, false, false, true, "Geräusche ausblenden"),
-      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_0000_0000, false, false, false, "Beidseitig"),
-      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_0010_0000, false, false, false, "Nur Seite 1"),
-      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_1000_0000, false, false, false, "Nur Seite 2"),
+      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_0000_0000, false, false, false, "beidseitig"),
+      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_0010_0000, false, false, false, "nur Seite 1"),
+      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_1000_0000, false, false, false, "nur Seite 2"),
       new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_1010_0000, false, false, false, "Doppel-A"));
 
   public static final Fahrzeug lok230_001_0 = new Fahrzeug("230 001-0", null, SystemTyp.DCC, 1230,
@@ -133,9 +131,9 @@ public class TestBase {
       new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BA, 10, true, false, false, "Schaffnerpfiff"),
       new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BA, 11, true, false, false, "???"),
       new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 12, true, false, false, "Türen schließen"),
-      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_0000_0000, false, false, false, "Beidseitig"),
-      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_0010_0000, false, false, false, "Nur Seite 2"),
-      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_1000_0000, false, false, false, "Nur Seite 1"),
+      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_0000_0000, false, false, false, "beidseitig"),
+      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_0010_0000, false, false, false, "nur Seite 2"),
+      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_1000_0000, false, false, false, "nur Seite 1"),
       new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_1010_0000, false, false, false, "Doppel-A"));
 
   public static final Fahrzeug lok323_673_4 = new Fahrzeug("323 673-4", "DHL050", SystemTyp.SX1, 4);
@@ -156,10 +154,10 @@ public class TestBase {
       new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.AF, 9, false, false, false, "Rangiergang"),
       new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.AF, 10, false, false, true, "Geräusche ausblenden"),
       new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 13, true, true, false, "Pfeife kurz"),
-      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 14, true, true, false, "Kurvenquietschen"),
-      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_1100_0000_0000, 0b0000_0000_0000_0000, false, false, false, "Beidseitig"),
-      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_1100_0000_0000, 0b0000_0100_0000_0000, false, false, false, "Nur Seite 1"),
-      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_1100_0000_0000, 0b0000_1000_0000_0000, false, false, false, "Nur Seite 2"),
+      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 14, true, false, false, "Kurvenquietschen"),
+      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_1100_0000_0000, 0b0000_0000_0000_0000, false, false, false, "beidseitig"),
+      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_1100_0000_0000, 0b0000_0100_0000_0000, false, false, false, "nur Seite 1"),
+      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_1100_0000_0000, 0b0000_1000_0000_0000, false, false, false, "nur Seite 2"),
       new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_1100_0000_0000, 0b0000_1100_0000_0000, false, false, false, "Doppel-A"));
 
   public static final Fahrzeug lokE50_047 = new Fahrzeug("E50 047", null, SystemTyp.SX2, 1050,
@@ -171,17 +169,16 @@ public class TestBase {
       new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BA, 7, true, false, false, "Schaffnerpfiff"),
       new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 9, false, false, false, "Bremsenquietschen aus"),
       new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 10, true, false, false, "Ankuppeln"),
-      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_0000_0000, false, false, false, "Beidseitig"),
-      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_0010_0000, false, false, false, "Nur Seite 1"),
-      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_1000_0000, false, false, false, "Nur Seite 2"),
+      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_0000_0000, false, false, false, "beidseitig"),
+      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_0010_0000, false, false, false, "nur Seite 1"),
+      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_1000_0000, false, false, false, "nur Seite 2"),
       new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_1010_0000, false, false, false, "Doppel-A"));
 
   public static final Fahrzeug lokE9103 = new Fahrzeug("E9103", "DHL100", SystemTyp.SX1, 28);
 
   public static final Fahrzeug lokV100_1365 = new Fahrzeug("V100 1365", null, SystemTyp.SX2, 1365,
-      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 1, false, false, false, "Spitzensignal nur vorn"),
       new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FG, 2, false, false, false, "Motor"),
-      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 3, true, false, false, "Signalhorn hoch"),
+      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 3, true, true, false, "Signalhorn hoch"),
       new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.AF, 4, false, false, false, "Direktsteuerung"),
       new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 5, false, false, false, "Bremsenquietschen aus"),
       new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.AF, 7, false, false, false, "Führerstandsbeleuchtung"),
@@ -191,9 +188,11 @@ public class TestBase {
       new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BA, 12, true, false, false, "Stuttgart Hauptbahnhof, bitte alle aussteigen"),
       new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BA, 13, true, false, false, "Schaffnerpfiff"),
       new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BA, 14, true, false, false, "Türenschließen"),
-      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_0000_0000, false, false, false, "Beidseitig"),
-      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_0010_0000, false, false, false, "Nur Seite 1"),
-      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_1000_0000, false, false, false, "Nur Seite 2"),
+      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.AF, 15, false, false, true, "Geräusche ausblenden"),
+      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BA, 16, true, false, false, "Bitte einsteigen ..."),
+      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_0000_0000, false, false, false, "beidseitig"),
+      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_0010_0000, false, false, false, "nur Seite 1"),
+      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_1000_0000, false, false, false, "nur Seite 2"),
       new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_1010_0000, false, false, false, "Doppel-A"));
 
   public static final Fahrzeug lokV200_116 = new Fahrzeug("V200 116", null, SystemTyp.DCC, 1200,
@@ -211,9 +210,9 @@ public class TestBase {
       new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 14, false, false, false, "Kraftstoffpumpe"),
       new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 15, false, false, false, "Speisepumpe"),
       new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 16, true, false, false, "Vorwärmgerät"),
-      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_0001_1000, 0b0000_0000_0000_0000, false, false, false, "Beidseitig"),
-      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_0001_1000, 0b0000_0000_0000_1000, false, false, false, "Nur weiß"),
-      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_0001_1000, 0b0000_0000_0001_0000, false, false, false, "Nur rot"));
+      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_0001_1000, 0b0000_0000_0000_0000, false, false, false, "beidseitig"),
+      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_0001_1000, 0b0000_0000_0000_1000, false, false, false, "nur weiß"),
+      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_0001_1000, 0b0000_0000_0001_0000, false, false, false, "nur rot"));
 
   public static final Fahrzeug lok612_509_0 = new Fahrzeug("612 509-0", null, SystemTyp.DCC, 1612,
       new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FG, 1, false, false, false, "Motor"),
@@ -234,7 +233,7 @@ public class TestBase {
   public static final Fahrzeug lokVT_98_9667 = new Fahrzeug("VT 98 9667", null, SystemTyp.DCC, 1098,
       new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FG, 1, false, false, false, "Motor"),
       new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BA, 2, true, false, false, "Türenschließen"),
-      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 3, true, false, false, "Signalhorn"),
+      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 3, true, true, false, "Signalhorn"),
       new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 5, true, false, false, "Glocke"),
       new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.AF, 6, false, false, true, "Geräusche ausblenden"),
       new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.AF, 7, false, false, false, "Innenbeleuchtung"));
@@ -258,7 +257,6 @@ public class TestBase {
       lok112_491_6,
       lok151_032_0,
       lok194_183_0,
-      lok210_004_8,
       lok217_001_7,
       lok230_001_0,
       lok323_673_4,

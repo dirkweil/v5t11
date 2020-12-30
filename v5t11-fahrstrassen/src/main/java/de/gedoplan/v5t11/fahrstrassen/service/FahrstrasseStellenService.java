@@ -20,8 +20,8 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.ObservesAsync;
 import javax.inject.Inject;
 
-import org.apache.commons.logging.Log;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
+import org.jboss.logging.Logger;
 
 @ApplicationScoped
 public class FahrstrasseStellenService {
@@ -31,7 +31,7 @@ public class FahrstrasseStellenService {
   StatusGateway statusGateway;
 
   @Inject
-  Log log;
+  Logger log;
 
   void fahrstrasseStellen(@ObservesAsync @Reserviert Fahrstrasse fahrstrasse) {
     if (this.log.isDebugEnabled()) {
@@ -58,9 +58,9 @@ public class FahrstrasseStellenService {
 
     // Für Nicht-Schutz-Elemente prüfen, ob das Element wirklich zur Fahrstrasse gehört
     // TODO ist das nötig?
-    if (!schutz) {
-      stream = stream.filter(fe -> fe.getFahrwegelement().getReserviertefahrstrasse() == fahrstrasse);
-    }
+    // if (!schutz) {
+    // stream = stream.filter(fe -> fe.getFahrwegelement().getReserviertefahrstrasse() == fahrstrasse);
+    // }
 
     stream
         .map(fe -> (FahrstrassenSignal) fe)
@@ -70,7 +70,7 @@ public class FahrstrasseStellenService {
 
   private void signalStellen(Fahrstrasse fahrstrasse, FahrstrassenSignal fahrstrassenSignal) {
     Signal signal = fahrstrassenSignal.getFahrwegelement();
-    List<SignalStellung> stellungen = getAngepassteStellung(fahrstrassenSignal.getStellung(), fahrstrasse.getReservierungsTyp());
+    List<SignalStellung> stellungen = getAngepassteStellung(fahrstrassenSignal.getStellung(), fahrstrasse.getFahrstrassenStatus().getReservierungsTyp());
     try {
       if (this.log.isDebugEnabled()) {
         this.log.debug("Stelle " + signal + " auf " + stellungen);
@@ -93,9 +93,9 @@ public class FahrstrasseStellenService {
 
     // Für Nicht-Schutz-Elemente prüfen, ob das Element wirklich zur Fahrstrasse gehört
     // TODO ist das nötig?
-    if (!schutz) {
-      stream = stream.filter(fe -> fe.getFahrwegelement().getReserviertefahrstrasse() == fahrstrasse);
-    }
+    // if (!schutz) {
+    // stream = stream.filter(fe -> fe.getFahrwegelement().getReserviertefahrstrasse() == fahrstrasse);
+    // }
 
     stream
         .map(fe -> (FahrstrassenWeiche) fe)
@@ -128,9 +128,9 @@ public class FahrstrasseStellenService {
    * Stellung passend zum Reservierungstyp liefern.
    *
    * @param stellung
-   *          gewünschte Stellung
+   *        gewünschte Stellung
    * @param reservierungsTyp
-   *          Reservierungstyp, falls Signal für eine Fahrstrasse gestellt wird, sonst <code>null</code>
+   *        Reservierungstyp, falls Signal für eine Fahrstrasse gestellt wird, sonst <code>null</code>
    * @return angepasste Stellung
    */
   private static List<SignalStellung> getAngepassteStellung(SignalStellung stellung, FahrstrassenReservierungsTyp reservierungsTyp) {

@@ -2,6 +2,7 @@ package de.gedoplan.v5t11.status.service;
 
 import de.gedoplan.v5t11.status.entity.Kanal;
 import de.gedoplan.v5t11.status.entity.Steuerung;
+import de.gedoplan.v5t11.status.entity.baustein.Baustein;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -10,8 +11,7 @@ import java.util.Map;
 import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.jboss.logging.Logger;
 
 import lombok.Setter;
 
@@ -25,7 +25,7 @@ public abstract class ConfigurationRuntimeService implements Serializable {
   private static final int WAIT_MILLIS = 1000;
 
   @Inject
-  private Steuerung steuerung;
+  Steuerung steuerung;
 
   @Inject
   BausteinConfigurationService bausteinConfigurationService;
@@ -33,9 +33,11 @@ public abstract class ConfigurationRuntimeService implements Serializable {
   @Setter
   protected int busNr;
 
+  protected Baustein baustein;
+
   private Map<Integer, Integer> savedKanalWerte = new HashMap<>();
 
-  protected Log log = LogFactory.getLog(getClass());
+  protected Logger log = Logger.getLogger(getClass());
 
   public abstract ConfigurationAdapter getConfiguration();
 
@@ -44,6 +46,17 @@ public abstract class ConfigurationRuntimeService implements Serializable {
   public abstract void getRuntimeValues();
 
   public abstract void setRuntimeValues();
+
+  protected ConfigurationRuntimeService(Baustein baustein) {
+    this.baustein = baustein;
+
+    if (this.log.isDebugEnabled()) {
+      this.log.debug("ConfigurationRuntimeService für " + baustein + " erzeugen");
+    }
+  }
+
+  protected ConfigurationRuntimeService() {
+  }
 
   public void program() {
     setRuntimeValues();
@@ -62,6 +75,10 @@ public abstract class ConfigurationRuntimeService implements Serializable {
 
   @PreDestroy
   void preDestroy() {
+    if (this.log.isDebugEnabled()) {
+      this.log.debug("ConfigurationRuntimeService für " + this.baustein + " zerstören");
+    }
+
     this.savedKanalWerte.entrySet().stream().forEach(entry -> {
       int adr = entry.getKey();
       int wert = entry.getValue();
@@ -120,8 +137,7 @@ public abstract class ConfigurationRuntimeService implements Serializable {
   protected static void delay(long millis) {
     try {
       Thread.sleep(millis);
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       // ignore
     }
   }

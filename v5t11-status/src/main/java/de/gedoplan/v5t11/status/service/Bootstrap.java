@@ -2,34 +2,43 @@ package de.gedoplan.v5t11.status.service;
 
 import de.gedoplan.v5t11.status.entity.Steuerung;
 
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import javax.annotation.Resource;
-import javax.enterprise.concurrent.ManagedExecutorService;
-import javax.enterprise.context.ApplicationScoped;
+import javax.annotation.Priority;
 import javax.enterprise.context.Dependent;
-import javax.enterprise.context.Destroyed;
-import javax.enterprise.context.Initialized;
 import javax.enterprise.event.Observes;
+import javax.interceptor.Interceptor;
 
-import org.apache.commons.logging.Log;
+import org.jboss.logging.Logger;
+
+import io.quarkus.runtime.ShutdownEvent;
+import io.quarkus.runtime.StartupEvent;
 
 @Dependent
 public class Bootstrap {
 
-  @Resource
-  ManagedExecutorService executorService;
+  private final static ExecutorService scheduler = Executors.newSingleThreadExecutor();
 
-  void boot(@Observes @Initialized(ApplicationScoped.class) Object object, ConfigService configService, Steuerung steuerung, Log log) {
+  void boot(@Observes @Priority(Interceptor.Priority.APPLICATION + 999) StartupEvent startupEvent,
+      ConfigService configService,
+      JoinService joinService,
+      Steuerung steuerung,
+      Logger log) {
     log.info("app: " + configService.getArtifactId() + ":" + configService.getVersion());
 
     log.info("configDir: " + configService.getConfigDir());
     log.info("anlage: " + configService.getAnlage());
+    log.info("mqttBroker: " + configService.getMqttHost() + ":" + configService.getMqttPort());
 
-    steuerung.open(this.executorService != null ? this.executorService : Executors.newSingleThreadExecutor());
+    joinService.joinMyself();
+
+    steuerung.open(scheduler);
   }
 
-  void shutdown(@Observes @Destroyed(ApplicationScoped.class) Object object, Steuerung steuerung) {
+  void terminate(@Observes ShutdownEvent shutdownEvent, Steuerung steuerung) {
     steuerung.close();
+    scheduler.shutdown();
   }
+
 }

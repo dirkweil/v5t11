@@ -1,18 +1,30 @@
 package de.gedoplan.v5t11.status.entity;
 
-import de.gedoplan.v5t11.status.CdiTestBase;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
+import de.gedoplan.v5t11.util.test.V5t11TestConfigDirExtension;
 
 import javax.inject.Inject;
+import javax.json.Json;
 
+import org.jboss.logging.Logger;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.skyscreamer.jsonassert.JSONAssert;
 
-public class SignalTest extends CdiTestBase {
+import io.quarkus.test.junit.QuarkusTestExtension;
+
+@ExtendWith({ V5t11TestConfigDirExtension.class, QuarkusTestExtension.class })
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+public class SignalTest {
 
   @Inject
   Steuerung steuerung;
+
+  @Inject
+  Logger log;
 
   @Test
   public void test_01_toShortJson() throws Exception {
@@ -25,13 +37,14 @@ public class SignalTest extends CdiTestBase {
 
     this.log.debug("JSON string: " + json);
 
-    JSONAssert.assertEquals(""
-        + "{\"bereich\":\"test\""
-        + ",\"name\":\"P2\""
-        + ",\"stellung\":\"" + signal.getStellung() + "\""
-        + "}",
-        json,
-        true);
+    String expected = Json.createObjectBuilder()
+        .add("key", signal.getKey().toString())
+        .add("lastChangeMillis", signal.getLastChangeMillis())
+        .add("stellung", signal.getStellung().toString())
+        .add("typ", signal.getTyp().toString())
+        .build().toString();
+
+    JSONAssert.assertEquals(expected, json, true);
   }
 
   @Test
@@ -45,14 +58,13 @@ public class SignalTest extends CdiTestBase {
 
     this.log.debug("JSON string: " + json);
 
-    JSONAssert.assertEquals(""
-        + "{\"bereich\":\"test\""
-        + ",\"name\":\"P2\""
-        + ",\"stellung\":\"" + signal.getStellung() + "\""
-        + ",\"erlaubteStellungen\":[\"HALT\",\"FAHRT\",\"LANGSAMFAHRT\",\"RANGIERFAHRT\"]"
-        + ",\"typ\":\"Hauptsperrsignal"
-        + "\"}",
-        json,
-        true);
+    String expected = Json.createObjectBuilder()
+        .add("key", signal.getKey().toString())
+        .add("lastChangeMillis", signal.getLastChangeMillis())
+        .add("stellung", signal.getStellung().toString())
+        .add("typ", signal.getTyp().toString())
+        .build().toString();
+
+    JSONAssert.assertEquals(expected, json, true);
   }
 }

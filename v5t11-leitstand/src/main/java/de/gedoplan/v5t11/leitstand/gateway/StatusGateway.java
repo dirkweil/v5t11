@@ -1,11 +1,9 @@
 package de.gedoplan.v5t11.leitstand.gateway;
 
-import de.gedoplan.v5t11.leitstand.entity.baustein.LokController;
 import de.gedoplan.v5t11.leitstand.entity.baustein.Zentrale;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Signal;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Weiche;
-import de.gedoplan.v5t11.leitstand.entity.lok.Lok;
 import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
 
@@ -68,20 +66,4 @@ public interface StatusGateway {
   @Path("zentrale")
   void putGleisspannung(String on);
 
-  // Loks
-  @GET
-  @Path("lok")
-  @Produces(MediaType.APPLICATION_JSON)
-  Set<Lok> getLoks();
-
-  // LokController
-  @GET
-  @Path("lokcontroller")
-  @Produces(MediaType.APPLICATION_JSON)
-  Set<LokController> getLokcontroller();
-
-  @PUT
-  @Path("lokcontroller/{id}")
-  @Consumes(MediaType.TEXT_PLAIN)
-  void assignLokcontrollerLok(@PathParam("id") String id, String lokId);
 }

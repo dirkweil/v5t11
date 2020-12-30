@@ -3,10 +3,13 @@
  */
 package de.gedoplan.v5t11.util.domain.entity.fahrweg.geraet;
 
+import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
-import de.gedoplan.v5t11.util.domain.entity.fahrweg.Geraet;
+import de.gedoplan.v5t11.util.domain.entity.Fahrwegelement;
+import de.gedoplan.v5t11.util.domain.entity.fahrweg.AbstractGeraet;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
+import javax.persistence.Convert;
 import javax.persistence.MappedSuperclass;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -25,7 +28,7 @@ import lombok.Setter;
 @XmlAccessorType(XmlAccessType.NONE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @MappedSuperclass
-public abstract class AbstractWeiche extends Geraet {
+public abstract class AbstractWeiche extends AbstractGeraet {
 
   public static final String PREFIX_WEICHEN_GLEISABSCHNITT = "W";
 
@@ -34,10 +37,15 @@ public abstract class AbstractWeiche extends Geraet {
    */
   @Getter(onMethod_ = @JsonbInclude)
   @Setter(onMethod_ = @JsonbInclude)
+  @Convert(converter = WeichenStellung.Adapter4Jpa.class)
   private WeichenStellung stellung = WeichenStellung.GERADE;
 
   protected AbstractWeiche(String bereich, String name) {
     super(bereich, name);
+  }
+
+  protected AbstractWeiche(BereichselementId id) {
+    super(id);
   }
 
   @JsonbInclude(full = true)
@@ -49,6 +57,19 @@ public abstract class AbstractWeiche extends Geraet {
     } else {
       return PREFIX_WEICHEN_GLEISABSCHNITT + name;
     }
+  }
+
+  @Override
+  public boolean copyStatus(Fahrwegelement other) {
+    if (other instanceof AbstractWeiche) {
+      AbstractWeiche source = (AbstractWeiche) other;
+      if (this.stellung != source.stellung) {
+        this.stellung = source.stellung;
+        this.lastChangeMillis = source.lastChangeMillis;
+        return true;
+      }
+    }
+    return false;
   }
 
 }

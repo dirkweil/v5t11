@@ -3,19 +3,18 @@ package de.gedoplan.v5t11.status.webui;
 import de.gedoplan.v5t11.status.entity.Steuerung;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
-import de.gedoplan.v5t11.status.entity.lok.Lok;
-import de.gedoplan.v5t11.status.entity.lok.Lok.LokFunktion;
-import de.gedoplan.v5t11.status.entity.lok.Lok.LokFunktion.LokFunktionsGruppe;
-import de.gedoplan.v5t11.status.util.TraceCall;
+import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
+import de.gedoplan.v5t11.util.domain.attribute.FahrzeugId;
 import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
 
 import java.io.Serializable;
-import java.text.Collator;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
@@ -24,53 +23,40 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.apache.commons.logging.Log;
-
-import com.google.common.collect.ListMultimap;
-import com.google.common.collect.MultimapBuilder;
+import org.jboss.logging.Logger;
 
 import lombok.Getter;
 
 @Named
 @SessionScoped
-@TraceCall
 public class SystemControlPresenter implements Serializable {
 
   @Inject
   Steuerung steuerung;
 
   @Inject
-  Log log;
+  Logger log;
 
   @Getter
   private String bereich;
 
   @Getter
   private String weichenName;
+
+  @Getter
   private Weiche weiche;
 
   @Getter
   private String signalName;
+
+  @Getter
   private Signal signal;
 
   @Getter
-  private String lokId;
-  private Lok lok;
+  private FahrzeugId lokId;
 
-  private ListMultimap<Lok.LokFunktion.LokFunktionsGruppe, Lok.LokFunktion> lokFunktionsMap = MultimapBuilder.hashKeys().arrayListValues().build();
-
-  private final LokFunktion LOK_LICHT_FUNKTION_CONFIG = new LokFunktion(0, Lok.LokFunktion.LokFunktionsGruppe.FL, "Licht", false, false) {
-
-    @Override
-    public boolean isAktiv() {
-      return SystemControlPresenter.this.lok.isLicht();
-    }
-
-    @Override
-    public void setAktiv(boolean aktiv) {
-      SystemControlPresenter.this.lok.setLicht(aktiv);
-    }
-  };
+  @Getter
+  private Fahrzeug lok;
 
   @PostConstruct
   void postConstruct() {
@@ -166,7 +152,7 @@ public class SystemControlPresenter implements Serializable {
   }
 
   public Set<SignalStellung> getSignalStellungen() {
-    return this.signal != null ? this.signal.getErlaubteStellungen() : Collections.emptySet();
+    return this.signal != null ? this.signal.getTyp().getErlaubteStellungen() : Collections.emptySet();
   }
 
   public SignalStellung getSignalStellung() {
@@ -179,31 +165,22 @@ public class SystemControlPresenter implements Serializable {
     }
   }
 
-  public Collection<Lok> getLoks() {
-    return this.steuerung.getLoks();
+  public Collection<Fahrzeug> getLoks() {
+    return this.steuerung.getFahrzeuge();
   }
 
-  public void setLokId(String lokId) {
+  public void setLokId(FahrzeugId lokId) {
     if (this.log.isTraceEnabled()) {
       this.log.trace("setLokId(" + lokId + ")");
     }
 
     this.lokId = lokId;
-    this.lok = this.steuerung.getLok(lokId);
-    this.lokFunktionsMap.clear();
+    this.lok = this.steuerung.getFahrzeug(lokId);
 
     if (this.lok == null) {
-      FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("unbekannte Lok: " + this.lokId));
-      return;
-    }
-
-    this.lokFunktionsMap.put(Lok.LokFunktion.LokFunktionsGruppe.FL, this.LOK_LICHT_FUNKTION_CONFIG);
-    for (Lok.LokFunktion.LokFunktionsGruppe gruppe : Lok.LokFunktion.LokFunktionsGruppe.values()) {
-      this.lok.getFunktionen()
-          .stream()
-          .filter(f -> f.getGruppe() == gruppe)
-          .sorted((a, b) -> Collator.getInstance().compare(a.getBeschreibung(), b.getBeschreibung()))
-          .forEach(f -> this.lokFunktionsMap.put(gruppe, f));
+      this.lok = new Fahrzeug(lokId);
+      this.lok.injectFields();
+      this.steuerung.addFahrzeug(this.lok);
     }
 
     if (this.log.isTraceEnabled()) {
@@ -212,7 +189,7 @@ public class SystemControlPresenter implements Serializable {
   }
 
   private void resetLok() {
-    Collection<Lok> loks = getLoks();
+    Collection<Fahrzeug> loks = getLoks();
     if (!loks.isEmpty()) {
       setLokId(loks.iterator().next().getId());
     }
@@ -249,7 +226,7 @@ public class SystemControlPresenter implements Serializable {
   }
 
   public int getLokMaxFahrstufe() {
-    return this.lok != null ? this.lok.getSystemTyp().getMaxFahrstufe() : 31;
+    return this.lok != null ? this.lok.getId().getSystemTyp().getMaxFahrstufe() : 31;
   }
 
   public int getLokFahrstufe() {
@@ -258,7 +235,7 @@ public class SystemControlPresenter implements Serializable {
 
   public void setLokFahrstufe(int fahrstufe) {
     if (this.lok != null) {
-      if (fahrstufe >= 0 && fahrstufe <= this.lok.getSystemTyp().getMaxFahrstufe()) {
+      if (fahrstufe >= 0 && fahrstufe <= this.lok.getId().getSystemTyp().getMaxFahrstufe()) {
         this.lok.setFahrstufe(fahrstufe);
       } else {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("ungültige Fahrstufe: " + fahrstufe));
@@ -266,20 +243,32 @@ public class SystemControlPresenter implements Serializable {
     }
   }
 
-  public LokFunktionsGruppe[] getLokFunktionsGruppen() {
-    LokFunktionsGruppe[] lokFunktionsGruppen = Lok.LokFunktion.LokFunktionsGruppe.values();
-    // if (this.log.isTraceEnabled()) {
-    // this.log.trace("LokFunktionsGruppen: " + Arrays.toString(lokFunktionsGruppen));
-    // }
-    return lokFunktionsGruppen;
-  }
+  @Getter
+  private List<LokFunktion> lokFunktionen = IntStream.range(0, 16).mapToObj(LokFunktion::new).collect(Collectors.toList());
 
-  public List<LokFunktion> getLokFunktionen(Lok.LokFunktion.LokFunktionsGruppe gruppe) {
-    List<LokFunktion> lokFunktionen = this.lokFunktionsMap.get(gruppe);
-    // if (this.log.isTraceEnabled()) {
-    // this.log.trace("LokFunktionen(" + gruppe + "): " + lokFunktionen.stream().map(f -> f.getBeschreibung()).collect(Collectors.joining(",")));
-    // }
-    return lokFunktionen;
+  public class LokFunktion {
+    @Getter
+    int nr;
+    int mask;
+
+    public LokFunktion(int nr) {
+      this.nr = nr;
+      this.mask = 1 << nr;
+    }
+
+    public boolean isOn() {
+      return SystemControlPresenter.this.lok != null && (SystemControlPresenter.this.lok.getFktBits() & this.mask) != 0;
+    }
+
+    public void setOn(boolean on) {
+      if (SystemControlPresenter.this.lok != null) {
+        if (on) {
+          SystemControlPresenter.this.lok.setFktBits(SystemControlPresenter.this.lok.getFktBits() | this.mask);
+        } else {
+          SystemControlPresenter.this.lok.setFktBits(SystemControlPresenter.this.lok.getFktBits() & ~this.mask);
+        }
+      }
+    }
   }
 
 }

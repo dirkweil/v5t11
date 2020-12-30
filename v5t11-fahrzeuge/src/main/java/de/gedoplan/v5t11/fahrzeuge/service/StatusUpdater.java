@@ -1,107 +1,73 @@
 package de.gedoplan.v5t11.fahrzeuge.service;
 
-import de.gedoplan.v5t11.fahrzeuge.entity.baustein.Zentrale;
-import de.gedoplan.v5t11.fahrzeuge.entity.fahrweg.Fahrweg;
-import de.gedoplan.v5t11.fahrzeuge.entity.fahrweg.Gleisabschnitt;
-import de.gedoplan.v5t11.fahrzeuge.entity.fahrweg.StatusUpdateable;
-import de.gedoplan.v5t11.fahrzeuge.entity.fahrweg.Weiche;
-import de.gedoplan.v5t11.fahrzeuge.gateway.StatusGateway;
+import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug;
+import de.gedoplan.v5t11.fahrzeuge.messaging.IncomingHandler;
+import de.gedoplan.v5t11.fahrzeuge.persistence.FahrzeugRepository;
+import de.gedoplan.v5t11.util.cdi.Changed;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
-import de.gedoplan.v5t11.util.jms.MessageCategory;
-import de.gedoplan.v5t11.util.jsf.NavigationItem;
-import de.gedoplan.v5t11.util.jsf.NavigationPresenter;
-import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
-import de.gedoplan.v5t11.util.service.AbstractStatusUpdater;
-
-import java.util.EnumMap;
-import java.util.Map;
-import java.util.function.Consumer;
+import de.gedoplan.v5t11.util.cdi.Received;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.ObservesAsync;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 
-import org.eclipse.microprofile.rest.client.inject.RestClient;
+import org.jboss.logging.Logger;
 
+/**
+ * Aktualisierung der Status von Fahrzeugen, Gleisabschnitten etc.
+ * 
+ * Die Aktualisierung wird durch eingehende Meldungen (von v5t11-status gesendet) ausgelöst. {@link IncomingHandler}
+ * wandelt die Meldungen in CDI Event um, die hier verarbeitet werden.
+ * 
+ * @author dw
+ */
 @ApplicationScoped
-public class StatusUpdater extends AbstractStatusUpdater {
+@Transactional(rollbackOn = Exception.class)
+public class StatusUpdater {
 
   @Inject
-  @RestClient
-  StatusGateway statusGateway;
+  FahrzeugRepository fahrzeugRepository;
 
   @Inject
-  Fahrweg statusCache;
+  Logger logger;
 
   @Inject
   EventFirer eventFirer;
 
-  @Inject
-  NavigationPresenter navigationPresenter;
-
-  @Override
-  protected Map<MessageCategory, Consumer<String>> getMessageHandler() {
-    Map<MessageCategory, Consumer<String>> messageHandler = new EnumMap<MessageCategory, Consumer<String>>(MessageCategory.class);
-    messageHandler.put(MessageCategory.GLEIS, this::updateGleisabschnitt);
-    messageHandler.put(MessageCategory.NAVIGATIONITEM, this::updateNavigationItem);
-    messageHandler.put(MessageCategory.WEICHE, this::updateWeiche);
-    messageHandler.put(MessageCategory.ZENTRALE, this::updateZentrale);
-    return messageHandler;
-  }
-
-  /*
-   * Aktuelle Zustände von Gleisabschnitten holen
+  /**
+   * Aktualisierung eines Fahrzeugs.
+   * 
+   * @param receivedObject Empfangenes Objekt mit dem neuen Status.
    */
-  @Override
-  protected void initializeStatus() {
-    this.statusGateway.getGleisabschnitte().forEach(statusGleisabschnitt -> {
-      Gleisabschnitt gleisabschnitt = this.statusCache.getOrCreateGleisabschnitt(statusGleisabschnitt.getBereich(), statusGleisabschnitt.getName());
-      updateStatus(gleisabschnitt, statusGleisabschnitt);
-    });
-
-    this.statusGateway.getWeichen().forEach(statusWeiche -> {
-      Weiche weiche = this.statusCache.getOrCreateWeiche(statusWeiche.getBereich(), statusWeiche.getName());
-      updateStatus(weiche, statusWeiche);
-    });
-
-    Zentrale statusZentrale = this.statusGateway.getZentrale();
-    updateStatus(this.statusCache.getZentrale(), statusZentrale);
-
+  void fahrzeugReceived(@ObservesAsync @Received Fahrzeug receivedObject) {
+    Fahrzeug fahrzeug = this.fahrzeugRepository.findById(receivedObject.getId());
+    copyStatus(fahrzeug, receivedObject);
   }
 
-  private void updateGleisabschnitt(String messageText) {
-    Gleisabschnitt statusGleisabschnitt = JsonbWithIncludeVisibility.SHORT.fromJson(messageText, Gleisabschnitt.class);
-    Gleisabschnitt gleisabschnitt = this.statusCache.getGleisabschnitt(statusGleisabschnitt.getBereich(), statusGleisabschnitt.getName());
-    if (gleisabschnitt != null) {
-      updateStatus(gleisabschnitt, statusGleisabschnitt);
+  private void copyStatus(Fahrzeug to, Fahrzeug from) {
+    if (to != null) {
+      if (to.copyStatus(from)) {
+        if (this.logger.isDebugEnabled()) {
+          this.logger.debug(to);
+        }
+
+        this.eventFirer.fire(to, Changed.Literal.INSTANCE);
+      }
     }
+
   }
 
-  private void updateNavigationItem(String messageText) {
-    NavigationItem navigationItem = JsonbWithIncludeVisibility.SHORT.fromJson(messageText, NavigationItem.class);
-    this.navigationPresenter.heartBeat(navigationItem);
-  }
-
-  private void updateWeiche(String messageText) {
-    Weiche statusWeiche = JsonbWithIncludeVisibility.SHORT.fromJson(messageText, Weiche.class);
-    Weiche weiche = this.statusCache.getWeiche(statusWeiche.getBereich(), statusWeiche.getName());
-    if (weiche != null) {
-      updateStatus(weiche, statusWeiche);
-    }
-  }
-
-  private void updateZentrale(String messageText) {
-    Zentrale statusZentrale = JsonbWithIncludeVisibility.SHORT.fromJson(messageText, Zentrale.class);
-    updateStatus(this.statusCache.getZentrale(), statusZentrale);
-  }
-
-  private <T extends StatusUpdateable<T>> void updateStatus(T object, T statusObject) {
-    if (this.log.isDebugEnabled()) {
-      this.log.debug(statusObject);
-    }
-    if (object != statusObject) {
-      object.copyStatus(statusObject);
-    }
-    this.eventFirer.fire(object);
-  }
-
+  // private void copyStatus(Fahrwegelement to, Fahrwegelement from) {
+  // if (to != null) {
+  // if (to.copyStatus(from)) {
+  // if (this.logger.isDebugEnabled()) {
+  // this.logger.debug(to);
+  // }
+  //
+  // this.eventFirer.fire(to);
+  // }
+  // }
+  //
+  // }
 }

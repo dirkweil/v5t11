@@ -5,7 +5,7 @@ import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleisabschnitt;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Signal;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Weiche;
-import de.gedoplan.v5t11.leitstand.gateway.FahrstrassenGatewayWrapper;
+import de.gedoplan.v5t11.leitstand.gateway.FahrstrassenGateway;
 import de.gedoplan.v5t11.leitstand.gateway.StatusGateway;
 import de.gedoplan.v5t11.leitstand.service.FahrstrassenManager;
 import de.gedoplan.v5t11.stellwerk.util.GridBagHelper;
@@ -22,7 +22,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.function.Consumer;
 
 import javax.inject.Inject;
 import javax.swing.ButtonGroup;
@@ -34,9 +36,8 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.SwingConstants;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
+import org.jboss.logging.Logger;
 
 public class GbsInputPanel extends JPanel {
   private static final long FAHRSTRASSEN_INPUT_MAXDELAY = 5000;
@@ -59,17 +60,23 @@ public class GbsInputPanel extends JPanel {
   private JButton fahrstrassenFreigabeButton = new JButton("freigeben");
   private JButton abbrechenButton = new JButton("abbrechen");
 
+  private Collection<Consumer<?>> actions = new ArrayList<>();
+
   @Inject
   FahrstrassenManager fahrstrassenManager;
 
   @Inject
-  FahrstrassenGatewayWrapper fahrstrassenGateway;
+  @RestClient
+  FahrstrassenGateway fahrstrassenGateway;
 
   @Inject
   @RestClient
   StatusGateway statusGateway;
 
-  private static final Log LOG = LogFactory.getLog(GbsInputPanel.class);
+  @Inject
+  StatusDispatcher statusDispatcher;
+
+  private static final Logger LOG = Logger.getLogger(GbsInputPanel.class);
 
   public GbsInputPanel(String bereich, Gbs gbs) {
     InjectionUtil.injectFields(this);
@@ -127,15 +134,13 @@ public class GbsInputPanel extends JPanel {
   }
 
   public void reset() {
-    // if (this.fahrstrassen != null) {
-    // this.fahrstrassen.clear();
-    // }
-
     this.fahrstrassen = null;
 
     this.fahrstrassenLabel.setText(null);
     this.fahrstrassenPanel.removeAll();
     this.geraetePanel.removeAll();
+
+    clearListeners();
 
     validate();
 
@@ -150,16 +155,20 @@ public class GbsInputPanel extends JPanel {
 
       this.geraetePanel.add(new JLabel(signal.getName()));
 
-      ButtonGroup buttonGroup = new ButtonGroup();
+      var buttonGroup = new ButtonGroup();
 
       for (SignalStellung stellung : SignalStellung.values()) {
-        if (signal.getErlaubteStellungen() == null || signal.getErlaubteStellungen().isEmpty() || signal.getErlaubteStellungen().contains(stellung)) {
-          final JRadioButton rb = new JRadioButton();
+        var erlaubteStellungen = signal.getTyp().getErlaubteStellungen();
+        if (erlaubteStellungen == null || erlaubteStellungen.isEmpty() || erlaubteStellungen.contains(stellung)) {
+          var rb = new JRadioButton();
           rb.setIcon(getUnselectedIcon(stellung));
           rb.setSelectedIcon(getSelectedIcon(stellung));
           buttonGroup.add(rb);
 
-          rb.setSelected(stellung.equals(signal.getStellung()));
+          final SignalStellung rbStellung = stellung;
+          rb.setSelected(rbStellung.equals(signal.getStellung()));
+
+          addListener(signal, s -> rb.setSelected(rbStellung.equals(s.getStellung())));
 
           rb.addItemListener(new ItemListener() {
             @Override
@@ -186,11 +195,14 @@ public class GbsInputPanel extends JPanel {
         LOG.trace("addWeiche: " + weiche);
       }
 
-      JCheckBox cb = new JCheckBox(weiche.getName());
+      var cb = new JCheckBox(weiche.getName());
       cb.setIcon(getIcon(WeichenStellung.GERADE));
       cb.setSelectedIcon(getIcon(WeichenStellung.ABZWEIGEND));
       cb.setHorizontalTextPosition(SwingConstants.LEFT);
-      cb.setModel(new WeichenButtonModel(weiche));
+      WeichenButtonModel model = new WeichenButtonModel(weiche);
+      cb.setModel(model);
+
+      addListener(weiche, model::setWeiche);
 
       this.geraetePanel.add(cb);
 
@@ -266,6 +278,17 @@ public class GbsInputPanel extends JPanel {
     }
   }
 
+  private <T> void addListener(T observed, Consumer<T> action) {
+    this.statusDispatcher.addListener(observed, action);
+
+    this.actions.add(action);
+  }
+
+  private void clearListeners() {
+    this.actions.forEach(a -> this.statusDispatcher.removeListener(a));
+    this.actions.clear();
+  }
+
   private void showFahrstrasseZurDeaktivierung(Fahrstrasse aktiveFahrstrasse) {
     this.fahrstrassen = new ArrayList<Fahrstrasse>();
     this.fahrstrassen.add(aktiveFahrstrasse);
@@ -329,7 +352,7 @@ public class GbsInputPanel extends JPanel {
     this.fahrstrassenBeginn = null;
     StellwerkUI.setStatusLineText(null);
 
-    this.fahrstrassenGateway.reserviereFahrstrasse(fahrstrasse.getBereich(), fahrstrasse.getName(), reservierungsTyp);
+    this.fahrstrassenGateway.reserviereFahrstrasse(fahrstrasse.getId(), reservierungsTyp);
 
     this.gbs.repaint();
   }
