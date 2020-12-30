@@ -1,0 +1,1 @@
+mvn -Ptest test -Dquarkus.datasource.url="jdbc:h2:~/h2/v5t11;AUTO_SERVER=TRUE" -Dtest=DbInit
