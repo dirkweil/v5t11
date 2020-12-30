@@ -13,14 +13,12 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @Embeddable
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @EqualsAndHashCode
-@ToString
 @JsonbTypeAdapter(value = BereichselementId.JsonTypeAdapter.class)
 public class BereichselementId implements Comparable<BereichselementId>, Serializable {
   private String bereich;
@@ -41,7 +39,8 @@ public class BereichselementId implements Comparable<BereichselementId>, Seriali
    * 
    * @return Name + '@' + Bereich
    */
-  public String encode() {
+  @Override
+  public String toString() {
     return this.name + "@" + this.bereich;
   }
 
@@ -51,7 +50,7 @@ public class BereichselementId implements Comparable<BereichselementId>, Seriali
    * @param Name + '@' + Bereich
    * @return Decodierte Id
    */
-  public static BereichselementId decode(String s) {
+  public static BereichselementId fromString(String s) {
     String[] parts = s.split("@");
     if (parts.length != 2) {
       throw new IllegalArgumentException("Ungültiges Format der BereichselementId: " + s);
@@ -64,12 +63,12 @@ public class BereichselementId implements Comparable<BereichselementId>, Seriali
 
     @Override
     public String adaptToJson(BereichselementId obj) throws Exception {
-      return obj.encode();
+      return obj.toString();
     }
 
     @Override
     public BereichselementId adaptFromJson(String s) throws Exception {
-      return decode(s);
+      return fromString(s);
     }
 
   }

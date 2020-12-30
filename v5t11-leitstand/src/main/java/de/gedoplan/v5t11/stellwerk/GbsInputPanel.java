@@ -352,7 +352,7 @@ public class GbsInputPanel extends JPanel {
     this.fahrstrassenBeginn = null;
     StellwerkUI.setStatusLineText(null);
 
-    this.fahrstrassenGateway.reserviereFahrstrasse(fahrstrasse.getBereich(), fahrstrasse.getName(), reservierungsTyp);
+    this.fahrstrassenGateway.reserviereFahrstrasse(fahrstrasse.getId(), reservierungsTyp);
 
     this.gbs.repaint();
   }

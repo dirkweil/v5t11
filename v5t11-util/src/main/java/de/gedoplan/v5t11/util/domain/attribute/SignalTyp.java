@@ -55,8 +55,7 @@ public enum SignalTyp {
    */
   BAHNUEBERGANG("Ü", SignalStellung.HALT, SignalStellung.FAHRT);
 
-  @Getter
-  private String code;
+  private String string;
 
   @Getter
   private SortedSet<SignalStellung> erlaubteStellungen;
@@ -64,26 +63,31 @@ public enum SignalTyp {
   private static Map<String, SignalTyp> lookup = new HashMap<>();
   static {
     for (SignalTyp s : SignalTyp.values()) {
-      lookup.put(s.code, s);
+      lookup.put(s.string, s);
     }
   }
 
-  private SignalTyp(String code, SignalStellung... erlaubteStellungen) {
-    this.code = code;
+  private SignalTyp(String string, SignalStellung... erlaubteStellungen) {
+    this.string = string;
     this.erlaubteStellungen = new TreeSet<>(Arrays.asList(erlaubteStellungen));
   }
 
-  public static SignalTyp ofCode(String code) {
-    return ofCode(code, false);
+  @Override
+  public String toString() {
+    return this.string;
   }
 
-  public static SignalTyp ofCode(String code, boolean strict) {
-    var stellung = lookup.get(code);
+  public static SignalTyp fromString(String string) {
+    return fromString(string, false);
+  }
+
+  public static SignalTyp fromString(String string, boolean strict) {
+    var stellung = lookup.get(string);
     if (stellung == null) {
-      stellung = valueOf(code);
+      stellung = valueOf(string);
     }
     if (stellung == null && strict) {
-      throw new IllegalArgumentException("Unbekannter SignalTyp: " + code);
+      throw new IllegalArgumentException("Unbekannter SignalTyp: " + string);
     }
     return stellung;
   }
@@ -92,12 +96,12 @@ public enum SignalTyp {
 
     @Override
     public String adaptToJson(SignalTyp obj) throws Exception {
-      return obj == null ? null : obj.getCode();
+      return obj == null ? null : obj.toString();
     }
 
     @Override
     public SignalTyp adaptFromJson(String s) throws Exception {
-      return s == null ? null : ofCode(s, true);
+      return s == null ? null : fromString(s, true);
     }
   }
 
@@ -107,12 +111,12 @@ public enum SignalTyp {
 
     @Override
     public String convertToDatabaseColumn(SignalTyp attribute) {
-      return attribute == null ? null : attribute.getCode();
+      return attribute == null ? null : attribute.toString();
     }
 
     @Override
     public SignalTyp convertToEntityAttribute(String dbData) {
-      return dbData == null ? null : ofCode(dbData);
+      return dbData == null ? null : fromString(dbData);
     }
 
   }

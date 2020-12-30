@@ -9,8 +9,6 @@ import javax.json.bind.annotation.JsonbTypeAdapter;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
-import lombok.Getter;
-
 /**
  * Weichenstellung.
  *
@@ -22,26 +20,30 @@ public enum WeichenStellung {
   GERADE("G"),
   ABZWEIGEND("A");
 
-  @Getter
-  private String code;
+  private String string;
 
-  private static Map<String, WeichenStellung> lookup = Stream.of(WeichenStellung.values()).collect(Collectors.toMap(WeichenStellung::getCode, s -> s));
+  private static Map<String, WeichenStellung> lookup = Stream.of(WeichenStellung.values()).collect(Collectors.toMap(WeichenStellung::toString, s -> s));
 
-  private WeichenStellung(String code) {
-    this.code = code;
+  private WeichenStellung(String string) {
+    this.string = string;
   }
 
-  public static WeichenStellung ofCode(String code) {
-    return ofCode(code, false);
+  @Override
+  public String toString() {
+    return this.string;
   }
 
-  public static WeichenStellung ofCode(String code, boolean strict) {
-    var stellung = lookup.get(code);
+  public static WeichenStellung fromString(String string) {
+    return fromString(string, false);
+  }
+
+  public static WeichenStellung fromString(String string, boolean strict) {
+    var stellung = lookup.get(string);
     if (stellung == null) {
-      stellung = valueOf(code);
+      stellung = valueOf(string);
     }
     if (stellung == null && strict) {
-      throw new IllegalArgumentException("Unbekannte Weichenstellung: " + code);
+      throw new IllegalArgumentException("Unbekannte Weichenstellung: " + string);
     }
     return stellung;
   }
@@ -50,12 +52,12 @@ public enum WeichenStellung {
 
     @Override
     public String adaptToJson(WeichenStellung obj) throws Exception {
-      return obj == null ? null : obj.getCode();
+      return obj == null ? null : obj.toString();
     }
 
     @Override
     public WeichenStellung adaptFromJson(String s) throws Exception {
-      return s == null ? null : ofCode(s, true);
+      return s == null ? null : fromString(s, true);
     }
   }
 
@@ -65,12 +67,12 @@ public enum WeichenStellung {
 
     @Override
     public String convertToDatabaseColumn(WeichenStellung attribute) {
-      return attribute == null ? null : attribute.getCode();
+      return attribute == null ? null : attribute.toString();
     }
 
     @Override
     public WeichenStellung convertToEntityAttribute(String dbData) {
-      return dbData == null ? null : ofCode(dbData);
+      return dbData == null ? null : fromString(dbData);
     }
 
   }

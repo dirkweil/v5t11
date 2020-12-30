@@ -133,7 +133,7 @@ public abstract class Fahrstrassenelement extends Bereichselement implements Clo
    */
   public String getCode() {
     StringBuilder b = new StringBuilder();
-    b.append(getTyp().getCode());
+    b.append(getTyp().toString());
     b.append(isZaehlrichtung() ? '+' : '-');
     b.append(getName());
     String code = b.toString();

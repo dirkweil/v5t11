@@ -41,9 +41,9 @@ public class WeicheTest {
     this.log.debug("JSON string: " + json);
 
     String expected = Json.createObjectBuilder()
-        .add("key", weiche.getKey().encode())
+        .add("key", weiche.getKey().toString())
         .add("lastChangeMillis", weiche.getLastChangeMillis())
-        .add("stellung", weiche.getStellung().getCode())
+        .add("stellung", weiche.getStellung().toString())
         .build().toString();
 
     JSONAssert.assertEquals(expected, json, true);
@@ -61,9 +61,9 @@ public class WeicheTest {
     this.log.debug("JSON string: " + json);
 
     String expected = Json.createObjectBuilder()
-        .add("key", weiche.getKey().encode())
+        .add("key", weiche.getKey().toString())
         .add("lastChangeMillis", weiche.getLastChangeMillis())
-        .add("stellung", weiche.getStellung().getCode())
+        .add("stellung", weiche.getStellung().toString())
         .add("gleisabschnittName", weiche.getGleisabschnittName())
         .build().toString();
 

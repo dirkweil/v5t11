@@ -56,8 +56,8 @@ public class FahrstrasseTest {
     this.log.debug("JSON string: " + json);
 
     String expected = Json.createObjectBuilder()
-        .add("key", fahrstrasse.getKey().encode())
-        .add("reservierungsTyp", fahrstrasse.getReservierungsTyp().getCode())
+        .add("key", fahrstrasse.getKey().toString())
+        .add("reservierungsTyp", fahrstrasse.getReservierungsTyp().toString())
         .add("teilFreigabeAnzahl", fahrstrasse.getTeilFreigabeAnzahl())
         .build().toString();
 
@@ -76,26 +76,26 @@ public class FahrstrasseTest {
     JsonArrayBuilder elementeBuilder = Json.createArrayBuilder();
     fahrstrasse.getElemente().forEach(fe -> {
       JsonObjectBuilder elementBuilder = Json.createObjectBuilder()
-          .add("key", fe.getKey().encode())
-          .add("typ", fe.getTyp().getCode())
+          .add("key", fe.getKey().toString())
+          .add("typ", fe.getTyp().toString())
           .add("zaehlrichtung", fe.isZaehlrichtung());
       if (fe instanceof FahrstrassenGeraet) {
         elementBuilder.add("schutz", fe.isSchutz());
         String code = "?";
         if (fe instanceof FahrstrassenSignal) {
-          code = ((FahrstrassenSignal) fe).getStellung().getCode();
+          code = ((FahrstrassenSignal) fe).getStellung().toString();
         } else if (fe instanceof FahrstrassenWeiche) {
-          code = ((FahrstrassenWeiche) fe).getStellung().getCode();
+          code = ((FahrstrassenWeiche) fe).getStellung().toString();
         }
         elementBuilder.add("stellung", code);
       }
       elementeBuilder.add(elementBuilder.build());
     });
     String expected = Json.createObjectBuilder()
-        .add("key", fahrstrasse.getKey().encode())
+        .add("key", fahrstrasse.getKey().toString())
         .add("elemente", elementeBuilder.build())
         .add("rank", fahrstrasse.getRank())
-        .add("reservierungsTyp", fahrstrasse.getReservierungsTyp().getCode())
+        .add("reservierungsTyp", fahrstrasse.getReservierungsTyp().toString())
         .add("teilFreigabeAnzahl", fahrstrasse.getTeilFreigabeAnzahl())
         .add("zaehlrichtung", fahrstrasse.isZaehlrichtung())
         .build()
@@ -122,7 +122,7 @@ public class FahrstrasseTest {
 
       // Sind alle FS-Elemente reserviert?
       fahrstrasse.getElemente().forEach(fe -> {
-        String reason = String.format("Zuordnung des FS-Elements %s", fe.getCode());
+        String reason = String.format("Zuordnung des FS-Elements %s", fe.toString());
         if (fe.isSchutz()) {
           assertThat(reason, fe.getFahrwegelement().getReserviertefahrstrasseId(), nullValue());
         } else {
@@ -164,7 +164,7 @@ public class FahrstrasseTest {
 
       // Sind alle FS-Elemente unreserviert?
       fahrstrasse.getElemente().forEach(fe -> {
-        String reason = String.format("Zuordnung des FS-Elements %s", fe.getCode());
+        String reason = String.format("Zuordnung des FS-Elements %s", fe.toString());
         assertThat(reason, fe.getFahrwegelement().getReserviertefahrstrasseId(), nullValue());
       });
 

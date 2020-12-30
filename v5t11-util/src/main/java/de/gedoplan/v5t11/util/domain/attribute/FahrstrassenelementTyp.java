@@ -8,39 +8,41 @@ import javax.json.bind.annotation.JsonbTypeAdapter;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
-import lombok.Getter;
-
 @JsonbTypeAdapter(FahrstrassenelementTyp.Adapter4Json.class)
 public enum FahrstrassenelementTyp {
   GLEISABSCHNITT("G"),
   SIGNAL("S"),
   WEICHE("W");
 
-  @Getter
-  private String code;
+  private String string;
 
   private static Map<String, FahrstrassenelementTyp> lookup = new HashMap<>();
   static {
     for (FahrstrassenelementTyp s : FahrstrassenelementTyp.values()) {
-      lookup.put(s.code, s);
+      lookup.put(s.string, s);
     }
   }
 
-  private FahrstrassenelementTyp(String code) {
-    this.code = code;
+  private FahrstrassenelementTyp(String string) {
+    this.string = string;
   }
 
-  public static FahrstrassenelementTyp ofCode(String code) {
-    return ofCode(code, false);
+  @Override
+  public String toString() {
+    return this.string;
   }
 
-  public static FahrstrassenelementTyp ofCode(String code, boolean strict) {
-    var stellung = lookup.get(code);
+  public static FahrstrassenelementTyp fromString(String string) {
+    return fromString(string, false);
+  }
+
+  public static FahrstrassenelementTyp fromString(String string, boolean strict) {
+    var stellung = lookup.get(string);
     if (stellung == null) {
-      stellung = valueOf(code);
+      stellung = valueOf(string);
     }
     if (stellung == null && strict) {
-      throw new IllegalArgumentException("Unbekannter FahrstrassenReservierungsTyp: " + code);
+      throw new IllegalArgumentException("Unbekannter FahrstrassenReservierungsTyp: " + string);
     }
     return stellung;
   }
@@ -49,12 +51,12 @@ public enum FahrstrassenelementTyp {
 
     @Override
     public String adaptToJson(FahrstrassenelementTyp obj) throws Exception {
-      return obj == null ? null : obj.getCode();
+      return obj == null ? null : obj.toString();
     }
 
     @Override
     public FahrstrassenelementTyp adaptFromJson(String s) throws Exception {
-      return s == null ? null : ofCode(s, true);
+      return s == null ? null : fromString(s, true);
     }
   }
 
@@ -64,14 +66,13 @@ public enum FahrstrassenelementTyp {
 
     @Override
     public String convertToDatabaseColumn(FahrstrassenelementTyp attribute) {
-      return attribute == null ? null : attribute.getCode();
+      return attribute == null ? null : attribute.toString();
     }
 
     @Override
     public FahrstrassenelementTyp convertToEntityAttribute(String dbData) {
-      return dbData == null ? null : ofCode(dbData);
+      return dbData == null ? null : fromString(dbData);
     }
 
   }
-
 }

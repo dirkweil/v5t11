@@ -4,6 +4,7 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
 import de.gedoplan.v5t11.fahrstrassen.entity.Parcours;
+import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import de.gedoplan.v5t11.util.test.V5t11TestConfigDirExtension;
 
 import java.util.List;
@@ -43,7 +44,7 @@ public class FahrstrasseEndpointTest {
 
     this.log.debug("----- test_01_getFahrstrasse -----");
 
-    Response response = this.fahrstrasseEndpoint.getFahrstrasse(BEREICH, FS_NAME);
+    Response response = this.fahrstrasseEndpoint.getFahrstrasse(new BereichselementId(BEREICH, FS_NAME));
     assertThat("Response-Code", response.getStatus(), is(Status.OK.getStatusCode()));
 
     this.log.debug(response.getEntity());

@@ -8,8 +8,6 @@ import javax.json.bind.annotation.JsonbTypeAdapter;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
-import lombok.Getter;
-
 /**
  * Schalterstellung.
  *
@@ -21,31 +19,35 @@ public enum SchalterStellung {
   AUS("0"),
   EIN("1");
 
-  @Getter
-  private String code;
+  private String string;
 
   private static Map<String, SchalterStellung> lookup = new HashMap<>();
   static {
     for (SchalterStellung s : SchalterStellung.values()) {
-      lookup.put(s.code, s);
+      lookup.put(s.string, s);
     }
   }
 
-  private SchalterStellung(String code) {
-    this.code = code;
+  private SchalterStellung(String string) {
+    this.string = string;
   }
 
-  public static SchalterStellung ofCode(String code) {
-    return ofCode(code, false);
+  @Override
+  public String toString() {
+    return this.string;
   }
 
-  public static SchalterStellung ofCode(String code, boolean strict) {
-    var stellung = lookup.get(code);
+  public static SchalterStellung fromString(String string) {
+    return fromString(string, false);
+  }
+
+  public static SchalterStellung fromString(String string, boolean strict) {
+    var stellung = lookup.get(string);
     if (stellung == null) {
-      stellung = valueOf(code);
+      stellung = valueOf(string);
     }
     if (stellung == null && strict) {
-      throw new IllegalArgumentException("Unbekannte SchalterStellung: " + code);
+      throw new IllegalArgumentException("Unbekannte SchalterStellung: " + string);
     }
     return stellung;
   }
@@ -54,12 +56,12 @@ public enum SchalterStellung {
 
     @Override
     public String adaptToJson(SchalterStellung obj) throws Exception {
-      return obj == null ? null : obj.getCode();
+      return obj == null ? null : obj.toString();
     }
 
     @Override
     public SchalterStellung adaptFromJson(String s) throws Exception {
-      return s == null ? null : ofCode(s, true);
+      return s == null ? null : fromString(s, true);
     }
   }
 
@@ -69,12 +71,12 @@ public enum SchalterStellung {
 
     @Override
     public String convertToDatabaseColumn(SchalterStellung attribute) {
-      return attribute == null ? null : attribute.getCode();
+      return attribute == null ? null : attribute.toString();
     }
 
     @Override
     public SchalterStellung convertToEntityAttribute(String dbData) {
-      return dbData == null ? null : ofCode(dbData);
+      return dbData == null ? null : fromString(dbData);
     }
 
   }

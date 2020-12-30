@@ -43,10 +43,10 @@ public class FahrstrasseEndpoint {
   Logger log;
 
   @GET
-  @Path("{bereich}/{name}")
+  @Path("{id}")
   @Produces(MediaType.APPLICATION_JSON)
-  public Response getFahrstrasse(@PathParam("bereich") String bereich, @PathParam("name") String name) {
-    Fahrstrasse fahrstrasse = this.parcours.getFahrstrasse(bereich, name);
+  public Response getFahrstrasse(@PathParam("id") BereichselementId id) {
+    Fahrstrasse fahrstrasse = this.parcours.getFahrstrasse(id);
     if (fahrstrasse == null) {
       return ResponseFactory.createNotFoundResponse();
     }
@@ -93,7 +93,7 @@ public class FahrstrasseEndpoint {
       String endeName,
       String filterAsString) {
 
-    FahrstrassenFilter filter = filterAsString != null ? FahrstrassenFilter.ofCode(filterAsString) : null;
+    FahrstrassenFilter filter = filterAsString != null ? FahrstrassenFilter.fromString(filterAsString) : null;
 
     if (this.log.isDebugEnabled()) {
       this.log.debug(String.format("getFahrstrassen: start=%s/%s, ende=%s/%s, filter=%s", startBereich, startName, endeBereich, endeName, filter));
@@ -119,20 +119,20 @@ public class FahrstrasseEndpoint {
   }
 
   @PUT
-  @Path("{bereich}/{name}/reservierung")
+  @Path("{id}/reservierung")
   @Consumes(MediaType.WILDCARD)
-  public Response reserviereFahrstrasse(@PathParam("bereich") String bereich, @PathParam("name") String name, String reservierungsTypAsString) {
+  public Response reserviereFahrstrasse(@PathParam("id") BereichselementId id, String reservierungsTypAsString) {
     if (this.log.isDebugEnabled()) {
-      this.log.debug(String.format("reserviereFahrstrasse: fahrstrasse=%s/%s, reservierungsTyp=%s", bereich, name, reservierungsTypAsString));
+      this.log.debug(String.format("reserviereFahrstrasse: id=%s, reservierungsTyp=%s", id, reservierungsTypAsString));
     }
 
-    Fahrstrasse fahrstrasse = this.parcours.getFahrstrasse(bereich, name);
+    Fahrstrasse fahrstrasse = this.parcours.getFahrstrasse(id);
     if (fahrstrasse == null) {
       return ResponseFactory.createNotFoundResponse();
     }
 
     try {
-      if (!fahrstrasse.reservieren(FahrstrassenReservierungsTyp.ofCode(reservierungsTypAsString))) {
+      if (!fahrstrasse.reservieren(FahrstrassenReservierungsTyp.fromString(reservierungsTypAsString))) {
         return ResponseFactory.createConflictResponse();
       }
     } catch (IllegalArgumentException e) {

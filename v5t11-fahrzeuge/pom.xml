@@ -13,6 +13,10 @@
 
   <packaging>jar</packaging>
 
+  <build>
+    <finalName>${project.artifactId}</finalName>
+  </build>
+
   <dependencies>
     <!-- Main dependencies -->
 

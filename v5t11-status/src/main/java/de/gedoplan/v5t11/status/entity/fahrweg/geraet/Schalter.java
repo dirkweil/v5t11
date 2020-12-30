@@ -103,7 +103,7 @@ public class Schalter extends AbstractGeraet implements FunktionsdecoderGeraet {
   public String toString() {
     StringBuilder sb = new StringBuilder(getClass().getSimpleName());
     sb.append('{');
-    sb.append(getId().encode());
+    sb.append(getId().toString());
     sb.append('[');
     sb.append(this.funktionsdecoderZuordnung);
     sb.append(']');

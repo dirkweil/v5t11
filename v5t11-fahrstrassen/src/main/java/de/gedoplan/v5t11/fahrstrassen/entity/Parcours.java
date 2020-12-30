@@ -51,14 +51,22 @@ public class Parcours {
   /**
    * Fahrstrasse liefern.
    *
-   * @param bereich
-   *        Bereich
-   * @param name
-   *        Name
+   * @param bereich Bereich
+   * @param name Name
    * @return gefundene Fahrstrasse oder <code>null</code>
    */
   public Fahrstrasse getFahrstrasse(String bereich, String name) {
     return getBereichselement(bereich, name, this.fahrstrassen);
+  }
+
+  /**
+   * Fahrstrasse liefern.
+   *
+   * @param id Id
+   * @return gefundene Fahrstrasse oder <code>null</code>
+   */
+  public Fahrstrasse getFahrstrasse(BereichselementId id) {
+    return getBereichselement(id.getBereich(), id.getName(), this.fahrstrassen);
   }
 
   private static <T extends Bereichselement> T getBereichselement(String bereich, String name, Collection<T> set) {

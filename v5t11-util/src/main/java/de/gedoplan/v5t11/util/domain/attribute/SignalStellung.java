@@ -10,8 +10,6 @@ import javax.json.bind.annotation.JsonbTypeAdapter;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
-import lombok.Getter;
-
 /**
  * Signalstellung.
  *
@@ -44,31 +42,35 @@ public enum SignalStellung {
    */
   DUNKEL("D");
 
-  @Getter
-  private String code;
+  private String string;
 
   private static Map<String, SignalStellung> lookup = new HashMap<>();
   static {
     for (SignalStellung s : SignalStellung.values()) {
-      lookup.put(s.code, s);
+      lookup.put(s.string, s);
     }
   }
 
-  private SignalStellung(String code) {
-    this.code = code;
+  private SignalStellung(String string) {
+    this.string = string;
   }
 
-  public static SignalStellung ofCode(String code) {
-    return ofCode(code, false);
+  @Override
+  public String toString() {
+    return this.string;
   }
 
-  public static SignalStellung ofCode(String code, boolean strict) {
-    var stellung = lookup.get(code);
+  public static SignalStellung fromString(String string) {
+    return fromString(string, false);
+  }
+
+  public static SignalStellung fromString(String string, boolean strict) {
+    var stellung = lookup.get(string);
     if (stellung == null) {
-      stellung = valueOf(code);
+      stellung = valueOf(string);
     }
     if (stellung == null && strict) {
-      throw new IllegalArgumentException("Unbekannte SignalStellung: " + code);
+      throw new IllegalArgumentException("Unbekannte SignalStellung: " + string);
     }
     return stellung;
   }
@@ -77,12 +79,12 @@ public enum SignalStellung {
 
     @Override
     public String adaptToJson(SignalStellung obj) throws Exception {
-      return obj == null ? null : obj.getCode();
+      return obj == null ? null : obj.toString();
     }
 
     @Override
     public SignalStellung adaptFromJson(String s) throws Exception {
-      return s == null ? null : ofCode(s, true);
+      return s == null ? null : fromString(s, true);
     }
   }
 
@@ -90,12 +92,12 @@ public enum SignalStellung {
 
     @Override
     public String adaptToJson(Set<SignalStellung> signalStellungen) throws Exception {
-      return signalStellungen == null ? null : signalStellungen.stream().map(SignalStellung::getCode).collect(Collectors.joining());
+      return signalStellungen == null ? null : signalStellungen.stream().map(SignalStellung::toString).collect(Collectors.joining());
     }
 
     @Override
     public Set<SignalStellung> adaptFromJson(String s) throws Exception {
-      return s == null ? null : s.codePoints().mapToObj(c -> String.valueOf(c)).map(x -> SignalStellung.ofCode(x, true)).collect(Collectors.toSet());
+      return s == null ? null : s.codePoints().mapToObj(c -> String.valueOf(c)).map(x -> SignalStellung.fromString(x, true)).collect(Collectors.toSet());
     }
 
   }
@@ -106,12 +108,12 @@ public enum SignalStellung {
 
     @Override
     public String convertToDatabaseColumn(SignalStellung attribute) {
-      return attribute == null ? null : attribute.getCode();
+      return attribute == null ? null : attribute.toString();
     }
 
     @Override
     public SignalStellung convertToEntityAttribute(String dbData) {
-      return dbData == null ? null : ofCode(dbData);
+      return dbData == null ? null : fromString(dbData);
     }
 
   }

@@ -71,7 +71,7 @@ public class WeicheEndpoint {
   public void putWeichenStellung(@PathParam("bereich") String bereich, @PathParam("name") String name, String stellungsName) {
 
     try {
-      getWeiche(bereich, name).setStellung(WeichenStellung.ofCode(stellungsName));
+      getWeiche(bereich, name).setStellung(WeichenStellung.fromString(stellungsName));
     } catch (IllegalArgumentException e) {
       throw new BadRequestException();
     }

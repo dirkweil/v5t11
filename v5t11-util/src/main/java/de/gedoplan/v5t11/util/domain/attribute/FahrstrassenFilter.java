@@ -8,39 +8,41 @@ import javax.json.bind.annotation.JsonbTypeAdapter;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
-import lombok.Getter;
-
 @JsonbTypeAdapter(FahrstrassenFilter.Adapter4Json.class)
 public enum FahrstrassenFilter {
   FREI("F"),
   RESERVIERT("R"),
   NON_COMBI("N");
 
-  @Getter
-  private String code;
+  private String string;
 
   private static Map<String, FahrstrassenFilter> lookup = new HashMap<>();
   static {
     for (FahrstrassenFilter s : FahrstrassenFilter.values()) {
-      lookup.put(s.code, s);
+      lookup.put(s.string, s);
     }
   }
 
-  private FahrstrassenFilter(String code) {
-    this.code = code;
+  private FahrstrassenFilter(String string) {
+    this.string = string;
   }
 
-  public static FahrstrassenFilter ofCode(String code) {
-    return ofCode(code, false);
+  @Override
+  public String toString() {
+    return this.string;
   }
 
-  public static FahrstrassenFilter ofCode(String code, boolean strict) {
-    var stellung = lookup.get(code);
+  public static FahrstrassenFilter fromString(String string) {
+    return fromString(string, false);
+  }
+
+  public static FahrstrassenFilter fromString(String string, boolean strict) {
+    var stellung = lookup.get(string);
     if (stellung == null) {
-      stellung = valueOf(code);
+      stellung = valueOf(string);
     }
     if (stellung == null && strict) {
-      throw new IllegalArgumentException("Unbekannter FahrstrassenFilter: " + code);
+      throw new IllegalArgumentException("Unbekannter FahrstrassenFilter: " + string);
     }
     return stellung;
   }
@@ -49,12 +51,12 @@ public enum FahrstrassenFilter {
 
     @Override
     public String adaptToJson(FahrstrassenFilter obj) throws Exception {
-      return obj == null ? null : obj.getCode();
+      return obj == null ? null : obj.toString();
     }
 
     @Override
     public FahrstrassenFilter adaptFromJson(String s) throws Exception {
-      return s == null ? null : ofCode(s, true);
+      return s == null ? null : fromString(s, true);
     }
   }
 
@@ -64,12 +66,12 @@ public enum FahrstrassenFilter {
 
     @Override
     public String convertToDatabaseColumn(FahrstrassenFilter attribute) {
-      return attribute == null ? null : attribute.getCode();
+      return attribute == null ? null : attribute.toString();
     }
 
     @Override
     public FahrstrassenFilter convertToEntityAttribute(String dbData) {
-      return dbData == null ? null : ofCode(dbData);
+      return dbData == null ? null : fromString(dbData);
     }
 
   }

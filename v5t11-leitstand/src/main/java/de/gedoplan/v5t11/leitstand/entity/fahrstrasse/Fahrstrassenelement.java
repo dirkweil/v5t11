@@ -53,7 +53,7 @@ public class Fahrstrassenelement {
    */
   public WeichenStellung getWeichenstellung() {
     assert this.typ == FahrstrassenelementTyp.WEICHE;
-    return WeichenStellung.ofCode(this.stellung);
+    return WeichenStellung.fromString(this.stellung);
   }
 
   /**
@@ -64,7 +64,7 @@ public class Fahrstrassenelement {
    */
   public SignalStellung getSignalstellung() {
     assert this.typ == FahrstrassenelementTyp.SIGNAL;
-    return SignalStellung.ofCode(this.stellung);
+    return SignalStellung.fromString(this.stellung);
   }
 
 }

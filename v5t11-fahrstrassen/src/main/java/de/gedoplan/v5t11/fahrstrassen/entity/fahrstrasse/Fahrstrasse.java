@@ -180,7 +180,7 @@ public class Fahrstrasse extends Bereichselement {
         .filter(e -> e instanceof FahrstrassenGleisabschnitt)
         .map(e -> (FahrstrassenGleisabschnitt) e)
         // .filter(g -> !g.isWeichenGleisabschnitt())
-        .map(g -> g.getBereich().equals(getBereich()) ? g.getName() : g.getName() + "@" + g.getBereich())
+        .map(g -> g.getBereich().equals(getBereich()) ? g.getName() : g.getBereich() + "." + g.getName())
         .collect(Collectors.joining("-")));
   }
 

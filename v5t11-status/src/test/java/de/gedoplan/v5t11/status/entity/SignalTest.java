@@ -38,10 +38,10 @@ public class SignalTest {
     this.log.debug("JSON string: " + json);
 
     String expected = Json.createObjectBuilder()
-        .add("key", signal.getKey().encode())
+        .add("key", signal.getKey().toString())
         .add("lastChangeMillis", signal.getLastChangeMillis())
-        .add("stellung", signal.getStellung().getCode())
-        .add("typ", signal.getTyp().getCode())
+        .add("stellung", signal.getStellung().toString())
+        .add("typ", signal.getTyp().toString())
         .build().toString();
 
     JSONAssert.assertEquals(expected, json, true);
@@ -59,10 +59,10 @@ public class SignalTest {
     this.log.debug("JSON string: " + json);
 
     String expected = Json.createObjectBuilder()
-        .add("key", signal.getKey().encode())
+        .add("key", signal.getKey().toString())
         .add("lastChangeMillis", signal.getLastChangeMillis())
-        .add("stellung", signal.getStellung().getCode())
-        .add("typ", signal.getTyp().getCode())
+        .add("stellung", signal.getStellung().toString())
+        .add("typ", signal.getTyp().toString())
         .build().toString();
 
     JSONAssert.assertEquals(expected, json, true);

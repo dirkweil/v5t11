@@ -8,39 +8,41 @@ import javax.json.bind.annotation.JsonbTypeAdapter;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
-import lombok.Getter;
-
 @JsonbTypeAdapter(FahrstrassenReservierungsTyp.Adapter4Json.class)
 public enum FahrstrassenReservierungsTyp {
   UNRESERVIERT("U"),
   ZUGFAHRT("Z"),
   RANGIERFAHRT("R");
 
-  @Getter
-  private String code;
+  private String string;
 
   private static Map<String, FahrstrassenReservierungsTyp> lookup = new HashMap<>();
   static {
     for (FahrstrassenReservierungsTyp s : FahrstrassenReservierungsTyp.values()) {
-      lookup.put(s.code, s);
+      lookup.put(s.string, s);
     }
   }
 
-  private FahrstrassenReservierungsTyp(String code) {
-    this.code = code;
+  private FahrstrassenReservierungsTyp(String string) {
+    this.string = string;
   }
 
-  public static FahrstrassenReservierungsTyp ofCode(String code) {
-    return ofCode(code, false);
+  @Override
+  public String toString() {
+    return this.string;
   }
 
-  public static FahrstrassenReservierungsTyp ofCode(String code, boolean strict) {
-    var stellung = lookup.get(code);
+  public static FahrstrassenReservierungsTyp fromString(String string) {
+    return fromString(string, false);
+  }
+
+  public static FahrstrassenReservierungsTyp fromString(String string, boolean strict) {
+    var stellung = lookup.get(string);
     if (stellung == null) {
-      stellung = valueOf(code);
+      stellung = valueOf(string);
     }
     if (stellung == null && strict) {
-      throw new IllegalArgumentException("Unbekannter FahrstrassenReservierungsTyp: " + code);
+      throw new IllegalArgumentException("Unbekannter FahrstrassenReservierungsTyp: " + string);
     }
     return stellung;
   }
@@ -49,12 +51,12 @@ public enum FahrstrassenReservierungsTyp {
 
     @Override
     public String adaptToJson(FahrstrassenReservierungsTyp obj) throws Exception {
-      return obj == null ? null : obj.getCode();
+      return obj == null ? null : obj.toString();
     }
 
     @Override
     public FahrstrassenReservierungsTyp adaptFromJson(String s) throws Exception {
-      return s == null ? null : ofCode(s, true);
+      return s == null ? null : fromString(s, true);
     }
   }
 
@@ -64,12 +66,12 @@ public enum FahrstrassenReservierungsTyp {
 
     @Override
     public String convertToDatabaseColumn(FahrstrassenReservierungsTyp attribute) {
-      return attribute == null ? null : attribute.getCode();
+      return attribute == null ? null : attribute.toString();
     }
 
     @Override
     public FahrstrassenReservierungsTyp convertToEntityAttribute(String dbData) {
-      return dbData == null ? null : ofCode(dbData);
+      return dbData == null ? null : fromString(dbData);
     }
 
   }

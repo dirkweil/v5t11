@@ -44,7 +44,7 @@ public class FahrstrassenManager {
 
       // Ansonsten Fahrstrassendaten komplett holen und hier registrieren
       try {
-        fahrstrasse = this.fahrstrassenGateway.getFahrstrasse(statusFahrstrasse.getBereich(), statusFahrstrasse.getName());
+        fahrstrasse = this.fahrstrassenGateway.getFahrstrasse(statusFahrstrasse.getId());
       } catch (NotFoundException nfe) {
         this.log.warn("Fahrstrasse nicht gefunden: " + statusFahrstrasse.getBereich() + "/" + statusFahrstrasse.getName());
         return;

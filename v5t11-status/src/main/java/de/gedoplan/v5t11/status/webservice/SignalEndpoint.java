@@ -82,7 +82,7 @@ public class SignalEndpoint {
     try {
       for (String stellungsName : stellungsAngabe.split("\\s*,\\s*")) {
 
-        SignalStellung stellung = SignalStellung.ofCode(stellungsName);
+        SignalStellung stellung = SignalStellung.fromString(stellungsName);
 
         if (signal.getTyp().getErlaubteStellungen().contains(stellung)) {
           signal.setStellung(stellung);
