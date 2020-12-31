@@ -2,7 +2,6 @@ package de.gedoplan.v5t11.fahrstrassen.service;
 
 import de.gedoplan.v5t11.fahrstrassen.entity.Parcours;
 import de.gedoplan.v5t11.fahrstrassen.persistence.GleisabschnittRepository;
-import de.gedoplan.v5t11.util.cdi.Created;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -40,8 +39,6 @@ public class ParcoursProducer {
     parcours.completeFahrstrassen();
     parcours.injectFields();
     parcours.addPersistentEntries();
-
-    this.eventFirer.fire(parcours, Created.Literal.INSTANCE);
 
     return parcours;
   }

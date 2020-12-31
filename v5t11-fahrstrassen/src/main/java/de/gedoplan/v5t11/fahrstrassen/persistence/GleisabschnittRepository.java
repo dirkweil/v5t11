@@ -11,4 +11,8 @@ import javax.transaction.Transactional;
 @Transactional(rollbackOn = Exception.class)
 public class GleisabschnittRepository extends SingleIdEntityRepository<BereichselementId, Gleisabschnitt> {
 
+  public Gleisabschnitt findByBereichAndName(String bereich, String name) {
+    return findById(new BereichselementId(bereich, name));
+  }
+
 }

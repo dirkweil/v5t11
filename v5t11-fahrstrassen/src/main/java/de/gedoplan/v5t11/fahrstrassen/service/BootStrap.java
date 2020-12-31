@@ -1,6 +1,8 @@
 package de.gedoplan.v5t11.fahrstrassen.service;
 
 import de.gedoplan.v5t11.fahrstrassen.entity.Parcours;
+import de.gedoplan.v5t11.util.cdi.Created;
+import de.gedoplan.v5t11.util.cdi.EventFirer;
 
 import javax.enterprise.context.Dependent;
 import javax.enterprise.event.Observes;
@@ -18,7 +20,8 @@ public class BootStrap {
       ConfigService configService,
       JoinService joinService,
       Parcours parcours,
-      StatusUpdater statusUpdater) {
+      StatusUpdater statusUpdater,
+      EventFirer eventFirer) {
     try {
       log.info("app: " + configService.getArtifactId() + ":" + configService.getVersion());
 
@@ -29,6 +32,8 @@ public class BootStrap {
 
       log.info("#fahrstrassen: " + parcours.getFahrstrassen().size());
       log.info("#autoFahrstrassen: " + parcours.getAutoFahrstrassen().size());
+
+      eventFirer.fire(parcours, Created.Literal.INSTANCE);
 
       joinService.joinMyself();
     } catch (Exception e) {

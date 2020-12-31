@@ -14,24 +14,36 @@ import javax.xml.bind.annotation.XmlElement;
 import lombok.Getter;
 import lombok.ToString;
 
+/**
+ * Automatik-Fahrstrasse.
+ * 
+ * Eine AutoFahrstrasse verknüpft einen auslösenden Gleisabschnitt - den sog. Trigger - mit einer Liste von
+ * Fahrstrassen. Ändert sich im Betrieb der Trigger auf besetzt, wird eine der Fahrstrassen reserviert, soweit
+ * das möglich ist. Die Fahrstrassen werden in der Reihenfolge der Liste berücksichtigt.
+ * 
+ * @author dw
+ *
+ */
 @XmlAccessorType(XmlAccessType.NONE)
 @Getter
 public class AutoFahrstrasse extends UuidEntity {
 
   public static final String TABLE_NAME = "FS_AUTO_FAHRSTRASSE";
 
-  @XmlAttribute(required = true)
-  private String bereich;
+  // Bereich des Triggers (und der AutoFahrstrasse)
+  @XmlAttribute(name = "bereich", required = true)
+  private String triggerBereich;
 
-  @XmlAttribute(required = true)
-  private String trigger;
+  // Name des Triggers
+  @XmlAttribute(name = "trigger", required = true)
+  private String triggerName;
 
   @XmlElement(name = "Fahrstrasse")
   private List<AutoFahrstrassenElement> elemente;
 
   @Override
   public String toString() {
-    StringBuilder builder = new StringBuilder("AutoFahrstrasse{bereich=" + this.bereich + ", trigger=" + this.trigger + "}");
+    StringBuilder builder = new StringBuilder("AutoFahrstrasse{bereich=" + this.triggerBereich + ", trigger=" + this.triggerName + "}");
     this.elemente.forEach(e -> {
       builder.append("\n  ");
       builder.append(e);
@@ -47,14 +59,14 @@ public class AutoFahrstrasse extends UuidEntity {
     @XmlAttribute
     private String startBereich;
 
-    @XmlAttribute
-    private String start;
+    @XmlAttribute(name = "start")
+    private String startName;
 
     @XmlAttribute
     private String endeBereich;
 
-    @XmlAttribute(required = true)
-    private String ende;
+    @XmlAttribute(name = "ende", required = true)
+    private String endeName;
 
   }
 
@@ -62,13 +74,13 @@ public class AutoFahrstrasse extends UuidEntity {
   private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
     this.elemente.forEach(e -> {
       if (e.startBereich == null) {
-        e.startBereich = this.bereich;
+        e.startBereich = this.triggerBereich;
       }
-      if (e.start == null) {
-        e.start = this.trigger;
+      if (e.startName == null) {
+        e.startName = this.triggerName;
       }
       if (e.endeBereich == null) {
-        e.endeBereich = this.bereich;
+        e.endeBereich = this.triggerBereich;
       }
     });
   }
