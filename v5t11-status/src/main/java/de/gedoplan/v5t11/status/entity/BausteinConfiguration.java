@@ -7,15 +7,19 @@ import java.util.Map;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
@@ -25,8 +29,14 @@ import lombok.Setter;
  */
 @Entity
 @Access(AccessType.FIELD)
+@Table(name = BausteinConfiguration.TABLE_NAME)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class BausteinConfiguration extends SingleIdEntity<String> {
+
+  public static final String TABLE_NAME = "ST_BAUSTEIN_CONFIG";
+  public static final String TABLE_NAME_PROPS = "ST_BAUSTEIN_CONFIG_PROPS";
+
   /**
    * Id des Bausteins.
    */
@@ -46,6 +56,7 @@ public class BausteinConfiguration extends SingleIdEntity<String> {
    * Konfigurationswerte.
    */
   @ElementCollection(fetch = FetchType.EAGER)
+  @CollectionTable(name = TABLE_NAME_PROPS)
   private Map<String, String> properties;
 
   /**
@@ -59,9 +70,4 @@ public class BausteinConfiguration extends SingleIdEntity<String> {
     this.properties = new HashMap<>();
   }
 
-  /**
-   * Konstruktor (nur für JPA).
-   */
-  protected BausteinConfiguration() {
-  }
 }

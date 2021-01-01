@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: v5t11-db
+spec:
+  serviceName: v5t11-db
+  selector:
+    matchLabels:
+      name: v5t11-db
+  template:
+    metadata:
+      labels:
+        name: v5t11-db
+    spec:
+      containers:
+      - image: postgres:13.1
+        name:  v5t11-db
+        ports:
+          - name: db
+            containerPort: 5432
+        env:
+          - name: POSTGRES_DB
+            value: v5t11
+          - name: POSTGRES_USER
+            value: v5t11
+          - name: POSTGRES_PASSWORD
+            value: v5t11_123
+        volumeMounts:
+          - mountPath: /var/lib/postgresql/data
+            name: v5t11-db
+  volumeClaimTemplates:
+    - metadata:
+        name: v5t11-db
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 10M
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name:  v5t11-db
+spec:
+  type: NodePort
+  selector:
+    name:  v5t11-db
+  ports:
+  - name: db
+    port:  5432
+    targetPort:  db
+    nodePort: 31432
