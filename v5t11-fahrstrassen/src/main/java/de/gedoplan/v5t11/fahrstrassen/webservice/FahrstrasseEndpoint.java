@@ -93,7 +93,7 @@ public class FahrstrasseEndpoint {
       String endeName,
       String filterAsString) {
 
-    FahrstrassenFilter filter = filterAsString != null ? FahrstrassenFilter.fromString(filterAsString) : null;
+    FahrstrassenFilter filter = filterAsString != null ? FahrstrassenFilter.fromString(filterAsString, false) : null;
 
     if (this.log.isDebugEnabled()) {
       this.log.debug(String.format("getFahrstrassen: start=%s/%s, ende=%s/%s, filter=%s", startBereich, startName, endeBereich, endeName, filter));
