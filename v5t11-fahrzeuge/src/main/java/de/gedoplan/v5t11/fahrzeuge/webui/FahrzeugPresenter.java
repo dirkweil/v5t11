@@ -147,6 +147,7 @@ public class FahrzeugPresenter implements Serializable {
     public void setAssigned(boolean assigned) {
       if (assigned) {
         FahrzeugPresenter.this.lokcontrollerAssignment[this.lokcontrollerId] = this.fahrzeug;
+        assignLokcontroller(this.lokcontrollerId);
 
         int otherLokcontrollerIdx = 1 - this.lokcontrollerId;
         if (this.fahrzeug.equals(FahrzeugPresenter.this.lokcontrollerAssignment[otherLokcontrollerIdx])) {
@@ -154,10 +155,12 @@ public class FahrzeugPresenter implements Serializable {
           assignLokcontroller(otherLokcontrollerIdx);
         }
       } else {
-        FahrzeugPresenter.this.lokcontrollerAssignment[this.lokcontrollerId] = null;
+        if (this.fahrzeug.equals(FahrzeugPresenter.this.lokcontrollerAssignment[this.lokcontrollerId])) {
+          FahrzeugPresenter.this.lokcontrollerAssignment[this.lokcontrollerId] = null;
+          assignLokcontroller(this.lokcontrollerId);
+        }
       }
 
-      assignLokcontroller(this.lokcontrollerId);
     }
 
   }
