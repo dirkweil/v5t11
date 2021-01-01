@@ -3,8 +3,6 @@ package de.gedoplan.v5t11.leitstand.service;
 import de.gedoplan.v5t11.leitstand.entity.Leitstand;
 import de.gedoplan.v5t11.stellwerk.StellwerkUIStarter;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 import javax.enterprise.context.Dependent;
@@ -13,13 +11,10 @@ import javax.enterprise.event.Observes;
 import org.jboss.logging.Logger;
 
 import io.quarkus.runtime.Quarkus;
-import io.quarkus.runtime.ShutdownEvent;
 import io.quarkus.runtime.StartupEvent;
 
 @Dependent
 public class BootStrap {
-
-  private final static ExecutorService scheduler = Executors.newSingleThreadExecutor();
 
   void boot(@Observes StartupEvent startupEvent,
       Logger log,
@@ -47,7 +42,4 @@ public class BootStrap {
     }
   }
 
-  void terminate(@Observes ShutdownEvent shutdownEvent) {
-    scheduler.shutdown();
-  }
 }

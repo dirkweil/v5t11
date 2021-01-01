@@ -9,6 +9,7 @@ import de.gedoplan.v5t11.leitstand.entity.fahrweg.Weiche;
 import de.gedoplan.v5t11.leitstand.persistence.GleisabschnittRepository;
 import de.gedoplan.v5t11.leitstand.persistence.SignalRepository;
 import de.gedoplan.v5t11.leitstand.persistence.WeicheRepository;
+import de.gedoplan.v5t11.util.cdi.Changed;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.cdi.Received;
 import de.gedoplan.v5t11.util.domain.entity.Fahrwegelement;
@@ -83,7 +84,7 @@ public class StatusUpdater {
   void zentraleReceived(@ObservesAsync @Received Zentrale receivedObject) {
     Zentrale zentrale = this.leitstand.getZentrale();
     zentrale.copyStatus(receivedObject);
-    this.eventFirer.fire(zentrale);
+    this.eventFirer.fire(zentrale, Changed.Literal.INSTANCE);
   }
 
   private void copyStatus(Fahrwegelement to, Fahrwegelement from) {
@@ -93,7 +94,7 @@ public class StatusUpdater {
           this.logger.debug(to);
         }
 
-        this.eventFirer.fire(to);
+        this.eventFirer.fire(to, Changed.Literal.INSTANCE);
       }
     }
   }

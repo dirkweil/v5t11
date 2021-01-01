@@ -3,6 +3,7 @@ package de.gedoplan.v5t11.stellwerk;
 import de.gedoplan.v5t11.leitstand.entity.baustein.Zentrale;
 import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.leitstand.persistence.GleisabschnittRepository;
+import de.gedoplan.v5t11.util.cdi.Changed;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenelementTyp;
 import de.gedoplan.v5t11.util.domain.entity.Fahrwegelement;
 
@@ -37,7 +38,7 @@ public class StatusDispatcher {
   @Inject
   GleisabschnittRepository gleisabschnittRepository;
 
-  void changed(@Observes(during = TransactionPhase.AFTER_COMPLETION) Fahrstrasse fahrstrasse) {
+  void changed(@Observes(during = TransactionPhase.AFTER_COMPLETION) @Changed Fahrstrasse fahrstrasse) {
     fahrstrasse
         .getElemente()
         .stream()
@@ -46,17 +47,16 @@ public class StatusDispatcher {
         .forEach(x -> changed(x));
   }
 
-  void changed(@Observes(during = TransactionPhase.AFTER_COMPLETION) Fahrwegelement fahrwegelement) {
+  void changed(@Observes(during = TransactionPhase.AFTER_COMPLETION) @Changed Fahrwegelement fahrwegelement) {
     runActions(fahrwegelement);
   }
 
-  void changed(@Observes(during = TransactionPhase.AFTER_COMPLETION) Zentrale zentrale) {
+  void changed(@Observes(during = TransactionPhase.AFTER_COMPLETION) @Changed Zentrale zentrale) {
     runActions(zentrale);
   }
 
   @SuppressWarnings("unchecked")
   void runActions(Object observed) {
     this.listener.get(observed).forEach(x -> x.accept(observed));
-    // this.listener.get(observed.getClass()).forEach(x -> x.accept(observed));
   }
 }
