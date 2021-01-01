@@ -62,7 +62,7 @@ public class FahrzeugPresenter implements Serializable {
 
   @PostConstruct
   void refreshFahrzeuge() {
-    this.fahrzeuge = this.fahrzeugRepository.findAll();
+    this.fahrzeuge = this.fahrzeugRepository.findAllSortedByBetriebsnummer();
   }
 
   public String getImage(Fahrzeug fahrzeug) {
