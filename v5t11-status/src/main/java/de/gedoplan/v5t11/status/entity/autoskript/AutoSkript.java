@@ -54,7 +54,7 @@ public class AutoSkript {
   @Getter
   private Skript skript;
 
-  private static final Logger LOG = Logger.getLogger(AutoSkript.class);
+  private static final Logger LOGGER = Logger.getLogger(AutoSkript.class);
 
   @Override
   public String toString() {
@@ -74,7 +74,7 @@ public class AutoSkript {
       hasWeiche |= skriptObjekt.uses(WeichenStellung.class);
     }
 
-    this.skript.getEngine().put("log", LOG);
+    this.skript.getEngine().put("log", LOGGER);
     if (hasSchalter) {
       for (SchalterStellung stellung : SchalterStellung.values()) {
         this.skript.getEngine().put(stellung.name(), stellung);
@@ -94,22 +94,20 @@ public class AutoSkript {
 
   public void execute() {
     try {
-      if (LOG.isDebugEnabled()) {
-        String varNames = this.skript.getEngine().getBindings(ScriptContext.ENGINE_SCOPE)
-            .keySet()
-            .stream()
-            .collect(Collectors.joining(","));
-
-        LOG.debug("Skript-Start: " + this.beschreibung + " (vars: " + varNames + ")");
+      if (LOGGER.isDebugEnabled()) {
+        LOGGER.debugf("Skript-Start: %s (vars: %s)",
+            this.beschreibung,
+            this.skript.getEngine().getBindings(ScriptContext.ENGINE_SCOPE)
+                .keySet()
+                .stream()
+                .collect(Collectors.joining(",")));
       }
 
       this.skript.getEngine().eval(this.skript.getCode());
 
-      if (LOG.isDebugEnabled()) {
-        LOG.debug("Skript-Ende: " + this.beschreibung);
-      }
+      LOGGER.debugf("Skript-Ende: %s", this.beschreibung);
     } catch (ScriptException e) {
-      LOG.error("Fehler im Skript: " + this.beschreibung, e);
+      LOGGER.error("Fehler im Skript: " + this.beschreibung, e);
     }
   }
 
@@ -136,8 +134,15 @@ public class AutoSkript {
       if (this.engine == null) {
         String names = ENGINE_MANAGER.getEngineFactories().stream().flatMap(sef -> sef.getNames().stream()).collect(Collectors.joining(","));
         String message = "Unbekannte Skript-Sprache: " + this.sprache + " (Verfügbar: " + names + ")";
-        LOG.error(message);
+        LOGGER.error(message);
         throw new UnmarshalException(message);
+      }
+
+      // Dummy-Code ausführen, um Engine zu initialisieren
+      try {
+        this.engine.eval("");
+      } catch (ScriptException e) {
+        LOGGER.errorf("Kann %s-Engine nicht starten: %s", this.sprache, e.toString());
       }
     }
 
