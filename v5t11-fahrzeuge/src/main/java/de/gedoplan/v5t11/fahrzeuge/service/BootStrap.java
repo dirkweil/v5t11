@@ -14,12 +14,13 @@ public class BootStrap {
       Logger log,
       JoinService joinService,
       ConfigService configService) {
-    log.info("app: " + configService.getArtifactId() + ":" + configService.getVersion());
+    log.infof("app: %s:%s", configService.getArtifactId(), configService.getVersion());
 
-    log.info("configDir: " + configService.getConfigDir());
-    log.info("anlage: " + configService.getAnlage());
-    log.info("mqttBroker: " + configService.getMqttHost() + ":" + configService.getMqttPort());
-    log.info("statusRestUrl: " + configService.getStatusRestUrl());
+    log.infof("configDir: %s", configService.getConfigDir());
+    log.infof("anlage: %s", configService.getAnlage());
+    log.infof("db: %s:%d", configService.getDbHost(), configService.getDbPort());
+    log.infof("mqttBroker: %s:%d", configService.getMqttHost(), configService.getMqttPort());
+    log.infof("statusRestUrl: %s", configService.getStatusRestUrl());
 
     joinService.joinMyself();
   }

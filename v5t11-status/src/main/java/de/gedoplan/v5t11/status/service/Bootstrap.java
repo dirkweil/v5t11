@@ -25,11 +25,12 @@ public class Bootstrap {
       JoinService joinService,
       Steuerung steuerung,
       Logger log) {
-    log.info("app: " + configService.getArtifactId() + ":" + configService.getVersion());
+    log.infof("app: %s:%s", configService.getArtifactId(), configService.getVersion());
 
-    log.info("configDir: " + configService.getConfigDir());
-    log.info("anlage: " + configService.getAnlage());
-    log.info("mqttBroker: " + configService.getMqttHost() + ":" + configService.getMqttPort());
+    log.infof("configDir: %s", configService.getConfigDir());
+    log.infof("anlage: %s", configService.getAnlage());
+    log.infof("db: %s:%d", configService.getDbHost(), configService.getDbPort());
+    log.infof("mqttBroker: %s:%d", configService.getMqttHost(), configService.getMqttPort());
 
     joinService.joinMyself();
 

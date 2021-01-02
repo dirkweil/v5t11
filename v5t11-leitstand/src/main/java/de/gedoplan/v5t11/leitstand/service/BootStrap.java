@@ -22,14 +22,15 @@ public class BootStrap {
       JoinService joinService,
       Leitstand leitstand,
       StellwerkUIStarter stellwerkUIStarter) {
-    log.info("app: " + configService.getArtifactId() + ":" + configService.getVersion());
+    log.infof("app: %s:%s", configService.getArtifactId(), configService.getVersion());
 
-    log.info("configDir: " + configService.getConfigDir());
-    log.info("anlage: " + configService.getAnlage());
-    log.info("mqttBroker: " + configService.getMqttHost() + ":" + configService.getMqttPort());
-    log.info("statusRestUrl: " + configService.getStatusRestUrl());
-    log.info("fahrstrassenRestUrl: " + configService.getFahrstrassenRestUrl());
-    log.info("bereiche: " + leitstand.getBereiche().stream().collect(Collectors.joining(",")));
+    log.infof("configDir: %s", configService.getConfigDir());
+    log.infof("anlage: %s", configService.getAnlage());
+    log.infof("db: %s:%d", configService.getDbHost(), configService.getDbPort());
+    log.infof("mqttBroker: %s:%d", configService.getMqttHost(), configService.getMqttPort());
+    log.infof("statusRestUrl: %s", configService.getStatusRestUrl());
+    log.infof("fahrstrassenRestUrl: %s", configService.getFahrstrassenRestUrl());
+    log.infof("bereiche: %s", leitstand.getBereiche().stream().collect(Collectors.joining(",")));
 
     joinService.joinMyself();
 

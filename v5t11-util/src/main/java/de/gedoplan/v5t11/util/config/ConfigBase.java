@@ -42,8 +42,10 @@ public abstract class ConfigBase {
 
   public static final String PROPERTY_ANLAGE = "v5t11.anlage";
 
-  public static final String PROPERTY_MQTT_HOST = "v5t11.mqtt.host";
+  public static final String PROPERTY_DB_HOST = "v5t11.db.host";
+  public static final String PROPERTY_DB_PORT = "v5t11.db.port";
 
+  public static final String PROPERTY_MQTT_HOST = "v5t11.mqtt.host";
   public static final String PROPERTY_MQTT_PORT = "v5t11.mqtt.port";
 
   public static final String PROPERTY_STATUS_REST_URL = "v5t11.status/mp-rest/url";
@@ -69,6 +71,16 @@ public abstract class ConfigBase {
   @ConfigProperty(name = PROPERTY_VERSION)
   @Getter
   String version;
+
+  @Inject
+  @ConfigProperty(name = PROPERTY_DB_HOST)
+  @Getter
+  String dbHost;
+
+  @Inject
+  @ConfigProperty(name = PROPERTY_DB_PORT)
+  @Getter
+  int dbPort;
 
   @Inject
   @ConfigProperty(name = PROPERTY_MQTT_HOST)
