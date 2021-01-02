@@ -11,4 +11,9 @@ import javax.transaction.Transactional;
 @Transactional(rollbackOn = Exception.class)
 public class WeicheRepository extends SingleIdEntityRepository<BereichselementId, Weiche> {
 
+  public long findMaxLastChangeMillis() {
+    Long max = findSingle("select max(x.lastChangeMillis) from Weiche x", Long.class);
+    return max != null ? max : 0L;
+  }
+
 }

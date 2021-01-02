@@ -11,4 +11,9 @@ import javax.transaction.Transactional;
 @Transactional(rollbackOn = Exception.class)
 public class SignalRepository extends SingleIdEntityRepository<BereichselementId, Signal> {
 
+  public long findMaxLastChangeMillis() {
+    Long max = findSingle("select max(x.lastChangeMillis) from Signal x", Long.class);
+    return max != null ? max : 0L;
+  }
+
 }

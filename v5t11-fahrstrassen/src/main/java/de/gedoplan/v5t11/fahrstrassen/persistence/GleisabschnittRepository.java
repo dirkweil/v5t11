@@ -15,4 +15,9 @@ public class GleisabschnittRepository extends SingleIdEntityRepository<Bereichse
     return findById(new BereichselementId(bereich, name));
   }
 
+  public long findMaxLastChangeMillis() {
+    Long max = findSingle("select max(x.lastChangeMillis) from Gleisabschnitt x", Long.class);
+    return max != null ? max : 0L;
+  }
+
 }

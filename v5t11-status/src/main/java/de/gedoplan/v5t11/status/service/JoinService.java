@@ -9,6 +9,8 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.ObservesAsync;
 import javax.inject.Inject;
 
+import org.jboss.logging.Logger;
+
 @ApplicationScoped
 public class JoinService {
 
@@ -21,12 +23,23 @@ public class JoinService {
   @Inject
   ConfigService configService;
 
+  @Inject
+  Logger logger;
+
   /**
    * Andere Teilanwendungen vom eigenen Anwendungsstart informieren.
    */
   public void joinMyself() {
+    // Letzte Änderung der persistenten Daten berechnen
+    // TODO lastChangeMillis berechnen
+    long lastChangeMillis = 0L;
+
+    // Vorsichtshalber ein paar Sekunden abziehen
+    lastChangeMillis -= 10 * 1000L;
+
     // Aktualisierungen von anderen Anwendungen anfordern
-    this.outgoingHandler.publish(new JoinInfo(this.configService.getArtifactId(), 0L));
+    this.logger.debugf("Updates ab %tF %<tT.%<tL anfordern", lastChangeMillis);
+    this.outgoingHandler.publish(new JoinInfo(this.configService.getArtifactId(), lastChangeMillis));
 
     // Eigenen Status an die anderen senden
     join(0);
@@ -39,36 +52,48 @@ public class JoinService {
    */
   void appJoined(@ObservesAsync @Received JoinInfo joinInfo) {
     if (!joinInfo.getAppName().equals(this.configService.getArtifactId())) {
+      this.logger.debugf("%s fordert Updates ab %tF %<tT.%<tL an", joinInfo.getAppName(), joinInfo.getLastUpdateMillis());
       join(joinInfo.getLastUpdateMillis());
     }
   }
 
   private void join(long sendUpdatesSinceMillis) {
-    this.outgoingHandler.publish(this.steuerung.getZentrale());
+    this.logger.debugf("Updates ab %tF %<tT.%<tL senden", sendUpdatesSinceMillis);
 
-    this.steuerung
+    this.outgoingHandler.publish(this.steuerung.getZentrale());
+    this.logger.debugf("Zentrale gesendet");
+
+    long count = this.steuerung
         .getGleisabschnitte()
         .stream()
         .filter(x -> x.getLastChangeMillis() >= sendUpdatesSinceMillis)
-        .forEach(x -> this.outgoingHandler.publish(x));
+        .peek(x -> this.outgoingHandler.publish(x))
+        .count();
+    this.logger.debugf("%d Gleisabschnitte gesendet", count);
 
-    this.steuerung
+    count = this.steuerung
         .getSignale()
         .stream()
         .filter(x -> x.getLastChangeMillis() >= sendUpdatesSinceMillis)
-        .forEach(x -> this.outgoingHandler.publish(x));
+        .peek(x -> this.outgoingHandler.publish(x))
+        .count();
+    this.logger.debugf("%d Signale gesendet", count);
 
-    this.steuerung
+    count = this.steuerung
         .getWeichen()
         .stream()
         .filter(x -> x.getLastChangeMillis() >= sendUpdatesSinceMillis)
-        .forEach(x -> this.outgoingHandler.publish(x));
+        .peek(x -> this.outgoingHandler.publish(x))
+        .count();
+    this.logger.debugf("%d Weichen gesendet", count);
 
-    this.steuerung
+    count = this.steuerung
         .getFahrzeuge()
         .stream()
         .filter(x -> x.getLastChangeMillis() >= sendUpdatesSinceMillis)
-        .forEach(x -> this.outgoingHandler.publish(x));
+        .peek(x -> this.outgoingHandler.publish(x))
+        .count();
+    this.logger.debugf("%d Fahrzeuge gesendet", count);
   }
 
 }
