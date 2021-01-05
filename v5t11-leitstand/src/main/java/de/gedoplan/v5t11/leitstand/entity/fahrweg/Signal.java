@@ -36,11 +36,14 @@ public class Signal extends AbstractSignal {
 
   @Override
   public boolean copyStatus(Fahrwegelement other) {
+    boolean changed = false;
     Signal otherSignal = (Signal) other;
-    if (otherSignal.typ != null) {
+    if (otherSignal.typ != null && otherSignal.typ != this.typ) {
       this.typ = otherSignal.typ;
+      this.lastChangeMillis = other.getLastChangeMillis();
+      changed = true;
     }
-    return super.copyStatus(other);
+    return super.copyStatus(other) || changed;
   }
 
 }
