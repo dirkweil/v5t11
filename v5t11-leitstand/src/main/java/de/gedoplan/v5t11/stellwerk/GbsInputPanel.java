@@ -148,7 +148,7 @@ public class GbsInputPanel extends JPanel {
   }
 
   public void addSignal(final Signal signal) {
-    if (signal != null) {
+    if (signal != null && signal.getTyp() != null) {
       if (LOG.isTraceEnabled()) {
         LOG.trace("addSignal: " + signal);
       }

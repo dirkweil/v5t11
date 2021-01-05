@@ -227,7 +227,7 @@ public abstract class GbsElement extends JPanel {
 
     doPaintGleis(g2d);
 
-    if (this.signal != null) {
+    if (this.signal != null && this.signal.getTyp() != null) {
       doPaintSignal(g2d);
     }
 
@@ -290,8 +290,8 @@ public abstract class GbsElement extends JPanel {
     // Koordinatensystem dort wieder so drehen, dass der Text später waagerecht liegt
     g2d.rotate(-Math.toRadians(this.signalPosition.getWinkel()), curPoint.x, curPoint.y);
 
-    // Signalbezeichnug ausgeben
-    drawString(g2d, Color.BLACK, VIRTUAL_FONTSIZE_SIGNAL, label, curPoint.x, curPoint.y);
+    // TODO Signalbezeichnug ausgeben?
+    // drawString(g2d, Color.BLACK, VIRTUAL_FONTSIZE_SIGNAL, label, curPoint.x, curPoint.y);
   }
 
   /**
@@ -489,41 +489,43 @@ public abstract class GbsElement extends JPanel {
 
   @SuppressWarnings("incomplete-switch")
   private static Color[] getSignalFarben(Signal signal) {
-    switch (signal.getTyp()) {
-    case HAUPTSIGNAL_RT_GE:
-    case HAUPTSIGNAL_RT_GN:
-    case HAUPTSIGNAL_RT_GE_GN:
-      switch (signal.getStellung()) {
-      case HALT:
-        return FARBEN_HP0;
-      case FAHRT:
-        return FARBEN_HP1;
-      case LANGSAMFAHRT:
-        return FARBEN_HP2;
-      }
-      break;
+    if (signal.getTyp() != null) {
+      switch (signal.getTyp()) {
+      case HAUPTSIGNAL_RT_GE:
+      case HAUPTSIGNAL_RT_GN:
+      case HAUPTSIGNAL_RT_GE_GN:
+        switch (signal.getStellung()) {
+        case HALT:
+          return FARBEN_HP0;
+        case FAHRT:
+          return FARBEN_HP1;
+        case LANGSAMFAHRT:
+          return FARBEN_HP2;
+        }
+        break;
 
-    case HAUPTSPERRSIGNAL:
-      switch (signal.getStellung()) {
-      case HALT:
-        return FARBEN_HP00;
-      case FAHRT:
-        return FARBEN_HP1;
-      case LANGSAMFAHRT:
-        return FARBEN_HP2;
-      case RANGIERFAHRT:
-        return FARBEN_HP0SH1;
-      }
-      break;
+      case HAUPTSPERRSIGNAL:
+        switch (signal.getStellung()) {
+        case HALT:
+          return FARBEN_HP00;
+        case FAHRT:
+          return FARBEN_HP1;
+        case LANGSAMFAHRT:
+          return FARBEN_HP2;
+        case RANGIERFAHRT:
+          return FARBEN_HP0SH1;
+        }
+        break;
 
-    case SPERRSIGNAL:
-      switch (signal.getStellung()) {
-      case HALT:
-        return FARBEN_SH0;
-      case RANGIERFAHRT:
-        return FARBEN_SH1;
+      case SPERRSIGNAL:
+        switch (signal.getStellung()) {
+        case HALT:
+          return FARBEN_SH0;
+        case RANGIERFAHRT:
+          return FARBEN_SH1;
+        }
+        break;
       }
-      break;
     }
 
     return FARBEN_NULL;
