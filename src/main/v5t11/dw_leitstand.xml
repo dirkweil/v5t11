@@ -526,9 +526,9 @@
       <Gleisabschnitt lage="NW,SO" name="105" bereich="HBf" label="true" />
     </Zeile>
     <Zeile>
-      <Gleisabschnitt lage="S,NO" name="404" bereich="HBf"  />
-      <Gleisabschnitt lage="S,N" name="406" bereich="HBf"  />
-      <Gleisabschnitt lage="S,N" name="407" bereich="HBf"  />
+      <Gleisabschnitt lage="S,NO" name="404" bereich="HBf" signal="404" signalPos="SO" />
+      <Gleisabschnitt lage="S,N" name="406" bereich="HBf" signal="406" signalPos="O" />
+      <Gleisabschnitt lage="S,N" name="407" bereich="HBf" signal="A" signalPos="O" />
       <Leer anzahl="4" />
       <Weiche lage="NW,SO|O" name="9" bereich="HBf" />
       <Gleisabschnitt lage="W,O" name="9" bereich="HBf" anzahl="4" />
@@ -575,7 +575,7 @@
     </Zeile>
     <Zeile>
       <Leer anzahl="1" />
-      <Gleisabschnitt lage="S,N" name="406" bereich="HBf" />
+      <Gleisabschnitt lage="S,N" name="406" bereich="HBf" signal="Sbk2" signalPos="W"/>
       <Gleisabschnitt lage="S,N" name="407" bereich="HBf" />
       <Leer anzahl="21" />
       <Gleisabschnitt lage="N,S" name="507" bereich="HBf" />
