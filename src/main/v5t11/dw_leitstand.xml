@@ -430,9 +430,10 @@
       <Leer anzahl="9" />
       <Gleisabschnitt lage="W,O" name="1" bereich="HBf"  />
       <Gleisabschnitt lage="W,O" name="1" bereich="HBf" label="true" />
-      <Gleisabschnitt lage="W,O" name="1" bereich="HBf"  />
+      <Gleisabschnitt lage="W,O" name="1" bereich="HBf" signal="1" signalPos="S" />
       <Weiche lage="W|SW,O" name="13" bereich="HBf" />
-      <Gleisabschnitt lage="W,O" name="21" bereich="HBf" anzahl="3" />
+      <Gleisabschnitt lage="W,O" name="21" bereich="HBf" signal="21'" />
+      <Gleisabschnitt lage="W,O" name="21" bereich="HBf" anzahl="2" />
       <Gleisabschnitt lage="W,O" name="21" bereich="HBf" label="true" />
       <Gleisabschnitt lage="W,O" name="21" bereich="HBf" />
       <Gleisabschnitt lage="W,SO" name="21" bereich="HBf" />
@@ -440,7 +441,8 @@
     <Zeile>
       <Leer anzahl="11" />
       <Weiche lage="SW,NO|O" name="12" bereich="HBf" />
-      <Gleisabschnitt lage="W,O" name="22" bereich="HBf" anzahl="4" />
+      <Gleisabschnitt lage="W,O" name="22" bereich="HBf" signal="22'" />
+      <Gleisabschnitt lage="W,O" name="22" bereich="HBf" anzahl="3" />
       <Gleisabschnitt lage="W,O" name="22" bereich="HBf" label="true" />
       <Gleisabschnitt lage="W,O" name="22" bereich="HBf" anzahl="2" />
       <Weiche lage="NW|W,SO" name="17" bereich="HBf" />
@@ -448,27 +450,31 @@
     <Zeile>
       <Leer anzahl="6" />
       <Gleisabschnitt lage="SW,O" name="3" bereich="HBf" />
-      <Gleisabschnitt lage="W,O" name="3" bereich="HBf" />
+      <Gleisabschnitt lage="W,O" name="3" bereich="HBf" signal="P3" />
       <Gleisabschnitt lage="W,O" name="3" bereich="HBf" label="true" />
-      <Gleisabschnitt lage="W,O" name="3" bereich="HBf" anzahl="1" />
+      <Gleisabschnitt lage="W,O" name="3" bereich="HBf" signal="3" signalPos="S" />
       <Weiche lage="W,O|NO" name="10" bereich="HBf" />
       <Weiche lage="W,O|SO" name="11" bereich="HBf" />
-      <Gleisabschnitt lage="W,O" name="23" bereich="HBf" anzahl="4" />
+      <Gleisabschnitt lage="W,O" name="23" bereich="HBf" signal="23'" />
+      <Gleisabschnitt lage="W,O" name="23" bereich="HBf" anzahl="3" />
       <Gleisabschnitt lage="W,O" name="23" bereich="HBf" label="true" />
-      <Gleisabschnitt lage="W,O" name="23" bereich="HBf" anzahl="2" />
+      <Gleisabschnitt lage="W,O" name="23" bereich="HBf"  />
+      <Gleisabschnitt lage="W,O" name="23" bereich="HBf"  />
       <Weiche lage="W|SW,O" name="18" bereich="HBf" />
       <Weiche lage="NW|W,SO" name="19" bereich="HBf" />
     </Zeile>
     <Zeile>
       <Leer anzahl="5" />
       <Weiche lage="SW,O|NO" name="5" bereich="HBf" />
+      <Gleisabschnitt lage="W,O" name="4" bereich="HBf" signal="P4" />
       <Gleisabschnitt lage="W,O" name="4" bereich="HBf" />
-      <Gleisabschnitt lage="W,O" name="4" bereich="HBf" anzahl="1" />
       <Gleisabschnitt lage="W,O" name="4" bereich="HBf" label="true" />
-      <Gleisabschnitt lage="W,O" name="4" bereich="HBf" anzahl="3" />
+      <Gleisabschnitt lage="W,O" name="4" bereich="HBf" anzahl="2" />
+      <Gleisabschnitt lage="W,O" name="4" bereich="HBf" signal="4" signalPos="S" />
       <Weiche lage="W|NW,O" name="14" bereich="HBf" />
       <Weiche lage="W,O|SO" name="15" bereich="HBf" />
-      <Gleisabschnitt lage="W,O" name="24" bereich="HBf" anzahl="2" />
+      <Gleisabschnitt lage="W,O" name="24" bereich="HBf" signal="24'" />
+      <Gleisabschnitt lage="W,O" name="24" bereich="HBf" />
       <Gleisabschnitt lage="W,O" name="24" bereich="HBf" label="true" />
       <Gleisabschnitt lage="W,O" name="24" bereich="HBf" />
       <Gleisabschnitt lage="W,NO" name="24" bereich="HBf" />
@@ -481,7 +487,8 @@
       <Leer anzahl="4" />
       <Gleisabschnitt lage="W,O" name="5" bereich="HBf"  />
       <Gleisabschnitt lage="W,O" name="5" bereich="HBf" label="true" />
-      <Gleisabschnitt lage="W,O" name="5" bereich="HBf" anzahl="3" />
+      <Gleisabschnitt lage="W,O" name="5" bereich="HBf" anzahl="2" />
+      <Gleisabschnitt lage="W,O" name="5" bereich="HBf" signal="N5" signalPos="S" />
       <Weiche lage="W|NW,O" name="16" bereich="HBf" />
       <Gleisabschnitt lage="W,O" name="25" bereich="HBf"  />
       <Gleisabschnitt lage="W,O" name="25" bereich="HBf" label="true" />
@@ -492,7 +499,8 @@
       <Leer anzahl="3" />
       <Weiche lage="SW,NO|O" name="4" bereich="HBf" />
       <Weiche lage="W,O|SO" name="6" bereich="HBf" />
-      <Gleisabschnitt lage="W,O" name="6" bereich="HBf" anzahl="7" />
+      <Gleisabschnitt lage="W,O" name="6" bereich="HBf" signal="P6" />
+      <Gleisabschnitt lage="W,O" name="6" bereich="HBf" anzahl="6" />
       <Gleisabschnitt lage="W,O" name="6" bereich="HBf" label="true" />
       <Gleisabschnitt lage="W,O" name="6" bereich="HBf" anzahl="9" />
       <Gleisabschnitt lage="W,SO" name="6" bereich="HBf" />
@@ -504,7 +512,8 @@
       <Gleisabschnitt lage="SW,O" name="207" bereich="HBf"  />
       <Gleisabschnitt lage="W,O" name="207" bereich="HBf"  />
       <Dkw2 lage="W|NW,O|SO" name="7" bereich="HBf" />
-      <Gleisabschnitt lage="W,O" name="7" bereich="HBf" anzahl="6" />
+      <Gleisabschnitt lage="W,O" name="7" bereich="HBf" signal="P7" />
+      <Gleisabschnitt lage="W,O" name="7" bereich="HBf" anzahl="5" />
       <Gleisabschnitt lage="W,O" name="7" bereich="HBf" label="true" />
       <Gleisabschnitt lage="W,O" name="7" bereich="HBf" anzahl="9" />
       <Gleisabschnitt lage="W,SO" name="7" bereich="HBf" />
@@ -517,7 +526,8 @@
       <Weiche lage="S,N|NO" name="2" bereich="HBf" />
       <Leer anzahl="3" />
       <Weiche lage="NW,O|SO" name="8" bereich="HBf" />
-      <Gleisabschnitt lage="W,O" name="8" bereich="HBf" anzahl="5" />
+      <Gleisabschnitt lage="W,O" name="8" bereich="HBf" signal="P8" />
+      <Gleisabschnitt lage="W,O" name="8" bereich="HBf" anzahl="4" />
       <Gleisabschnitt lage="W,O" name="8" bereich="HBf" label="true" />
       <Gleisabschnitt lage="W,O" name="8" bereich="HBf" anzahl="9" />
       <Weiche lage="W|SW,O" name="23" bereich="HBf" />
@@ -531,7 +541,8 @@
       <Gleisabschnitt lage="S,N" name="407" bereich="HBf" signal="A" signalPos="O" />
       <Leer anzahl="4" />
       <Weiche lage="NW,SO|O" name="9" bereich="HBf" />
-      <Gleisabschnitt lage="W,O" name="9" bereich="HBf" anzahl="4" />
+      <Gleisabschnitt lage="W,O" name="9" bereich="HBf" signal="P9" />
+      <Gleisabschnitt lage="W,O" name="9" bereich="HBf" anzahl="3" />
       <Gleisabschnitt lage="W,O" name="9" bereich="HBf" label="true" />
       <Gleisabschnitt lage="W,O" name="9" bereich="HBf" anzahl="8" />
       <Weiche lage="W|SW,NO" name="21" bereich="HBf" />
@@ -546,7 +557,8 @@
       <Gleisabschnitt lage="S,N" name="407" bereich="HBf" />
       <Leer anzahl="5" />
       <Gleisabschnitt lage="NW,O" name="10" bereich="HBf"  />
-      <Gleisabschnitt lage="W,O" name="10" bereich="HBf" anzahl="3" />
+      <Gleisabschnitt lage="W,O" name="10" bereich="HBf" signal="P10" />
+      <Gleisabschnitt lage="W,O" name="10" bereich="HBf" anzahl="2" />
       <Gleisabschnitt lage="W,O" name="10" bereich="HBf" label="true" />
       <Gleisabschnitt lage="W,O" name="10" bereich="HBf" anzahl="7" />
       <Gleisabschnitt lage="W,NO" name="10" bereich="HBf" />
