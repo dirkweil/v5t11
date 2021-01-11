@@ -282,19 +282,12 @@
 
     <SXSD1 id="FD-2010-3" adr="1074" einbauOrt="HBf Einfahrt links">
     
-      <!-- TODO --> <HauptsignalRtGnGe idx="0" bereich="HBf" name="A" />
+      <HauptsignalRtGnGe idx="0" bereich="HBf" name="A" />
       <Sperrsignal idx="2" bereich="HBf" name="404" />
       <Sperrsignal idx="3" bereich="HBf" name="406" />
       <HauptsignalRtGn idx="4" bereich="HBf" name="Sbk2" />
-      <!-- TODO --> <Sperrsignal idx="5" bereich="HBf" name="1" /> 
-      <!-- TODO --> <Sperrsignal idx="6" bereich="HBf" name="3" /> 
-      <!-- TODO --> <Sperrsignal idx="7" bereich="HBf" name="4" /> 
-      <!-- TODO --> <Sperrsignal idx="8" bereich="HBf" name="21'" /> 
-      <!-- TODO --> <Sperrsignal idx="9" bereich="HBf" name="22'" /> 
-      <!-- TODO --> <Sperrsignal idx="10" bereich="HBf" name="23'" /> 
-      <!-- TODO --> <Sperrsignal idx="11" bereich="HBf" name="24'" /> 
-      <!-- TODO --> <Hauptsperrsignal idx="12" bereich="HBf" name="N5" /> 
-      <!-- TODO --> <Vorsignal idx="14" bereich="HBf" name="n" mast="A"/>
+      <!-- TODO --> <Hauptsperrsignal idx="12" bereich="HBf" name="R5" /> 
+      <Vorsignal idx="14" bereich="HBf" name="n" mast="A"/>
     </SXSD1>
     
     <SD8 id="FD-2013-3" adr="1077" einbauOrt="HBf Einfahrt links">
@@ -319,14 +312,17 @@
       <!-- TODO --> <Hauptsperrsignal idx="10" bereich="HBf" name="P9" />
       <!-- TODO --> <Hauptsperrsignal idx="12" bereich="HBf" name="P10" />
       <!-- TODO --> <Vorsignal idx="14" bereich="HBf" name="sbk2" />
-
-      <!-- TODO <Sperrsignal idx="10" bereich="HBf" name="21&quot;" /> -->
-      <!-- TODO <Sperrsignal idx="11" bereich="HBf" name="22&quot;" /> -->
-      <!-- TODO <Sperrsignal idx="12" bereich="HBf" name="23&quot;" /> -->
-      <!-- TODO <Sperrsignal idx="13" bereich="HBf" name="24&quot;" /> -->
-      <!-- TODO <Sperrsignal idx="14" bereich="HBf" name="25&quot;" /> -->
-      <!-- TODO <Sperrsignal idx="15" bereich="HBf" name="21'" /> -->
     </SXSD1>
+    
+    <WDMiba id="FD-2019-3" adr="1073" einbauOrt="HBf unter EG">
+      <!-- TODO --> <Sperrsignal idx="0" bereich="HBf" name="1" /> 
+      <!-- TODO --> <Sperrsignal idx="1" bereich="HBf" name="3" /> 
+      <!-- TODO --> <Sperrsignal idx="2" bereich="HBf" name="4" /> 
+      <!-- TODO --> <Sperrsignal idx="3" bereich="HBf" name="21'" /> 
+      <!-- TODO --> <Sperrsignal idx="4" bereich="HBf" name="22'" /> 
+      <!-- TODO --> <Sperrsignal idx="5" bereich="HBf" name="23'" /> 
+      <!-- TODO --> <Sperrsignal idx="6" bereich="HBf" name="24'" /> 
+    </WDMiba>
 
     <SD8 id="FD-2013-1" adr="1082" einbauOrt="HBf Mitte">
       <Weiche idx="0" bereich="HBf" name="17" />
@@ -342,6 +338,12 @@
     </SD8>
 
     <SXSD1 id="FD-2010-1" adr="1078" einbauOrt="HBf ???">
+      <!-- TODO --> <Hauptsperrsignal idx="0" bereich="HBf" name="N21-25" /> 
+      <!-- TODO --> <Hauptsperrsignal idx="2" bereich="HBf" name="N6" /> 
+      <!-- TODO --> <Hauptsperrsignal idx="4" bereich="HBf" name="N7" /> 
+      <!-- TODO --> <Hauptsperrsignal idx="6" bereich="HBf" name="N8" /> 
+      <!-- TODO --> <Hauptsperrsignal idx="8" bereich="HBf" name="N9" /> 
+      <!-- TODO --> <Hauptsperrsignal idx="10" bereich="HBf" name="N10" /> 
     </SXSD1>
     
     <SD8 id="FD-2019-1" adr="83" einbauOrt="HBf Ausfahrt rechts">
@@ -379,6 +381,17 @@
       <Weiche bereich="SBf" name="33" />
       <Weiche bereich="S20" name="2001" />
       <Weiche bereich="S10" name="1003" />
+      <!-- TODO --> <Sperrsignal idx="0" bereich="HBf" name="21" />
+      <!-- TODO --> <Sperrsignal idx="1" bereich="HBf" name="22" />
+      <!-- TODO --> <Sperrsignal idx="2" bereich="HBf" name="23" />
+      <!-- TODO --> <Sperrsignal idx="3" bereich="HBf" name="24" />
+      <!-- TODO --> <Sperrsignal idx="4" bereich="HBf" name="25" />
+      <!-- TODO --> <Sperrsignal idx="5" bereich="HBf" name="25'" />
+      <!-- TODO --> <Sperrsignal idx="6" bereich="HBf" name="W30" />
+      <!-- TODO --> <HauptsignalRtGnGe idx="8" bereich="HBf" name="F" />
+      <!-- TODO --> <HauptsignalRtGnGe idx="10" bereich="HBf" name="G" />
+      <!-- TODO --> <Vorsignal idx="12" bereich="HBf" name="p[F]" mast="F"/>
+      <!-- TODO --> <Vorsignal idx="14" bereich="HBf" name="p[G]" mast="G"/>
     </NoFD>
     
   </Funktionsdecoder>
