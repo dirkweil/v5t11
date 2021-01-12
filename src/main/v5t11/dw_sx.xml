@@ -157,6 +157,7 @@
       <Gleisabschnitt idx="7" bereich="NBf" name="202" />
     </SXBM1>
 
+    <!-- Check OK -->
     <SXBM1 id="BM-2013-2" adr="1057" einbauOrt="HBf Einfahrt links">
       <Gleisabschnitt idx="0" bereich="HBf" name="207" />
       <Gleisabschnitt idx="1" bereich="HBf" name="406" />
@@ -169,6 +170,7 @@
       <Gleisabschnitt idx="7" bereich="HBf" name="W5" />
     </SXBM1>
 
+    <!-- Check OK -->
     <SXBM1 id="BM-2013-4" adr="1058" einbauOrt="HBf Einfahrt links">
       <Gleisabschnitt idx="0" bereich="HBf" name="3" />
       <Gleisabschnitt idx="1" bereich="HBf" name="4" />
@@ -180,6 +182,7 @@
       <Gleisabschnitt idx="7" bereich="HBf" name="W9" />
     </SXBM1>
 
+    <!-- Check OK -->
     <SXBM1 id="BM-2013-3" adr="1059" einbauOrt="HBf unter EG">
       <Gleisabschnitt idx="0" bereich="HBf" name="5" />
       <Gleisabschnitt idx="1" bereich="HBf" name="W12" />
@@ -191,6 +194,7 @@
       <Gleisabschnitt idx="7" bereich="HBf" name="W11" />
     </SXBM1>
 
+    <!-- Check OK -->
     <SXBM1 id="BM-2003-9" adr="1060" einbauOrt="HBf unter Wuest">
       <Gleisabschnitt idx="0" bereich="HBf" name="25" />
       <Gleisabschnitt idx="1" bereich="HBf" name="21" />
@@ -203,6 +207,7 @@
       <Gleisabschnitt idx="7" bereich="HBf" name="24" />
     </SXBM1>
 
+    <!-- Check OK -->
     <BMMiba3 id="BM-2019-2" adr="61" einbauOrt="HBf Gleisende rechts">
       <Gleisabschnitt idx="0" bereich="HBf" name="W17" />
       <Gleisabschnitt idx="1" bereich="HBf" name="W18" />
@@ -216,6 +221,7 @@
       <Gleisabschnitt idx="7" bereich="HBf" name="W26" />
     </BMMiba3>
 
+    <!-- Check OK -->
     <HEBM8 id="BM-2019-3" adr="62" einbauOrt="HBf Ausfahrt rechts">
       <Gleisabschnitt idx="0" bereich="HBf" name="105" />
       <Gleisabschnitt idx="1" bereich="HBf" name="W27" />
@@ -226,6 +232,7 @@
       <Gleisabschnitt idx="5" bereich="HBf" name="W31" />
     </HEBM8>
 
+    <!-- Check OK -->
     <Muet8i id="BM-2018-1" adr="40" einbauOrt="Paradestrecke">
       <Gleisabschnitt idx="0" bereich="HBf" name="505" />
       <Gleisabschnitt idx="1" bereich="HBf" name="506" />
@@ -237,6 +244,7 @@
   </Besetztmelder>
   
   <Funktionsdecoder>
+    <!-- Check OK -->
     <WDMiba id="FD-2003-1" adr="70" einbauOrt="Einfahrt SBf">
       <Weiche idx="0" bereich="SBf" name="15" />
       <Weiche idx="1" bereich="SBf" name="17" />
@@ -247,6 +255,7 @@
       <Weiche idx="7" bereich="SBf" name="14" />
     </WDMiba>
 
+    <!-- Check OK -->
     <WDMiba id="FD-2003-2" adr="71" einbauOrt="Einfahrt SBf">
       <Schalter idx="0" bereich="SBf" name="KS18" />
       <Schalter idx="1" bereich="SBf" name="KS17" />
@@ -256,6 +265,7 @@
       <Weiche idx="7" bereich="SBf" name="3" />
     </WDMiba>
 
+    <!-- Check OK -->
     <WDMiba id="FD-2003-3" adr="72" einbauOrt="Einfahrt SBf">
       <Weiche idx="0" bereich="SBf" name="5" />
       <Weiche idx="1" bereich="SBf" name="7" />
@@ -266,6 +276,7 @@
       <Weiche idx="7" bereich="SBf" name="2" />
     </WDMiba>
 
+    <!-- Check OK -->
     <SD8 id="FD-2013-2" adr="76" einbauOrt="Ausfahrt rechts NBf">
       <Weiche idx="0" bereich="NBf" name="1" />
       <Weiche idx="0" bereich="NBf" name="4" />
@@ -280,8 +291,8 @@
       <!-- TODO <HauptsignalRtGe idx="7" bereich="NBf" name="N1-4" /> -->
     </SD8>
 
-    <SXSD1 id="FD-2010-3" adr="1074" einbauOrt="HBf Einfahrt links">
-    
+    <!-- Check OK -->
+    <SXSD1 id="FD-2010-1" adr="1078" einbauOrt="HBf Einfahrt links">
       <HauptsignalRtGnGe idx="0" bereich="HBf" name="A" />
       <Sperrsignal idx="2" bereich="HBf" name="404" />
       <Sperrsignal idx="3" bereich="HBf" name="406" />
@@ -290,6 +301,7 @@
       <Vorsignal idx="14" bereich="HBf" name="n" mast="A"/>
     </SXSD1>
     
+    <!-- Check OK -->
     <SD8 id="FD-2013-3" adr="1077" einbauOrt="HBf Einfahrt links">
       <Weiche idx="0" bereich="HBf" name="1" />
       <Weiche idx="1" bereich="HBf" name="2" invertiert="true" />
@@ -314,16 +326,18 @@
       <!-- TODO --> <Vorsignal idx="14" bereich="HBf" name="sbk2" />
     </SXSD1>
     
-    <WDMiba id="FD-2019-3" adr="1073" einbauOrt="HBf unter EG">
-      <!-- TODO --> <Sperrsignal idx="0" bereich="HBf" name="1" /> 
-      <!-- TODO --> <Sperrsignal idx="1" bereich="HBf" name="3" /> 
-      <!-- TODO --> <Sperrsignal idx="2" bereich="HBf" name="4" /> 
+    <!-- Check OK -->
+    <WDMiba3 id="FD-2019-3" adr="1073" einbauOrt="HBf unter EG">
+      <!-- TODO --> <Sperrsignal idx="1" bereich="HBf" name="22'" /> 
+      <Sperrsignal idx="2" bereich="HBf" name="4" /> 
       <!-- TODO --> <Sperrsignal idx="3" bereich="HBf" name="21'" /> 
-      <!-- TODO --> <Sperrsignal idx="4" bereich="HBf" name="22'" /> 
+      <Sperrsignal idx="4" bereich="HBf" name="3" /> 
       <!-- TODO --> <Sperrsignal idx="5" bereich="HBf" name="23'" /> 
       <!-- TODO --> <Sperrsignal idx="6" bereich="HBf" name="24'" /> 
-    </WDMiba>
+      <Sperrsignal idx="7" bereich="HBf" name="1" /> 
+    </WDMiba3>
 
+    <!-- Check OK -->
     <SD8 id="FD-2013-1" adr="1082" einbauOrt="HBf Mitte">
       <Weiche idx="0" bereich="HBf" name="17" />
       <Weiche idx="1" bereich="HBf" name="11" />
@@ -337,7 +351,7 @@
       <Weiche idx="7" bereich="HBf" name="16" />
     </SD8>
 
-    <SXSD1 id="FD-2010-1" adr="1078" einbauOrt="HBf ???">
+    <SXSD1 id="FD-2010-3" adr="1074" einbauOrt="HBf ???">
       <!-- TODO --> <Hauptsperrsignal idx="0" bereich="HBf" name="N21-25" /> 
       <!-- TODO --> <Hauptsperrsignal idx="2" bereich="HBf" name="N6" /> 
       <!-- TODO --> <Hauptsperrsignal idx="4" bereich="HBf" name="N7" /> 
@@ -346,6 +360,7 @@
       <!-- TODO --> <Hauptsperrsignal idx="10" bereich="HBf" name="N10" /> 
     </SXSD1>
     
+    <!-- Check OK -->
     <SD8 id="FD-2019-1" adr="83" einbauOrt="HBf Ausfahrt rechts">
       <Weiche idx="0" bereich="HBf" name="20" />
       <Weiche idx="1" bereich="HBf" name="22" />
