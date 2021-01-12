@@ -175,9 +175,10 @@ public abstract class Zentrale implements Closeable {
       port.setComPortParameters(getPortSpeed(), 8, SerialPort.TWO_STOP_BITS, SerialPort.NO_PARITY);
       port.setFlowControl(SerialPort.FLOW_CONTROL_DISABLED);
       port.setComPortTimeouts(SerialPort.TIMEOUT_READ_BLOCKING, PORT_RECEIVE_TIMEOUT_MILLIS, 0);
-      if (!port.openPort()) {
-        throw new IOException("SerialPort " + this.portName + " kann nicht geöffnet werden");
-      }
+      if (!port.isOpen())
+        if (!port.openPort()) {
+          throw new IOException("SerialPort " + this.portName + " kann nicht geöffnet werden");
+        }
 
       this.device = port;
 
