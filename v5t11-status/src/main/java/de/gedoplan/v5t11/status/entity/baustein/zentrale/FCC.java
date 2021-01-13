@@ -172,7 +172,7 @@ public class FCC extends Zentrale {
         } catch (Exception ignore) {
         }
 
-        delay(1000);
+        delay(15000);
       }
     }
 

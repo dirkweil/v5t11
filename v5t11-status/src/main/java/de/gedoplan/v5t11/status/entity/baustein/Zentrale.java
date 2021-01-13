@@ -112,57 +112,9 @@ public abstract class Zentrale implements Closeable {
     this.out = socket.getOutputStream();
   }
 
-  // private void openSerialPort() throws IOException {
-  //
-  // if (this.log.isDebugEnabled()) {
-  // this.log.debug("openSerialPort(" + this.portName + ", " + getPortSpeed() + ")");
-  // }
-  //
-  // if (this.portName != null && !"none".equalsIgnoreCase(this.portName)) {
-  // CommPortIdentifier portId = null;
-  // try {
-  // portId = CommPortIdentifier.getPortIdentifier(this.portName);
-  // } catch (NoSuchPortException ex) {
-  // throw new IOException("Port " + this.portName + " ist nicht vorhanden");
-  // }
-  //
-  // if (portId.getPortType() != CommPortIdentifier.PORT_SERIAL) {
-  // throw new IOException("Port " + this.portName + " ist keine Serienschnittstelle");
-  // }
-  //
-  // SerialPort port = null;
-  // try {
-  // port = portId.open("SxInterface", 2000);
-  // } catch (PortInUseException ex) {
-  // throw new IOException("Port " + this.portName + " ist bereits belegt");
-  // }
-  // this.device = port;
-  //
-  // this.in = null;
-  // this.out = null;
-  // try {
-  // port.setSerialPortParams(getPortSpeed(), SerialPort.DATABITS_8, SerialPort.STOPBITS_2, SerialPort.PARITY_NONE);
-  // port.setFlowControlMode(SerialPort.FLOWCONTROL_NONE);
-  // port.enableReceiveTimeout(PORT_RECEIVE_TIMEOUT_MILLIS);
-  // port.enableReceiveThreshold(1);
-  //
-  // this.in = port.getInputStream();
-  // this.out = port.getOutputStream();
-  // } catch (UnsupportedCommOperationException ex) {
-  // closePort();
-  // throw new IOException("Port " + this.portName + " kann nicht initialisiert werden");
-  // } catch (IOException ex) {
-  // closePort();
-  // throw ex;
-  // }
-  // }
-  // }
-
   private void openSerialPort() throws IOException {
 
-    if (this.log.isDebugEnabled()) {
-      this.log.debug("openSerialPort(" + this.portName + ", " + getPortSpeed() + ")");
-    }
+    this.log.debugf("openSerialPort(%s, %d)", this.portName, getPortSpeed());
 
     if (this.portName != null && !"none".equalsIgnoreCase(this.portName)) {
       SerialPort port = null;
@@ -181,6 +133,8 @@ public abstract class Zentrale implements Closeable {
         }
 
       this.device = port;
+
+      this.log.infof("SerialPort %s geöffnet", portName);
 
       this.in = null;
       this.out = null;
@@ -235,19 +189,6 @@ public abstract class Zentrale implements Closeable {
   }
 
   protected abstract int getPortSpeed();
-
-  // @SuppressWarnings("unchecked")
-  // private static String selectFirstSerialPort() {
-  // Enumeration<CommPortIdentifier> portList = CommPortIdentifier.getPortIdentifiers();
-  // while (portList.hasMoreElements()) {
-  // CommPortIdentifier portId = portList.nextElement();
-  // if (portId.getPortType() == CommPortIdentifier.PORT_SERIAL) {
-  // return portId.getName();
-  // }
-  // }
-  //
-  // return "none";
-  // }
 
   private static String selectFirstSerialPort() {
     SerialPort[] commPorts = SerialPort.getCommPorts();
