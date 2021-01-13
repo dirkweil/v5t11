@@ -2,7 +2,7 @@ package de.gedoplan.v5t11.stellwerk;
 
 import de.gedoplan.baselibs.utils.inject.InjectionUtil;
 import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrasse;
-import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleisabschnitt;
+import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleis;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Signal;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Weiche;
 import de.gedoplan.v5t11.leitstand.gateway.FahrstrassenGateway;
@@ -44,7 +44,7 @@ public class GbsInputPanel extends JPanel {
 
   private Gbs gbs;
 
-  private Gleisabschnitt fahrstrassenBeginn = null;
+  private Gleis fahrstrassenBeginn = null;
   private long fahrstrassenBeginnStamp = 0;
   private List<Fahrstrasse> fahrstrassen;
 
@@ -189,7 +189,7 @@ public class GbsInputPanel extends JPanel {
     }
   }
 
-  public void addWeiche(Weiche weiche, Gleisabschnitt gleisabschnitt) {
+  public void addWeiche(Weiche weiche, Gleis gleis) {
     if (weiche != null) {
       if (LOG.isTraceEnabled()) {
         LOG.trace("addWeiche: " + weiche);
@@ -208,18 +208,18 @@ public class GbsInputPanel extends JPanel {
 
       validate();
 
-      Fahrstrasse aktiveFahrstrasse = this.fahrstrassenManager.getReservierteFahrstrasse(gleisabschnitt);
+      Fahrstrasse aktiveFahrstrasse = this.fahrstrassenManager.getReservierteFahrstrasse(gleis);
       if (aktiveFahrstrasse != null) {
         showFahrstrasseZurDeaktivierung(aktiveFahrstrasse);
       }
     }
   }
 
-  public void addGleisabschnitt(Gleisabschnitt gleisabschnitt) {
+  public void addGleis(Gleis gleis) {
 
-    if (gleisabschnitt != null) {
+    if (gleis != null) {
       if (LOG.isTraceEnabled()) {
-        LOG.trace("addGleisabschnitt: " + gleisabschnitt);
+        LOG.trace("addGleis: " + gleis);
       }
 
       long now = System.currentTimeMillis();
@@ -227,7 +227,7 @@ public class GbsInputPanel extends JPanel {
       if (this.fahrstrassenBeginn != null && now - this.fahrstrassenBeginnStamp <= FAHRSTRASSEN_INPUT_MAXDELAY) {
         this.fahrstrassen = this.fahrstrassenGateway.getFahrstrassen(
             this.fahrstrassenBeginn.getBereich(), this.fahrstrassenBeginn.getName(),
-            gleisabschnitt.getBereich(), gleisabschnitt.getName(),
+            gleis.getBereich(), gleis.getName(),
             FahrstrassenFilter.FREI);
         int fahrstrassenAnzahl = this.fahrstrassen.size();
 
@@ -245,7 +245,7 @@ public class GbsInputPanel extends JPanel {
           fahrstrassenAnzahlText = fahrstrassenAnzahl + " Fahrstrassen";
           break;
         }
-        StellwerkUI.setStatusLineText(this.fahrstrassenBeginn.toDisplayString() + " -> " + gleisabschnitt.toDisplayString() + ": " + fahrstrassenAnzahlText);
+        StellwerkUI.setStatusLineText(this.fahrstrassenBeginn.toDisplayString() + " -> " + gleis.toDisplayString() + ": " + fahrstrassenAnzahlText);
 
         if (fahrstrassenAnzahl != 0) {
           this.fahrstrassenIndex = 0;
@@ -254,22 +254,22 @@ public class GbsInputPanel extends JPanel {
         }
 
         if (LOG.isDebugEnabled()) {
-          LOG.debug(fahrstrassenAnzahl + " Fahrstrassen von " + this.fahrstrassenBeginn + " nach " + gleisabschnitt + " gefunden");
+          LOG.debug(fahrstrassenAnzahl + " Fahrstrassen von " + this.fahrstrassenBeginn + " nach " + gleis + " gefunden");
         }
 
         this.fahrstrassenBeginnStamp = 0;
       } else if (this.fahrstrassenBeginn == null || now - this.fahrstrassenBeginnStamp > FAHRSTRASSEN_INPUT_MAXDELAY) {
-        this.fahrstrassenBeginn = gleisabschnitt;
+        this.fahrstrassenBeginn = gleis;
 
         StellwerkUI.setStatusLineText(this.fahrstrassenBeginn.toDisplayString());
 
         if (LOG.isDebugEnabled()) {
-          LOG.debug(gleisabschnitt + " als moeglichen Fahrstrassenbeginn gemerkt");
+          LOG.debug(gleis + " als moeglichen Fahrstrassenbeginn gemerkt");
         }
 
         this.fahrstrassenBeginnStamp = now;
 
-        Fahrstrasse aktiveFahrstrasse = this.fahrstrassenManager.getReservierteFahrstrasse(gleisabschnitt);
+        Fahrstrasse aktiveFahrstrasse = this.fahrstrassenManager.getReservierteFahrstrasse(gleis);
         if (aktiveFahrstrasse != null) {
           this.fahrstrassenIndex = 0;
           showFahrstrasseZurDeaktivierung(aktiveFahrstrasse);

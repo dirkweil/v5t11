@@ -84,9 +84,9 @@
         <p:dataGrid var="bereich" value="#{systemStatusPresenter.bereiche}" columns="4">
           <p:panel header="#{bereich}">
             <!-- Achtung: p:dataTable wertet getWeichen(String) nicht korrekt aus; daher 'nur' h:dataTable -->
-            <h:dataTable var="gleis" value="#{systemStatusPresenter.getGleisabschnitte(bereich)}" rules="all">
+            <h:dataTable var="gleis" value="#{systemStatusPresenter.getGleise(bereich)}" rules="all">
               <h:column>
-                <f:facet name="header">Gleisabschnitt</f:facet>
+                <f:facet name="header">Gleis</f:facet>
                 <h:outputText value="#{gleis.bereich}/#{gleis.name}" />
               </h:column>
               <h:column>

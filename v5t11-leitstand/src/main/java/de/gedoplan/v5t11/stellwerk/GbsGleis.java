@@ -2,9 +2,9 @@ package de.gedoplan.v5t11.stellwerk;
 
 import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrassenelement;
-import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleisabschnitt;
+import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleis;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkElement;
-import de.gedoplan.v5t11.leitstand.persistence.GleisabschnittRepository;
+import de.gedoplan.v5t11.leitstand.persistence.GleisRepository;
 import de.gedoplan.v5t11.stellwerk.util.GbsFarben;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
 
@@ -14,18 +14,18 @@ import java.awt.Graphics2D;
 import javax.inject.Inject;
 
 /**
- * Gleisabschnitt im Stellwerk.
+ * Gleis im Stellwerk.
  *
  * @author dw
  */
-public class GbsGleisAbschnitt extends GbsElement {
+public class GbsGleis extends GbsElement {
 
-  private Gleisabschnitt gleisabschnitt = null;
+  private Gleis gleis = null;
   private boolean label;
   private GbsRichtung[] segmentPos;
 
   @Inject
-  GleisabschnittRepository gleisabschnittRepository;
+  GleisRepository gleisRepository;
 
   /**
    * Konstruktor.
@@ -35,13 +35,13 @@ public class GbsGleisAbschnitt extends GbsElement {
    * @param stellwerkElement
    *        zugehöriges Stellwerkselement
    */
-  public GbsGleisAbschnitt(String bereich, StellwerkElement stellwerkElement) {
+  public GbsGleis(String bereich, StellwerkElement stellwerkElement) {
     super(bereich, stellwerkElement);
 
-    this.gleisabschnitt = this.gleisabschnittRepository.findById(stellwerkElement.getId());
-    if (this.gleisabschnitt != null) {
-      this.statusDispatcher.addListener(this.gleisabschnitt, g -> {
-        this.gleisabschnitt = g;
+    this.gleis = this.gleisRepository.findById(stellwerkElement.getId());
+    if (this.gleis != null) {
+      this.statusDispatcher.addListener(this.gleis, g -> {
+        this.gleis = g;
         repaint();
       });
     }
@@ -49,7 +49,7 @@ public class GbsGleisAbschnitt extends GbsElement {
     this.label = stellwerkElement.isLabel();
 
     String[] segmente = stellwerkElement.getLage().split(",");
-    assert segmente.length == 2 : "GBS-Gleisabschnitt muss 2 Segmente haben";
+    assert segmente.length == 2 : "GBS-Gleis muss 2 Segmente haben";
     this.segmentPos = new GbsRichtung[segmente.length];
     for (int i = 0; i < segmente.length; ++i) {
       this.segmentPos[i] = GbsRichtung.valueOf(segmente[i]);
@@ -64,17 +64,17 @@ public class GbsGleisAbschnitt extends GbsElement {
   @Override
   public void doPaintGleis(Graphics2D g2d) {
     // Gleis zeichnen (dicker Strich)
-    Color color = getGleisFarbe(this.gleisabschnitt);
+    Color color = getGleisFarbe(this.gleis);
     for (int i = 0; i < this.segmentPos.length; ++i) {
       drawGleisSegment(g2d, color, this.segmentPos[i]);
     }
 
     // Falls relevant, Fahrstrasse zeichnen (dünner Strich in der Gleismitte)
-    if (this.gleisabschnitt != null) {
+    if (this.gleis != null) {
       Fahrstrassenelement fahrstrassenelementZuZeichnen = null;
-      Fahrstrasse fahrstrasseZuZeichnen = this.fahrstrassenManager.getReservierteFahrstrasse(this.gleisabschnitt);
+      Fahrstrasse fahrstrasseZuZeichnen = this.fahrstrassenManager.getReservierteFahrstrasse(this.gleis);
       if (fahrstrasseZuZeichnen != null) {
-        fahrstrassenelementZuZeichnen = fahrstrasseZuZeichnen.getElement(this.gleisabschnitt, true);
+        fahrstrassenelementZuZeichnen = fahrstrasseZuZeichnen.getElement(this.gleis, true);
 
         switch (fahrstrasseZuZeichnen.getReservierungsTyp()) {
         case ZUGFAHRT:
@@ -91,7 +91,7 @@ public class GbsGleisAbschnitt extends GbsElement {
       } else {
         fahrstrasseZuZeichnen = this.inputPanel.getVorgeschlageneFahrstrasse();
         if (fahrstrasseZuZeichnen != null && fahrstrasseZuZeichnen.getReservierungsTyp() == FahrstrassenReservierungsTyp.UNRESERVIERT) {
-          fahrstrassenelementZuZeichnen = fahrstrasseZuZeichnen.getElement(this.gleisabschnitt, false);
+          fahrstrassenelementZuZeichnen = fahrstrasseZuZeichnen.getElement(this.gleis, false);
           if (fahrstrassenelementZuZeichnen != null) {
             color = GbsFarben.GLEIS_IN_VORGESCHLAGENER_FAHRSTRASSE;
           }
@@ -125,7 +125,7 @@ public class GbsGleisAbschnitt extends GbsElement {
     super.processMouseClick();
 
     if (this.inputPanel != null) {
-      this.inputPanel.addGleisabschnitt(this.gleisabschnitt);
+      this.inputPanel.addGleis(this.gleis);
     }
   }
 }

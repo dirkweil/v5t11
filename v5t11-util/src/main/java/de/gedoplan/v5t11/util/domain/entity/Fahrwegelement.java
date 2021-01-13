@@ -16,7 +16,7 @@ import lombok.Setter;
 /**
  * Element eines Fahrwegs.
  *
- * Ein solches Element kann ein Gerät sein (Signal, Weiche etc.) oder ein Gleisabschnitt.
+ * Ein solches Element kann ein Gerät sein (Signal, Weiche etc.) oder ein Gleis.
  *
  * @author dw
  */

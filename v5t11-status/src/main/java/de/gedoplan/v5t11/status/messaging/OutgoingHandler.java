@@ -1,7 +1,7 @@
 package de.gedoplan.v5t11.status.messaging;
 
 import de.gedoplan.v5t11.status.entity.baustein.Zentrale;
-import de.gedoplan.v5t11.status.entity.fahrweg.Gleisabschnitt;
+import de.gedoplan.v5t11.status.entity.fahrweg.Gleis;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
 import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
@@ -22,7 +22,7 @@ import org.jboss.logging.Logger.Level;
 /**
  * Handler für ausgehende Meldungen.
  * 
- * Die Methoden werden i. W. von {@link EventDispatcher} genutzt, um Veränderungen von Gleisabschnitten etc.
+ * Die Methoden werden i. W. von {@link EventDispatcher} genutzt, um Veränderungen von Gleisen etc.
  * zu veröffentlichen.
  * 
  * Achtung: Die Methoden hierin sind nicht als Observer ausgeprägt, weil dann ein Mocking mittels {@link Alternative @Alternative}
@@ -43,7 +43,7 @@ public class OutgoingHandler {
 
   @Inject
   @Channel("gleis-out")
-  Emitter<String> gleisabschnittEmitter;
+  Emitter<String> gleisEmitter;
 
   @Inject
   @Channel("join-out")
@@ -69,8 +69,8 @@ public class OutgoingHandler {
     send(this.fahrzeugEmitter, fahrzeug);
   }
 
-  public void publish(Gleisabschnitt gleisabschnitt) {
-    send(this.gleisabschnittEmitter, gleisabschnitt);
+  public void publish(Gleis gleis) {
+    send(this.gleisEmitter, gleis);
   }
 
   public void publish(JoinInfo joinInfo) {

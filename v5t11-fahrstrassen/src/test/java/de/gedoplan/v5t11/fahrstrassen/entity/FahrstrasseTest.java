@@ -9,8 +9,8 @@ import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.FahrstrassenGeraet;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.FahrstrassenSignal;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.FahrstrassenWeiche;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrassenelement;
-import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleisabschnitt;
-import de.gedoplan.v5t11.fahrstrassen.persistence.GleisabschnittRepository;
+import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleis;
+import de.gedoplan.v5t11.fahrstrassen.persistence.GleisRepository;
 import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
@@ -181,7 +181,7 @@ public class FahrstrasseTest {
   }
 
   @Inject
-  GleisabschnittRepository gleisabschnittRepository;
+  GleisRepository gleisRepository;
 
   @Test
   @Transactional
@@ -190,12 +190,12 @@ public class FahrstrasseTest {
     Fahrstrasse fahrstrasse = this.parcours.getFahrstrasse(FS_BEREICH, FS_NAME);
     assertNotNull(fahrstrasse);
 
-    Gleisabschnitt gleisabschnitt11 = this.gleisabschnittRepository.findById(new BereichselementId(FS_BEREICH, "11"));
-    assertNotNull(gleisabschnitt11);
-    Gleisabschnitt gleisabschnitt1 = this.gleisabschnittRepository.findById(new BereichselementId(FS_BEREICH, "1"));
-    assertNotNull(gleisabschnitt1);
-    Gleisabschnitt gleisabschnittS = this.gleisabschnittRepository.findById(new BereichselementId(FS_BEREICH, "S"));
-    assertNotNull(gleisabschnittS);
+    Gleis gleis11 = this.gleisRepository.findById(new BereichselementId(FS_BEREICH, "11"));
+    assertNotNull(gleis11);
+    Gleis gleis1 = this.gleisRepository.findById(new BereichselementId(FS_BEREICH, "1"));
+    assertNotNull(gleis1);
+    Gleis gleisS = this.gleisRepository.findById(new BereichselementId(FS_BEREICH, "S"));
+    assertNotNull(gleisS);
 
     assertThat("Fahrstrassenreservierung zu Beginn", fahrstrasse.getFahrstrassenStatus().getReservierungsTyp(), is(FahrstrassenReservierungsTyp.UNRESERVIERT));
 
@@ -204,9 +204,9 @@ public class FahrstrasseTest {
       boolean reservierenResult = fahrstrasse.reservieren(FahrstrassenReservierungsTyp.ZUGFAHRT);
       assertThat("Reservierungsergebnis", reservierenResult, is(true));
 
-      Stream.of(gleisabschnitt11, gleisabschnitt1, gleisabschnittS)
+      Stream.of(gleis11, gleis1, gleisS)
           .forEach(g -> {
-            // Fahrstrasse teilweise freigeben (aktueller Gleisabschnitt ist erstes *nicht* freigegebenes Element)
+            // Fahrstrasse teilweise freigeben (aktueller Gleis ist erstes *nicht* freigegebenes Element)
             fahrstrasse.freigeben(g);
 
             // Ist die Anzahl bislang freigegebener Elemente richtig?

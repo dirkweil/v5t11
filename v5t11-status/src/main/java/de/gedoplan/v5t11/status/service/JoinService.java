@@ -64,12 +64,12 @@ public class JoinService {
     this.logger.debugf("Zentrale gesendet");
 
     long count = this.steuerung
-        .getGleisabschnitte()
+        .getGleise()
         .stream()
         .filter(x -> x.getLastChangeMillis() >= sendUpdatesSinceMillis)
         .peek(x -> this.outgoingHandler.publish(x))
         .count();
-    this.logger.debugf("%d Gleisabschnitte gesendet", count);
+    this.logger.debugf("%d Gleise gesendet", count);
 
     count = this.steuerung
         .getSignale()

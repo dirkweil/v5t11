@@ -21,7 +21,7 @@ import lombok.Getter;
 public class StellwerkZeile implements Serializable {
   @XmlElements({
       @XmlElement(name = "Leer", type = StellwerkLeer.class),
-      @XmlElement(name = "Gleisabschnitt", type = StellwerkGleisabschnitt.class),
+      @XmlElement(name = "Gleis", type = StellwerkGleis.class),
       @XmlElement(name = "Weiche", type = StellwerkWeiche.class),
       @XmlElement(name = "Dkw2", type = StellwerkDkw2.class),
   })

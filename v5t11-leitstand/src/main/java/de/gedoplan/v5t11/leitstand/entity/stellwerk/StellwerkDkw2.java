@@ -1,8 +1,8 @@
 package de.gedoplan.v5t11.leitstand.entity.stellwerk;
 
-import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleisabschnitt;
+import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleis;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Weiche;
-import de.gedoplan.v5t11.leitstand.persistence.GleisabschnittRepository;
+import de.gedoplan.v5t11.leitstand.persistence.GleisRepository;
 import de.gedoplan.v5t11.leitstand.persistence.WeicheRepository;
 import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 
@@ -19,7 +19,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 public class StellwerkDkw2 extends StellwerkElement {
 
   @Inject
-  GleisabschnittRepository gleisabschnittRepository;
+  GleisRepository gleisRepository;
 
   @Inject
   WeicheRepository weicheRepository;
@@ -28,7 +28,7 @@ public class StellwerkDkw2 extends StellwerkElement {
 
   private BereichselementId weicheBId;
 
-  private BereichselementId gleisabschnittId;
+  private BereichselementId gleisId;
 
   @Override
   public void addPersistentEntries() {
@@ -39,8 +39,8 @@ public class StellwerkDkw2 extends StellwerkElement {
     this.weicheBId = new BereichselementId(getBereich(), getName() + "b");
     createIfNotPresent(this.weicheRepository, this.weicheBId, Weiche::new);
 
-    this.gleisabschnittId = new BereichselementId(getBereich(), weicheA.getGleisabschnittName());
-    createIfNotPresent(this.gleisabschnittRepository, this.gleisabschnittId, Gleisabschnitt::new);
+    this.gleisId = new BereichselementId(getBereich(), weicheA.getGleisName());
+    createIfNotPresent(this.gleisRepository, this.gleisId, Gleis::new);
   }
 
   /**
@@ -66,13 +66,13 @@ public class StellwerkDkw2 extends StellwerkElement {
   }
 
   /**
-   * Zugehörigen Gleisabschnitt aus der DB lesen.
+   * Zugehörigen Gleis aus der DB lesen.
    * 
-   * @return Gleisabschnitt
+   * @return Gleis
    */
-  public Gleisabschnitt findGleisabschnitt() {
-    Gleisabschnitt gleisabschnitt = this.gleisabschnittRepository.findById(this.gleisabschnittId);
-    assert gleisabschnitt != null;
-    return gleisabschnitt;
+  public Gleis findGleis() {
+    Gleis gleis = this.gleisRepository.findById(this.gleisId);
+    assert gleis != null;
+    return gleis;
   }
 }

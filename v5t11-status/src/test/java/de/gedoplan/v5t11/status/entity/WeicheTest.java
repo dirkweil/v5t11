@@ -64,7 +64,7 @@ public class WeicheTest {
         .add("key", weiche.getKey().toString())
         .add("lastChangeMillis", weiche.getLastChangeMillis())
         .add("stellung", weiche.getStellung().toString())
-        .add("gleisabschnittName", weiche.getGleisabschnittName())
+        .add("gleisName", weiche.getGleisName())
         .build().toString();
 
     JSONAssert.assertEquals(expected, json, true);

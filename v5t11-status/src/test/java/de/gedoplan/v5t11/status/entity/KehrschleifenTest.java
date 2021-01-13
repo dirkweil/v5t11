@@ -3,7 +3,7 @@ package de.gedoplan.v5t11.status.entity;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
-import de.gedoplan.v5t11.status.entity.fahrweg.Gleisabschnitt;
+import de.gedoplan.v5t11.status.entity.fahrweg.Gleis;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Schalter;
 import de.gedoplan.v5t11.util.domain.attribute.SchalterStellung;
 import de.gedoplan.v5t11.util.test.V5t11TestConfigDirExtension;
@@ -154,10 +154,10 @@ public class KehrschleifenTest {
     assertThat(schalterKS18.getStellung(), is(SchalterStellung.AUS));
   }
 
-  private void setBelegt(String gleisabschnittName, boolean belegt) {
-    Gleisabschnitt gleisabschnitt = this.steuerung.getGleisabschnitt("SBf", gleisabschnittName);
-    int bmAdr = gleisabschnitt.getBesetztmelder().getAdresse();
-    int anschluss = gleisabschnitt.getAnschluss();
+  private void setBelegt(String gleisName, boolean belegt) {
+    Gleis gleis = this.steuerung.getGleis("SBf", gleisName);
+    int bmAdr = gleis.getBesetztmelder().getAdresse();
+    int anschluss = gleis.getAnschluss();
     int bit = 1 << anschluss;
     int wert = belegt ? bit : 0;
     this.steuerung.setSX1Kanal(bmAdr, (this.steuerung.getSX1Kanal(bmAdr) & ~bit) | wert);

@@ -2,7 +2,7 @@ package de.gedoplan.v5t11.stellwerk;
 
 import de.gedoplan.v5t11.leitstand.entity.baustein.Zentrale;
 import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrasse;
-import de.gedoplan.v5t11.leitstand.persistence.GleisabschnittRepository;
+import de.gedoplan.v5t11.leitstand.persistence.GleisRepository;
 import de.gedoplan.v5t11.util.cdi.Changed;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenelementTyp;
 import de.gedoplan.v5t11.util.domain.entity.Fahrwegelement;
@@ -36,14 +36,14 @@ public class StatusDispatcher {
    */
 
   @Inject
-  GleisabschnittRepository gleisabschnittRepository;
+  GleisRepository gleisRepository;
 
   void changed(@Observes(during = TransactionPhase.AFTER_COMPLETION) @Changed Fahrstrasse fahrstrasse) {
     fahrstrasse
         .getElemente()
         .stream()
-        .filter(fse -> fse.getTyp() == FahrstrassenelementTyp.GLEISABSCHNITT)
-        .map(fse -> this.gleisabschnittRepository.findById(fse.getId()))
+        .filter(fse -> fse.getTyp() == FahrstrassenelementTyp.GLEIS)
+        .map(fse -> this.gleisRepository.findById(fse.getId()))
         .forEach(x -> changed(x));
   }
 

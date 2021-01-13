@@ -2,7 +2,7 @@ package de.gedoplan.v5t11.leitstand.messaging;
 
 import de.gedoplan.v5t11.leitstand.entity.baustein.Zentrale;
 import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrasse;
-import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleisabschnitt;
+import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleis;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Signal;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Weiche;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
@@ -37,9 +37,9 @@ public class IncomingHandler {
   EventFirer eventFirer;
 
   @Incoming("gleis-in")
-  void gleisabschnittChanged(byte[] msg) {
+  void gleisChanged(byte[] msg) {
     String json = new String(msg);
-    Gleisabschnitt obj = JsonbWithIncludeVisibility.SHORT.fromJson(json, Gleisabschnitt.class);
+    Gleis obj = JsonbWithIncludeVisibility.SHORT.fromJson(json, Gleis.class);
     this.logger.debugf("Received %s: %s", obj, json);
     this.eventFirer.fire(obj, Received.Literal.INSTANCE);
   }

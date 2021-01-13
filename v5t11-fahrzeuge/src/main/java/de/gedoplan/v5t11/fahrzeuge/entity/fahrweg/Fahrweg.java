@@ -24,7 +24,7 @@ public class Fahrweg {
   private SortedSet<String> bereiche = new TreeSet<>();
 
   @Getter
-  private SortedSet<Gleisabschnitt> gleisabschnitte = new TreeSet<>();
+  private SortedSet<Gleis> gleise = new TreeSet<>();
 
   @Getter
   private Zentrale zentrale = new Zentrale();
@@ -33,29 +33,29 @@ public class Fahrweg {
   private SortedSet<Weiche> weichen = new TreeSet<>();
 
   /**
-   * Gleisabschnitt liefern.
+   * Gleis liefern.
    *
    * @param bereich
    *          Bereich
    * @param name
    *          Name
-   * @return gefundener Gleisabschnitt oder <code>null</code>
+   * @return gefundener Gleis oder <code>null</code>
    */
-  public Gleisabschnitt getGleisabschnitt(String bereich, String name) {
-    return getBereichselement(bereich, name, this.gleisabschnitte);
+  public Gleis getGleis(String bereich, String name) {
+    return getBereichselement(bereich, name, this.gleise);
   }
 
   /**
-   * Gleisabschnitt liefern oder bei Bedarf neu anlegen.
+   * Gleis liefern oder bei Bedarf neu anlegen.
    *
    * @param bereich
    *          Bereich
    * @param name
    *          Name
-   * @return gefundener oder erzeugter Gleisabschnitt
+   * @return gefundener oder erzeugter Gleis
    */
-  public Gleisabschnitt getOrCreateGleisabschnitt(String bereich, String name) {
-    return getOrCreateBereichselement(bereich, name, this.gleisabschnitte, Gleisabschnitt::new);
+  public Gleis getOrCreateGleis(String bereich, String name) {
+    return getOrCreateBereichselement(bereich, name, this.gleise, Gleis::new);
   }
 
   /**

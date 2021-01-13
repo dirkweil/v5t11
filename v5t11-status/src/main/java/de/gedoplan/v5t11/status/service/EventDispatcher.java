@@ -4,7 +4,7 @@ import de.gedoplan.v5t11.status.entity.Kanal;
 import de.gedoplan.v5t11.status.entity.SX2Kanal;
 import de.gedoplan.v5t11.status.entity.Steuerung;
 import de.gedoplan.v5t11.status.entity.baustein.Zentrale;
-import de.gedoplan.v5t11.status.entity.fahrweg.Gleisabschnitt;
+import de.gedoplan.v5t11.status.entity.fahrweg.Gleis;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
 import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
@@ -44,8 +44,8 @@ public class EventDispatcher {
     this.steuerung.adjustTo(kanal);
   }
 
-  void dispatch(@Observes @Changed Gleisabschnitt gleisabschnitt) {
-    this.outgoingHandler.publish(gleisabschnitt);
+  void dispatch(@Observes @Changed Gleis gleis) {
+    this.outgoingHandler.publish(gleis);
   }
 
   void dispatch(@Observes @Changed Signal signal) {

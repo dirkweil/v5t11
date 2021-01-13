@@ -6,8 +6,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import de.gedoplan.v5t11.fahrstrassen.entity.Parcours;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrasse;
-import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleisabschnitt;
-import de.gedoplan.v5t11.fahrstrassen.persistence.GleisabschnittRepository;
+import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleis;
+import de.gedoplan.v5t11.fahrstrassen.persistence.GleisRepository;
 import de.gedoplan.v5t11.util.cdi.Changed;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
@@ -39,7 +39,7 @@ public class AutoFahrstrasseServiceTest {
   private static final String FS_3_NAME = "S-W3-2-W2-12";
 
   @Inject
-  GleisabschnittRepository gleisabschnittRepository;
+  GleisRepository gleisRepository;
 
   @Inject
   Parcours parcours;
@@ -56,7 +56,7 @@ public class AutoFahrstrasseServiceTest {
   @Test
   public void test_01_triggerToFahrstrassenMap() throws Exception {
 
-    Gleisabschnitt trigger = this.gleisabschnittRepository.findByBereichAndName(BEREICH, TRIGGER_NAME);
+    Gleis trigger = this.gleisRepository.findByBereichAndName(BEREICH, TRIGGER_NAME);
     assertNotNull(trigger);
 
     List<Fahrstrasse> fahrstrassen = this.autoFahrstrassenService.getAutoFahrstrassen().get(trigger);
@@ -72,7 +72,7 @@ public class AutoFahrstrasseServiceTest {
   public void test_02_autoreserviere_allesFrei() throws Exception {
 
     // Beteiligte Objekte besorgen und Grundzustand sicherstellen
-    Gleisabschnitt trigger = this.gleisabschnittRepository.findByBereichAndName(BEREICH, TRIGGER_NAME);
+    Gleis trigger = this.gleisRepository.findByBereichAndName(BEREICH, TRIGGER_NAME);
     assertNotNull(trigger);
     assertFalse(trigger.isBesetzt());
 
@@ -107,7 +107,7 @@ public class AutoFahrstrasseServiceTest {
   public void test_03_autoreserviere_1besetzt() throws Exception {
 
     // Beteiligte Objekte besorgen und Grundzustand sicherstellen
-    Gleisabschnitt trigger = this.gleisabschnittRepository.findByBereichAndName(BEREICH, TRIGGER_NAME);
+    Gleis trigger = this.gleisRepository.findByBereichAndName(BEREICH, TRIGGER_NAME);
     assertNotNull(trigger);
     assertFalse(trigger.isBesetzt());
 
@@ -124,7 +124,7 @@ public class AutoFahrstrasseServiceTest {
     assertEquals(FahrstrassenReservierungsTyp.UNRESERVIERT, fahrstrasse3.getReservierungsTyp());
 
     // Gleis 1 besetzen (ist Teil der ersten zugeordneten Fahrstrasse)
-    Gleisabschnitt gleis1 = this.gleisabschnittRepository.findByBereichAndName(BEREICH, "1");
+    Gleis gleis1 = this.gleisRepository.findByBereichAndName(BEREICH, "1");
     gleis1.setBesetzt(true);
 
     // Trigger besetzen und dies melden
@@ -147,7 +147,7 @@ public class AutoFahrstrasseServiceTest {
   public void test_04_autoreserviere_11besetzt() throws Exception {
 
     // Beteiligte Objekte besorgen und Grundzustand sicherstellen
-    Gleisabschnitt trigger = this.gleisabschnittRepository.findByBereichAndName(BEREICH, TRIGGER_NAME);
+    Gleis trigger = this.gleisRepository.findByBereichAndName(BEREICH, TRIGGER_NAME);
     assertNotNull(trigger);
     assertFalse(trigger.isBesetzt());
 
@@ -164,7 +164,7 @@ public class AutoFahrstrasseServiceTest {
     assertEquals(FahrstrassenReservierungsTyp.UNRESERVIERT, fahrstrasse3.getReservierungsTyp());
 
     // Gleis 11 besetzen (ist Teil der ersten beiden zugeordneten Fahrstrasse)
-    Gleisabschnitt gleis11 = this.gleisabschnittRepository.findByBereichAndName(BEREICH, "11");
+    Gleis gleis11 = this.gleisRepository.findByBereichAndName(BEREICH, "11");
     gleis11.setBesetzt(true);
 
     // Trigger besetzen und dies melden

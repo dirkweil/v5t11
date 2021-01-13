@@ -2,7 +2,7 @@ package de.gedoplan.v5t11.fahrstrassen.service;
 
 import de.gedoplan.v5t11.fahrstrassen.entity.Parcours;
 import de.gedoplan.v5t11.fahrstrassen.messaging.OutgoingHandler;
-import de.gedoplan.v5t11.fahrstrassen.persistence.GleisabschnittRepository;
+import de.gedoplan.v5t11.fahrstrassen.persistence.GleisRepository;
 import de.gedoplan.v5t11.fahrstrassen.persistence.SignalRepository;
 import de.gedoplan.v5t11.fahrstrassen.persistence.WeicheRepository;
 import de.gedoplan.v5t11.util.cdi.Received;
@@ -35,7 +35,7 @@ public class JoinService {
   ConfigService configService;
 
   @Inject
-  GleisabschnittRepository gleisabschnittRepository;
+  GleisRepository gleisRepository;
 
   @Inject
   SignalRepository signalRepository;
@@ -52,7 +52,7 @@ public class JoinService {
   public void joinMyself() {
     // Letzte Änderung der persistenten Daten berechnen
     long lastChangeMillis = Long.max(Long.max(
-        this.gleisabschnittRepository.findMaxLastChangeMillis(),
+        this.gleisRepository.findMaxLastChangeMillis(),
         this.signalRepository.findMaxLastChangeMillis()),
         this.weicheRepository.findMaxLastChangeMillis());
 

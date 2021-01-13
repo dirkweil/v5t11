@@ -2,9 +2,9 @@ package de.gedoplan.v5t11.fahrstrassen.service;
 
 import de.gedoplan.v5t11.fahrstrassen.entity.Parcours;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrasse;
-import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.FahrstrassenGleisabschnitt;
+import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.FahrstrassenGleis;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrassenelement;
-import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleisabschnitt;
+import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleis;
 import de.gedoplan.v5t11.util.cdi.Changed;
 import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 
@@ -24,15 +24,15 @@ public class FahrstrasseMonitor {
   Parcours parcours;
 
   /**
-   * Auf Belegtänderung eines Gleisabschnitts reagieren.
+   * Auf Belegtänderung eines Gleiss reagieren.
    *
-   * @param gleisabschnitt
-   *        Gleisabschnitt
+   * @param gleis
+   *        Gleis
    */
-  void processGleisabschnitt(@Observes @Changed Gleisabschnitt gleisabschnitt) {
+  void processGleis(@Observes @Changed Gleis gleis) {
 
-    // Wenn Gleisabschnitt nicht Teil einer Fahrstrasse ist, nichts tun
-    BereichselementId fahrstrasseId = gleisabschnitt.getReserviertefahrstrasseId();
+    // Wenn Gleis nicht Teil einer Fahrstrasse ist, nichts tun
+    BereichselementId fahrstrasseId = gleis.getReserviertefahrstrasseId();
     if (fahrstrasseId == null) {
       return;
     }
@@ -43,16 +43,16 @@ public class FahrstrasseMonitor {
     }
 
     /*
-     * Im reservierten Teil der Fahrstrasse den Gleisabschnitt suchen, der noch nicht durchfahren wurde,
-     * und vor dem nur durchfahrene Gleisabschnitte liegen.
+     * Im reservierten Teil der Fahrstrasse den Gleis suchen, der noch nicht durchfahren wurde,
+     * und vor dem nur durchfahrene Gleise liegen.
      */
     int elementAnzahl = fahrstrasse.getElemente().size();
     int idxGrenze = fahrstrasse.getTeilFreigabeAnzahl();
-    Gleisabschnitt grenze = null;
+    Gleis grenze = null;
     while (idxGrenze < elementAnzahl) {
       Fahrstrassenelement fe = fahrstrasse.getElemente().get(idxGrenze);
-      if (fe instanceof FahrstrassenGleisabschnitt) {
-        Gleisabschnitt g = ((FahrstrassenGleisabschnitt) fe).getFahrwegelement();
+      if (fe instanceof FahrstrassenGleis) {
+        Gleis g = ((FahrstrassenGleis) fe).getFahrwegelement();
 
         if (!g.isDurchfahren()) {
           grenze = g;
@@ -66,9 +66,9 @@ public class FahrstrasseMonitor {
     /*
      * Komplettfreigabe ist möglich,
      * - wenn ab dem ersten nicht durchfahrerenen Abschnitt alles besetzt ist
-     * - oder wenn nur noch Gleisabschnitte folgen.
+     * - oder wenn nur noch Gleise folgen.
      */
-    boolean totalFreigabe = fahrstrasse.isKomplettBesetzt(idxGrenze) || fahrstrasse.isNurGleisabschnitte(idxGrenze + 1);
+    boolean totalFreigabe = fahrstrasse.isKomplettBesetzt(idxGrenze) || fahrstrasse.isNurGleise(idxGrenze + 1);
 
     if (this.log.isDebugEnabled()) {
       this.log.debug("checkFreigabe: grenze=" + grenze + ", totalFreigabe=" + totalFreigabe);

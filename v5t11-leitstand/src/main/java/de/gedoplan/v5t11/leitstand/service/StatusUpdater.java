@@ -3,10 +3,10 @@ package de.gedoplan.v5t11.leitstand.service;
 import de.gedoplan.v5t11.leitstand.entity.Leitstand;
 import de.gedoplan.v5t11.leitstand.entity.baustein.Zentrale;
 import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrasse;
-import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleisabschnitt;
+import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleis;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Signal;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Weiche;
-import de.gedoplan.v5t11.leitstand.persistence.GleisabschnittRepository;
+import de.gedoplan.v5t11.leitstand.persistence.GleisRepository;
 import de.gedoplan.v5t11.leitstand.persistence.SignalRepository;
 import de.gedoplan.v5t11.leitstand.persistence.WeicheRepository;
 import de.gedoplan.v5t11.util.cdi.Changed;
@@ -26,7 +26,7 @@ import org.jboss.logging.Logger;
 public class StatusUpdater {
 
   @Inject
-  GleisabschnittRepository gleisabschnittRepository;
+  GleisRepository gleisRepository;
 
   @Inject
   SignalRepository signalRepository;
@@ -47,13 +47,13 @@ public class StatusUpdater {
   EventFirer eventFirer;
 
   /**
-   * Aktualisierung eines Gleisabschnitts.
+   * Aktualisierung eines Gleiss.
    * 
    * @param receivedObject Empfangenes Objekt mit dem neuen Status.
    */
-  void gleisabschnittReceived(@ObservesAsync @Received Gleisabschnitt receivedObject) {
-    Gleisabschnitt gleisabschnitt = this.gleisabschnittRepository.findById(receivedObject.getId());
-    copyStatus(gleisabschnitt, receivedObject);
+  void gleisReceived(@ObservesAsync @Received Gleis receivedObject) {
+    Gleis gleis = this.gleisRepository.findById(receivedObject.getId());
+    copyStatus(gleis, receivedObject);
   }
 
   /**

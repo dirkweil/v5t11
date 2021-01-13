@@ -1,10 +1,10 @@
 package de.gedoplan.v5t11.fahrstrassen.service;
 
-import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleisabschnitt;
+import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleis;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Signal;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Weiche;
 import de.gedoplan.v5t11.fahrstrassen.messaging.IncomingHandler;
-import de.gedoplan.v5t11.fahrstrassen.persistence.GleisabschnittRepository;
+import de.gedoplan.v5t11.fahrstrassen.persistence.GleisRepository;
 import de.gedoplan.v5t11.fahrstrassen.persistence.SignalRepository;
 import de.gedoplan.v5t11.fahrstrassen.persistence.WeicheRepository;
 import de.gedoplan.v5t11.util.cdi.Changed;
@@ -20,7 +20,7 @@ import javax.transaction.Transactional;
 import org.jboss.logging.Logger;
 
 /**
- * Aktualisierung der Status von Gleisabschnitten, Signalen etc.
+ * Aktualisierung der Status von Gleisen, Signalen etc.
  * 
  * Die Aktualisierung wird durch eingehende Meldungen (von v5t11-status gesendet) ausgelöst. {@link IncomingHandler}
  * wandelt die Meldungen in CDI Event um, die hier verarbeitet werden.
@@ -32,7 +32,7 @@ import org.jboss.logging.Logger;
 public class StatusUpdater {
 
   @Inject
-  GleisabschnittRepository gleisabschnittRepository;
+  GleisRepository gleisRepository;
 
   @Inject
   SignalRepository signalRepository;
@@ -47,13 +47,13 @@ public class StatusUpdater {
   EventFirer eventFirer;
 
   /**
-   * Aktualisierung eines Gleisabschnitts.
+   * Aktualisierung eines Gleiss.
    * 
    * @param receivedObject Empfangenes Objekt mit dem neuen Status.
    */
-  void gleisabschnittReceived(@ObservesAsync @Received Gleisabschnitt receivedObject) {
-    Gleisabschnitt gleisabschnitt = this.gleisabschnittRepository.findById(receivedObject.getId());
-    copyStatus(gleisabschnitt, receivedObject);
+  void gleisReceived(@ObservesAsync @Received Gleis receivedObject) {
+    Gleis gleis = this.gleisRepository.findById(receivedObject.getId());
+    copyStatus(gleis, receivedObject);
   }
 
   /**

@@ -1,6 +1,6 @@
 package de.gedoplan.v5t11.leitstand.entity.fahrstrasse;
 
-import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleisabschnitt;
+import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleis;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Weiche;
 import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
@@ -34,7 +34,7 @@ public class Fahrstrasse extends Bereichselement {
   public static final String TABLE_NAME_ELEMENTE = "LS_FAHRSTRASSE_ELEMENTE";
 
   /**
-   * Liste der Fahrstrassenelemente. Beginnt und endet immer mit einem Gleisabschnitt.
+   * Liste der Fahrstrassenelemente. Beginnt und endet immer mit einem Gleis.
    */
   @Getter(onMethod_ = @JsonbInclude(full = true))
   @Setter(onMethod_ = @JsonbInclude(full = true))
@@ -58,8 +58,8 @@ public class Fahrstrasse extends Bereichselement {
     return getName().replaceAll("-W\\d+", "");
   }
 
-  public Fahrstrassenelement getElement(Gleisabschnitt gleisabschnitt, boolean nurReserviert) {
-    return getElement(gleisabschnitt.getId(), FahrstrassenelementTyp.GLEISABSCHNITT, nurReserviert);
+  public Fahrstrassenelement getElement(Gleis gleis, boolean nurReserviert) {
+    return getElement(gleis.getId(), FahrstrassenelementTyp.GLEIS, nurReserviert);
   }
 
   public Fahrstrassenelement getElement(Weiche weiche, boolean nurReserviert) {

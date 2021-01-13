@@ -2,7 +2,7 @@ package de.gedoplan.v5t11.fahrstrassen.entity;
 
 import de.gedoplan.baselibs.utils.inject.InjectionUtil;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrasse;
-import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleisabschnitt;
+import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleis;
 import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenFilter;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
@@ -92,10 +92,10 @@ public class Parcours {
     return sb.toString();
   }
 
-  private SetMultimap<Gleisabschnitt, Fahrstrasse> mapStartToFahrstrassen = MultimapBuilder.hashKeys().hashSetValues().build();
+  private SetMultimap<Gleis, Fahrstrasse> mapStartToFahrstrassen = MultimapBuilder.hashKeys().hashSetValues().build();
 
-  public Set<Fahrstrasse> getFahrstrassenMitStart(Gleisabschnitt gleisabschnitt) {
-    return this.mapStartToFahrstrassen.get(gleisabschnitt);
+  public Set<Fahrstrasse> getFahrstrassenMitStart(Gleis gleis) {
+    return this.mapStartToFahrstrassen.get(gleis);
   }
 
   private void mapStartToFahrstrassenAdd(Iterable<Fahrstrasse> fahrstrassen) {
@@ -103,7 +103,7 @@ public class Parcours {
   }
 
   private void mapStartToFahrstrassenAdd(Fahrstrasse fahrstrasse) {
-    Gleisabschnitt start = fahrstrasse.getStart().getFahrwegelement();
+    Gleis start = fahrstrasse.getStart().getFahrwegelement();
     this.mapStartToFahrstrassen.put(start, fahrstrasse);
   }
 
@@ -112,7 +112,7 @@ public class Parcours {
   }
 
   private void mapStartToFahrstrassenRemove(Fahrstrasse fahrstrasse) {
-    Gleisabschnitt start = fahrstrasse.getStart().getFahrwegelement();
+    Gleis start = fahrstrasse.getStart().getFahrwegelement();
     this.mapStartToFahrstrassen.remove(start, fahrstrasse);
   }
 
@@ -168,7 +168,7 @@ public class Parcours {
       this.logger.debug("# CombiFahrstrassen: " + combiAnzahl);
     }
 
-    // Fahrstrassen entfernen, wenn sie mit einem nicht als Start oder Ende erlaubten Weichengleisabschnitt starten bzw. enden
+    // Fahrstrassen entfernen, wenn sie mit einem nicht als Start oder Ende erlaubten Weichengleis starten bzw. enden
     Set<Fahrstrasse> ungueltigeFahrstrassen = this.fahrstrassen.stream()
         .filter(fs -> !fs.getStart().isStartErlaubt() || !fs.getEnde().isEndeErlaubt())
         .collect(Collectors.toSet());
@@ -205,22 +205,22 @@ public class Parcours {
    * Fahrstrassen suchen.
    *
    * @param beginn
-   *        Beginn-Gleisabschnitt
+   *        Beginn-Gleis
    * @param ende
-   *        Ende-Gleisabschnitt
+   *        Ende-Gleis
    * @param filter
    *        Filter (nur freie/reservierte/unkombinierte) oder <code>null</code> für alle
    * @return gefundene Fahrstrassen in aufsteigender Rang-Reihenfolge
    */
-  public List<Fahrstrasse> getFahrstrassen(BereichselementId beginnGleisabschnittId, BereichselementId endeGleisabschnittId, FahrstrassenFilter filter) {
+  public List<Fahrstrasse> getFahrstrassen(BereichselementId beginnGleisId, BereichselementId endeGleisId, FahrstrassenFilter filter) {
     Stream<Fahrstrasse> stream = this.fahrstrassen.stream();
 
-    if (beginnGleisabschnittId != null) {
-      stream = stream.filter(fs -> fs.startsWith(beginnGleisabschnittId));
+    if (beginnGleisId != null) {
+      stream = stream.filter(fs -> fs.startsWith(beginnGleisId));
     }
 
-    if (endeGleisabschnittId != null) {
-      stream = stream.filter(fs -> fs.endsWith(endeGleisabschnittId));
+    if (endeGleisId != null) {
+      stream = stream.filter(fs -> fs.endsWith(endeGleisId));
     }
 
     if (filter != null) {

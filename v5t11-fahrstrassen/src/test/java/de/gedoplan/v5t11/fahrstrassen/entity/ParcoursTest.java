@@ -4,10 +4,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrassenelement;
-import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleisabschnitt;
+import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleis;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Signal;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Weiche;
-import de.gedoplan.v5t11.fahrstrassen.persistence.GleisabschnittRepository;
+import de.gedoplan.v5t11.fahrstrassen.persistence.GleisRepository;
 import de.gedoplan.v5t11.fahrstrassen.persistence.SignalRepository;
 import de.gedoplan.v5t11.fahrstrassen.persistence.WeicheRepository;
 import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
@@ -37,7 +37,7 @@ public class ParcoursTest {
   Parcours parcours;
 
   @Inject
-  GleisabschnittRepository gleisabschnittRepository;
+  GleisRepository gleisRepository;
 
   @Inject
   SignalRepository signalRepository;
@@ -150,9 +150,9 @@ public class ParcoursTest {
   @Test
   public void test_02_fahrstrassen() {
 
-    Gleisabschnitt gleisabschnitt = this.gleisabschnittRepository.findById(new BereichselementId("show", "11"));
-    assertNotNull(gleisabschnitt, "Gleisabschnitt show/11 nicht gefunden");
-    Collection<Fahrstrasse> fahrstrassen = this.parcours.getFahrstrassenMitStart(gleisabschnitt);
+    Gleis gleis = this.gleisRepository.findById(new BereichselementId("show", "11"));
+    assertNotNull(gleis, "Gleis show/11 nicht gefunden");
+    Collection<Fahrstrasse> fahrstrassen = this.parcours.getFahrstrassenMitStart(gleis);
     if (this.logger.isDebugEnabled()) {
       fahrstrassen.forEach(this.logger::debug);
     }
@@ -183,15 +183,15 @@ public class ParcoursTest {
   }
 
   /**
-   * Test: Erwartete Gleisabschnitte da?
+   * Test: Erwartete Gleise da?
    */
   @Test
-  public void test_03_gleisabschnitte() {
-    Collection<Gleisabschnitt> gleisabschnitte = this.gleisabschnittRepository.findAll();
+  public void test_03_gleise() {
+    Collection<Gleis> gleise = this.gleisRepository.findAll();
     if (this.logger.isDebugEnabled()) {
-      gleisabschnitte.forEach(this.logger::debug);
+      gleise.forEach(this.logger::debug);
     }
-    assertEquals(24, gleisabschnitte.size(), "Anzahl Gleisabschnitte falsch");
+    assertEquals(24, gleise.size(), "Anzahl Gleise falsch");
   }
 
   /**

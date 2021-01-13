@@ -6,35 +6,35 @@
     </Zeile>
     <Zeile>
       <Leer anzahl="2" />
-      <Gleisabschnitt lage="SW,O" name="12" label="true" />
-      <Gleisabschnitt lage="W,O" name="12" />
+      <Gleis lage="SW,O" name="12" label="true" />
+      <Gleis lage="W,O" name="12" />
       <Weiche lage="W|SW,O" name="2" />
-      <Gleisabschnitt lage="W,O" name="2" label="true" />
-      <Gleisabschnitt lage="W,O" name="2" signal="N2" signalPos="S" />
-      <Gleisabschnitt lage="W,SO" name="2" />
+      <Gleis lage="W,O" name="2" label="true" />
+      <Gleis lage="W,O" name="2" signal="N2" signalPos="S" />
+      <Gleis lage="W,SO" name="2" />
     </Zeile>
     <Zeile>
       <Leer />
-      <Gleisabschnitt lage="SW,NO" name="12" />
+      <Gleis lage="SW,NO" name="12" />
       <Leer />
       <Weiche lage="SW,NO|O" name="1" />
-      <Gleisabschnitt lage="W,O" name="1" />
-      <Gleisabschnitt lage="W,O" name="1" label="true" />
-      <Gleisabschnitt lage="W,O" name="1" />
-      <Gleisabschnitt lage="W,O" name="1" signal="N1" signalPos="S" />
+      <Gleis lage="W,O" name="1" />
+      <Gleis lage="W,O" name="1" label="true" />
+      <Gleis lage="W,O" name="1" />
+      <Gleis lage="W,O" name="1" signal="N1" signalPos="S" />
       <Weiche lage="NW|W,SO" name="3" />
     </Zeile>
     <Zeile>
       <Leer anzahl="2" />
-      <Gleisabschnitt lage="SW,NO" name="11" label="true" />
+      <Gleis lage="SW,NO" name="11" label="true" />
       <Leer anzahl="6" />
-      <Gleisabschnitt lage="NW,SO" name="S" signal="F" signalPos="NO" />
+      <Gleis lage="NW,SO" name="S" signal="F" signalPos="NO" />
     </Zeile>
     <Zeile>
       <Leer />
-      <Gleisabschnitt lage="SW,NO" name="11" />
+      <Gleis lage="SW,NO" name="11" />
       <Leer anzahl="8" />
-      <Gleisabschnitt lage="NW,S" name="S" label="true" />
+      <Gleis lage="NW,S" name="S" label="true" />
     </Zeile>
     <Zeile>
       <Leer />

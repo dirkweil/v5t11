@@ -39,7 +39,7 @@ public class AutoSkript {
   private String beschreibung;
 
   @XmlElements({
-      @XmlElement(name = "Gleisabschnitt", type = SkriptGleisabschnitt.class),
+      @XmlElement(name = "Gleis", type = SkriptGleis.class),
       @XmlElement(name = "Schalter", type = SkriptSchalter.class),
       @XmlElement(name = "Signal", type = SkriptSignal.class),
       @XmlElement(name = "Weiche", type = SkriptWeiche.class),

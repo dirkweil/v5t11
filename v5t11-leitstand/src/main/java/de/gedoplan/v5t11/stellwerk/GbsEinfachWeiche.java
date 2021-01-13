@@ -53,7 +53,7 @@ public class GbsEinfachWeiche extends GbsWeicheMit1Antrieb {
     // Gleise zeichnen
     boolean gerade = this.weiche == null || this.weiche.getStellung() == WeichenStellung.GERADE;
 
-    Color color = getGleisFarbe(this.gleisabschnitt);
+    Color color = getGleisFarbe(this.gleis);
     drawGleisSegment(g2d, GbsFarben.GLEIS_GESPERRT, gerade ? this.abzweigendPos : this.geradePos);
     drawGleisSegment(g2d, color, gerade ? this.geradePos : this.abzweigendPos);
     drawGleisSegment(g2d, color, this.stammPos);
@@ -61,7 +61,7 @@ public class GbsEinfachWeiche extends GbsWeicheMit1Antrieb {
     // Fahrstrasse drauf zeichen, wenn vorhanden
     if (this.weiche != null) {
       Fahrstrassenelement fahrstrassenelementZuZeichnen = null;
-      Fahrstrasse fahrstrasseZuZeichnen = this.fahrstrassenManager.getReservierteFahrstrasse(this.gleisabschnitt);
+      Fahrstrasse fahrstrasseZuZeichnen = this.fahrstrassenManager.getReservierteFahrstrasse(this.gleis);
       if (fahrstrasseZuZeichnen != null) {
         fahrstrassenelementZuZeichnen = fahrstrasseZuZeichnen.getElement(this.weiche, false);
 

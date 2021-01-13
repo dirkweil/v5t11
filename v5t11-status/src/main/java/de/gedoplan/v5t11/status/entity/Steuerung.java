@@ -22,7 +22,7 @@ import de.gedoplan.v5t11.status.entity.baustein.funktionsdecoder.WDMiba3;
 import de.gedoplan.v5t11.status.entity.baustein.lokcontroller.SxLokControl;
 import de.gedoplan.v5t11.status.entity.baustein.zentrale.DummyZentrale;
 import de.gedoplan.v5t11.status.entity.baustein.zentrale.FCC;
-import de.gedoplan.v5t11.status.entity.fahrweg.Gleisabschnitt;
+import de.gedoplan.v5t11.status.entity.fahrweg.Gleis;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.FunktionsdecoderGeraet;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Schalter;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
@@ -117,7 +117,7 @@ public class Steuerung {
   private SortedSet<String> bereiche = new TreeSet<>();
 
   @Getter
-  private SortedSet<Gleisabschnitt> gleisabschnitte = new TreeSet<>();
+  private SortedSet<Gleis> gleise = new TreeSet<>();
 
   @Getter
   private SortedSet<Schalter> schalter = new TreeSet<>();
@@ -190,25 +190,25 @@ public class Steuerung {
   }
 
   /**
-   * Wert liefern: {@link #gleisabschnitte}.
+   * Wert liefern: {@link #gleise}.
    *
    * @return Wert
    */
-  public Set<Gleisabschnitt> getGleisabschnitte(String bereich) {
-    return getBereichselemente(bereich, this.gleisabschnitte);
+  public Set<Gleis> getGleise(String bereich) {
+    return getBereichselemente(bereich, this.gleise);
   }
 
   /**
-   * Gleisabschnitt liefern.
+   * Gleis liefern.
    *
    * @param bereich
    *        Bereich
    * @param name
    *        Name
-   * @return gefundener Gleisabschnitt oder <code>null</code>
+   * @return gefundener Gleis oder <code>null</code>
    */
-  public Gleisabschnitt getGleisabschnitt(String bereich, String name) {
-    return getBereichselement(bereich, name, this.gleisabschnitte);
+  public Gleis getGleis(String bereich, String name) {
+    return getBereichselement(bereich, name, this.gleise);
   }
 
   /**
@@ -317,13 +317,13 @@ public class Steuerung {
     }
 
     /*
-     * Den Besetztmeldern zugeordnete Gleisabschnitte in this.gleisabschnitte
+     * Den Besetztmeldern zugeordnete Gleise in this.gleise
      * sammeln. Dabei auch die Bereiche in this.bereiche eintragen und Adressen
      * registrieren.
      */
     for (Besetztmelder bm : this.besetztmelder) {
-      for (Gleisabschnitt g : bm.getGleisabschnitte()) {
-        this.gleisabschnitte.add(g);
+      for (Gleis g : bm.getGleise()) {
+        this.gleise.add(g);
         this.bereiche.add(g.getBereich());
       }
 
@@ -415,7 +415,7 @@ public class Steuerung {
 
     for (Besetztmelder bm : this.besetztmelder) {
       buf.append("\n  ").append(bm);
-      for (Gleisabschnitt g : bm.getGleisabschnitte()) {
+      for (Gleis g : bm.getGleise()) {
         buf.append("\n    ").append(g);
       }
     }

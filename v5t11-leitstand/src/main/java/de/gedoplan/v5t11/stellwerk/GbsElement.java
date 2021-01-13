@@ -3,11 +3,11 @@ package de.gedoplan.v5t11.stellwerk;
 import de.gedoplan.baselibs.utils.exception.BugException;
 import de.gedoplan.baselibs.utils.inject.InjectionUtil;
 import de.gedoplan.v5t11.leitstand.entity.Leitstand;
-import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleisabschnitt;
+import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleis;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Signal;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkDkw2;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkElement;
-import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkGleisabschnitt;
+import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkGleis;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkWeiche;
 import de.gedoplan.v5t11.leitstand.persistence.SignalRepository;
 import de.gedoplan.v5t11.leitstand.service.FahrstrassenManager;
@@ -418,8 +418,8 @@ public abstract class GbsElement extends JPanel {
       return new GbsDkw2(bereich, stellwerkElement);
     }
 
-    if (stellwerkElement instanceof StellwerkGleisabschnitt) {
-      return new GbsGleisAbschnitt(bereich, stellwerkElement);
+    if (stellwerkElement instanceof StellwerkGleis) {
+      return new GbsGleis(bereich, stellwerkElement);
     }
 
     if (stellwerkElement instanceof StellwerkWeiche) {
@@ -470,8 +470,8 @@ public abstract class GbsElement extends JPanel {
     return bestPos;
   }
 
-  protected static Color getGleisFarbe(Gleisabschnitt gleisabschnitt) {
-    if (gleisabschnitt != null && gleisabschnitt.isBesetzt()) {
+  protected static Color getGleisFarbe(Gleis gleis) {
+    if (gleis != null && gleis.isBesetzt()) {
       return GbsFarben.GLEIS_BESETZT;
     }
 

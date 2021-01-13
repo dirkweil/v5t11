@@ -40,7 +40,7 @@ public abstract class Bereichselement extends SingleIdEntity<BereichselementId> 
 
   private transient BereichselementId id;
 
-  // Gleisabschnitt, Schalter, Signal, Weiche
+  // Gleis, Schalter, Signal, Weiche
   @Transient
   @Inject
   protected EventFirer eventFirer;

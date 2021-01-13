@@ -2,7 +2,7 @@ package de.gedoplan.v5t11.status.webui;
 
 import de.gedoplan.v5t11.status.entity.Steuerung;
 import de.gedoplan.v5t11.status.entity.baustein.Zentrale;
-import de.gedoplan.v5t11.status.entity.fahrweg.Gleisabschnitt;
+import de.gedoplan.v5t11.status.entity.fahrweg.Gleis;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
 import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
@@ -38,8 +38,8 @@ public class SystemStatusPresenter implements Serializable {
     return this.steuerung.getSignale(bereich);
   }
 
-  public Collection<Gleisabschnitt> getGleisabschnitte(String bereich) {
-    return this.steuerung.getGleisabschnitte(bereich);
+  public Collection<Gleis> getGleise(String bereich) {
+    return this.steuerung.getGleise(bereich);
   }
 
 }

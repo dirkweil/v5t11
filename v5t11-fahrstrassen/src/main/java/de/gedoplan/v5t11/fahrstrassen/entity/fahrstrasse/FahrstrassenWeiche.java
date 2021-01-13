@@ -43,23 +43,23 @@ public class FahrstrassenWeiche extends FahrstrassenGeraet {
     }
   }
 
-  public FahrstrassenGleisabschnitt createFahrstrassenGleisabschnitt() {
+  public FahrstrassenGleis createFahrstrassenGleis() {
 
     /*
      * Konvention: Eine Doppelweiche (z. B. DKW) besteht aus zwei Einzelweichen, deren Namen
      * mit der gleichen Nummer beginnen und einen eindeutigen Suffixbuchstaben haben (z. B. 11a, 11b).
-     * Der zugehörige Gleisabschnitt enthält nur den numerischen Teil im Namen.
+     * Der zugehörige Gleis enthält nur den numerischen Teil im Namen.
      */
     String name = getName();
     boolean doppelweiche = Character.isAlphabetic(name.charAt(name.length() - 1));
-    String gleisAbschnittName;
+    String gleisName;
     if (doppelweiche) {
-      gleisAbschnittName = AbstractWeiche.PREFIX_WEICHEN_GLEISABSCHNITT + name.substring(0, name.length() - 1);
+      gleisName = AbstractWeiche.PREFIX_WEICHEN_GLEIS + name.substring(0, name.length() - 1);
     } else {
-      gleisAbschnittName = AbstractWeiche.PREFIX_WEICHEN_GLEISABSCHNITT + name;
+      gleisName = AbstractWeiche.PREFIX_WEICHEN_GLEIS + name;
     }
 
-    return new FahrstrassenGleisabschnitt(getBereich(), gleisAbschnittName, this.zaehlrichtung);
+    return new FahrstrassenGleis(getBereich(), gleisName, this.zaehlrichtung);
   }
 
   @Override

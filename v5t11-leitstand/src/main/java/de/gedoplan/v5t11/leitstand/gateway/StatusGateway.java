@@ -1,7 +1,7 @@
 package de.gedoplan.v5t11.leitstand.gateway;
 
 import de.gedoplan.v5t11.leitstand.entity.baustein.Zentrale;
-import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleisabschnitt;
+import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleis;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Signal;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Weiche;
 import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
@@ -26,7 +26,7 @@ public interface StatusGateway {
   @GET
   @Path("gleis")
   @Produces(MediaType.APPLICATION_JSON)
-  Set<Gleisabschnitt> getGleisabschnitte();
+  Set<Gleis> getGleise();
 
   // Signale
   @GET

@@ -30,7 +30,7 @@ public class GbsWeicheMit1Antrieb extends GbsWeiche {
     super.processMouseClick();
 
     if (this.inputPanel != null) {
-      this.inputPanel.addWeiche(this.weiche, this.gleisabschnitt);
+      this.inputPanel.addWeiche(this.weiche, this.gleis);
     }
   }
 }

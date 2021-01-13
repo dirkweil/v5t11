@@ -1,7 +1,7 @@
 package de.gedoplan.v5t11.leitstand.service;
 
 import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrasse;
-import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleisabschnitt;
+import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleis;
 import de.gedoplan.v5t11.leitstand.gateway.FahrstrassenGateway;
 import de.gedoplan.v5t11.leitstand.persistence.FahrstrasseRepository;
 import de.gedoplan.v5t11.util.cdi.Changed;
@@ -77,11 +77,11 @@ public class FahrstrassenManager {
     this.eventFirer.fire(fahrstrasse, Changed.Literal.INSTANCE);
   }
 
-  public Fahrstrasse getReservierteFahrstrasse(Gleisabschnitt gleisabschnitt) {
+  public Fahrstrasse getReservierteFahrstrasse(Gleis gleis) {
     return this.fahrstrasseRepository
-        .findByGleisabschnitt(gleisabschnitt)
+        .findByGleis(gleis)
         .stream()
-        .filter(fs -> fs.getElement(gleisabschnitt, true) != null)
+        .filter(fs -> fs.getElement(gleis, true) != null)
         .findAny()
         .orElse(null);
   }

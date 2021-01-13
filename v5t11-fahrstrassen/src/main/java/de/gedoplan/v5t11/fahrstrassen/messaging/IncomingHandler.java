@@ -1,6 +1,6 @@
 package de.gedoplan.v5t11.fahrstrassen.messaging;
 
-import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleisabschnitt;
+import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleis;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Signal;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Weiche;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
@@ -43,9 +43,9 @@ public class IncomingHandler {
   }
 
   @Incoming("gleis-in")
-  void gleisabschnittChanged(byte[] msg) {
+  void gleisChanged(byte[] msg) {
     String json = new String(msg);
-    Gleisabschnitt obj = JsonbWithIncludeVisibility.SHORT.fromJson(json, Gleisabschnitt.class);
+    Gleis obj = JsonbWithIncludeVisibility.SHORT.fromJson(json, Gleis.class);
     this.logger.debugf("Received %s: %s", obj, json);
     this.eventFirer.fire(obj, Received.Literal.INSTANCE);
   }

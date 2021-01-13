@@ -1,6 +1,6 @@
 package de.gedoplan.v5t11.status.entity;
 
-import de.gedoplan.v5t11.status.entity.fahrweg.Gleisabschnitt;
+import de.gedoplan.v5t11.status.entity.fahrweg.Gleis;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 import de.gedoplan.v5t11.util.test.V5t11TestConfigDirExtension;
 
@@ -18,7 +18,7 @@ import io.quarkus.test.junit.QuarkusTestExtension;
 
 @ExtendWith({ V5t11TestConfigDirExtension.class, QuarkusTestExtension.class })
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
-public class GleisabschnittTest {
+public class GleisTest {
 
   @Inject
   Steuerung steuerung;
@@ -31,16 +31,16 @@ public class GleisabschnittTest {
 
     this.log.info("----- test_01_toJson -----");
 
-    Gleisabschnitt gleisabschnitt = this.steuerung.getGleisabschnitt("test", "1");
+    Gleis gleis = this.steuerung.getGleis("test", "1");
 
-    String json = JsonbWithIncludeVisibility.SHORT.toJson(gleisabschnitt);
+    String json = JsonbWithIncludeVisibility.SHORT.toJson(gleis);
 
     this.log.debug("JSON string: " + json);
 
     String expected = Json.createObjectBuilder()
-        .add("key", gleisabschnitt.getKey().toString())
-        .add("lastChangeMillis", gleisabschnitt.getLastChangeMillis())
-        .add("besetzt", gleisabschnitt.isBesetzt())
+        .add("key", gleis.getKey().toString())
+        .add("lastChangeMillis", gleis.getLastChangeMillis())
+        .add("besetzt", gleis.isBesetzt())
         .build().toString();
 
     JSONAssert.assertEquals(expected, json, true);

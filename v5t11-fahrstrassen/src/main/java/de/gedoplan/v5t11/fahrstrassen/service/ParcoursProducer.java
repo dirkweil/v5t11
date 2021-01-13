@@ -1,7 +1,7 @@
 package de.gedoplan.v5t11.fahrstrassen.service;
 
 import de.gedoplan.v5t11.fahrstrassen.entity.Parcours;
-import de.gedoplan.v5t11.fahrstrassen.persistence.GleisabschnittRepository;
+import de.gedoplan.v5t11.fahrstrassen.persistence.GleisRepository;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -15,7 +15,7 @@ import org.jboss.logging.Logger;
 public class ParcoursProducer {
 
   @Inject
-  GleisabschnittRepository parcoursRepository;
+  GleisRepository parcoursRepository;
 
   @Inject
   Logger logger;

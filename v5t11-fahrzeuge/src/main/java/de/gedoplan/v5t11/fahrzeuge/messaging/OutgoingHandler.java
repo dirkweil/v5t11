@@ -17,7 +17,7 @@ import org.jboss.logging.Logger.Level;
 /**
  * Handler für ausgehende Meldungen.
  * 
- * Die Methoden werden i. W. von {@link EventDispatcher} genutzt, um Veränderungen von Gleisabschnitten etc.
+ * Die Methoden werden i. W. von {@link EventDispatcher} genutzt, um Veränderungen von Gleisen etc.
  * zu veröffentlichen.
  * 
  * Achtung: Die Methoden hierin sind nicht als Observer ausgeprägt, weil dann ein Mocking mittels {@link Alternative @Alternative}

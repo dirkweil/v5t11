@@ -1,8 +1,8 @@
 package de.gedoplan.v5t11.stellwerk;
 
-import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleisabschnitt;
+import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleis;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkElement;
-import de.gedoplan.v5t11.leitstand.persistence.GleisabschnittRepository;
+import de.gedoplan.v5t11.leitstand.persistence.GleisRepository;
 import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 
 import java.awt.Color;
@@ -15,18 +15,18 @@ public abstract class GbsWeiche extends GbsElement {
 
   protected GbsRichtung labelPos = null;
   protected String label = null;
-  protected Gleisabschnitt gleisabschnitt;
+  protected Gleis gleis;
 
   @Inject
-  GleisabschnittRepository gleisabschnittRepository;
+  GleisRepository gleisRepository;
 
   public GbsWeiche(String bereich, StellwerkElement stellwerkElement) {
     super(bereich, stellwerkElement);
 
-    this.gleisabschnitt = this.gleisabschnittRepository.findById(new BereichselementId(stellwerkElement.getBereich(), "W" + stellwerkElement.getName()));
-    if (this.gleisabschnitt != null) {
-      this.statusDispatcher.addListener(this.gleisabschnitt, g -> {
-        this.gleisabschnitt = g;
+    this.gleis = this.gleisRepository.findById(new BereichselementId(stellwerkElement.getBereich(), "W" + stellwerkElement.getName()));
+    if (this.gleis != null) {
+      this.statusDispatcher.addListener(this.gleis, g -> {
+        this.gleis = g;
         repaint();
       });
     }

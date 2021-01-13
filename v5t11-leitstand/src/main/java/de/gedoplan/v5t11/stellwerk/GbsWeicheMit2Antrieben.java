@@ -42,8 +42,8 @@ public class GbsWeicheMit2Antrieben extends GbsWeiche {
     super.processMouseClick();
 
     if (this.inputPanel != null) {
-      this.inputPanel.addWeiche(this.weiche[0], this.gleisabschnitt);
-      this.inputPanel.addWeiche(this.weiche[1], this.gleisabschnitt);
+      this.inputPanel.addWeiche(this.weiche[0], this.gleis);
+      this.inputPanel.addWeiche(this.weiche[1], this.gleis);
     }
   }
 }

@@ -30,7 +30,7 @@ import lombok.Setter;
 @MappedSuperclass
 public abstract class AbstractWeiche extends AbstractGeraet {
 
-  public static final String PREFIX_WEICHEN_GLEISABSCHNITT = "W";
+  public static final String PREFIX_WEICHEN_GLEIS = "W";
 
   /**
    * Aktuelle Stellung der Weiche.
@@ -49,13 +49,13 @@ public abstract class AbstractWeiche extends AbstractGeraet {
   }
 
   @JsonbInclude(full = true)
-  public String getGleisabschnittName() {
+  public String getGleisName() {
     String name = getName();
     boolean doppelweiche = Character.isAlphabetic(name.charAt(name.length() - 1));
     if (doppelweiche) {
-      return PREFIX_WEICHEN_GLEISABSCHNITT + name.substring(0, name.length() - 1);
+      return PREFIX_WEICHEN_GLEIS + name.substring(0, name.length() - 1);
     } else {
-      return PREFIX_WEICHEN_GLEISABSCHNITT + name;
+      return PREFIX_WEICHEN_GLEIS + name;
     }
   }
 

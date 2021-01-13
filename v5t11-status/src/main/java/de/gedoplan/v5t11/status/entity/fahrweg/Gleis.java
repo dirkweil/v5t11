@@ -3,7 +3,7 @@ package de.gedoplan.v5t11.status.entity.fahrweg;
 import de.gedoplan.baselibs.utils.inject.InjectionUtil;
 import de.gedoplan.v5t11.status.entity.baustein.Besetztmelder;
 import de.gedoplan.v5t11.util.cdi.Changed;
-import de.gedoplan.v5t11.util.domain.entity.fahrweg.AbstractGleisabschnitt;
+import de.gedoplan.v5t11.util.domain.entity.fahrweg.AbstractGleis;
 
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -18,7 +18,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
- * Gleisabschnitt.
+ * Gleis.
  *
  * @author dw
  */
@@ -26,9 +26,9 @@ import lombok.NoArgsConstructor;
 @XmlAccessorType(XmlAccessType.NONE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Gleisabschnitt extends AbstractGleisabschnitt {
+public class Gleis extends AbstractGleis {
   /**
-   * Besetztmelder, der den Gleisabschnitt überwacht.
+   * Besetztmelder, der den Gleis überwacht.
    */
   private Besetztmelder besetztmelder;
 

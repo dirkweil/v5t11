@@ -1,7 +1,7 @@
 package de.gedoplan.v5t11.status.webservice;
 
 import de.gedoplan.v5t11.status.entity.Steuerung;
-import de.gedoplan.v5t11.status.entity.fahrweg.Gleisabschnitt;
+import de.gedoplan.v5t11.status.entity.fahrweg.Gleis;
 
 import java.util.Set;
 import java.util.SortedSet;
@@ -25,40 +25,40 @@ public class GleisEndpoint {
   @GET
   @Path("{bereich}/{name}")
   @Produces(MediaType.TEXT_PLAIN + "; qs=1.0")
-  public boolean getGleisabschnittsBelegung(@PathParam("bereich") String bereich, @PathParam("name") String name) {
+  public boolean getGleissBelegung(@PathParam("bereich") String bereich, @PathParam("name") String name) {
 
-    return getGleisabschnitt(bereich, name).isBesetzt();
+    return getGleis(bereich, name).isBesetzt();
   }
 
   @GET
   @Produces(MediaType.APPLICATION_JSON)
-  public SortedSet<Gleisabschnitt> getGleisabschnitte() {
+  public SortedSet<Gleis> getGleise() {
 
-    return this.steuerung.getGleisabschnitte();
+    return this.steuerung.getGleise();
   }
 
   @GET
   @Path("{bereich}")
   @Produces(MediaType.APPLICATION_JSON)
-  public Set<Gleisabschnitt> getGleisabschnitte(@PathParam("bereich") String bereich) {
+  public Set<Gleis> getGleise(@PathParam("bereich") String bereich) {
 
     if (!this.steuerung.getBereiche().contains(bereich)) {
       throw new NotFoundException();
     }
 
-    return this.steuerung.getGleisabschnitte(bereich);
+    return this.steuerung.getGleise(bereich);
   }
 
   @GET
   @Path("{bereich}/{name}")
   @Produces(MediaType.APPLICATION_JSON + "; qs=0.7")
-  public Gleisabschnitt getGleisabschnitt(@PathParam("bereich") String bereich, @PathParam("name") String name) {
+  public Gleis getGleis(@PathParam("bereich") String bereich, @PathParam("name") String name) {
 
-    Gleisabschnitt gleisabschnitt = this.steuerung.getGleisabschnitt(bereich, name);
-    if (gleisabschnitt == null) {
+    Gleis gleis = this.steuerung.getGleis(bereich, name);
+    if (gleis == null) {
       throw new NotFoundException();
     }
 
-    return gleisabschnitt;
+    return gleis;
   }
 }

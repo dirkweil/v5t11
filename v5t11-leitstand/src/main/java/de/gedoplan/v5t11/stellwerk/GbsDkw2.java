@@ -45,7 +45,7 @@ public class GbsDkw2 extends GbsWeicheMit2Antrieben {
     }
 
     for (int i = 0; i < 2; ++i) {
-      Color color = getGleisFarbe(this.gleisabschnitt);
+      Color color = getGleisFarbe(this.gleis);
       drawGleisSegment(g2d, color, gerade[i] ? this.geradePos[i] : this.abzweigPos[i]);
     }
 
@@ -54,7 +54,7 @@ public class GbsDkw2 extends GbsWeicheMit2Antrieben {
       Color color = null;
       if (this.weiche[i] != null) {
         Fahrstrassenelement fahrstrassenelementZuZeichnen = null;
-        Fahrstrasse fahrstrasseZuZeichnen = this.fahrstrassenManager.getReservierteFahrstrasse(this.gleisabschnitt);
+        Fahrstrasse fahrstrasseZuZeichnen = this.fahrstrassenManager.getReservierteFahrstrasse(this.gleis);
         if (fahrstrasseZuZeichnen != null) {
           fahrstrassenelementZuZeichnen = fahrstrasseZuZeichnen.getElement(this.weiche[i], false);
 

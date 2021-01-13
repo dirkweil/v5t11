@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * Gleisabschnitt.
+ * Gleis.
  *
  * @author dw
  */
@@ -24,35 +24,35 @@ import lombok.Setter;
 @XmlAccessorType(XmlAccessType.NONE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @MappedSuperclass
-public abstract class AbstractGleisabschnitt extends Fahrwegelement {
+public abstract class AbstractGleis extends Fahrwegelement {
   /**
-   * Gleisabschnitt besetzt?
+   * Gleis besetzt?
    */
   @Getter(onMethod_ = @JsonbInclude)
   @Setter(onMethod_ = @JsonbInclude)
   private boolean besetzt;
 
   /**
-   * Ist dies ein Weichen-Gleisabschnitt?
+   * Ist dies ein Weichen-Gleis?
    * 
    * @return <code>true</code>, wenn ja
    */
-  public boolean isWeichenGleisabschnitt() {
-    return getName().startsWith(AbstractWeiche.PREFIX_WEICHEN_GLEISABSCHNITT);
+  public boolean isWeichenGleis() {
+    return getName().startsWith(AbstractWeiche.PREFIX_WEICHEN_GLEIS);
   }
 
-  protected AbstractGleisabschnitt(String bereich, String name) {
+  protected AbstractGleis(String bereich, String name) {
     super(bereich, name);
   }
 
-  protected AbstractGleisabschnitt(BereichselementId id) {
+  protected AbstractGleis(BereichselementId id) {
     super(id);
   }
 
   @Override
   public boolean copyStatus(Fahrwegelement other) {
-    if (other instanceof AbstractGleisabschnitt) {
-      AbstractGleisabschnitt source = (AbstractGleisabschnitt) other;
+    if (other instanceof AbstractGleis) {
+      AbstractGleis source = (AbstractGleis) other;
       if (this.besetzt != source.besetzt) {
         this.besetzt = source.besetzt;
         this.lastChangeMillis = source.lastChangeMillis;

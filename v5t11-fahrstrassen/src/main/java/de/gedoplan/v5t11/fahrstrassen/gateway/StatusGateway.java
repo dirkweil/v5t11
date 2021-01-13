@@ -1,6 +1,6 @@
 package de.gedoplan.v5t11.fahrstrassen.gateway;
 
-import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleisabschnitt;
+import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleis;
 import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
 
@@ -22,7 +22,7 @@ public interface StatusGateway {
   @GET
   @Path("gleis")
   @Produces(MediaType.APPLICATION_JSON)
-  Set<Gleisabschnitt> getGleisabschnitte();
+  Set<Gleis> getGleise();
 
   @PUT
   @Path("signal/{bereich}/{name}")

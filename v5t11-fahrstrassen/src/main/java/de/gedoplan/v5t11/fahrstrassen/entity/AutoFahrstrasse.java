@@ -17,7 +17,7 @@ import lombok.ToString;
 /**
  * Automatik-Fahrstrasse.
  * 
- * Eine AutoFahrstrasse verknüpft einen auslösenden Gleisabschnitt - den sog. Trigger - mit einer Liste von
+ * Eine AutoFahrstrasse verknüpft einen auslösenden Gleis - den sog. Trigger - mit einer Liste von
  * Fahrstrassen. Ändert sich im Betrieb der Trigger auf besetzt, wird eine der Fahrstrassen reserviert, soweit
  * das möglich ist. Die Fahrstrassen werden in der Reihenfolge der Liste berücksichtigt.
  * 

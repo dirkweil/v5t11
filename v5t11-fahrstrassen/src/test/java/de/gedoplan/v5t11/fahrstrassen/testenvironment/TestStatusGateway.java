@@ -1,10 +1,10 @@
 package de.gedoplan.v5t11.fahrstrassen.testenvironment;
 
-import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleisabschnitt;
+import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleis;
 import de.gedoplan.v5t11.fahrstrassen.gateway.StatusGateway;
 import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
-import de.gedoplan.v5t11.util.domain.entity.fahrweg.AbstractGleisabschnitt;
+import de.gedoplan.v5t11.util.domain.entity.fahrweg.AbstractGleis;
 
 import java.lang.reflect.Field;
 import java.util.Collection;
@@ -24,31 +24,31 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 @Priority(1)
 public class TestStatusGateway implements StatusGateway {
 
-  private static final Gleisabschnitt[] TEST_GLEISABSCHNITTE = {
-      createTestGleisabschnitt("show", "1", false),
-      createTestGleisabschnitt("show", "2", true),
-      createTestGleisabschnitt("show", "11", false),
-      createTestGleisabschnitt("show", "12", false),
-      createTestGleisabschnitt("show", "S", false),
-      createTestGleisabschnitt("show", "W1", false),
-      createTestGleisabschnitt("show", "W2", false),
-      createTestGleisabschnitt("show", "W3", false)
+  private static final Gleis[] TEST_GLEISE = {
+      createTestGleis("show", "1", false),
+      createTestGleis("show", "2", true),
+      createTestGleis("show", "11", false),
+      createTestGleis("show", "12", false),
+      createTestGleis("show", "S", false),
+      createTestGleis("show", "W1", false),
+      createTestGleis("show", "W2", false),
+      createTestGleis("show", "W3", false)
   };
 
   @Override
-  public Set<Gleisabschnitt> getGleisabschnitte() {
-    return Stream.of(TEST_GLEISABSCHNITTE).collect(Collectors.toSet());
+  public Set<Gleis> getGleise() {
+    return Stream.of(TEST_GLEISE).collect(Collectors.toSet());
   }
 
-  private static Gleisabschnitt createTestGleisabschnitt(String bereich, String name, boolean besetzt) {
+  private static Gleis createTestGleis(String bereich, String name, boolean besetzt) {
     try {
-      Gleisabschnitt gleisabschnitt = new Gleisabschnitt(bereich, name);
+      Gleis gleis = new Gleis(bereich, name);
 
-      // Gleisabschnitt.besetzt ist private; daher per Reflection setzen
-      Field besetztField = AbstractGleisabschnitt.class.getDeclaredField("besetzt");
+      // Gleis.besetzt ist private; daher per Reflection setzen
+      Field besetztField = AbstractGleis.class.getDeclaredField("besetzt");
       besetztField.setAccessible(true);
-      besetztField.set(gleisabschnitt, besetzt);
-      return gleisabschnitt;
+      besetztField.set(gleis, besetzt);
+      return gleis;
     } catch (Exception e) {
       throw new RuntimeException("Cannot create test data", e);
     }

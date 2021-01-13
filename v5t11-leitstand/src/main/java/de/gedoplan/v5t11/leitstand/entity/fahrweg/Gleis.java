@@ -1,7 +1,7 @@
 package de.gedoplan.v5t11.leitstand.entity.fahrweg;
 
 import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
-import de.gedoplan.v5t11.util.domain.entity.fahrweg.AbstractGleisabschnitt;
+import de.gedoplan.v5t11.util.domain.entity.fahrweg.AbstractGleis;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -11,14 +11,14 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = Gleisabschnitt.TABLE_NAME)
+@Table(name = Gleis.TABLE_NAME)
 @XmlAccessorType(XmlAccessType.NONE)
 @NoArgsConstructor
-public class Gleisabschnitt extends AbstractGleisabschnitt {
+public class Gleis extends AbstractGleis {
 
-  public static final String TABLE_NAME = "LS_GLEISABSCHNITT";
+  public static final String TABLE_NAME = "LS_GLEIS";
 
-  public Gleisabschnitt(BereichselementId id) {
+  public Gleis(BereichselementId id) {
     super(id);
   }
 

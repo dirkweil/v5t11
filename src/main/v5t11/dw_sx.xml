@@ -5,240 +5,240 @@
   <Besetztmelder>
     <!-- Check OK -->
     <Muet8k id="BM-2019-1" adr="63" einbauOrt="Ausfahrt SBf">
-      <Gleisabschnitt idx="0" bereich="S20" name="2003" />
-      <Gleisabschnitt idx="1" bereich="SBf" name="402" />
-      <Gleisabschnitt idx="2" bereich="S20" name="W2001" />
-      <Gleisabschnitt idx="3" bereich="S20" name="2002" />
-      <Gleisabschnitt idx="4" bereich="SBf" name="W34" />
-      <Gleisabschnitt idx="4" bereich="SBf" name="W33" />
-      <Gleisabschnitt idx="5" bereich="SBf" name="202" />
-      <Gleisabschnitt idx="6" bereich="SBf" name="W32" />
+      <Gleis idx="0" bereich="S20" name="2003" />
+      <Gleis idx="1" bereich="SBf" name="402" />
+      <Gleis idx="2" bereich="S20" name="W2001" />
+      <Gleis idx="3" bereich="S20" name="2002" />
+      <Gleis idx="4" bereich="SBf" name="W34" />
+      <Gleis idx="4" bereich="SBf" name="W33" />
+      <Gleis idx="5" bereich="SBf" name="202" />
+      <Gleis idx="6" bereich="SBf" name="W32" />
     </Muet8k>
 
     <!-- Check OK -->
     <Muet8k id="BM-2018-2" adr="43" einbauOrt="Ausfahrt SBf">
-      <Gleisabschnitt idx="0" bereich="SBf" name="W27" /> 
-      <Gleisabschnitt idx="1" bereich="SBf" name="W26" /> 
-      <Gleisabschnitt idx="2" bereich="SBf" name="W24" /> 
-      <Gleisabschnitt idx="3" bereich="SBf" name="W30" />
-      <Gleisabschnitt idx="4" bereich="SBf" name="W28" />
-      <Gleisabschnitt idx="5" bereich="SBf" name="W31" />
-      <Gleisabschnitt idx="6" bereich="SBf" name="W29" />
-      <Gleisabschnitt idx="7" bereich="SBf" name="W22" /> 
+      <Gleis idx="0" bereich="SBf" name="W27" /> 
+      <Gleis idx="1" bereich="SBf" name="W26" /> 
+      <Gleis idx="2" bereich="SBf" name="W24" /> 
+      <Gleis idx="3" bereich="SBf" name="W30" />
+      <Gleis idx="4" bereich="SBf" name="W28" />
+      <Gleis idx="5" bereich="SBf" name="W31" />
+      <Gleis idx="6" bereich="SBf" name="W29" />
+      <Gleis idx="7" bereich="SBf" name="W22" /> 
     </Muet8k>
 
     <!-- Check OK -->
     <VM5262 id="BM-2019-4" adr="44" einbauOrt="SBf Gleis 4b">
-      <Gleisabschnitt idx="0" bereich="SBf" name="W20" /> 
-      <Gleisabschnitt idx="1" bereich="SBf" name="W21" /> 
-      <Gleisabschnitt idx="2" bereich="SBf" name="W19" /> 
-      <Gleisabschnitt idx="3" bereich="SBf" name="W18" /> 
-      <Gleisabschnitt idx="4" bereich="SBf" name="W23" /> 
-      <Gleisabschnitt idx="5" bereich="SBf" name="W25" /> 
-      <Gleisabschnitt idx="6" bereich="SBf" name="2b" />
-      <Gleisabschnitt idx="7" bereich="SBf" name="1b" />
+      <Gleis idx="0" bereich="SBf" name="W20" /> 
+      <Gleis idx="1" bereich="SBf" name="W21" /> 
+      <Gleis idx="2" bereich="SBf" name="W19" /> 
+      <Gleis idx="3" bereich="SBf" name="W18" /> 
+      <Gleis idx="4" bereich="SBf" name="W23" /> 
+      <Gleis idx="5" bereich="SBf" name="W25" /> 
+      <Gleis idx="6" bereich="SBf" name="2b" />
+      <Gleis idx="7" bereich="SBf" name="1b" />
     </VM5262>
 
     <!-- Check OK -->
     <SXBM1 id="BM-2014-1" adr="45" einbauOrt="SBf Gleis 4b (mit SX-KS-1)">
-      <Gleisabschnitt idx="0" bereich="SBf" name="17b" /> <!-- M -->
-      <Gleisabschnitt idx="1" bereich="SBf" name="18c" /> <!-- lE -->
-      <Gleisabschnitt idx="2" bereich="SBf" name="18b" /> <!-- lA -->
-      <Gleisabschnitt idx="3" bereich="SBf" name="18a" /> <!-- rA -->
-      <Gleisabschnitt idx="4" bereich="SBf" name="17a" /> <!-- rA -->
-      <Gleisabschnitt idx="5" bereich="SBf" name="17c" /> <!-- lA -->
-      <Gleisabschnitt idx="6" bereich="SBf" name="17d" /> <!-- lE -->
-      <Gleisabschnitt idx="7" bereich="SBf" name="109" /> <!-- rE -->
+      <Gleis idx="0" bereich="SBf" name="17b" /> <!-- M -->
+      <Gleis idx="1" bereich="SBf" name="18c" /> <!-- lE -->
+      <Gleis idx="2" bereich="SBf" name="18b" /> <!-- lA -->
+      <Gleis idx="3" bereich="SBf" name="18a" /> <!-- rA -->
+      <Gleis idx="4" bereich="SBf" name="17a" /> <!-- rA -->
+      <Gleis idx="5" bereich="SBf" name="17c" /> <!-- lA -->
+      <Gleis idx="6" bereich="SBf" name="17d" /> <!-- lE -->
+      <Gleis idx="7" bereich="SBf" name="109" /> <!-- rE -->
     </SXBM1>
 
     <!-- Check OK -->
     <SXBM1 id="BM-2014-3" adr="46" einbauOrt="SBf Gleis 4a">
-      <Gleisabschnitt idx="0" bereich="SBf" name="3b" /> 
-      <Gleisabschnitt idx="1" bereich="SBf" name="4b" /> 
-      <Gleisabschnitt idx="2" bereich="SBf" name="5b" /> 
-      <Gleisabschnitt idx="3" bereich="SBf" name="6b" /> 
-      <Gleisabschnitt idx="4" bereich="SBf" name="7b" /> 
-      <Gleisabschnitt idx="5" bereich="SBf" name="8b" /> 
-      <Gleisabschnitt idx="6" bereich="SBf" name="9b" /> 
-      <Gleisabschnitt idx="7" bereich="SBf" name="10b" /> 
+      <Gleis idx="0" bereich="SBf" name="3b" /> 
+      <Gleis idx="1" bereich="SBf" name="4b" /> 
+      <Gleis idx="2" bereich="SBf" name="5b" /> 
+      <Gleis idx="3" bereich="SBf" name="6b" /> 
+      <Gleis idx="4" bereich="SBf" name="7b" /> 
+      <Gleis idx="5" bereich="SBf" name="8b" /> 
+      <Gleis idx="6" bereich="SBf" name="9b" /> 
+      <Gleis idx="7" bereich="SBf" name="10b" /> 
     </SXBM1>
 
     <!-- Check OK -->
     <SXBM1 id="BM-2003-3" adr="47" einbauOrt="SBf Gleis 4a">
-      <Gleisabschnitt idx="0" bereich="SBf" name="2a" />
-      <Gleisabschnitt idx="1" bereich="SBf" name="1a" /> 
-      <Gleisabschnitt idx="2" bereich="SBf" name="3a" /> 
-      <Gleisabschnitt idx="3" bereich="SBf" name="11b" /> 
-      <Gleisabschnitt idx="4" bereich="SBf" name="12b" /> 
-      <Gleisabschnitt idx="5" bereich="SBf" name="13b" /> 
-      <Gleisabschnitt idx="6" bereich="SBf" name="14b" /> 
-      <Gleisabschnitt idx="7" bereich="SBf" name="15b" /> 
+      <Gleis idx="0" bereich="SBf" name="2a" />
+      <Gleis idx="1" bereich="SBf" name="1a" /> 
+      <Gleis idx="2" bereich="SBf" name="3a" /> 
+      <Gleis idx="3" bereich="SBf" name="11b" /> 
+      <Gleis idx="4" bereich="SBf" name="12b" /> 
+      <Gleis idx="5" bereich="SBf" name="13b" /> 
+      <Gleis idx="6" bereich="SBf" name="14b" /> 
+      <Gleis idx="7" bereich="SBf" name="15b" /> 
     </SXBM1>
 
     <!-- Check OK -->
     <SXBM1 id="BM-2003-6" adr="48" einbauOrt="SBf Gleis 4a">
-      <Gleisabschnitt idx="0" bereich="SBf" name="16b" /> 
-      <Gleisabschnitt idx="1" bereich="SBf" name="4a" /> 
-      <Gleisabschnitt idx="2" bereich="SBf" name="5a" /> 
-      <Gleisabschnitt idx="3" bereich="SBf" name="6a" /> 
-      <Gleisabschnitt idx="4" bereich="SBf" name="7a" /> 
-      <Gleisabschnitt idx="5" bereich="SBf" name="8a" /> 
-      <Gleisabschnitt idx="6" bereich="SBf" name="9a" /> 
-      <Gleisabschnitt idx="7" bereich="SBf" name="10a" /> 
+      <Gleis idx="0" bereich="SBf" name="16b" /> 
+      <Gleis idx="1" bereich="SBf" name="4a" /> 
+      <Gleis idx="2" bereich="SBf" name="5a" /> 
+      <Gleis idx="3" bereich="SBf" name="6a" /> 
+      <Gleis idx="4" bereich="SBf" name="7a" /> 
+      <Gleis idx="5" bereich="SBf" name="8a" /> 
+      <Gleis idx="6" bereich="SBf" name="9a" /> 
+      <Gleis idx="7" bereich="SBf" name="10a" /> 
     </SXBM1>
 
     <!-- Check OK -->
     <SXBM1 id="BM-2003-4" adr="49" einbauOrt="SBf Gleis 4a"> 
-      <Gleisabschnitt idx="0" bereich="SBf" name="11a" /> 
-      <Gleisabschnitt idx="1" bereich="SBf" name="12a" /> 
-      <Gleisabschnitt idx="2" bereich="SBf" name="13a" /> 
-      <Gleisabschnitt idx="3" bereich="SBf" name="14a" /> 
-      <Gleisabschnitt idx="4" bereich="SBf" name="15a" /> 
-      <Gleisabschnitt idx="5" bereich="SBf" name="16a" /> 
-      <Gleisabschnitt idx="6" bereich="SBf" name="W5" />
+      <Gleis idx="0" bereich="SBf" name="11a" /> 
+      <Gleis idx="1" bereich="SBf" name="12a" /> 
+      <Gleis idx="2" bereich="SBf" name="13a" /> 
+      <Gleis idx="3" bereich="SBf" name="14a" /> 
+      <Gleis idx="4" bereich="SBf" name="15a" /> 
+      <Gleis idx="5" bereich="SBf" name="16a" /> 
+      <Gleis idx="6" bereich="SBf" name="W5" />
     </SXBM1>
 
     <SXBM1 id="BM-2003-1" adr="52" einbauOrt="SBf Gleis 4a">
-      <Gleisabschnitt idx="0" bereich="S10" name="1006" />
-      <Gleisabschnitt idx="1" bereich="S10" name="1004" />
-      <Gleisabschnitt idx="2" bereich="S10" name="W1005" />
-      <Gleisabschnitt idx="3" bereich="SBf" name="W15" />
-      <Gleisabschnitt idx="4" bereich="SBf" name="W17" />
-      <Gleisabschnitt idx="5" bereich="S10" name="1001" />
-      <Gleisabschnitt idx="6" bereich="S10" name="W1003" />
-      <Gleisabschnitt idx="7" bereich="S10" name="1002" />
+      <Gleis idx="0" bereich="S10" name="1006" />
+      <Gleis idx="1" bereich="S10" name="1004" />
+      <Gleis idx="2" bereich="S10" name="W1005" />
+      <Gleis idx="3" bereich="SBf" name="W15" />
+      <Gleis idx="4" bereich="SBf" name="W17" />
+      <Gleis idx="5" bereich="S10" name="1001" />
+      <Gleis idx="6" bereich="S10" name="W1003" />
+      <Gleis idx="7" bereich="S10" name="1002" />
     </SXBM1>
 
     <!-- Check OK -->
     <SXBM1 id="BM-2003-8" adr="50" einbauOrt="Einfahrt SBf">
-      <Gleisabschnitt idx="0" bereich="SBf" name="W6" />
-      <Gleisabschnitt idx="1" bereich="SBf" name="W8" />
-      <Gleisabschnitt idx="2" bereich="SBf" name="W16" />
-      <Gleisabschnitt idx="3" bereich="SBf" name="W14" />
-      <Gleisabschnitt idx="4" bereich="SBf" name="W13" />
-      <Gleisabschnitt idx="5" bereich="SBf" name="W7" />
-      <Gleisabschnitt idx="6" bereich="SBf" name="108" />
-      <Gleisabschnitt idx="7" bereich="SBf" name="W4" />
+      <Gleis idx="0" bereich="SBf" name="W6" />
+      <Gleis idx="1" bereich="SBf" name="W8" />
+      <Gleis idx="2" bereich="SBf" name="W16" />
+      <Gleis idx="3" bereich="SBf" name="W14" />
+      <Gleis idx="4" bereich="SBf" name="W13" />
+      <Gleis idx="5" bereich="SBf" name="W7" />
+      <Gleis idx="6" bereich="SBf" name="108" />
+      <Gleis idx="7" bereich="SBf" name="W4" />
     </SXBM1>
 
     <!-- Check OK -->
     <SXBM1 id="BM-2014-2" adr="51" einbauOrt="Einfahrt SBf">
-      <Gleisabschnitt idx="0" bereich="SBf" name="W10" />
-      <Gleisabschnitt idx="1" bereich="SBf" name="W2" />
-      <Gleisabschnitt idx="2" bereich="SBf" name="W3" />
-      <Gleisabschnitt idx="3" bereich="SBf" name="W12" />
-      <Gleisabschnitt idx="4" bereich="SBf" name="W9" />
-      <Gleisabschnitt idx="5" bereich="SBf" name="W11" />
-      <Gleisabschnitt idx="6" bereich="SBf" name="308" />
-      <Gleisabschnitt idx="7" bereich="SBf" name="W1" />
+      <Gleis idx="0" bereich="SBf" name="W10" />
+      <Gleis idx="1" bereich="SBf" name="W2" />
+      <Gleis idx="2" bereich="SBf" name="W3" />
+      <Gleis idx="3" bereich="SBf" name="W12" />
+      <Gleis idx="4" bereich="SBf" name="W9" />
+      <Gleis idx="5" bereich="SBf" name="W11" />
+      <Gleis idx="6" bereich="SBf" name="308" />
+      <Gleis idx="7" bereich="SBf" name="W1" />
     </SXBM1>
 
     <!-- Check OK -->
     <SXBM1 id="BM-2003-2" adr="55" einbauOrt="Mitte links NBf">
-      <Gleisabschnitt idx="0" bereich="NBf" name="W4" />
-      <Gleisabschnitt idx="1" bereich="NBf" name="W1" />
-      <Gleisabschnitt idx="2" bereich="NBf" name="W2" />
-      <Gleisabschnitt idx="3" bereich="NBf" name="W3" />
-      <Gleisabschnitt idx="4" bereich="NBf" name="1" />
-      <Gleisabschnitt idx="5" bereich="NBf" name="11" />
-      <Gleisabschnitt idx="6" bereich="NBf" name="2" />
-      <Gleisabschnitt idx="7" bereich="NBf" name="13" />
+      <Gleis idx="0" bereich="NBf" name="W4" />
+      <Gleis idx="1" bereich="NBf" name="W1" />
+      <Gleis idx="2" bereich="NBf" name="W2" />
+      <Gleis idx="3" bereich="NBf" name="W3" />
+      <Gleis idx="4" bereich="NBf" name="1" />
+      <Gleis idx="5" bereich="NBf" name="11" />
+      <Gleis idx="6" bereich="NBf" name="2" />
+      <Gleis idx="7" bereich="NBf" name="13" />
     </SXBM1>
 
     <!-- Check OK -->
     <SXBM1 id="BM-2013-1" adr="56" einbauOrt="Mitte rechts NBf">
-      <Gleisabschnitt idx="0" bereich="NBf" name="102" />
-      <Gleisabschnitt idx="1" bereich="NBf" name="4" />
-      <Gleisabschnitt idx="2" bereich="NBf" name="23" />
-      <Gleisabschnitt idx="3" bereich="NBf" name="W5" />
-      <Gleisabschnitt idx="4" bereich="NBf" name="W6" />
-      <Gleisabschnitt idx="5" bereich="NBf" name="W7" />
-      <Gleisabschnitt idx="6" bereich="NBf" name="3" />
-      <Gleisabschnitt idx="7" bereich="NBf" name="202" />
+      <Gleis idx="0" bereich="NBf" name="102" />
+      <Gleis idx="1" bereich="NBf" name="4" />
+      <Gleis idx="2" bereich="NBf" name="23" />
+      <Gleis idx="3" bereich="NBf" name="W5" />
+      <Gleis idx="4" bereich="NBf" name="W6" />
+      <Gleis idx="5" bereich="NBf" name="W7" />
+      <Gleis idx="6" bereich="NBf" name="3" />
+      <Gleis idx="7" bereich="NBf" name="202" />
     </SXBM1>
 
     <!-- Check OK -->
     <SXBM1 id="BM-2013-2" adr="1057" einbauOrt="HBf Einfahrt links">
-      <Gleisabschnitt idx="0" bereich="HBf" name="207" />
-      <Gleisabschnitt idx="1" bereich="HBf" name="406" />
-      <Gleisabschnitt idx="2" bereich="HBf" name="407" />
-      <Gleisabschnitt idx="3" bereich="HBf" name="404" />
-      <Gleisabschnitt idx="4" bereich="HBf" name="W1" />
-      <Gleisabschnitt idx="5" bereich="HBf" name="W3" />
-      <Gleisabschnitt idx="5" bereich="HBf" name="W4" />
-      <Gleisabschnitt idx="6" bereich="HBf" name="W2" />
-      <Gleisabschnitt idx="7" bereich="HBf" name="W5" />
+      <Gleis idx="0" bereich="HBf" name="207" />
+      <Gleis idx="1" bereich="HBf" name="406" />
+      <Gleis idx="2" bereich="HBf" name="407" />
+      <Gleis idx="3" bereich="HBf" name="404" />
+      <Gleis idx="4" bereich="HBf" name="W1" />
+      <Gleis idx="5" bereich="HBf" name="W3" />
+      <Gleis idx="5" bereich="HBf" name="W4" />
+      <Gleis idx="6" bereich="HBf" name="W2" />
+      <Gleis idx="7" bereich="HBf" name="W5" />
     </SXBM1>
 
     <!-- Check OK -->
     <SXBM1 id="BM-2013-4" adr="1058" einbauOrt="HBf Einfahrt links">
-      <Gleisabschnitt idx="0" bereich="HBf" name="3" />
-      <Gleisabschnitt idx="1" bereich="HBf" name="4" />
-      <Gleisabschnitt idx="2" bereich="HBf" name="6" />
-      <Gleisabschnitt idx="3" bereich="HBf" name="7" />
-      <Gleisabschnitt idx="4" bereich="HBf" name="W6" />
-      <Gleisabschnitt idx="5" bereich="HBf" name="W7" />
-      <Gleisabschnitt idx="6" bereich="HBf" name="W8" />
-      <Gleisabschnitt idx="7" bereich="HBf" name="W9" />
+      <Gleis idx="0" bereich="HBf" name="3" />
+      <Gleis idx="1" bereich="HBf" name="4" />
+      <Gleis idx="2" bereich="HBf" name="6" />
+      <Gleis idx="3" bereich="HBf" name="7" />
+      <Gleis idx="4" bereich="HBf" name="W6" />
+      <Gleis idx="5" bereich="HBf" name="W7" />
+      <Gleis idx="6" bereich="HBf" name="W8" />
+      <Gleis idx="7" bereich="HBf" name="W9" />
     </SXBM1>
 
     <!-- Check OK -->
     <SXBM1 id="BM-2013-3" adr="1059" einbauOrt="HBf unter EG">
-      <Gleisabschnitt idx="0" bereich="HBf" name="5" />
-      <Gleisabschnitt idx="1" bereich="HBf" name="W12" />
-      <Gleisabschnitt idx="2" bereich="HBf" name="8" />
-      <Gleisabschnitt idx="3" bereich="HBf" name="9" />
-      <Gleisabschnitt idx="4" bereich="HBf" name="10" />
-      <Gleisabschnitt idx="5" bereich="HBf" name="W10" />
-      <Gleisabschnitt idx="6" bereich="HBf" name="1" />
-      <Gleisabschnitt idx="7" bereich="HBf" name="W11" />
+      <Gleis idx="0" bereich="HBf" name="5" />
+      <Gleis idx="1" bereich="HBf" name="W12" />
+      <Gleis idx="2" bereich="HBf" name="8" />
+      <Gleis idx="3" bereich="HBf" name="9" />
+      <Gleis idx="4" bereich="HBf" name="10" />
+      <Gleis idx="5" bereich="HBf" name="W10" />
+      <Gleis idx="6" bereich="HBf" name="1" />
+      <Gleis idx="7" bereich="HBf" name="W11" />
     </SXBM1>
 
     <!-- Check OK -->
     <SXBM1 id="BM-2003-9" adr="1060" einbauOrt="HBf unter Wuest">
-      <Gleisabschnitt idx="0" bereich="HBf" name="25" />
-      <Gleisabschnitt idx="1" bereich="HBf" name="21" />
-      <Gleisabschnitt idx="2" bereich="HBf" name="22" />  
-      <Gleisabschnitt idx="3" bereich="HBf" name="W13" />
-      <Gleisabschnitt idx="4" bereich="HBf" name="W14" />
-      <Gleisabschnitt idx="4" bereich="HBf" name="W15" />
-      <Gleisabschnitt idx="5" bereich="HBf" name="W16" />
-      <Gleisabschnitt idx="6" bereich="HBf" name="23" />
-      <Gleisabschnitt idx="7" bereich="HBf" name="24" />
+      <Gleis idx="0" bereich="HBf" name="25" />
+      <Gleis idx="1" bereich="HBf" name="21" />
+      <Gleis idx="2" bereich="HBf" name="22" />  
+      <Gleis idx="3" bereich="HBf" name="W13" />
+      <Gleis idx="4" bereich="HBf" name="W14" />
+      <Gleis idx="4" bereich="HBf" name="W15" />
+      <Gleis idx="5" bereich="HBf" name="W16" />
+      <Gleis idx="6" bereich="HBf" name="23" />
+      <Gleis idx="7" bereich="HBf" name="24" />
     </SXBM1>
 
     <!-- Check OK -->
     <BMMiba3 id="BM-2019-2" adr="61" einbauOrt="HBf Gleisende rechts">
-      <Gleisabschnitt idx="0" bereich="HBf" name="W17" />
-      <Gleisabschnitt idx="1" bereich="HBf" name="W18" />
-      <Gleisabschnitt idx="2" bereich="HBf" name="W19" />
-      <Gleisabschnitt idx="3" bereich="HBf" name="W20" />
-      <Gleisabschnitt idx="3" bereich="HBf" name="W22" />
-      <Gleisabschnitt idx="4" bereich="HBf" name="W21" />
-      <Gleisabschnitt idx="5" bereich="HBf" name="W23" />
-      <Gleisabschnitt idx="6" bereich="HBf" name="W24" />
-      <Gleisabschnitt idx="7" bereich="HBf" name="W25" />
-      <Gleisabschnitt idx="7" bereich="HBf" name="W26" />
+      <Gleis idx="0" bereich="HBf" name="W17" />
+      <Gleis idx="1" bereich="HBf" name="W18" />
+      <Gleis idx="2" bereich="HBf" name="W19" />
+      <Gleis idx="3" bereich="HBf" name="W20" />
+      <Gleis idx="3" bereich="HBf" name="W22" />
+      <Gleis idx="4" bereich="HBf" name="W21" />
+      <Gleis idx="5" bereich="HBf" name="W23" />
+      <Gleis idx="6" bereich="HBf" name="W24" />
+      <Gleis idx="7" bereich="HBf" name="W25" />
+      <Gleis idx="7" bereich="HBf" name="W26" />
     </BMMiba3>
 
     <!-- Check OK -->
     <HEBM8 id="BM-2019-3" adr="62" einbauOrt="HBf Ausfahrt rechts">
-      <Gleisabschnitt idx="0" bereich="HBf" name="105" />
-      <Gleisabschnitt idx="1" bereich="HBf" name="W27" />
-      <Gleisabschnitt idx="1" bereich="HBf" name="W28" />
-      <Gleisabschnitt idx="2" bereich="HBf" name="307" />
-      <Gleisabschnitt idx="3" bereich="HBf" name="W29" />
-      <Gleisabschnitt idx="4" bereich="HBf" name="W30" />
-      <Gleisabschnitt idx="5" bereich="HBf" name="W31" />
+      <Gleis idx="0" bereich="HBf" name="105" />
+      <Gleis idx="1" bereich="HBf" name="W27" />
+      <Gleis idx="1" bereich="HBf" name="W28" />
+      <Gleis idx="2" bereich="HBf" name="307" />
+      <Gleis idx="3" bereich="HBf" name="W29" />
+      <Gleis idx="4" bereich="HBf" name="W30" />
+      <Gleis idx="5" bereich="HBf" name="W31" />
     </HEBM8>
 
     <!-- Check OK -->
     <Muet8i id="BM-2018-1" adr="40" einbauOrt="Paradestrecke">
-      <Gleisabschnitt idx="0" bereich="HBf" name="505" />
-      <Gleisabschnitt idx="1" bereich="HBf" name="506" />
-      <Gleisabschnitt idx="2" bereich="HBf" name="507" />
-      <Gleisabschnitt idx="3" bereich="S30" name="3001" />
-      <Gleisabschnitt idx="4" bereich="S30" name="3002" />
+      <Gleis idx="0" bereich="HBf" name="505" />
+      <Gleis idx="1" bereich="HBf" name="506" />
+      <Gleis idx="2" bereich="HBf" name="507" />
+      <Gleis idx="3" bereich="S30" name="3001" />
+      <Gleis idx="4" bereich="S30" name="3002" />
     </Muet8i>
 
   </Besetztmelder>
@@ -418,11 +418,11 @@
 
   <AutoSkripte>
     <AutoSkript bereich="SBf" beschreibung="Polung Wendestrecke 17">
-      <Gleisabschnitt name="109" />
-      <Gleisabschnitt name="17a" />
-      <Gleisabschnitt name="17b" />
-      <Gleisabschnitt name="17c" />
-      <Gleisabschnitt name="17d" />
+      <Gleis name="109" />
+      <Gleis name="17a" />
+      <Gleis name="17b" />
+      <Gleis name="17c" />
+      <Gleis name="17d" />
       <Schalter name="KS17" />
       <Skript sprache="groovy">
         if (gleis17c.isBesetzt() || gleis17d.isBesetzt()) {
@@ -436,9 +436,9 @@
     </AutoSkript>
 
     <AutoSkript bereich="SBf" beschreibung="Polung Wendestrecke 18">
-      <Gleisabschnitt name="18a" />
-      <Gleisabschnitt name="18b" />
-      <Gleisabschnitt name="18c" />
+      <Gleis name="18a" />
+      <Gleis name="18b" />
+      <Gleis name="18c" />
       <Schalter name="KS18" />
       <Skript sprache="groovy">
         if (gleis18c.isBesetzt()) {

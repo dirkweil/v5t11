@@ -15,7 +15,7 @@ import javax.transaction.Transactional;
 import org.jboss.logging.Logger;
 
 /**
- * Aktualisierung der Status von Fahrzeugen, Gleisabschnitten etc.
+ * Aktualisierung der Status von Fahrzeugen, Gleisen etc.
  * 
  * Die Aktualisierung wird durch eingehende Meldungen (von v5t11-status gesendet) ausgelöst. {@link IncomingHandler}
  * wandelt die Meldungen in CDI Event um, die hier verarbeitet werden.

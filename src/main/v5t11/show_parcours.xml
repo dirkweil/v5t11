@@ -1,66 +1,66 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Parcours>
   <Fahrstrasse bereich="show" zaehlrichtung="true" umkehrbar="true">
-    <Gleisabschnitt name="11" />
+    <Gleis name="11" />
     <Weiche name="1" stellung="ABZWEIGEND" />
     <Weiche name="2" stellung="GERADE" schutz="true" />
-    <Gleisabschnitt name="1" />
+    <Gleis name="1" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="show" zaehlrichtung="true" umkehrbar="true">
-    <Gleisabschnitt name="11" />
+    <Gleis name="11" />
     <Weiche name="1" stellung="GERADE" />
     <Weiche name="2" stellung="ABZWEIGEND" />
-    <Gleisabschnitt name="2" />
+    <Gleis name="2" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="show" zaehlrichtung="true" umkehrbar="true">
-    <Gleisabschnitt name="12" />
+    <Gleis name="12" />
     <Weiche name="2" stellung="GERADE" />
     <Weiche name="1" stellung="ABZWEIGEND" schutz="true" />
-    <Gleisabschnitt name="2" />
+    <Gleis name="2" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="show" zaehlrichtung="true">
-    <Gleisabschnitt name="1" />
+    <Gleis name="1" />
     <Hauptsignal name="N1" stellung="LANGSAMFAHRT" />
     <Hauptsignal name="N2" stellung="HALT" schutz="true" />
     <Weiche name="3" stellung="ABZWEIGEND" />
-    <Gleisabschnitt name="W3" />
+    <Gleis name="W3" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="show" zaehlrichtung="true">
-    <Gleisabschnitt name="2" />
+    <Gleis name="2" />
     <Hauptsignal name="N2" stellung="FAHRT" />
     <Hauptsignal name="N1" stellung="HALT" schutz="true" />
     <Weiche name="3" stellung="GERADE" />
-    <Gleisabschnitt name="W3" />
+    <Gleis name="W3" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="show" zaehlrichtung="true">
-    <Gleisabschnitt name="W3" />
+    <Gleis name="W3" />
     <Hauptsignal name="F" stellung="HALT" schutz="true" />
-    <Gleisabschnitt name="S" />
+    <Gleis name="S" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="show" zaehlrichtung="false">
-    <Gleisabschnitt name="S" />
+    <Gleis name="S" />
     <Hauptsignal name="F" stellung="LANGSAMFAHRT" />
-    <Gleisabschnitt name="W3" />
+    <Gleis name="W3" />
     <Hauptsignal name="N1" stellung="HALT" schutz="true" />
     <Hauptsignal name="N2" stellung="HALT" schutz="true" />
     <Weiche name="3" stellung="ABZWEIGEND" />
-    <Gleisabschnitt name="1" />
+    <Gleis name="1" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="show" zaehlrichtung="false">
-    <Gleisabschnitt name="S" />
+    <Gleis name="S" />
     <Hauptsignal name="F" stellung="FAHRT" />
-    <Gleisabschnitt name="W3" />
+    <Gleis name="W3" />
     <Hauptsignal name="N1" stellung="HALT" schutz="true" />
     <Hauptsignal name="N2" stellung="HALT" schutz="true" />
     <Weiche name="3" stellung="GERADE" />
-    <Gleisabschnitt name="2" />
+    <Gleis name="2" />
   </Fahrstrasse>
 
   <AutoFahrstrasse bereich="show" trigger="S">

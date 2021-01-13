@@ -97,7 +97,7 @@ public class Weiche extends AbstractWeiche implements FunktionsdecoderGeraet {
 
   @Override
   @JsonbInclude(full = true)
-  public String getGleisabschnittName() {
+  public String getGleisName() {
     boolean doppelweiche = Character.isAlphabetic(getName().charAt(getName().length() - 1));
     if (doppelweiche) {
       return "W" + getName().substring(0, getName().length() - 1);

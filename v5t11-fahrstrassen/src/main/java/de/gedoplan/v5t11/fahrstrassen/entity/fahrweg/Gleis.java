@@ -2,7 +2,7 @@ package de.gedoplan.v5t11.fahrstrassen.entity.fahrweg;
 
 import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import de.gedoplan.v5t11.util.domain.entity.Fahrwegelement;
-import de.gedoplan.v5t11.util.domain.entity.fahrweg.AbstractGleisabschnitt;
+import de.gedoplan.v5t11.util.domain.entity.fahrweg.AbstractGleis;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
@@ -15,12 +15,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = Gleisabschnitt.TABLE_NAME)
+@Table(name = Gleis.TABLE_NAME)
 @XmlAccessorType(XmlAccessType.NONE)
 @NoArgsConstructor
-public class Gleisabschnitt extends AbstractGleisabschnitt implements ReservierbaresFahrwegelement {
+public class Gleis extends AbstractGleis implements ReservierbaresFahrwegelement {
 
-  public static final String TABLE_NAME = "FS_GLEISABSCHNITT";
+  public static final String TABLE_NAME = "FS_GLEIS";
 
   /**
    * Falls dieses Element Teil einer reservierten Fahrstrasse ist, Id dieser Fahrstrasse, sonst <code>null</code>
@@ -33,7 +33,7 @@ public class Gleisabschnitt extends AbstractGleisabschnitt implements Reservierb
   @Getter
   private boolean durchfahren;
 
-  public Gleisabschnitt(String bereich, String name) {
+  public Gleis(String bereich, String name) {
     super(bereich, name);
   }
 

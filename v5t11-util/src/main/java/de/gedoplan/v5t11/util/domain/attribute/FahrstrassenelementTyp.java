@@ -10,7 +10,7 @@ import javax.persistence.Converter;
 
 @JsonbTypeAdapter(FahrstrassenelementTyp.Adapter4Json.class)
 public enum FahrstrassenelementTyp {
-  GLEISABSCHNITT("G"),
+  GLEIS("G"),
   SIGNAL("S"),
   WEICHE("W");
 

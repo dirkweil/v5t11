@@ -1,7 +1,7 @@
 package de.gedoplan.v5t11.status.entity.baustein;
 
 import de.gedoplan.baselibs.utils.inject.InjectionUtil;
-import de.gedoplan.v5t11.status.entity.fahrweg.Gleisabschnitt;
+import de.gedoplan.v5t11.status.entity.fahrweg.Gleis;
 
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -27,10 +27,10 @@ import lombok.NoArgsConstructor;
 public abstract class Besetztmelder extends Baustein implements Encoder {
 
   /**
-   * Zugeordnete Gleisabschnitte.
+   * Zugeordnete Gleise.
    */
-  @XmlElement(name = "Gleisabschnitt", type = Gleisabschnitt.class)
-  protected SortedSet<Gleisabschnitt> gleisabschnitte = new TreeSet<>();
+  @XmlElement(name = "Gleis", type = Gleis.class)
+  protected SortedSet<Gleis> gleise = new TreeSet<>();
 
   /**
    * Konstruktor.
@@ -51,11 +51,11 @@ public abstract class Besetztmelder extends Baustein implements Encoder {
 
   @Override
   public void adjustStatus() {
-    this.gleisabschnitte.forEach(Gleisabschnitt::adjustStatus);
+    this.gleise.forEach(Gleis::adjustStatus);
   }
 
   public void injectFields() {
     InjectionUtil.injectFields(this);
-    this.gleisabschnitte.forEach(Gleisabschnitt::injectFields);
+    this.gleise.forEach(Gleis::injectFields);
   }
 }

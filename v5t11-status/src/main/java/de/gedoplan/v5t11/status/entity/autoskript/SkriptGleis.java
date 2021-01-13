@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
 @XmlAccessorType(XmlAccessType.NONE)
-public class SkriptGleisabschnitt extends SkriptObjekt {
+public class SkriptGleis extends SkriptObjekt {
 
   @Override
   protected String getDefaultVarPrefix() {
@@ -15,9 +15,9 @@ public class SkriptGleisabschnitt extends SkriptObjekt {
 
   @Override
   void linkSteuerungsObjekt(Steuerung steuerung) {
-    this.steuerungsObjekt = steuerung.getGleisabschnitt(this.bereich, this.name);
+    this.steuerungsObjekt = steuerung.getGleis(this.bereich, this.name);
     if (this.steuerungsObjekt == null) {
-      throw new IllegalArgumentException("Skript-Objekt nicht gefunden: Gleisabschnitt{bereich=" + this.bereich + ", name=" + this.name + "}");
+      throw new IllegalArgumentException("Skript-Objekt nicht gefunden: Gleis{bereich=" + this.bereich + ", name=" + this.name + "}");
     }
   }
 

@@ -5,7 +5,7 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import de.gedoplan.v5t11.status.StatusEventCollector;
-import de.gedoplan.v5t11.status.entity.fahrweg.Gleisabschnitt;
+import de.gedoplan.v5t11.status.entity.fahrweg.Gleis;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
 import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
@@ -56,21 +56,21 @@ public class SteuerungTest {
   }
 
   /**
-   * Test: Entspricht der Zustand von Gleisabschnitten dem der zugehoerigen Adressen und werden Statuswechsel gemeldet?
+   * Test: Entspricht der Zustand von Gleisen dem der zugehoerigen Adressen und werden Statuswechsel gemeldet?
    */
   @Test
-  public void test_02_adjustGleisAbschnitte() {
-    this.log.info("----- test_02_adjustGleisAbschnitte -----");
+  public void test_02_adjustGleise() {
+    this.log.info("----- test_02_adjustGleise -----");
 
-    Gleisabschnitt[] gleisabschnitte = {
-        this.steuerung.getGleisabschnitt("test", "1"),
-        this.steuerung.getGleisabschnitt("test", "2"),
-        this.steuerung.getGleisabschnitt("test", "3"),
-        this.steuerung.getGleisabschnitt("test", "4"),
-        this.steuerung.getGleisabschnitt("test", "5"),
-        this.steuerung.getGleisabschnitt("test", "6"),
-        this.steuerung.getGleisabschnitt("test", "7"),
-        this.steuerung.getGleisabschnitt("test", "8")
+    Gleis[] gleise = {
+        this.steuerung.getGleis("test", "1"),
+        this.steuerung.getGleis("test", "2"),
+        this.steuerung.getGleis("test", "3"),
+        this.steuerung.getGleis("test", "4"),
+        this.steuerung.getGleis("test", "5"),
+        this.steuerung.getGleis("test", "6"),
+        this.steuerung.getGleis("test", "7"),
+        this.steuerung.getGleis("test", "8")
     };
 
     // Grundzustand herstellen: Alle Gleise an BM-1 nicht besetzt
@@ -93,12 +93,12 @@ public class SteuerungTest {
       this.steuerung.awaitSync();
       ;
 
-      for (int i = 0; i < gleisabschnitte.length; ++i) {
+      for (int i = 0; i < gleise.length; ++i) {
         // Ist der Gleiszustand korrekt?
-        assertThat(gleisabschnitte[i].isBesetzt(), is((wert & (1 << i)) != 0));
+        assertThat(gleise[i].isBesetzt(), is((wert & (1 << i)) != 0));
 
         // Ist bei Zustandswechsel ein Event ausgelöst worden und sonst nicht?
-        assertThat(this.statusEventCollector.getEvents().contains(gleisabschnitte[i]), is((wert & (1 << i)) != (oldWert & (1 << i))));
+        assertThat(this.statusEventCollector.getEvents().contains(gleise[i]), is((wert & (1 << i)) != (oldWert & (1 << i))));
       }
     }
 
