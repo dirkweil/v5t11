@@ -107,7 +107,7 @@ public class TestBase {
       new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 3, true, true, false, "Signalhorn hoch"),
       new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.AF, 4, false, false, false, "Direktsteuerung"),
       new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 5, false, false, false, "Bremsenquietschen aus"),
-      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 7, true, false, false, "Signalhorn hoch"),
+      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 7, true, false, false, "Signalhorn tief"),
       new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 9, true, false, false, "Hilfsdiesel"),
       new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 10, true, false, false, "Kompressor"),
       new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BA, 11, true, false, false, "Schaffnerpfiff"),
