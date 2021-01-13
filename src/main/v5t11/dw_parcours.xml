@@ -1056,11 +1056,20 @@
     <Gleisabschnitt name="W13" />
   </Fahrstrasse>
   
-  <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
+  <Fahrstrasse bereich="HBf" zaehlrichtung="true">
     <Gleisabschnitt name="1" />
+    <Sperrsignal name="1" stellung="RANGIERFAHRT"/>
     <Weiche name="13" stellung="GERADE" />
     <Weiche name="12" stellung="ABZWEIGEND" schutz="true" />
     <Gleisabschnitt name="W13" />
+  </Fahrstrasse>
+  
+  <Fahrstrasse bereich="HBf" zaehlrichtung="false">
+    <Gleisabschnitt name="W13" />
+    <Weiche name="13" stellung="GERADE" />
+    <Weiche name="12" stellung="ABZWEIGEND" schutz="true" />
+    <Sperrsignal name="1" stellung="HALT" schutz="true" />
+    <Gleisabschnitt name="1" />
   </Fahrstrasse>
   
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
