@@ -18,8 +18,9 @@ public class TestBase {
   @BeforeEach
   void fillDb() {
     if (!dbFilled) {
-      if (this.fahrzeugRepository.countAll() == 0) {
+      if (this.fahrzeugRepository.countAll() != fahrzeuge.length) {
         for (Fahrzeug f : fahrzeuge) {
+          if (this.fahrzeugRepository.findById(f.getId()) == null)
           this.fahrzeugRepository.persist(f);
         }
       }
@@ -120,6 +121,21 @@ public class TestBase {
       new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_1000_0000, false, false, false, "nur Seite 2"),
       new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_1010_0000, false, false, false, "Doppel-A"));
 
+  public static final Fahrzeug lok217_014_0 = new Fahrzeug("217 014-0", "DH14B+Sound", SystemTyp.SX2, 2217,
+      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.AF, 1, false, false, false, "Führerstandsbeleuchtung"),
+      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FG, 2, false, false, false, "Motor"),
+      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 3, true, true, false, "Signalhorn hoch"),
+      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.AF, 4, false, false, false, "Direktsteuerung"),
+      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 5, false, false, false, "Bremsenquietschen aus"),
+      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 7, true, false, false, "Signalhorn tief"),
+      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 9, true, false, false, "Hilfsdiesel"),
+      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 10, true, false, false, "Kompressor"),
+      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BA, 11, true, false, false, "Schaffnerpfiff"),
+      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_0000_0000, false, false, false, "beidseitig"),
+      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_0010_0000, false, false, false, "nur Seite 1"),
+      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_1000_0000, false, false, false, "nur Seite 2"),
+      new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_1010_0000, false, false, false, "Doppel-A"));
+  
   public static final Fahrzeug lok230_001_0 = new Fahrzeug("230 001-0", null, SystemTyp.DCC, 1230,
       new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 1, true, true, false, "Horn kurz"),
       new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FG, 2, false, false, false, "Motor"),
@@ -258,6 +274,7 @@ public class TestBase {
       lok151_032_0,
       lok194_183_0,
       lok217_001_7,
+      lok217_014_0,
       lok230_001_0,
       lok323_673_4,
       lok332_262_5,
