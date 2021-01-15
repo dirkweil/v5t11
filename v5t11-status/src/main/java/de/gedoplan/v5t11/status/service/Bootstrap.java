@@ -24,7 +24,8 @@ public class Bootstrap {
       ConfigService configService,
       JoinService joinService,
       Steuerung steuerung,
-      Logger log) {
+      Logger log,
+      AutoSkriptService autoSkriptService) {
     log.infof("app: %s:%s", configService.getArtifactId(), configService.getVersion());
 
     log.infof("configDir: %s", configService.getConfigDir());
@@ -35,6 +36,8 @@ public class Bootstrap {
     joinService.joinMyself();
 
     steuerung.open(scheduler);
+    
+    autoSkriptService.executeAll();
   }
 
   void terminate(@Observes ShutdownEvent shutdownEvent, Steuerung steuerung) {

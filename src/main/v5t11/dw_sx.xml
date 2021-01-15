@@ -451,5 +451,19 @@
       </Skript>
     </AutoSkript>
 
+    <AutoSkript bereich="HBf" beschreibung="Sbk2">
+      <Gleis bereich="S20" name="2002" />
+      <Signal name="Sbk2" />
+      <Skript sprache="groovy">
+        if (gleis2002.isBesetzt()) {
+          log.debug("Sbk2: HALT");
+          signalSbk2.setStellung(HALT);
+        } else {
+          log.debug("Sbk2: FAHRT");
+          signalSbk2.setStellung(FAHRT);
+        }
+      </Skript>
+    </AutoSkript>
+
   </AutoSkripte>
 </sx>

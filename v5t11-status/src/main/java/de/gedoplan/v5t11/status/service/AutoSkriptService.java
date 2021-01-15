@@ -31,4 +31,9 @@ public class AutoSkriptService {
         .filter(as -> as.getSteuerungsObjekte().contains(gleis))
         .forEach(AutoSkript::execute);
   }
+  
+  void executeAll() {
+    this.steuerung.getAutoSkripte().stream()
+    .forEach(AutoSkript::execute);
+  }
 }
