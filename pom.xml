@@ -20,6 +20,8 @@
     <myfaces.version>2.3-next-M4</myfaces.version>
 
     <quarkus.version>1.8.3.Final</quarkus.version>
+<!--     <quarkus.version>1.9.2.Final</quarkus.version> -->
+<!--     <quarkus.version>1.10.5.Final</quarkus.version> -->
     <quarkus-plugin.version>${quarkus.version}</quarkus-plugin.version>
     <quarkus.platform.artifact-id>quarkus-universe-bom</quarkus.platform.artifact-id>
     <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
