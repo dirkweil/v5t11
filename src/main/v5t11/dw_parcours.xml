@@ -958,13 +958,13 @@
 
   <Fahrstrasse bereich="HBf" zaehlrichtung="true">
     <Gleis name="3" />
-    <Sperrsignal name="3" stellung="RANGIERFAHRT"/>
+    <Hauptsignal name="R3" stellung="FAHRT"/>
     <Gleis name="W10" />
   </Fahrstrasse>
   
   <Fahrstrasse bereich="HBf" zaehlrichtung="false">
     <Gleis name="W10" />
-    <Sperrsignal name="3" stellung="HALT" schutz="true"/>
+    <Hauptsignal name="R3" stellung="HALT" schutz="true"/>
     <Gleis name="3" />
   </Fahrstrasse>
   
@@ -1006,7 +1006,7 @@
   <Fahrstrasse bereich="HBf" zaehlrichtung="true">
     <Gleis name="4" />
     <Weiche name="14" stellung="GERADE" />
-    <Sperrsignal name="4" stellung="RANGIERFAHRT"/>
+    <Hauptsignal name="R4" stellung="FAHRT"/>
     <Weiche name="11" stellung="GERADE" schutz="true" />
     <Gleis name="W14" />
   </Fahrstrasse>
@@ -1015,7 +1015,7 @@
     <Gleis name="W14" />
     <Weiche name="14" stellung="GERADE" />
     <Weiche name="11" stellung="GERADE" schutz="true" />
-    <Sperrsignal name="4" stellung="HALT" schutz="true"/>
+    <Hauptsignal name="R4" stellung="HALT" schutz="true"/>
     <Gleis name="4" />
   </Fahrstrasse>
   

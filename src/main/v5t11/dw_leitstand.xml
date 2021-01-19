@@ -453,7 +453,7 @@
       <Gleis lage="SW,O" name="3" bereich="HBf" />
       <Gleis lage="W,O" name="3" bereich="HBf" signal="P3" />
       <Gleis lage="W,O" name="3" bereich="HBf" label="true" />
-      <Gleis lage="W,O" name="3" bereich="HBf" signal="3" signalPos="S" />
+      <Gleis lage="W,O" name="3" bereich="HBf" signal="R3" signalPos="S" />
       <Weiche lage="W,O|NO" name="10" bereich="HBf" />
       <Weiche lage="W,O|SO" name="11" bereich="HBf" />
       <Gleis lage="W,O" name="23" bereich="HBf" signal="23'" />
@@ -470,7 +470,7 @@
       <Gleis lage="W,O" name="4" bereich="HBf" />
       <Gleis lage="W,O" name="4" bereich="HBf" label="true" />
       <Gleis lage="W,O" name="4" bereich="HBf" anzahl="2" />
-      <Gleis lage="W,O" name="4" bereich="HBf" signal="4" signalPos="S" />
+      <Gleis lage="W,O" name="4" bereich="HBf" signal="R4" signalPos="S" />
       <Weiche lage="W|NW,O" name="14" bereich="HBf" />
       <Weiche lage="W,O|SO" name="15" bereich="HBf" />
       <Gleis lage="W,O" name="24" bereich="HBf" signal="24'" />
