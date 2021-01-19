@@ -297,8 +297,12 @@
       <Sperrsignal idx="2" bereich="HBf" name="404" />
       <Sperrsignal idx="3" bereich="HBf" name="406" />
       <HauptsignalRtGn idx="4" bereich="HBf" name="Sbk2" />
+      <Sperrsignal idx="6" bereich="HBf" name="23'" /> 
       <!-- TODO --> <Hauptsperrsignal idx="12" bereich="HBf" name="R5" /> 
       <Vorsignal idx="14" bereich="HBf" name="n" mast="A"/>
+
+      <!-- TODO --> <Sperrsignal idx="10" bereich="HBf" name="24'" /> 
+
     </SXSD1>
     
     <!-- Check OK -->
@@ -328,12 +332,9 @@
     
     <!-- Check OK -->
     <WDMiba3 id="FD-2019-3" adr="1073" einbauOrt="HBf unter EG">
-      <!-- TODO --> <Sperrsignal idx="1" bereich="HBf" name="22'" /> 
-      <Sperrsignal idx="2" bereich="HBf" name="4" /> 
-      <!-- TODO --> <Sperrsignal idx="3" bereich="HBf" name="21'" /> 
-      <Sperrsignal idx="4" bereich="HBf" name="3" /> 
-      <!-- TODO --> <Sperrsignal idx="5" bereich="HBf" name="23'" /> 
-      <!-- TODO --> <Sperrsignal idx="6" bereich="HBf" name="24'" /> 
+      <Sperrsignal idx="0" bereich="HBf" name="21'" /> 
+      <Sperrsignal idx="4" bereich="HBf" name="22'" /> 
+      <Sperrsignal idx="5" bereich="HBf" name="25'" />
       <Sperrsignal idx="7" bereich="HBf" name="1" /> 
     </WDMiba3>
 
@@ -401,12 +402,13 @@
       <!-- TODO --> <Sperrsignal idx="2" bereich="HBf" name="23" />
       <!-- TODO --> <Sperrsignal idx="3" bereich="HBf" name="24" />
       <!-- TODO --> <Sperrsignal idx="4" bereich="HBf" name="25" />
-      <!-- TODO --> <Sperrsignal idx="5" bereich="HBf" name="25'" />
       <!-- TODO --> <Sperrsignal idx="6" bereich="HBf" name="W30" />
       <!-- TODO --> <HauptsignalRtGnGe idx="8" bereich="HBf" name="F" />
       <!-- TODO --> <HauptsignalRtGnGe idx="10" bereich="HBf" name="G" />
       <!-- TODO --> <Vorsignal idx="12" bereich="HBf" name="p[F]" mast="F"/>
       <!-- TODO --> <Vorsignal idx="14" bereich="HBf" name="p[G]" mast="G"/>
+      <!-- Falsch! --> <Sperrsignal idx="2" bereich="HBf" name="4" /> 
+      <!-- Falsch! --> <Sperrsignal idx="4" bereich="HBf" name="3" /> 
     </NoFD>
     
   </Funktionsdecoder>
