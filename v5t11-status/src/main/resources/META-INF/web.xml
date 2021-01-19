@@ -61,13 +61,4 @@
     <welcome-file>index.xhtml</welcome-file>
   </welcome-file-list>
 
-  <session-config>
-    <!-- Disable session timeout -->
-    <session-timeout>0</session-timeout>
-
-    <!-- Use individual session cookie name -->
-    <cookie-config>
-      <name>st_session_id</name>
-    </cookie-config>
-  </session-config>
 </web-app>
