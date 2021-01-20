@@ -329,12 +329,12 @@
     <!-- Check OK -->
     <WDMiba3 id="FD-2019-3" adr="1073" einbauOrt="HBf unter EG">
       <Sperrsignal idx="0" bereich="HBf" name="21'" /> 
+      <Sperrsignal idx="2" bereich="HBf" name="24'" /> 
+      <Sperrsignal idx="3" bereich="HBf" name="406" />
       <Sperrsignal idx="4" bereich="HBf" name="22'" /> 
       <Sperrsignal idx="5" bereich="HBf" name="25'" />
       <Sperrsignal idx="6" bereich="HBf" name="23'" /> 
       <Sperrsignal idx="7" bereich="HBf" name="1" /> 
-      <!-- TODO --> <Sperrsignal idx="3" bereich="HBf" name="406" />
-      <!-- TODO --> <Sperrsignal idx="1" bereich="HBf" name="24'" /> 
     </WDMiba3>
 
     <!-- Check OK -->
