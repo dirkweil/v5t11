@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 
 @XmlAccessorType(XmlAccessType.NONE)
 @NoArgsConstructor
-public abstract class FahrstrassenSignal extends FahrstrassenGeraet implements Cloneable {
+public class FahrstrassenSignal extends FahrstrassenGeraet implements Cloneable {
 
   @Inject
   SignalRepository signalRepository;
@@ -70,5 +70,45 @@ public abstract class FahrstrassenSignal extends FahrstrassenGeraet implements C
   @JsonbInclude(full = true)
   public FahrstrassenelementTyp getTyp() {
     return FahrstrassenelementTyp.SIGNAL;
+  }
+
+  @Override
+  public boolean isHauptsignal() {
+    return SignalTyp.fromName(getName()) == SignalTyp.HAUPTSIGNAL;
+  }
+
+  @Override
+  public boolean isVorsignal() {
+    return SignalTyp.fromName(getName()) == SignalTyp.VORSIGNAL;
+  }
+
+  @Override
+  public boolean isSperrsignal() {
+    return SignalTyp.fromName(getName()) == SignalTyp.SPERRSIGNAL;
+  }
+
+  @Override
+  protected Object clone() throws CloneNotSupportedException {
+    // TODO Auto-generated method stub
+    return super.clone();
+  }
+
+  public static enum SignalTyp {
+    HAUPTSIGNAL, SPERRSIGNAL, VORSIGNAL;
+
+    public static SignalTyp fromName(String name) {
+      char erstesZeichen = name.charAt(0);
+      if (Character.isUpperCase(erstesZeichen)) {
+        return HAUPTSIGNAL;
+      }
+
+      if (Character.isLowerCase(erstesZeichen)) {
+        return VORSIGNAL;
+      }
+
+      assert Character.isDigit(erstesZeichen);
+
+      return SPERRSIGNAL;
+    }
   }
 }

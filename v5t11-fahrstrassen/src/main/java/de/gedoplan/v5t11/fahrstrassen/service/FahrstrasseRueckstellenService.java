@@ -50,7 +50,7 @@ public class FahrstrasseRueckstellenService {
         .filter(fe -> !fe.isSchutz())
         .filter(fe -> fe.getFahrwegelement().getReserviertefahrstrasseId() == null)
         .map(fe -> (FahrstrassenSignal) fe)
-        .filter(fs -> !fs.isVorsignal()) // TODO Vorsignalhandling
+        .filter(fs -> !fs.isVorsignal())
         .forEach(fs -> signalRueckstellen(fahrstrasse, fs));
   }
 

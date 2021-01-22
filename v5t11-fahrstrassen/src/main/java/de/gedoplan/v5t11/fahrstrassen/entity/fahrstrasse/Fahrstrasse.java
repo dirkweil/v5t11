@@ -95,9 +95,7 @@ public class Fahrstrasse extends Bereichselement {
    */
   @XmlElements({
       @XmlElement(name = "Gleis", type = FahrstrassenGleis.class),
-      @XmlElement(name = "Hauptsignal", type = FahrstrassenHauptsignal.class),
-      @XmlElement(name = "Vorsignal", type = FahrstrassenVorsignal.class),
-      @XmlElement(name = "Sperrsignal", type = FahrstrassenSperrsignal.class),
+      @XmlElement(name = "Signal", type = FahrstrassenSignal.class),
       @XmlElement(name = "Weiche", type = FahrstrassenWeiche.class) })
   @Getter(onMethod_ = @JsonbInclude(full = true))
   private List<Fahrstrassenelement> elemente = new ArrayList<>();

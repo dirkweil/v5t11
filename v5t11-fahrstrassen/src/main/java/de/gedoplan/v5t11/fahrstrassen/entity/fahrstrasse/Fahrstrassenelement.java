@@ -48,7 +48,7 @@ public abstract class Fahrstrassenelement extends Bereichselement implements Clo
 
   /**
    * Benötigte Stellung.
-   * 
+   *
    * @return Bei Geräten, die gestellt werden, die benötigte Stellung, sonst <code>null</code>
    */
   public Enum<?> getStellung() {
@@ -83,15 +83,6 @@ public abstract class Fahrstrassenelement extends Bereichselement implements Clo
   }
 
   /**
-   * Ist dies ein Blocksignal?
-   *
-   * @return <code>true</code>, wenn Blocksignal
-   */
-  public boolean isBlocksignal() {
-    return false;
-  }
-
-  /**
    * Zugehöriges Fahrwegelement liefern.
    *
    * @return Fahrwegelement
@@ -115,7 +106,8 @@ public abstract class Fahrstrassenelement extends Bereichselement implements Clo
   /**
    * Element für Fahrstrasse reservieren bzw. freigeben.
    *
-   * @param reserviertefahrstrasseId <code>null</code> zum Freigeben, sonst Id der Fahrstrasse
+   * @param reserviertefahrstrasseId
+   *        <code>null</code> zum Freigeben, sonst Id der Fahrstrasse
    */
   public void reservieren(BereichselementId reserviertefahrstrasseId) {
     if (!isSchutz()) {
@@ -128,7 +120,7 @@ public abstract class Fahrstrassenelement extends Bereichselement implements Clo
   /**
    * Kurz-Kennung für Element liefern.
    * Wird nur für Logging/Debugging benötigt.
-   * 
+   *
    * @return Code
    */
   public String getCode() {

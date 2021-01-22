@@ -34,7 +34,6 @@ public class FahrstrasseStellenService {
   private static final List<SignalStellung> LANGSAMFAHRT_LIST = Stream.of(SignalStellung.LANGSAMFAHRT, SignalStellung.FAHRT, SignalStellung.RANGIERFAHRT).collect(Collectors.toList());
   private static final List<SignalStellung> RANGIERFAHRT_LIST = Stream.of(SignalStellung.RANGIERFAHRT, SignalStellung.LANGSAMFAHRT, SignalStellung.FAHRT).collect(Collectors.toList());
 
-
   @Inject
   @RestClient
   StatusGateway statusGateway;
@@ -93,12 +92,6 @@ public class FahrstrasseStellenService {
     Stream<Fahrstrassenelement> stream = fahrstrasse.getElemente().stream()
         .filter(fe -> fe instanceof FahrstrassenWeiche)
         .filter(fe -> fe.isSchutz() == schutz);
-
-    // Für Nicht-Schutz-Elemente prüfen, ob das Element wirklich zur Fahrstrasse gehört
-    // TODO ist das nötig?
-    // if (!schutz) {
-    // stream = stream.filter(fe -> fe.getFahrwegelement().getReserviertefahrstrasse() == fahrstrasse);
-    // }
 
     stream
         .map(fe -> (FahrstrassenWeiche) fe)
