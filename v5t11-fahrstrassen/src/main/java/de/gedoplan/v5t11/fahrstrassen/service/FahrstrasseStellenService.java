@@ -26,6 +26,15 @@ import org.jboss.logging.Logger;
 @ApplicationScoped
 public class FahrstrasseStellenService {
 
+  /*
+   * Listen von Signalstellungen für bestimmte Fahrsituationen, jeweils mit der am besten passenden Stellung zuerst.
+   */
+  private static final List<SignalStellung> HALT_LIST = Stream.of(SignalStellung.HALT).collect(Collectors.toList());
+  private static final List<SignalStellung> FAHRT_LIST = Stream.of(SignalStellung.FAHRT, SignalStellung.LANGSAMFAHRT, SignalStellung.RANGIERFAHRT).collect(Collectors.toList());
+  private static final List<SignalStellung> LANGSAMFAHRT_LIST = Stream.of(SignalStellung.LANGSAMFAHRT, SignalStellung.FAHRT, SignalStellung.RANGIERFAHRT).collect(Collectors.toList());
+  private static final List<SignalStellung> RANGIERFAHRT_LIST = Stream.of(SignalStellung.RANGIERFAHRT, SignalStellung.LANGSAMFAHRT, SignalStellung.FAHRT).collect(Collectors.toList());
+
+
   @Inject
   @RestClient
   StatusGateway statusGateway;
@@ -56,15 +65,9 @@ public class FahrstrasseStellenService {
         .filter(fe -> fe instanceof FahrstrassenSignal)
         .filter(fe -> fe.isSchutz() == schutz);
 
-    // Für Nicht-Schutz-Elemente prüfen, ob das Element wirklich zur Fahrstrasse gehört
-    // TODO ist das nötig?
-    // if (!schutz) {
-    // stream = stream.filter(fe -> fe.getFahrwegelement().getReserviertefahrstrasse() == fahrstrasse);
-    // }
-
     stream
         .map(fe -> (FahrstrassenSignal) fe)
-        .filter(fs -> !fs.isVorsignal()) // TODO Vorsignalhandling
+        .filter(fs -> !fs.isVorsignal())
         .forEach(fs -> signalStellen(fahrstrasse, fs));
   }
 
@@ -137,7 +140,7 @@ public class FahrstrasseStellenService {
 
     // HALT ist immer OK
     if (stellung == SignalStellung.HALT) {
-      return Stream.of(SignalStellung.HALT).collect(Collectors.toList());
+      return HALT_LIST;
     }
 
     switch (reservierungsTyp) {
@@ -146,17 +149,17 @@ public class FahrstrasseStellenService {
       switch (stellung) {
       default:
       case FAHRT:
-        return Stream.of(SignalStellung.FAHRT, SignalStellung.LANGSAMFAHRT, SignalStellung.RANGIERFAHRT).collect(Collectors.toList());
+        return FAHRT_LIST;
 
       case LANGSAMFAHRT:
-        return Stream.of(SignalStellung.LANGSAMFAHRT, SignalStellung.FAHRT, SignalStellung.RANGIERFAHRT).collect(Collectors.toList());
+        return LANGSAMFAHRT_LIST;
 
       case RANGIERFAHRT:
-        return Stream.of(SignalStellung.RANGIERFAHRT, SignalStellung.LANGSAMFAHRT, SignalStellung.FAHRT).collect(Collectors.toList());
+        return RANGIERFAHRT_LIST;
       }
 
     case RANGIERFAHRT:
-      return Stream.of(SignalStellung.RANGIERFAHRT, SignalStellung.LANGSAMFAHRT, SignalStellung.FAHRT).collect(Collectors.toList());
+      return RANGIERFAHRT_LIST;
     }
   }
 
