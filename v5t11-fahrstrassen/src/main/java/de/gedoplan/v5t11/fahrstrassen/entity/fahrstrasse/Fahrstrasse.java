@@ -1,7 +1,10 @@
 package de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse;
 
-import static java.lang.annotation.ElementType.*;
-import static java.lang.annotation.RetentionPolicy.*;
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.ElementType.PARAMETER;
+import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import de.gedoplan.baselibs.utils.inject.InjectionUtil;
 import de.gedoplan.v5t11.fahrstrassen.entity.Parcours;
@@ -58,6 +61,22 @@ public class Fahrstrasse extends Bereichselement {
   @XmlAttribute
   @Getter(onMethod_ = @JsonbInclude(full = true))
   private boolean zaehlrichtung;
+
+  /**
+   * Zielsignalbereich.
+   * Wenn gesetzt, endet die Fahrstrasse vor diesem Signal.
+   */
+  @XmlAttribute(name = "ziel-bereich")
+  @Getter(onMethod_ = @JsonbInclude(full = true))
+  private String zielSignalBereich;
+
+  /**
+   * Zielsignalname.
+   * Wenn gesetzt, endet die Fahrstrasse vor diesem Signal.
+   */
+  @XmlAttribute(name = "ziel-name")
+  @Getter(onMethod_ = @JsonbInclude(full = true))
+  private String zielSignalName;
 
   /**
    * Aus anderen Fahrstrassen kombiniert?
@@ -131,6 +150,14 @@ public class Fahrstrasse extends Bereichselement {
     Parcours parcours = (Parcours) parent;
 
     // Fuer alle Elemente Defaults übernehmen wenn nötig
+    if (this.zielSignalName != null) {
+      if (this.zielSignalBereich == null) {
+        this.zielSignalBereich = getBereich();
+      }
+    } else {
+      this.zielSignalBereich = null;
+    }
+
     this.elemente.forEach(element -> {
       if (element.getBereich() == null) {
         element.setBereich(getBereich());
@@ -245,6 +272,8 @@ public class Fahrstrasse extends Bereichselement {
     result.setBereich(linkeFahrstrasse.getBereich());
     result.combi = true;
     result.zaehlrichtung = linkeFahrstrasse.zaehlrichtung;
+    result.zielSignalBereich = rechteFahrstrasse.zielSignalBereich;
+    result.zielSignalName = rechteFahrstrasse.zielSignalName;
 
     linkeFahrstrasse.elemente.stream().map(Fahrstrassenelement::createKopie).forEach(result.elemente::add);
     rechteFahrstrasse.elemente.stream().skip(1).map(Fahrstrassenelement::createKopie).forEach(result.elemente::add);
@@ -400,7 +429,8 @@ public class Fahrstrasse extends Bereichselement {
   /**
    * Beginnt die Fahrstrasse mit dem angegebenen Gleis?
    *
-   * @param gleisId Id des Gleiss
+   * @param gleisId
+   *        Id des Gleises
    * @return <code>true</code>, wenn die Fahrstrasse mit dem angegebenen Gleis beginnt
    */
   public boolean startsWith(BereichselementId gleisId) {
@@ -410,7 +440,8 @@ public class Fahrstrasse extends Bereichselement {
   /**
    * Endet die Fahrstrasse mit dem angegebenen Gleis?
    *
-   * @param gleisId Id des Gleiss
+   * @param gleisId
+   *        Id des Gleises
    * @return <code>true</code>, wenn die Fahrstrasse mit dem angegebenen Gleis endet
    */
   public boolean endsWith(BereichselementId gleisId) {
@@ -419,7 +450,7 @@ public class Fahrstrasse extends Bereichselement {
 
   /**
    * Status der Fahrstrasse liefern.
-   * 
+   *
    * @return Fahrstrassen-Sstatus
    */
   public FahrstrassenStatus getFahrstrassenStatus() {
@@ -434,7 +465,7 @@ public class Fahrstrasse extends Bereichselement {
 
   /**
    * Reservierungstyp liefern (Conveniance-Methode).
-   * 
+   *
    * @return Reservierungstyp
    */
   @JsonbInclude
@@ -444,7 +475,7 @@ public class Fahrstrasse extends Bereichselement {
 
   /**
    * Teilfreigabeanzahl liefern (Conveniance-Methode).
-   * 
+   *
    * @return Teilfreigabeanzahl
    */
   @JsonbInclude
@@ -638,8 +669,9 @@ public class Fahrstrasse extends Bereichselement {
   /**
    * Sind alle Gleise ab dem übergebenen Index besetzt?
    * Wird in der Freigabesteuerung benutzt: Ist die restliche Fahrstrasse komplett besetzt, kann sie freigegeben werden.
-   * 
-   * @param startIndex Start-Index
+   *
+   * @param startIndex
+   *        Start-Index
    * @return alles besetzt?
    */
   public boolean isKomplettBesetzt(int startIndex) {
@@ -667,8 +699,9 @@ public class Fahrstrasse extends Bereichselement {
    * Folgen ab dem übergebenen Index nur noch Gleise?
    * Wird in der Freigabesteuerung benutzt: Falls die restliche Fahtrstrasse nur aus Gleisen besteht,
    * kann sie freigegeben werden.
-   * 
-   * @param startIndex Start-Index
+   *
+   * @param startIndex
+   *        Start-Index
    * @return nur noch Gleise?
    */
   public boolean isNurGleise(int startIndex) {
