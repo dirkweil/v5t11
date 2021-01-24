@@ -319,11 +319,11 @@
     </SD8>
     
     <SXSD1 id="FD-2010-2" adr="1080" einbauOrt="HBf unter EG">
-      <!-- TODO --> <HauptsignalRtGnGe idx="0" bereich="HBf" name="A" />
-      <!-- TODO --> <Vorsignal idx="2" bereich="HBf" name="n,r" />
-      <!-- TODO --> <Hauptsperrsignal idx="4" bereich="HBf" name="R3" /> 
-      <!-- TODO --> <Hauptsperrsignal idx="6" bereich="HBf" name="R4" /> 
-      <!-- TODO --> <Hauptsperrsignal idx="8" bereich="HBf" name="R5" /> 
+      <!-- TODO --> <HauptsignalRtGnGe idx="2" bereich="HBf" name="A" />
+      <!-- TODO --> <Vorsignal idx="4" bereich="HBf" name="n,r" />
+      <!-- TODO --> <Hauptsperrsignal idx="8" bereich="HBf" name="R3" /> 
+      <!-- TODO --> <Hauptsperrsignal idx="10" bereich="HBf" name="R4" /> 
+      <!-- TODO --> <Hauptsperrsignal idx="12" bereich="HBf" name="R5" /> 
     </SXSD1>
     
     <!-- Check OK -->
