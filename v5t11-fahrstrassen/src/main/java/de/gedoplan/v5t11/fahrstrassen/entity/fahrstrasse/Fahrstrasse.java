@@ -63,20 +63,37 @@ public class Fahrstrasse extends Bereichselement {
   private boolean zaehlrichtung;
 
   /**
-   * Zielsignalbereich.
-   * Wenn gesetzt, endet die Fahrstrasse vor diesem Signal.
+   * Start-Vorsignal-Name.
+   * Wenn gesetzt, steht am Beginn der Fahrstrasse dieses Vorsignal.
    */
-  @XmlAttribute(name = "ziel-bereich")
+  @XmlAttribute(name = "start-vorsignal")
   @Getter(onMethod_ = @JsonbInclude(full = true))
-  private String zielSignalBereich;
+  private String startVorsignalName;
 
   /**
-   * Zielsignalname.
-   * Wenn gesetzt, endet die Fahrstrasse vor diesem Signal.
+   * Start-Vorsignal-Bereich.
+   * Bereich zu {@link #startVorsignalName}.
    */
-  @XmlAttribute(name = "ziel-name")
+  @XmlAttribute(name = "start-vorsignal-bereich")
   @Getter(onMethod_ = @JsonbInclude(full = true))
-  private String zielSignalName;
+  private String startVorsignalBereich;
+
+  /**
+   * Ziel-Hauptsignal-Name.
+   * Wenn gesetzt, endet die Fahrstrasse vor diesem Hauptsignal und mit Ausnahme des Beginns gibt es innerhalb der Fahrstrasse
+   * kein weiteres Hauptsignal.
+   */
+  @XmlAttribute(name = "ziel-hauptsignal")
+  @Getter(onMethod_ = @JsonbInclude(full = true))
+  private String zielHauptsignalName;
+
+  /**
+   * Ziel-Hauptsignal-Bereich.
+   * Bereich zu {@link #zielHauptsignalName}.
+   */
+  @XmlAttribute(name = "ziel-hauptsignal-bereich")
+  @Getter(onMethod_ = @JsonbInclude(full = true))
+  private String zielHauptsignalBereich;
 
   /**
    * Aus anderen Fahrstrassen kombiniert?
@@ -103,7 +120,7 @@ public class Fahrstrasse extends Bereichselement {
   /*
    * ************************************************************************************************
    * Nach dem Lesen aus XML oder DB sind im Objekt nur die oben stehenden Attribute gefüllt.
-   * Es folgen nun weitere Attribute, die davon abgeleitete werden, sowie die zugehörigen
+   * Es folgen nun weitere Attribute, die davon abgeleitet werden, sowie die zugehörigen
    * Initialisierungsmethoden.
    */
 
@@ -139,6 +156,8 @@ public class Fahrstrasse extends Bereichselement {
     return this.ende;
   }
 
+  private int anzahlZielHauptsignale = 0;
+
   @SuppressWarnings("unused")
   private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
     if (!(parent instanceof Parcours)) {
@@ -148,14 +167,6 @@ public class Fahrstrasse extends Bereichselement {
     Parcours parcours = (Parcours) parent;
 
     // Fuer alle Elemente Defaults übernehmen wenn nötig
-    if (this.zielSignalName != null) {
-      if (this.zielSignalBereich == null) {
-        this.zielSignalBereich = getBereich();
-      }
-    } else {
-      this.zielSignalBereich = null;
-    }
-
     this.elemente.forEach(element -> {
       if (element.getBereich() == null) {
         element.setBereich(getBereich());
@@ -165,6 +176,23 @@ public class Fahrstrasse extends Bereichselement {
         element.zaehlrichtung = this.zaehlrichtung;
       }
     });
+
+    if (this.startVorsignalName != null) {
+      if (this.startVorsignalBereich == null) {
+        this.startVorsignalBereich = getStart().getBereich();
+      }
+    } else {
+      this.startVorsignalBereich = null;
+    }
+
+    if (this.zielHauptsignalName != null) {
+      if (this.zielHauptsignalBereich == null) {
+        this.zielHauptsignalBereich = getEnde().getBereich();
+      }
+      this.anzahlZielHauptsignale = 1;
+    } else {
+      this.zielHauptsignalBereich = null;
+    }
 
     // Zu Weichen die entsprechenden Gleise ergänzen, wenn es nicht nur Schutzweichen sind
     ListIterator<Fahrstrassenelement> iterator = this.elemente.listIterator();
@@ -270,8 +298,18 @@ public class Fahrstrasse extends Bereichselement {
     result.setBereich(linkeFahrstrasse.getBereich());
     result.combi = true;
     result.zaehlrichtung = linkeFahrstrasse.zaehlrichtung;
-    result.zielSignalBereich = rechteFahrstrasse.zielSignalBereich;
-    result.zielSignalName = rechteFahrstrasse.zielSignalName;
+
+    // Start-Vorsignal wird von links übernommen
+    result.startVorsignalBereich = linkeFahrstrasse.startVorsignalBereich;
+    result.startVorsignalName = linkeFahrstrasse.startVorsignalName;
+
+    // Sollten durch die Kombination mehrere Ziel-Hauptsignale entstehen, wird keine davon eingetragen
+    // ansonsten kommt das Ziel-Hauptsignal von rechts
+    result.anzahlZielHauptsignale = linkeFahrstrasse.anzahlZielHauptsignale + rechteFahrstrasse.anzahlZielHauptsignale;
+    if (result.anzahlZielHauptsignale < 2) {
+      result.zielHauptsignalBereich = rechteFahrstrasse.zielHauptsignalBereich;
+      result.zielHauptsignalName = rechteFahrstrasse.zielHauptsignalName;
+    }
 
     linkeFahrstrasse.elemente.stream().map(Fahrstrassenelement::createKopie).forEach(result.elemente::add);
     rechteFahrstrasse.elemente.stream().skip(1).map(Fahrstrassenelement::createKopie).forEach(result.elemente::add);

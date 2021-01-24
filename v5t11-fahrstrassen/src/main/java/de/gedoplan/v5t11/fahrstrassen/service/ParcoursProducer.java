@@ -18,6 +18,9 @@ public class ParcoursProducer {
   GleisRepository parcoursRepository;
 
   @Inject
+  VorsignalService vorsignalService;
+
+  @Inject
   Logger logger;
 
   @Inject
@@ -36,7 +39,10 @@ public class ParcoursProducer {
     Parcours parcours = configService.readXmlConfig("_parcours.xml", Parcours.class);
     parcours.injectFields();
     parcours.addPersistentEntries();
+
     parcours.completeFahrstrassen();
+    parcours.removeUnerlaubteFahrstrassen();
+    parcours.adjustLangsamfahrt();
     parcours.injectFields();
     parcours.addPersistentEntries();
 

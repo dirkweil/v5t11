@@ -51,8 +51,10 @@ public class Parcours {
   /**
    * Fahrstrasse liefern.
    *
-   * @param bereich Bereich
-   * @param name Name
+   * @param bereich
+   *        Bereich
+   * @param name
+   *        Name
    * @return gefundene Fahrstrasse oder <code>null</code>
    */
   public Fahrstrasse getFahrstrasse(String bereich, String name) {
@@ -62,7 +64,8 @@ public class Parcours {
   /**
    * Fahrstrasse liefern.
    *
-   * @param id Id
+   * @param id
+   *        Id
    * @return gefundene Fahrstrasse oder <code>null</code>
    */
   public Fahrstrasse getFahrstrasse(BereichselementId id) {
@@ -167,8 +170,12 @@ public class Parcours {
     if (this.logger.isDebugEnabled()) {
       this.logger.debug("# CombiFahrstrassen: " + combiAnzahl);
     }
+  }
 
-    // Fahrstrassen entfernen, wenn sie mit einem nicht als Start oder Ende erlaubten Weichengleis starten bzw. enden
+  /**
+   * Fahrstrassen entfernen, wenn sie mit einem nicht als Start oder Ende erlaubten Weichengleis starten bzw. enden.
+   */
+  public void removeUnerlaubteFahrstrassen() {
     Set<Fahrstrasse> ungueltigeFahrstrassen = this.fahrstrassen.stream()
         .filter(fs -> !fs.getStart().isStartErlaubt() || !fs.getEnde().isEndeErlaubt())
         .collect(Collectors.toSet());
@@ -178,12 +185,15 @@ public class Parcours {
     if (this.logger.isDebugEnabled()) {
       this.logger.debug("# Ungültige Fahrstrassen: " + ungueltigeFahrstrassen.size());
     }
+  }
 
-    // Signale auf Langsamfahrt korrigieren, wenn nötig.
+  /**
+   * Signale auf Langsamfahrt korrigieren, wenn nötig.
+   */
+  public void adjustLangsamfahrt() {
     this.fahrstrassen.forEach(f -> {
       f.adjustLangsamfahrt();
     });
-
   }
 
   /**
