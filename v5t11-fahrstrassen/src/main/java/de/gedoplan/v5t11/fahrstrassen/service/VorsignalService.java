@@ -129,12 +129,16 @@ public class VorsignalService {
 
   // Bei Weichen-Änderung davon betroffene Regeln ausführen
   void weicheChanged(@ObservesAsync @Changed Weiche weiche) {
-    this.weiche2Regel.get(weiche.getId()).forEach(VorsignalRegel::execute);
+    List<VorsignalRegel> vorsignalregeln = this.weiche2Regel.get(weiche.getId());
+    this.logger.tracef("Change von %s", weiche);
+    vorsignalregeln.forEach(VorsignalRegel::execute);
   }
 
   // Bei Signal-Änderung davon betroffene Regeln ausführen
   void signalChanged(@ObservesAsync @Changed Signal signal) {
-    this.signal2Regel.get(signal.getId()).forEach(VorsignalRegel::execute);
+    List<VorsignalRegel> vorsignalregeln = this.signal2Regel.get(signal.getId());
+    this.logger.tracef("Change von %s", signal);
+    vorsignalregeln.forEach(VorsignalRegel::execute);
   }
 
   /**
@@ -207,21 +211,31 @@ public class VorsignalService {
 
     // Regel ausführen.
     private void execute() {
-      if (weichestellungenPassen()) {
-        SignalStellung vorsignalStellung = getVorsignalStellung();
+      if (!weichestellungenPassen()) {
+        VorsignalService.this.logger.tracef("  kein Match: %s", this);
+        return;
+      }
 
-        Signal vorsignal = VorsignalService.this.signalRepository.findById(this.vorsignalId);
-        if (vorsignal != null && vorsignal.getStellung() != vorsignalStellung) {
+      SignalStellung vorsignalStellung = getVorsignalStellung();
 
-          VorsignalService.this.logger.debugf("Vorsignal %s auf %s stellen", this.vorsignalId, vorsignalStellung);
-          VorsignalService.this.logger.tracef("  wegen %s", this.toString());
+      Signal vorsignal = VorsignalService.this.signalRepository.findById(this.vorsignalId);
+      if (vorsignal == null) {
+        VorsignalService.this.logger.tracef("  kein Vorsignal: %s", this);
+        return;
+      }
 
-          try {
-            VorsignalService.this.statusGateway.signalStellen(this.vorsignalId.getBereich(), this.vorsignalId.getName(), vorsignalStellung);
-          } catch (Exception e) {
-            VorsignalService.this.logger.errorf(e, "Kann Vorsignal %s nicht auf %s stellen", this.vorsignalId, vorsignalStellung);
-          }
-        }
+      if (vorsignal.getStellung() == vorsignalStellung) {
+        VorsignalService.this.logger.tracef("  bereits richtige Stellung: %s", this);
+        return;
+      }
+
+      VorsignalService.this.logger.debugf("Vorsignal %s auf %s stellen", this.vorsignalId, vorsignalStellung);
+      VorsignalService.this.logger.tracef("  wegen %s", this.toString());
+
+      try {
+        VorsignalService.this.statusGateway.signalStellen(this.vorsignalId.getBereich(), this.vorsignalId.getName(), vorsignalStellung);
+      } catch (Exception e) {
+        VorsignalService.this.logger.errorf(e, "Kann Vorsignal %s nicht auf %s stellen", this.vorsignalId, vorsignalStellung);
       }
     }
 
