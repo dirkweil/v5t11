@@ -1,1 +1,1 @@
-mvn -Ptest test -Dquarkus.datasource.driver=org.postgresql.Driver -Dquarkus.datasource.url=jdbc:postgresql://localhost:31432/v5t11 -Dtest=DbInit
+mvn -Ptest test -Dquarkus.datasource.db-kind=postgresql -Dquarkus.datasource.jdbc.url=jdbc:postgresql://localhost:31432/v5t11 -Dtest=DbInit
