@@ -43,8 +43,9 @@ public class JoinService {
 
   /**
    * Eigenen Status an eine andere, gerade gestartete Teilanwendung senden.
-   * 
-   * @param joinInfo Info über die andere Anwendung
+   *
+   * @param joinInfo
+   *        Info über die andere Anwendung
    */
   void appJoined(@ObservesAsync @Received JoinInfo joinInfo) {
     if (!joinInfo.getAppName().equals(this.configService.getArtifactId())) {
@@ -54,6 +55,6 @@ public class JoinService {
   }
 
   private void join(long sendUpdatesSinceMillis) {
-    this.logger.debugf("Updates ab %tF %<tT.%<tL senden (nicht zu tun)", sendUpdatesSinceMillis);
+    this.logger.debugf("Updates ab %tF %<tT.%<tL senden (nichts zu tun)", sendUpdatesSinceMillis);
   }
 }
