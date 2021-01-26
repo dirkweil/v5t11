@@ -65,24 +65,65 @@ public class VorsignalService {
   // Aus Fahrstrassen Vorsignalregeln ableiten
   void init(@Observes @Created Parcours parcours) {
     // Pro Fahrstraße mit Start-Vorsignal eine Vorsignalregel erstellen
-    parcours.getFahrstrassen()
+    List<VorsignalRegel> vorsignalRegeln = parcours.getFahrstrassen()
         .stream()
         .filter(fs -> fs.getStartVorsignalName() != null)
         .map(this::createVorsignalRegel)
         .filter(Objects::nonNull)
-        .forEach(vsr -> {
-          // Beteiligte Weichen und Signale für schnellen Lookup in entsprechende Maps eintragen
-          vsr.fahrstrassenWeichen.forEach(w -> this.weiche2Regel.put(w.getId(), vsr));
-          vsr.sperrSignalIds.forEach(s -> this.signal2Regel.put(s, vsr));
-          if (vsr.zielHauptsignalId != null) {
-            this.signal2Regel.put(vsr.zielHauptsignalId, vsr);
-          }
+        .collect(Collectors.toList());
 
-          this.logger.trace(vsr);
+    /*
+     * Es können nun Regeln in der Liste sein, die einander enthalten, d. h. der Fahrweg der einen ist Teil der anderen.
+     * Daher werden Regeln so sortiert, dass die für ein Vorsignal hintereinander stehen, und zwar nach id (bereich/name) geordnet.
+     * Dadurch liegen die Regeln stets vor derjenigen, für die sie ggf. ein Anfangsstück darstellen.
+     */
+    vorsignalRegeln.sort((a, b) -> {
+      int diff = a.vorsignalId.compareTo(b.vorsignalId);
+      return (diff != 0) ? diff : a.id.compareTo(b.id);
+    });
 
-          // Regel initial einmal ausführen
-          vsr.execute();
-        });
+    /*
+     * Die Liste wird nun nach Regeln a, b durchsucht, wo a ein Anfangsstück von b darstellt
+     */
+    int i = 0;
+    while (i < vorsignalRegeln.size() - 1) {
+      VorsignalRegel a = vorsignalRegeln.get(i);
+      VorsignalRegel b = vorsignalRegeln.get(i + 1);
+
+      if (a.vorsignalId.equals(b.vorsignalId) && a.id.getBereich().equals(b.id.getBereich()) && b.id.getName().startsWith(a.id.getName())) {
+        // this.logger.tracef(">>>>>>>>>>>>>>>> %s", a);
+        // this.logger.tracef(" ist Präfix von %s", b);
+
+        if (a.zielHauptsignalId != null) {
+          // Sollte a ein Ziel-Hauptsignal haben, wird b entfernt (da das Vorsignal dann nur bis zum Hauptsignal "reicht")
+          // this.logger.trace(" entferne zweite");
+          vorsignalRegeln.remove(i + 1);
+        } else {
+          // Andernfalls wird a entfernt (da das Vorsignal dann mindestens bis zu b "reicht")
+          // this.logger.trace(" entferne erste");
+          vorsignalRegeln.remove(i);
+        }
+      } else {
+        ++i;
+      }
+    }
+
+    // Nun ist die Liste "präfixfrei", d. h. für jeden Fahrweg gibt es nur eine Vorsignalregel, die ihn umfasst
+
+    vorsignalRegeln.forEach(vsr -> {
+      // Beteiligte Weichen und Signale für schnellen Lookup in entsprechende Maps eintragen
+      vsr.fahrstrassenWeichen.forEach(w -> this.weiche2Regel.put(w.getId(), vsr));
+      vsr.sperrSignalIds.forEach(s -> this.signal2Regel.put(s, vsr));
+      this.signal2Regel.put(vsr.vorsignalId, vsr);
+      if (vsr.zielHauptsignalId != null) {
+        this.signal2Regel.put(vsr.zielHauptsignalId, vsr);
+      }
+
+      this.logger.trace(vsr);
+
+      // Regel initial einmal ausführen
+      vsr.execute();
+    });
 
   }
 
@@ -105,6 +146,7 @@ public class VorsignalService {
    */
   private VorsignalRegel createVorsignalRegel(Fahrstrasse fahrstrasse) {
     VorsignalRegel vorsignalRegel = new VorsignalRegel();
+    vorsignalRegel.id = fahrstrasse.getId();
 
     // Alle Weichen mit ihren Stellungen übernehmen,
     // alle Signale ab dem zweiten Abschnitt übernehmen (können nur Sperrsignale sein)
@@ -146,6 +188,7 @@ public class VorsignalService {
    *
    */
   private class VorsignalRegel {
+    private BereichselementId id;
     private Collection<FahrstrassenWeiche> fahrstrassenWeichen = new ArrayList<>();
     private List<BereichselementId> sperrSignalIds = new ArrayList<>();
     private BereichselementId zielHauptsignalId;
@@ -154,10 +197,11 @@ public class VorsignalService {
     @Override
     public String toString() {
       return "VorsignalRegel{"
-          + "weichen=" + this.fahrstrassenWeichen.stream().map(x -> x.getId() + ":" + x.getStellung()).collect(Collectors.joining(","))
+          + this.vorsignalId
+          + " -> " + this.zielHauptsignalId
+          + ", id=" + this.id
+          + ", weichen=" + this.fahrstrassenWeichen.stream().map(x -> x.getId() + ":" + x.getStellung()).collect(Collectors.joining(","))
           + ", signale=" + this.sperrSignalIds.stream().map(x -> x.toString()).collect(Collectors.joining(","))
-          + ", zielHauptsignalId=" + this.zielHauptsignalId
-          + ", vorsignal=" + this.vorsignalId
           + "}";
     }
 
@@ -166,13 +210,17 @@ public class VorsignalService {
       if (weichestellungenPassen()) {
         SignalStellung vorsignalStellung = getVorsignalStellung();
 
-        VorsignalService.this.logger.debugf("Vorsignal %s auf %s stellen", this.vorsignalId, vorsignalStellung);
-        VorsignalService.this.logger.tracef("  (%s)", this.toString());
+        Signal vorsignal = VorsignalService.this.signalRepository.findById(this.vorsignalId);
+        if (vorsignal != null && vorsignal.getStellung() != vorsignalStellung) {
 
-        try {
-          VorsignalService.this.statusGateway.signalStellen(this.vorsignalId.getBereich(), this.vorsignalId.getName(), vorsignalStellung);
-        } catch (Exception e) {
-          VorsignalService.this.logger.errorf(e, "Kann Vorsignal %s nicht auf %s stellen", this.vorsignalId, vorsignalStellung);
+          VorsignalService.this.logger.debugf("Vorsignal %s auf %s stellen", this.vorsignalId, vorsignalStellung);
+          VorsignalService.this.logger.tracef("  wegen %s", this.toString());
+
+          try {
+            VorsignalService.this.statusGateway.signalStellen(this.vorsignalId.getBereich(), this.vorsignalId.getName(), vorsignalStellung);
+          } catch (Exception e) {
+            VorsignalService.this.logger.errorf(e, "Kann Vorsignal %s nicht auf %s stellen", this.vorsignalId, vorsignalStellung);
+          }
         }
       }
     }
