@@ -200,15 +200,7 @@ public class Parcours {
    * Noch nicht erzeugte persistente Elemente erzeugen.
    */
   public void addPersistentEntries() {
-    this.fahrstrassen
-        .stream()
-        .forEach(f -> f.createFahrstrassenStatus());
-
-    this.fahrstrassen
-        .stream()
-        .flatMap(f -> f.getElemente().stream())
-        .forEach(e -> e.createFahrwegelement());
-
+    this.fahrstrassen.forEach(Fahrstrasse::addPersistentEntries);
   }
 
   /**

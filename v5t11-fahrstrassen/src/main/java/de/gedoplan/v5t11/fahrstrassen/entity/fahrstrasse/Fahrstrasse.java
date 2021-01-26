@@ -12,6 +12,7 @@ import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleis;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.ReservierbaresFahrwegelement;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Signal;
 import de.gedoplan.v5t11.fahrstrassen.persistence.FahrstrassenStatusRepository;
+import de.gedoplan.v5t11.fahrstrassen.persistence.SignalRepository;
 import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
 import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
@@ -50,6 +51,9 @@ public class Fahrstrasse extends Bereichselement {
 
   @Inject
   FahrstrassenStatusRepository fahrstrassenStatusRepository;
+
+  @Inject
+  SignalRepository signalRepository;
 
   @Inject
   TransactionChecker transactionChecker;
@@ -440,10 +444,26 @@ public class Fahrstrasse extends Bereichselement {
     return fahrstrasse;
   }
 
-  public void createFahrstrassenStatus() {
+  public void addPersistentEntries() {
     FahrstrassenStatus fahrstrassenStatus = this.fahrstrassenStatusRepository.findById(getId());
     if (fahrstrassenStatus == null) {
       this.fahrstrassenStatusRepository.persist(new FahrstrassenStatus(getBereich(), getName()));
+    }
+
+    this.elemente.forEach(Fahrstrassenelement::createFahrwegelement);
+
+    if (this.startVorsignalName != null) {
+      Signal signal = new Signal(this.startVorsignalBereich, this.startVorsignalName);
+      if (this.signalRepository.findById(signal.getId()) == null) {
+        this.signalRepository.persist(signal);
+      }
+    }
+
+    if (this.zielHauptsignalName != null) {
+      Signal signal = new Signal(this.zielHauptsignalBereich, this.zielHauptsignalName);
+      if (this.signalRepository.findById(signal.getId()) == null) {
+        this.signalRepository.persist(signal);
+      }
     }
   }
 
