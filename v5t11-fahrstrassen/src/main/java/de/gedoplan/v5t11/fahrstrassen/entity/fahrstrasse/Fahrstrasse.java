@@ -80,8 +80,7 @@ public class Fahrstrasse extends Bereichselement {
 
   /**
    * Ziel-Hauptsignal-Name.
-   * Wenn gesetzt, endet die Fahrstrasse vor diesem Hauptsignal und mit Ausnahme des Beginns gibt es innerhalb der Fahrstrasse
-   * kein weiteres Hauptsignal.
+   * Wenn gesetzt, endet die Fahrstrasse vor diesem Hauptsignal
    */
   @XmlAttribute(name = "ziel-hauptsignal")
   @Getter(onMethod_ = @JsonbInclude(full = true))
@@ -156,8 +155,6 @@ public class Fahrstrasse extends Bereichselement {
     return this.ende;
   }
 
-  private int anzahlZielHauptsignale = 0;
-
   @SuppressWarnings("unused")
   private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
     if (!(parent instanceof Parcours)) {
@@ -189,7 +186,6 @@ public class Fahrstrasse extends Bereichselement {
       if (this.zielHauptsignalBereich == null) {
         this.zielHauptsignalBereich = getEnde().getBereich();
       }
-      this.anzahlZielHauptsignale = 1;
     } else {
       this.zielHauptsignalBereich = null;
     }
@@ -299,17 +295,11 @@ public class Fahrstrasse extends Bereichselement {
     result.combi = true;
     result.zaehlrichtung = linkeFahrstrasse.zaehlrichtung;
 
-    // Start-Vorsignal wird von links übernommen
+    // Start-Vorsignal kommt von links und das Ziel-Hauptsignal von rechts
     result.startVorsignalBereich = linkeFahrstrasse.startVorsignalBereich;
     result.startVorsignalName = linkeFahrstrasse.startVorsignalName;
-
-    // Sollten durch die Kombination mehrere Ziel-Hauptsignale entstehen, wird keine davon eingetragen
-    // ansonsten kommt das Ziel-Hauptsignal von rechts
-    result.anzahlZielHauptsignale = linkeFahrstrasse.anzahlZielHauptsignale + rechteFahrstrasse.anzahlZielHauptsignale;
-    if (result.anzahlZielHauptsignale < 2) {
-      result.zielHauptsignalBereich = rechteFahrstrasse.zielHauptsignalBereich;
-      result.zielHauptsignalName = rechteFahrstrasse.zielHauptsignalName;
-    }
+    result.zielHauptsignalBereich = rechteFahrstrasse.zielHauptsignalBereich;
+    result.zielHauptsignalName = rechteFahrstrasse.zielHauptsignalName;
 
     linkeFahrstrasse.elemente.stream().map(Fahrstrassenelement::createKopie).forEach(result.elemente::add);
     rechteFahrstrasse.elemente.stream().skip(1).map(Fahrstrassenelement::createKopie).forEach(result.elemente::add);

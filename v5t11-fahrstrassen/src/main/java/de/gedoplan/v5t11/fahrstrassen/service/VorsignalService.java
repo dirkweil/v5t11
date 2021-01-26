@@ -20,6 +20,7 @@ import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -67,9 +68,10 @@ public class VorsignalService {
     parcours.getFahrstrassen()
         .stream()
         .filter(fs -> fs.getStartVorsignalName() != null)
-        .map(VorsignalRegel::new)
+        .map(this::createVorsignalRegel)
+        .filter(Objects::nonNull)
         .forEach(vsr -> {
-          // Beteilgte Weichen und Signale für schnellen Lookup in entsprechende Maps eintragen
+          // Beteiligte Weichen und Signale für schnellen Lookup in entsprechende Maps eintragen
           vsr.fahrstrassenWeichen.forEach(w -> this.weiche2Regel.put(w.getId(), vsr));
           vsr.sperrSignalIds.forEach(s -> this.signal2Regel.put(s, vsr));
           if (vsr.zielHauptsignalId != null) {
@@ -95,6 +97,44 @@ public class VorsignalService {
   }
 
   /**
+   * Vorsignalregel aus Fahrstraße ableiten
+   *
+   * @param fahrstrasse
+   *        Fahrstraße
+   * @return Vorsignalregel oder <code>null</code>, falls Fahrstraße ab dem zweiten Abschnitt nicht nur Sperrsignale enthält
+   */
+  private VorsignalRegel createVorsignalRegel(Fahrstrasse fahrstrasse) {
+    VorsignalRegel vorsignalRegel = new VorsignalRegel();
+
+    // Alle Weichen mit ihren Stellungen übernehmen,
+    // alle Signale ab dem zweiten Abschnitt übernehmen (können nur Sperrsignale sein)
+    int gleisCount = 0;
+    for (Fahrstrassenelement e : fahrstrasse.getElemente()) {
+      if (e instanceof FahrstrassenGleis) {
+        ++gleisCount;
+      } else if (!e.isSchutz()) {
+        if (e instanceof FahrstrassenWeiche) {
+          vorsignalRegel.fahrstrassenWeichen.add((FahrstrassenWeiche) e);
+        } else if (e instanceof FahrstrassenSignal && gleisCount > 1) {
+          if (FahrstrassenSignal.SignalTyp.fromName(e.getName()) != SignalTyp.SPERRSIGNAL) {
+            return null;
+          }
+          vorsignalRegel.sperrSignalIds.add(e.getId());
+        }
+      }
+    }
+
+    // Ziel- und Startsignal übernehmen
+    if (fahrstrasse.getZielHauptsignalName() != null) {
+      vorsignalRegel.zielHauptsignalId = new BereichselementId(fahrstrasse.getZielHauptsignalBereich(), fahrstrasse.getZielHauptsignalName());
+    }
+
+    vorsignalRegel.vorsignalId = new BereichselementId(fahrstrasse.getStartVorsignalBereich(), fahrstrasse.getStartVorsignalName());
+
+    return vorsignalRegel;
+  }
+
+  /**
    * Vorsignalregel.
    * Enthält
    * - als Ausführungsbedingung die beteiligten Weichen mit ihren jeweiligen Stellungen,
@@ -110,37 +150,6 @@ public class VorsignalService {
     private List<BereichselementId> sperrSignalIds = new ArrayList<>();
     private BereichselementId zielHauptsignalId;
     private BereichselementId vorsignalId;
-
-    /**
-     * Vorsignalregel aus Fahrstraße erstellen.
-     *
-     * @param fahrstrasse
-     *        Fahrstraße
-     */
-    public VorsignalRegel(Fahrstrasse fahrstrasse) {
-      // Alle Weichen mit ihren Stellungen übernehmen,
-      // alle Signale ab dem zweiten Abschnitt übernehmen (können nur Sperrsignale sein)
-      int gleisCount = 0;
-      for (Fahrstrassenelement e : fahrstrasse.getElemente()) {
-        if (e instanceof FahrstrassenGleis) {
-          ++gleisCount;
-        } else if (!e.isSchutz()) {
-          if (e instanceof FahrstrassenWeiche) {
-            this.fahrstrassenWeichen.add((FahrstrassenWeiche) e);
-          } else if (e instanceof FahrstrassenSignal && gleisCount > 1) {
-            assert FahrstrassenSignal.SignalTyp.fromName(e.getName()) == SignalTyp.SPERRSIGNAL;
-            this.sperrSignalIds.add(e.getId());
-          }
-        }
-      }
-
-      // Ziel- und Startsignal übernehmen
-      if (fahrstrasse.getZielHauptsignalName() != null) {
-        this.zielHauptsignalId = new BereichselementId(fahrstrasse.getZielHauptsignalBereich(), fahrstrasse.getZielHauptsignalName());
-      }
-
-      this.vorsignalId = new BereichselementId(fahrstrasse.getStartVorsignalBereich(), fahrstrasse.getStartVorsignalName());
-    }
 
     @Override
     public String toString() {
@@ -158,6 +167,7 @@ public class VorsignalService {
         SignalStellung vorsignalStellung = getVorsignalStellung();
 
         VorsignalService.this.logger.debugf("Vorsignal %s auf %s stellen", this.vorsignalId, vorsignalStellung);
+        VorsignalService.this.logger.tracef("  (%s)", this.toString());
 
         try {
           VorsignalService.this.statusGateway.signalStellen(this.vorsignalId.getBereich(), this.vorsignalId.getName(), vorsignalStellung);
