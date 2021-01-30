@@ -16,7 +16,6 @@ import de.gedoplan.v5t11.fahrstrassen.persistence.SignalRepository;
 import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
 import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
-import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
 import de.gedoplan.v5t11.util.domain.entity.Bereichselement;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 import de.gedoplan.v5t11.util.transaction.TransactionChecker;
@@ -385,13 +384,13 @@ public class Fahrstrasse extends Bereichselement {
   /**
    * Signalstellungen für Hauptsignale passend zu Weichenstellungen anpassen.
    *
-   * Die Stellung von Hauptsignalen (erkennbar an Stellung FAHRT bzw. LANGSAMFAHRT) werden zu FAHRT bzw. LANGSAMFAHRT korrigiert, wenn bis zum nächsten
-   * Hauptsignal bzw. bis zum Fahrstrassenende keine bzw. mindestens eine abzweigende Weiche befahren wird.
+   * Die Stellung von Hauptsignalen (erkennbar an Stellung FAHRT bzw. LANGSAMFAHRT) werden zu FAHRT bzw. LANGSAMFAHRT korrigiert,
+   * wenn bis zum nächsten Hauptsignal bzw. bis zum Fahrstrassenende das kleinste Limit der befahreren Weichen über bzw unter 40 liegt.
    */
   public void adjustLangsamfahrt() {
     FahrstrassenSignal fahrstrassenSignal = null;
     int fahrstrassenSignalIndex = -1;
-    boolean langsam = false;
+    int limit = Integer.MAX_VALUE;
 
     int size = this.elemente.size();
     for (int i = 0; i < size; ++i) {
@@ -399,7 +398,7 @@ public class Fahrstrasse extends Bereichselement {
       if (!fahrstrassenelement.isSchutz()) {
         if (i >= size - 1 || fahrstrassenelement.isHauptsignal()) {
           if (fahrstrassenSignal != null) {
-            SignalStellung neueStellung = langsam ? SignalStellung.LANGSAMFAHRT : SignalStellung.FAHRT;
+            SignalStellung neueStellung = limit <= 40 ? SignalStellung.LANGSAMFAHRT : SignalStellung.FAHRT;
             if (neueStellung != fahrstrassenSignal.getStellung()) {
               this.elemente.set(fahrstrassenSignalIndex, fahrstrassenSignal.createCopy(neueStellung));
             }
@@ -411,12 +410,14 @@ public class Fahrstrasse extends Bereichselement {
 
           fahrstrassenSignal = (FahrstrassenSignal) fahrstrassenelement;
           fahrstrassenSignalIndex = i;
-          langsam = false;
+          limit = Integer.MAX_VALUE;
         }
 
-        if (fahrstrassenelement instanceof FahrstrassenWeiche
-            && ((FahrstrassenWeiche) fahrstrassenelement).getStellung() != WeichenStellung.GERADE) {
-          langsam = true;
+        if (fahrstrassenelement instanceof FahrstrassenWeiche) {
+          FahrstrassenWeiche fahrstrassenWeiche = (FahrstrassenWeiche) fahrstrassenelement;
+          if (fahrstrassenWeiche.getLimit() != null && fahrstrassenWeiche.getLimit() < limit) {
+            limit = fahrstrassenWeiche.getLimit();
+          }
         }
       }
     }

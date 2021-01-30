@@ -8,6 +8,7 @@ import de.gedoplan.v5t11.util.domain.entity.fahrweg.geraet.AbstractWeiche;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
 import javax.inject.Inject;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -25,6 +26,10 @@ public class FahrstrassenWeiche extends FahrstrassenGeraet {
   @Getter(onMethod_ = @JsonbInclude(full = true))
   @XmlAttribute
   private WeichenStellung stellung;
+
+  @Getter(onMethod_ = @JsonbInclude(full = true))
+  @XmlAttribute
+  private Integer limit;
 
   @Override
   public Weiche getFahrwegelement() {
@@ -77,4 +82,18 @@ public class FahrstrassenWeiche extends FahrstrassenGeraet {
   public FahrstrassenelementTyp getTyp() {
     return FahrstrassenelementTyp.WEICHE;
   }
+
+  @SuppressWarnings("unused")
+  private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
+    // Falls Limit nicht angegeben, für ABZWEIGEND Standardwert einsetzen
+    if (this.limit == null) {
+      if (this.stellung == WeichenStellung.ABZWEIGEND) {
+        this.limit = 40;
+      }
+    } else if (this.limit <= 0) {
+      // Limit 0 oder kleiner bedeutet "kein Limit"
+      this.limit = null;
+    }
+  }
+
 }
