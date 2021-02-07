@@ -298,6 +298,10 @@ public class Steuerung {
     return null;
   }
 
+  public Set<Integer> getBausteinAdressen() {
+    return this.kanalBausteine.keySet();
+  }
+
   /**
    * Nachbearbeitung nach JAXB-Unmarshal.
    *

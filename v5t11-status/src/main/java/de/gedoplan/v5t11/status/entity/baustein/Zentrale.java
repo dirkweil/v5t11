@@ -1,6 +1,7 @@
 package de.gedoplan.v5t11.status.entity.baustein;
 
 import de.gedoplan.baselibs.utils.inject.InjectionUtil;
+import de.gedoplan.v5t11.status.entity.Steuerung;
 import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
 import de.gedoplan.v5t11.status.service.ConfigService;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
@@ -80,6 +81,9 @@ public abstract class Zentrale implements Closeable {
   public void awaitSync() {
   }
 
+  @Inject
+  Steuerung steuerung;
+
   protected void openPort() {
     try {
       Pattern pattern = Pattern.compile("(?<host>\\S+):(?<port>\\d+)");
@@ -89,6 +93,8 @@ public abstract class Zentrale implements Closeable {
       } else {
         openSerialPort();
       }
+
+      this.steuerung.getBausteinAdressen().forEach(adr -> setSX1Kanal(adr, this.steuerung.getSX1Kanal(adr)));
     } catch (Exception e) {
       try {
         closePort();
@@ -127,14 +133,15 @@ public abstract class Zentrale implements Closeable {
       port.setComPortParameters(getPortSpeed(), 8, SerialPort.TWO_STOP_BITS, SerialPort.NO_PARITY);
       port.setFlowControl(SerialPort.FLOW_CONTROL_DISABLED);
       port.setComPortTimeouts(SerialPort.TIMEOUT_READ_BLOCKING, PORT_RECEIVE_TIMEOUT_MILLIS, 0);
-      if (!port.isOpen())
+      if (!port.isOpen()) {
         if (!port.openPort()) {
           throw new IOException("SerialPort " + this.portName + " kann nicht geöffnet werden");
         }
+      }
 
       this.device = port;
 
-      this.log.infof("SerialPort %s geöffnet", portName);
+      this.log.infof("SerialPort %s geöffnet", this.portName);
 
       this.in = null;
       this.out = null;

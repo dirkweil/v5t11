@@ -1,6 +1,8 @@
 package de.gedoplan.v5t11.status.service;
 
+import de.gedoplan.v5t11.status.entity.Kanal;
 import de.gedoplan.v5t11.status.entity.Steuerung;
+import de.gedoplan.v5t11.status.persistence.KanalRepository;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -24,6 +26,7 @@ public class Bootstrap {
       ConfigService configService,
       JoinService joinService,
       Steuerung steuerung,
+      KanalRepository kanalRepository,
       Logger log,
       AutoSkriptService autoSkriptService) {
     log.infof("app: %s:%s", configService.getArtifactId(), configService.getVersion());
@@ -36,13 +39,21 @@ public class Bootstrap {
     joinService.joinMyself();
 
     steuerung.open(scheduler);
-    
+
+    kanalRepository.findAll().forEach(k -> steuerung.setSX1Kanal(k.getAdresse(), k.getWert()));
+
     autoSkriptService.executeAll();
   }
 
-  void terminate(@Observes ShutdownEvent shutdownEvent, Steuerung steuerung) {
-    steuerung.close();
+  void terminate(@Observes ShutdownEvent shutdownEvent, Steuerung steuerung, KanalRepository kanalRepository) {
+    // Aktualisierungen stoppen
     scheduler.shutdown();
+
+    // Verbindung zur Zentrale schließen
+    steuerung.close();
+
+    // Zustände der Bausteine sichern
+    steuerung.getBausteinAdressen().forEach(adr -> kanalRepository.merge(new Kanal(adr, steuerung.getSX1Kanal(adr))));
   }
 
 }
