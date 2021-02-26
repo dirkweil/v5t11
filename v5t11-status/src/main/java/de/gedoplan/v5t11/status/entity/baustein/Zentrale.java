@@ -1,7 +1,6 @@
 package de.gedoplan.v5t11.status.entity.baustein;
 
 import de.gedoplan.baselibs.utils.inject.InjectionUtil;
-import de.gedoplan.v5t11.status.entity.Steuerung;
 import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
 import de.gedoplan.v5t11.status.service.ConfigService;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
@@ -76,13 +75,10 @@ public abstract class Zentrale implements Closeable {
 
   /**
    * Auf Abschluss eines Synchronisationszyklus warten.
-   * Wird von Subklassen überschrieben, wenn tatsächlich gewaret werden muss.
+   * Wird von Subklassen überschrieben, wenn tatsächlich gewartet werden muss.
    */
   public void awaitSync() {
   }
-
-  @Inject
-  Steuerung steuerung;
 
   protected void openPort() {
     try {
@@ -94,7 +90,7 @@ public abstract class Zentrale implements Closeable {
         openSerialPort();
       }
 
-      this.steuerung.getBausteinAdressen().forEach(adr -> setSX1Kanal(adr, this.steuerung.getSX1Kanal(adr)));
+      this.eventFirer.fire(this, Connected.Literal.INSTANCE);
     } catch (Exception e) {
       try {
         closePort();
