@@ -280,44 +280,34 @@ public class FCC extends Zentrale {
 
   private static SystemTyp decodeSystemTyp(byte codeHigh, byte codeLow) {
     int meldeCode = ((codeLow & 0x0f) | ((codeHigh & 0x01) << 4));
-    switch (meldeCode) {
-    case 0x00:
-      return null;
-
-    case 0x04:
-    case 0x14:
-      return SystemTyp.SX2;
-
-    case 0x05:
-    case 0x07:
-    case 0x15:
-    case 0x17:
-      return SystemTyp.DCC;
-
-    default:
-      throw new IllegalArgumentException(String.format("Ungültiger Meldecode: 0x%02x", meldeCode));
-    }
+    return switch (meldeCode) {
+      case 0x00 -> null;
+      case 0x04, 0x14 -> SystemTyp.SX2;
+      case 0x05, 0x07, 0x15, 0x17 -> SystemTyp.DCC;
+      default -> throw new IllegalArgumentException(String.format("Ungültiger Meldecode: 0x%02x", meldeCode));
+    };
   }
 
+  /**
+   * Adresse decodieren.
+   *
+   * Die Adress-Bits kommen in zwei Bytes und werden zu einem <code>int</code>-Wert zusammengesetzt.
+   * Achtung: Für SX2 sind die <code>H</code>s Tausender und Hunderter, die <code>L</code>s Zehner und Einer.
+   *
+   * @param adrHigh
+   *        oberer Teil der Adresse <code>HHHH_HHHL</code>
+   * @param adrLow
+   *        unterer Teil der Adresse <code>LLLL_LLxx</code>
+   *
+   * @return decodierte Adresse <code>00HH_HHHH_HLLL_LLLL</code>
+   */
   private static int decodeAdresse(SystemTyp systemTyp, byte adrHigh, byte adrLow) {
-    /*
-     * adrHigh: HHHH_HHHL
-     * adrLow: LLLL_LLxx
-     * 
-     * adr: 00HH_HHHH_HLLL_LLLL
-     */
     int adr = Byte.toUnsignedInt(adrHigh) << 6 | (Byte.toUnsignedInt(adrLow) & 0b1111_1100) >>> 2;
-    switch (systemTyp) {
-    case SX1:
-      throw new IllegalArgumentException("Ungültiger Systemtyp: " + systemTyp);
-
-    case SX2:
-      // Für SX2 sind die Hs oben Tausender und Hunderter, die Ls Zehner und Einer
-      return ((adr & 0b0011_1111_1000_0000) >>> 7) * 100 + (adr & 0b0111_1111);
-
-    default:
-      return adr;
-    }
+    return switch (systemTyp) {
+      case SX1 -> throw new IllegalArgumentException("Ungültiger Systemtyp: " + systemTyp);
+      case SX2 -> ((adr & 0b0011_1111_1000_0000) >>> 7) * 100 + (adr & 0b0111_1111);
+      default -> adr;
+    };
 
   }
 
@@ -552,20 +542,21 @@ public class FCC extends Zentrale {
   }
 
   private static byte[] encodeAdresse(SystemTyp systemTyp, int adresse) {
-    switch (systemTyp) {
-    case SX1:
-      throw new IllegalArgumentException("Ungültiger Systemtyp: " + systemTyp);
+    return switch (systemTyp) {
+      case SX1 -> throw new IllegalArgumentException("Ungültiger Systemtyp: " + systemTyp);
 
-    case SX2:
-      int hunderter = adresse / 100;
-      int einer = adresse % 100;
-      int sx2Wert = (hunderter << 9) | (einer << 2);
-      return new byte[] { (byte) (sx2Wert & 0xff), (byte) ((sx2Wert >> 8) & 0xff) };
+      case SX2 -> {
+        int hunderter = adresse / 100;
+        int einer = adresse % 100;
+        int sx2Wert = (hunderter << 9) | (einer << 2);
+        yield new byte[] { (byte) (sx2Wert & 0xff), (byte) ((sx2Wert >> 8) & 0xff) };
+      }
 
-    default:
-      int dccWert = adresse << 2;
-      return new byte[] { (byte) (dccWert & 0xff), (byte) ((dccWert >> 8) & 0xff) };
-    }
+      default -> {
+        int dccWert = adresse << 2;
+        yield new byte[] { (byte) (dccWert & 0xff), (byte) ((dccWert >> 8) & 0xff) };
+      }
+    };
   }
 
   private void sx2Abmelden(int idx) {

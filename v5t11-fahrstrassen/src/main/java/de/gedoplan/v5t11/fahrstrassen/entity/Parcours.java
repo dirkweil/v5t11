@@ -226,20 +226,11 @@ public class Parcours {
     }
 
     if (filter != null) {
-      switch (filter) {
-      case FREI:
-        stream = stream.filter(fs -> fs.isFrei(false, false));
-        break;
-
-      case RESERVIERT:
-        stream = stream.filter(fs -> fs.getFahrstrassenStatus().getReservierungsTyp() != FahrstrassenReservierungsTyp.UNRESERVIERT);
-        break;
-
-      case NON_COMBI:
-        stream = stream.filter(fs -> !fs.isCombi());
-        break;
-
-      }
+      stream = switch (filter) {
+      case FREI -> stream.filter(fs -> fs.isFrei(false, false));
+      case RESERVIERT -> stream.filter(fs -> fs.getFahrstrassenStatus().getReservierungsTyp() != FahrstrassenReservierungsTyp.UNRESERVIERT);
+      case NON_COMBI -> stream.filter(fs -> !fs.isCombi());
+      };
     }
 
     return stream.sorted((fs1, fs2) -> fs1.getRank() - fs2.getRank()).collect(Collectors.toList());
