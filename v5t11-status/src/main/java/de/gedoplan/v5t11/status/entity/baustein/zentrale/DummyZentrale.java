@@ -70,4 +70,8 @@ public class DummyZentrale extends Zentrale {
     }
   }
 
+  @Override
+  public void setGleisProtokoll() {
+  }
+
 }

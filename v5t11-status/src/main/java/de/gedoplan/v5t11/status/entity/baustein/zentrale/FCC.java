@@ -19,6 +19,8 @@ import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -390,45 +392,65 @@ public class FCC extends Zentrale {
 
     int localAdr = Kanal.toLocalAdr(adr);
 
-    send(new byte[] { (byte) bus, (byte) (localAdr | 0x80), (byte) wert }, null);
+    send(new byte[] { (byte) bus, (byte) (localAdr | 0x80), (byte) wert }, new byte[1], ALL_ZEROES);
   }
 
-  private int send(byte[] werte, Predicate<Integer> ackCheck) {
+  /**
+   * Befehl senden, Antwort lesen und prüfen.
+   * 
+   * Die Befehls-Bytes werden gesendet und soviele Antwort-Bytes eingelesen, wie in <code>antwort</code> Platz haben.
+   * Ist <code>antwortCheck</code> nicht <code>null</code>, wird die Antwort damit geprüft.
+   * 
+   * @param befehl
+   *        Befehl
+   * @param antwort
+   *        Antwort
+   * @param antwortCheck
+   *        Antwortprüfung oder <code>null</code>
+   */
+  private void send(byte[] befehl, byte[] antwort, Predicate<byte[]> antwortCheck) {
     synchronized (Zentrale.class) {
 
       if (this.log.isTraceEnabled()) {
-        StringBuilder sb = new StringBuilder("Send: ");
-        for (int i = 0; i < werte.length; ++i) {
-          if (i != 0) {
-            sb.append(",");
-          }
-
-          sb.append(String.format("0x%02x", werte[i]));
-        }
-        this.log.trace(sb);
+        this.log.tracef("befehl: %s", toHexString(befehl));
       }
 
       try {
-        this.out.write(werte);
+        this.out.write(befehl);
 
-        int ack = this.in.read();
+        int antwortSollLaenge = antwort.length;
+        int antwortIstLaenge = this.in.read(antwort);
+        if (antwortIstLaenge != antwortSollLaenge) {
+          throw new V5t11Exception("Steuerungskommando fehlgeschlagen; antwort zu kurz (" + antwortIstLaenge + " statt " + antwortSollLaenge + ")");
+        }
+
         if (this.log.isTraceEnabled()) {
-          this.log.trace(String.format("Ack: 0x%02x", ack));
+          this.log.tracef("antwort: %s", toHexString(antwort));
         }
 
-        if (ackCheck == null) {
-          if (ack == 0) {
-            return ack;
-          }
-        } else if (ackCheck.test(ack)) {
-          return ack;
+        if (antwortCheck == null || antwortCheck.test(antwort)) {
+          return;
         }
 
-        throw new V5t11Exception("Steuerungskommando fehlgeschlagen; ack=" + ack);
+        throw new V5t11Exception("Steuerungskommando fehlgeschlagen; antwort=" + toHexString(antwort));
       } catch (IOException e) {
         throw new V5t11Exception("Steuerungskommando fehlgeschlagen", e);
       }
     }
+  }
+
+  private static final Predicate<byte[]> ALL_ZEROES = ba -> {
+    for (byte b : ba) {
+      if (b != 0) {
+        return false;
+      }
+    }
+
+    return true;
+  };
+
+  private static CharSequence toHexString(byte[] werte) {
+    return IntStream.range(0, werte.length).mapToObj(i -> String.format("0x%02x", werte[i])).collect(Collectors.joining("[", ",", "]"));
   }
 
   private static void delay(long millis) {
@@ -531,13 +553,14 @@ public class FCC extends Zentrale {
         }
       }
       byte[] adressWert = encodeAdresse(lok.getId().getSystemTyp(), lok.getId().getAdresse());
-      int idx = send(new byte[] { 0x79, 0x01, adressWert[1], adressWert[0], anmeldeCode }, ack -> ack >= 0 && ack <= BUSEXT_MAX_IDX);
+      byte[] antwort = new byte[1];
+      send(new byte[] { 0x79, 0x01, adressWert[1], adressWert[0], anmeldeCode }, antwort, a -> a[0] >= 0 && a[0] <= BUSEXT_MAX_IDX);
 
       if (this.log.isDebugEnabled()) {
-        this.log.debug("Fahrzeug " + lok + " hat Index " + idx);
+        this.log.debug("Fahrzeug " + lok + " hat Index " + antwort[0]);
       }
 
-      return idx;
+      return antwort[0];
     }
   }
 
@@ -564,7 +587,7 @@ public class FCC extends Zentrale {
       if (this.log.isDebugEnabled()) {
         this.log.debug("Fahrzeug abmelden: idx=" + idx);
       }
-      send(new byte[] { 0x79, 0x02, (byte) idx, 0x00, 0x00 }, null);
+      send(new byte[] { 0x79, 0x02, (byte) idx, 0x00, 0x00 }, new byte[1], ALL_ZEROES);
     }
   }
 
@@ -594,9 +617,10 @@ public class FCC extends Zentrale {
             funktionStatus));
       }
 
-      send(new byte[] { 0x79, 0x13, (byte) idx, (byte) wertFahrstufeRichtung, 0x00 }, null);
-      send(new byte[] { 0x79, 0x05, (byte) idx, wertLicht, 0x00 }, null);
-      send(new byte[] { 0x79, 0x16, (byte) idx, wertF1_8, wertF9_16 }, null);
+      byte[] antwort = new byte[1];
+      send(new byte[] { 0x79, 0x13, (byte) idx, (byte) wertFahrstufeRichtung, 0x00 }, antwort, ALL_ZEROES);
+      send(new byte[] { 0x79, 0x05, (byte) idx, wertLicht, 0x00 }, antwort, ALL_ZEROES);
+      send(new byte[] { 0x79, 0x16, (byte) idx, wertF1_8, wertF9_16 }, antwort, ALL_ZEROES);
     }
   }
 
@@ -612,6 +636,23 @@ public class FCC extends Zentrale {
   @Override
   public int getBusAnzahl() {
     return BUS_ANZAHL;
+  }
+
+  @Override
+  public void setGleisProtokoll() {
+    int soll = 0x04;
+    for (int i = 0; i < 7; ++i) {
+      int ist = getSX1Kanal(110) & 0x0F;
+      this.log.debugf("Gleisprotokoll: %02x (soll: %02x)", ist, soll);
+      if (ist == soll) {
+        return;
+      }
+
+      send(new byte[] { (byte) 0x83, (byte) 0xa0, 0x00, 0x00, 0x00 }, new byte[3], ALL_ZEROES);
+
+      // TODO: Muss man hier ein bisschen warten?
+      delay(200);
+    }
   }
 
 }

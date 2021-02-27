@@ -29,8 +29,13 @@ public class AnlagenstatusService {
   }
 
   void onConnect(@Observes @Connected Zentrale zentrale) {
+    // Gleisprotokoll (z. B. SX1+SX2+DCC) einstellen
+    zentrale.setGleisProtokoll();
+
+    // Alle Bausteine auf den uns bekannten Status setzen
     this.steuerung.getBausteinAdressen().forEach(adr -> zentrale.setSX1Kanal(adr, this.steuerung.getSX1Kanal(adr)));
 
+    // Alle Autoskripte einmal ausführen
     this.autoSkriptService.executeAll();
   }
 

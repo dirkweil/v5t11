@@ -239,4 +239,11 @@ public abstract class Zentrale implements Closeable {
 
   }
 
+  /**
+   * Gleisprotokoll einstellen.
+   *
+   * Derzeit wird stets mit SX1+SX2+DCC gefahren. Das könnte ggf. in Zukunft konfigurierbar gemacht werden.
+   */
+  public abstract void setGleisProtokoll();
+
 }
