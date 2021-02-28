@@ -503,6 +503,7 @@ public class Steuerung {
     int adr = kanal.getAdresse();
 
     if (!this.supressedKanaele.contains(adr)) {
+      // Gehört die Adresse zu eine Baustein, diesen aktualisieren
       Baustein baustein = this.kanalBausteine.get(adr);
       if (baustein != null) {
         int wert = kanal.getWert();
@@ -510,9 +511,12 @@ public class Steuerung {
         return;
       }
 
-      FahrzeugId fahrzeugId = new FahrzeugId(SystemTyp.SX1, adr);
-      Fahrzeug fahrzeug = getOrCreateFahrzeug(fahrzeugId);
-      fahrzeug.adjustTo(kanal);
+      // Ist es eine andere Adreses auf dem SX-Bus 0, ist es vermutlich eine SX1-Lok
+      if (Kanal.toBusNr(adr) == 0) {
+        FahrzeugId fahrzeugId = new FahrzeugId(SystemTyp.SX1, adr);
+        Fahrzeug fahrzeug = getOrCreateFahrzeug(fahrzeugId);
+        fahrzeug.adjustTo(kanal);
+      }
     }
   }
 
