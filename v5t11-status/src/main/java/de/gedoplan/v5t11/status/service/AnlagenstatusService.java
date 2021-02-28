@@ -8,7 +8,6 @@ import de.gedoplan.v5t11.status.persistence.KanalRepository;
 import de.gedoplan.v5t11.util.cdi.Changed;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.Observes;
 import javax.enterprise.event.ObservesAsync;
 import javax.inject.Inject;
 
@@ -28,7 +27,7 @@ public class AnlagenstatusService {
     this.kanalRepository.findAll().forEach(k -> this.steuerung.setSX1Kanal(k.getAdresse(), k.getWert()));
   }
 
-  void onConnect(@Observes @Connected Zentrale zentrale) {
+  void onConnect(@ObservesAsync @Connected Zentrale zentrale) {
     // Gleisprotokoll (z. B. SX1+SX2+DCC) einstellen
     zentrale.setGleisProtokoll();
 

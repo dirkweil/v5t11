@@ -143,7 +143,7 @@ public class FCC extends Zentrale {
     this.portPhaser = new Phaser(2);
     this.backgroundTask = executorService.submit((Runnable) this::open);
     try {
-      this.portPhaser.awaitAdvanceInterruptibly(this.portPhaser.arriveAndDeregister(), 10, TimeUnit.SECONDS);
+      this.portPhaser.awaitAdvanceInterruptibly(this.portPhaser.arriveAndDeregister(), 100, TimeUnit.SECONDS);
     } catch (InterruptedException | TimeoutException e) {
       throw new V5t11Exception("Cannot open FCC", e);
     }
@@ -380,6 +380,7 @@ public class FCC extends Zentrale {
     }
 
     int localAdr = Kanal.toLocalAdr(adr);
+
     return this.status.get()[BLOCK_DATEN_LEN_SX2 + bus * BLOCK_DATEN_LEN_SX1 + localAdr] & 0xff;
   }
 
@@ -397,10 +398,10 @@ public class FCC extends Zentrale {
 
   /**
    * Befehl senden, Antwort lesen und prüfen.
-   * 
+   *
    * Die Befehls-Bytes werden gesendet und soviele Antwort-Bytes eingelesen, wie in <code>antwort</code> Platz haben.
    * Ist <code>antwortCheck</code> nicht <code>null</code>, wird die Antwort damit geprüft.
-   * 
+   *
    * @param befehl
    *        Befehl
    * @param antwort
@@ -641,17 +642,22 @@ public class FCC extends Zentrale {
   @Override
   public void setGleisProtokoll() {
     int soll = 0x04;
-    for (int i = 0; i < 7; ++i) {
+    while (true) {
+      awaitSync();
       int ist = getSX1Kanal(110) & 0x0F;
-      this.log.debugf("Gleisprotokoll: %02x (soll: %02x)", ist, soll);
       if (ist == soll) {
         return;
       }
 
-      send(new byte[] { (byte) 0x83, (byte) 0xa0, 0x00, 0x00, 0x00 }, new byte[3], ALL_ZEROES);
+      this.log.warnf("Gleisprotokoll 0x%02x ist falsch - schrittweise Umstellung auf 0x%02x", ist, soll);
 
-      // TODO: Muss man hier ein bisschen warten?
-      delay(200);
+      try {
+        send(new byte[] { (byte) 0x83, (byte) 0xa0, 0x00, 0x00, 0x00 }, new byte[3], ALL_ZEROES);
+      } catch (Exception e) {
+        // ignore
+      }
+
+      delay(250);
     }
   }
 
