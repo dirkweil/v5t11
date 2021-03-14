@@ -158,17 +158,18 @@
     </SXBM1>
 
     <!-- Check OK -->
-    <SXBM1 id="BM-2013-2" adr="1057" einbauOrt="HBf Einfahrt links">
-      <Gleis idx="0" bereich="HBf" name="207" />
-      <Gleis idx="1" bereich="HBf" name="406" />
-      <Gleis idx="2" bereich="HBf" name="407" />
-      <Gleis idx="3" bereich="HBf" name="404" />
-      <Gleis idx="4" bereich="HBf" name="W1" />
-      <Gleis idx="5" bereich="HBf" name="W3" />
-      <Gleis idx="5" bereich="HBf" name="W4" />
-      <Gleis idx="6" bereich="HBf" name="W2" />
-      <Gleis idx="7" bereich="HBf" name="W5" />
-    </SXBM1>
+    <!-- <SXBM1 id="BM-2013-2" adr="1057" einbauOrt="HBf Einfahrt links"> -->
+    <HEBM8 id="BM-2019-5" adr="1057" einbauOrt="HBf Einfahrt links">
+      <Gleis idx="0" bereich="HBf" name="W3" />
+      <Gleis idx="0" bereich="HBf" name="W4" />
+      <Gleis idx="1" bereich="HBf" name="W5" />
+      <Gleis idx="2" bereich="HBf" name="W2" />
+      <Gleis idx="3" bereich="HBf" name="W1" />
+      <Gleis idx="4" bereich="HBf" name="207" />
+      <Gleis idx="5" bereich="HBf" name="406" />
+      <Gleis idx="6" bereich="HBf" name="407" />
+      <Gleis idx="7" bereich="HBf" name="404" />
+    </HEBM8>
 
     <!-- Check OK -->
     <SXBM1 id="BM-2013-4" adr="1058" einbauOrt="HBf Einfahrt links">
@@ -293,15 +294,15 @@
 
     <!-- Check OK -->
     <SXSD1 id="FD-2010-1" adr="1078" einbauOrt="HBf Einfahrt links">
-      <!-- TODO --> <Hauptsperrsignal idx="0" bereich="HBf" name="P3" /> 
+      <Hauptsperrsignal idx="0" bereich="HBf" name="P3" /> 
       <Sperrsignal idx="2" bereich="HBf" name="404" />
       <HauptsignalRtGn idx="3" bereich="HBf" name="Sbk2" />
-      <!-- TODO --> <Hauptsperrsignal idx="4" bereich="HBf" name="P4" /> 
-      <!-- TODO --> <Hauptsperrsignal idx="6" bereich="HBf" name="P6" /> 
-      <!-- TODO --> <Hauptsperrsignal idx="8" bereich="HBf" name="P7" /> 
-      <!-- TODO --> <Hauptsperrsignal idx="10" bereich="HBf" name="P8" /> 
-      <!-- TODO --> <Hauptsperrsignal idx="12" bereich="HBf" name="P9" /> 
-      <!-- TODO --> <Hauptsperrsignal idx="14" bereich="HBf" name="P10" /> 
+      <Hauptsperrsignal idx="4" bereich="HBf" name="P4" /> 
+      <Hauptsperrsignal idx="6" bereich="HBf" name="P6" /> 
+      <!-- TODO --> <Hauptsperrsignal idx="8" bereich="HBf" name="P10" /> 
+      <Hauptsperrsignal idx="10" bereich="HBf" name="P7" /> 
+      <Hauptsperrsignal idx="12" bereich="HBf" name="P8" /> 
+      <Hauptsperrsignal idx="14" bereich="HBf" name="P9" /> 
     </SXSD1>
     
     <!-- Check OK -->
