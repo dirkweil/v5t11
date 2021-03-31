@@ -299,7 +299,7 @@
       <HauptsignalRtGn idx="3" bereich="HBf" name="Sbk2" />
       <Hauptsperrsignal idx="4" bereich="HBf" name="P4" /> 
       <Hauptsperrsignal idx="6" bereich="HBf" name="P6" /> 
-      <!-- TODO --> <Hauptsperrsignal idx="8" bereich="HBf" name="P10" /> 
+      <Hauptsperrsignal idx="8" bereich="HBf" name="P10" /> 
       <Hauptsperrsignal idx="10" bereich="HBf" name="P7" /> 
       <Hauptsperrsignal idx="12" bereich="HBf" name="P8" /> 
       <Hauptsperrsignal idx="14" bereich="HBf" name="P9" /> 
@@ -320,8 +320,8 @@
     </SD8>
     
     <SXSD1 id="FD-2010-2" adr="1080" einbauOrt="HBf unter EG">
-      <!-- TODO --> <HauptsignalRtGnGe idx="2" bereich="HBf" name="A" />
-      <!-- TODO --> <Vorsignal idx="4" bereich="HBf" name="n,r" />
+      <HauptsignalRtGnGe idx="2" bereich="HBf" name="A" />
+      <Vorsignal idx="4" bereich="HBf" name="n,r" />
       <!-- TODO --> <Hauptsperrsignal idx="8" bereich="HBf" name="R3" /> 
       <!-- TODO --> <Hauptsperrsignal idx="10" bereich="HBf" name="R4" /> 
       <!-- TODO --> <Hauptsperrsignal idx="12" bereich="HBf" name="R5" /> 
@@ -352,7 +352,7 @@
       <Weiche idx="7" bereich="HBf" name="16" />
     </SD8>
 
-    <SXSD1 id="FD-2010-3" adr="1074" einbauOrt="HBf ???">
+    <SXSD1 id="FD-2021-1" adr="1074" einbauOrt="HBf ???">
       <!-- TODO --> <Hauptsperrsignal idx="0" bereich="HBf" name="N21-25" /> 
       <!-- TODO --> <Hauptsperrsignal idx="2" bereich="HBf" name="N6" /> 
       <!-- TODO --> <Hauptsperrsignal idx="4" bereich="HBf" name="N7" /> 
