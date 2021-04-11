@@ -11,18 +11,20 @@ import de.gedoplan.v5t11.util.domain.JoinInfo;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.ObservesAsync;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 
 import org.jboss.logging.Logger;
 
 /**
  * Service für den Beitritt einer Anwendung zum Gesamtsystem.
- * 
+ *
  * Wird aufgerufen, wenn diese Anwendung startet oder sich eine andere (durch deren JoinService) per Messaging meldet.
- * 
+ *
  * @author dw
  *
  */
 @ApplicationScoped
+@Transactional(rollbackOn = Exception.class)
 public class JoinService {
 
   @Inject
@@ -69,8 +71,9 @@ public class JoinService {
 
   /**
    * Eigenen Status an eine andere, gerade gestartete Teilanwendung senden.
-   * 
-   * @param joinInfo Info über die andere Anwendung
+   *
+   * @param joinInfo
+   *        Info über die andere Anwendung
    */
   void appJoined(@ObservesAsync @Received JoinInfo joinInfo) {
     if (!joinInfo.getAppName().equals(this.configService.getArtifactId())) {
@@ -81,11 +84,13 @@ public class JoinService {
 
   private void join(long sendUpdatesSinceMillis) {
     this.logger.debugf("Updates ab %tF %<tT.%<tL senden", sendUpdatesSinceMillis);
+    long start = System.nanoTime();
     this.parcours
         .getFahrstrassen()
         .stream()
         .forEach(x -> this.outgoingHandler.publish(x));
-    this.logger.debugf("%d Fahrstrassen gesendet", this.parcours.getFahrstrassen().size());
+    long stop = System.nanoTime();
+    this.logger.debugf("%d Fahrstrassen gesendet in %,d ms", this.parcours.getFahrstrassen().size(), (stop - start) / 1_000_000);
   }
 
 }

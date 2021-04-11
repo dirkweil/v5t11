@@ -4,6 +4,7 @@ import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
 import de.gedoplan.v5t11.util.domain.entity.Bereichselement;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -18,6 +19,7 @@ import lombok.Setter;
 
 @Entity
 @Table(name = FahrstrassenStatus.TABLE_NAME)
+@Cacheable
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.NONE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

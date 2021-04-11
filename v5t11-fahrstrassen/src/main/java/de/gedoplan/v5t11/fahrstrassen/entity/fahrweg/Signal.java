@@ -4,6 +4,7 @@ import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import de.gedoplan.v5t11.util.domain.entity.fahrweg.geraet.AbstractSignal;
 
 import javax.persistence.AttributeOverride;
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -16,6 +17,7 @@ import lombok.Setter;
 
 @Entity
 @Table(name = Signal.TABLE_NAME)
+@Cacheable
 @XmlAccessorType(XmlAccessType.NONE)
 @NoArgsConstructor
 public class Signal extends AbstractSignal implements ReservierbaresFahrwegelement {

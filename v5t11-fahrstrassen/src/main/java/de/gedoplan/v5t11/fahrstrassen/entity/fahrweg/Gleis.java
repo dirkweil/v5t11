@@ -5,6 +5,7 @@ import de.gedoplan.v5t11.util.domain.entity.Fahrwegelement;
 import de.gedoplan.v5t11.util.domain.entity.fahrweg.AbstractGleis;
 
 import javax.persistence.AttributeOverride;
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -16,6 +17,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = Gleis.TABLE_NAME)
+@Cacheable
 @XmlAccessorType(XmlAccessType.NONE)
 @NoArgsConstructor
 public class Gleis extends AbstractGleis implements ReservierbaresFahrwegelement {
