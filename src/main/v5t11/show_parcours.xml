@@ -23,42 +23,42 @@
 
   <Fahrstrasse bereich="show" zaehlrichtung="true">
     <Gleis name="1" />
-    <Hauptsignal name="N1" stellung="LANGSAMFAHRT" />
-    <Hauptsignal name="N2" stellung="HALT" schutz="true" />
+    <Signal name="N1" stellung="LANGSAMFAHRT" />
+    <Signal name="N2" stellung="HALT" schutz="true" />
     <Weiche name="3" stellung="ABZWEIGEND" />
     <Gleis name="W3" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="show" zaehlrichtung="true">
     <Gleis name="2" />
-    <Hauptsignal name="N2" stellung="FAHRT" />
-    <Hauptsignal name="N1" stellung="HALT" schutz="true" />
+    <Signal name="N2" stellung="FAHRT" />
+    <Signal name="N1" stellung="HALT" schutz="true" />
     <Weiche name="3" stellung="GERADE" />
     <Gleis name="W3" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="show" zaehlrichtung="true">
     <Gleis name="W3" />
-    <Hauptsignal name="F" stellung="HALT" schutz="true" />
+    <Signal name="F" stellung="HALT" schutz="true" />
     <Gleis name="S" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="show" zaehlrichtung="false">
     <Gleis name="S" />
-    <Hauptsignal name="F" stellung="LANGSAMFAHRT" />
+    <Signal name="F" stellung="LANGSAMFAHRT" />
     <Gleis name="W3" />
-    <Hauptsignal name="N1" stellung="HALT" schutz="true" />
-    <Hauptsignal name="N2" stellung="HALT" schutz="true" />
+    <Signal name="N1" stellung="HALT" schutz="true" />
+    <Signal name="N2" stellung="HALT" schutz="true" />
     <Weiche name="3" stellung="ABZWEIGEND" />
     <Gleis name="1" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="show" zaehlrichtung="false">
     <Gleis name="S" />
-    <Hauptsignal name="F" stellung="FAHRT" />
+    <Signal name="F" stellung="FAHRT" />
     <Gleis name="W3" />
-    <Hauptsignal name="N1" stellung="HALT" schutz="true" />
-    <Hauptsignal name="N2" stellung="HALT" schutz="true" />
+    <Signal name="N1" stellung="HALT" schutz="true" />
+    <Signal name="N2" stellung="HALT" schutz="true" />
     <Weiche name="3" stellung="GERADE" />
     <Gleis name="2" />
   </Fahrstrasse>
