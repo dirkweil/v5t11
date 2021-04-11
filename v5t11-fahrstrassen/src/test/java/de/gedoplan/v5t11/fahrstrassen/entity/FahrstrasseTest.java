@@ -1,8 +1,9 @@
 package de.gedoplan.v5t11.fahrstrassen.entity;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.FahrstrassenGeraet;
@@ -86,6 +87,10 @@ public class FahrstrasseTest {
           code = ((FahrstrassenSignal) fe).getStellung().toString();
         } else if (fe instanceof FahrstrassenWeiche) {
           code = ((FahrstrassenWeiche) fe).getStellung().toString();
+          Integer limit = ((FahrstrassenWeiche) fe).getLimit();
+          if (limit != null) {
+            elementBuilder.add("limit", limit);
+          }
         }
         elementBuilder.add("stellung", code);
       }
