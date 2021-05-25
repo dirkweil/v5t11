@@ -34,39 +34,39 @@
             <h:panelGroup />
             <h:panelGroup />
 
-            <p:outputLabel for="sollStart" value="Start: " />
-            <p:inputText id="sollStart" value="#{bausteinProgrammierungPresenter.configuration.servoConfiguration[servoNr].start.soll}" readonly="true" />
+            <p:outputLabel for="sollStart-#{servoNr}" value="Start: " />
+            <p:inputText id="sollStart-#{servoNr}" value="#{bausteinProgrammierungPresenter.configuration.servoConfiguration[servoNr].start.soll}" readonly="true" />
             <p:commandButton value=">" action="#{bausteinProgrammierungPresenter.configuration.servoConfiguration[servoNr].start.resetToSoll()}" ajax="false" />
-            <p:inputText value="#{bausteinProgrammierungPresenter.configuration.servoConfiguration[servoNr].start.ist}" id="istStart" />
-            <p:message for="istStart" />
+            <p:inputText value="#{bausteinProgrammierungPresenter.configuration.servoConfiguration[servoNr].start.ist}" id="istStart-#{servoNr}" />
+            <p:message for="istStart-#{servoNr}" />
             <p:commandButton value="Test" action="#{bausteinProgrammierungPresenter.configurationRuntimeService.testStart(bausteinProgrammierungPresenter.configuration.servoConfiguration[servoNr])}" ajax="false" />
             
-            <p:outputLabel for="sollEnde" value="Ende: " />
-            <p:inputText id="sollEnde" value="#{bausteinProgrammierungPresenter.configuration.servoConfiguration[servoNr].ende.soll}" readonly="true" />
+            <p:outputLabel for="sollEnde-#{servoNr}" value="Ende: " />
+            <p:inputText id="sollEnde-#{servoNr}" value="#{bausteinProgrammierungPresenter.configuration.servoConfiguration[servoNr].ende.soll}" readonly="true" />
             <p:commandButton value=">" action="#{bausteinProgrammierungPresenter.configuration.servoConfiguration[servoNr].ende.resetToSoll()}" ajax="false" />
-            <p:inputText value="#{bausteinProgrammierungPresenter.configuration.servoConfiguration[servoNr].ende.ist}" id="istEnde" />
-            <p:message for="istEnde" />
+            <p:inputText value="#{bausteinProgrammierungPresenter.configuration.servoConfiguration[servoNr].ende.ist}" id="istEnde-#{servoNr}" />
+            <p:message for="istEnde-#{servoNr}" />
             <p:commandButton value="Test" action="#{bausteinProgrammierungPresenter.configurationRuntimeService.testEnde(bausteinProgrammierungPresenter.configuration.servoConfiguration[servoNr])}" ajax="false" />
 
-            <p:outputLabel for="sollGeschwindigkeit" value="Geschwindigkeit: " />
-            <p:inputText id="sollGeschwindigkeit" value="#{bausteinProgrammierungPresenter.configuration.servoConfiguration[servoNr].geschwindigkeit.soll}" readonly="true" />
+            <p:outputLabel for="sollGeschwindigkeit-#{servoNr}" value="Geschwindigkeit: " />
+            <p:inputText id="sollGeschwindigkeit-#{servoNr}" value="#{bausteinProgrammierungPresenter.configuration.servoConfiguration[servoNr].geschwindigkeit.soll}" readonly="true" />
             <p:commandButton value=">" action="#{bausteinProgrammierungPresenter.configuration.servoConfiguration[servoNr].geschwindigkeit.resetToSoll()}" ajax="false" />
-            <p:inputText value="#{bausteinProgrammierungPresenter.configuration.servoConfiguration[servoNr].geschwindigkeit.ist}" id="istGeschwindigkeit" />
-            <p:message for="istGeschwindigkeit" />
+            <p:inputText value="#{bausteinProgrammierungPresenter.configuration.servoConfiguration[servoNr].geschwindigkeit.ist}" id="istGeschwindigkeit-#{servoNr}" />
+            <p:message for="istGeschwindigkeit-#{servoNr}" />
             <h:panelGroup />
 
-            <p:outputLabel for="sollStartWippen" value="Nachwippen am Start: " />
-            <p:inputText id="sollStartWippen" value="#{bausteinProgrammierungPresenter.configuration.servoConfiguration[servoNr].startNachwippen.soll}" readonly="true" />
+            <p:outputLabel for="sollStartWippen-#{servoNr}" value="Nachwippen am Start: " />
+            <p:inputText id="sollStartWippen-#{servoNr}" value="#{bausteinProgrammierungPresenter.configuration.servoConfiguration[servoNr].startNachwippen.soll}" readonly="true" />
             <p:commandButton value=">" action="#{bausteinProgrammierungPresenter.configuration.servoConfiguration[servoNr].startNachwippen.resetToSoll()}" ajax="false" />
-            <p:inputText value="#{bausteinProgrammierungPresenter.configuration.servoConfiguration[servoNr].startNachwippen.ist}" id="istStartWippen" />
-            <p:message for="istStartWippen" />
+            <p:inputText value="#{bausteinProgrammierungPresenter.configuration.servoConfiguration[servoNr].startNachwippen.ist}" id="istStartWippen-#{servoNr}" />
+            <p:message for="istStartWippen-#{servoNr}" />
             <h:panelGroup />
 
-            <p:outputLabel for="sollEndeWippen" value="Nachwippen am Ende: " />
-            <p:inputText id="sollEndeWippen" value="#{bausteinProgrammierungPresenter.configuration.servoConfiguration[servoNr].endeNachwippen.soll}" readonly="true" />
+            <p:outputLabel for="sollEndeWippen-#{servoNr}" value="Nachwippen am Ende: " />
+            <p:inputText id="sollEndeWippen-#{servoNr}" value="#{bausteinProgrammierungPresenter.configuration.servoConfiguration[servoNr].endeNachwippen.soll}" readonly="true" />
             <p:commandButton value=">" action="#{bausteinProgrammierungPresenter.configuration.servoConfiguration[servoNr].endeNachwippen.resetToSoll()}" ajax="false" />
-            <p:inputText value="#{bausteinProgrammierungPresenter.configuration.servoConfiguration[servoNr].endeNachwippen.ist}" id="istEndeWippen" />
-            <p:message for="istEndeWippen" />
+            <p:inputText value="#{bausteinProgrammierungPresenter.configuration.servoConfiguration[servoNr].endeNachwippen.ist}" id="istEndeWippen-#{servoNr}" />
+            <p:message for="istEndeWippen-#{servoNr}" />
             <h:panelGroup />
           </h:panelGrid>
         </p:tab>
