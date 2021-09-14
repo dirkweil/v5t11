@@ -617,6 +617,16 @@
       <Leer anzahl="2"/>
       <Gleis lage="NW,SO" name="505" bereich="HBf" label="true" />
     </Zeile>
+    <Zeile>
+      <Leer anzahl="1" />
+      <Gleis lage="S,N" name="406" bereich="HBf" />
+      <Gleis lage="S,N" name="407" bereich="HBf" />
+      <Leer anzahl="21" />
+      <Gleis lage="N,S" name="507" bereich="HBf" />
+      <Gleis lage="N,S" name="506" bereich="HBf" />
+      <Leer anzahl="3"/>
+      <Gleis lage="NW,SO" name="505" bereich="HBf" />
+    </Zeile>
   </Stellwerk>
 
 </Leitstand>

@@ -33,19 +33,19 @@
   <repositories>
     <repository>
       <id>gedoplanPublic</id>
-      <url>http://service.gedoplan.de/nexus/content/groups/public</url>
+      <url>https://service.gedoplan.de/nexus/content/groups/public</url>
     </repository>
 
     <repository>
       <id>primefaces</id>
-      <url>http://repository.primefaces.org</url>
+      <url>https://repository.primefaces.org</url>
     </repository>
   </repositories>
 
   <pluginRepositories>
     <pluginRepository>
       <id>gedoplanPublic</id>
-      <url>http://service.gedoplan.de/nexus/content/groups/public</url>
+      <url>https://service.gedoplan.de/nexus/content/groups/public</url>
     </pluginRepository>
   </pluginRepositories>
 
