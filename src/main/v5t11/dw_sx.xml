@@ -352,13 +352,16 @@
       <Weiche idx="7" bereich="HBf" name="16" />
     </SD8>
 
-    <SXSD1 id="FD-2021-1" adr="1074" einbauOrt="HBf ???">
-      <!-- TODO --> <Hauptsperrsignal idx="0" bereich="HBf" name="N21-25" /> 
-      <!-- TODO --> <Hauptsperrsignal idx="2" bereich="HBf" name="N6" /> 
-      <!-- TODO --> <Hauptsperrsignal idx="4" bereich="HBf" name="N7" /> 
-      <!-- TODO --> <Hauptsperrsignal idx="6" bereich="HBf" name="N8" /> 
-      <!-- TODO --> <Hauptsperrsignal idx="8" bereich="HBf" name="N9" /> 
-      <!-- TODO --> <Hauptsperrsignal idx="10" bereich="HBf" name="N10" /> 
+    <SXSD1 id="FD-2021-1" adr="1074" einbauOrt="HBf unter WÜSt">
+      <!-- TODO --> <Hauptsperrsignal idx="0" bereich="HBf" name="N6" />
+      <!-- TODO --> <Sperrsignal idx="4" bereich="HBf" name="25" />
+      <!-- TODO --> <Sperrsignal idx="5" bereich="HBf" name="24" />
+      <!-- TODO --> <Sperrsignal idx="6" bereich="HBf" name="23" />
+      <!-- TODO --> <Sperrsignal idx="7" bereich="HBf" name="22" />
+      <!-- TODO --> <Hauptsperrsignal idx="8" bereich="HBf" name="N7" />
+      <!-- TODO --> <Hauptsperrsignal idx="10" bereich="HBf" name="N8" />
+      <!-- TODO --> <Hauptsperrsignal idx="12" bereich="HBf" name="N9" />
+      <!-- TODO --> <Hauptsperrsignal idx="14" bereich="HBf" name="N10" />
     </SXSD1>
     
     <!-- Check OK -->
@@ -397,11 +400,8 @@
       <Weiche bereich="SBf" name="33" />
       <Weiche bereich="S20" name="2001" />
       <Weiche bereich="S10" name="1003" />
+      <!-- TODO --> <Hauptsperrsignal idx="0" bereich="HBf" name="N21-25" />
       <!-- TODO --> <Sperrsignal idx="0" bereich="HBf" name="21" />
-      <!-- TODO --> <Sperrsignal idx="1" bereich="HBf" name="22" />
-      <!-- TODO --> <Sperrsignal idx="2" bereich="HBf" name="23" />
-      <!-- TODO --> <Sperrsignal idx="3" bereich="HBf" name="24" />
-      <!-- TODO --> <Sperrsignal idx="4" bereich="HBf" name="25" />
       <!-- TODO --> <Sperrsignal idx="6" bereich="HBf" name="W30" />
       <!-- TODO --> <HauptsignalRtGnGe idx="8" bereich="HBf" name="F" />
       <!-- TODO --> <HauptsignalRtGnGe idx="10" bereich="HBf" name="G" />

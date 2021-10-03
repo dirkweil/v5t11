@@ -13,3 +13,6 @@ buildNumber.properties
 .factorypath
 .tern-project
 ObjectStore/
+.idea/
+*.iml
+
