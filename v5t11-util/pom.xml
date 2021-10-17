@@ -23,12 +23,14 @@
     <dependency>
       <groupId>jakarta.platform</groupId>
       <artifactId>jakarta.jakartaee-api</artifactId>
+      <version>${jee.version}</version>
       <scope>provided</scope>
     </dependency>
 
     <dependency>
       <groupId>org.eclipse.microprofile</groupId>
       <artifactId>microprofile</artifactId>
+      <version>${microprofile.version}</version>
       <type>pom</type>
       <scope>provided</scope>
     </dependency>
@@ -44,6 +46,12 @@
     </dependency>
 
     <dependency>
+      <groupId>org.jboss.logging</groupId>
+      <artifactId>jboss-logging</artifactId>
+      <version>3.4.2.Final</version>
+    </dependency>
+
+    <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
       <scope>provided</scope>
@@ -52,7 +60,8 @@
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter</artifactId>
-      <scope>provided</scope>
+      <version>5.8.1</version>
+      <scope>test</scope>
     </dependency>
 
   </dependencies>

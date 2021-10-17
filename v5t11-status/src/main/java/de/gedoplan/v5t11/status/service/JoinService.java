@@ -5,6 +5,7 @@ import de.gedoplan.v5t11.status.messaging.OutgoingHandler;
 import de.gedoplan.v5t11.util.cdi.Received;
 import de.gedoplan.v5t11.util.domain.JoinInfo;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.ObservesAsync;
 import javax.inject.Inject;
@@ -25,6 +26,11 @@ public class JoinService {
 
   @Inject
   Logger logger;
+
+  @PostConstruct
+  void postConstruct() {
+    logger.debugf("Initialized JoinService");
+  }
 
   /**
    * Andere Teilanwendungen vom eigenen Anwendungsstart informieren.

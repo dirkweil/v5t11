@@ -87,8 +87,8 @@ public class NavigationPresenter {
 
   private ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
-  void startup(@Observes @Initialized(ApplicationScoped.class) Object event) {
-  }
+  // void startup(@Observes @Initialized(ApplicationScoped.class) Object event) {
+  // }
 
   @PostConstruct
   void postConstruct() {
@@ -96,10 +96,14 @@ public class NavigationPresenter {
     registerNavigationItem(new NavigationItem("home", "Allgemein", "/index.xhtml", "fa fa-home", 910), true, false);
 
     this.scheduler.scheduleAtFixedRate(this::heartBeat, HEARTBEAT_MILLIS / 3, HEARTBEAT_MILLIS, TimeUnit.MILLISECONDS);
+
+    this.log.debug("Started scheduler");
   }
 
   @PreDestroy
   void preDestroy() {
+    this.log.debug("Stopping scheduler");
+
     this.scheduler.shutdown();
   }
 
