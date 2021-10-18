@@ -63,28 +63,23 @@
         </plugin>
       </plugins>
     </pluginManagement>
+
+    <plugins>
+      <!-- Set log manager for tests -->
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <systemPropertyVariables>
+            <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
+            <maven.home>${maven.home}</maven.home>
+          </systemPropertyVariables>
+        </configuration>
+      </plugin>
+    </plugins>
   </build>
 
   <dependencyManagement>
     <dependencies>
-
-      <dependency>
-        <groupId>de.gedoplan</groupId>
-        <artifactId>baselibs-enterprise</artifactId>
-        <version>1.6</version>
-      </dependency>
-
-      <dependency>
-        <groupId>de.gedoplan</groupId>
-        <artifactId>baselibs-io</artifactId>
-        <version>1.3</version>
-      </dependency>
-
-      <dependency>
-        <groupId>de.gedoplan</groupId>
-        <artifactId>baselibs-naming</artifactId>
-        <version>1.3</version>
-      </dependency>
 
       <dependency>
         <groupId>de.gedoplan</groupId>
@@ -98,105 +93,28 @@
         <version>1.10</version>
       </dependency>
 
-      <!-- TODO Neue Dependency passend zu Quarkus suchen -->
-      <dependency>
-        <groupId>javax.xml.bind</groupId>
-        <artifactId>jaxb-api</artifactId>
-        <version>2.3.1</version>
-      </dependency>
-
-      <!-- TODO Neue Dependency passend zu Quarkus suchen -->
-      <dependency>
-        <groupId>org.glassfish.jaxb</groupId>
-        <artifactId>jaxb-runtime</artifactId>
-        <version>2.3.1</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.apache.logging.log4j</groupId>
-        <artifactId>log4j-bom</artifactId>
-        <version>2.9.1</version>
-        <scope>import</scope>
-        <type>pom</type>
-      </dependency>
-
       <dependency>
         <groupId>org.projectlombok</groupId>
         <artifactId>lombok</artifactId>
         <version>1.18.22</version>
       </dependency>
 
+      <dependency>
+        <groupId>${quarkus.platform.group-id}</groupId>
+        <artifactId>${quarkus.platform.artifact-id}</artifactId>
+        <version>${quarkus.platform.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.myfaces.core.extensions.quarkus</groupId>
+        <artifactId>myfaces-quarkus</artifactId>
+        <version>${myfaces.version}</version>
+      </dependency>
+  
     </dependencies>
   </dependencyManagement>
-
-  <profiles>
-    <profile>
-      <id>jee_quarkus</id>
-
-      <activation>
-        <file>
-          <exists>${basedir}/jee_quarkus</exists>
-        </file>
-      </activation>
-
-      <properties>
-        <additional.source.dir>src_quarkus</additional.source.dir>
-      </properties>
-
-      <dependencyManagement>
-        <dependencies>
-          <dependency>
-            <groupId>${quarkus.platform.group-id}</groupId>
-            <artifactId>${quarkus.platform.artifact-id}</artifactId>
-            <version>${quarkus.platform.version}</version>
-            <type>pom</type>
-            <scope>import</scope>
-          </dependency>
-    
-          <dependency>
-            <groupId>org.apache.myfaces.core.extensions.quarkus</groupId>
-            <artifactId>myfaces-quarkus</artifactId>
-            <version>${myfaces.version}</version>
-          </dependency>
-      
-        </dependencies>
-      </dependencyManagement>
-
-      <build>
-        <plugins>
-          <!-- Build executable JAR -->
-          <plugin>
-            <groupId>${quarkus.platform.group-id}</groupId>
-            <artifactId>quarkus-maven-plugin</artifactId>
-            <version>${quarkus.platform.version}</version>
-            <extensions>true</extensions>
-            <executions>
-              <execution>
-                <goals>
-                  <goal>build</goal>
-                  <goal>generate-code</goal>
-                  <goal>generate-code-tests</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-    
-          <!-- Set log manager for tests -->
-          <plugin>
-            <artifactId>maven-surefire-plugin</artifactId>
-            <configuration>
-              <systemPropertyVariables>
-                <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
-                <maven.home>${maven.home}</maven.home>
-              </systemPropertyVariables>
-            </configuration>
-          </plugin>
-    
-        </plugins>
-      </build>
-    </profile>
-
-  </profiles>
 
   <modules>
     <!-- <module>v5t11-com-server</module> -->

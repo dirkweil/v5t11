@@ -24,7 +24,7 @@ public class Bootstrap {
 
   private final static ExecutorService scheduler = Executors.newSingleThreadExecutor();
 
-  void boot(@Observes @Priority(Interceptor.Priority.APPLICATION + 999) StartupEvent startupEvent,
+  void boot(@Observes StartupEvent startupEvent,
       ConfigService configService,
       JoinService joinService,
       Steuerung steuerung,
@@ -44,9 +44,6 @@ public class Bootstrap {
     steuerung.open(scheduler);
 
     anlagenstatusService.init();
-
-    // TODO: Workaround für Startup
-    navigationPresenter.toString();
   }
 
   void terminate(@Observes ShutdownEvent shutdownEvent, Steuerung steuerung) {

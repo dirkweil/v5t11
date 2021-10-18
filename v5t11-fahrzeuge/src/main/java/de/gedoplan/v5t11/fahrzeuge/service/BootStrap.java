@@ -25,9 +25,6 @@ public class BootStrap {
     log.infof("statusRestUrl: %s", configService.getStatusRestUrl());
 
     joinService.joinMyself();
-
-    // TODO: Workaround für Startup
-    navigationPresenter.toString();
   }
 
 }
