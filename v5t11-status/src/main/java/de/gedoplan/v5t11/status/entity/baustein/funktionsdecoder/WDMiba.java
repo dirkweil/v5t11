@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 @XmlAccessorType(XmlAccessType.NONE)
 @Konfigurierbar
 public class WDMiba extends Funktionsdecoder {
-  protected WDMiba() {
+  public WDMiba() {
     super(1);
   }
 }

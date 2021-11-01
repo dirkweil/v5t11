@@ -24,7 +24,7 @@ import lombok.Getter;
  * Basisklasse für Konfigurationsservices in den einzelnen V5T11-Anwendungen.
  *
  * Diese Klasse soll als Basisklasse für @ApplicationScoped-Beans genutzt werden, die die
- * anwendungsspezifischen Konfigurationswerte bereit stellen und sich dabei der übergreifenden
+ * anwendungsspezifischen Konfigurationswerte bereitstellen und sich dabei der übergreifenden
  * Funktionen dieser Klasse bedienen:
  * - Alle Werte können als Environment-Variablen, System-Properties oder Einträge in v5t11.properties gesetzt werden.
  * - Konfigurationsdateien werden im mittels {@link #PROPERTY_CONFIG_DIR} angegebenen Verzeichnis gesucht; Default ist das Home-Verzeichnis des Users.

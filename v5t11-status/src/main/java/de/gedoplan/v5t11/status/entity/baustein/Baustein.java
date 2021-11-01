@@ -1,6 +1,7 @@
 package de.gedoplan.v5t11.status.entity.baustein;
 
 import de.gedoplan.baselibs.persistence.entity.SingleIdEntity;
+import de.gedoplan.baselibs.utils.util.ClassUtil;
 import de.gedoplan.v5t11.status.entity.Steuerung;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
@@ -46,7 +47,7 @@ public abstract class Baustein extends SingleIdEntity<String> implements Compara
    * @return Label
    */
   @Getter
-  private String label = getLabelPrefix() + " " + getClass().getSimpleName();
+  private String label = getLabelPrefix() + " " + ClassUtil.getProxiedClass(getClass()).getSimpleName();
 
   /**
    * Erste Adresse des Bausteins am SX-Bus.

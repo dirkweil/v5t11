@@ -1,5 +1,6 @@
 package de.gedoplan.v5t11.status.webui;
 
+import de.gedoplan.baselibs.utils.util.ClassUtil;
 import de.gedoplan.v5t11.status.entity.Kanal;
 import de.gedoplan.v5t11.status.entity.Steuerung;
 import de.gedoplan.v5t11.status.entity.baustein.Baustein;
@@ -18,7 +19,6 @@ import java.util.stream.Stream;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
-import javax.enterprise.inject.Any;
 import javax.enterprise.inject.Instance;
 import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.CDI;
@@ -42,13 +42,6 @@ import lombok.Setter;
 public class BausteinProgrammierungPresenter implements Serializable {
   @Inject
   Steuerung steuerung;
-
-  @Inject
-  Instance<Baustein> bausteinInstanzen;
-
-  @Inject
-  @Any
-  Instance<ConfigurationRuntimeService> configurationRuntimeServices;
 
   @Inject
   BausteinConfigurationService bausteinConfigurationService;
@@ -123,9 +116,9 @@ public class BausteinProgrammierungPresenter implements Serializable {
     // Bus-Nr ist fixiert, wenn der Baustein bereits eine Adresse hat
     this.busNrFixed = adr != 0;
 
+    Class<?> bausteinClass = ClassUtil.getProxiedClass(this.currentBaustein.getClass());
     try {
       // "Injektion" des passenden ConfigurationRuntimeService per API
-      Class<? extends Baustein> bausteinClass = this.currentBaustein.getClass();
       Class<?> programmierfamilie = bausteinClass.getAnnotation(Konfigurierbar.class).programmierFamilie();
       if (programmierfamilie == Void.class) {
         programmierfamilie = bausteinClass;
@@ -137,7 +130,7 @@ public class BausteinProgrammierungPresenter implements Serializable {
 
       return "/view/bausteinProgrammierung_openProgMode.xhtml";
     } catch (Exception e) {
-      this.log.error("Kann ConfigurationRuntimeService nicht erzeugen", e);
+      this.log.errorf("Kann ConfigurationRuntimeService für %s nicht erzeugen: %s", bausteinClass, e);
 
       String message = e.getMessage();
       if (message == null || message.trim().isEmpty()) {
@@ -195,14 +188,26 @@ public class BausteinProgrammierungPresenter implements Serializable {
             .filter(fd -> fd.getClass().getAnnotation(Konfigurierbar.class) != null)
             .collect(Collectors.toList());
 
-    this.neueBausteine = new ArrayList<>();
-    for (Baustein b : this.bausteinInstanzen) {
-      this.neueBausteine.add(b);
-    }
-
     this.busNummern = new ArrayList<>();
     for (int i = 0; i < this.steuerung.getZentrale().getBusAnzahl(); ++i) {
       this.busNummern.add(i);
+    }
+  }
+
+  @Inject
+  void init(Instance<Baustein> bausteinInstanzen) {
+    this.neueBausteine = bausteinInstanzen.stream()
+        .map(Baustein::getClass)
+        .map(ClassUtil::getProxiedClass)
+        .map(BausteinProgrammierungPresenter::createBaustein)
+        .collect(Collectors.toCollection(ArrayList::new));
+  }
+
+  private static Baustein createBaustein(Class<?> bausteinClass) {
+    try {
+      return (Baustein) bausteinClass.getDeclaredConstructor().newInstance();
+    } catch (Exception e) {
+      throw new IllegalArgumentException("Ungueltige Bausteinklasse", e);
     }
   }
 

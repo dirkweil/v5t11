@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
  */
 @XmlAccessorType(XmlAccessType.NONE)
 public class NoFD extends Funktionsdecoder {
-  protected NoFD() {
+  public NoFD() {
     super(0);
     this.id = UUID.randomUUID().toString();
   }

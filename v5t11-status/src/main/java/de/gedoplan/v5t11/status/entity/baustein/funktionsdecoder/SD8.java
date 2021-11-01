@@ -17,7 +17,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 @Konfigurierbar
 @XmlAccessorType(XmlAccessType.NONE)
 public class SD8 extends Funktionsdecoder {
-  protected SD8() {
+  public SD8() {
     super(1);
   }
 }

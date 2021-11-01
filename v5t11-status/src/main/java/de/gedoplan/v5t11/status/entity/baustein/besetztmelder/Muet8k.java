@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 @XmlAccessorType(XmlAccessType.NONE)
 @Konfigurierbar
 public class Muet8k extends Besetztmelder {
-  protected Muet8k() {
+  public Muet8k() {
     super(1);
   }
 }

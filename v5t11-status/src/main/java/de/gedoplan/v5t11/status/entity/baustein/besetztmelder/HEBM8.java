@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 @XmlAccessorType(XmlAccessType.NONE)
 @Konfigurierbar
 public class HEBM8 extends Besetztmelder {
-  protected HEBM8() {
+  public HEBM8() {
     super(1);
   }
 }

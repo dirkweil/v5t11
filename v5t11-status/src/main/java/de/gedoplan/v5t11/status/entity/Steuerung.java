@@ -32,6 +32,7 @@ import de.gedoplan.v5t11.util.domain.attribute.FahrzeugId;
 import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 import de.gedoplan.v5t11.util.domain.entity.Bereichselement;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -67,7 +68,7 @@ import lombok.Getter;
  */
 @XmlRootElement(name = "sx")
 @XmlAccessorType(XmlAccessType.NONE)
-public class Steuerung {
+public class Steuerung implements Serializable {
 
   @Inject
   Logger log;

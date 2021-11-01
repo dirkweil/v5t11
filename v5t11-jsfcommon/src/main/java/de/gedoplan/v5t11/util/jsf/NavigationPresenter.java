@@ -1,7 +1,5 @@
 package de.gedoplan.v5t11.util.jsf;
 
-import de.gedoplan.v5t11.util.cdi.EventFirer;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
@@ -13,19 +11,22 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.annotation.Priority;
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.Initialized;
 import javax.enterprise.event.Observes;
 import javax.enterprise.inject.Instance;
 import javax.faces.push.Push;
 import javax.faces.push.PushContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.interceptor.Interceptor;
 
 import org.jboss.logging.Logger;
 import org.primefaces.model.menu.DefaultMenuModel;
 import org.primefaces.model.menu.DefaultSubMenu;
 
+import de.gedoplan.v5t11.util.cdi.EventFirer;
+import io.quarkus.runtime.StartupEvent;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -87,7 +88,7 @@ public class NavigationPresenter {
 
   private ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
-  void startup(@Observes @Initialized(ApplicationScoped.class) Object event) {
+  void startup(@Observes StartupEvent startupEvent) {
   }
 
   @PostConstruct
@@ -96,10 +97,14 @@ public class NavigationPresenter {
     registerNavigationItem(new NavigationItem("home", "Allgemein", "/index.xhtml", "fa fa-home", 910), true, false);
 
     this.scheduler.scheduleAtFixedRate(this::heartBeat, HEARTBEAT_MILLIS / 3, HEARTBEAT_MILLIS, TimeUnit.MILLISECONDS);
+
+    this.log.debug("Started scheduler");
   }
 
   @PreDestroy
   void preDestroy() {
+    this.log.debug("Stopping scheduler");
+
     this.scheduler.shutdown();
   }
 
