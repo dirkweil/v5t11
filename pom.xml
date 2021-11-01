@@ -15,7 +15,7 @@
   <packaging>pom</packaging>
 
   <properties>
-    <java.code.version>15</java.code.version>
+    <java.code.version>17</java.code.version>
 
     <jee.version>8.0.0</jee.version>
     
