@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 @XmlAccessorType(XmlAccessType.NONE)
 @Konfigurierbar
 public class SXSD1 extends Funktionsdecoder {
-  protected SXSD1() {
+  public SXSD1() {
     super(2);
   }
 }

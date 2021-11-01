@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 @XmlAccessorType(XmlAccessType.NONE)
 @Konfigurierbar
 public class VM5262 extends Besetztmelder {
-  protected VM5262() {
+  public VM5262() {
     super(1);
   }
 }

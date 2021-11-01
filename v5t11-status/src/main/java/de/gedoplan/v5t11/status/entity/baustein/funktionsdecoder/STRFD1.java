@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 @XmlAccessorType(XmlAccessType.NONE)
 @Konfigurierbar
 public class STRFD1 extends Funktionsdecoder {
-  protected STRFD1() {
+  public STRFD1() {
     super(1);
   }
 }
