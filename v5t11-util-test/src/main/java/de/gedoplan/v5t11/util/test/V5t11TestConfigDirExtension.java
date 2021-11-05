@@ -23,8 +23,4 @@ public class V5t11TestConfigDirExtension implements BeforeAllCallback {
     System.setProperty(ConfigBase.PROPERTY_CONFIG_DIR, configDir);
   }
 
-  // public V5t11TestConfigDirExtension() {
-  // System.out.println("Gonzo was here");
-  // }
-
 }

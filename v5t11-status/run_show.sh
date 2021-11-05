@@ -1,1 +1,1 @@
-java -Dv5t11.configDir=../src/main/v5t11/ -Dv5t11.anlage=show -jar target/v5t11-status-runner.jar
+java -Dv5t11.configDir=../src/main/v5t11/ -Dv5t11.anlage=show -jar target/quarkus-app/quarkus-run.jar

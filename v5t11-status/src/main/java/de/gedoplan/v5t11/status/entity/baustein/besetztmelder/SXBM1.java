@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 @XmlAccessorType(XmlAccessType.NONE)
 @Konfigurierbar
 public class SXBM1 extends Besetztmelder {
-  protected SXBM1() {
+  public SXBM1() {
     super(1);
   }
 }

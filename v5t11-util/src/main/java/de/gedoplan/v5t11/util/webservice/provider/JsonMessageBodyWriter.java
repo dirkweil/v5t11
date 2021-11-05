@@ -4,7 +4,7 @@ import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.lang.annotation.Annotation;
+import java.lang.annotation.Annotation; 
 import java.lang.reflect.Type;
 import java.nio.charset.Charset;
 

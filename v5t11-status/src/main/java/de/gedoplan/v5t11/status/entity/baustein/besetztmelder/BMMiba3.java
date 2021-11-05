@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 @XmlAccessorType(XmlAccessType.NONE)
 @Konfigurierbar
 public class BMMiba3 extends Besetztmelder {
-  protected BMMiba3() {
+  public BMMiba3() {
     super(1);
   }
 }
