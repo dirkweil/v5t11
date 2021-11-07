@@ -17,7 +17,7 @@ import org.skyscreamer.jsonassert.JSONAssert;
 import io.quarkus.test.junit.QuarkusTestExtension;
 
 @ExtendWith({ V5t11TestConfigDirExtension.class, QuarkusTestExtension.class })
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+@TestMethodOrder(MethodOrderer.MethodName.class)
 public class GleisTest {
 
   @Inject

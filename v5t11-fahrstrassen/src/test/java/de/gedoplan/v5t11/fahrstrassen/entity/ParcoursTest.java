@@ -30,7 +30,7 @@ import io.quarkus.test.junit.QuarkusTestExtension;
 import lombok.AllArgsConstructor;
 
 @ExtendWith({ V5t11TestConfigDirExtension.class, QuarkusTestExtension.class })
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+@TestMethodOrder(MethodOrderer.MethodName.class)
 public class ParcoursTest {
 
   @Inject

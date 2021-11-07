@@ -24,7 +24,7 @@ import org.skyscreamer.jsonassert.JSONAssert;
 import io.quarkus.test.junit.QuarkusTestExtension;
 
 @ExtendWith({ V5t11TestConfigDirExtension.class, QuarkusTestExtension.class })
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+@TestMethodOrder(MethodOrderer.MethodName.class)
 public class FahrzeugTest {
 
   public static final Fahrzeug lok103_003_0 = new Fahrzeug(new FahrzeugId(SystemTyp.DCC, 1103));

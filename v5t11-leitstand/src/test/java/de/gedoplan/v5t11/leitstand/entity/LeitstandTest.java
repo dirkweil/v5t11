@@ -12,7 +12,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import io.quarkus.test.junit.QuarkusTestExtension;
 
 @ExtendWith({ V5t11TestConfigDirExtension.class, QuarkusTestExtension.class })
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+@TestMethodOrder(MethodOrderer.MethodName.class)
 public class LeitstandTest {
 
   @Inject
