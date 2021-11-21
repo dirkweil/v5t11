@@ -13,6 +13,7 @@ import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Alternative;
 import javax.inject.Inject;
+import javax.json.Json;
 
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
@@ -38,69 +39,48 @@ public class OutgoingHandler {
   Logger logger;
 
   @Inject
-  @Channel("fahrzeug-status-out")
-  Emitter<String> fahrzeugEmitter;
-
-  @Inject
-  @Channel("gleis-out")
-  Emitter<String> gleisEmitter;
-
-  @Inject
-  @Channel("join-out")
-  Emitter<String> joinInfoEmitter;
+  @Channel("status")
+  Emitter<String> statusEmitter;
 
   @Inject
   @Channel("navigation-out")
   Emitter<String> navigationItemEmitter;
 
-  @Inject
-  @Channel("signal-out")
-  Emitter<String> signalEmitter;
-
-  @Inject
-  @Channel("weiche-out")
-  Emitter<String> weicheEmitter;
-
-  @Inject
-  @Channel("zentrale-out")
-  Emitter<String> zentraleEmitter;
-
   public void publish(Fahrzeug fahrzeug) {
-    send(this.fahrzeugEmitter, fahrzeug);
+    send(this.statusEmitter, getStatusJson("fahrzeug", fahrzeug));
   }
 
   public void publish(Gleis gleis) {
-    send(this.gleisEmitter, gleis);
-  }
-
-  public void publish(JoinInfo joinInfo) {
-    send(this.joinInfoEmitter, joinInfo);
+    send(this.statusEmitter, getStatusJson("gleis", gleis));
   }
 
   public void publish(NavigationItem navigationItem) {
-    send(this.navigationItemEmitter, navigationItem, Level.TRACE);
+    send(this.navigationItemEmitter, JsonbWithIncludeVisibility.SHORT.toJson(navigationItem), Level.TRACE);
   }
 
   public void publish(Signal signal) {
-    send(this.signalEmitter, signal);
+    send(this.statusEmitter, getStatusJson("signal", signal));
   }
 
   public void publish(Weiche weiche) {
-    send(this.weicheEmitter, weiche);
+    send(this.statusEmitter, getStatusJson("weiche", weiche));
   }
 
   public void publish(Zentrale zentrale) {
-    send(this.zentraleEmitter, zentrale);
+    send(this.statusEmitter, getStatusJson("zentral", zentrale));
   }
 
-  private void send(Emitter<String> emitter, Object obj) {
-    send(emitter, obj, Level.DEBUG);
+  private void send(Emitter<String> emitter, String json) {
+    send(emitter, json, Level.DEBUG);
   }
 
-  protected void send(Emitter<String> emitter, Object obj, Level logLevel) {
-    String json = JsonbWithIncludeVisibility.SHORT.toJson(obj);
-    this.logger.logf(logLevel, "Send %s: %s", obj, json);
+  protected void send(Emitter<String> emitter, String json, Level logLevel) {
+    this.logger.logf(logLevel, "Send %s", json);
     emitter.send(json);
+  }
+
+  private String getStatusJson(String name, Object value) {
+    return String.format("{\"%s\":%s}", name, JsonbWithIncludeVisibility.SHORT.toJson(value));
   }
 
 }

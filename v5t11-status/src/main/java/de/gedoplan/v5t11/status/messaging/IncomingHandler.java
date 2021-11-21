@@ -40,12 +40,14 @@ public class IncomingHandler {
   @Inject
   NavigationPresenter navigationPresenter;
 
-  @Incoming("fahrzeug-def-in")
+  // TODO Channel anpassen
+  // @Incoming("fahrzeug-def-in")
   void fahrzeugDefined(byte[] msg) {
     fireReceived(msg, Fahrzeug.class);
   }
 
-  @Incoming("join-in")
+  // TODO Vermutlich obsolet
+  // @Incoming("join-in")
   void appJoined(byte[] msg) {
     fireReceived(msg, JoinInfo.class);
   }
@@ -57,7 +59,8 @@ public class IncomingHandler {
     this.eventFirer.fire(receivedObject, Received.Literal.INSTANCE);
   }
 
-  @Incoming("navigation-in")
+  // TODO wieder aktivieren
+  // @Incoming("navigation-in")
   void navigationChanged(byte[] msg) {
     String json = new String(msg);
     this.logger.tracef("Received: %s", json);
