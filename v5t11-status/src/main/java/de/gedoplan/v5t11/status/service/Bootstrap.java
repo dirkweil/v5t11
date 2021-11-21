@@ -3,16 +3,16 @@ package de.gedoplan.v5t11.status.service;
 import de.gedoplan.v5t11.status.entity.Steuerung;
 import de.gedoplan.v5t11.util.jsf.NavigationPresenter;
 
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.SQLException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import javax.annotation.Priority;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.event.Observes;
-import javax.inject.Inject;
-import javax.interceptor.Interceptor;
+import javax.sql.DataSource;
 
-import org.eclipse.microprofile.config.ConfigProvider;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.logging.Logger;
 
@@ -26,6 +26,8 @@ public class Bootstrap {
 
   void boot(@Observes StartupEvent startupEvent,
       ConfigService configService,
+      DataSource dataSource,
+      @ConfigProperty(name = "kafka.bootstrap.servers", defaultValue = "(dev service; see url above)") String kafkaUrl,
       JoinService joinService,
       Steuerung steuerung,
       AnlagenstatusService anlagenstatusService,
@@ -35,8 +37,8 @@ public class Bootstrap {
 
     log.infof("configDir: %s", configService.getConfigDir());
     log.infof("anlage: %s", configService.getAnlage());
-    log.infof("db: %s:%d", configService.getDbHost(), configService.getDbPort());
-    log.infof("mqttBroker: %s:%d", configService.getMqttHost(), configService.getMqttPort());
+    log.infof("db: %s", getDbUrl(dataSource));
+    log.infof("kafka: %s", kafkaUrl);
     log.infof("statusWebUrl: %s", configService.getStatusWebUrl());
 
     joinService.joinMyself();
@@ -44,6 +46,14 @@ public class Bootstrap {
     steuerung.open(scheduler);
 
     anlagenstatusService.init();
+  }
+
+  private String getDbUrl(DataSource dataSource) {
+    try (Connection connection = dataSource.getConnection()) {
+      return connection.getMetaData().getURL();
+    } catch (SQLException e) {
+      return e.toString();
+    }
   }
 
   void terminate(@Observes ShutdownEvent shutdownEvent, Steuerung steuerung) {
