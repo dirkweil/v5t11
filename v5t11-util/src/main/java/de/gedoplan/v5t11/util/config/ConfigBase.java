@@ -45,6 +45,9 @@ public abstract class ConfigBase {
   public static final String PROPERTY_DB_HOST = "v5t11.db.host";
   public static final String PROPERTY_DB_PORT = "v5t11.db.port";
 
+  public static final String PROPERTY_KAFKA_HOST = "v5t11.kafka.host";
+  public static final String PROPERTY_KAFKA_PORT = "v5t11.kafka.port";
+
   public static final String PROPERTY_MQTT_HOST = "v5t11.mqtt.host";
   public static final String PROPERTY_MQTT_PORT = "v5t11.mqtt.port";
 
@@ -81,6 +84,16 @@ public abstract class ConfigBase {
   @ConfigProperty(name = PROPERTY_DB_PORT)
   @Getter
   int dbPort;
+
+  @Inject
+  @ConfigProperty(name = PROPERTY_KAFKA_HOST)
+  @Getter
+  String kafkaHost;
+
+  @Inject
+  @ConfigProperty(name = PROPERTY_KAFKA_PORT)
+  @Getter
+  int kafkaPort;
 
   @Inject
   @ConfigProperty(name = PROPERTY_MQTT_HOST)
