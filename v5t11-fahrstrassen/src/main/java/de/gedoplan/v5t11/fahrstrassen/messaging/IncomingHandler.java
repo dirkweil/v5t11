@@ -10,21 +10,30 @@ import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
+import javax.json.bind.Jsonb;
+import javax.json.bind.JsonbBuilder;
+import javax.json.stream.JsonParser;
 
 import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.jboss.logging.Logger;
 
+import java.io.StringReader;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Handler für eingehende Meldungen.
- *
+ * <p>
  * Die eingehenden Meldungen enthalten jeweils ein Objekt des passenden Typs als JSON in byte[] verpackt. Dieses Objekt
  * wird deserialisiert und mit dem Qualifier {@link Received @Received} als CDI Event gefeuert.
- * 
+ * <p>
  * Achtung: Observer, die blockierend arbeiten (z. B. JPA-Code), müssen den Event asynchron verarbeiten, da in einem
  * Incoming Thread von Reactive Messaging keine blockierenden Operationen erlaubt sind!
- * 
- * @author dw
  *
+ * @author dw
  */
 @ApplicationScoped
 public class IncomingHandler {
@@ -35,34 +44,38 @@ public class IncomingHandler {
   @Inject
   EventFirer eventFirer;
 
-  @Incoming("join-in")
+  // TODO Vermutlich obsolet
+  // @Incoming("join-in")
   void appJoined(byte[] msg) {
     String json = new String(msg);
     JoinInfo receivedObject = JsonbWithIncludeVisibility.SHORT.fromJson(json, JoinInfo.class);
     this.eventFirer.fire(receivedObject, Received.Literal.INSTANCE);
   }
 
-  @Incoming("gleis-in")
-  void gleisChanged(byte[] msg) {
-    String json = new String(msg);
-    Gleis obj = JsonbWithIncludeVisibility.SHORT.fromJson(json, Gleis.class);
-    this.logger.debugf("Received %s: %s", obj, json);
-    this.eventFirer.fire(obj, Received.Literal.INSTANCE);
+  private static final Pattern STATUS_MSG_PATTERN = Pattern.compile("\\{\"(?<type>[^\"]+)\\s*\":(?<object>.*)\\}");
+
+  @Incoming("status")
+  void statusChanged(String json) {
+    Matcher matcher = STATUS_MSG_PATTERN.matcher(json);
+    if (matcher.matches()) {
+      String typeAsString = matcher.group("type");
+      Class<?> type = switch (typeAsString) {
+        case "gleis" -> Gleis.class;
+        case "signal" -> Signal.class;
+        case "weiche" -> Weiche.class;
+        default -> null;
+      };
+
+      if (type != null) {
+        Object object = JsonbWithIncludeVisibility.SHORT.fromJson(matcher.group("object"), type);
+        this.logger.debugf("Received %s: %s", object, json);
+        this.eventFirer.fire(object, Received.Literal.INSTANCE);
+      } else {
+        this.logger.debugf("Received unknown status message of type %s", typeAsString);
+      }
+    } else {
+      this.logger.warnf("Received illegal status message: %s", json);
+    }
   }
 
-  @Incoming("signal-in")
-  void signalChanged(byte[] msg) {
-    String json = new String(msg);
-    Signal obj = JsonbWithIncludeVisibility.SHORT.fromJson(json, Signal.class);
-    this.logger.debugf("Received %s: %s", obj, json);
-    this.eventFirer.fire(obj, Received.Literal.INSTANCE);
-  }
-
-  @Incoming("weiche-in")
-  void weicheChanged(byte[] msg) {
-    String json = new String(msg);
-    Weiche obj = JsonbWithIncludeVisibility.SHORT.fromJson(json, Weiche.class);
-    this.logger.debugf("Received %s: %s", obj, json);
-    this.eventFirer.fire(obj, Received.Literal.INSTANCE);
-  }
 }

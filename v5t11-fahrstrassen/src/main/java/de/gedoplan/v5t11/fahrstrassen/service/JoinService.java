@@ -52,18 +52,18 @@ public class JoinService {
    * Andere Teilanwendungen vom eigenen Anwendungsstart informieren.
    */
   public void joinMyself() {
-    // Letzte Änderung der persistenten Daten berechnen
-    long lastChangeMillis = Long.max(Long.max(
-        this.gleisRepository.findMaxLastChangeMillis(),
-        this.signalRepository.findMaxLastChangeMillis()),
-        this.weicheRepository.findMaxLastChangeMillis());
-
-    // Vorsichtshalber ein paar Sekunden abziehen
-    lastChangeMillis -= 10 * 1000L;
-
-    // Aktualisierungen von anderen Anwendungen anfordern
-    this.logger.debugf("Updates ab %tF %<tT.%<tL anfordern", lastChangeMillis);
-    this.outgoingHandler.publish(new JoinInfo(this.configService.getArtifactId(), lastChangeMillis));
+//    // Letzte Änderung der persistenten Daten berechnen
+//    long lastChangeMillis = Long.max(Long.max(
+//        this.gleisRepository.findMaxLastChangeMillis(),
+//        this.signalRepository.findMaxLastChangeMillis()),
+//        this.weicheRepository.findMaxLastChangeMillis());
+//
+//    // Vorsichtshalber ein paar Sekunden abziehen
+//    lastChangeMillis -= 10 * 1000L;
+//
+//    // Aktualisierungen von anderen Anwendungen anfordern
+//    this.logger.debugf("Updates ab %tF %<tT.%<tL anfordern", lastChangeMillis);
+//    this.outgoingHandler.publish(new JoinInfo(this.configService.getArtifactId(), lastChangeMillis));
 
     // Eigenen Status an die anderen senden
     join(0);

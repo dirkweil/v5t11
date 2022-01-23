@@ -1,1 +1,1 @@
-mvn -Dv5t11.configDir=../src/main/v5t11/ -Dv5t11.anlage=show quarkus:dev
+mvn -Dv5t11.configDir=../src/main/v5t11/ -Dv5t11.anlage=show quarkus:dev -Ddebug=31005

@@ -28,16 +28,8 @@ public class OutgoingHandler {
   Logger logger;
 
   @Inject
-  @Channel("join-out")
-  Emitter<String> joinInfoEmitter;
-
-  @Inject
-  @Channel("fs-out")
+  @Channel("fahrstrasse")
   Emitter<String> fahrstrasseEmitter;
-
-  public void publish(JoinInfo joinInfo) {
-    send(this.joinInfoEmitter, joinInfo);
-  }
 
   public void publish(Fahrstrasse fahrstrasse) {
     send(this.fahrstrasseEmitter, fahrstrasse);
