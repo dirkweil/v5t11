@@ -44,11 +44,11 @@ public class JoinService {
    * 
    * @param joinInfo Info über die andere Anwendung
    */
-// TODO Wird das noch gebraucht?
+// TODO Das wird vermutlich nicht mehr gebraucht, da die anderen MS die ggf. verpassten Meldungen von Kafka nachgeliefert bekommen
   void appJoined(@ObservesAsync @Received JoinInfo joinInfo) {
     if (!joinInfo.getAppName().equals(this.configService.getArtifactId())) {
       this.logger.debugf("%s fordert Updates ab %tF %<tT.%<tL an", joinInfo.getAppName(), joinInfo.getLastUpdateMillis());
-      join(joinInfo.getLastUpdateMillis());
+      // join(joinInfo.getLastUpdateMillis());
     }
   }
 
