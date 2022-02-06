@@ -9,6 +9,9 @@ import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.cdi.Received;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
@@ -36,41 +39,35 @@ public class IncomingHandler {
   @Inject
   EventFirer eventFirer;
 
-  @Incoming("gleis-in")
-  void gleisChanged(byte[] msg) {
-    String json = new String(msg);
-    Gleis obj = JsonbWithIncludeVisibility.SHORT.fromJson(json, Gleis.class);
-    this.logger.debugf("Received %s: %s", obj, json);
-    this.eventFirer.fire(obj, Received.Literal.INSTANCE);
+  private static final Pattern STATUS_MSG_PATTERN = Pattern.compile("\\{\"(?<type>[^\"]+)\\s*\":(?<object>.*)\\}");
+
+  @Incoming("status")
+  void statusChanged(String json) {
+    Matcher matcher = STATUS_MSG_PATTERN.matcher(json);
+    if (matcher.matches()) {
+      String typeAsString = matcher.group("type");
+      Class<?> type = switch (typeAsString) {
+        case "gleis" -> Gleis.class;
+        case "signal" -> Signal.class;
+        case "weiche" -> Weiche.class;
+        case "zentrale" -> Zentrale.class;
+        default -> null;
+      };
+
+      if (type != null) {
+        Object object = JsonbWithIncludeVisibility.SHORT.fromJson(matcher.group("object"), type);
+        this.logger.debugf("Received %s: %s", object, json);
+        this.eventFirer.fire(object, Received.Literal.INSTANCE);
+      } else {
+        this.logger.debugf("Received unknown status message of type %s", typeAsString);
+      }
+    } else {
+      this.logger.warnf("Received illegal status message: %s", json);
+    }
   }
 
-  @Incoming("signal-in")
-  void signalChanged(byte[] msg) {
-    String json = new String(msg);
-    Signal obj = JsonbWithIncludeVisibility.SHORT.fromJson(json, Signal.class);
-    this.logger.debugf("Received %s: %s", obj, json);
-    this.eventFirer.fire(obj, Received.Literal.INSTANCE);
-  }
-
-  @Incoming("weiche-in")
-  void weicheChanged(byte[] msg) {
-    String json = new String(msg);
-    Weiche obj = JsonbWithIncludeVisibility.SHORT.fromJson(json, Weiche.class);
-    this.logger.debugf("Received %s: %s", obj, json);
-    this.eventFirer.fire(obj, Received.Literal.INSTANCE);
-  }
-
-  @Incoming("zentrale-in")
-  void zentraleChanged(byte[] msg) {
-    String json = new String(msg);
-    Zentrale obj = JsonbWithIncludeVisibility.SHORT.fromJson(json, Zentrale.class);
-    this.logger.debugf("Received %s: %s", obj, json);
-    this.eventFirer.fire(obj, Received.Literal.INSTANCE);
-  }
-
-  @Incoming("fs-in")
-  void fahrstrasseChanged(byte[] msg) {
-    String json = new String(msg);
+  @Incoming("fahrstrasse")
+  void fahrstrasseChanged(String json) {
     Fahrstrasse obj = JsonbWithIncludeVisibility.SHORT.fromJson(json, Fahrstrasse.class);
     this.logger.debugf("Received %s: %s", obj, json);
     this.eventFirer.fire(obj, Received.Literal.INSTANCE);
