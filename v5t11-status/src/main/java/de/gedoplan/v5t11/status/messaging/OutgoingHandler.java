@@ -67,7 +67,7 @@ public class OutgoingHandler {
   }
 
   public void publish(Zentrale zentrale) {
-    send(this.statusEmitter, getStatusJson("zentral", zentrale));
+    send(this.statusEmitter, getStatusJson("zentrale", zentrale));
   }
 
   private void send(Emitter<String> emitter, String json) {
