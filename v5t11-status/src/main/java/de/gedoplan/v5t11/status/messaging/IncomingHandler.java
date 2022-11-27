@@ -16,16 +16,15 @@ import org.jboss.logging.Logger;
 
 /**
  * Handler für eingehende Meldungen.
- *
+ * <p>
  * Die eingehenden Meldungen enthalten jeweils ein Objekt des passenden Typs als JSON in byte[] verpackt. Dieses Objekt
  * wird deserialisiert und mit dem Qualifier {@link Received @Received} als CDI Event gefeuert.
  * Ausnahme: {@link NavigationItem NavigationItems} werden direkt in {@link NavigationPresenter#heartBeat(NavigationItem)} gesteckt.
- * 
+ * <p>
  * Achtung: Observer, die blockierend arbeiten (z. B. JPA-Code), müssen den Event asynchron verarbeiten, da in einem
  * Incoming Thread von Reactive Messaging keine blockierenden Operationen erlaubt sind!
- * 
- * @author dw
  *
+ * @author dw
  */
 @ApplicationScoped
 public class IncomingHandler {
@@ -59,10 +58,8 @@ public class IncomingHandler {
     this.eventFirer.fire(receivedObject, Received.Literal.INSTANCE);
   }
 
-  // TODO wieder aktivieren
-  // @Incoming("navigation-in")
-  void navigationChanged(byte[] msg) {
-    String json = new String(msg);
+  @Incoming("navigation-in")
+  void navigationChanged(String json) {
     this.logger.tracef("Received: %s", json);
     NavigationItem receivedObject = JsonbWithIncludeVisibility.SHORT.fromJson(json, NavigationItem.class);
     this.navigationPresenter.heartBeat(receivedObject);
