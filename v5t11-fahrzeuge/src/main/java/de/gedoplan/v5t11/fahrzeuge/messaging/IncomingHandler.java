@@ -1,12 +1,8 @@
 package de.gedoplan.v5t11.fahrzeuge.messaging;
 
-import de.gedoplan.v5t11.fahrzeuge.entity.baustein.Zentrale;
-import de.gedoplan.v5t11.fahrzeuge.entity.fahrweg.Gleis;
-import de.gedoplan.v5t11.fahrzeuge.entity.fahrweg.Weiche;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.cdi.Received;
-import de.gedoplan.v5t11.util.domain.JoinInfo;
 import de.gedoplan.v5t11.util.jsf.NavigationItem;
 import de.gedoplan.v5t11.util.jsf.NavigationPresenter;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;

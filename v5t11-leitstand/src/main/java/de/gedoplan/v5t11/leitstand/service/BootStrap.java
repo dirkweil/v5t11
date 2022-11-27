@@ -19,7 +19,6 @@ public class BootStrap {
   void boot(@Observes StartupEvent startupEvent,
       Logger log,
       ConfigService configService,
-      JoinService joinService,
       Leitstand leitstand,
       StellwerkUIStarter stellwerkUIStarter) {
     log.infof("app: %s:%s", configService.getArtifactId(), configService.getVersion());
@@ -31,8 +30,6 @@ public class BootStrap {
     log.infof("statusRestUrl: %s", configService.getStatusRestUrl());
     log.infof("fahrstrassenRestUrl: %s", configService.getFahrstrassenRestUrl());
     log.infof("bereiche: %s", leitstand.getBereiche().stream().collect(Collectors.joining(",")));
-
-    joinService.joinMyself();
 
     try {
       stellwerkUIStarter.start();

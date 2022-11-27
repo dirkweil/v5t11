@@ -3,7 +3,6 @@ package de.gedoplan.v5t11.status.messaging;
 import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.cdi.Received;
-import de.gedoplan.v5t11.util.domain.JoinInfo;
 import de.gedoplan.v5t11.util.jsf.NavigationItem;
 import de.gedoplan.v5t11.util.jsf.NavigationPresenter;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
@@ -39,16 +38,9 @@ public class IncomingHandler {
   @Inject
   NavigationPresenter navigationPresenter;
 
-  // TODO Channel anpassen
-  // @Incoming("fahrzeug-def-in")
+  @Incoming("fahrzeug")
   void fahrzeugDefined(byte[] msg) {
     fireReceived(msg, Fahrzeug.class);
-  }
-
-  // TODO Vermutlich obsolet
-  // @Incoming("join-in")
-  void appJoined(byte[] msg) {
-    fireReceived(msg, JoinInfo.class);
   }
 
   private void fireReceived(byte[] msg, Class<?> eventClass) {
