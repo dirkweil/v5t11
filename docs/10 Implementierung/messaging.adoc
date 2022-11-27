@@ -1,0 +1,43 @@
+= Messaging in _v5t11_
+
+. Allgemeines
++
+_v5t11_ nutzt _Kafka_ als Message Broker.
++
+Messaging wird genutzt, um Zustandsänderungen den anderen Teilservices mitzuteilen.
+Jedes Topic mit Ausnahme von `navigation` hat genau einen Publisher, d. h. die verteilten Daten haben eine "Heimathafen".
++
+Channels und Topics heißen gleich mit Ausnahme von `navigation`. Hier werden `navigation-out` und `navigation-in` für die beiden Übertragungsrichtungen verwendet.
+
+. Topics
++
+|===
+|Topic|Beschreibung|`v5t11-status`|`v5t11-fahrstrassen`|`v5t11-fahrzeuge`|`v5t11-leitstand`
+
+|`status`
+|Aktualisierung der Daten aus der Steuerungszentrale (`Zentrale`, `Weiche`, `Signal`, `Gleis`). Auch `Fahrzeug`-Daten werden gesendet, allerdings nur die der Zentrale bekannten Daten (technische Abstraktionsebene).
+|Publisher
+|Consumer
+|Consumer
+|Consumer
+
+|`navigation`
+|Menü-Punkte für die Navigation in der Web-Anwendung
+4+|Publisher (Channel `navigation-out`) +
+Consumer (Channel `navigation-in`)
+
+|`fahrstrasse`
+|Aktualisierung von Fahrstrassen
+|
+|Publisher
+|
+|Consumer
+
+|`fahrzeug`
+|Neu-Definition von Fahrzeugen
+|
+|
+|Publisher
+|
+
+|===

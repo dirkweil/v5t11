@@ -1,7 +1,6 @@
 package de.gedoplan.v5t11.fahrzeuge.messaging;
 
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug;
-import de.gedoplan.v5t11.util.domain.JoinInfo;
 import de.gedoplan.v5t11.util.jsf.NavigationItem;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 
@@ -33,23 +32,15 @@ public class OutgoingHandler {
   Logger logger;
 
   @Inject
-  @Channel("fahrzeug-def-out")
-  Emitter<String> fahrzeugDefEmitter;
-
-  @Inject
-  @Channel("join-out")
-  Emitter<String> joinInfoEmitter;
+  @Channel("fahrzeug")
+  Emitter<String> fahrzeugEmitter;
 
   @Inject
   @Channel("navigation-out")
   Emitter<String> navigationItemEmitter;
 
   public void publish(Fahrzeug fahrzeug) {
-    send(this.fahrzeugDefEmitter, fahrzeug);
-  }
-
-  public void publish(JoinInfo joinInfo) {
-    send(this.joinInfoEmitter, joinInfo);
+    send(this.fahrzeugEmitter, fahrzeug);
   }
 
   public void publish(NavigationItem navigationItem) {
