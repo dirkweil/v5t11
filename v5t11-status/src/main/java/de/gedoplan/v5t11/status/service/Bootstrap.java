@@ -1,13 +1,16 @@
 package de.gedoplan.v5t11.status.service;
 
+import com.fazecast.jSerialComm.SerialPort;
 import de.gedoplan.v5t11.status.entity.Steuerung;
 import de.gedoplan.v5t11.util.jsf.NavigationPresenter;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
 
 import javax.enterprise.context.Dependent;
 import javax.enterprise.event.Observes;
@@ -40,6 +43,7 @@ public class Bootstrap {
     log.infof("db: %s", getDbUrl(dataSource));
     log.infof("kafka: %s", kafkaUrl);
     log.infof("statusWebUrl: %s", configService.getStatusWebUrl());
+    log.infof("serialPort: %s, aus [%s]", steuerung.getZentrale().getPortName(), Arrays.stream(SerialPort.getCommPorts()).map(sp -> sp.getSystemPortName()).collect(Collectors.joining(",")));
 
     joinService.joinMyself();
 
