@@ -29,11 +29,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-//@Named
 @ServerEndpoint("/javax.faces.push/uiRefresh")
 @ApplicationScoped
 public class PushService {
 
+// Push über PushContext funktioniert mit Quarkus/MyFaces nicht
 //  @Inject
 //  @Push(channel = "uiRefresh")
 //  PushContext uiRefresh;
@@ -94,7 +94,7 @@ public class PushService {
     this.logger.debugf("Send refresh event %s to %d browser sessions", event, sessions.size());
     String message = "{\"data\":\"" + event + "\"}";
     sessions.forEach(s -> {
-      s.getAsyncRemote().sendObject(message, result ->  {
+      s.getAsyncRemote().sendText(message, result ->  {
         if (result.getException() != null) {
           this.logger.error("Cannot send message", result.getException());
         }

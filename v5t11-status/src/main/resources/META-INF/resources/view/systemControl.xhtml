@@ -95,19 +95,15 @@
 
     </h:form>
 
-    <f:websocket channel="uiRefresh">
-      <f:ajax event="fahrzeug" render=":content" />
-      <f:ajax event="signal" render=":content" />
-      <f:ajax event="weiche" render=":content" />
-      <f:ajax event="zentrale" render=":content" />
-    </f:websocket>
+<!--    <f:websocket channel="uiRefresh">-->
+<!--      <f:ajax event="fahrzeug" render=":content" />-->
+<!--      <f:ajax event="signal" render=":content" />-->
+<!--      <f:ajax event="weiche" render=":content" />-->
+<!--      <f:ajax event="zentrale" render=":content" />-->
+<!--    </f:websocket>-->
 
-<!--    <f:websocket channel="uiRefresh" onmessage="onMessage" />-->
-<!--    <script>-->
-<!--      function onMessage(message, channel, event) {-->
-<!--        console.log('jsf push message::' + message + ", channel::" + channel + ", event::" + event);-->
-<!--      }-->
-<!--    </script>-->
+    <p:remoteCommand name="updateContent" update=":content"/>
+    <f:websocket channel="uiRefresh" onmessage="updateContent" />
   </ui:define>
 </ui:composition>
 </html>
