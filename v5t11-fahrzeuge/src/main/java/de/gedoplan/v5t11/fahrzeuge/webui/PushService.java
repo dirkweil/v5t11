@@ -9,27 +9,42 @@ import javax.faces.push.Push;
 import javax.faces.push.PushContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.websocket.OnClose;
+import javax.websocket.OnError;
+import javax.websocket.OnOpen;
+import javax.websocket.Session;
+import javax.websocket.server.ServerEndpoint;
 
+import de.gedoplan.v5t11.util.jsf.AbstractPushService;
 import org.jboss.logging.Logger;
 
-@Named
+@ServerEndpoint("/javax.faces.push/fahrzeug-control")
 @ApplicationScoped
-public class PushService {
-
-  @Inject
-  @Push
-  PushContext fahrzeugChanged;
-
-  @Inject
-  Logger logger;
+public class PushService extends AbstractPushService {
 
   void fahrzeugChanged(@ObservesAsync @Changed Fahrzeug fahrzeug) {
-    String msg = getEventName(fahrzeug);
-    this.logger.debugf("Push fahrzeugChanged: %s", msg);
-    this.fahrzeugChanged.send(msg);
+    send(getEventName(fahrzeug));
   }
 
   public String getEventName(Fahrzeug fahrzeug) {
     return "_" + fahrzeug.getId().getAdresse() + "_" + fahrzeug.getId().getSystemTyp().name();
+  }
+
+  @OnOpen
+  @Override
+  protected void onOpen(Session session) {
+    super.onOpen(session);
+  }
+
+  @OnClose
+  @Override
+  protected void onClose(Session session) {
+    super.onClose(session);
+  }
+
+  @OnError
+  @Override
+  protected void onError(Session session, Throwable throwable) {
+    super.onError(session, throwable);
   }
 }

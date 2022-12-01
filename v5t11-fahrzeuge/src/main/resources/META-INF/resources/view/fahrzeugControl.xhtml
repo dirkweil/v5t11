@@ -50,11 +50,8 @@
 
     </h:form>
 
-    <h:form>
-      <f:websocket channel="fahrzeugChanged">
-        <f:ajax event="#{pushService.getEventName(fahrzeugControlPresenter.currentFahrzeug)}" render=":fahrzeug" />
-      </f:websocket>
-    </h:form>
+    <p:remoteCommand name="updateFahrzeug" update=":fahrzeug"/>
+    <f:websocket channel="fahrzeug-control" onmessage="updateFahrzeug" />
 
   </ui:define>
 </ui:composition>
