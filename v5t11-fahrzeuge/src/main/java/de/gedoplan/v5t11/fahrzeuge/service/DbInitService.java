@@ -146,8 +146,6 @@ public class DbInitService {
     new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_1000_0000, false, false, false, "nur Seite 1"),
     new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_1010_0000, false, false, false, "Doppel-A"));
 
-  public static final Fahrzeug lok323_673_4 = new Fahrzeug("323 673-4", "DHL050", SystemTyp.SX1, 4);
-
   public static final Fahrzeug lok332_262_5 = new Fahrzeug("332 262-5", "DHL100", SystemTyp.SX1, 14);
 
   public static final Fahrzeug lok430_119_8 = new Fahrzeug("430 119-8", "DHL100", SystemTyp.SX1, 16);
@@ -236,8 +234,6 @@ public class DbInitService {
     new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 15, true, false, false, "Signalhorn tief kurz"),
     new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 16, true, false, false, "Signalhorn tief lang"));
 
-  public static final Fahrzeug lokET_90_5019 = new Fahrzeug("ET 90.5019", "DHL100", SystemTyp.SX1, 21);
-
   public static final Fahrzeug lokVT_11_5019 = new Fahrzeug("VT 11.5019", "DHL100", SystemTyp.SX1, 1);
 
   public static final Fahrzeug lokVT_98_9667 = new Fahrzeug("VT 98 9667", null, SystemTyp.DCC, 1098,
@@ -260,6 +256,8 @@ public class DbInitService {
   // public static final Fahrzeug lokX_221_137_3 = new Fahrzeug("X 221 137-3", "Tr66835", SystemTyp.SX1, false, 19, 31);
   // public static final Fahrzeug lokX_614_083_4 = new Fahrzeug("X 614 083-4", "Tr66832", SystemTyp.SX1, false, 11, 31);
   // public static final Fahrzeug lokX_89_005 = new Fahrzeug("X 89 005", "DH05", SystemTyp.SX1, false, 7, 31);
+  //  public static final Fahrzeug lok323_673_4 = new Fahrzeug("323 673-4", "DHL050", SystemTyp.SX1, 4);
+  //  public static final Fahrzeug lokET_90_5019 = new Fahrzeug("ET 90.5019", "DHL100", SystemTyp.SX1, 21);
 
   public static final Fahrzeug[] fahrzeuge = {
     lok103_003_0,
@@ -270,7 +268,6 @@ public class DbInitService {
     lok217_001_7,
     lok217_014_0,
     lok230_001_0,
-    lok323_673_4,
     lok332_262_5,
     lok430_119_8,
     lok612_509_0,
@@ -279,7 +276,6 @@ public class DbInitService {
     lokE9103,
     lokV100_1365,
     lokV200_116,
-    lokET_90_5019,
     lokVT_11_5019,
     lokVT_98_9667
   };
