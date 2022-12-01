@@ -26,11 +26,8 @@
     </p:layoutUnit>
   </p:layout>
 
-  <h:form>
-    <f:websocket channel="menuRefresh">
-      <f:ajax event="menuRefresh" render=":navigation" />
-    </f:websocket>
-  </h:form>
+  <p:remoteCommand name="updateMenu" update=":navigation"/>
+  <f:websocket channel="menu-refresh" onmessage="updateMenu" />
 
   <h:outputStylesheet name="primeicons/primeicons.css" library="primefaces" />
   <h:outputStylesheet library="webjars" name="primeflex/primeflex.css" />

@@ -10,7 +10,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 
 public abstract class AbstractPushService {
 
-  Logger logger = Logger.getLogger(ClassUtil.getProxiedClass(getClass()));
+  protected Logger logger = Logger.getLogger(ClassUtil.getProxiedClass(getClass()));
 
   private Set<Session> sessions = new CopyOnWriteArraySet<>();
 

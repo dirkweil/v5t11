@@ -20,6 +20,11 @@ import javax.faces.push.PushContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.interceptor.Interceptor;
+import javax.websocket.OnClose;
+import javax.websocket.OnError;
+import javax.websocket.OnOpen;
+import javax.websocket.Session;
+import javax.websocket.server.ServerEndpoint;
 
 import org.jboss.logging.Logger;
 import org.primefaces.model.menu.DefaultMenuModel;
@@ -52,8 +57,9 @@ import lombok.ToString;
  *
  */
 @Named
+@ServerEndpoint("/javax.faces.push/menu-refresh")
 @ApplicationScoped
-public class NavigationPresenter {
+public class NavigationPresenter extends AbstractPushService {
 
   private static final long HEARTBEAT_MILLIS = 10000L;
 
@@ -79,13 +85,6 @@ public class NavigationPresenter {
   @Inject
   EventFirer eventFirer;
 
-  @Inject
-  Logger log;
-
-  @Inject
-  @Push
-  PushContext menuRefresh;
-
   private ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
   void startup(@Observes StartupEvent startupEvent) {
@@ -98,12 +97,12 @@ public class NavigationPresenter {
 
     this.scheduler.scheduleAtFixedRate(this::heartBeat, HEARTBEAT_MILLIS / 3, HEARTBEAT_MILLIS, TimeUnit.MILLISECONDS);
 
-    this.log.debug("Started scheduler");
+    this.logger.debug("Started scheduler");
   }
 
   @PreDestroy
   void preDestroy() {
-    this.log.debug("Stopping scheduler");
+    this.logger.debug("Stopping scheduler");
 
     this.scheduler.shutdown();
   }
@@ -142,10 +141,10 @@ public class NavigationPresenter {
       this.menuChanged.set(true);
     }
 
-    if (this.log.isDebugEnabled()) {
+    if (this.logger.isDebugEnabled()) {
       action.append(": ");
       action.append(navigationItem);
-      this.log.debug(action);
+      this.logger.debug(action);
     }
   }
 
@@ -157,13 +156,13 @@ public class NavigationPresenter {
           try {
             this.eventFirer.fire(navigationItem);
           } catch (Exception e) {
-            this.log.warn("Kann NavigationItem nicht senden: " + e);
+            this.logger.warn("Kann NavigationItem nicht senden: " + e);
           }
         }
       } else {
         if (!navigationItemState.disabled && navigationItemState.lastHeartBeatMillis < minRefreshMillis) {
-          if (this.log.isDebugEnabled()) {
-            this.log.debug("Disable " + navigationItem);
+          if (this.logger.isDebugEnabled()) {
+            this.logger.debug("Disable " + navigationItem);
           }
           navigationItemState.disabled = true;
           this.menuChanged.set(true);
@@ -172,10 +171,7 @@ public class NavigationPresenter {
     });
 
     if (this.menuChanged.compareAndSet(true, false)) {
-      int sessionCount = this.menuRefresh.send("menuRefresh").size();
-      if (this.log.isDebugEnabled()) {
-        this.log.debug("Menu refreshen (" + sessionCount + " views)");
-      }
+      send("menuRefresh");
     }
   }
 
@@ -200,4 +196,21 @@ public class NavigationPresenter {
     return menuModel;
   }
 
+  @OnOpen
+  @Override
+  protected void onOpen(Session session) {
+    super.onOpen(session);
+  }
+
+  @OnClose
+  @Override
+  protected void onClose(Session session) {
+    super.onClose(session);
+  }
+
+  @OnError
+  @Override
+  protected void onError(Session session, Throwable throwable) {
+    super.onError(session, throwable);
+  }
 }
