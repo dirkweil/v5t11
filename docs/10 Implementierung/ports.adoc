@@ -1,0 +1,33 @@
+= Ports der _v5t11_-Anwendungen
+
+Im späteren Produktivbetrieb soll _v5t11_ in Kubernetes betrieben werden und somit dann über Ingresses erreichbar sein.
+Bis dahin und während der Entwicklungszeit werden die einzelnen Dienste über Ports direkt auf `localhost` verfügbar gemacht:
+
+|===
+|Service|Dev-Port|Bemerkungen
+
+|`status`
+|`31080`
+|
+
+|`fahrstrassen`
+|`31180`
+|
+
+|`fahrzeuge`
+|`31280`
+|
+
+|`leitstand`
+|`31380`
+|
+
+|`db`
+|`31432`
+|Betrieb im Kubernetes mit Nodeport
+
+|`kafka`
+|durch Dev Services vergeben
+|Betrieb als Quarkus Dev Service
+
+|===

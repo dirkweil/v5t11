@@ -1,0 +1,12 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name:  v5t11-kafka
+spec:
+  type: NodePort
+  selector:
+    name:  v5t11-kafka
+  ports:
+  - port:  9092
+    targetPort:  9092
+    nodePort: 31992
