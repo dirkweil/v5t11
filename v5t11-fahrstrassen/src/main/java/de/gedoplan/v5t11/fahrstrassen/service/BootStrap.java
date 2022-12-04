@@ -19,6 +19,7 @@ public class BootStrap {
       Logger log,
       ConfigService configService,
       Parcours parcours,
+      JoinService joinService,
       EventFirer eventFirer) {
     try {
       log.infof("app: %s:%s", configService.getArtifactId(), configService.getVersion());
@@ -33,6 +34,8 @@ public class BootStrap {
       log.infof("#autoFahrstrassen: %d", parcours.getAutoFahrstrassen().size());
 
       eventFirer.fire(parcours, Created.Literal.INSTANCE);
+
+      joinService.joinMyself();
     } catch (Exception e) {
       log.error("Kann Anwendung nicht starten", e);
       Quarkus.asyncExit(1);

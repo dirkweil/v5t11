@@ -15,6 +15,7 @@ public class BootStrap {
       Logger log,
       ConfigService configService,
       DbInitService dbInitService,
+      JoinService joinService,
       NavigationPresenter navigationPresenter) {
     log.infof("app: %s:%s", configService.getArtifactId(), configService.getVersion());
 
@@ -25,6 +26,8 @@ public class BootStrap {
     log.infof("statusRestUrl: %s", configService.getStatusRestUrl());
 
     dbInitService.fillDb();
+
+    joinService.joinMyself();
   }
 
 }

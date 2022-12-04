@@ -39,12 +39,11 @@ public class IncomingHandler {
   NavigationPresenter navigationPresenter;
 
   @Incoming("fahrzeug")
-  void fahrzeugDefined(byte[] msg) {
-    fireReceived(msg, Fahrzeug.class);
+  void fahrzeugDefined(String json) {
+    fireReceived(json, Fahrzeug.class);
   }
 
-  private void fireReceived(byte[] msg, Class<?> eventClass) {
-    String json = new String(msg);
+  private void fireReceived(String json, Class<?> eventClass) {
     this.logger.debugf("Received: %s", json);
     Object receivedObject = JsonbWithIncludeVisibility.SHORT.fromJson(json, eventClass);
     this.eventFirer.fire(receivedObject, Received.Literal.INSTANCE);

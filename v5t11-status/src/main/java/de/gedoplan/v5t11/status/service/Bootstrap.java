@@ -31,6 +31,7 @@ public class Bootstrap {
       ConfigService configService,
       DataSource dataSource,
       @ConfigProperty(name = "kafka.bootstrap.servers", defaultValue = "(dev service; see url above)") String kafkaUrl,
+      JoinService joinService,
       Steuerung steuerung,
       AnlagenstatusService anlagenstatusService,
       Logger log,
@@ -43,6 +44,8 @@ public class Bootstrap {
     log.infof("kafka: %s", kafkaUrl);
     log.infof("statusWebUrl: %s", configService.getStatusWebUrl());
     log.infof("serialPort: %s, aus [%s]", steuerung.getZentrale().getPortName(), Arrays.stream(SerialPort.getCommPorts()).map(sp -> sp.getSystemPortName()).collect(Collectors.joining(",")));
+
+    joinService.joinMyself();
 
     steuerung.open(scheduler);
 

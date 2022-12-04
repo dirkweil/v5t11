@@ -28,6 +28,8 @@ import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Schalter;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
 import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
+import de.gedoplan.v5t11.util.cdi.Changed;
+import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.domain.attribute.FahrzeugId;
 import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 import de.gedoplan.v5t11.util.domain.entity.Bereichselement;
@@ -72,6 +74,9 @@ public class Steuerung implements Serializable {
 
   @Inject
   Logger log;
+
+  @Inject
+  EventFirer eventFirer;
 
   @XmlElements({
       @XmlElement(name = "DummyZentrale", type = DummyZentrale.class),
@@ -165,6 +170,8 @@ public class Steuerung implements Serializable {
 
     this.fahrzeuge.put(id, fahrzeug);
     // TODO Fahrzeug in Zentrale anmelden
+
+    this.eventFirer.fire(fahrzeug, Changed.Literal.INSTANCE);
   }
 
   public void removeFahrzeug(FahrzeugId id) {
@@ -173,10 +180,12 @@ public class Steuerung implements Serializable {
     }
 
     // TODO Fahrzeug in Zentrale abmelden
+
+    //this.eventFirer.fire(fahrzeug, Changed.Literal.INSTANCE);
   }
 
   /**
-   * Wert liefern: {@link #lokController}.
+   * Wert liefern: LokController.
    *
    * @return Wert
    */
