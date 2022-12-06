@@ -13,7 +13,7 @@ spec:
         name: v5t11-db
     spec:
       containers:
-      - image: postgres:15.1-alpine
+      - image: postgres:13.1
         name:  v5t11-db
         ports:
           - containerPort: 5432
