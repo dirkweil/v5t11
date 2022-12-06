@@ -3,11 +3,15 @@ package de.gedoplan.v5t11.leitstand.service;
 import de.gedoplan.v5t11.leitstand.entity.Leitstand;
 import de.gedoplan.v5t11.stellwerk.StellwerkUIStarter;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.stream.Collectors;
 
 import javax.enterprise.context.Dependent;
 import javax.enterprise.event.Observes;
+import javax.sql.DataSource;
 
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.logging.Logger;
 
 import io.quarkus.runtime.Quarkus;
@@ -17,16 +21,18 @@ import io.quarkus.runtime.StartupEvent;
 public class BootStrap {
 
   void boot(@Observes StartupEvent startupEvent,
-      Logger log,
-      ConfigService configService,
-      Leitstand leitstand,
-      StellwerkUIStarter stellwerkUIStarter) {
+    Logger log,
+    ConfigService configService,
+    DataSource dataSource,
+    @ConfigProperty(name = "kafka.bootstrap.servers", defaultValue = "(dev service; see url above)") String kafkaUrl,
+    Leitstand leitstand,
+    StellwerkUIStarter stellwerkUIStarter) {
     log.infof("app: %s:%s", configService.getArtifactId(), configService.getVersion());
 
     log.infof("configDir: %s", configService.getConfigDir());
     log.infof("anlage: %s", configService.getAnlage());
-    log.infof("db: %s:%d", configService.getDbHost(), configService.getDbPort());
-    log.infof("mqttBroker: %s:%d", configService.getMqttHost(), configService.getMqttPort());
+    log.infof("db: %s", getDbUrl(dataSource));
+    log.infof("kafka: %s", kafkaUrl);
     log.infof("statusRestUrl: %s", configService.getStatusRestUrl());
     log.infof("fahrstrassenRestUrl: %s", configService.getFahrstrassenRestUrl());
     log.infof("bereiche: %s", leitstand.getBereiche().stream().collect(Collectors.joining(",")));
@@ -40,4 +46,11 @@ public class BootStrap {
     }
   }
 
+  private String getDbUrl(DataSource dataSource) {
+    try (Connection connection = dataSource.getConnection()) {
+      return connection.getMetaData().getURL();
+    } catch (SQLException e) {
+      return e.toString();
+    }
+  }
 }
