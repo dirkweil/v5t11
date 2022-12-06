@@ -127,17 +127,13 @@ public class Parcours {
    * - Doppeleinträge entfernen.
    */
   public void completeFahrstrassen() {
-    if (this.logger.isDebugEnabled()) {
-      this.logger.debug("# Fahrstrassen initial: " + this.fahrstrassen.size());
-    }
+    this.logger.debugf("# Fahrstrassen initial: %d", this.fahrstrassen.size());
 
     // Umkehrbare Fahrstrassen invers duplizieren
     Set<Fahrstrasse> umkehrFahrstrassen = new HashSet<>();
     this.fahrstrassen.stream().filter(Fahrstrasse::isUmkehrbar).forEach(fs -> umkehrFahrstrassen.add(fs.createUmkehrung()));
     this.fahrstrassen.addAll(umkehrFahrstrassen);
-    if (this.logger.isDebugEnabled()) {
-      this.logger.debug("# UmkehrFahrstrassen: " + umkehrFahrstrassen.size());
-    }
+    this.logger.debugf("# UmkehrFahrstrassen: %d", umkehrFahrstrassen.size());
 
     // Fahrstrassen kombinieren
     int combiAnzahl = 0;
@@ -160,10 +156,6 @@ public class Parcours {
         break;
       }
 
-      if (this.logger.isDebugEnabled()) {
-        this.logger.debug("# weitereFahrstrassen: " + weitereFahrstrassen.size());
-      }
-
       combiAnzahl += weitereFahrstrassen.size();
       this.fahrstrassen.addAll(weitereFahrstrassen);
       mapStartToFahrstrassenAdd(weitereFahrstrassen);
@@ -171,9 +163,7 @@ public class Parcours {
       zuPruefendeFahrstrassen = weitereFahrstrassen;
     }
 
-    if (this.logger.isDebugEnabled()) {
-      this.logger.debug("# CombiFahrstrassen: " + combiAnzahl);
-    }
+    this.logger.debugf("# CombiFahrstrassen: %d", combiAnzahl);
   }
 
   /**
@@ -186,9 +176,7 @@ public class Parcours {
     this.fahrstrassen.removeAll(ungueltigeFahrstrassen);
     mapStartToFahrstrassenRemove(ungueltigeFahrstrassen);
 
-    if (this.logger.isDebugEnabled()) {
-      this.logger.debug("# Ungültige Fahrstrassen: " + ungueltigeFahrstrassen.size());
-    }
+    this.logger.debugf("# Ungültige Fahrstrassen: %d", ungueltigeFahrstrassen.size());
   }
 
   /**
