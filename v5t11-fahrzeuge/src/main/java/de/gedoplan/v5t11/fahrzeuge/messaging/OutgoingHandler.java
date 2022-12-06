@@ -10,6 +10,7 @@ import javax.inject.Inject;
 
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
+import org.eclipse.microprofile.reactive.messaging.OnOverflow;
 import org.jboss.logging.Logger;
 import org.jboss.logging.Logger.Level;
 
@@ -33,10 +34,12 @@ public class OutgoingHandler {
 
   @Inject
   @Channel("fahrzeug")
+  @OnOverflow(OnOverflow.Strategy.NONE)
   Emitter<String> fahrzeugEmitter;
 
   @Inject
   @Channel("navigation-out")
+  @OnOverflow(OnOverflow.Strategy.NONE)
   Emitter<String> navigationItemEmitter;
 
   public void publish(Fahrzeug fahrzeug) {
