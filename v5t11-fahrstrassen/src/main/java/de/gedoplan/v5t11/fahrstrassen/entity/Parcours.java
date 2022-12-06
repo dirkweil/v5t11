@@ -160,6 +160,10 @@ public class Parcours {
         break;
       }
 
+      if (this.logger.isDebugEnabled()) {
+        this.logger.debug("# weitereFahrstrassen: " + weitereFahrstrassen.size());
+      }
+
       combiAnzahl += weitereFahrstrassen.size();
       this.fahrstrassen.addAll(weitereFahrstrassen);
       mapStartToFahrstrassenAdd(weitereFahrstrassen);
