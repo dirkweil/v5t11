@@ -52,9 +52,9 @@ public class Parcours {
    * Fahrstrasse liefern.
    *
    * @param bereich
-   *        Bereich
+   *   Bereich
    * @param name
-   *        Name
+   *   Name
    * @return gefundene Fahrstrasse oder <code>null</code>
    */
   public Fahrstrasse getFahrstrasse(String bereich, String name) {
@@ -65,7 +65,7 @@ public class Parcours {
    * Fahrstrasse liefern.
    *
    * @param id
-   *        Id
+   *   Id
    * @return gefundene Fahrstrasse oder <code>null</code>
    */
   public Fahrstrasse getFahrstrasse(BereichselementId id) {
@@ -181,8 +181,8 @@ public class Parcours {
    */
   public void removeUnerlaubteFahrstrassen() {
     Set<Fahrstrasse> ungueltigeFahrstrassen = this.fahrstrassen.stream()
-        .filter(fs -> !fs.getStart().isStartErlaubt() || !fs.getEnde().isEndeErlaubt())
-        .collect(Collectors.toSet());
+      .filter(fs -> !fs.getStart().isStartErlaubt() || !fs.getEnde().isEndeErlaubt())
+      .collect(Collectors.toSet());
     this.fahrstrassen.removeAll(ungueltigeFahrstrassen);
     mapStartToFahrstrassenRemove(ungueltigeFahrstrassen);
 
@@ -210,12 +210,12 @@ public class Parcours {
   /**
    * Fahrstrassen suchen.
    *
-   * @param beginn
-   *        Beginn-Gleis
-   * @param ende
-   *        Ende-Gleis
+   * @param beginnGleisId
+   *   Beginn-Gleis
+   * @param endeGleisId
+   *   Ende-Gleis
    * @param filter
-   *        Filter (nur freie/reservierte/unkombinierte) oder <code>null</code> für alle
+   *   Filter (nur freie/reservierte/unkombinierte) oder <code>null</code> für alle
    * @return gefundene Fahrstrassen in aufsteigender Rang-Reihenfolge
    */
   public List<Fahrstrasse> getFahrstrassen(BereichselementId beginnGleisId, BereichselementId endeGleisId, FahrstrassenFilter filter) {
@@ -231,9 +231,9 @@ public class Parcours {
 
     if (filter != null) {
       stream = switch (filter) {
-      case FREI -> stream.filter(fs -> fs.isFrei(false, false));
-      case RESERVIERT -> stream.filter(fs -> fs.getFahrstrassenStatus().getReservierungsTyp() != FahrstrassenReservierungsTyp.UNRESERVIERT);
-      case NON_COMBI -> stream.filter(fs -> !fs.isCombi());
+        case FREI -> stream.filter(fs -> fs.isFrei(false, false));
+        case RESERVIERT -> stream.filter(fs -> fs.getFahrstrassenStatus().getReservierungsTyp() != FahrstrassenReservierungsTyp.UNRESERVIERT);
+        case NON_COMBI -> stream.filter(fs -> !fs.isCombi());
       };
     }
 
