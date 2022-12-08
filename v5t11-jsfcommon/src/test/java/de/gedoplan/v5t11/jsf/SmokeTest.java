@@ -1,4 +1,4 @@
-package de.gedoplan.v5t11.util;
+package de.gedoplan.v5t11.jsf;
 
 
 import javax.inject.Inject;
