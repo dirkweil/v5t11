@@ -6,6 +6,9 @@ import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ListMultimap;
+import com.google.common.collect.MultimapBuilder;
 import de.gedoplan.baselibs.utils.inject.InjectionUtil;
 import de.gedoplan.v5t11.fahrstrassen.entity.Parcours;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleis;
@@ -18,16 +21,13 @@ import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
 import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
 import de.gedoplan.v5t11.util.domain.entity.Bereichselement;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
+import de.gedoplan.v5t11.util.misc.V5t11Exception;
 import de.gedoplan.v5t11.util.transaction.TransactionChecker;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import javax.enterprise.util.AnnotationLiteral;
@@ -42,11 +42,14 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import io.quarkus.runtime.Quarkus;
 import lombok.Getter;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.NONE)
 public class Fahrstrasse extends Bereichselement {
+
+  private static final Integer ZERO = 0;
 
   @Inject
   FahrstrassenStatusRepository fahrstrassenStatusRepository;
@@ -113,9 +116,9 @@ public class Fahrstrasse extends Bereichselement {
    * Liste der Fahrstrassenelemente. Beginnt und endet immer mit einem Gleis.
    */
   @XmlElements({
-      @XmlElement(name = "Gleis", type = FahrstrassenGleis.class),
-      @XmlElement(name = "Signal", type = FahrstrassenSignal.class),
-      @XmlElement(name = "Weiche", type = FahrstrassenWeiche.class) })
+    @XmlElement(name = "Gleis", type = FahrstrassenGleis.class),
+    @XmlElement(name = "Signal", type = FahrstrassenSignal.class),
+    @XmlElement(name = "Weiche", type = FahrstrassenWeiche.class) })
   @Getter(onMethod_ = @JsonbInclude(full = true))
   private List<Fahrstrassenelement> elemente = new ArrayList<>();
 
@@ -228,12 +231,12 @@ public class Fahrstrasse extends Bereichselement {
    */
   private void createName() {
     setName(this.elemente
-        .stream()
-        .filter(e -> e instanceof FahrstrassenGleis)
-        .map(e -> (FahrstrassenGleis) e)
-        // .filter(g -> !g.isWeichenGleis())
-        .map(g -> g.getBereich().equals(getBereich()) ? g.getName() : g.getBereich() + "." + g.getName())
-        .collect(Collectors.joining("-")));
+      .stream()
+      .filter(e -> e instanceof FahrstrassenGleis)
+      .map(e -> (FahrstrassenGleis) e)
+      // .filter(g -> !g.isWeichenGleis())
+      .map(g -> g.getBereich().equals(getBereich()) ? g.getName() : g.getBereich() + "." + g.getName())
+      .collect(Collectors.joining("-")));
   }
 
   /**
@@ -256,12 +259,13 @@ public class Fahrstrasse extends Bereichselement {
    * Die angegebenen Fahrstrassen werden in der Reihenfolge links-rechts kombiniert, wenn dies möglich ist.
    *
    * @param linkeFahrstrasse
-   *        Linke Fahrstrasse (Einfahrt)
+   *   Linke Fahrstrasse (Einfahrt)
    * @param rechteFahrstrasse
-   *        Rechte Fahrstrasse (Ausfahrt)
+   *   Rechte Fahrstrasse (Ausfahrt)
    * @return Kombi-Fahrstrasse, wenn Kombination möglich, sonst <code>null</code>
    */
   public static Fahrstrasse concat(Fahrstrasse linkeFahrstrasse, Fahrstrasse rechteFahrstrasse) {
+
     // Wenn verschiedene Bereiche, nicht kombinieren
     if (!linkeFahrstrasse.getBereich().equals(rechteFahrstrasse.getBereich())) {
       return null;
@@ -271,24 +275,24 @@ public class Fahrstrasse extends Bereichselement {
     Fahrstrassenelement linksLast = linkeFahrstrasse.getEnde();
     Fahrstrassenelement rechtsFirst = rechteFahrstrasse.getStart();
     if (!linksLast.equals(rechtsFirst)
-        || linksLast.isZaehlrichtung() != rechtsFirst.isZaehlrichtung()) {
+      || linksLast.isZaehlrichtung() != rechtsFirst.isZaehlrichtung()) {
       return null;
     }
 
     // Wenn Zyklen entstehen würden, nicht kombinieren
-    Set<ReservierbaresFahrwegelement> linkeGleise = linkeFahrstrasse
-        .getElemente()
-        .stream()
-        .filter(e -> e instanceof FahrstrassenGleis)
-        .map(e -> e.getFahrwegelement())
-        .collect(Collectors.toSet());
+    Set<BereichselementId> linkeGleise = linkeFahrstrasse
+      .getElemente()
+      .stream()
+      .filter(e -> e instanceof FahrstrassenGleis)
+      .map(e -> e.getId())
+      .collect(Collectors.toSet());
     boolean zyklus = rechteFahrstrasse
-        .getElemente()
-        .stream()
-        .skip(1)
-        .filter(e -> e instanceof FahrstrassenGleis)
-        .map(e -> e.getFahrwegelement())
-        .anyMatch(linkeGleise::contains);
+      .getElemente()
+      .stream()
+      .skip(1)
+      .filter(e -> e instanceof FahrstrassenGleis)
+      .map(e -> e.getId())
+      .anyMatch(linkeGleise::contains);
     if (zyklus) {
       return null;
     }
@@ -312,25 +316,6 @@ public class Fahrstrasse extends Bereichselement {
     result.start = linkeFahrstrasse.getStart();
     result.ende = rechteFahrstrasse.getEnde();
 
-    // Schutzsignale entfernen, die auch als normale Signale vorhanden sind
-    Set<Signal> normaleSignale = result.elemente
-        .stream()
-        .filter(e -> !e.isSchutz())
-        .filter(e -> e instanceof FahrstrassenSignal)
-        .map(e -> ((FahrstrassenSignal) e).getFahrwegelement())
-        .collect(Collectors.toSet());
-
-    Iterator<Fahrstrassenelement> iterator = result.elemente.iterator();
-    while (iterator.hasNext()) {
-      Fahrstrassenelement element = iterator.next();
-      if (element instanceof FahrstrassenSignal && element.isSchutz()) {
-        Signal schutzSignal = ((FahrstrassenSignal) element).getFahrwegelement();
-        if (schutzSignal != null && normaleSignale.contains(schutzSignal)) {
-          iterator.remove();
-        }
-      }
-    }
-
     result.createName();
     result.createRank();
 
@@ -341,43 +326,63 @@ public class Fahrstrasse extends Bereichselement {
    * Doppeleinträge in der Fahrstrasse eliminieren.
    */
   public void removeDoppeleintraege() {
-    int i = 0;
-    while (i < this.elemente.size()) {
-      Fahrstrassenelement element = this.elemente.get(i);
+    Map<Fahrstrassenelement, List<Integer>> doppeltePositionen = new HashMap<>();
+    int j = 0;
+    while (j < this.elemente.size()) {
+      Fahrstrassenelement element = this.elemente.get(j);
+      List<Integer> positions = doppeltePositionen.get(element);
+      if (positions == null) {
+        positions = new ArrayList<>();
+        doppeltePositionen.put(element, positions);
+      }
+      positions.add(j);
+      ++j;
+    }
 
-      while (true) {
-        int i2 = findLastSame(element);
-        if (i2 <= i) {
-          // kein Doppelvorkommen; weiter mit nächstem Eintrag
-          ++i;
-          break;
+    SortedSet<Integer> zuLoeschendePositionen = new TreeSet<>((x, y) -> y.compareTo(x));
+    for (List<Integer> positionen : doppeltePositionen.values()) {
+      int doppelteAnzahl = positionen.size();
+      // Nur wenn positionen mehrere Werte enthält, sind es Doppelte
+      if (doppelteAnzahl > 1) {
+        // Das erste Element kann kein Doppeltes sein
+        if (positionen.get(0).equals(ZERO))
+          throw new V5t11Exception("Doppeltes Fahrstrassenelement an Position 0");
+
+        // Zu den Doppelpositionen die FahrstrassenElemente holen
+        List<Fahrstrassenelement> doppelte = positionen.stream().map(p -> elemente.get(p)).toList();
+
+        // Der Typ der Elemente kann nicht FahrstrassenGleis sein
+        Fahrstrassenelement doppelt0 = doppelte.get(0);
+        if (doppelt0 instanceof FahrstrassenGleis)
+          throw new V5t11Exception("Doppelt: " + doppelt0);
+
+        // Ein Element bleibt später erhalten. Dies ist das letzte Nicht-Schutz-Element
+        // oder, falls dies nicht existiert, das letzte Element
+        int beibehalten = doppelteAnzahl - 1;
+        for (int i = 0; i < doppelteAnzahl; ++i) {
+          Fahrstrassenelement doppelteI = doppelte.get(i);
+
+          // Letztes Nicht-Schutz-Element beibehalten
+          if (!doppelteI.isSchutz())
+            beibehalten = i;
         }
 
-        Fahrstrassenelement element2 = this.elemente.get(i2);
-
-        if (i == 0 || element2.isSchutz()) {
-          // erstes Element ist am Anfang ==> muss stehen bleiben, da FS sonst ggf. nicht mit einem Gleis beginnt
-          // zweites Element ist Schutzelement ==> zweites Element löschen, weiter nach Doppelvorkommen suchen
-          this.elemente.remove(i2);
-        } else {
-          // zweites Element ist kein Schutzelement ==> erstes Element löschen, weiter mit nächstem Eintrag (der dann am gleichen Index i steht!)
-          this.elemente.remove(i);
-          break;
+        for (int i = 0; i < doppelteAnzahl; ++i) {
+          if (i != beibehalten)
+            zuLoeschendePositionen.add(positionen.get(i));
         }
+
+        //        System.out.printf("%s: %s %s\n", doppelt0, Arrays.toString(positions.toArray()), Arrays.toString(zuLoeschendePositionen.toArray()));
+        //        zuLoeschendePositionen.clear();
       }
     }
-  }
 
-  private int findLastSame(Fahrstrassenelement element) {
-    int i = this.elemente.size();
-    while (true) {
-      --i;
-      if (i < 0) {
-        return -1;
-      }
-      if (this.elemente.get(i).equals(element)) {
-        return i;
-      }
+    // Doppelte entfernen (Liste ist absteigend sortiert)
+    if (!zuLoeschendePositionen.isEmpty()) {
+//      elemente.forEach(e -> System.out.printf("<<< %s\n", e));
+//      System.out.printf("--- %s\n", Arrays.toString(zuLoeschendePositionen.toArray()));
+      zuLoeschendePositionen.forEach(p -> elemente.remove(p.intValue()));
+//      elemente.forEach(e -> System.out.printf(">>> %s\n", e));
     }
   }
 
@@ -385,9 +390,14 @@ public class Fahrstrasse extends Bereichselement {
    * Signalstellungen für Hauptsignale passend zu Weichenstellungen anpassen.
    *
    * Die Stellung von Hauptsignalen (erkennbar an Stellung FAHRT bzw. LANGSAMFAHRT) werden zu FAHRT bzw. LANGSAMFAHRT korrigiert,
-   * wenn bis zum nächsten Hauptsignal bzw. bis zum Fahrstrassenende das kleinste Limit der befahreren Weichen über bzw unter 40 liegt.
+   * wenn bis zum nächsten Hauptsignal bzw. bis zum Fahrstrassenende das kleinste Limit der befahrenen Weichen über bzw. unter 40 liegt.
    */
   public void adjustLangsamfahrt() {
+    // Falls keine Signale enthalten sind, ist nichts zu tun
+    if ( !this.elemente.stream().anyMatch(e -> e instanceof FahrstrassenSignal)) {
+      return;
+    }
+
     FahrstrassenSignal fahrstrassenSignal = null;
     int fahrstrassenSignalIndex = -1;
     int limit = Integer.MAX_VALUE;
@@ -477,7 +487,7 @@ public class Fahrstrasse extends Bereichselement {
    * Beginnt die Fahrstrasse mit dem angegebenen Gleis?
    *
    * @param gleisId
-   *        Id des Gleises
+   *   Id des Gleises
    * @return <code>true</code>, wenn die Fahrstrasse mit dem angegebenen Gleis beginnt
    */
   public boolean startsWith(BereichselementId gleisId) {
@@ -488,7 +498,7 @@ public class Fahrstrasse extends Bereichselement {
    * Endet die Fahrstrasse mit dem angegebenen Gleis?
    *
    * @param gleisId
-   *        Id des Gleises
+   *   Id des Gleises
    * @return <code>true</code>, wenn die Fahrstrasse mit dem angegebenen Gleis endet
    */
   public boolean endsWith(BereichselementId gleisId) {
@@ -538,9 +548,9 @@ public class Fahrstrasse extends Bereichselement {
    * - wenn keiner ihrer Gleise besetzt ist, wobei für diese Prüfung der Start und das Ende per Parameter ausgenommen werden können.
    *
    * @param includeStart
-   *        Erstes Element der Fahrstrasse in Besetztprüfung berücksichtigen?
+   *   Erstes Element der Fahrstrasse in Besetztprüfung berücksichtigen?
    * @param includeEnde
-   *        Letztes Element der Fahrstrasse in Besetztprüfung berücksichtigen?
+   *   Letztes Element der Fahrstrasse in Besetztprüfung berücksichtigen?
    * @return <code>true</code>, wenn die Fahrstrasse frei ist.
    */
   public boolean isFrei(boolean includeStart, boolean includeEnde) {
@@ -590,11 +600,11 @@ public class Fahrstrasse extends Bereichselement {
    * Zur Freigabe kann aber auch {@link #freigeben(Gleis)} genutzt werden.
    *
    * @param reservierungsTyp
-   *        Art der Fahrstrassenreservierung, <code>UNRESERVIERT</code> für Freigabe
+   *   Art der Fahrstrassenreservierung, <code>UNRESERVIERT</code> für Freigabe
    * @param includeStart
-   *        Erstes Element der Fahrstrasse in Besetztprüfung berücksichtigen?
+   *   Erstes Element der Fahrstrasse in Besetztprüfung berücksichtigen?
    * @param includeEnde
-   *        Letztes Element der Fahrstrasse in Besetztprüfung berücksichtigen?
+   *   Letztes Element der Fahrstrasse in Besetztprüfung berücksichtigen?
    * @return <code>true</code>, wenn die Fahrstrasse reserviert bzw. freigegeben werden konnte
    */
   public boolean reservieren(FahrstrassenReservierungsTyp reservierungsTyp, boolean includeStart, boolean includeEnde) {
@@ -626,7 +636,7 @@ public class Fahrstrasse extends Bereichselement {
    * Fahrstrasse komplett oder teilweise freigeben.
    *
    * @param teilFreigabeEnde
-   *        <code>null</code> für Komplettfreigabe oder erster Gleis, der nicht freigegeben wird
+   *   <code>null</code> für Komplettfreigabe oder erster Gleis, der nicht freigegeben wird
    * @return <code>true</code>, wenn die Fahrstrasse freigegeben werden konnte
    */
   public boolean freigeben(Gleis teilFreigabeEnde) {
@@ -682,7 +692,7 @@ public class Fahrstrasse extends Bereichselement {
     @Nonbinding
     int bisher()
 
-    default 0;
+      default 0;
 
     @Nonbinding
     int neu() default 0;
@@ -718,7 +728,7 @@ public class Fahrstrasse extends Bereichselement {
    * Wird in der Freigabesteuerung benutzt: Ist die restliche Fahrstrasse komplett besetzt, kann sie freigegeben werden.
    *
    * @param startIndex
-   *        Start-Index
+   *   Start-Index
    * @return alles besetzt?
    */
   public boolean isKomplettBesetzt(int startIndex) {
@@ -748,7 +758,7 @@ public class Fahrstrasse extends Bereichselement {
    * kann sie freigegeben werden.
    *
    * @param startIndex
-   *        Start-Index
+   *   Start-Index
    * @return nur noch Gleise?
    */
   public boolean isNurGleise(int startIndex) {

@@ -44,10 +44,10 @@ public class FahrstrassenSignal extends FahrstrassenGeraet implements Cloneable 
     }
   }
 
-  @Override
-  public String toString() {
-    return super.toString() + ", stellung=" + this.stellung;
-  }
+//  @Override
+//  public String toString() {
+//    return super.toString() + ", stellung=" + this.stellung;
+//  }
 
   public Fahrstrassenelement createCopy(SignalStellung stellung) {
     try {

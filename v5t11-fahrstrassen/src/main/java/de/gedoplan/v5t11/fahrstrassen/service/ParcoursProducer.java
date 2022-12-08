@@ -31,9 +31,7 @@ public class ParcoursProducer {
   @Transactional(rollbackOn = Exception.class)
   Parcours createParcours(ConfigService configService) {
 
-    if (this.logger.isDebugEnabled()) {
-      this.logger.debug("Parcours aus XML lesen");
-    }
+    this.logger.debugf("Parcours aus XML lesen");
 
     // Parcours aus XML lesen
     Parcours parcours = configService.readXmlConfig("_parcours.xml", Parcours.class);

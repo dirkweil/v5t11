@@ -20,9 +20,9 @@ public abstract class FahrstrassenGeraet extends Fahrstrassenelement {
   @Getter(onMethod_ = @JsonbInclude(full = true))
   protected boolean schutz = false;
 
-  @Override
-  public String toString() {
-    return super.toString() + ", schutz=" + this.schutz;
-  }
+//  @Override
+//  public String toString() {
+//    return super.toString() + ", schutz=" + this.schutz;
+//  }
 
 }

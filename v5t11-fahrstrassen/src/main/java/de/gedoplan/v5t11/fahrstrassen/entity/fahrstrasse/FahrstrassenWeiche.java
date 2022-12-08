@@ -72,10 +72,10 @@ public class FahrstrassenWeiche extends FahrstrassenGeraet {
     return this.stellung == WeichenStellung.ABZWEIGEND ? 1 : 0;
   }
 
-  @Override
-  public String toString() {
-    return super.toString() + ", stellung=" + this.stellung;
-  }
+//  @Override
+//  public String toString() {
+//    return super.toString() + ", stellung=" + this.stellung;
+//  }
 
   @Override
   @JsonbInclude(full = true)
