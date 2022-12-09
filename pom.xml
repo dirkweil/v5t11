@@ -21,11 +21,11 @@
     
     <microprofile.version>4.1</microprofile.version>
 
-    <myfaces.version>2.3-next-M6</myfaces.version>
+    <myfaces.version>2.3-next-M7</myfaces.version>
 
     <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
     <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
-    <quarkus.platform.version>2.6.2.Final</quarkus.platform.version>
+    <quarkus.platform.version>2.14.3.Final</quarkus.platform.version>
   </properties>
 
   <repositories>
