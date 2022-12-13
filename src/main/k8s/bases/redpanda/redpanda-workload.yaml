@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: v5t11-redpanda
+spec:
+  serviceName: v5t11-redpanda
+  selector:
+    matchLabels:
+      name: v5t11-redpanda
+  template:
+    metadata:
+      labels:
+        name: v5t11-redpanda
+    spec:
+      containers:
+      - image: docker.redpanda.com/vectorized/redpanda:latest
+        imagePullPolicy: IfNotPresent
+        name:  v5t11-redpanda
+        args:
+          - redpanda
+          - start
+          - --smp
+          - '1'
+          - --reserve-memory
+          - 0M
+          - --overprovisioned
+          - --set redpanda.empty_seed_starts_cluster=false
+          - --seeds "v5t11-redpanda-0:33145"
+          - --kafka-addr
+          - CLUSTERIP://0.0.0.0:9092,NODEPORT://0.0.0.0:31092
+          - --advertise-kafka-addr
+          - CLUSTERIP://redpanda:9092,NODEPORT://localhost:31092
+          - --pandaproxy-addr
+          - CLUSTERIP://0.0.0.0:8082,NODEPORT://0.0.0.0:31082
+          - --advertise-pandaproxy-addr
+          - CLUSTERIP://redpanda:8082,NODEPORT://localhost:31082
+          - --advertise-rpc-addr redpanda-1:33145
+        ports:
+          - containerPort: 9092
+          - containerPort: 31092
+        volumeMounts:
+          - mountPath: /var/lib/redpanda/data
+            name: v5t11-redpanda
+  volumeClaimTemplates:
+    - metadata:
+        name: v5t11-redpanda
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 10M

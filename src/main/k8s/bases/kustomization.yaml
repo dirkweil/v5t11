@@ -5,4 +5,4 @@ namespace: v5t11-test
 
 resources:
   - db
-#  - kafka
+  - redpanda
