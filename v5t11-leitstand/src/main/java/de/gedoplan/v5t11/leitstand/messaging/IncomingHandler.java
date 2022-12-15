@@ -7,6 +7,8 @@ import de.gedoplan.v5t11.leitstand.entity.fahrweg.Signal;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Weiche;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.cdi.Received;
+import de.gedoplan.v5t11.util.jsf.NavigationItem;
+import de.gedoplan.v5t11.util.jsf.NavigationPresenter;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 
 import java.util.regex.Matcher;
@@ -38,6 +40,9 @@ public class IncomingHandler {
 
   @Inject
   EventFirer eventFirer;
+
+  @Inject
+  NavigationPresenter navigationPresenter;
 
   private static final Pattern STATUS_MSG_PATTERN = Pattern.compile("\\{\"(?<type>[^\"]+)\\s*\":(?<object>.*)\\}");
 
@@ -72,4 +77,12 @@ public class IncomingHandler {
     this.logger.debugf("Received %s: %s", obj, json);
     this.eventFirer.fire(obj, Received.Literal.INSTANCE);
   }
+
+  @Incoming("navigation-in")
+  void navigationChanged(String json) {
+    this.logger.tracef("Received: %s", json);
+    NavigationItem receivedObject = JsonbWithIncludeVisibility.SHORT.fromJson(json, NavigationItem.class);
+    this.navigationPresenter.heartBeat(receivedObject);
+  }
+
 }

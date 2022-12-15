@@ -13,11 +13,50 @@
 
   <packaging>jar</packaging>
 
+  <build>
+    <finalName>${project.artifactId}</finalName>
+
+    <plugins>
+      <!-- Build executable JAR -->
+      <plugin>
+        <groupId>${quarkus.platform.group-id}</groupId>
+        <artifactId>quarkus-maven-plugin</artifactId>
+        <version>${quarkus.platform.version}</version>
+        <extensions>true</extensions>
+        <executions>
+          <execution>
+            <goals>
+              <goal>build</goal>
+              <goal>generate-code</goal>
+              <goal>generate-code-tests</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
   <dependencies>
+    <!-- Main dependencies -->
+
+    <!--
+      myfaces-quarkus früh einbinden, da sonst Resource Bundles fehlen
+      und Web-Zugriffe hängen (vermutlich Classpath-Konflikte mit JEE und WildFly)
+    -->
+    <dependency>
+      <groupId>org.apache.myfaces.core.extensions.quarkus</groupId>
+      <artifactId>myfaces-quarkus</artifactId>
+    </dependency>
 
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>de.gedoplan</groupId>
+      <artifactId>v5t11-jsfcommon</artifactId>
+      <version>2.0.0-SNAPSHOT</version>
     </dependency>
 
     <dependency>
@@ -29,7 +68,6 @@
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-resteasy-jsonb</artifactId>
-      <scope></scope>
     </dependency>
 
     <dependency>
@@ -73,6 +111,14 @@
     </dependency>
 
     <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- Test dependencies -->
+
+    <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-junit5</artifactId>
       <scope>test</scope>
@@ -98,37 +144,6 @@
       <version>2.0.0-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>
-
-    <dependency>
-      <groupId>org.projectlombok</groupId>
-      <artifactId>lombok</artifactId>
-      <scope>provided</scope>
-    </dependency>
-
   </dependencies>
-
-  <build>
-    <finalName>${project.artifactId}</finalName>
-
-    <plugins>
-      <!-- Build executable JAR -->
-      <plugin>
-        <groupId>${quarkus.platform.group-id}</groupId>
-        <artifactId>quarkus-maven-plugin</artifactId>
-        <version>${quarkus.platform.version}</version>
-        <extensions>true</extensions>
-        <executions>
-          <execution>
-            <goals>
-              <goal>build</goal>
-              <goal>generate-code</goal>
-              <goal>generate-code-tests</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
-    </plugins>
-  </build>
 
 </project>

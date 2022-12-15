@@ -1,6 +1,7 @@
 package de.gedoplan.v5t11.util.jsf;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ConcurrentSkipListMap;
@@ -38,23 +39,22 @@ import lombok.ToString;
 
 /**
  * Presenter für das globale Navigationsmenü.
- * 
+ *
  * Die Anwendung muss ihre Menü-Einträge mit Hilfe von Producern für den Typ {@Link NavigationItem} bereitstellen. Sie werden
  * initial genutzt, um das Menü mit Eigeneinträgen zu bestücken.
- * 
+ *
  * Die Eigeneinträge werden regelmäßig als Heartbeat an die anderen Anwendungen versendet. Dazu muss die Anwendung einen
  * CDI-Observer besitzen, der Events des Typs {@Link NavigationItem} per Messaging versendet. Alle V5t11-Services verhalten
  * sich so.
- * 
+ *
  * Somit gehen die versendeten Eigeneinträge einer Anwendung als Messages bei den anderen Anwendungen ein. Die Anwendungen
  * müssen diese eingehenden {@Link NavigationItem NavigationItems} an {@link #heartBeat(NavigationItem)} propagieren. Sie
  * werden dann als Fremdeinträge im Menü eingebaut.
- * 
+ *
  * Während der Heartbeat-Verarbeitung wird überprüft, ob alle Fremdeinträge innerhalb der letzten Zeit aufgefrischt wurden,
  * ob die aussendende Anwendung also noch "lebt". Falls nicht, werden die Einträge deaktiviert.
- * 
- * @author dw
  *
+ * @author dw
  */
 @Named
 @ServerEndpoint("/javax.faces.push/menu-refresh")
@@ -77,7 +77,7 @@ public class NavigationPresenter extends AbstractPushService {
   }
 
   @Inject
-  Instance<NavigationItem> myNavigationItems;
+  Instance<List<NavigationItem>> myNavigationItems;
 
   private AtomicBoolean menuChanged = new AtomicBoolean();
 
@@ -92,7 +92,11 @@ public class NavigationPresenter extends AbstractPushService {
 
   @PostConstruct
   void postConstruct() {
-    this.myNavigationItems.forEach(ni -> registerNavigationItem(ni, true, true));
+    this.myNavigationItems
+      .stream()
+      .flatMap(List::stream)
+      .forEach(ni -> registerNavigationItem(ni, true, true));
+
     registerNavigationItem(new NavigationItem("home", "Allgemein", "/index.xhtml", "fa fa-home", 910), true, false);
 
     this.scheduler.scheduleAtFixedRate(this::heartBeat, HEARTBEAT_MILLIS / 3, HEARTBEAT_MILLIS, TimeUnit.MILLISECONDS);

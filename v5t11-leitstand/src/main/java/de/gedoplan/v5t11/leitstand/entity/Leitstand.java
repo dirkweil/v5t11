@@ -6,6 +6,7 @@ import de.gedoplan.v5t11.leitstand.entity.stellwerk.Stellwerk;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkElement;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkZeile;
 
+import java.io.Serializable;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -25,7 +26,7 @@ import lombok.Getter;
  */
 @XmlRootElement(name = "Leitstand")
 @XmlAccessorType(XmlAccessType.NONE)
-public class Leitstand {
+public class Leitstand implements Serializable {
 
   @XmlElement(name = "Stellwerk")
   @Getter

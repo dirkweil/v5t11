@@ -11,7 +11,9 @@ import javax.inject.Inject;
 
 import org.jboss.logging.Logger;
 
-@ApplicationScoped
+import java.util.List;
+
+@Dependent
 public class NavigationProducer {
 
   @Inject
@@ -30,17 +32,13 @@ public class NavigationProducer {
   }
 
   @Produces
-  NavigationItem getSystemStatusNavigationItem() {
-    return new NavigationItem("System-Status", "Steuerung", this.urlPrefix + "view/systemStatus.xhtml", "fa fa-info", 110);
+  @ApplicationScoped
+  List<NavigationItem> getStatusNavigationItem() {
+    return List.of(
+      new NavigationItem("System-Status", "Steuerung", this.urlPrefix + "view/systemStatus.xhtml", "fa fa-info", 810),
+      new NavigationItem("System-Control", "Steuerung", this.urlPrefix + "view/systemControl.xhtml", "fa fa-play", 820),
+      new NavigationItem("Baustein-Programmierung", "Steuerung", this.urlPrefix + "view/bausteinProgrammierung.xhtml", "fa fa-cube", 830)
+    );
   }
 
-  @Produces
-  NavigationItem getSystemControlNavigationItem() {
-    return new NavigationItem("System-Control", "Steuerung", this.urlPrefix + "view/systemControl.xhtml", "fa fa-play", 120);
-  }
-
-  @Produces
-  NavigationItem getBausteinProgrammierungNavigationItem() {
-    return new NavigationItem("Baustein-Programmierung", "Steuerung", this.urlPrefix + "view/bausteinProgrammierung.xhtml", "fa fa-cube", 130);
-  }
 }
