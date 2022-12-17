@@ -1,0 +1,32 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+>
+
+<ui:composition template="/WEB-INF/templates/leitstand.xhtml">
+  <ui:param name="title" value="Stellwerk"/>
+  <ui:define name="content">
+    <h2>Hier ist noch nichts zu sehen ...</h2>
+
+    <h:panelGrid columns="2">
+      <h:outputText value="Bereich:"/>
+      <h:outputText value="${stellwerkPresenter.stellwerk.bereich}"/>
+
+      <h:outputText value="Zeilen:"/>
+      <h:outputText value="${stellwerkPresenter.stellwerk.zeilen.size()}"/>
+
+      <h:outputText value="Spalten:"/>
+      <h:outputText value="${stellwerkPresenter.stellwerk.zeilen.get(0).elemente.size()}"/>
+
+    </h:panelGrid>
+
+    <div class="stellwerk">
+      <canvas style="grid-row-start: 1; grid-column-start: 1;"/>
+      <canvas style="grid-row-start: 1; grid-column-start: 3;"/>
+      <canvas style="grid-row-start: 2; grid-column-start: 2;"/>
+    </div>
+
+    <h:outputStylesheet name="stellwerk.css"/>
+  </ui:define>
+</ui:composition>
+</html>

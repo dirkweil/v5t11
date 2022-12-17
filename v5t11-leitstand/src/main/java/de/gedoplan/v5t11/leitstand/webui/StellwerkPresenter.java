@@ -1,48 +1,28 @@
 package de.gedoplan.v5t11.leitstand.webui;
 
-import de.gedoplan.v5t11.leitstand.entity.Leitstand;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.Stellwerk;
-import lombok.Getter;
-import org.jboss.logging.Logger;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import java.io.Serializable;
 
-@SessionScoped
+@Named
+@ViewScoped
 public class StellwerkPresenter implements Serializable {
 
   @Inject
-  Leitstand leitstand;
-
-  @Inject
-  Logger logger;
-
-  @Getter
-  Stellwerk stellwerk;
+  StellwerkSessionHolder stellwerkSessionHolder;
 
   @PostConstruct
   void postConstruct() {
-    this.stellwerk = this.leitstand.getStellwerke().first();
+    this.stellwerkSessionHolder.changeBereich(FacesContext.getCurrentInstance()
+      .getExternalContext().getRequestParameterMap().get("bereich"));
   }
 
-  public void changeBereich(String bereich) {
-    if (bereich == null) {
-      return;
-    }
-
-    if (this.stellwerk != null && this.stellwerk.getBereich().equals(bereich)) {
-      return;
-    }
-
-    Stellwerk stellwerk = this.leitstand.getStellwerk(bereich);
-    if (stellwerk == null) {
-      return;
-    }
-
-    this.stellwerk = stellwerk;
-
-    this.logger.debugf("Neuer Bereich: %s", this.stellwerk.getBereich());
+  public Stellwerk getStellwerk() {
+    return this.stellwerkSessionHolder.getStellwerk();
   }
 }
