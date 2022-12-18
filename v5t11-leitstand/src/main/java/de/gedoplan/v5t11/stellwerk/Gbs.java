@@ -7,10 +7,9 @@ import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkElement;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkZeile;
 import de.gedoplan.v5t11.stellwerk.util.GridBagHelper;
 
-import java.awt.GridBagConstraints;
-
 import javax.inject.Inject;
-import javax.swing.JPanel;
+import javax.swing.*;
+import java.awt.*;
 
 public class Gbs extends ApplicationPanel {
   private String bereich;
@@ -42,12 +41,10 @@ public class Gbs extends ApplicationPanel {
       gridBagHelper.add(leftFiller, 1, 1, 0, 1, GridBagConstraints.BOTH, GridBagConstraints.CENTER);
 
       for (StellwerkElement stellwerkElement : stellwerkZeile.getElemente()) {
-        for (int i = 0; i < stellwerkElement.getAnzahl(); ++i) {
-          GbsElement gbsElement = GbsElement.createInstance(bereich, stellwerkElement);
-          gbsElement.setInputPanel(inputPanel);
+        GbsElement gbsElement = GbsElement.createInstance(bereich, stellwerkElement);
+        gbsElement.setInputPanel(inputPanel);
 
-          gridBagHelper.add(gbsElement, 1, 1, 0, 0, GridBagConstraints.BOTH, GridBagConstraints.CENTER);
-        }
+        gridBagHelper.add(gbsElement, 1, 1, 0, 0, GridBagConstraints.BOTH, GridBagConstraints.CENTER);
       }
 
       JPanel rightFiller = new JPanel();

@@ -7,16 +7,13 @@ import de.gedoplan.v5t11.leitstand.entity.fahrweg.Signal;
 import de.gedoplan.v5t11.leitstand.persistence.SignalRepository;
 import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import de.gedoplan.v5t11.util.domain.entity.Bereichselement;
-
-import java.util.function.Function;
+import lombok.Getter;
 
 import javax.inject.Inject;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
-
-import lombok.Getter;
-import lombok.Setter;
+import java.util.function.Function;
 
 /**
  * Stellwerkselement.
@@ -24,15 +21,13 @@ import lombok.Setter;
  * @author dw
  */
 @XmlAccessorType(XmlAccessType.NONE)
-public abstract class StellwerkElement extends Bereichselement {
+public abstract class StellwerkElement extends Bereichselement implements Cloneable {
 
   @XmlAttribute
   @Getter
   String lage;
 
   @XmlAttribute
-  @Getter
-  @Setter
   int anzahl = 1;
 
   @XmlAttribute(name = "signal")
@@ -79,7 +74,7 @@ public abstract class StellwerkElement extends Bereichselement {
 
   /**
    * Zugehöriges Signal aus der DB lesen.
-   * 
+   *
    * @return Signal oder <code>null, wenn kein Signal zugeordnet ist</code>
    */
   public Signal findSignal() {
@@ -92,4 +87,11 @@ public abstract class StellwerkElement extends Bereichselement {
     return signal;
   }
 
+  public StellwerkElement clone() {
+    try {
+      return (StellwerkElement) super.clone();
+    } catch (CloneNotSupportedException e) {
+      throw new AssertionError();
+    }
+  }
 }

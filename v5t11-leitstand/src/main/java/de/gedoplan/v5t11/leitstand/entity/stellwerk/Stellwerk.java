@@ -2,10 +2,7 @@ package de.gedoplan.v5t11.leitstand.entity.stellwerk;
 
 import de.gedoplan.baselibs.utils.inject.InjectionUtil;
 import de.gedoplan.v5t11.leitstand.entity.Leitstand;
-
-import java.io.Serializable;
-import java.util.List;
-import java.util.ListIterator;
+import lombok.Getter;
 
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -13,8 +10,9 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-
-import lombok.Getter;
+import java.io.Serializable;
+import java.util.List;
+import java.util.ListIterator;
 
 /**
  * Stellwerk.
@@ -51,9 +49,9 @@ public class Stellwerk implements Serializable, Comparable<Stellwerk> {
    * Nachbearbeitung nach JAXB-Unmarshal.
    *
    * @param unmarshaller
-   *        Unmarshaller
+   *   Unmarshaller
    * @param parent
-   *        Parent
+   *   Parent
    */
   @SuppressWarnings("unused")
   private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
@@ -91,21 +89,21 @@ public class Stellwerk implements Serializable, Comparable<Stellwerk> {
       ListIterator<StellwerkElement> iterator = zeile.getElemente().listIterator();
       while (iterator.hasNext()) {
         StellwerkElement element = iterator.next();
-        int anzahl = element.getAnzahl();
-        element.setAnzahl(1);
+        int anzahl = element.anzahl;
+        element.anzahl = 1;
         while (anzahl > 1) {
-          iterator.add(element);
+          iterator.add(element.clone());
           --anzahl;
         }
       }
     }
 
     // Zeilen mit Leerelementen auffüllen.
-    StellwerkElement leerElement = new StellwerkLeer();
-    leerElement.setBereich(this.bereich);
     for (StellwerkZeile zeile : this.zeilen) {
       int anzahlSpaltenInZeile = zeile.getElemente().size();
       while (anzahlSpaltenInZeile < anzahlSpalten) {
+        StellwerkElement leerElement = new StellwerkLeer();
+        leerElement.setBereich(this.bereich);
         zeile.getElemente().add(leerElement);
         ++anzahlSpaltenInZeile;
       }
