@@ -1,20 +1,17 @@
 package de.gedoplan.v5t11.status.webui;
 
 import de.gedoplan.v5t11.status.entity.Steuerung;
+import de.gedoplan.v5t11.status.entity.fahrweg.Gleis;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
 import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
+import de.gedoplan.v5t11.util.cdi.Changed;
+import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.domain.attribute.FahrzeugId;
 import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
-
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import lombok.Getter;
+import org.jboss.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
@@ -22,10 +19,13 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-
-import org.jboss.logging.Logger;
-
-import lombok.Getter;
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Named
 @SessionScoped
@@ -39,6 +39,12 @@ public class SystemControlPresenter implements Serializable {
 
   @Getter
   private String bereich;
+
+  @Getter
+  private String gleisName;
+
+  @Getter
+  private Gleis gleis;
 
   @Getter
   private String weichenName;
@@ -58,9 +64,13 @@ public class SystemControlPresenter implements Serializable {
   @Getter
   private Fahrzeug lok;
 
+  @Inject
+  EventFirer eventFirer;
+
   @PostConstruct
   void postConstruct() {
     resetBereich();
+    resetGleis();
     resetWeiche();
     resetSignal();
     resetLok();
@@ -89,6 +99,44 @@ public class SystemControlPresenter implements Serializable {
     if (!bereiche.isEmpty()) {
       this.bereich = bereiche.iterator().next();
     }
+  }
+
+  public Collection<Gleis> getGleise() {
+    return this.bereich != null ? this.steuerung.getGleise(this.bereich) : Collections.emptySet();
+  }
+
+  public void setGleisName(String gleisName) {
+    this.gleisName = gleisName;
+    this.gleis = this.steuerung.getGleis(this.bereich, gleisName);
+    if (this.gleis == null) {
+      FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("unbekanntes Gleis: " + this.bereich + "/" + gleisName));
+    }
+  }
+
+  private void resetGleis() {
+    this.gleisName = null;
+    if (this.bereich != null) {
+      Collection<Gleis> gleise = getGleise();
+      if (!gleise.isEmpty()) {
+        this.gleis = gleise.iterator().next();
+        this.gleisName = this.gleis.getName();
+      }
+    }
+  }
+
+  public boolean isGleisBesetzt() {
+    return this.gleis != null ? this.gleis.isBesetzt() : false;
+  }
+
+  public void setGleisBesetzt(boolean besetzt) {
+    if (this.gleis != null) {
+      this.gleis.setBesetzt(besetzt);
+      this.eventFirer.fire(this.gleis, Changed.Literal.INSTANCE);
+    }
+  }
+
+  public boolean isZentraleVerbunden() {
+    return this.steuerung.getZentrale().isVerbunden();
   }
 
   public Collection<Weiche> getWeichen() {

@@ -1,6 +1,7 @@
 package de.gedoplan.v5t11.status.webui;
 
 import de.gedoplan.v5t11.status.entity.baustein.Zentrale;
+import de.gedoplan.v5t11.status.entity.fahrweg.Gleis;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
 import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
@@ -21,6 +22,10 @@ public class PushService extends AbstractPushService {
 
   void fahrzeugChanged(@ObservesAsync @Changed Fahrzeug fahrzeug) {
     send("fahrzeug");
+  }
+
+  void gleisChanged(@ObservesAsync @Changed Gleis gleis) {
+    send("gleis");
   }
 
   void signalChanged(@ObservesAsync @Changed Signal signal) {
