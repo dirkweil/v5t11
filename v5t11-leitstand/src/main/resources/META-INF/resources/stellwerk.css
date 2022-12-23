@@ -1,11 +1,10 @@
 .stellwerk {
   display: grid;
   grid-template-columns: repeat(30, 40px);
-  grid-auto-rows: 25px;
+  grid-auto-rows: 40px;
   place-items: stretch;
 }
 
 .stellwerk > * {
-  aspect-ratio: 16 / 9;
   border: 1px solid crimson;
 }

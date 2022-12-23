@@ -27,8 +27,21 @@ public abstract class StellwerkElement extends Bereichselement implements Clonea
   @Getter
   String lage;
 
+  /** Wiederholungsanzahl. Wird nach Unmarshall "ausgeführt" */
   @XmlAttribute
   int anzahl = 1;
+
+  /** Zeilen-Nummer (1-basiert!) */
+  @Getter
+  int zeilenNr;
+
+  /** Spalten-Nummer (1-basiert!) */
+  @Getter
+  int spaltenNr;
+
+  /** ID auf der Webseite */
+  @Getter
+  String uiId;
 
   @XmlAttribute(name = "signal")
   @Getter
@@ -38,6 +51,7 @@ public abstract class StellwerkElement extends Bereichselement implements Clonea
   @Getter
   String signalPosition;
 
+  @Getter
   BereichselementId signalId;
 
   @Inject

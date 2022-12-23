@@ -5,6 +5,7 @@ import de.gedoplan.v5t11.leitstand.entity.fahrweg.Weiche;
 import de.gedoplan.v5t11.leitstand.persistence.GleisRepository;
 import de.gedoplan.v5t11.leitstand.persistence.WeicheRepository;
 import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
+import lombok.Getter;
 
 import javax.inject.Inject;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -24,10 +25,13 @@ public class StellwerkDkw2 extends StellwerkElement {
   @Inject
   WeicheRepository weicheRepository;
 
+  @Getter
   private BereichselementId weicheAId;
 
+  @Getter
   private BereichselementId weicheBId;
 
+  @Getter
   private BereichselementId gleisId;
 
   @Override
@@ -45,7 +49,7 @@ public class StellwerkDkw2 extends StellwerkElement {
 
   /**
    * Zugehörige Weiche aus der DB lesen.
-   * 
+   *
    * @return Weiche
    */
   public Weiche findWeicheA() {
@@ -56,7 +60,7 @@ public class StellwerkDkw2 extends StellwerkElement {
 
   /**
    * Zugehörige Weiche aus der DB lesen.
-   * 
+   *
    * @return Weiche
    */
   public Weiche findWeicheB() {
@@ -67,7 +71,7 @@ public class StellwerkDkw2 extends StellwerkElement {
 
   /**
    * Zugehörigen Gleis aus der DB lesen.
-   * 
+   *
    * @return Gleis
    */
   public Gleis findGleis() {

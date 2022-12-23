@@ -13,31 +13,17 @@ import de.gedoplan.v5t11.leitstand.persistence.SignalRepository;
 import de.gedoplan.v5t11.leitstand.service.FahrstrassenManager;
 import de.gedoplan.v5t11.stellwerk.util.GbsFarben;
 import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
+import org.jboss.logging.Logger;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.Toolkit;
+import javax.inject.Inject;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.MemoryImageSource;
-
-import javax.inject.Inject;
-import javax.swing.BorderFactory;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-
-import org.jboss.logging.Logger;
 
 /**
  * GBS-Element.
@@ -115,7 +101,7 @@ public abstract class GbsElement extends JPanel {
   protected String name;
 
   private static Cursor invisibleCursor = Toolkit.getDefaultToolkit().createCustomCursor(
-      Toolkit.getDefaultToolkit().createImage(new MemoryImageSource(16, 16, new int[16 * 16], 0, 16)), new Point(0, 0), "noCursor");
+    Toolkit.getDefaultToolkit().createImage(new MemoryImageSource(16, 16, new int[16 * 16], 0, 16)), new Point(0, 0), "noCursor");
 
   protected Signal signal = null;
   protected GbsRichtung signalPosition = null;
@@ -298,11 +284,11 @@ public abstract class GbsElement extends JPanel {
    * Gleis- oder Fahrstrassensegment zeichnen.
    *
    * @param g2d
-   *        Grafik-Kontext
+   *   Grafik-Kontext
    * @param color
-   *        Farbe
+   *   Farbe
    * @param gbsRichtung
-   *        Richtung
+   *   Richtung
    */
   protected void drawGleisSegment(Graphics2D g2d, Color color, GbsRichtung gbsRichtung) {
     AffineTransform oldTransform = g2d.getTransform();
@@ -325,13 +311,13 @@ public abstract class GbsElement extends JPanel {
    * Fahrstrassensegment zeichnen.
    *
    * @param g2d
-   *        Grafik-Kontext
+   *   Grafik-Kontext
    * @param color
-   *        Farbe
+   *   Farbe
    * @param gbsRichtung
-   *        Richtung
+   *   Richtung
    * @param spitze
-   *        <code>true</code>, wenn dieses Segment in Fahrtrichtung weist
+   *   <code>true</code>, wenn dieses Segment in Fahrtrichtung weist
    */
   protected void drawFahrstrassenSegment(Graphics2D g2d, Color color, GbsRichtung gbsRichtung, boolean spitze) {
     AffineTransform oldTransform = g2d.getTransform();
@@ -392,7 +378,7 @@ public abstract class GbsElement extends JPanel {
    * überschrieben.
    *
    * @param g2d
-   *        Grafik-Kontext
+   *   Grafik-Kontext
    */
   protected void translate(Graphics2D g2d) {
   }
@@ -405,9 +391,9 @@ public abstract class GbsElement extends JPanel {
    * GbsElement passend zum angegebenen Stellwerkelement herstellen.
    *
    * @param bereich
-   *        Bereich
+   *   Bereich
    * @param stellwerkElement
-   *        Stellwerkelement
+   *   Stellwerkelement
    * @return GbsElement
    */
   public static GbsElement createInstance(String bereich, StellwerkElement stellwerkElement) {

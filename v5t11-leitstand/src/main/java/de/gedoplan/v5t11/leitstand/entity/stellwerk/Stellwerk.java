@@ -109,6 +109,21 @@ public class Stellwerk implements Serializable, Comparable<Stellwerk> {
       }
     }
 
+    // Zeilen-, Spaltennummern und UI-ID setzen
+    int zeile = 1;
+    for (StellwerkZeile stellwerkZeile : this.zeilen) {
+      int spalte = 1;
+      for (StellwerkElement stellwerkElement : stellwerkZeile.getElemente()) {
+        stellwerkElement.zeilenNr = zeile;
+        stellwerkElement.spaltenNr = spalte;
+
+        stellwerkElement.uiId = this.bereich + "_" + zeile + "_" + spalte;
+
+        ++spalte;
+      }
+
+      ++zeile;
+    }
   }
 
   public void injectFields() {

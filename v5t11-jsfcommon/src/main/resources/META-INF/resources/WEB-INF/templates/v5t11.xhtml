@@ -1,36 +1,40 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-  xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
   <title>${title} - v5t11</title>
 </h:head>
 
 <h:body>
-  <p:growl id="messages" showDetail="false" />
+  <p:growl id="messages" showDetail="false"/>
 
   <p:layout fullPage="true">
 
+    <!--
     <p:layoutUnit position="north" size="180">
-      <h:graphicImage name="v5t11.png" height="100%" width="100%" alt="v5t1" />
+      <h:graphicImage name="v5t11.png" height="100%" width="100%" alt="v5t11" />
     </p:layoutUnit>
+    -->
 
     <p:layoutUnit position="west" resizable="true" size="225" minSize="200" maxSize="400">
       <h:form id="navigation">
-        <p:menu model="#{navigationPresenter.menuModel}" style="width: 98%; border: none;" />
+        <p:menu model="#{navigationPresenter.menuModel}" style="width: 98%; border: none;"/>
       </h:form>
     </p:layoutUnit>
 
     <p:layoutUnit position="center">
-      <ui:insert name="content" />
+      <ui:insert name="content"/>
     </p:layoutUnit>
   </p:layout>
 
   <p:remoteCommand name="updateMenu" update=":navigation"/>
-  <f:websocket channel="menu-refresh" onmessage="updateMenu" />
+  <f:websocket channel="menu-refresh" onmessage="updateMenu"/>
 
-  <h:outputStylesheet name="primeicons/primeicons.css" library="primefaces" />
-  <h:outputStylesheet library="webjars" name="primeflex/primeflex.css" />
-  <h:outputStylesheet name="v5t11.css" />
+  <h:outputStylesheet name="primeicons/primeicons.css" library="primefaces"/>
+  <h:outputStylesheet library="webjars" name="primeflex/primeflex.css"/>
+  <h:outputStylesheet name="v5t11.css"/>
 </h:body>
 </html>
