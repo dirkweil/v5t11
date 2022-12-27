@@ -25,7 +25,7 @@
           <p:outputLabel for="bereich" value="Bereich:"/>
           <p:selectOneMenu id="bereich" value="#{systemControlPresenter.bereich}" style="width:125px">
             <f:selectItems value="#{systemControlPresenter.bereiche}"/>
-            <p:ajax event="itemSelect" update="weiche signal"/>
+            <p:ajax event="itemSelect" update="gleis weiche signal"/>
           </p:selectOneMenu>
 
           <p:outputLabel for="gleis" value="Gleis:"/>

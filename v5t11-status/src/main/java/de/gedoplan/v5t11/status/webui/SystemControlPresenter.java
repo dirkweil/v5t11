@@ -90,6 +90,7 @@ public class SystemControlPresenter implements Serializable {
 
   public void setBereich(String bereich) {
     this.bereich = bereich;
+    resetGleis();
     resetWeiche();
     resetSignal();
   }
