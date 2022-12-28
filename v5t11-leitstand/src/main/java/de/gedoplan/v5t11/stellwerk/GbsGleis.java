@@ -4,14 +4,13 @@ import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrassenelement;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleis;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkElement;
+import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkRichtung;
 import de.gedoplan.v5t11.leitstand.persistence.GleisRepository;
 import de.gedoplan.v5t11.stellwerk.util.GbsFarben;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-
 import javax.inject.Inject;
+import java.awt.*;
 
 /**
  * Gleis im Stellwerk.
@@ -22,7 +21,7 @@ public class GbsGleis extends GbsElement {
 
   private Gleis gleis = null;
   private boolean label;
-  private GbsRichtung[] segmentPos;
+  private StellwerkRichtung[] segmentPos;
 
   @Inject
   GleisRepository gleisRepository;
@@ -31,9 +30,9 @@ public class GbsGleis extends GbsElement {
    * Konstruktor.
    *
    * @param bereich
-   *        Stellwerksbereich
+   *   Stellwerksbereich
    * @param stellwerkElement
-   *        zugehöriges Stellwerkselement
+   *   zugehöriges Stellwerkselement
    */
   public GbsGleis(String bereich, StellwerkElement stellwerkElement) {
     super(bereich, stellwerkElement);
@@ -50,9 +49,9 @@ public class GbsGleis extends GbsElement {
 
     String[] segmente = stellwerkElement.getLage().split(",");
     assert segmente.length == 2 : "GBS-Gleis muss 2 Segmente haben";
-    this.segmentPos = new GbsRichtung[segmente.length];
+    this.segmentPos = new StellwerkRichtung[segmente.length];
     for (int i = 0; i < segmente.length; ++i) {
-      this.segmentPos[i] = GbsRichtung.valueOf(segmente[i]);
+      this.segmentPos[i] = StellwerkRichtung.valueOf(segmente[i]);
     }
   }
 

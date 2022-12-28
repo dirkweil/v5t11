@@ -3,18 +3,18 @@ package de.gedoplan.v5t11.stellwerk;
 import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrassenelement;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkElement;
+import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkRichtung;
 import de.gedoplan.v5t11.stellwerk.util.GbsFarben;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
+import java.awt.*;
 
 public class GbsDkw1 extends GbsWeicheMit1Antrieb {
-  private GbsRichtung einfahrtPos1;
-  private GbsRichtung einfahrtPos2;
-  private GbsRichtung ausfahrtPos1;
-  private GbsRichtung ausfahrtPos2;
+  private StellwerkRichtung einfahrtPos1;
+  private StellwerkRichtung einfahrtPos2;
+  private StellwerkRichtung ausfahrtPos1;
+  private StellwerkRichtung ausfahrtPos2;
 
   public GbsDkw1(String bereich, StellwerkElement stellwerkElement) {
     super(bereich, stellwerkElement);
@@ -24,8 +24,8 @@ public class GbsDkw1 extends GbsWeicheMit1Antrieb {
       throw new IllegalArgumentException("Lage muss bei Dkw1 2-teilig sein");
     }
 
-    this.einfahrtPos1 = GbsRichtung.valueOf(segmente[0]);
-    this.einfahrtPos2 = GbsRichtung.valueOf(segmente[1]);
+    this.einfahrtPos1 = StellwerkRichtung.valueOf(segmente[0]);
+    this.einfahrtPos2 = StellwerkRichtung.valueOf(segmente[1]);
 
     this.ausfahrtPos1 = this.einfahrtPos1.getOpposite();
     this.ausfahrtPos2 = this.einfahrtPos2.getOpposite();

@@ -1,28 +1,24 @@
-package de.gedoplan.v5t11.stellwerk;
+package de.gedoplan.v5t11.leitstand.entity.stellwerk;
 
 /**
  * Himmelsrichtungen als Positionsangaben im GBS.
- * 
+ *
  * Die Richtungen sind im Uhrzeigersinn angeordnet.
- * 
+ *
  * @author dw
  */
-public enum GbsRichtung
-{
+public enum StellwerkRichtung {
   /**
    * Nord.
    */
-  N
-  {
+  N {
     @Override
-    public int getWinkel()
-    {
+    public int getWinkel() {
       return 0;
     }
 
     @Override
-    public GbsRichtung getOpposite()
-    {
+    public StellwerkRichtung getOpposite() {
       return S;
     }
   },
@@ -30,17 +26,14 @@ public enum GbsRichtung
   /**
    * Nord-Ost.
    */
-  NO
-  {
+  NO {
     @Override
-    public int getWinkel()
-    {
+    public int getWinkel() {
       return 45;
     }
 
     @Override
-    public GbsRichtung getOpposite()
-    {
+    public StellwerkRichtung getOpposite() {
       return SW;
     }
   },
@@ -48,17 +41,14 @@ public enum GbsRichtung
   /**
    * Ost.
    */
-  O
-  {
+  O {
     @Override
-    public int getWinkel()
-    {
+    public int getWinkel() {
       return 90;
     }
 
     @Override
-    public GbsRichtung getOpposite()
-    {
+    public StellwerkRichtung getOpposite() {
       return W;
     }
   },
@@ -66,17 +56,14 @@ public enum GbsRichtung
   /**
    * Süd-Ost.
    */
-  SO
-  {
+  SO {
     @Override
-    public int getWinkel()
-    {
+    public int getWinkel() {
       return 135;
     }
 
     @Override
-    public GbsRichtung getOpposite()
-    {
+    public StellwerkRichtung getOpposite() {
       return NW;
     }
   },
@@ -84,17 +71,14 @@ public enum GbsRichtung
   /**
    * Süd.
    */
-  S
-  {
+  S {
     @Override
-    public int getWinkel()
-    {
+    public int getWinkel() {
       return 180;
     }
 
     @Override
-    public GbsRichtung getOpposite()
-    {
+    public StellwerkRichtung getOpposite() {
       return N;
     }
   },
@@ -102,17 +86,14 @@ public enum GbsRichtung
   /**
    * Süd-West.
    */
-  SW
-  {
+  SW {
     @Override
-    public int getWinkel()
-    {
+    public int getWinkel() {
       return 225;
     }
 
     @Override
-    public GbsRichtung getOpposite()
-    {
+    public StellwerkRichtung getOpposite() {
       return NO;
     }
   },
@@ -120,17 +101,14 @@ public enum GbsRichtung
   /**
    * West.
    */
-  W
-  {
+  W {
     @Override
-    public int getWinkel()
-    {
+    public int getWinkel() {
       return 270;
     }
 
     @Override
-    public GbsRichtung getOpposite()
-    {
+    public StellwerkRichtung getOpposite() {
       return O;
     }
   },
@@ -138,27 +116,23 @@ public enum GbsRichtung
   /**
    * Nord-West.
    */
-  NW
-  {
+  NW {
     @Override
-    public int getWinkel()
-    {
+    public int getWinkel() {
       return 315;
     }
 
     @Override
-    public GbsRichtung getOpposite()
-    {
+    public StellwerkRichtung getOpposite() {
       return SO;
     }
   };
 
   public abstract int getWinkel();
 
-  public abstract GbsRichtung getOpposite();
+  public abstract StellwerkRichtung getOpposite();
 
-  public boolean isDiagonal()
-  {
+  public boolean isDiagonal() {
     return (getWinkel() % 2) != 0;
   }
 }

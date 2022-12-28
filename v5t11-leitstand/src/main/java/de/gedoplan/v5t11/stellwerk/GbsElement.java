@@ -6,9 +6,10 @@ import de.gedoplan.v5t11.leitstand.entity.Leitstand;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleis;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Signal;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkDkw2;
+import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkEinfachWeiche;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkElement;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkGleis;
-import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkWeiche;
+import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkRichtung;
 import de.gedoplan.v5t11.leitstand.persistence.SignalRepository;
 import de.gedoplan.v5t11.leitstand.service.FahrstrassenManager;
 import de.gedoplan.v5t11.stellwerk.util.GbsFarben;
@@ -104,7 +105,7 @@ public abstract class GbsElement extends JPanel {
     Toolkit.getDefaultToolkit().createImage(new MemoryImageSource(16, 16, new int[16 * 16], 0, 16)), new Point(0, 0), "noCursor");
 
   protected Signal signal = null;
-  protected GbsRichtung signalPosition = null;
+  protected StellwerkRichtung signalPosition = null;
 
   protected GbsInputPanel inputPanel = null;
 
@@ -146,7 +147,7 @@ public abstract class GbsElement extends JPanel {
         });
       }
 
-      this.signalPosition = stellwerkElement.getSignalPosition() != null ? GbsRichtung.valueOf(stellwerkElement.getSignalPosition()) : GbsRichtung.N;
+      this.signalPosition = stellwerkElement.getSignalPosition() != null ? StellwerkRichtung.valueOf(stellwerkElement.getSignalPosition()) : StellwerkRichtung.N;
     }
 
     addMouseListener(new MouseAdapter() {
@@ -290,7 +291,7 @@ public abstract class GbsElement extends JPanel {
    * @param gbsRichtung
    *   Richtung
    */
-  protected void drawGleisSegment(Graphics2D g2d, Color color, GbsRichtung gbsRichtung) {
+  protected void drawGleisSegment(Graphics2D g2d, Color color, StellwerkRichtung gbsRichtung) {
     AffineTransform oldTransform = g2d.getTransform();
 
     // Koordinatensystem so drehen und verschieben, dass das zu zeichnende Segment oben liegt
@@ -319,7 +320,7 @@ public abstract class GbsElement extends JPanel {
    * @param spitze
    *   <code>true</code>, wenn dieses Segment in Fahrtrichtung weist
    */
-  protected void drawFahrstrassenSegment(Graphics2D g2d, Color color, GbsRichtung gbsRichtung, boolean spitze) {
+  protected void drawFahrstrassenSegment(Graphics2D g2d, Color color, StellwerkRichtung gbsRichtung, boolean spitze) {
     AffineTransform oldTransform = g2d.getTransform();
 
     // Koordinatensystem so drehen und verschieben, dass das zu zeichnende Segment oben liegt
@@ -408,22 +409,22 @@ public abstract class GbsElement extends JPanel {
       return new GbsGleis(bereich, stellwerkElement);
     }
 
-    if (stellwerkElement instanceof StellwerkWeiche) {
+    if (stellwerkElement instanceof StellwerkEinfachWeiche) {
       return new GbsEinfachWeiche(bereich, stellwerkElement);
     }
 
     return new GbsLeer(bereich, stellwerkElement);
   }
 
-  public static GbsRichtung findBestFreePosition(GbsRichtung... usedPos) {
+  public static StellwerkRichtung findBestFreePosition(StellwerkRichtung... usedPos) {
     /*
      * Position für die Beschriftung bestimmen: Gesucht ist die Position, die möglichst viel Raum bietet. Dazu zunächst ein Array
      * mit Negativwerten aufbauen: Ist die dem Array-Index entsprechende Position durch ein Gleis belegt, erhält sie einen Malus
      * von 100. Ist eine Nachbarposition besetzt, erhält sie einen Malus von 10.
      */
-    int posCount = GbsRichtung.values().length;
+    int posCount = StellwerkRichtung.values().length;
     int[] posMalus = new int[posCount];
-    for (GbsRichtung pos : usedPos) {
+    for (StellwerkRichtung pos : usedPos) {
       if (pos != null) {
         int ordinal = pos.ordinal();
         posMalus[ordinal] += 100;
@@ -435,17 +436,17 @@ public abstract class GbsElement extends JPanel {
     /*
      * Die Ecken haben etwas mehr Platz. Daher bekommen die anderen Positionen einen Malus von 1;
      */
-    posMalus[GbsRichtung.N.ordinal()] += 1;
-    posMalus[GbsRichtung.O.ordinal()] += 1;
-    posMalus[GbsRichtung.S.ordinal()] += 1;
-    posMalus[GbsRichtung.W.ordinal()] += 1;
+    posMalus[StellwerkRichtung.N.ordinal()] += 1;
+    posMalus[StellwerkRichtung.O.ordinal()] += 1;
+    posMalus[StellwerkRichtung.S.ordinal()] += 1;
+    posMalus[StellwerkRichtung.W.ordinal()] += 1;
 
     /*
      * Dann die Position mit dem geringsten Malus ermitteln.
      */
     int minMalus = Integer.MAX_VALUE;
-    GbsRichtung bestPos = null;
-    for (GbsRichtung pos : GbsRichtung.values()) {
+    StellwerkRichtung bestPos = null;
+    for (StellwerkRichtung pos : StellwerkRichtung.values()) {
       int ordinal = pos.ordinal();
       if (posMalus[ordinal] < minMalus) {
         minMalus = posMalus[ordinal];

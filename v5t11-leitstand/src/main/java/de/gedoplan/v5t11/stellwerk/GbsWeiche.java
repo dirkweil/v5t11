@@ -2,18 +2,17 @@ package de.gedoplan.v5t11.stellwerk;
 
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleis;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkElement;
+import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkRichtung;
 import de.gedoplan.v5t11.leitstand.persistence.GleisRepository;
 import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.geom.AffineTransform;
-
 import javax.inject.Inject;
+import java.awt.*;
+import java.awt.geom.AffineTransform;
 
 public abstract class GbsWeiche extends GbsElement {
 
-  protected GbsRichtung labelPos = null;
+  protected StellwerkRichtung labelPos = null;
   protected String label = null;
   protected Gleis gleis;
 

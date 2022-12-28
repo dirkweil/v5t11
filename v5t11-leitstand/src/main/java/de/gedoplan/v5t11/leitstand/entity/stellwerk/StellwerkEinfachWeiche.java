@@ -17,7 +17,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
  * @author dw
  */
 @XmlAccessorType(XmlAccessType.NONE)
-public class StellwerkWeiche extends StellwerkElement {
+public class StellwerkEinfachWeiche extends StellwerkElement {
 
   @Inject
   GleisRepository gleisRepository;

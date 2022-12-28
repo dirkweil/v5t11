@@ -3,30 +3,30 @@ package de.gedoplan.v5t11.stellwerk;
 import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrassenelement;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkElement;
+import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkRichtung;
 import de.gedoplan.v5t11.stellwerk.util.GbsFarben;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class GbsDkw2 extends GbsWeicheMit2Antrieben {
   private static final Pattern PATTERN = Pattern.compile("(\\w+)\\|(\\w+),(\\w+)\\|(\\w+)");
 
-  private GbsRichtung[] geradePos = new GbsRichtung[2];
-  private GbsRichtung[] abzweigPos = new GbsRichtung[2];
+  private StellwerkRichtung[] geradePos = new StellwerkRichtung[2];
+  private StellwerkRichtung[] abzweigPos = new StellwerkRichtung[2];
 
   public GbsDkw2(String bereich, StellwerkElement stellwerkElement) {
     super(bereich, stellwerkElement);
 
     Matcher matcher = PATTERN.matcher(stellwerkElement.getLage());
     if (matcher.matches()) {
-      this.geradePos[0] = GbsRichtung.valueOf(matcher.group(1));
-      this.abzweigPos[0] = GbsRichtung.valueOf(matcher.group(2));
-      this.geradePos[1] = GbsRichtung.valueOf(matcher.group(3));
-      this.abzweigPos[1] = GbsRichtung.valueOf(matcher.group(4));
+      this.geradePos[0] = StellwerkRichtung.valueOf(matcher.group(1));
+      this.abzweigPos[0] = StellwerkRichtung.valueOf(matcher.group(2));
+      this.geradePos[1] = StellwerkRichtung.valueOf(matcher.group(3));
+      this.abzweigPos[1] = StellwerkRichtung.valueOf(matcher.group(4));
     } else {
       throw new IllegalArgumentException("Lage muss bei Dkw das Format g|a,g|a haben");
     }

@@ -3,19 +3,19 @@ package de.gedoplan.v5t11.stellwerk;
 import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrassenelement;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkElement;
+import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkRichtung;
 import de.gedoplan.v5t11.stellwerk.util.GbsFarben;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class GbsEinfachWeiche extends GbsWeicheMit1Antrieb {
-  private GbsRichtung stammPos;
-  private GbsRichtung geradePos;
-  private GbsRichtung abzweigendPos;
+  private StellwerkRichtung stammPos;
+  private StellwerkRichtung geradePos;
+  private StellwerkRichtung abzweigendPos;
   private boolean stammIstEinfahrt;
 
   private static final Pattern PATTERN_VORWAERTS = Pattern.compile("(\\w+),(\\w+)\\|(\\w+)");
@@ -27,16 +27,16 @@ public class GbsEinfachWeiche extends GbsWeicheMit1Antrieb {
     String lage = stellwerkElement.getLage();
     Matcher matcher = PATTERN_VORWAERTS.matcher(lage);
     if (matcher.matches()) {
-      this.stammPos = GbsRichtung.valueOf(matcher.group(1));
-      this.geradePos = GbsRichtung.valueOf(matcher.group(2));
-      this.abzweigendPos = GbsRichtung.valueOf(matcher.group(3));
+      this.stammPos = StellwerkRichtung.valueOf(matcher.group(1));
+      this.geradePos = StellwerkRichtung.valueOf(matcher.group(2));
+      this.abzweigendPos = StellwerkRichtung.valueOf(matcher.group(3));
       this.stammIstEinfahrt = true;
     } else {
       matcher = PATTERN_RUECKWAERTS.matcher(lage);
       if (matcher.matches()) {
-        this.stammPos = GbsRichtung.valueOf(matcher.group(3));
-        this.geradePos = GbsRichtung.valueOf(matcher.group(1));
-        this.abzweigendPos = GbsRichtung.valueOf(matcher.group(2));
+        this.stammPos = StellwerkRichtung.valueOf(matcher.group(3));
+        this.geradePos = StellwerkRichtung.valueOf(matcher.group(1));
+        this.abzweigendPos = StellwerkRichtung.valueOf(matcher.group(2));
         this.stammIstEinfahrt = false;
       } else {
         throw new IllegalArgumentException("Lage muss bei Weichen das Format s,g|a oder g|a,s haben");

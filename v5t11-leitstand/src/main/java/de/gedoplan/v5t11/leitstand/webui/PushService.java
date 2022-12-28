@@ -1,15 +1,16 @@
 package de.gedoplan.v5t11.leitstand.webui;
 
+import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
-import com.google.common.collect.SetMultimap;
 import de.gedoplan.v5t11.leitstand.entity.Leitstand;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleis;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Signal;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Weiche;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkDkw2;
+import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkEinfachWeiche;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkElement;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkGleis;
-import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkWeiche;
+import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkRichtung;
 import de.gedoplan.v5t11.util.cdi.Changed;
 import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import de.gedoplan.v5t11.util.jsf.AbstractPushService;
@@ -24,14 +25,15 @@ import javax.websocket.OnError;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
+import java.util.List;
 
 @ServerEndpoint("/javax.faces.push/stellwerk")
 @ApplicationScoped
 public class PushService extends AbstractPushService {
 
-  private SetMultimap<BereichselementId, StellwerkElement> gleisElemente = MultimapBuilder.hashKeys().hashSetValues().build();
-  private SetMultimap<BereichselementId, StellwerkElement> weichenElemente = MultimapBuilder.hashKeys().hashSetValues().build();
-  private SetMultimap<BereichselementId, StellwerkElement> signalElemente = MultimapBuilder.hashKeys().hashSetValues().build();
+  private ListMultimap<BereichselementId, StellwerkElement> gleisElemente = MultimapBuilder.hashKeys().arrayListValues().build();
+  private ListMultimap<BereichselementId, StellwerkElement> weichenElemente = MultimapBuilder.hashKeys().arrayListValues().build();
+  private ListMultimap<BereichselementId, StellwerkElement> signalElemente = MultimapBuilder.hashKeys().arrayListValues().build();
 
   public PushService(Leitstand leitstand) {
     leitstand
@@ -43,10 +45,10 @@ public class PushService extends AbstractPushService {
         if (element instanceof StellwerkGleis stellwerkGleis) {
           this.gleisElemente.put(stellwerkGleis.getId(), stellwerkGleis);
         }
-        if (element instanceof StellwerkWeiche stellwerkWeiche) {
+        if (element instanceof StellwerkEinfachWeiche stellwerkEinfachWeiche) {
           this.weichenElemente.put(element.getId(), element);
-          if (stellwerkWeiche.getGleisId() != null) {
-            this.gleisElemente.put(stellwerkWeiche.getGleisId(), element);
+          if (stellwerkEinfachWeiche.getGleisId() != null) {
+            this.gleisElemente.put(stellwerkEinfachWeiche.getGleisId(), element);
           }
         }
         if (element instanceof StellwerkDkw2 stellwerkDkw2) {
@@ -83,37 +85,35 @@ public class PushService extends AbstractPushService {
   private void send(StellwerkElement element) {
     JsonObjectBuilder builder = Json.createObjectBuilder();
     builder.add("uiId", element.getUiId());
-    builder.add("typ", element.getClass().getSimpleName());
-    builder.add("lage", element.getLage());
-    builder.add("label", element.isLabel());
 
-    Gleis gleis = null;
-    Weiche weiche = null;
-    Weiche weicheB = null;
+    String gleisName = null;
+    Boolean gleisBesetzt = null;
+
+    List<StellwerkRichtung> aktiveRichtungen = null;
+
     if (element instanceof StellwerkGleis stellwerkGleis) {
-      gleis = stellwerkGleis.findGleis();
-    } else if (element instanceof StellwerkWeiche stellwerkWeiche) {
-      gleis = stellwerkWeiche.findGleis();
-      weiche = stellwerkWeiche.findWeiche();
-    } else if (element instanceof StellwerkDkw2 stellwerkDkw2) {
-      gleis = stellwerkDkw2.findGleis();
-      weiche = stellwerkDkw2.findWeicheA();
-      weicheB = stellwerkDkw2.findWeicheB();
-    }
-    Signal signal = element.findSignal();
+      if (stellwerkGleis.isLabel()) {
+        gleisName = stellwerkGleis.getName();
+      }
 
-    if (gleis != null) {
-      addJsonObject("gleis", gleis, builder);
+      aktiveRichtungen = stellwerkGleis.getRichtungen();
+
+      gleisBesetzt = stellwerkGleis.findGleis().isBesetzt();
     }
-    if (weiche != null) {
-      addJsonObject("weiche", weiche, builder);
+
+    if (gleisName != null) {
+      builder.add("g", gleisName);
     }
-    if (weicheB != null) {
-      addJsonObject("weicheB", weicheB, builder);
+
+    if (gleisBesetzt != null) {
+      builder.add("b", gleisBesetzt);
     }
-    if (signal != null) {
-      addJsonObject("signal", signal, builder);
+
+    if (aktiveRichtungen != null) {
+      List<String> richtungsNamen = aktiveRichtungen.stream().map(x -> x.name()).toList();
+      builder.add("a", Json.createArrayBuilder(richtungsNamen));
     }
+
     send(builder.build());
   }
 
