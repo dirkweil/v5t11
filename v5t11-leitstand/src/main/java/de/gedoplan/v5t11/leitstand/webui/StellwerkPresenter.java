@@ -5,7 +5,6 @@ import org.jboss.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
-import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -29,10 +28,6 @@ public class StellwerkPresenter implements Serializable {
 
   public Stellwerk getStellwerk() {
     return this.stellwerkSessionHolder.getStellwerk();
-  }
-
-  public void logAjaxBehaviorEvent(AjaxBehaviorEvent ajaxBehaviorEvent) {
-    this.logger.debugf("AjaxBehaviorEvent von %s", ajaxBehaviorEvent.getComponent().getId());
   }
 
   public void elementClicked() {

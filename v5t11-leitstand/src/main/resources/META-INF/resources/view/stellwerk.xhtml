@@ -9,7 +9,8 @@
   <ui:param name="title" value="Stellwerk ${stellwerkPresenter.stellwerk.bereich}"/>
   <ui:define name="content">
     <p:remoteCommand name="elementClicked" action="${stellwerkPresenter.elementClicked}"/>
-    <div class="stellwerk">
+
+    <h:panelGroup id="stellwerk" layout="block" styleClass="stellwerk">
       <ui:repeat var="zeile" value="${stellwerkPresenter.stellwerk.zeilen}">
         <ui:repeat var="element" value="${zeile.elemente}">
           <canvas id="${element.uiId}"
@@ -19,14 +20,12 @@
           </canvas>
         </ui:repeat>
       </ui:repeat>
-    </div>
+    </h:panelGroup>
 
     <h:outputStylesheet name="stellwerk.css"/>
     <h:outputScript name="stellwerk.js"/>
 
-    <f:phaseListener type="de.gedoplan.v5t11.leitstand.webui.DemoPhaseListener"/>
-
-    <f:websocket channel="stellwerk" onmessage="updateElement"/>
+    <f:websocket channel="stellwerk" onmessage="updateElemente"/>
 
   </ui:define>
 </ui:composition>

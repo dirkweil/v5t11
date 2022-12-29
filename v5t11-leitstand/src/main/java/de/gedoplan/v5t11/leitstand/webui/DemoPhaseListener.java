@@ -22,6 +22,6 @@ public class DemoPhaseListener implements PhaseListener {
 
   @Override
   public PhaseId getPhaseId() {
-    return PhaseId.RENDER_RESPONSE;
+    return PhaseId.ANY_PHASE;
   }
 }

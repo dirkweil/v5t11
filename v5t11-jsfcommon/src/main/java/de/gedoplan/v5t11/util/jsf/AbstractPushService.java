@@ -4,7 +4,7 @@ import de.gedoplan.baselibs.utils.util.ClassUtil;
 import org.jboss.logging.Logger;
 
 import javax.json.Json;
-import javax.json.JsonObject;
+import javax.json.JsonValue;
 import javax.websocket.Session;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -34,7 +34,7 @@ public abstract class AbstractPushService {
     send(Json.createObjectBuilder().add("text", text).build());
   }
 
-  protected void send(JsonObject message) {
+  protected void send(JsonValue message) {
     this.logger.debugf("Send %s to %d browser sessions!", message, this.sessions.size());
     this.sessions.forEach(s -> {
       s.getAsyncRemote().sendText(message.toString(), result -> {

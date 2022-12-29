@@ -1,3 +1,10 @@
+function updateElemente(messages) {
+  console.log('updateElemente: ' + JSON.stringify(messages));
+  for (const message of messages) {
+    updateElement(message);
+  }
+}
+
 function updateElement(message) {
   console.log('updateElement: ' + JSON.stringify(message));
 
