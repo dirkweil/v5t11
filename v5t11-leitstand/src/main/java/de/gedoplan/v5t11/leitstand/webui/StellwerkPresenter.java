@@ -22,8 +22,10 @@ public class StellwerkPresenter implements Serializable {
 
   @PostConstruct
   void postConstruct() {
-    this.stellwerkSessionHolder.changeBereich(FacesContext.getCurrentInstance()
-      .getExternalContext().getRequestParameterMap().get("bereich"));
+    String bereich = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("bereich");
+    this.logger.debugf("bereich: %s", bereich);
+
+    this.stellwerkSessionHolder.changeBereich(bereich);
   }
 
   public Stellwerk getStellwerk() {

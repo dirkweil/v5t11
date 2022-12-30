@@ -39,6 +39,15 @@ import java.util.List;
 @ApplicationScoped
 public class PushService extends AbstractPushService {
 
+  public static final List<String> FARBEN_SPERR_SH0 = List.of("r");
+  public static final List<String> FARBEN_SPERR_SH1 = List.of("w");
+  public static final List<String> FARBEN_HAUPT_HP0 = List.of("r", "-");
+  public static final List<String> FARBEN_HAUPT_HP1 = List.of("g", "-");
+  public static final List<String> FARBEN_HAUPT_HP2 = List.of("g", "y");
+  public static final List<String> FARBEN_HAUPT_HP0_SH1 = List.of("r", "w");
+  public static final List<String> FARBEN_BLOCK_HP0 = List.of("-", "r");
+  public static final List<String> FARBEN_BLOCK_HP1 = List.of("-", "g");
+
   private Leitstand leitstand;
 
   private ListMultimap<BereichselementId, StellwerkElement> gleisElemente = MultimapBuilder.hashKeys().arrayListValues().build();
@@ -138,6 +147,8 @@ public class PushService extends AbstractPushService {
       } else {
         aktiveRichtungen.add(0, stellwerkEinfachWeiche.getStammRichtung());
       }
+
+      gleisBesetzt = stellwerkEinfachWeiche.findGleis().isBesetzt();
     } else if (element instanceof StellwerkDkw2 stellwerkDkw2) {
       weichenName = stellwerkDkw2.getName();
 
@@ -145,6 +156,8 @@ public class PushService extends AbstractPushService {
       inaktiveRichtungen = new ArrayList<>();
       addRichtungen(stellwerkDkw2.findWeicheA(), stellwerkDkw2.getGeradeRichtung()[0], stellwerkDkw2.getAbzweigRichtung()[0], aktiveRichtungen, inaktiveRichtungen);
       addRichtungen(stellwerkDkw2.findWeicheB(), stellwerkDkw2.getGeradeRichtung()[1], stellwerkDkw2.getAbzweigRichtung()[1], aktiveRichtungen, inaktiveRichtungen);
+
+      gleisBesetzt = stellwerkDkw2.findGleis().isBesetzt();
     }
 
     if (gleisName != null) {
@@ -169,6 +182,10 @@ public class PushService extends AbstractPushService {
       builder.add("i", Json.createArrayBuilder(richtungsNamen));
     }
 
+    if (element.getSignalId() != null) {
+      addSignal(element.findSignal(), element.getSignalPosition(), builder);
+    }
+
     return builder.build();
   }
 
@@ -183,22 +200,40 @@ public class PushService extends AbstractPushService {
     }
   }
 
-  private static void addJsonObject(String name, Gleis gleis, JsonObjectBuilder builder) {
-    builder.add(name, Json.createObjectBuilder()
-      .add("name", gleis.getName())
-      .add("besetzt", gleis.isBesetzt()));
-  }
+  private static void addSignal(Signal signal, String signalPosition, JsonObjectBuilder builder) {
 
-  private static void addJsonObject(String name, Weiche weiche, JsonObjectBuilder builder) {
-    builder.add(name, Json.createObjectBuilder()
-      .add("name", weiche.getName())
-      .add("stellung", weiche.getStellung().toString()));
-  }
+    List<String> farben = switch (signal.getTyp()) {
+      case SPERRSIGNAL -> switch (signal.getStellung()) {
+        default -> FARBEN_SPERR_SH0;
+        case FAHRT, LANGSAMFAHRT, RANGIERFAHRT -> FARBEN_SPERR_SH1;
+      };
+      case HAUPTSPERRSIGNAL -> switch (signal.getStellung()) {
+        default -> FARBEN_HAUPT_HP0;
+        case FAHRT -> FARBEN_HAUPT_HP1;
+        case LANGSAMFAHRT -> FARBEN_HAUPT_HP2;
+        case RANGIERFAHRT -> FARBEN_HAUPT_HP0_SH1;
+      };
+      case HAUPTSIGNAL_RT_GE -> switch (signal.getStellung()) {
+        default -> FARBEN_HAUPT_HP0;
+        case FAHRT, LANGSAMFAHRT -> FARBEN_HAUPT_HP2;
+      };
+      case HAUPTSIGNAL_RT_GN -> switch (signal.getStellung()) {
+        default -> FARBEN_BLOCK_HP0;
+        case FAHRT, LANGSAMFAHRT -> FARBEN_BLOCK_HP1;
+      };
+      case HAUPTSIGNAL_RT_GE_GN -> switch (signal.getStellung()) {
+        default -> FARBEN_HAUPT_HP0;
+        case FAHRT -> FARBEN_BLOCK_HP1;
+        case LANGSAMFAHRT -> FARBEN_HAUPT_HP2;
+      };
+      default -> List.of();
+    };
 
-  private static void addJsonObject(String name, Signal signal, JsonObjectBuilder builder) {
-    builder.add(name, Json.createObjectBuilder()
-      .add("name", signal.getName())
-      .add("stellung", signal.getStellung().toString()));
+    if (!farben.isEmpty()) {
+      builder.add("s", signal.getName());
+      builder.add("f", Json.createArrayBuilder(farben));
+      builder.add("p", signalPosition != null ? signalPosition : "N");
+    }
   }
 
   @Inject
