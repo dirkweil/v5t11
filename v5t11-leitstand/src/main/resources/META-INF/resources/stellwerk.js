@@ -13,50 +13,43 @@ function updateElement(message) {
     // console.log('element: ' + element);
 
     var ctx = element.getContext("2d");
+    ctx.lineWidth = 30;
+    ctx.lineCap = "butt";
+    ctx.lineJoin = "round";
 
+    // Zuerst inaktive Segmente zeichnen
+    var inaktiveRichtungen = message.i;
+    if (inaktiveRichtungen != null) {
+      console.log('inaktiveRichtungen: ' + inaktiveRichtungen);
+
+      ctx.beginPath();
+      ctx.strokeStyle = "grey";
+
+      for (inaktiveRichtung of inaktiveRichtungen) {
+        var start = richtung2point(inaktiveRichtung);
+        ctx.moveTo(start.x, start.y);
+        ctx.lineTo(50, 50);
+      }
+
+      ctx.stroke();
+    }
+
+    // Dann aktive Segmente zeichnen
     var aktiveRichtungen = message.a;
     if (aktiveRichtungen != null) {
       console.log('aktiveRichtungen: ' + aktiveRichtungen);
 
       ctx.beginPath();
-      ctx.lineWidth = 30;
-      ctx.lineJoin = "round";
-
       ctx.strokeStyle = message.b ? "red" : "black";
 
       var start = richtung2point(aktiveRichtungen[0]);
-      console.log('start: ' + start.x + '/' + start.y);
       var ende = richtung2point(aktiveRichtungen[1]);
-      console.log('ende: ' + ende.x + '/' + ende.y);
       ctx.moveTo(start.x, start.y);
       ctx.lineTo(50, 50);
       ctx.lineTo(ende.x, ende.y);
-
       ctx.stroke();
     }
-    // var gleis = message.gleis;
-    // if (gleis != null) {
-    //   var gleisName = gleis.name;
-    //   var gleisBesetzt = gleis.besetzt;
-    //   if (gleisBesetzt)
-    //     ctx.fillStyle = "#FF0000";
-    //   else
-    //     ctx.fillStyle = "#000000";
-    //   ctx.font = "30px Arial";
-    //   ctx.fillText('G: ' + gleisName, 0, 30);
-    // }
 
-    // var weiche = message.weiche;
-    // if (weiche != null) {
-    //   var weichenName = weiche.name;
-    //   var weichenStellung = weiche.stellung;
-    //   if (weichenStellung == 'A')
-    //     ctx.fillStyle = "#FF0000";
-    //   else
-    //     ctx.fillStyle = "#000000";
-    //   ctx.font = "30px Arial";
-    //   ctx.fillText('W: ' + weichenName, 0, 65);
-    // }
   }
 
   function richtung2point(richtung) {
@@ -75,6 +68,8 @@ function updateElement(message) {
         return {x: 0, y: 100};
       case 'W':
         return {x: 0, y: 50};
+      case 'NW':
+        return {x: 0, y: 0};
       default:
         return {x: 50, y: 50};
     }

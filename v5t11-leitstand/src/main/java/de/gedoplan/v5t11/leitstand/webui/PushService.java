@@ -14,6 +14,7 @@ import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkLeer;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkRichtung;
 import de.gedoplan.v5t11.util.cdi.Changed;
 import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
+import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
 import de.gedoplan.v5t11.util.jsf.AbstractPushService;
 import org.eclipse.microprofile.context.ManagedExecutor;
 
@@ -30,6 +31,7 @@ import javax.websocket.OnError;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -112,16 +114,37 @@ public class PushService extends AbstractPushService {
     String gleisName = null;
     Boolean gleisBesetzt = null;
 
+    String weichenName = null;
+
     List<StellwerkRichtung> aktiveRichtungen = null;
+    List<StellwerkRichtung> inaktiveRichtungen = null;
 
     if (element instanceof StellwerkGleis stellwerkGleis) {
       if (stellwerkGleis.isLabel()) {
-        gleisName = stellwerkGleis.getName();
+        weichenName = stellwerkGleis.getName();
       }
 
       aktiveRichtungen = stellwerkGleis.getRichtungen();
 
       gleisBesetzt = stellwerkGleis.findGleis().isBesetzt();
+    } else if (element instanceof StellwerkEinfachWeiche stellwerkEinfachWeiche) {
+      weichenName = stellwerkEinfachWeiche.getName();
+
+      aktiveRichtungen = new ArrayList<>();
+      inaktiveRichtungen = new ArrayList<>();
+      addRichtungen(stellwerkEinfachWeiche.findWeiche(), stellwerkEinfachWeiche.getGeradeRichtung(), stellwerkEinfachWeiche.getAbzweigendRichtung(), aktiveRichtungen, inaktiveRichtungen);
+      if (stellwerkEinfachWeiche.isStammIstEinfahrt()) {
+        aktiveRichtungen.add(stellwerkEinfachWeiche.getStammRichtung());
+      } else {
+        aktiveRichtungen.add(0, stellwerkEinfachWeiche.getStammRichtung());
+      }
+    } else if (element instanceof StellwerkDkw2 stellwerkDkw2) {
+      weichenName = stellwerkDkw2.getName();
+
+      aktiveRichtungen = new ArrayList<>();
+      inaktiveRichtungen = new ArrayList<>();
+      addRichtungen(stellwerkDkw2.findWeicheA(), stellwerkDkw2.getGeradeRichtung()[0], stellwerkDkw2.getAbzweigRichtung()[0], aktiveRichtungen, inaktiveRichtungen);
+      addRichtungen(stellwerkDkw2.findWeicheB(), stellwerkDkw2.getGeradeRichtung()[1], stellwerkDkw2.getAbzweigRichtung()[1], aktiveRichtungen, inaktiveRichtungen);
     }
 
     if (gleisName != null) {
@@ -132,13 +155,32 @@ public class PushService extends AbstractPushService {
       builder.add("b", gleisBesetzt);
     }
 
+    if (weichenName != null) {
+      builder.add("w", weichenName);
+    }
+
     if (aktiveRichtungen != null) {
       List<String> richtungsNamen = aktiveRichtungen.stream().map(x -> x.name()).toList();
       builder.add("a", Json.createArrayBuilder(richtungsNamen));
     }
 
-    JsonObject jsonObject = builder.build();
-    return jsonObject;
+    if (inaktiveRichtungen != null) {
+      List<String> richtungsNamen = inaktiveRichtungen.stream().map(x -> x.name()).toList();
+      builder.add("i", Json.createArrayBuilder(richtungsNamen));
+    }
+
+    return builder.build();
+  }
+
+  private static void addRichtungen(Weiche weiche, StellwerkRichtung geradeRichtung, StellwerkRichtung abzweigendRichtung, List<StellwerkRichtung> aktiveRichtungen,
+    List<StellwerkRichtung> inaktiveRichtungen) {
+    if (weiche.getStellung().equals(WeichenStellung.GERADE)) {
+      aktiveRichtungen.add(geradeRichtung);
+      inaktiveRichtungen.add(abzweigendRichtung);
+    } else {
+      aktiveRichtungen.add(abzweigendRichtung);
+      inaktiveRichtungen.add(geradeRichtung);
+    }
   }
 
   private static void addJsonObject(String name, Gleis gleis, JsonObjectBuilder builder) {

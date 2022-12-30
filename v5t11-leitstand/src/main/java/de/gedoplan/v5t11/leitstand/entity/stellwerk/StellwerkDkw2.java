@@ -8,8 +8,11 @@ import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import lombok.Getter;
 
 import javax.inject.Inject;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Stellwerkselement für eine Doppelkreuzungsweiche mit 2 Antrieben.
@@ -33,6 +36,26 @@ public class StellwerkDkw2 extends StellwerkElement {
 
   @Getter
   private BereichselementId gleisId;
+
+  private static final Pattern PATTERN = Pattern.compile("(\\w+)\\|(\\w+),(\\w+)\\|(\\w+)");
+
+  @Getter
+  private StellwerkRichtung[] geradeRichtung = new StellwerkRichtung[2];
+
+  @Getter
+  private StellwerkRichtung[] abzweigRichtung = new StellwerkRichtung[2];
+
+  private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
+    Matcher matcher = PATTERN.matcher(this.lage);
+    if (matcher.matches()) {
+      this.geradeRichtung[0] = StellwerkRichtung.valueOf(matcher.group(1));
+      this.abzweigRichtung[0] = StellwerkRichtung.valueOf(matcher.group(2));
+      this.geradeRichtung[1] = StellwerkRichtung.valueOf(matcher.group(3));
+      this.abzweigRichtung[1] = StellwerkRichtung.valueOf(matcher.group(4));
+    } else {
+      throw new IllegalArgumentException("Lage muss bei Dkw das Format g|a,g|a haben");
+    }
+  }
 
   @Override
   public void addPersistentEntries() {
