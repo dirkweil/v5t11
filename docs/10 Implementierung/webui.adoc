@@ -1,0 +1,125 @@
+= Implementierung des Web-UI
+
+. Komponenten-Bibliothek
++
+Das Web UI wird mit JSF erstellt.
+Als Komponenten-Bibliothek ist derzeit Primefaces im Einsatz, was eventuell durch Bootsfaces ersetzt werden soll, da darin ein Canvas-Widget verhanden ist (für die Stellwerke).
++
+Die folgenden Komponenten werden verwendet:
++
+|===
+|Primefaces|Besonderheiten|Bootsfaces
+
+| `p:ajax`
+|
+|
+
+| `p:column`
+|
+|
+
+| `p:commandButton`
+|
+|
+
+| `p:dataGrid`
+|
+|
+
+| `p:dataTable`
+|
+|
+
+| `p:fieldset`
+|
+|
+
+| `p:graphicImage`
+|
+|
+
+| `p:growl`
+|
+|
+
+| `p:inputText`
+|
+|
+
+| `p:layout`
+|
+|
+
+| `p:layoutUnit`
+|
+|
+
+| `p:menu`
+|
+|
+
+| `p:message`
+|
+|
+
+| `p:outputLabel`
+|
+|
+
+| `p:panel`
+|
+|
+
+| `p:panelGrid`
+|
+|
+
+| `p:remoteCommand`
+|
+|
+
+| `p:row`
+|
+|
+
+| `p:scrollPanel`
+|
+|
+
+| `p:selectBooleanButton`
+|
+|
+
+| `p:selectBooleanCheckbox`
+|
+|
+
+| `p:selectOneButton`
+|
+|
+
+| `p:selectOneMenu`
+|
+|
+
+| `p:slider`
+|
+|
+
+| `p:tab`
+|
+|
+
+| `p:tabView`
+|
+|
+
+| `p:toolbar`
+|
+|
+
+| `p:triStateCheckbox`
+|
+|
+
+|===
