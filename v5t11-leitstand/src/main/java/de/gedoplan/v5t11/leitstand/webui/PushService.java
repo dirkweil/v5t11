@@ -35,7 +35,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-@ServerEndpoint("/javax.faces.push/stellwerk")
+@ServerEndpoint("/javax.faces.push/stellwerk/{bereich}")
 @ApplicationScoped
 public class PushService extends AbstractPushService {
 

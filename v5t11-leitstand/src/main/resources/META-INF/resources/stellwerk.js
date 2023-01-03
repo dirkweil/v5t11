@@ -1,35 +1,39 @@
-function updateElemente(messages) {
-  console.log('updateElemente: ' + JSON.stringify(messages));
-  for (const message of messages) {
-    updateElement(message);
+const urlParams = new URLSearchParams(window.location.search);
+const bereich = urlParams.get('bereich');
+let socket = new WebSocket("ws://" + window.location.host + "/javax.faces.push/stellwerk/" + bereich);
+socket.onmessage = function (event) {
+  // alert(`[message] Data received from server: ` + JSON.stringify(event.data));
+  let drawParms = JSON.parse(event.data);
+  for (const drawParm of drawParms) {
+    updateHtmlElement(drawParm);
   }
-}
+};
 
-function updateElement(message) {
-  console.log('updateElement: ' + JSON.stringify(message));
+function updateHtmlElement(drawParm) {
+// console.log('updateHtmlElement: ' + JSON.stringify(message));
+  const htmlElement = document.getElementById(drawParm.uiId);
 
-  var element = document.getElementById(message.uiId);
-  if (element != null) {
-    // console.log('element: ' + element);
+  if (htmlElement != null) {
+    // console.log('htmlElement: ' + htmlElement);
+    const ctx = htmlElement.getContext("2d");
 
-    var ctx = element.getContext("2d");
     ctx.lineCap = "butt";
     ctx.lineJoin = "round";
-
     ctx.lineWidth = 300;
 
     ctx.setTransform(1, 0, 0, 1, 0, 0);
 
     // Zuerst inaktive Segmente zeichnen
-    var inaktiveRichtungen = message.i;
+    let start;
+    const inaktiveRichtungen = drawParm.i;
     if (inaktiveRichtungen != null) {
-      console.log('inaktiveRichtungen: ' + inaktiveRichtungen);
+      // console.log('inaktiveRichtungen: ' + inaktiveRichtungen);
 
       ctx.beginPath();
       ctx.strokeStyle = "grey";
 
       for (inaktiveRichtung of inaktiveRichtungen) {
-        var start = richtung2point(inaktiveRichtung);
+        start = richtung2point(inaktiveRichtung);
         ctx.moveTo(start.x, start.y);
         ctx.lineTo(500, 500);
       }
@@ -38,26 +42,26 @@ function updateElement(message) {
     }
 
     // Dann aktive Segmente zeichnen
-    var aktiveRichtungen = message.a;
+    const aktiveRichtungen = drawParm.a;
     if (aktiveRichtungen != null) {
-      console.log('aktiveRichtungen: ' + aktiveRichtungen);
+      // console.log('aktiveRichtungen: ' + aktiveRichtungen);
 
       ctx.beginPath();
-      ctx.strokeStyle = message.b ? "red" : "black";
+      ctx.strokeStyle = drawParm.b ? "red" : "black";
 
-      var start = richtung2point(aktiveRichtungen[0]);
-      var ende = richtung2point(aktiveRichtungen[1]);
+      start = richtung2point(aktiveRichtungen[0]);
+      const ende = richtung2point(aktiveRichtungen[1]);
       ctx.moveTo(start.x, start.y);
       ctx.lineTo(500, 500);
       ctx.lineTo(ende.x, ende.y);
       ctx.stroke();
     }
 
-    if (message.s != null) {
+    if (drawParm.s != null) {
       ctx.lineWidth = 40;
       ctx.strokeStyle = "black";
 
-      switch (message.p) {
+      switch (drawParm.p) {
         case 'N':
           ctx.translate(95, 175);
           break;
@@ -92,8 +96,8 @@ function updateElement(message) {
       }
 
       // Für jede Farbe einen Kreis zeichnen
-      var x = 0;
-      for (f of message.f) {
+      let x = 0;
+      for (f of drawParm.f) {
         ctx.beginPath();
         ctx.fillStyle = f2Color(f);
         ctx.arc(x + 80, 0, 80, 0, 2 * Math.PI);
