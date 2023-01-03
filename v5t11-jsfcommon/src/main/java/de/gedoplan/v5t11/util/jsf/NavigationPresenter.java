@@ -1,5 +1,25 @@
 package de.gedoplan.v5t11.util.jsf;
 
+import de.gedoplan.v5t11.util.cdi.EventFirer;
+import io.quarkus.runtime.StartupEvent;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import org.primefaces.model.menu.DefaultMenuModel;
+import org.primefaces.model.menu.DefaultSubMenu;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Observes;
+import javax.enterprise.inject.Instance;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.websocket.OnClose;
+import javax.websocket.OnError;
+import javax.websocket.OnOpen;
+import javax.websocket.Session;
+import javax.websocket.server.ServerEndpoint;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,33 +29,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
-
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
-import javax.annotation.Priority;
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.Observes;
-import javax.enterprise.inject.Instance;
-import javax.faces.push.Push;
-import javax.faces.push.PushContext;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.interceptor.Interceptor;
-import javax.websocket.OnClose;
-import javax.websocket.OnError;
-import javax.websocket.OnOpen;
-import javax.websocket.Session;
-import javax.websocket.server.ServerEndpoint;
-
-import org.jboss.logging.Logger;
-import org.primefaces.model.menu.DefaultMenuModel;
-import org.primefaces.model.menu.DefaultSubMenu;
-
-import de.gedoplan.v5t11.util.cdi.EventFirer;
-import io.quarkus.runtime.StartupEvent;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
 
 /**
  * Presenter für das globale Navigationsmenü.
@@ -202,19 +195,19 @@ public class NavigationPresenter extends AbstractPushService {
 
   @OnOpen
   @Override
-  protected void onOpen(Session session) {
-    super.onOpen(session);
+  protected void openSession(Session session) {
+    super.openSession(session);
   }
 
   @OnClose
   @Override
-  protected void onClose(Session session) {
-    super.onClose(session);
+  protected void closeSession(Session session) {
+    super.closeSession(session);
   }
 
   @OnError
   @Override
-  protected void onError(Session session, Throwable throwable) {
-    super.onError(session, throwable);
+  protected void abortSession(Session session, Throwable throwable) {
+    super.abortSession(session, throwable);
   }
 }

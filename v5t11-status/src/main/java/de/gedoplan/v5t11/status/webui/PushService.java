@@ -41,20 +41,17 @@ public class PushService extends AbstractPushService {
   }
 
   @OnOpen
-  @Override
   protected void onOpen(Session session) {
-    super.onOpen(session);
+    openSession(session);
   }
 
   @OnClose
-  @Override
   protected void onClose(Session session) {
-    super.onClose(session);
+    closeSession(session);
   }
 
   @OnError
-  @Override
   protected void onError(Session session, Throwable throwable) {
-    super.onError(session, throwable);
+    abortSession(session, throwable);
   }
 }

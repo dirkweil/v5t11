@@ -30,10 +30,13 @@ import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
+import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @ServerEndpoint("/javax.faces.push/stellwerk/{bereich}")
 @ApplicationScoped
@@ -98,22 +101,27 @@ public class PushService extends AbstractPushService {
     send(this.weichenElemente.get(weiche.getId()));
   }
 
-  private void sendAll() {
-    send(this.leitstand
-      .getStellwerke()
+  private void sendAll(Session session, String bereich) {
+    JsonArrayBuilder builder = Json.createArrayBuilder();
+    this.leitstand
+      .getStellwerk(bereich)
+      .getZeilen()
       .stream()
-      .flatMap(x -> x.getZeilen().stream())
       .flatMap(x -> x.getElemente().stream())
       .filter(x -> !(x instanceof StellwerkLeer) || x.getSignalId() != null)
-      .toList());
+      .forEach(x -> builder.add(createJsonObject(x)));
+    send(builder.build(), session);
   }
 
   private void send(Collection<StellwerkElement> elemente) {
-    JsonArrayBuilder builder = Json.createArrayBuilder();
-    for (StellwerkElement element : elemente) {
-      builder.add(createJsonObject(element));
-    }
-    send(builder.build());
+    Map<String, List<StellwerkElement>> elementeProBereich = elemente.stream().collect(Collectors.groupingBy(e -> e.getBereich()));
+    elementeProBereich.forEach((bereich, elementeDesBereichs) -> {
+      JsonArrayBuilder builder = Json.createArrayBuilder();
+      for (StellwerkElement element : elementeDesBereichs) {
+        builder.add(createJsonObject(element));
+      }
+      send(builder.build(), null, info -> bereich.equals(info));
+    });
   }
 
   private static JsonObject createJsonObject(StellwerkElement element) {
@@ -240,21 +248,19 @@ public class PushService extends AbstractPushService {
   ManagedExecutor managedExecutor;
 
   @OnOpen
-  protected void onOpen(Session session) {
-    super.onOpen(session);
+  protected void onOpen(Session session, @PathParam("bereich") String bereich) {
+    super.openSession(session, bereich);
     this.logger.debugf("sendAll");
-    this.managedExecutor.runAsync(this::sendAll);
+    this.managedExecutor.runAsync(() -> sendAll(session, bereich));
   }
 
   @OnClose
-  @Override
   protected void onClose(Session session) {
-    super.onClose(session);
+    super.closeSession(session);
   }
 
   @OnError
-  @Override
   protected void onError(Session session, Throwable throwable) {
-    super.onError(session, throwable);
+    super.abortSession(session, throwable);
   }
 }

@@ -18,9 +18,6 @@ public class StellwerkPresenter implements Serializable {
   StellwerkSessionHolder stellwerkSessionHolder;
 
   @Inject
-  PushService2 pushService2;
-
-  @Inject
   Logger logger;
 
   @PostConstruct
@@ -38,6 +35,5 @@ public class StellwerkPresenter implements Serializable {
   public void elementClicked() {
     String uiId = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("uiId");
     this.logger.debugf("stellwerkElementClicked on %s", uiId);
-    this.logger.debugf("pushService2: " + this.pushService2);
   }
 }

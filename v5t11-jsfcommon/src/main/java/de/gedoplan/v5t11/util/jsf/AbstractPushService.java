@@ -6,28 +6,34 @@ import org.jboss.logging.Logger;
 import javax.json.Json;
 import javax.json.JsonValue;
 import javax.websocket.Session;
-import java.util.Set;
-import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Predicate;
 
 public abstract class AbstractPushService {
 
   protected Logger logger = Logger.getLogger(ClassUtil.getProxiedClass(getClass()));
 
-  private Set<Session> sessions = new CopyOnWriteArraySet<>();
+  //  private Set<Session> sessions = new CopyOnWriteArraySet<>();
+  private Map<Session, String> sessions = new ConcurrentHashMap<>();
 
-  protected void onOpen(Session session) {
-    this.sessions.add(session);
-    this.logger.debugf("Opened session %s", session);
+  protected void openSession(Session session) {
+    openSession(session, "");
   }
 
-  protected void onClose(Session session) {
-    this.sessions.remove(session);
-    this.logger.debugf("Closed session %s", session);
+  protected void openSession(Session session, String info) {
+    this.logger.debugf("Open session: id=%s, info=%s", session.getId(), info);
+    this.sessions.put(session, info);
   }
 
-  protected void onError(Session session, Throwable throwable) {
+  protected void closeSession(Session session) {
+    this.logger.debugf("Close session %s", session.getId());
     this.sessions.remove(session);
-    this.logger.debugf("Closed session %s because of %s", session, throwable);
+  }
+
+  protected void abortSession(Session session, Throwable throwable) {
+    this.logger.debugf("Abort session %s because of %s", session.getId(), throwable);
+    this.sessions.remove(session);
   }
 
   protected void send(String text) {
@@ -35,13 +41,40 @@ public abstract class AbstractPushService {
   }
 
   protected void send(JsonValue message) {
-    this.logger.debugf("Send %s to %d browser sessions!", message, this.sessions.size());
-    this.sessions.forEach(s -> {
-      s.getAsyncRemote().sendText(message.toString(), result -> {
-        if (result.getException() != null) {
-          this.logger.error("Cannot send message", result.getException());
-        }
-      });
+    send(message, null);
+  }
+
+  protected void send(JsonValue message, Session session) {
+    send(message, session, null);
+  }
+
+  protected void send(JsonValue message, Session session, Predicate<String> infoFilter) {
+    // Falls keine Session angegeben, alle nehmen
+    if (session == null) {
+      this.sessions.keySet().forEach(s -> send(message, s, infoFilter));
+      return;
+    }
+
+    // Falls Filter angegeben, nach Session-Info filtern
+    if (infoFilter != null) {
+      String info = this.sessions.get(session);
+      if (!infoFilter.test(info)) {
+        return;
+      }
+    }
+
+    if (this.logger.isDebugEnabled()) {
+      String messageAsString = message.toString();
+      if (messageAsString.length() > 40) {
+        messageAsString = messageAsString.substring(0, 39) + "...";
+      }
+      this.logger.debugf("Send %s to sessions %s", messageAsString, session.getId());
+    }
+
+    session.getAsyncRemote().sendText(message.toString(), result -> {
+      if (result.getException() != null) {
+        this.logger.error("Cannot send message", result.getException());
+      }
     });
   }
 }
