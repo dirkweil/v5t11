@@ -172,7 +172,7 @@ public class SystemControlPresenter implements Serializable {
   }
 
   public void setWeichenStellung(WeichenStellung stellung) {
-    if (this.weiche != null) {
+    if (stellung != null && this.weiche != null) {
       this.weiche.setStellung(stellung);
     }
   }
@@ -209,7 +209,7 @@ public class SystemControlPresenter implements Serializable {
   }
 
   public void setSignalStellung(SignalStellung stellung) {
-    if (this.signal != null) {
+    if (stellung != null && this.signal != null) {
       this.signal.setStellung(stellung);
     }
   }

@@ -49,7 +49,7 @@
                              itemValue="#{weiche.name}"/>
               <p:ajax event="itemSelect" update="weiche"/>
             </p:selectOneMenu>
-            <p:selectOneButton value="#{systemControlPresenter.weichenStellung}">
+            <p:selectOneButton value="#{systemControlPresenter.weichenStellung}" unselectable="false">
               <f:selectItems value="#{systemControlPresenter.weichenStellungen}"/>
               <p:ajax/>
             </p:selectOneButton>
@@ -62,7 +62,7 @@
                              itemValue="#{signal.name}"/>
               <p:ajax event="itemSelect" update="signal"/>
             </p:selectOneMenu>
-            <p:selectOneButton value="#{systemControlPresenter.signalStellung}">
+            <p:selectOneButton value="#{systemControlPresenter.signalStellung}" unselectable="false">
               <f:selectItems value="#{systemControlPresenter.signalStellungen}"/>
               <p:ajax/>
             </p:selectOneButton>
