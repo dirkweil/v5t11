@@ -3,15 +3,15 @@ const bereich = urlParams.get('bereich');
 let socket = new WebSocket("ws://" + window.location.host + "/javax.faces.push/stellwerk/" + bereich);
 socket.onmessage = function (event) {
   // alert(`[message] Data received from server: ` + JSON.stringify(event.data));
-  let drawParms = JSON.parse(event.data);
-  for (const drawParm of drawParms) {
-    updateHtmlElement(drawParm);
+  let drawCommands = JSON.parse(event.data);
+  for (const drawCommand of drawCommands) {
+    updateHtmlElement(drawCommand);
   }
 };
 
-function updateHtmlElement(drawParm) {
-// console.log('updateHtmlElement: ' + JSON.stringify(message));
-  const htmlElement = document.getElementById(drawParm.uiId);
+function updateHtmlElement(drawCommand) {
+  // console.log('updateHtmlElement: ' + JSON.stringify(drawCommand));
+  const htmlElement = document.getElementById(drawCommand.uiId);
 
   if (htmlElement != null) {
     // console.log('htmlElement: ' + htmlElement);
@@ -25,7 +25,7 @@ function updateHtmlElement(drawParm) {
 
     // Zuerst inaktive Segmente zeichnen
     let start;
-    const inaktiveRichtungen = drawParm.i;
+    const inaktiveRichtungen = drawCommand.i;
     if (inaktiveRichtungen != null) {
       // console.log('inaktiveRichtungen: ' + inaktiveRichtungen);
 
@@ -42,12 +42,12 @@ function updateHtmlElement(drawParm) {
     }
 
     // Dann aktive Segmente zeichnen
-    const aktiveRichtungen = drawParm.a;
+    const aktiveRichtungen = drawCommand.a;
     if (aktiveRichtungen != null) {
       // console.log('aktiveRichtungen: ' + aktiveRichtungen);
 
       ctx.beginPath();
-      ctx.strokeStyle = drawParm.b ? "red" : "black";
+      ctx.strokeStyle = drawCommand.b ? "red" : "black";
 
       start = richtung2point(aktiveRichtungen[0]);
       const ende = richtung2point(aktiveRichtungen[1]);
@@ -57,11 +57,11 @@ function updateHtmlElement(drawParm) {
       ctx.stroke();
     }
 
-    if (drawParm.s != null) {
+    if (drawCommand.s != null) {
       ctx.lineWidth = 40;
       ctx.strokeStyle = "black";
 
-      switch (drawParm.p) {
+      switch (drawCommand.p) {
         case 'N':
           ctx.translate(95, 175);
           break;
@@ -97,9 +97,9 @@ function updateHtmlElement(drawParm) {
 
       // Für jede Farbe einen Kreis zeichnen
       let x = 0;
-      for (f of drawParm.f) {
+      for (l of drawCommand.l) {
         ctx.beginPath();
-        ctx.fillStyle = f2Color(f);
+        ctx.fillStyle = lichtFarbe(l);
         ctx.arc(x + 80, 0, 80, 0, 2 * Math.PI);
         ctx.fill();
         ctx.stroke();
@@ -139,8 +139,8 @@ function updateHtmlElement(drawParm) {
     }
   }
 
-  function f2Color(f) {
-    switch (f) {
+  function lichtFarbe(l) {
+    switch (l) {
       case "r":
         return "red";
       case "g":

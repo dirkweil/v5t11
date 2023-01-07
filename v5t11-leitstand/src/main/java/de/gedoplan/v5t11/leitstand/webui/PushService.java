@@ -109,7 +109,7 @@ public class PushService extends AbstractPushService {
       .stream()
       .flatMap(x -> x.getElemente().stream())
       .filter(x -> !(x instanceof StellwerkLeer) || x.getSignalId() != null)
-      .forEach(x -> builder.add(createJsonObject(x)));
+      .forEach(x -> builder.add(createDrawCommand(x)));
     send(builder.build(), session);
   }
 
@@ -118,13 +118,47 @@ public class PushService extends AbstractPushService {
     elementeProBereich.forEach((bereich, elementeDesBereichs) -> {
       JsonArrayBuilder builder = Json.createArrayBuilder();
       for (StellwerkElement element : elementeDesBereichs) {
-        builder.add(createJsonObject(element));
+        builder.add(createDrawCommand(element));
       }
       send(builder.build(), null, info -> bereich.equals(info));
     });
   }
 
-  private static JsonObject createJsonObject(StellwerkElement element) {
+  /**
+   * Zeichenbefehl für die UI zu einem Stellwerkselement erzeugen.
+   *
+   * Das erzeugte Objekt ist ein JSON-Objekt mit den folgenden Attributen:
+   *
+   * Die UI-Id ist stets vorhanden:
+   * <dl>
+   *   <dt>uiId</dt><dd>Id des Canvas-Elements auf der Webseite</dd>
+   * </dl>
+   *
+   * Falls ein Gleis gezeichnet werden soll, gibt es diese Attribute:
+   * <dl>
+   *   <dt>g</dt><dd>Gleisname; nur vorhanden, falls Label gezeichnet werden soll</dd>
+   *   <dt>b</dt><dd>Gleis besetzt?</dd>
+   *   <dt>a</dt><dd>Aktive Gleissegmente als Array der Länge 2 aus den Richtungen N, NO, O, SO, S, SW, W, NW</dd>
+   * </dl>
+   *
+   *
+   * Für Weichen gibt es diese Attribute:
+   * <dl>
+   *   <dt>w</dt><dd>Weichenname</dd>
+   *   <dt>i</dt><dd>Inaktive Gleissegmente als Array aus den Richtungen N, NO, O, SO, S, SW, W, NW</dd>
+   * </dl>
+   *
+   * Für Signale gibt es diese Attribute:
+   * <dl>
+   *   <dt>s</dt><dd>Signalname</dd>
+   *   <dt>l</dt><dd>Anzuzeigende Lichter als Array aus r, g, y, w, -; ein oder zwei Elemente von oben nach unten</dd>
+   *   <dt>p</dt><dd>Position des Signals als Richtung N, NO, O, SO, S, SW, W, NW</dd>
+   * </dl>
+   *
+   * @param element
+   * @return
+   */
+  private static JsonObject createDrawCommand(StellwerkElement element) {
     JsonObjectBuilder builder = Json.createObjectBuilder();
     builder.add("uiId", element.getUiId());
 
@@ -210,7 +244,7 @@ public class PushService extends AbstractPushService {
 
   private static void addSignal(Signal signal, String signalPosition, JsonObjectBuilder builder) {
 
-    List<String> farben = switch (signal.getTyp()) {
+    List<String> lichter = switch (signal.getTyp()) {
       case SPERRSIGNAL -> switch (signal.getStellung()) {
         default -> FARBEN_SPERR_SH0;
         case FAHRT, LANGSAMFAHRT, RANGIERFAHRT -> FARBEN_SPERR_SH1;
@@ -237,9 +271,9 @@ public class PushService extends AbstractPushService {
       default -> List.of();
     };
 
-    if (!farben.isEmpty()) {
+    if (!lichter.isEmpty()) {
       builder.add("s", signal.getName());
-      builder.add("f", Json.createArrayBuilder(farben));
+      builder.add("l", Json.createArrayBuilder(lichter));
       builder.add("p", signalPosition != null ? signalPosition : "N");
     }
   }
