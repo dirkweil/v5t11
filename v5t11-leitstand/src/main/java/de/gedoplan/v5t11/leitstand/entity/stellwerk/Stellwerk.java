@@ -72,6 +72,7 @@ public class Stellwerk implements Serializable, Comparable<Stellwerk> {
     for (StellwerkZeile zeile : this.zeilen) {
       int anzahlSpaltenInZeile = 0;
       for (StellwerkElement element : zeile.getElemente()) {
+        element.stellwerksBereich = this.bereich;
         if (element.getBereich() == null) {
           element.setBereich(this.bereich);
         }

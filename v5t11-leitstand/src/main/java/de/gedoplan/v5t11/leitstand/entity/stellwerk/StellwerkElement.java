@@ -31,6 +31,10 @@ public abstract class StellwerkElement extends Bereichselement implements Clonea
   @XmlAttribute
   int anzahl = 1;
 
+  /** Stellwerksbereich (muss nicht mit den Bereichen der Elemente übereinstimmen! */
+  @Getter
+  String stellwerksBereich;
+
   /** Zeilen-Nummer (1-basiert!) */
   @Getter
   int zeilenNr;

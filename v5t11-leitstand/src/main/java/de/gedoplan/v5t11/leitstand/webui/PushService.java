@@ -3,6 +3,8 @@ package de.gedoplan.v5t11.leitstand.webui;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import de.gedoplan.v5t11.leitstand.entity.Leitstand;
+import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrasse;
+import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrassenelement;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleis;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Signal;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Weiche;
@@ -12,8 +14,11 @@ import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkElement;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkGleis;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkLeer;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkRichtung;
+import de.gedoplan.v5t11.leitstand.persistence.GleisRepository;
+import de.gedoplan.v5t11.leitstand.service.FahrstrassenManager;
 import de.gedoplan.v5t11.util.cdi.Changed;
 import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
+import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenelementTyp;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
 import de.gedoplan.v5t11.util.jsf.AbstractPushService;
 import org.eclipse.microprofile.context.ManagedExecutor;
@@ -57,9 +62,15 @@ public class PushService extends AbstractPushService {
   private ListMultimap<BereichselementId, StellwerkElement> weichenElemente = MultimapBuilder.hashKeys().arrayListValues().build();
   private ListMultimap<BereichselementId, StellwerkElement> signalElemente = MultimapBuilder.hashKeys().arrayListValues().build();
 
-  public PushService(Leitstand leitstand) {
+  FahrstrassenManager fahrstrassenManager;
+
+  GleisRepository gleisRepository;
+
+  public PushService(Leitstand leitstand, FahrstrassenManager fahrstrassenManager, GleisRepository gleisRepository) {
 
     this.leitstand = leitstand;
+    this.fahrstrassenManager = fahrstrassenManager;
+    this.gleisRepository = gleisRepository;
 
     leitstand
       .getStellwerke()
@@ -101,6 +112,15 @@ public class PushService extends AbstractPushService {
     send(this.weichenElemente.get(weiche.getId()));
   }
 
+  void fahrstrasseChanged(@Observes(during = TransactionPhase.AFTER_COMPLETION) @Changed Fahrstrasse fahrstrasse) {
+    fahrstrasse
+      .getElemente()
+      .stream()
+      .filter(fse -> fse.getTyp() == FahrstrassenelementTyp.GLEIS)
+      .map(fse -> this.gleisRepository.findById(fse.getId()))
+      .forEach(this::gleisChanged);
+  }
+
   private void sendAll(Session session, String bereich) {
     JsonArrayBuilder builder = Json.createArrayBuilder();
     this.leitstand
@@ -114,13 +134,13 @@ public class PushService extends AbstractPushService {
   }
 
   private void send(Collection<StellwerkElement> elemente) {
-    Map<String, List<StellwerkElement>> elementeProBereich = elemente.stream().collect(Collectors.groupingBy(e -> e.getBereich()));
-    elementeProBereich.forEach((bereich, elementeDesBereichs) -> {
+    Map<String, List<StellwerkElement>> elementeProBereich = elemente.stream().collect(Collectors.groupingBy(e -> e.getStellwerksBereich()));
+    elementeProBereich.forEach((stellwerksBereich, elementeDesBereichs) -> {
       JsonArrayBuilder builder = Json.createArrayBuilder();
       for (StellwerkElement element : elementeDesBereichs) {
         builder.add(createDrawCommand(element));
       }
-      send(builder.build(), null, info -> bereich.equals(info));
+      send(builder.build(), null, info -> stellwerksBereich.equals(info));
     });
   }
 
@@ -155,15 +175,21 @@ public class PushService extends AbstractPushService {
    *   <dt>p</dt><dd>Position des Signals als Richtung N, NO, O, SO, S, SW, W, NW</dd>
    * </dl>
    *
+   * Ist das Gleis Teil einer Fahrstrasse, gibt es diese Attribute:
+   * <dl>
+   *   <dt>f</dt><dd>Reservierungstyp als Kürzel Z, R</dd>
+   *   <dt>z</dt><dd>In Zählrichtung?</dd>
+   * </dl>
+   *
    * @param element
    * @return
    */
-  private static JsonObject createDrawCommand(StellwerkElement element) {
+  private JsonObject createDrawCommand(StellwerkElement element) {
     JsonObjectBuilder builder = Json.createObjectBuilder();
     builder.add("uiId", element.getUiId());
 
+    Gleis gleis = null;
     String gleisName = null;
-    Boolean gleisBesetzt = null;
 
     String weichenName = null;
 
@@ -172,12 +198,12 @@ public class PushService extends AbstractPushService {
 
     if (element instanceof StellwerkGleis stellwerkGleis) {
       if (stellwerkGleis.isLabel()) {
-        weichenName = stellwerkGleis.getName();
+        gleisName = stellwerkGleis.getName();
       }
 
       aktiveRichtungen = stellwerkGleis.getRichtungen();
 
-      gleisBesetzt = stellwerkGleis.findGleis().isBesetzt();
+      gleis = stellwerkGleis.findGleis();
     } else if (element instanceof StellwerkEinfachWeiche stellwerkEinfachWeiche) {
       weichenName = stellwerkEinfachWeiche.getName();
 
@@ -185,12 +211,12 @@ public class PushService extends AbstractPushService {
       inaktiveRichtungen = new ArrayList<>();
       addRichtungen(stellwerkEinfachWeiche.findWeiche(), stellwerkEinfachWeiche.getGeradeRichtung(), stellwerkEinfachWeiche.getAbzweigendRichtung(), aktiveRichtungen, inaktiveRichtungen);
       if (stellwerkEinfachWeiche.isStammIstEinfahrt()) {
-        aktiveRichtungen.add(stellwerkEinfachWeiche.getStammRichtung());
-      } else {
         aktiveRichtungen.add(0, stellwerkEinfachWeiche.getStammRichtung());
+      } else {
+        aktiveRichtungen.add(stellwerkEinfachWeiche.getStammRichtung());
       }
 
-      gleisBesetzt = stellwerkEinfachWeiche.findGleis().isBesetzt();
+      gleis = stellwerkEinfachWeiche.findGleis();
     } else if (element instanceof StellwerkDkw2 stellwerkDkw2) {
       weichenName = stellwerkDkw2.getName();
 
@@ -199,15 +225,18 @@ public class PushService extends AbstractPushService {
       addRichtungen(stellwerkDkw2.findWeicheA(), stellwerkDkw2.getGeradeRichtung()[0], stellwerkDkw2.getAbzweigRichtung()[0], aktiveRichtungen, inaktiveRichtungen);
       addRichtungen(stellwerkDkw2.findWeicheB(), stellwerkDkw2.getGeradeRichtung()[1], stellwerkDkw2.getAbzweigRichtung()[1], aktiveRichtungen, inaktiveRichtungen);
 
-      gleisBesetzt = stellwerkDkw2.findGleis().isBesetzt();
+      gleis = stellwerkDkw2.findGleis();
     }
 
-    if (gleisName != null) {
-      builder.add("g", gleisName);
-    }
+    if (gleis != null) {
+      if (gleisName != null) {
+        builder.add("g", gleisName);
+      }
 
-    if (gleisBesetzt != null) {
-      builder.add("b", gleisBesetzt);
+      builder.add("b", gleis.isBesetzt());
+
+      addFahrstrasse(gleis, builder);
+
     }
 
     if (weichenName != null) {
@@ -229,6 +258,15 @@ public class PushService extends AbstractPushService {
     }
 
     return builder.build();
+  }
+
+  private void addFahrstrasse(Gleis gleis, JsonObjectBuilder builder) {
+    Fahrstrasse fahrstrasse = this.fahrstrassenManager.getReservierteFahrstrasse(gleis);
+    if (fahrstrasse != null) {
+      Fahrstrassenelement fahrstrassenelement = fahrstrasse.getElement(gleis, true);
+      builder.add("f", fahrstrasse.getReservierungsTyp().toString());
+      builder.add("z", fahrstrassenelement.isZaehlrichtung());
+    }
   }
 
   private static void addRichtungen(Weiche weiche, StellwerkRichtung geradeRichtung, StellwerkRichtung abzweigendRichtung, List<StellwerkRichtung> aktiveRichtungen,
