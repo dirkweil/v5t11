@@ -5,6 +5,13 @@
   place-items: stretch;
 }
 
+@media (max-width: 1500px) {
+  .stellwerk {
+    grid-template-columns: repeat(30, 35px);
+    grid-auto-rows: 35px;
+  }
+}
+
 .stellwerk > * {
   border: 1px solid lightgrey;
 }

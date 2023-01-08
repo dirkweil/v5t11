@@ -10,25 +10,18 @@
 
 <h:body>
   <p:growl id="messages" showDetail="false"/>
-
-  <p:layout fullPage="true">
-
-    <!--
-    <p:layoutUnit position="north" size="180">
-      <h:graphicImage name="v5t11.png" height="100%" width="100%" alt="v5t11" />
-    </p:layoutUnit>
-    -->
-
-    <p:layoutUnit position="west" resizable="true" size="225" minSize="200" maxSize="400">
+  <p:splitter>
+    <p:splitterPanel size="20">
       <h:form id="navigation">
         <p:menu model="#{navigationPresenter.menuModel}" style="width: 98%; border: none;"/>
       </h:form>
-    </p:layoutUnit>
+    </p:splitterPanel>
 
-    <p:layoutUnit position="center">
+
+    <p:splitterPanel size="80">
       <ui:insert name="content"/>
-    </p:layoutUnit>
-  </p:layout>
+    </p:splitterPanel>
+  </p:splitter>
 
   <p:remoteCommand name="updateMenu" update=":navigation"/>
   <f:websocket channel="menu-refresh" onmessage="updateMenu"/>
