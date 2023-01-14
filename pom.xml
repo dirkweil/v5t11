@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
@@ -18,7 +18,7 @@
     <java.code.version>17</java.code.version>
 
     <jee.version>8.0.0</jee.version>
-    
+
     <microprofile.version>4.1</microprofile.version>
 
     <myfaces.version>2.3-next-M7</myfaces.version>
@@ -112,7 +112,7 @@
         <artifactId>myfaces-quarkus</artifactId>
         <version>${myfaces.version}</version>
       </dependency>
-  
+
     </dependencies>
   </dependencyManagement>
 
@@ -123,6 +123,7 @@
     <module>v5t11-jsfcommon</module>
     <module>v5t11-leitstand</module>
     <module>v5t11-status</module>
+    <module>v5t11-stellwerk</module>
     <module>v5t11-util</module>
     <module>v5t11-util-test</module>
   </modules>
