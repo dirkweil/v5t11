@@ -1,0 +1,75 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: v5t11-leitstand
+  labels:
+    app: v5t11
+    comp: v5t11-leitstand
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: v5t11
+      comp: v5t11-leitstand
+  template:
+    metadata:
+      labels:
+        app: v5t11
+        comp: v5t11-leitstand
+    spec:
+      containers:
+      - name: v5t11-leitstand
+        image: gedoplan/v5t11-leitstand
+        # Use IfNotPresent for local demo only; omit imagePullPolicy otherwise
+        imagePullPolicy: IfNotPresent
+        args:
+        - /bin/sh
+        - /headless/v5t11-stellwerk.sh
+        ports:
+        - name: vnc
+          containerPort: 6901
+        volumeMounts:
+        - name: v5t11
+          mountPath: /headless/v5t11
+          readOnly: true
+      volumes:
+      - name: v5t11
+        configMap:
+          name: v5t11
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: v5t11-leitstand
+  labels:
+    app: v5t11
+    comp: v5t11-leitstand
+spec:
+  type: NodePort
+  ports:
+  - name: vnc
+    port: 6901
+    nodePort: 30082
+    targetPort: vnc
+  selector:
+    app: v5t11
+    comp: v5t11-leitstand
+
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: v5t11-leitstand
+  labels:
+    app: v5t11
+    comp: v5t11-leitstand
+spec:
+  rules:
+  - host: v5t11-leitstand.local
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: v5t11-leitstand
+          servicePort: vnc
