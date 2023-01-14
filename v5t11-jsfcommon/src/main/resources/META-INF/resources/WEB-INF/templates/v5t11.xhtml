@@ -10,15 +10,22 @@
 
 <h:body>
   <p:growl id="messages" showDetail="false"/>
-  <p:splitter>
+  <p:splitter style="height: 100%; width: 100%">
     <p:splitterPanel size="20">
-      <h:form id="navigation">
-        <p:menu model="#{navigationPresenter.menuModel}" style="width: 98%; border: none;"/>
-      </h:form>
+      <p:splitter layout="vertical" style="height: 100%; width: 100%">
+        <p:splitterPanel size="70" style="background: white">
+          <h:form id="navigation">
+            <p:menu model="#{navigationPresenter.menuModel}" style="width: 98%; border: none; background: white"/>
+          </h:form>
+        </p:splitterPanel>
+        <p:splitterPanel size="30" style="background: white">
+          <ui:insert name="extra"/>
+        </p:splitterPanel>
+      </p:splitter>
     </p:splitterPanel>
 
 
-    <p:splitterPanel size="80">
+    <p:splitterPanel size="80" style="background: whitesmoke">
       <ui:insert name="content"/>
     </p:splitterPanel>
   </p:splitter>
