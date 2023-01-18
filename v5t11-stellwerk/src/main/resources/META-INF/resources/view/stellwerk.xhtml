@@ -8,7 +8,7 @@
 <ui:composition template="/WEB-INF/templates/leitstand.xhtml">
   <ui:param name="title" value="Stellwerk ${stellwerkPresenter.stellwerk.bereich}"/>
   <ui:define name="content">
-    <p:remoteCommand name="elementClicked" action="${stellwerkPresenter.elementClicked}"/>
+    <p:remoteCommand name="elementClicked" action="${stellwerkPresenter.elementClicked}" update="controlPanel"/>
 
     <h:panelGroup id="stellwerk" layout="block" styleClass="stellwerk">
       <ui:repeat var="zeile" value="${stellwerkPresenter.stellwerk.zeilen}">
@@ -30,7 +30,11 @@
   </ui:define>
 
   <ui:define name="extra">
-    Hier kommen die Steuerbuttons hin
+    <h:panelGroup id="controlPanel" layout="block">
+      <h:panelGrid columns="2" rendered="${stellwerkPresenter.controlPanelEnabled}">
+        <h:outputLabel for="hugo" value="${stellwerkPresenter.text}"/>
+        <h:outputText id="hugo" value="Button"/>
+      </h:panelGrid></h:panelGroup>
   </ui:define>
 </ui:composition>
 </html>
