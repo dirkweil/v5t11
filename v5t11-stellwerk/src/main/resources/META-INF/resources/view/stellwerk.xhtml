@@ -31,10 +31,34 @@
 
   <ui:define name="extra">
     <h:panelGroup id="controlPanel" layout="block">
-      <h:panelGrid columns="2" rendered="${stellwerkPresenter.controlPanelEnabled}">
-        <h:outputLabel for="hugo" value="${stellwerkPresenter.text}"/>
-        <h:outputText id="hugo" value="Button"/>
-      </h:panelGrid></h:panelGroup>
+      <h:panelGroup layout="block" styleClass="controlPanel" rendered="${stellwerkPresenter.controlPanelEnabled}">
+        <h:panelGrid columns="2">
+          <h:outputText value="#{stellwerkPresenter.signal.name}" rendered="${! empty stellwerkPresenter.signal}"/>
+          <p:selectOneButton value="#{stellwerkPresenter.signal.stellung}" unselectable="false"
+                             rendered="${! empty stellwerkPresenter.signal}">
+            <f:selectItems value="#{stellwerkPresenter.signal.typ.erlaubteStellungen}"/>
+            <p:ajax/>
+          </p:selectOneButton>
+
+          <h:outputText value="#{stellwerkPresenter.weiche.name}" rendered="${! empty stellwerkPresenter.weiche}"/>
+          <p:selectOneButton value="#{stellwerkPresenter.weiche.stellung}" unselectable="false"
+                             rendered="${! empty stellwerkPresenter.weiche}">
+            <f:selectItems value="#{stellwerkPresenter.weichenStellungen}"/>
+            <p:ajax/>
+          </p:selectOneButton>
+
+          <h:outputText value="#{stellwerkPresenter.weiche2.name}" rendered="${! empty stellwerkPresenter.weiche2}"/>
+          <p:selectOneButton value="#{stellwerkPresenter.weiche2.stellung}" unselectable="false"
+                             rendered="${! empty stellwerkPresenter.weiche2}">
+            <f:selectItems value="#{stellwerkPresenter.weichenStellungen}"/>
+            <p:ajax/>
+          </p:selectOneButton>
+
+          <h:panelGroup/>
+          <p:commandButton value="abbrechen" action="${stellwerkPresenter.clearControlPanel()}" update="controlPanel"/>
+        </h:panelGrid>
+      </h:panelGroup>
+    </h:panelGroup>
   </ui:define>
 </ui:composition>
 </html>

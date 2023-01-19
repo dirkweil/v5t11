@@ -15,3 +15,9 @@
 .stellwerk > * {
   border: 1px solid lightgrey;
 }
+
+.controlPanel {
+  border: 1px solid lightgrey;
+  width: 100%;
+  height: 100%;
+}
