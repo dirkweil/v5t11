@@ -7,6 +7,8 @@ socket.onmessage = function (event) {
   for (const drawCommand of drawCommands) {
     updateHtmlElement(drawCommand);
   }
+
+  updateControlPanel();
 };
 
 function updateHtmlElement(drawCommand) {

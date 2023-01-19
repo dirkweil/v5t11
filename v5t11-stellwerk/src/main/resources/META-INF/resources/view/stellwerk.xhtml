@@ -33,10 +33,10 @@
     <h:panelGroup id="controlPanel" layout="block">
       <h:panelGroup layout="block" styleClass="controlPanel" rendered="${stellwerkPresenter.controlPanelEnabled}">
         <h:panelGrid columns="2">
-          <h:outputText value="#{stellwerkPresenter.signal.name}" rendered="${! empty stellwerkPresenter.signal}"/>
-          <p:selectOneButton value="#{stellwerkPresenter.signal.stellung}" unselectable="false"
-                             rendered="${! empty stellwerkPresenter.signal}">
-            <f:selectItems value="#{stellwerkPresenter.signal.typ.erlaubteStellungen}"/>
+          <h:outputText value="#{stellwerkPresenter.signalId.name}" rendered="${! empty stellwerkPresenter.signalId}"/>
+          <p:selectOneButton value="#{stellwerkPresenter.signalStellung}" unselectable="false"
+                             rendered="${! empty stellwerkPresenter.signalId}">
+            <f:selectItems value="#{stellwerkPresenter.signalStellungen}"/>
             <p:ajax/>
           </p:selectOneButton>
 
@@ -59,6 +59,8 @@
         </h:panelGrid>
       </h:panelGroup>
     </h:panelGroup>
+
+    <p:remoteCommand name="updateControlPanel" update="controlPanel"/>
   </ui:define>
 </ui:composition>
 </html>

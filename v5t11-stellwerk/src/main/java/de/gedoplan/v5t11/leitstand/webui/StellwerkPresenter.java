@@ -8,6 +8,9 @@ import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkDkw2;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkEinfachWeiche;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkElement;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkGleis;
+import de.gedoplan.v5t11.leitstand.persistence.SignalRepository;
+import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
+import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
 import lombok.Getter;
 import org.jboss.logging.Logger;
@@ -18,6 +21,8 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.Set;
 
 @Named
 @ViewScoped
@@ -25,6 +30,9 @@ public class StellwerkPresenter implements Serializable {
 
   @Inject
   StellwerkSessionHolder stellwerkSessionHolder;
+
+  @Inject
+  SignalRepository signalRepository;
 
   @Inject
   Logger logger;
@@ -42,7 +50,7 @@ public class StellwerkPresenter implements Serializable {
   private Weiche weiche2;
 
   @Getter
-  private Signal signal;
+  private BereichselementId signalId;
 
   @PostConstruct
   void postConstruct() {
@@ -76,10 +84,7 @@ public class StellwerkPresenter implements Serializable {
         weicheClicked(stellwerkGleis.findWeicheA(), stellwerkGleis.findWeicheB());
       }
 
-      Signal signal = element.findSignal();
-      if (signal != null) {
-        signalClicked(signal);
-      }
+      signalClicked(element.getSignalId());
     }
   }
 
@@ -87,7 +92,7 @@ public class StellwerkPresenter implements Serializable {
     this.controlPanelEnabled = false;
     this.weiche = null;
     this.weiche2 = null;
-    this.signal = null;
+    this.signalId = null;
     this.text = new StringBuilder();
   }
 
@@ -120,12 +125,41 @@ public class StellwerkPresenter implements Serializable {
     return WeichenStellung.values();
   }
 
-  private void signalClicked(Signal signal) {
-    this.logger.debugf("signalClicked: %s", signal.getId());
+  private void signalClicked(BereichselementId signalId) {
+    if (signalId != null) {
+      this.logger.debugf("signalClicked: %s", signalId);
 
-    this.signal = signal;
+      this.signalId = signalId;
 
-    this.controlPanelEnabled = true;
+      this.controlPanelEnabled = true;
+    }
+  }
+
+  public Set<SignalStellung> getSignalStellungen() {
+    if (this.signalId != null) {
+      return this.signalRepository.findById(this.signalId).getTyp().getErlaubteStellungen();
+    } else {
+      return Collections.emptySet();
+    }
+
+  }
+
+  public SignalStellung getSignalStellung() {
+    if (this.signalId != null) {
+      Signal signal = this.signalRepository.findById(this.signalId);
+      this.logger.debugf("getSignalStellung: %s", signal);
+      return signal.getStellung();
+    } else {
+      return SignalStellung.HALT;
+    }
+  }
+
+  public void setSignalStellung(SignalStellung stellung) {
+    if (stellung != null && this.signalId != null) {
+      Signal signal = this.signalRepository.findById(this.signalId);
+      signal.setStellung(stellung);
+      this.logger.debugf("setSignalStellung: %s", signal);
+    }
   }
 
   @Getter
