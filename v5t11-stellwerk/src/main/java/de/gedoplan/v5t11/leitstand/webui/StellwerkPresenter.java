@@ -9,6 +9,7 @@ import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkEinfachWeiche;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkElement;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkGleis;
 import de.gedoplan.v5t11.leitstand.persistence.SignalRepository;
+import de.gedoplan.v5t11.leitstand.persistence.WeicheRepository;
 import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
@@ -35,6 +36,9 @@ public class StellwerkPresenter implements Serializable {
   SignalRepository signalRepository;
 
   @Inject
+  WeicheRepository weicheRepository;
+
+  @Inject
   Logger logger;
 
   @Getter
@@ -44,10 +48,10 @@ public class StellwerkPresenter implements Serializable {
   private long gleisClickMillis = -1L;
 
   @Getter
-  private Weiche weiche;
+  private BereichselementId weiche1Id;
 
   @Getter
-  private Weiche weiche2;
+  private BereichselementId weiche2Id;
 
   @Getter
   private BereichselementId signalId;
@@ -78,10 +82,10 @@ public class StellwerkPresenter implements Serializable {
         gleisClicked(stellwerkGleis.findGleis());
       } else if (element instanceof StellwerkEinfachWeiche stellwerkGleis) {
         gleisClicked(stellwerkGleis.findGleis());
-        weicheClicked(stellwerkGleis.findWeiche(), null);
+        weicheClicked(stellwerkGleis.getId(), null);
       } else if (element instanceof StellwerkDkw2 stellwerkGleis) {
         gleisClicked(stellwerkGleis.findGleis());
-        weicheClicked(stellwerkGleis.findWeicheA(), stellwerkGleis.findWeicheB());
+        weicheClicked(stellwerkGleis.getWeicheAId(), stellwerkGleis.getWeicheBId());
       }
 
       signalClicked(element.getSignalId());
@@ -90,8 +94,8 @@ public class StellwerkPresenter implements Serializable {
 
   public void clearControlPanel() {
     this.controlPanelEnabled = false;
-    this.weiche = null;
-    this.weiche2 = null;
+    this.weiche1Id = null;
+    this.weiche2Id = null;
     this.signalId = null;
     this.text = new StringBuilder();
   }
@@ -112,17 +116,48 @@ public class StellwerkPresenter implements Serializable {
     }
   }
 
-  private void weicheClicked(Weiche weiche, Weiche weiche2) {
-    this.logger.debugf("weicheClicked: %s", weiche.getId());
-
-    this.weiche = weiche;
-    this.weiche2 = weiche2;
+  private void weicheClicked(BereichselementId weiche1Id, BereichselementId weiche2Id) {
+    this.weiche1Id = weiche1Id;
+    this.weiche2Id = weiche2Id;
 
     this.controlPanelEnabled = true;
   }
 
   public WeichenStellung[] getWeichenStellungen() {
     return WeichenStellung.values();
+  }
+
+  public WeichenStellung getWeiche1Stellung() {
+    return getWeicheXStellung(this.weiche1Id);
+  }
+
+  public void setWeiche1Stellung(WeichenStellung stellung) {
+    setWeicheXStellung(this.weiche1Id, stellung);
+  }
+
+  public WeichenStellung getWeiche2Stellung() {
+    return getWeicheXStellung(this.weiche2Id);
+  }
+
+  public void setWeiche2Stellung(WeichenStellung stellung) {
+    setWeicheXStellung(this.weiche2Id, stellung);
+  }
+
+  private WeichenStellung getWeicheXStellung(BereichselementId weicheId) {
+    if (weicheId != null) {
+      Weiche weiche = this.weicheRepository.findById(weicheId);
+      this.logger.debugf("getWeicheXStellung: %s", weiche);
+      return weiche.getStellung();
+    } else {
+      return WeichenStellung.GERADE;
+    }
+  }
+
+  private void setWeicheXStellung(BereichselementId weicheId, WeichenStellung stellung) {
+    if (stellung != null && weicheId != null) {
+      Weiche weiche = this.weicheRepository.findById(weicheId);
+      this.logger.debugf("setWeicheXStellung: %s", weiche);
+    }
   }
 
   private void signalClicked(BereichselementId signalId) {
@@ -157,7 +192,7 @@ public class StellwerkPresenter implements Serializable {
   public void setSignalStellung(SignalStellung stellung) {
     if (stellung != null && this.signalId != null) {
       Signal signal = this.signalRepository.findById(this.signalId);
-      signal.setStellung(stellung);
+      //      signal.setStellung(stellung);
       this.logger.debugf("setSignalStellung: %s", signal);
     }
   }
