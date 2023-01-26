@@ -8,12 +8,14 @@ import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkDkw2;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkEinfachWeiche;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkElement;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkGleis;
+import de.gedoplan.v5t11.leitstand.gateway.StatusGateway;
 import de.gedoplan.v5t11.leitstand.persistence.SignalRepository;
 import de.gedoplan.v5t11.leitstand.persistence.WeicheRepository;
 import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
 import lombok.Getter;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logging.Logger;
 
 import javax.annotation.PostConstruct;
@@ -37,6 +39,10 @@ public class StellwerkPresenter implements Serializable {
 
   @Inject
   WeicheRepository weicheRepository;
+
+  @Inject
+  @RestClient
+  StatusGateway statusGateway;
 
   @Inject
   Logger logger;
@@ -155,8 +161,8 @@ public class StellwerkPresenter implements Serializable {
 
   private void setWeicheXStellung(BereichselementId weicheId, WeichenStellung stellung) {
     if (stellung != null && weicheId != null) {
-      Weiche weiche = this.weicheRepository.findById(weicheId);
-      this.logger.debugf("setWeicheXStellung: %s", weiche);
+      this.logger.debugf("setWeicheXStellung: %s -> %s", weicheId, stellung);
+      this.statusGateway.weicheStellen(weicheId.getBereich(), weicheId.getName(), stellung);
     }
   }
 
@@ -191,9 +197,8 @@ public class StellwerkPresenter implements Serializable {
 
   public void setSignalStellung(SignalStellung stellung) {
     if (stellung != null && this.signalId != null) {
-      Signal signal = this.signalRepository.findById(this.signalId);
-      //      signal.setStellung(stellung);
-      this.logger.debugf("setSignalStellung: %s", signal);
+      this.logger.debugf("setSignalStellung: %s -> %s", this.signalId, stellung);
+      this.statusGateway.signalStellen(this.signalId.getBereich(), this.signalId.getName(), stellung);
     }
   }
 
