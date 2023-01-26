@@ -22,6 +22,9 @@ function updateHtmlElement(drawCommand) {
     ctx.lineCap = "butt";
     ctx.lineJoin = "round";
 
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.clearRect(0, 0, 1000, 1000);
+
     drawInaktiv(drawCommand.i, ctx);
     drawAktiv(drawCommand.a, drawCommand.b, ctx);
     drawFahrstrasse(drawCommand.f, drawCommand.z, drawCommand.a, ctx);
@@ -61,11 +64,10 @@ function drawAktiv(aktiveRichtungen, besetzt, ctx) {
     ctx.lineTo(ende.x, ende.y);
     ctx.stroke();
 
-    ctx.beginPath();
-    ctx.lineWidth = 100;
-    ctx.strokeStyle = "lightblue";
-
     // const xxx = richtung2point(aktiveRichtungen[1]);
+    // ctx.beginPath();
+    // ctx.lineWidth = 100;
+    // ctx.strokeStyle = "lightblue";
     // ctx.moveTo(500, 500);
     // ctx.lineTo(xxx.x, xxx.y);
     // ctx.stroke();
