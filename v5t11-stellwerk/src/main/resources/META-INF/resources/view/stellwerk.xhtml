@@ -37,7 +37,7 @@
           <p:selectOneButton id="signal" value="#{stellwerkPresenter.signalStellung}" unselectable="false"
                              rendered="${! empty stellwerkPresenter.signalId}">
             <f:selectItems value="#{stellwerkPresenter.signalStellungen}"/>
-            <p:ajax update="signal"/>
+            <p:ajax update="signal :messages"/>
           </p:selectOneButton>
 
           <h:outputText value="#{stellwerkPresenter.weiche1Id.name}"
@@ -45,7 +45,7 @@
           <p:selectOneButton id="weiche1" value="#{stellwerkPresenter.weiche1Stellung}" unselectable="false"
                              rendered="${! empty stellwerkPresenter.weiche1Id}">
             <f:selectItems value="#{stellwerkPresenter.weichenStellungen}"/>
-            <p:ajax update="weiche1"/>
+            <p:ajax update="weiche1 :messages"/>
           </p:selectOneButton>
 
           <h:outputText value="#{stellwerkPresenter.weiche2Id.name}"
@@ -53,7 +53,7 @@
           <p:selectOneButton id="weiche2" value="#{stellwerkPresenter.weiche2Stellung}" unselectable="false"
                              rendered="${! empty stellwerkPresenter.weiche2Id}">
             <f:selectItems value="#{stellwerkPresenter.weichenStellungen}"/>
-            <p:ajax update="weiche2"/>
+            <p:ajax update="weiche2 :messages"/>
           </p:selectOneButton>
 
           <h:panelGroup/>

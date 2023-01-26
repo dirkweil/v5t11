@@ -19,6 +19,7 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logging.Logger;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -162,7 +163,11 @@ public class StellwerkPresenter implements Serializable {
   private void setWeicheXStellung(BereichselementId weicheId, WeichenStellung stellung) {
     if (stellung != null && weicheId != null) {
       this.logger.debugf("setWeicheXStellung: %s -> %s", weicheId, stellung);
-      this.statusGateway.weicheStellen(weicheId.getBereich(), weicheId.getName(), stellung);
+      try {
+        this.statusGateway.weicheStellen(weicheId.getBereich(), weicheId.getName(), stellung);
+      } catch (Exception e) {
+        addFacesErrorMessage("Weiche kann nicht gestellt werden", e);
+      }
     }
   }
 
@@ -198,8 +203,25 @@ public class StellwerkPresenter implements Serializable {
   public void setSignalStellung(SignalStellung stellung) {
     if (stellung != null && this.signalId != null) {
       this.logger.debugf("setSignalStellung: %s -> %s", this.signalId, stellung);
-      this.statusGateway.signalStellen(this.signalId.getBereich(), this.signalId.getName(), stellung);
+      try {
+        this.statusGateway.signalStellen(this.signalId.getBereich(), this.signalId.getName(), stellung);
+      } catch (Exception e) {
+        addFacesErrorMessage("Signal kann nicht gestellt werden", e);
+      }
     }
+  }
+
+  private void addFacesErrorMessage(String msgText, Exception e) {
+    this.logger.error(msgText, e);
+    StringBuilder summary = new StringBuilder(msgText);
+    if (e.getMessage().contains("Connection refused")) {
+      summary.append("\n(Status-Service nicht erreichbar)");
+    }
+
+    FacesContext
+      .getCurrentInstance()
+      .addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, summary.toString(), "Hugo"));
+
   }
 
   @Getter
