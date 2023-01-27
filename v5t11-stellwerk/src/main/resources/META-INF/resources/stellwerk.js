@@ -3,16 +3,28 @@ const bereich = urlParams.get('bereich');
 let socket = new WebSocket("ws://" + window.location.host + "/javax.faces.push/stellwerk/" + bereich);
 socket.onmessage = function (event) {
   // alert(`[message] Data received from server: ` + JSON.stringify(event.data));
-  let drawCommands = JSON.parse(event.data);
-  for (const drawCommand of drawCommands) {
-    updateHtmlElement(drawCommand);
+  let pushMsg = JSON.parse(event.data);
+  if (pushMsg.wsid != null) {
+    updateWebSocketSessionId(pushMsg.wsid);
+  } else {
+    for (const drawCommand of pushMsg) {
+      drawElement(drawCommand);
+    }
   }
 
   updateControlPanel();
 };
 
-function updateHtmlElement(drawCommand) {
-  console.log('updateHtmlElement: ' + JSON.stringify(drawCommand));
+function updateWebSocketSessionId(id) {
+  console.log('Websocket Session: ' + id);
+  const htmlElement = document.getElementById('wsid');
+  if (htmlElement != null) {
+    htmlElement.value = id;
+  }
+}
+
+function drawElement(drawCommand) {
+  console.log('drawElement: ' + JSON.stringify(drawCommand));
   const htmlElement = document.getElementById(drawCommand.uiId);
 
   if (htmlElement != null) {
