@@ -8,7 +8,10 @@
 <ui:composition template="/WEB-INF/templates/leitstand.xhtml">
   <ui:param name="title" value="Stellwerk ${stellwerkPresenter.stellwerk.bereich}"/>
   <ui:define name="content">
-    <p:remoteCommand name="elementClicked" action="${stellwerkPresenter.elementClicked}" update="controlPanel"/>
+    <p:remoteCommand name="elementClicked"
+                     action="${stellwerkPresenter.elementClicked}"
+                     process="wsid"
+                     update="controlPanel :messages"/>
 
     <h:panelGroup id="stellwerk" layout="block" styleClass="stellwerk">
       <ui:repeat var="zeile" value="${stellwerkPresenter.stellwerk.zeilen}">
@@ -21,6 +24,8 @@
         </ui:repeat>
       </ui:repeat>
     </h:panelGroup>
+
+    <h:inputText id="wsid" value="${stellwerkPresenter.webSocketSessionId}" style="display: none"/>
 
     <h:outputStylesheet name="stellwerk.css"/>
     <h:outputScript name="stellwerk.js"/>

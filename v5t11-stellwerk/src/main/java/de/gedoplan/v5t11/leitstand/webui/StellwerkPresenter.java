@@ -1,5 +1,6 @@
 package de.gedoplan.v5t11.leitstand.webui;
 
+import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleis;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Signal;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Weiche;
@@ -8,13 +9,17 @@ import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkDkw2;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkEinfachWeiche;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkElement;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkGleis;
+import de.gedoplan.v5t11.leitstand.gateway.FahrstrassenGateway;
 import de.gedoplan.v5t11.leitstand.gateway.StatusGateway;
 import de.gedoplan.v5t11.leitstand.persistence.SignalRepository;
 import de.gedoplan.v5t11.leitstand.persistence.WeicheRepository;
+import de.gedoplan.v5t11.leitstand.service.FahrstrassenManager;
 import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
+import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenFilter;
 import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
 import lombok.Getter;
+import lombok.Setter;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logging.Logger;
 
@@ -26,6 +31,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 @Named
@@ -46,13 +52,24 @@ public class StellwerkPresenter implements Serializable {
   StatusGateway statusGateway;
 
   @Inject
+  FahrstrassenManager fahrstrassenManager;
+
+  @Inject
+  @RestClient
+  FahrstrassenGateway fahrstrassenGateway;
+
+  @Inject
   Logger logger;
+
+  @Getter
+  @Setter
+  private String webSocketSessionId;
 
   @Getter
   private boolean controlPanelEnabled;
 
   private Gleis startGleis = null;
-  private long gleisClickMillis = -1L;
+  private long startGleisTimeStamp = -1L;
 
   @Getter
   private BereichselementId weiche1Id;
@@ -77,7 +94,7 @@ public class StellwerkPresenter implements Serializable {
 
   public void elementClicked() {
     String uiId = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("uiId");
-    this.logger.tracef("stellwerkElementClicked on %s", uiId);
+    this.logger.tracef("elementClicked: uiId=%s, webSocketSessionId=%s", uiId, this.webSocketSessionId);
 
     StellwerkElement element = this.stellwerkSessionHolder.getElementByUiUd(uiId);
     if (element != null) {
@@ -104,23 +121,6 @@ public class StellwerkPresenter implements Serializable {
     this.weiche1Id = null;
     this.weiche2Id = null;
     this.signalId = null;
-    this.text = new StringBuilder();
-  }
-
-  private void gleisClicked(Gleis gleis) {
-    this.logger.debugf("gleisClicked: %s", gleis.getId());
-
-    long now = System.currentTimeMillis();
-    if (this.gleisClickMillis >= 0L && (now - this.gleisClickMillis) < 3000) {
-      this.controlPanelEnabled = true;
-      this.text.append(this.startGleis.getName());
-      this.text.append("-");
-      this.text.append(gleis.getName());
-      this.text.append(" ");
-    } else {
-      this.gleisClickMillis = now;
-      this.startGleis = gleis;
-    }
   }
 
   private void weicheClicked(BereichselementId weiche1Id, BereichselementId weiche2Id) {
@@ -166,7 +166,7 @@ public class StellwerkPresenter implements Serializable {
       try {
         this.statusGateway.weicheStellen(weicheId.getBereich(), weicheId.getName(), stellung);
       } catch (Exception e) {
-        addFacesErrorMessage("Weiche kann nicht gestellt werden", e);
+        addFacesErrorMessage("Weiche kann nicht gestellt werden", "Status-Service", e);
       }
     }
   }
@@ -206,24 +206,64 @@ public class StellwerkPresenter implements Serializable {
       try {
         this.statusGateway.signalStellen(this.signalId.getBereich(), this.signalId.getName(), stellung);
       } catch (Exception e) {
-        addFacesErrorMessage("Signal kann nicht gestellt werden", e);
+        addFacesErrorMessage("Signal kann nicht gestellt werden", "Status-Service", e);
       }
     }
   }
 
-  private void addFacesErrorMessage(String msgText, Exception e) {
+  private void addFacesErrorMessage(String msgText, String serviceName, Exception e) {
     this.logger.error(msgText, e);
     StringBuilder summary = new StringBuilder(msgText);
     if (e.getMessage().contains("Connection refused")) {
-      summary.append("\n(Status-Service nicht erreichbar)");
+      summary.append("\n(");
+      summary.append(serviceName);
+      summary.append(" nicht erreichbar)");
     }
 
-    FacesContext
-      .getCurrentInstance()
-      .addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, summary.toString(), "Hugo"));
+    addFacesMessage(summary, FacesMessage.SEVERITY_ERROR);
 
   }
 
-  @Getter
-  private StringBuilder text = new StringBuilder();
+  private static void addFacesMessage(CharSequence summary, FacesMessage.Severity severity) {
+    FacesContext
+      .getCurrentInstance()
+      .addMessage(null, new FacesMessage(severity, summary.toString(), null));
+  }
+
+  private void gleisClicked(Gleis gleis) {
+    this.logger.debugf("gleisClicked: %s", gleis.getId());
+
+    long now = System.currentTimeMillis();
+
+    Fahrstrasse fahrstrasse = this.fahrstrassenManager.getReservierteFahrstrasse(gleis);
+    if (fahrstrasse != null) {
+      // Gleis ist in aktiver Fahrstrasse
+      this.logger.debugf("Fahrstrasse %s gewählt", fahrstrasse.getShortName());
+
+    } else if (this.startGleis == null || (now - this.startGleisTimeStamp) > 5000) {
+      // Erstes Gleis innerhalb der Wartezeit => als Start einer Fahrstrasse merken
+      this.logger.debugf("Gleis %s als möglichen FS-Beginn merken", gleis.getId());
+
+      this.startGleisTimeStamp = now;
+      this.startGleis = gleis;
+    } else {
+      // Zweites Gleis innerhalb Wartezeit => Fahrstrassen suchen
+      this.logger.debugf("Fahrstrassen von %s nach %s suchen", this.startGleis.getId(), gleis.getId());
+
+      try {
+        List<Fahrstrasse> fahrstrassen = this.fahrstrassenGateway.getFahrstrassen(
+          this.startGleis.getBereich(), this.startGleis.getName(),
+          gleis.getBereich(), gleis.getName(),
+          FahrstrassenFilter.FREI);
+
+        this.logger.debugf("%d Fahrstrassen gefunden", fahrstrassen.size());
+
+        if (fahrstrassen.isEmpty()) {
+          addFacesMessage(String.format("Keine Fahrstrasse von %s nach %s gefunden", this.startGleis.getName(), gleis.getName()), FacesMessage.SEVERITY_WARN);
+        }
+      } catch (Exception e) {
+        addFacesErrorMessage("Fahrstrassen können nicht ermittelt werden", "Fahrstrassen-Service", e);
+      }
+    }
+  }
 }
