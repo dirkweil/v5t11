@@ -7,9 +7,9 @@ import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenelementTyp;
 import de.gedoplan.v5t11.util.domain.entity.Bereichselement;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
-
-import java.util.ArrayList;
-import java.util.List;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
@@ -19,10 +19,8 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Table;
-
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Access(AccessType.FIELD)
@@ -30,8 +28,8 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Fahrstrasse extends Bereichselement {
 
-  public static final String TABLE_NAME = "LS_FAHRSTRASSE";
-  public static final String TABLE_NAME_ELEMENTE = "LS_FAHRSTRASSE_ELEMENTE";
+  public static final String TABLE_NAME = "SW_FAHRSTRASSE";
+  public static final String TABLE_NAME_ELEMENTE = "SW_FAHRSTRASSE_ELEMENTE";
 
   /**
    * Liste der Fahrstrassenelemente. Beginnt und endet immer mit einem Gleis.
