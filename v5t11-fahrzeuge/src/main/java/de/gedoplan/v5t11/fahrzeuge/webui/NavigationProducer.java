@@ -26,6 +26,6 @@ public class NavigationProducer {
   @Produces
   @ApplicationScoped
   List<NavigationItem> getFahrzeugManagementNavigationItem() {
-    return List.of(new NavigationItem("Fahrzeug-Management", "Fahrzeuge", this.urlPrefix + "view/fahrzeugManagement.xhtml", "fa fa-subway", 210));
+    return List.of(new NavigationItem("Fahrzeug-Management", "Fahrzeuge", this.urlPrefix + "view/fahrzeugManagement.xhtml", "pi pi-th-large", 210));
   }
 }

@@ -37,37 +37,56 @@
   <ui:define name="extra">
     <h:panelGroup id="controlPanel" layout="block">
       <h:panelGroup layout="block" styleClass="controlPanel" rendered="${stellwerkPresenter.controlPanelEnabled}">
-        <div style="display: flex; justify-content: flex-end; background: lightgray;">
-          <p:commandButton icon="pi pi-times"
-                           action="${stellwerkPresenter.clearControlPanel()}"
-                           update="controlPanel"/>
-        </div>
+        <p:commandButton style="grid-column: 3; justify-self: end;"
+                         icon="pi pi-times"
+                         action="${stellwerkPresenter.clearControlPanel()}"
+                         update="controlPanel"/>
 
-        <h:panelGrid columns="2" columnClasses="width40Percent,width60Percent">
-          <h:outputText value="#{stellwerkPresenter.signalId.name}" rendered="${! empty stellwerkPresenter.signalId}"/>
-          <p:selectOneButton id="signal" value="#{stellwerkPresenter.signalStellung}" unselectable="false"
-                             rendered="${! empty stellwerkPresenter.signalId}">
-            <f:selectItems value="#{stellwerkPresenter.signalStellungen}"/>
-            <p:ajax update="signal :messages"/>
-          </p:selectOneButton>
+        <h:panelGroup styleClass="pi pi-sun"
+                      style="grid-column: 1;"
+                      rendered="${! empty stellwerkPresenter.signalId}"/>
+        <h:outputText style="grid-column: 2;"
+                      value="#{stellwerkPresenter.signalId.name}"
+                      rendered="${! empty stellwerkPresenter.signalId}"/>
+        <p:selectOneButton style="grid-column: 3;"
+                           id="signal"
+                           value="#{stellwerkPresenter.signalStellung}"
+                           unselectable="false"
+                           rendered="${! empty stellwerkPresenter.signalId}">
+          <f:selectItems value="#{stellwerkPresenter.signalStellungen}"/>
+          <p:ajax update="signal :messages"/>
+        </p:selectOneButton>
 
-          <h:outputText value="#{stellwerkPresenter.weiche1Id.name}"
-                        rendered="${! empty stellwerkPresenter.weiche1Id}"/>
-          <p:selectOneButton id="weiche1" value="#{stellwerkPresenter.weiche1Stellung}" unselectable="false"
-                             rendered="${! empty stellwerkPresenter.weiche1Id}">
-            <f:selectItems value="#{stellwerkPresenter.weichenStellungen}"/>
-            <p:ajax update="weiche1 :messages"/>
-          </p:selectOneButton>
+        <h:panelGroup styleClass="pi pi-share-alt"
+                      style="grid-column: 1;"
+                      rendered="${! empty stellwerkPresenter.weiche1Id}"/>
+        <h:outputText style="grid-column: 2;"
+                      value="#{stellwerkPresenter.weiche1Id.name}"
+                      rendered="${! empty stellwerkPresenter.weiche1Id}"/>
+        <p:selectOneButton style="grid-column: 3;"
+                           id="weiche1"
+                           value="#{stellwerkPresenter.weiche1Stellung}"
+                           unselectable="false"
+                           rendered="${! empty stellwerkPresenter.weiche1Id}">
+          <f:selectItems value="#{stellwerkPresenter.weichenStellungen}"/>
+          <p:ajax update="weiche1 :messages"/>
+        </p:selectOneButton>
 
-          <h:outputText value="#{stellwerkPresenter.weiche2Id.name}"
-                        rendered="${! empty stellwerkPresenter.weiche2Id}"/>
-          <p:selectOneButton id="weiche2" value="#{stellwerkPresenter.weiche2Stellung}" unselectable="false"
-                             rendered="${! empty stellwerkPresenter.weiche2Id}">
-            <f:selectItems value="#{stellwerkPresenter.weichenStellungen}"/>
-            <p:ajax update="weiche2 :messages"/>
-          </p:selectOneButton>
+        <h:panelGroup styleClass="pi pi-share-alt"
+                      style="grid-column: 1;"
+                      rendered="${! empty stellwerkPresenter.weiche2Id}"/>
+        <h:outputText style="grid-column: 2;"
+                      value="#{stellwerkPresenter.weiche2Id.name}"
+                      rendered="${! empty stellwerkPresenter.weiche2Id}"/>
+        <p:selectOneButton style="grid-column: 3;"
+                           id="weiche2"
+                           value="#{stellwerkPresenter.weiche2Stellung}"
+                           unselectable="false"
+                           rendered="${! empty stellwerkPresenter.weiche2Id}">
+          <f:selectItems value="#{stellwerkPresenter.weichenStellungen}"/>
+          <p:ajax update="weiche2 :messages"/>
+        </p:selectOneButton>
 
-        </h:panelGrid>
       </h:panelGroup>
     </h:panelGroup>
 

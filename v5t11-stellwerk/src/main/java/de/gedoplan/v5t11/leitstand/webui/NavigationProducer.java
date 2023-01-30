@@ -33,7 +33,7 @@ public class NavigationProducer {
     return this.leitstand
       .getBereiche()
       .stream()
-      .map(b -> new NavigationItem(b, "Stellwerk", this.urlPrefix + "view/stellwerk.xhtml?bereich=" + b, "fa fa-arrows-alt", 0))
+      .map(b -> new NavigationItem(b, "Stellwerk", this.urlPrefix + "view/stellwerk.xhtml?bereich=" + b, "pi pi-map", 0))
       .toList();
   }
 }

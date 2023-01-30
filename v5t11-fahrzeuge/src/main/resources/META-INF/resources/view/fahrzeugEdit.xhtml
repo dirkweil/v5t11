@@ -1,5 +1,7 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-  xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
 
 <ui:composition template="/WEB-INF/templates/fahrzeugManagement.xhtml">
   <ui:define name="content">
@@ -7,26 +9,33 @@
       <h:panelGrid columns="1">
         <p:toolbar>
           <f:facet name="left">
-            <h:outputText value="#{fahrzeugEditPresenter.currentFahrzeug.id.adresse}@#{fahrzeugEditPresenter.currentFahrzeug.id.systemTyp}" id="id" style="vertical-align: middle;" />
-            <p:graphicImage name="#{fahrzeugPresenter.getImage(fahrzeugPresenter.currentFahrzeug)}" id="image" height="50px" style="vertical-align: middle; margin-left: 20px; margin-right: 20px;" />
-            <h:outputLabel value="Betriebsnummer: " for="betriebsnummer" />
-            <p:inputText value="#{fahrzeugEditPresenter.currentFahrzeug.betriebsnummer}" size="15" style="vertical-align: middle;" id="betriebsnummer" />
+            <h:outputText
+                value="#{fahrzeugEditPresenter.currentFahrzeug.id.adresse}@#{fahrzeugEditPresenter.currentFahrzeug.id.systemTyp}"
+                id="id" style="vertical-align: middle;"/>
+            <p:graphicImage name="#{fahrzeugPresenter.getImage(fahrzeugPresenter.currentFahrzeug)}" id="image"
+                            height="50px" style="vertical-align: middle; margin-left: 20px; margin-right: 20px;"/>
+            <h:outputLabel value="Betriebsnummer: " for="betriebsnummer"/>
+            <p:inputText value="#{fahrzeugEditPresenter.currentFahrzeug.betriebsnummer}" size="15"
+                         style="vertical-align: middle;" id="betriebsnummer"/>
           </f:facet>
           <f:facet name="right">
-            <p:commandButton value="Löschen" icon="fa fa-trash" action="remove" ajax="false" immediate="true" />
+            <p:commandButton value="Löschen" icon="pi pi-trash" action="remove" ajax="false" immediate="true"/>
 
-            <span class="ui-separator"> <span class="ui-icon pi pi-ellipsis-v" />
+            <span class="ui-separator"> <span class="ui-icon pi pi-ellipsis-v"/>
             </span>
 
-            <p:commandButton value="Abbrechen" icon="fa fa-times" action="#{fahrzeugPresenter.cancel()}" ajax="false" immediate="true" />
-            <p:commandButton value="Speichern" icon="fa fa-save" action="#{fahrzeugEditPresenter.save()}" ajax="false" />
+            <p:commandButton value="Abbrechen" icon="pi pi-times" action="#{fahrzeugPresenter.cancel()}" ajax="false"
+                             immediate="true"/>
+            <p:commandButton value="Speichern" icon="pi pi-save" action="#{fahrzeugEditPresenter.save()}" ajax="false"/>
           </f:facet>
         </p:toolbar>
 
-        <p:dataTable value="#{fahrzeugEditPresenter.currentFahrzeug.funktionen}" var="funktion" sortBy="#{funktion.gruppe}" id="funktionen">
+        <p:dataTable value="#{fahrzeugEditPresenter.currentFahrzeug.funktionen}" var="funktion"
+                     sortBy="#{funktion.gruppe}" id="funktionen">
           <p:column headerText="Funktionsgruppe" sortBy="#{funktion.gruppe}" width="200">
             <p:selectOneMenu value="#{funktion.gruppe}" style="width: 90%" id="gruppe">
-              <f:selectItems value="#{fahrzeugPresenter.funktionsGruppen}" var="fg" itemValue="#{fg}" itemLabel="#{fg.name}" />
+              <f:selectItems value="#{fahrzeugPresenter.funktionsGruppen}" var="fg" itemValue="#{fg}"
+                             itemLabel="#{fg.name}"/>
             </p:selectOneMenu>
           </p:column>
           <p:column headerText="Funktionsbeschreibung" sortBy="#{funktion.beschreibung}">
@@ -38,33 +47,35 @@
             <p:selectBooleanCheckbox value="#{funktion.fader}" itemLabel="Fader" id="fader"/>
           </p:column>
           <p:column headerText="Bits" width="340">
-            <h:outputText value="15" />
+            <h:outputText value="15"/>
             <p:triStateCheckbox value="#{fahrzeugEditPresenter.getTriStateAdapter(funktion, 15).value}" id="f15"/>
             <p:triStateCheckbox value="#{fahrzeugEditPresenter.getTriStateAdapter(funktion, 14).value}" id="f14"/>
             <p:triStateCheckbox value="#{fahrzeugEditPresenter.getTriStateAdapter(funktion, 13).value}" id="f13"/>
             <p:triStateCheckbox value="#{fahrzeugEditPresenter.getTriStateAdapter(funktion, 12).value}" id="f12"/>
-            <h:outputText value=" " />
+            <h:outputText value=" "/>
             <p:triStateCheckbox value="#{fahrzeugEditPresenter.getTriStateAdapter(funktion, 11).value}" id="f11"/>
             <p:triStateCheckbox value="#{fahrzeugEditPresenter.getTriStateAdapter(funktion, 10).value}" id="f10"/>
             <p:triStateCheckbox value="#{fahrzeugEditPresenter.getTriStateAdapter(funktion, 9).value}" id="f9"/>
             <p:triStateCheckbox value="#{fahrzeugEditPresenter.getTriStateAdapter(funktion, 8).value}" id="f8"/>
-            <h:outputText value=" " />
+            <h:outputText value=" "/>
             <p:triStateCheckbox value="#{fahrzeugEditPresenter.getTriStateAdapter(funktion, 7).value}" id="f7"/>
             <p:triStateCheckbox value="#{fahrzeugEditPresenter.getTriStateAdapter(funktion, 6).value}" id="f6"/>
             <p:triStateCheckbox value="#{fahrzeugEditPresenter.getTriStateAdapter(funktion, 5).value}" id="f5"/>
             <p:triStateCheckbox value="#{fahrzeugEditPresenter.getTriStateAdapter(funktion, 4).value}" id="f4"/>
-            <h:outputText value=" " />
+            <h:outputText value=" "/>
             <p:triStateCheckbox value="#{fahrzeugEditPresenter.getTriStateAdapter(funktion, 3).value}" id="f3"/>
             <p:triStateCheckbox value="#{fahrzeugEditPresenter.getTriStateAdapter(funktion, 2).value}" id="f2"/>
             <p:triStateCheckbox value="#{fahrzeugEditPresenter.getTriStateAdapter(funktion, 1).value}" id="f1"/>
             <p:triStateCheckbox value="#{fahrzeugEditPresenter.getTriStateAdapter(funktion, 0).value}" id="f0"/>
-            <h:outputText value="0" />
+            <h:outputText value="0"/>
           </p:column>
           <p:column width="40">
             <f:facet name="header">
-              <p:commandButton icon="fa fa-plus-square" title="Neu" style="width: 100%" action="#{fahrzeugEditPresenter.addFunktion()}" update="funktionen" />
+              <p:commandButton icon="pi pi-plus" title="Neu" style="width: 100%"
+                               action="#{fahrzeugEditPresenter.addFunktion()}" update="funktionen"/>
             </f:facet>
-            <p:commandButton icon="fa fa-trash" title="Löschen" style="width: 100%" action="#{fahrzeugEditPresenter.removeFunktion(funktion)}" update="funktionen" />
+            <p:commandButton icon="pi pi-trash" title="Löschen" style="width: 100%"
+                             action="#{fahrzeugEditPresenter.removeFunktion(funktion)}" update="funktionen"/>
           </p:column>
         </p:dataTable>
       </h:panelGrid>
