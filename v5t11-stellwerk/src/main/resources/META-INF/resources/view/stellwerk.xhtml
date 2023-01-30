@@ -37,7 +37,13 @@
   <ui:define name="extra">
     <h:panelGroup id="controlPanel" layout="block">
       <h:panelGroup layout="block" styleClass="controlPanel" rendered="${stellwerkPresenter.controlPanelEnabled}">
-        <h:panelGrid columns="2">
+        <div style="display: flex; justify-content: flex-end; background: lightgray;">
+          <p:commandButton icon="pi pi-times"
+                           action="${stellwerkPresenter.clearControlPanel()}"
+                           update="controlPanel"/>
+        </div>
+
+        <h:panelGrid columns="2" columnClasses="width40Percent,width60Percent">
           <h:outputText value="#{stellwerkPresenter.signalId.name}" rendered="${! empty stellwerkPresenter.signalId}"/>
           <p:selectOneButton id="signal" value="#{stellwerkPresenter.signalStellung}" unselectable="false"
                              rendered="${! empty stellwerkPresenter.signalId}">
@@ -61,8 +67,6 @@
             <p:ajax update="weiche2 :messages"/>
           </p:selectOneButton>
 
-          <h:panelGroup/>
-          <p:commandButton value="abbrechen" action="${stellwerkPresenter.clearControlPanel()}" update="controlPanel"/>
         </h:panelGrid>
       </h:panelGroup>
     </h:panelGroup>
