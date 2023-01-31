@@ -87,6 +87,27 @@
           <p:ajax update="weiche2 :messages"/>
         </p:selectOneButton>
 
+        <h:panelGroup styleClass="pi pi-arrows-alt"
+                      style="grid-column: 1;"
+                      rendered="${! empty stellwerkPresenter.fahrstrasse}"/>
+        <h:outputText style="grid-column: 2 / span 2;"
+                      value="#{stellwerkPresenter.fahrstrasse.shortName}"
+                      rendered="${! empty stellwerkPresenter.fahrstrasse}"/>
+        <h:panelGroup style="grid-column: 2 / span 2;"
+                      rendered="${! empty stellwerkPresenter.fahrstrasse}">
+          <p:commandButton value="Zugfahrt"
+                           rendered="${stellwerkPresenter.zugfahrtButtonEnabled}"
+                           action="${stellwerkPresenter.fahrstrasseReservierenZugfahrt()}"
+                           update="controlPanel :messages"/>
+          <p:commandButton value="Rangierfahrt"
+                           rendered="${stellwerkPresenter.rangierfahrtEnabled}"
+                           action="${stellwerkPresenter.fahrstrasseReservierenRangierfahrt()}"
+                           update="controlPanel :messages"/>
+          <p:commandButton value="Freigabe"
+                           rendered="${stellwerkPresenter.freigabeButtonEnabled}"
+                           action="${stellwerkPresenter.fahrstrasseFreigeben()}"
+                           update="controlPanel :messages"/>
+        </h:panelGroup>
       </h:panelGroup>
     </h:panelGroup>
 

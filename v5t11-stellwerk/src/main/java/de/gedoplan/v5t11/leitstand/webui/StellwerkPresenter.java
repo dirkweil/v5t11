@@ -16,6 +16,7 @@ import de.gedoplan.v5t11.leitstand.persistence.WeicheRepository;
 import de.gedoplan.v5t11.leitstand.service.FahrstrassenManager;
 import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenFilter;
+import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
 import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
 import lombok.Getter;
@@ -59,6 +60,9 @@ public class StellwerkPresenter implements Serializable {
   FahrstrassenGateway fahrstrassenGateway;
 
   @Inject
+  StellwerkVorschlagPresenter stellwerkVorschlagPresenter;
+
+  @Inject
   Logger logger;
 
   @Getter
@@ -80,6 +84,20 @@ public class StellwerkPresenter implements Serializable {
   @Getter
   private BereichselementId signalId;
 
+  @Getter
+  private Fahrstrasse fahrstrasse;
+
+  private List<Fahrstrasse> fahrstrassenVorschlaege = List.of();
+
+  @Getter
+  private boolean freigabeButtonEnabled;
+
+  @Getter
+  private boolean zugfahrtButtonEnabled;
+
+  @Getter
+  private boolean rangierfahrtEnabled;
+
   @PostConstruct
   void postConstruct() {
     String bereich = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("bereich");
@@ -100,7 +118,10 @@ public class StellwerkPresenter implements Serializable {
     if (element != null) {
       this.logger.tracef("element: %s %s", element.getClass().getSimpleName(), element.getId());
 
-      clearControlPanel();
+      //      clearControlPanel();
+      this.weiche1Id = null;
+      this.weiche2Id = null;
+      this.signalId = null;
 
       if (element instanceof StellwerkGleis stellwerkGleis) {
         gleisClicked(stellwerkGleis.findGleis());
@@ -121,6 +142,10 @@ public class StellwerkPresenter implements Serializable {
     this.weiche1Id = null;
     this.weiche2Id = null;
     this.signalId = null;
+    this.fahrstrasse = null;
+    this.fahrstrassenVorschlaege = List.of();
+
+    this.stellwerkVorschlagPresenter.clear(this.webSocketSessionId);
   }
 
   private void weicheClicked(BereichselementId weiche1Id, BereichselementId weiche2Id) {
@@ -238,32 +263,101 @@ public class StellwerkPresenter implements Serializable {
     Fahrstrasse fahrstrasse = this.fahrstrassenManager.getReservierteFahrstrasse(gleis);
     if (fahrstrasse != null) {
       // Gleis ist in aktiver Fahrstrasse
-      this.logger.debugf("Fahrstrasse %s gewählt", fahrstrasse.getShortName());
+      this.logger.debugf("Aktive Fahrstrasse %s gewählt", fahrstrasse.getShortName());
 
-    } else if (this.startGleis == null || (now - this.startGleisTimeStamp) > 5000) {
+      this.fahrstrasse = fahrstrasse;
+
+      this.freigabeButtonEnabled = true;
+      this.zugfahrtButtonEnabled = false;
+      this.rangierfahrtEnabled = false;
+
+      this.controlPanelEnabled = true;
+      return;
+    }
+
+    fahrstrasse = this.fahrstrassenVorschlaege
+      .stream()
+      .filter(fs -> fs.getElement(gleis, false) != null)
+      .findFirst()
+      .orElse(null);
+    if (fahrstrasse != null) {
+      // Gleis ist in vorgeschlagener Fahrstrasse
+      this.logger.debugf("Vergeschlagene Fahrstrasse %s gewählt", fahrstrasse.getShortName());
+
+      this.fahrstrasse = fahrstrasse;
+
+      this.stellwerkVorschlagPresenter.set(this.webSocketSessionId, this.fahrstrasse, this.fahrstrassenVorschlaege);
+
+      this.freigabeButtonEnabled = false;
+      this.zugfahrtButtonEnabled = true;
+      this.rangierfahrtEnabled = true;
+
+      this.controlPanelEnabled = true;
+      return;
+    }
+
+    if (this.startGleis == null || (now - this.startGleisTimeStamp) > 5000) {
       // Erstes Gleis innerhalb der Wartezeit => als Start einer Fahrstrasse merken
       this.logger.debugf("Gleis %s als möglichen FS-Beginn merken", gleis.getId());
 
       this.startGleisTimeStamp = now;
       this.startGleis = gleis;
-    } else {
-      // Zweites Gleis innerhalb Wartezeit => Fahrstrassen suchen
-      this.logger.debugf("Fahrstrassen von %s nach %s suchen", this.startGleis.getId(), gleis.getId());
 
-      try {
-        List<Fahrstrasse> fahrstrassen = this.fahrstrassenGateway.getFahrstrassen(
-          this.startGleis.getBereich(), this.startGleis.getName(),
-          gleis.getBereich(), gleis.getName(),
-          FahrstrassenFilter.FREI);
+      return;
+    }
 
-        this.logger.debugf("%d Fahrstrassen gefunden", fahrstrassen.size());
+    // Zweites Gleis innerhalb Wartezeit => Fahrstrassen suchen
+    this.logger.debugf("Fahrstrassen von %s nach %s suchen", this.startGleis.getId(), gleis.getId());
 
-        if (fahrstrassen.isEmpty()) {
-          addFacesMessage(String.format("Keine Fahrstrasse von %s nach %s gefunden", this.startGleis.getName(), gleis.getName()), FacesMessage.SEVERITY_WARN);
-        }
-      } catch (Exception e) {
-        addFacesErrorMessage("Fahrstrassen können nicht ermittelt werden", "Fahrstrassen-Service", e);
+    try {
+      List<Fahrstrasse> fahrstrassen = this.fahrstrassenGateway.getFahrstrassen(
+        this.startGleis.getBereich(), this.startGleis.getName(),
+        gleis.getBereich(), gleis.getName(),
+        FahrstrassenFilter.FREI);
+
+      this.logger.debugf("%d Fahrstrassen gefunden", fahrstrassen.size());
+
+      if (fahrstrassen.isEmpty()) {
+        addFacesMessage(String.format("Keine Fahrstrasse von %s nach %s gefunden", this.startGleis.getName(), gleis.getName()), FacesMessage.SEVERITY_WARN);
+      } else {
+        this.fahrstrassenVorschlaege = fahrstrassen;
+        this.fahrstrasse = fahrstrassen.get(0);
+
+        this.stellwerkVorschlagPresenter.set(this.webSocketSessionId, this.fahrstrasse, this.fahrstrassenVorschlaege);
+
+        this.freigabeButtonEnabled = false;
+        this.zugfahrtButtonEnabled = true;
+        this.rangierfahrtEnabled = true;
+
+        this.controlPanelEnabled = true;
       }
+    } catch (Exception e) {
+      addFacesErrorMessage("Fahrstrassen können nicht ermittelt werden", "Fahrstrassen-Service", e);
+    }
+  }
+
+  public void fahrstrasseReservierenZugfahrt() {
+    fahrstrasseReservieren(FahrstrassenReservierungsTyp.ZUGFAHRT);
+  }
+
+  public void fahrstrasseReservierenRangierfahrt() {
+    fahrstrasseReservieren(FahrstrassenReservierungsTyp.RANGIERFAHRT);
+  }
+
+  public void fahrstrasseFreigeben() {
+    fahrstrasseReservieren(FahrstrassenReservierungsTyp.UNRESERVIERT);
+  }
+
+  public void fahrstrasseReservieren(FahrstrassenReservierungsTyp fahrstrassenReservierungsTyp) {
+    if (this.fahrstrasse != null) {
+      try {
+        this.fahrstrassenGateway.reserviereFahrstrasse(this.fahrstrasse.getId(), fahrstrassenReservierungsTyp);
+      } catch (Exception e) {
+        String operation = fahrstrassenReservierungsTyp == FahrstrassenReservierungsTyp.UNRESERVIERT ? "freigegeben" : "reserviert";
+        addFacesErrorMessage(String.format("Fahrstrasse %s kann nicht %s werden", this.fahrstrasse.getShortName(), operation), "Fahrstrassen-Service", e);
+      }
+
+      clearControlPanel();
     }
   }
 }
