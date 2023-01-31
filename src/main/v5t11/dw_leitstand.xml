@@ -181,7 +181,7 @@
       <Gleis lage="O,W" name="14a" anzahl="3"/>
       <Weiche lage="NO,SW|W" name="15"/>
       <Leer anzahl="6"/>
-      <Gleis lage="SW,N" name="17a"/>
+      <Gleis lage="N,SW" name="17a"/>
       <Gleis lage="S,N" name="108"/>
     </Zeile>
     <Zeile>
@@ -196,7 +196,7 @@
       <Gleis lage="O,W" name="15a" anzahl="3"/>
       <Weiche lage="NO,SW|W" name="17"/>
       <Leer anzahl="6"/>
-      <Gleis lage="SW,NO" name="17a"/>
+      <Gleis lage="NO,SW" name="17a"/>
       <Leer/>
       <Gleis lage="S,N" name="108"/>
     </Zeile>
@@ -212,7 +212,7 @@
       <Gleis lage="O,W" name="16a" anzahl="3"/>
       <Gleis lage="NO,W" name="16a"/>
       <Leer anzahl="6"/>
-      <Gleis lage="SW,NO" name="17a"/>
+      <Gleis lage="NO,SW" name="17a"/>
       <Leer anzahl="2"/>
       <Gleis lage="S,N" name="108"/>
     </Zeile>
