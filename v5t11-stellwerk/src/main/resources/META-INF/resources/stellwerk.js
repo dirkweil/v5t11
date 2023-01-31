@@ -76,7 +76,7 @@ function drawAktiv(aktiveRichtungen, besetzt, ctx) {
     ctx.lineTo(ende.x, ende.y);
     ctx.stroke();
 
-    // const xxx = richtung2point(aktiveRichtungen[1]);
+    // const xxx = richtung2endPoint(aktiveRichtungen[1]);
     // ctx.beginPath();
     // ctx.lineWidth = 100;
     // ctx.strokeStyle = "lightblue";
@@ -90,15 +90,31 @@ function drawAktiv(aktiveRichtungen, besetzt, ctx) {
 function drawFahrstrasse(fahrstasse, zaehlrichtung, aktiveRichtungen, ctx) {
   if (fahrstasse != null) {
     ctx.setTransform(1, 0, 0, 1, 500, 500);
-    let richtung = richtung2winkel(aktiveRichtungen[0]) + Math.PI;
-    if (richtung > 2 * Math.PI)
-      richtung -= 2 * Math.PI;
-    richtung += richtung2winkel(aktiveRichtungen[1]);
-    richtung /= 2;
-    richtung += Math.PI / 2;
-    if (zaehlrichtung)
-      richtung += Math.PI;
-    ctx.rotate(richtung);
+
+    const zaehlrichtungsOffset = zaehlrichtung ? 0 : 4;
+
+    // Richtung des FS-Dreiecks entsprechend der Einfahrtrichtung
+    const richtung0 = (richtung2PiViertel(aktiveRichtungen[0]) + 2 + zaehlrichtungsOffset) % 8;
+
+    // Richtung des FS-Dreiecks entsprechend der Ausfahrtrichtung
+    const richtung1 = (richtung2PiViertel(aktiveRichtungen[1]) + 6 + zaehlrichtungsOffset) % 8;
+
+    // Mittelwert der beiden Richtungen bilden
+    // richtung0 und richtung1 können nur um 0, 1 oder 7 differieren
+    // Achtung Sonderfall: Der "Mittelwert" von 0 und 7 ist 7.5
+    let richtung = richtung0;
+    switch (Math.abs(richtung0 - richtung1)) {
+      case 0:
+        break;
+      case 1:
+        richtung = (richtung0 + richtung1) / 2.0;
+        break;
+      default:
+        richtung = (richtung0 + richtung1 + 8) / 2.0;
+        break;
+    }
+
+    ctx.rotate(richtung * Math.PI / 4);
 
     ctx.beginPath();
     ctx.lineWidth = 0;
@@ -157,7 +173,7 @@ function drawSignal(position, lichter, ctx) {
         ctx.translate(50, 490);
         break;
     }
-    ctx.rotate(richtung2winkel(position));
+    ctx.rotate(richtung2PiViertel(position) * Math.PI / 4);
 
     // Für jedes Licht einen Kreis zeichnen
     let x = 0;
@@ -271,24 +287,24 @@ function richtung2namePoint(richtung) {
   }
 }
 
-function richtung2winkel(richtung) {
+function richtung2PiViertel(richtung) {
   switch (richtung) {
     default:
       return 0;
     case 'NO':
-      return Math.PI / 4;
+      return 1;
     case 'O':
-      return Math.PI / 2;
+      return 2;
     case 'SO':
-      return 3 * Math.PI / 4;
+      return 3;
     case 'S':
-      return Math.PI;
+      return 4;
     case 'SW':
-      return 5 * Math.PI / 4;
+      return 5;
     case 'W':
-      return 6 * Math.PI / 4;
+      return 6;
     case 'NW':
-      return 7 * Math.PI / 4;
+      return 7;
   }
 
 }
