@@ -132,6 +132,14 @@ function drawFahrstrasse(fahrstasse, zaehlrichtung, aktiveRichtungen, ctx) {
         ctx.fillStyle = "white";
         break;
 
+      case "V":
+        ctx.fillStyle = "lightgreen";
+        break;
+
+      case "A":
+        ctx.fillStyle = "green";
+        break;
+
       default:
         ctx.fillStyle = "magenta";
         break;

@@ -14,8 +14,7 @@ public abstract class AbstractPushService {
 
   protected Logger logger = Logger.getLogger(ClassUtil.getProxiedClass(getClass()));
 
-  //  private Set<Session> sessions = new CopyOnWriteArraySet<>();
-  private Map<Session, String> sessions = new ConcurrentHashMap<>();
+  protected Map<Session, String> sessions = new ConcurrentHashMap<>();
 
   protected void openSession(Session session) {
     openSession(session, "");
@@ -68,7 +67,7 @@ public abstract class AbstractPushService {
       if (messageAsString.length() > 40) {
         messageAsString = messageAsString.substring(0, 39) + "...";
       }
-      this.logger.debugf("Send %s to sessions %s", messageAsString, session.getId());
+      this.logger.debugf("Send %s to session %s", messageAsString, session.getId());
     }
 
     session.getAsyncRemote().sendText(message.toString(), result -> {

@@ -60,7 +60,7 @@ public class StellwerkPresenter implements Serializable {
   FahrstrassenGateway fahrstrassenGateway;
 
   @Inject
-  StellwerkVorschlagPresenter stellwerkVorschlagPresenter;
+  StellwerkVorschlagService stellwerkVorschlagService;
 
   @Inject
   Logger logger;
@@ -145,7 +145,7 @@ public class StellwerkPresenter implements Serializable {
     this.fahrstrasse = null;
     this.fahrstrassenVorschlaege = List.of();
 
-    this.stellwerkVorschlagPresenter.clear(this.webSocketSessionId);
+    this.stellwerkVorschlagService.clear(this.webSocketSessionId);
   }
 
   private void weicheClicked(BereichselementId weiche1Id, BereichselementId weiche2Id) {
@@ -286,7 +286,7 @@ public class StellwerkPresenter implements Serializable {
 
       this.fahrstrasse = fahrstrasse;
 
-      this.stellwerkVorschlagPresenter.set(this.webSocketSessionId, this.fahrstrasse, this.fahrstrassenVorschlaege);
+      this.stellwerkVorschlagService.set(this.webSocketSessionId, this.fahrstrasse, this.fahrstrassenVorschlaege);
 
       this.freigabeButtonEnabled = false;
       this.zugfahrtButtonEnabled = true;
@@ -323,7 +323,7 @@ public class StellwerkPresenter implements Serializable {
         this.fahrstrassenVorschlaege = fahrstrassen;
         this.fahrstrasse = fahrstrassen.get(0);
 
-        this.stellwerkVorschlagPresenter.set(this.webSocketSessionId, this.fahrstrasse, this.fahrstrassenVorschlaege);
+        this.stellwerkVorschlagService.set(this.webSocketSessionId, this.fahrstrasse, this.fahrstrassenVorschlaege);
 
         this.freigabeButtonEnabled = false;
         this.zugfahrtButtonEnabled = true;
@@ -349,15 +349,17 @@ public class StellwerkPresenter implements Serializable {
   }
 
   public void fahrstrasseReservieren(FahrstrassenReservierungsTyp fahrstrassenReservierungsTyp) {
-    if (this.fahrstrasse != null) {
+    Fahrstrasse fahrstrasse = this.fahrstrasse;
+
+    clearControlPanel();
+
+    if (fahrstrasse != null) {
       try {
-        this.fahrstrassenGateway.reserviereFahrstrasse(this.fahrstrasse.getId(), fahrstrassenReservierungsTyp);
+        this.fahrstrassenGateway.reserviereFahrstrasse(fahrstrasse.getId(), fahrstrassenReservierungsTyp);
       } catch (Exception e) {
         String operation = fahrstrassenReservierungsTyp == FahrstrassenReservierungsTyp.UNRESERVIERT ? "freigegeben" : "reserviert";
-        addFacesErrorMessage(String.format("Fahrstrasse %s kann nicht %s werden", this.fahrstrasse.getShortName(), operation), "Fahrstrassen-Service", e);
+        addFacesErrorMessage(String.format("Fahrstrasse %s kann nicht %s werden", fahrstrasse.getShortName(), operation), "Fahrstrassen-Service", e);
       }
-
-      clearControlPanel();
     }
   }
 }

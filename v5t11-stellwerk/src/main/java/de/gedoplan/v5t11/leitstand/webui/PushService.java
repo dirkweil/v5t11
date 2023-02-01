@@ -56,6 +56,17 @@ public class PushService extends AbstractPushService {
   public static final List<String> FARBEN_BLOCK_HP0 = List.of("-", "r");
   public static final List<String> FARBEN_BLOCK_HP1 = List.of("-", "g");
 
+  public static final String ATTR_UIID = "uiId";
+  public static final String ATTR_GLEIS_BESETZT = "b";
+  public static final String ATTR_AKTIVE_RICHTUNGEN = "a";
+  public static final String ATTR_INAKTIVE_RICHTUNGEN = "i";
+  public static final String ATTR_NAME = "n";
+  public static final String ATTR_NAMENS_POSITION = "p";
+  public static final String ATTR_FAHRSTRASSEN_TYP = "f";
+  public static final String ATTR_FAHRSTRASSEN_ZAEHLRICHTUNG = "z";
+  public static final String ATTR_SIGNAL_LICHTER = "l";
+  public static final String ATTR_SIGNAL_POSITION = "s";
+
   private Leitstand leitstand;
 
   private ListMultimap<BereichselementId, StellwerkElement> gleisElemente = MultimapBuilder.hashKeys().arrayListValues().build();
@@ -66,11 +77,14 @@ public class PushService extends AbstractPushService {
 
   GleisRepository gleisRepository;
 
-  public PushService(Leitstand leitstand, FahrstrassenManager fahrstrassenManager, GleisRepository gleisRepository) {
+  StellwerkVorschlagService stellwerkVorschlagService;
+
+  public PushService(Leitstand leitstand, FahrstrassenManager fahrstrassenManager, GleisRepository gleisRepository, StellwerkVorschlagService stellwerkVorschlagService) {
 
     this.leitstand = leitstand;
     this.fahrstrassenManager = fahrstrassenManager;
     this.gleisRepository = gleisRepository;
+    this.stellwerkVorschlagService = stellwerkVorschlagService;
 
     leitstand
       .getStellwerke()
@@ -113,12 +127,13 @@ public class PushService extends AbstractPushService {
   }
 
   void fahrstrasseChanged(@Observes(during = TransactionPhase.AFTER_COMPLETION) @Changed Fahrstrasse fahrstrasse) {
-    fahrstrasse
+    send(fahrstrasse
       .getElemente()
       .stream()
       .filter(fse -> fse.getTyp() == FahrstrassenelementTyp.GLEIS)
       .map(fse -> this.gleisRepository.findById(fse.getId()))
-      .forEach(this::gleisChanged);
+      .flatMap(g -> this.gleisElemente.get(g.getId()).stream())
+      .toList());
   }
 
   private void sendAll(Session session, String bereich) {
@@ -127,20 +142,22 @@ public class PushService extends AbstractPushService {
       .getStellwerk(bereich)
       .getZeilen()
       .stream()
-      .flatMap(x -> x.getElemente().stream())
-      .filter(x -> !(x instanceof StellwerkLeer) || x.getSignalId() != null)
-      .forEach(x -> builder.add(createDrawCommand(x)));
+      .flatMap(zeile -> zeile.getElemente().stream())
+      .filter(element -> !(element instanceof StellwerkLeer) || element.getSignalId() != null)
+      .forEach(element -> builder.add(createDrawCommand(element, session.getId())));
     send(builder.build(), session);
   }
 
   private void send(Collection<StellwerkElement> elemente) {
-    Map<String, List<StellwerkElement>> elementeProBereich = elemente.stream().collect(Collectors.groupingBy(e -> e.getStellwerksBereich()));
-    elementeProBereich.forEach((stellwerksBereich, elementeDesBereichs) -> {
-      JsonArrayBuilder builder = Json.createArrayBuilder();
-      for (StellwerkElement element : elementeDesBereichs) {
-        builder.add(createDrawCommand(element));
-      }
-      send(builder.build(), null, info -> stellwerksBereich.equals(info));
+    this.sessions.keySet().forEach(session -> {
+      Map<String, List<StellwerkElement>> elementeProBereich = elemente.stream().collect(Collectors.groupingBy(e -> e.getStellwerksBereich()));
+      elementeProBereich.forEach((stellwerksBereich, elementeDesBereichs) -> {
+        JsonArrayBuilder builder = Json.createArrayBuilder();
+        for (StellwerkElement element : elementeDesBereichs) {
+          builder.add(createDrawCommand(element, session.getId()));
+        }
+        send(builder.build(), session, info -> stellwerksBereich.equals(info));
+      });
     });
   }
 
@@ -187,9 +204,9 @@ public class PushService extends AbstractPushService {
    * @param element
    * @return
    */
-  private JsonObject createDrawCommand(StellwerkElement element) {
+  private JsonObject createDrawCommand(StellwerkElement element, String sessionId) {
     JsonObjectBuilder builder = Json.createObjectBuilder();
-    builder.add("uiId", element.getUiId());
+    builder.add(ATTR_UIID, element.getUiId());
 
     Gleis gleis = null;
     String name = null;
@@ -234,20 +251,20 @@ public class PushService extends AbstractPushService {
     }
 
     if (gleis != null) {
-      builder.add("b", gleis.isBesetzt());
+      builder.add(ATTR_GLEIS_BESETZT, gleis.isBesetzt());
 
-      addFahrstrasse(gleis, builder);
+      addFahrstrasse(gleis, sessionId, builder);
 
     }
 
     if (aktiveRichtungen != null) {
       List<String> richtungsNamen = aktiveRichtungen.stream().map(x -> x.name()).toList();
-      builder.add("a", Json.createArrayBuilder(richtungsNamen));
+      builder.add(ATTR_AKTIVE_RICHTUNGEN, Json.createArrayBuilder(richtungsNamen));
     }
 
     if (inaktiveRichtungen != null) {
       List<String> richtungsNamen = inaktiveRichtungen.stream().map(x -> x.name()).toList();
-      builder.add("i", Json.createArrayBuilder(richtungsNamen));
+      builder.add(ATTR_INAKTIVE_RICHTUNGEN, Json.createArrayBuilder(richtungsNamen));
     }
 
     if (element.getSignalId() != null) {
@@ -255,19 +272,42 @@ public class PushService extends AbstractPushService {
     }
 
     if (name != null && namensPosition != null) {
-      builder.add("n", name);
-      builder.add("p", namensPosition.toString());
+      builder.add(ATTR_NAME, name);
+      builder.add(ATTR_NAMENS_POSITION, namensPosition.toString());
     }
 
     return builder.build();
   }
 
-  private void addFahrstrasse(Gleis gleis, JsonObjectBuilder builder) {
+  private void addFahrstrasse(Gleis gleis, String sessionId, JsonObjectBuilder builder) {
+    String f = null;
+    Fahrstrassenelement fahrstrassenelement = null;
+
     Fahrstrasse fahrstrasse = this.fahrstrassenManager.getReservierteFahrstrasse(gleis);
     if (fahrstrasse != null) {
-      Fahrstrassenelement fahrstrassenelement = fahrstrasse.getElement(gleis, true);
-      builder.add("f", fahrstrasse.getReservierungsTyp().toString());
-      builder.add("z", fahrstrassenelement.isZaehlrichtung());
+      // Gleis ist in aktiver Fahrstrasse
+      f = fahrstrasse.getReservierungsTyp().toString();
+      fahrstrassenelement = fahrstrasse.getElement(gleis, true);
+    } else {
+      fahrstrasse = this.stellwerkVorschlagService.getVorgeschlageneFahrstrasse(gleis, sessionId);
+      if (fahrstrasse != null) {
+        // Gleis ist in vorgeschlagener Fahrstrasse
+        f = "V";
+      } else {
+        fahrstrasse = this.stellwerkVorschlagService.getAlternativeFahrstrasse(gleis, sessionId);
+        // Gleis könnte in alternativ vorgeschlagener Fahrstrasse sein
+        // (Prüfung überflüssig wegen nächster Abfrage)
+        f = "A";
+      }
+
+      if (fahrstrasse != null) {
+        fahrstrassenelement = fahrstrasse.getElement(gleis, false);
+      }
+    }
+
+    if (f != null && fahrstrassenelement != null) {
+      builder.add(ATTR_FAHRSTRASSEN_TYP, f);
+      builder.add(ATTR_FAHRSTRASSEN_ZAEHLRICHTUNG, fahrstrassenelement.isZaehlrichtung());
     }
   }
 
@@ -312,8 +352,8 @@ public class PushService extends AbstractPushService {
     };
 
     if (!lichter.isEmpty()) {
-      builder.add("l", Json.createArrayBuilder(lichter));
-      builder.add("s", signalPosition != null ? signalPosition : "N");
+      builder.add(ATTR_SIGNAL_LICHTER, Json.createArrayBuilder(lichter));
+      builder.add(ATTR_SIGNAL_POSITION, signalPosition != null ? signalPosition : "N");
     }
   }
 
@@ -324,7 +364,7 @@ public class PushService extends AbstractPushService {
   protected void onOpen(Session session, @PathParam("bereich") String bereich) {
     super.openSession(session, bereich);
     this.managedExecutor.runAsync(() -> {
-      send(Json.createObjectBuilder().add("wsid", session.getId()).build());
+      send(Json.createObjectBuilder().add("wsid", session.getId()).build(), session);
       sendAll(session, bereich);
     });
   }
