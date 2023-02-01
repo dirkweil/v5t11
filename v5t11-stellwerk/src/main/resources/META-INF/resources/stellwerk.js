@@ -118,10 +118,11 @@ function drawFahrstrasse(fahrstasse, zaehlrichtung, aktiveRichtungen, ctx) {
 
     ctx.beginPath();
     ctx.lineWidth = 0;
-    ctx.moveTo(220, 0);
-    ctx.lineTo(-180, -150);
-    ctx.lineTo(-180, 150);
-    ctx.closePath();
+
+    let right = 220;
+    let left = -180;
+    let top = -150;
+    let bottom = 150;
 
     switch (fahrstasse) {
       case "Z":
@@ -137,7 +138,11 @@ function drawFahrstrasse(fahrstasse, zaehlrichtung, aktiveRichtungen, ctx) {
         break;
 
       case "A":
-        ctx.fillStyle = "green";
+        ctx.fillStyle = "lightgreen";
+        right = 126;
+        left = -103;
+        top = -107;
+        bottom = 107;
         break;
 
       default:
@@ -145,6 +150,10 @@ function drawFahrstrasse(fahrstasse, zaehlrichtung, aktiveRichtungen, ctx) {
         break;
     }
 
+    ctx.moveTo(right, 0);
+    ctx.lineTo(left, top);
+    ctx.lineTo(left, bottom);
+    ctx.closePath();
     ctx.fill();
 
   }
