@@ -2,14 +2,14 @@ package de.gedoplan.v5t11.leitstand.webui;
 
 import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleis;
-import de.gedoplan.v5t11.util.cdi.Changed;
 import org.jboss.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
@@ -20,8 +20,7 @@ public class StellwerkVorschlagService {
   Logger logger;
 
   @Inject
-  @Changed
-  Event<Fahrstrasse> fahrstrasseEventSource;
+  PushService pushService;
 
   private Map<String, Fahrstrasse> vorschlag4Session = new ConcurrentHashMap<>();
   private Map<String, Collection<Fahrstrasse>> weitere4Session = new ConcurrentHashMap<>();
@@ -30,35 +29,33 @@ public class StellwerkVorschlagService {
     Fahrstrasse vorschlag = this.vorschlag4Session.remove(sessionId);
     Collection<Fahrstrasse> weitere = this.weitere4Session.remove(sessionId);
 
-    if (vorschlag != null) {
-      this.fahrstrasseEventSource.fire(vorschlag);
-    }
-    if (weitere != null) {
-      weitere.forEach(fs -> this.fahrstrasseEventSource.fire(fs));
-    }
+    pushUpdates(vorschlag, weitere);
 
     this.logger.debugf("Vorschläge für Session %s gelöscht", sessionId);
   }
 
   public void set(String sessionId, Fahrstrasse vorschlag, Collection<Fahrstrasse> weitere) {
     this.vorschlag4Session.put(sessionId, vorschlag);
-    this.fahrstrasseEventSource.fire(vorschlag);
 
     weitere = weitere.stream().filter(fs -> !fs.equals(vorschlag)).toList();
     this.weitere4Session.put(sessionId, weitere);
-    weitere.forEach(fs -> this.fahrstrasseEventSource.fire(fs));
+
+    pushUpdates(vorschlag, weitere);
 
     this.logger.debugf("Vorschlag für Session %s: %s", sessionId, vorschlag.getShortName());
     this.logger.debugf("Weitere für Session %s: %s", sessionId, weitere.stream().map(Fahrstrasse::getShortName).collect(Collectors.joining(", ")));
   }
 
-  //  public Fahrstrasse getVorschlag(String sessionId) {
-  //    return vorschlag.get(sessionId);
-  //  }
-  //
-  //  public Collection<Fahrstrasse> getWeitere(String sessionId) {
-  //    return weitere.get(sessionId);
-  //  }
+  private void pushUpdates(Fahrstrasse vorschlag, Collection<Fahrstrasse> weitere) {
+    Set<Fahrstrasse> fahrstrassen = new HashSet<>();
+    if (vorschlag != null) {
+      fahrstrassen.add(vorschlag);
+    }
+    if (weitere != null) {
+      fahrstrassen.addAll(weitere);
+    }
+    this.pushService.sendFahrstrassen(fahrstrassen);
+  }
 
   public Fahrstrasse getVorgeschlageneFahrstrasse(Gleis gleis, String sessionId) {
     Fahrstrasse fahrstrasse = this.vorschlag4Session.get(sessionId);

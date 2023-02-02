@@ -39,6 +39,7 @@ import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -134,6 +135,22 @@ public class PushService extends AbstractPushService {
       .map(fse -> this.gleisRepository.findById(fse.getId()))
       .flatMap(g -> this.gleisElemente.get(g.getId()).stream())
       .toList());
+  }
+
+  public void sendFahrstrassen(Collection<Fahrstrasse> fahrstrassen) {
+    /*
+     Alle Gleis-Elemente der Fahrstrassen sammeln - jedes nur einmal.
+     Achtung: FahrstrassenElement hat keine eindeutige ID. Daher wird ein Map mit der UI-ID als Key zur Vereinzelung verwendet.
+     */
+    Map<String, StellwerkElement> gleisElemente = new HashMap<>();
+    fahrstrassen
+      .stream()
+      .flatMap(fs -> fs.getElemente().stream())
+      .filter(fse -> fse.getTyp() == FahrstrassenelementTyp.GLEIS)
+      .map(fse -> this.gleisRepository.findById(fse.getId()))
+      .flatMap(g -> this.gleisElemente.get(g.getId()).stream())
+      .forEach(e -> gleisElemente.putIfAbsent(e.getUiId(), e));
+    send(gleisElemente.values());
   }
 
   private void sendAll(Session session, String bereich) {

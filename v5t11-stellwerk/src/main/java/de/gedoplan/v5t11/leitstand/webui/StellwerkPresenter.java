@@ -31,9 +31,12 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Named
 @ViewScoped
@@ -275,16 +278,23 @@ public class StellwerkPresenter implements Serializable {
       return;
     }
 
-    fahrstrasse = this.fahrstrassenVorschlaege
+    Map<Boolean, List<Fahrstrasse>> partitionierteVorschlaege = this.fahrstrassenVorschlaege
       .stream()
-      .filter(fs -> fs.getElement(gleis, false) != null)
-      .findFirst()
-      .orElse(null);
-    if (fahrstrasse != null) {
+      .collect(Collectors.partitioningBy(fs -> fs.getElement(gleis, false) != null));
+    List<Fahrstrasse> vorschlaegeMitGleis = partitionierteVorschlaege.get(true);
+    if (vorschlaegeMitGleis != null && !vorschlaegeMitGleis.isEmpty()) {
       // Gleis ist in vorgeschlagener Fahrstrasse
-      this.logger.debugf("Vergeschlagene Fahrstrasse %s gewählt", fahrstrasse.getShortName());
 
-      this.fahrstrasse = fahrstrasse;
+      /*
+       Vorschläge so umsortieren, dass die Fahrstrassen, die das Gleis enthalten, vorne stehen
+       und die Ordnung ansonsten erhalten bleibt.
+       */
+      this.fahrstrassenVorschlaege = new ArrayList<>(vorschlaegeMitGleis);
+      this.fahrstrassenVorschlaege.addAll(partitionierteVorschlaege.get(false));
+
+      // Die erste FS ist nun die gerade angewählte, andere mit gleichem Gleis folgen danach
+      this.fahrstrasse = this.fahrstrassenVorschlaege.get(0);
+      this.logger.debugf("Vergeschlagene Fahrstrasse %s gewählt", this.fahrstrasse.getShortName());
 
       this.stellwerkVorschlagService.set(this.webSocketSessionId, this.fahrstrasse, this.fahrstrassenVorschlaege);
 
