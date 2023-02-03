@@ -20,19 +20,22 @@
 
             <p:row>
               <p:column rowspan="2" styleClass="width60Percent">
-                <p:graphicImage name="#{fahrzeugPresenter.getImage(fahrzeug)}"
-                                style="height: auto; max-height: 50px; width: auto; max-width=200px;"/>
+                <p:graphicImage name="#{fahrzeugPresenter.getImage(fahrzeug)}" styleClass="fahrzeug-image"/>
               </p:column>
 
               <p:column styleClass="rightAligned">
                 <h:panelGroup>
-                  <p:commandButton action="#{fahrzeugPresenter.control(fahrzeug)}" icon="pi pi-sliders-v"
+                  <p:commandButton action="#{fahrzeugPresenter.control(fahrzeug)}"
+                                   icon="pi pi-sliders-v"
+                                   styleClass="fahrzeug-button"
                                    title="steuern" ajax="false"/>
-                  <p:selectBooleanButton onLabel="1" offLabel="1"
+                  <p:selectBooleanButton onLabel="1" offLabel="1" title="Lok-Control 1"
+                                         styleClass="fahrzeug-button"
                                          value="#{fahrzeugPresenter.getLokcontrollerAdapter(fahrzeug,0).assigned}">
                     <p:ajax update="@form"/>
                   </p:selectBooleanButton>
-                  <p:selectBooleanButton onLabel="2" offLabel="2"
+                  <p:selectBooleanButton onLabel="2" offLabel="2" title="Lok-Control 2"
+                                         styleClass="fahrzeug-button"
                                          value="#{fahrzeugPresenter.getLokcontrollerAdapter(fahrzeug,1).assigned}">
                     <p:ajax update="@form"/>
                   </p:selectBooleanButton>
@@ -43,9 +46,13 @@
             <p:row>
               <p:column styleClass="rightAligned">
                 <h:panelGroup>
-                  <p:commandButton action="#{fahrzeugPresenter.edit(fahrzeug)}" icon="pi pi-pencil" title="bearbeiten"
+                  <p:commandButton action="#{fahrzeugPresenter.edit(fahrzeug)}"
+                                   icon="pi pi-pencil" title="bearbeiten"
+                                   styleClass="fahrzeug-button"
                                    ajax="false"/>
-                  <p:commandButton action="#{fahrzeugPresenter.program(fahrzeug)}" icon="pi pi-cog"
+                  <p:commandButton action="#{fahrzeugPresenter.program(fahrzeug)}"
+                                   icon="pi pi-cog"
+                                   styleClass="fahrzeug-button"
                                    title="programmieren" ajax="false"/>
                 </h:panelGroup>
               </p:column>
@@ -56,6 +63,9 @@
 
       <p:commandButton value="Neu" icon="pi pi-plus-circle" action="create" ajax="false"/>
     </h:form>
+
+    <h:outputStylesheet name="fahrzeuge.css"/>
+
   </ui:define>
 </ui:composition>
 </html>

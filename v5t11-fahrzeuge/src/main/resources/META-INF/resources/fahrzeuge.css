@@ -1,0 +1,15 @@
+.fahrzeug-image {
+  height: auto;
+  max-height: 40px;
+  width: auto;
+  max-width: 150px;
+}
+
+.fahrzeug-button {
+  /*height: 23px;*/
+  /*width: 28px;*/
+}
+
+@media (max-width: 1500px) {
+}
+
