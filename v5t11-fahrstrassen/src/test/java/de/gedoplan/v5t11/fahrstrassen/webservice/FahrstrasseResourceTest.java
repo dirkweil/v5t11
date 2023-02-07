@@ -23,7 +23,7 @@ import io.quarkus.test.junit.QuarkusTestExtension;
 
 @ExtendWith({ V5t11TestConfigDirExtension.class, QuarkusTestExtension.class })
 @TestMethodOrder(MethodOrderer.MethodName.class)
-public class FahrstrasseEndpointTest {
+public class FahrstrasseResourceTest {
 
   private static final String BEREICH = "show";
   private static final String FS_NAME = "11-W1-1-W3-S";
@@ -31,7 +31,7 @@ public class FahrstrasseEndpointTest {
   private static final String ENDE_NAME = "S";
 
   @Inject
-  FahrstrasseEndpoint fahrstrasseEndpoint;
+  FahrstrasseResource fahrstrasseResource;
 
   @Inject
   Parcours parcours;
@@ -44,7 +44,7 @@ public class FahrstrasseEndpointTest {
 
     this.log.debug("----- test_01_getFahrstrasse -----");
 
-    Response response = this.fahrstrasseEndpoint.getFahrstrasse(new BereichselementId(BEREICH, FS_NAME));
+    Response response = this.fahrstrasseResource.getFahrstrasse(new BereichselementId(BEREICH, FS_NAME));
     assertThat("Response-Code", response.getStatus(), is(Status.OK.getStatusCode()));
 
     this.log.debug(response.getEntity());
@@ -55,7 +55,7 @@ public class FahrstrasseEndpointTest {
 
     this.log.debug("----- test_02_getFahrstrassenIds -----");
 
-    List<String> fahrstrassenIds = this.fahrstrasseEndpoint.getFahrstrassenIds(null, null, null, null, null);
+    List<String> fahrstrassenIds = this.fahrstrasseResource.getFahrstrassenIds(null, null, null, null, null);
     assertThat("Anzahl Fahrstrassen", fahrstrassenIds.size(), is(52));
 
     fahrstrassenIds.forEach(this.log::debug);
@@ -66,7 +66,7 @@ public class FahrstrasseEndpointTest {
 
     this.log.debug("----- test_03_getFahrstrassenIdsFromStart -----");
 
-    List<String> fahrstrassenIds = this.fahrstrasseEndpoint.getFahrstrassenIds(BEREICH, START_NAME, null, null, null);
+    List<String> fahrstrassenIds = this.fahrstrasseResource.getFahrstrassenIds(BEREICH, START_NAME, null, null, null);
     assertThat("Anzahl Fahrstrassen", fahrstrassenIds.size(), is(4));
 
     fahrstrassenIds.forEach(this.log::debug);
@@ -77,7 +77,7 @@ public class FahrstrasseEndpointTest {
 
     this.log.debug("----- test_04_getFahrstrassenIdsFromStartToEnde -----");
 
-    List<String> fahrstrassenIds = this.fahrstrasseEndpoint.getFahrstrassenIds(BEREICH, START_NAME, null, ENDE_NAME, null);
+    List<String> fahrstrassenIds = this.fahrstrasseResource.getFahrstrassenIds(BEREICH, START_NAME, null, ENDE_NAME, null);
     assertThat("Anzahl Fahrstrassen", fahrstrassenIds.size(), is(2));
 
     fahrstrassenIds.forEach(this.log::debug);

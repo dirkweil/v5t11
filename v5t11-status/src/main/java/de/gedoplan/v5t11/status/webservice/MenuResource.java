@@ -10,7 +10,7 @@ import javax.ws.rs.Path;
 
 @Path("menu")
 @Dependent
-public class MenuEndpoint {
+public class MenuResource {
 
   @Inject
   NavigationPresenter navigationPresenter;

@@ -31,7 +31,7 @@ import org.jboss.logging.Logger;
 @Path("fahrstrasse")
 @ApplicationScoped
 @Transactional(rollbackOn = Exception.class)
-public class FahrstrasseEndpoint {
+public class FahrstrasseResource {
 
   @Inject
   Parcours parcours;

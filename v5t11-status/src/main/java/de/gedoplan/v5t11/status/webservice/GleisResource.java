@@ -17,7 +17,7 @@ import javax.ws.rs.core.MediaType;
 
 @Path("gleis")
 @Dependent
-public class GleisEndpoint {
+public class GleisResource {
 
   @Inject
   Steuerung steuerung;

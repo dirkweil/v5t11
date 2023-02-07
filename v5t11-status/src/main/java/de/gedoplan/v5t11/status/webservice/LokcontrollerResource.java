@@ -20,7 +20,7 @@ import javax.ws.rs.core.MediaType;
 
 @Path("lokcontroller")
 @Dependent
-public class LokcontrollerEndpoint {
+public class LokcontrollerResource {
 
   @Inject
   Steuerung steuerung;

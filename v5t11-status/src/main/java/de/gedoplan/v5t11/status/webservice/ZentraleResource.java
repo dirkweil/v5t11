@@ -14,7 +14,7 @@ import javax.ws.rs.core.MediaType;
 
 @Path("zentrale")
 @Dependent
-public class ZentraleEndpoint {
+public class ZentraleResource {
 
   @Inject
   Steuerung steuerung;

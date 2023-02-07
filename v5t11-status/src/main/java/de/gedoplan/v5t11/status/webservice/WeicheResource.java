@@ -20,7 +20,7 @@ import javax.ws.rs.core.MediaType;
 
 @Path("weiche")
 @Dependent
-public class WeicheEndpoint {
+public class WeicheResource {
 
   @Inject
   Steuerung steuerung;

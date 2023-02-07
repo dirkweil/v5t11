@@ -20,7 +20,7 @@ import javax.ws.rs.core.MediaType;
 
 @Path("signal")
 @Dependent
-public class SignalEndpoint {
+public class SignalResource {
 
   @Inject
   Steuerung steuerung;

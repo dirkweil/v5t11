@@ -19,7 +19,7 @@ import javax.ws.rs.core.MediaType;
 
 @Path("fahrzeug")
 @Dependent
-public class FahrzeugEndpoint {
+public class FahrzeugResource {
 
   @Inject
   Steuerung steuerung;
