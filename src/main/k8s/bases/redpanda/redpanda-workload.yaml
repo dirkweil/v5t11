@@ -34,8 +34,8 @@ spec:
             - CLUSTERIP://0.0.0.0:8082,NODEPORT://0.0.0.0:31082
             - --advertise-pandaproxy-addr
             - CLUSTERIP://redpanda:8082,NODEPORT://localhost:31082
-            - --rpc-addr v5t11-redpanda:33145
-            - --advertise-rpc-addr v5t11-redpanda:33145
+            - --rpc-addr v5t11-redpanda-0:33145
+            - --advertise-rpc-addr v5t11-redpanda-0:33145
           ports:
             - containerPort: 9092
             - containerPort: 31092
