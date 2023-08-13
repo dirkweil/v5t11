@@ -8,9 +8,9 @@ import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenelementTyp;
 import de.gedoplan.v5t11.util.domain.entity.Bereichselement;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlAttribute;
 
 import lombok.NoArgsConstructor;
 
@@ -106,8 +106,7 @@ public abstract class Fahrstrassenelement extends Bereichselement implements Clo
   /**
    * Element für Fahrstrasse reservieren bzw. freigeben.
    *
-   * @param reserviertefahrstrasseId
-   *        <code>null</code> zum Freigeben, sonst Id der Fahrstrasse
+   * @param reserviertefahrstrasseId <code>null</code> zum Freigeben, sonst Id der Fahrstrasse
    */
   public void reservieren(BereichselementId reserviertefahrstrasseId) {
     if (!isSchutz()) {
@@ -134,7 +133,7 @@ public abstract class Fahrstrassenelement extends Bereichselement implements Clo
 
   /**
    * Kopie erzeugen.
-   *
+   * <p>
    * Es wird eine Kopie des Elementes mit neuer ID erzeugt.
    *
    * @return umgekehrtes Element
@@ -150,7 +149,7 @@ public abstract class Fahrstrassenelement extends Bereichselement implements Clo
 
   /**
    * Umgekehrtes Element erzeugen.
-   *
+   * <p>
    * Wie {@link #createKopie()}, aber mit umgekehrter Zählrichtung
    *
    * @return umgekehrtes Element

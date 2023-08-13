@@ -3,8 +3,8 @@ package de.gedoplan.v5t11.status.entity.autoskript;
 import de.gedoplan.v5t11.status.entity.Steuerung;
 import de.gedoplan.v5t11.util.domain.attribute.SchalterStellung;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
 
 @XmlAccessorType(XmlAccessType.NONE)
 public class SkriptSchalter extends SkriptObjekt {

@@ -6,8 +6,8 @@ import de.gedoplan.v5t11.util.domain.attribute.FahrzeugId;
 
 import java.util.List;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.transaction.Transactional;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.transaction.Transactional;
 
 /**
  * DB-Repository für {@link Fahrzeug}.

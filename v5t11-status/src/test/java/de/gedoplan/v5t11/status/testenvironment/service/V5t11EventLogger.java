@@ -6,10 +6,10 @@ import de.gedoplan.v5t11.status.entity.baustein.Zentrale;
 import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
 import de.gedoplan.v5t11.util.domain.entity.Bereichselement;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.Observes;
-import javax.enterprise.inject.spi.EventMetadata;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.Observes;
+import jakarta.enterprise.inject.spi.EventMetadata;
+import jakarta.inject.Inject;
 
 import org.jboss.logging.Logger;
 
@@ -17,7 +17,6 @@ import org.jboss.logging.Logger;
  * Event-Logger.
  *
  * @author dw
- *
  */
 @ApplicationScoped
 public class V5t11EventLogger {

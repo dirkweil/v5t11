@@ -3,12 +3,12 @@ package de.gedoplan.v5t11.status.entity;
 import de.gedoplan.baselibs.persistence.entity.SingleIdEntity;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 import lombok.AccessLevel;
 import lombok.Getter;

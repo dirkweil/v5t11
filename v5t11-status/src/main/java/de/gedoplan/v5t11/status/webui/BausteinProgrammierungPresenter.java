@@ -17,15 +17,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
-import javax.enterprise.inject.Instance;
-import javax.enterprise.inject.Produces;
-import javax.enterprise.inject.spi.CDI;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
-import javax.inject.Inject;
-import javax.inject.Named;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.enterprise.inject.Instance;
+import jakarta.enterprise.inject.Produces;
+import jakarta.enterprise.inject.spi.CDI;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 import org.jboss.logging.Logger;
 
@@ -98,8 +98,7 @@ public class BausteinProgrammierungPresenter implements Serializable {
   /**
    * Aktuellen Baustein wählen und Programm-Session beginnen.
    *
-   * @param baustein
-   *          Wert
+   * @param baustein Wert
    */
   public String selectBaustein(Baustein baustein) {
     this.steuerung.getZentrale().setGleisspannung(false);
@@ -181,12 +180,12 @@ public class BausteinProgrammierungPresenter implements Serializable {
   @PostConstruct
   void init() {
     this.konfigurierteBausteine = // Stream.concat(
-        Stream.concat(
-            this.steuerung.getBesetztmelder().stream(),
-            this.steuerung.getFunktionsdecoder().stream())// ,
-            // this.steuerung.getLokdecoder().stream())
-            .filter(fd -> fd.getClass().getAnnotation(Konfigurierbar.class) != null)
-            .collect(Collectors.toList());
+      Stream.concat(
+          this.steuerung.getBesetztmelder().stream(),
+          this.steuerung.getFunktionsdecoder().stream())// ,
+        // this.steuerung.getLokdecoder().stream())
+        .filter(fd -> fd.getClass().getAnnotation(Konfigurierbar.class) != null)
+        .collect(Collectors.toList());
 
     this.busNummern = new ArrayList<>();
     for (int i = 0; i < this.steuerung.getZentrale().getBusAnzahl(); ++i) {
@@ -197,10 +196,10 @@ public class BausteinProgrammierungPresenter implements Serializable {
   @Inject
   void init(Instance<Baustein> bausteinInstanzen) {
     this.neueBausteine = bausteinInstanzen.stream()
-        .map(Baustein::getClass)
-        .map(ClassUtil::getProxiedClass)
-        .map(BausteinProgrammierungPresenter::createBaustein)
-        .collect(Collectors.toCollection(ArrayList::new));
+      .map(Baustein::getClass)
+      .map(ClassUtil::getProxiedClass)
+      .map(BausteinProgrammierungPresenter::createBaustein)
+      .collect(Collectors.toCollection(ArrayList::new));
   }
 
   private static Baustein createBaustein(Class<?> bausteinClass) {

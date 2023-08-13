@@ -1,7 +1,5 @@
 package de.gedoplan.v5t11.leitstand.webui;
 
-import com.google.common.collect.ListMultimap;
-import com.google.common.collect.MultimapBuilder;
 import de.gedoplan.v5t11.leitstand.entity.Leitstand;
 import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrassenelement;
@@ -21,22 +19,7 @@ import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenelementTyp;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
 import de.gedoplan.v5t11.util.jsf.AbstractPushService;
-import org.eclipse.microprofile.context.ManagedExecutor;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.Observes;
-import javax.enterprise.event.TransactionPhase;
-import javax.inject.Inject;
-import javax.json.Json;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
-import javax.websocket.OnClose;
-import javax.websocket.OnError;
-import javax.websocket.OnOpen;
-import javax.websocket.Session;
-import javax.websocket.server.PathParam;
-import javax.websocket.server.ServerEndpoint;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -44,7 +27,26 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@ServerEndpoint("/javax.faces.push/stellwerk/{bereich}")
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.Observes;
+import jakarta.enterprise.event.TransactionPhase;
+import jakarta.inject.Inject;
+import jakarta.json.Json;
+import jakarta.json.JsonArrayBuilder;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonObjectBuilder;
+import jakarta.websocket.OnClose;
+import jakarta.websocket.OnError;
+import jakarta.websocket.OnOpen;
+import jakarta.websocket.Session;
+import jakarta.websocket.server.PathParam;
+import jakarta.websocket.server.ServerEndpoint;
+
+import com.google.common.collect.ListMultimap;
+import com.google.common.collect.MultimapBuilder;
+import org.eclipse.microprofile.context.ManagedExecutor;
+
+@ServerEndpoint("/jakarta.faces.push/stellwerk/{bereich}")
 @ApplicationScoped
 public class PushService extends AbstractPushService {
 
@@ -132,7 +134,7 @@ public class PushService extends AbstractPushService {
       .getElemente()
       .stream()
       .filter(fse -> fse.getTyp() == FahrstrassenelementTyp.GLEIS)
-      .map(fse -> this.gleisRepository.findById(fse.getId()))
+      .map(fse -> this.gleisRepository.findById(fse.getId()).get())
       .flatMap(g -> this.gleisElemente.get(g.getId()).stream())
       .toList());
   }
@@ -147,7 +149,7 @@ public class PushService extends AbstractPushService {
       .stream()
       .flatMap(fs -> fs.getElemente().stream())
       .filter(fse -> fse.getTyp() == FahrstrassenelementTyp.GLEIS)
-      .map(fse -> this.gleisRepository.findById(fse.getId()))
+      .map(fse -> this.gleisRepository.findById(fse.getId()).get())
       .flatMap(g -> this.gleisElemente.get(g.getId()).stream())
       .forEach(e -> gleisElemente.putIfAbsent(e.getUiId(), e));
     send(gleisElemente.values());
@@ -180,38 +182,38 @@ public class PushService extends AbstractPushService {
 
   /**
    * Zeichenbefehl für die UI zu einem Stellwerkselement erzeugen.
-   *
+   * <p>
    * Das erzeugte Objekt ist ein JSON-Objekt mit den folgenden Attributen:
-   *
+   * <p>
    * Die UI-Id ist stets vorhanden:
    * <dl>
    *   <dt>uiId</dt><dd>Id des Canvas-Elements auf der Webseite</dd>
    * </dl>
-   *
+   * <p>
    * Falls ein Gleis gezeichnet werden soll, gibt es diese Attribute:
    * <dl>
    *   <dt>b</dt><dd>Gleis besetzt?</dd>
    *   <dt>a</dt><dd>Aktive Gleissegmente als Array der Länge 2 aus den Richtungen N, NO, O, SO, S, SW, W, NW</dd>
    * </dl>
-   *
-   *
+   * <p>
+   * <p>
    * Für Weichen gibt es diese Attribute:
    * <dl>
    *   <dt>i</dt><dd>Inaktive Gleissegmente als Array aus den Richtungen N, NO, O, SO, S, SW, W, NW</dd>
    * </dl>
-   *
+   * <p>
    * Für Signale gibt es diese Attribute:
    * <dl>
    *   <dt>l</dt><dd>Anzuzeigende Lichter als Array aus r, g, y, w, -; ein oder zwei Elemente von oben nach unten</dd>
    *   <dt>s</dt><dd>Position des Signals als Richtung N, NO, O, SO, S, SW, W, NW</dd>
    * </dl>
-   *
+   * <p>
    * Ist das Gleis Teil einer Fahrstrasse, gibt es diese Attribute:
    * <dl>
    *   <dt>f</dt><dd>Reservierungstyp als Kürzel Z, R</dd>
    *   <dt>z</dt><dd>In Zählrichtung?</dd>
    * </dl>
-   *
+   * <p>
    * Soll ein Name angezeigt werden (Gleis, Weiche, Signal), gibt es diese Attribute:
    * <dl>
    *   <dt>n</dt><dd>Name</dd>

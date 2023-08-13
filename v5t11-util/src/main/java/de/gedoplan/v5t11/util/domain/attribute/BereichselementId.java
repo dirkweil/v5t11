@@ -4,9 +4,9 @@ import de.gedoplan.v5t11.util.misc.NameComparator;
 
 import java.io.Serializable;
 
-import javax.json.bind.adapter.JsonbAdapter;
-import javax.json.bind.annotation.JsonbTypeAdapter;
-import javax.persistence.Embeddable;
+import jakarta.json.bind.adapter.JsonbAdapter;
+import jakarta.json.bind.annotation.JsonbTypeAdapter;
+import jakarta.persistence.Embeddable;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -36,7 +36,7 @@ public class BereichselementId implements Comparable<BereichselementId>, Seriali
 
   /**
    * Code für Id aus Name und Bereich kombinieren.
-   * 
+   *
    * @return Name + '@' + Bereich
    */
   @Override
@@ -46,7 +46,7 @@ public class BereichselementId implements Comparable<BereichselementId>, Seriali
 
   /**
    * Code in Name und Bereich aufteilen.
-   * 
+   *
    * @param Name + '@' + Bereich
    * @return Decodierte Id
    */

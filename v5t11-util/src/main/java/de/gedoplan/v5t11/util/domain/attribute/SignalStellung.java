@@ -5,10 +5,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.json.bind.adapter.JsonbAdapter;
-import javax.json.bind.annotation.JsonbTypeAdapter;
-import javax.persistence.AttributeConverter;
-import javax.persistence.Converter;
+import jakarta.json.bind.adapter.JsonbAdapter;
+import jakarta.json.bind.annotation.JsonbTypeAdapter;
+import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Converter;
 
 /**
  * Signalstellung.
@@ -45,6 +45,7 @@ public enum SignalStellung {
   private String string;
 
   private static Map<String, SignalStellung> lookup = new HashMap<>();
+
   static {
     for (SignalStellung s : SignalStellung.values()) {
       lookup.put(s.string, s);

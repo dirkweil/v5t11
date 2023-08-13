@@ -12,9 +12,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.annotation.Priority;
-import javax.enterprise.context.Dependent;
-import javax.enterprise.inject.Alternative;
+import jakarta.annotation.Priority;
+import jakarta.enterprise.context.Dependent;
+import jakarta.enterprise.inject.Alternative;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
@@ -25,14 +25,14 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 public class TestStatusGateway implements StatusGateway {
 
   private static final Gleis[] TEST_GLEISE = {
-      createTestGleis("show", "1", false),
-      createTestGleis("show", "2", true),
-      createTestGleis("show", "11", false),
-      createTestGleis("show", "12", false),
-      createTestGleis("show", "S", false),
-      createTestGleis("show", "W1", false),
-      createTestGleis("show", "W2", false),
-      createTestGleis("show", "W3", false)
+    createTestGleis("show", "1", false),
+    createTestGleis("show", "2", true),
+    createTestGleis("show", "11", false),
+    createTestGleis("show", "12", false),
+    createTestGleis("show", "S", false),
+    createTestGleis("show", "W1", false),
+    createTestGleis("show", "W2", false),
+    createTestGleis("show", "W3", false)
   };
 
   @Override

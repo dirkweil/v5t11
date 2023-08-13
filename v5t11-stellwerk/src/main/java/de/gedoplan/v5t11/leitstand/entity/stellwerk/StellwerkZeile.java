@@ -1,12 +1,14 @@
 package de.gedoplan.v5t11.leitstand.entity.stellwerk;
 
 import de.gedoplan.baselibs.utils.inject.InjectionUtil;
+
 import lombok.Getter;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElements;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlElements;
+
 import java.io.Serializable;
 import java.util.List;
 

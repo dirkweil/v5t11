@@ -10,8 +10,8 @@ import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
 import java.io.Serializable;
 import java.util.Collection;
 
-import javax.enterprise.inject.Model;
-import javax.inject.Inject;
+import jakarta.enterprise.inject.Model;
+import jakarta.inject.Inject;
 
 @Model
 public class SystemStatusPresenter implements Serializable {

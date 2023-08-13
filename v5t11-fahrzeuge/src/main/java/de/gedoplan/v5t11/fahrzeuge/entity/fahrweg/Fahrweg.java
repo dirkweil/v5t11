@@ -8,7 +8,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.function.BiFunction;
 
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import lombok.Getter;
 
@@ -35,10 +35,8 @@ public class Fahrweg {
   /**
    * Gleis liefern.
    *
-   * @param bereich
-   *          Bereich
-   * @param name
-   *          Name
+   * @param bereich Bereich
+   * @param name Name
    * @return gefundener Gleis oder <code>null</code>
    */
   public Gleis getGleis(String bereich, String name) {
@@ -48,10 +46,8 @@ public class Fahrweg {
   /**
    * Gleis liefern oder bei Bedarf neu anlegen.
    *
-   * @param bereich
-   *          Bereich
-   * @param name
-   *          Name
+   * @param bereich Bereich
+   * @param name Name
    * @return gefundener oder erzeugter Gleis
    */
   public Gleis getOrCreateGleis(String bereich, String name) {
@@ -61,10 +57,8 @@ public class Fahrweg {
   /**
    * Weiche liefern.
    *
-   * @param bereich
-   *          Bereich
-   * @param name
-   *          Name
+   * @param bereich Bereich
+   * @param name Name
    * @return gefundene Weiche oder <code>null</code>
    */
   public Weiche getWeiche(String bereich, String name) {
@@ -74,10 +68,8 @@ public class Fahrweg {
   /**
    * Weiche liefern oder bei Bedarf neu anlegen.
    *
-   * @param bereich
-   *          Bereich
-   * @param name
-   *          Name
+   * @param bereich Bereich
+   * @param name Name
    * @return gefundene oder erzeugte Weiche
    */
   public Weiche getOrCreateWeiche(String bereich, String name) {

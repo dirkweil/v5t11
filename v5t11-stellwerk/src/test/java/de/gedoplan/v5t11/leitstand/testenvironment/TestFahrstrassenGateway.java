@@ -8,9 +8,9 @@ import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
 
 import java.util.List;
 
-import javax.annotation.Priority;
-import javax.enterprise.context.Dependent;
-import javax.enterprise.inject.Alternative;
+import jakarta.annotation.Priority;
+import jakarta.enterprise.context.Dependent;
+import jakarta.enterprise.inject.Alternative;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 

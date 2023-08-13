@@ -19,17 +19,7 @@ import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenFilter;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
 import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
-import lombok.Getter;
-import lombok.Setter;
-import org.eclipse.microprofile.rest.client.inject.RestClient;
-import org.jboss.logging.Logger;
 
-import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,6 +27,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import jakarta.annotation.PostConstruct;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+
+import org.eclipse.microprofile.rest.client.inject.RestClient;
+import org.jboss.logging.Logger;
+
+import lombok.Getter;
+import lombok.Setter;
 
 @Named
 @ViewScoped
@@ -180,7 +183,7 @@ public class StellwerkPresenter implements Serializable {
 
   private WeichenStellung getWeicheXStellung(BereichselementId weicheId) {
     if (weicheId != null) {
-      Weiche weiche = this.weicheRepository.findById(weicheId);
+      Weiche weiche = this.weicheRepository.findById(weicheId).get();
       this.logger.debugf("getWeicheXStellung: %s", weiche);
       return weiche.getStellung();
     } else {
@@ -211,7 +214,7 @@ public class StellwerkPresenter implements Serializable {
 
   public Set<SignalStellung> getSignalStellungen() {
     if (this.signalId != null) {
-      return this.signalRepository.findById(this.signalId).getTyp().getErlaubteStellungen();
+      return this.signalRepository.findById(this.signalId).get().getTyp().getErlaubteStellungen();
     } else {
       return Collections.emptySet();
     }
@@ -220,7 +223,7 @@ public class StellwerkPresenter implements Serializable {
 
   public SignalStellung getSignalStellung() {
     if (this.signalId != null) {
-      Signal signal = this.signalRepository.findById(this.signalId);
+      Signal signal = this.signalRepository.findById(this.signalId).get();
       this.logger.debugf("getSignalStellung: %s", signal);
       return signal.getStellung();
     } else {

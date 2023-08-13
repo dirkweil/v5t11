@@ -11,7 +11,7 @@ import de.gedoplan.v5t11.util.domain.attribute.FahrzeugId;
 import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -20,9 +20,8 @@ import lombok.Setter;
 
 /**
  * Entity-Klasse für Fahrzeuge.
- * 
- * @author dw
  *
+ * @author dw
  */
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Fahrzeug extends SingleIdEntity<FahrzeugId> {
@@ -160,8 +159,7 @@ public class Fahrzeug extends SingleIdEntity<FahrzeugId> {
    * Lok-Zustand an SX1-Kanal anpassen.
    * Diese Methode wird nur für SX1-Loks aufgerufen.
    *
-   * @param kanal
-   *        SX1-Kanal
+   * @param kanal SX1-Kanal
    */
   public void adjustTo(Kanal kanal) {
     synchronized (Zentrale.class) {
@@ -196,8 +194,7 @@ public class Fahrzeug extends SingleIdEntity<FahrzeugId> {
    * Lok-Zustand an SX2-Kanal anpassen.
    * Diese Methode wird nicht für SX1-Loks aufgerufen.
    *
-   * @param kanal
-   *        SX2-Kanal
+   * @param kanal SX2-Kanal
    */
   public void adjustTo(SX2Kanal kanal) {
     synchronized (Zentrale.class) {

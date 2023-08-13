@@ -10,9 +10,9 @@ import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 import de.gedoplan.v5t11.util.test.V5t11TestConfigDirExtension;
 
-import javax.annotation.PostConstruct;
-import javax.inject.Inject;
-import javax.json.Json;
+import jakarta.annotation.PostConstruct;
+import jakarta.inject.Inject;
+import jakarta.json.Json;
 
 import org.jboss.logging.Logger;
 import org.junit.jupiter.api.MethodOrderer;
@@ -60,14 +60,14 @@ public class FahrzeugTest {
     this.log.debug("JSON string: " + json);
 
     String expected = Json.createObjectBuilder()
-        .add("id", fahrzeug.getId().toString())
-        .add("lastChangeMillis", fahrzeug.getLastChangeMillis())
-        .add("aktiv", fahrzeug.isAktiv())
-        .add("fahrstufe", fahrzeug.getFahrstufe())
-        .add("licht", fahrzeug.isLicht())
-        .add("rueckwaerts", fahrzeug.isRueckwaerts())
-        .add("fktBits", fahrzeug.getFktBits())
-        .build().toString();
+      .add("id", fahrzeug.getId().toString())
+      .add("lastChangeMillis", fahrzeug.getLastChangeMillis())
+      .add("aktiv", fahrzeug.isAktiv())
+      .add("fahrstufe", fahrzeug.getFahrstufe())
+      .add("licht", fahrzeug.isLicht())
+      .add("rueckwaerts", fahrzeug.isRueckwaerts())
+      .add("fktBits", fahrzeug.getFktBits())
+      .build().toString();
 
     JSONAssert.assertEquals(expected, json, true);
   }

@@ -3,10 +3,10 @@ package de.gedoplan.v5t11.util.domain.attribute;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.json.bind.adapter.JsonbAdapter;
-import javax.json.bind.annotation.JsonbTypeAdapter;
-import javax.persistence.AttributeConverter;
-import javax.persistence.Converter;
+import jakarta.json.bind.adapter.JsonbAdapter;
+import jakarta.json.bind.annotation.JsonbTypeAdapter;
+import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Converter;
 
 @JsonbTypeAdapter(FahrstrassenelementTyp.Adapter4Json.class)
 public enum FahrstrassenelementTyp {
@@ -17,6 +17,7 @@ public enum FahrstrassenelementTyp {
   private String string;
 
   private static Map<String, FahrstrassenelementTyp> lookup = new HashMap<>();
+
   static {
     for (FahrstrassenelementTyp s : FahrstrassenelementTyp.values()) {
       lookup.put(s.string, s);

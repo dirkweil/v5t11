@@ -6,10 +6,10 @@ import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
-import javax.persistence.Access;
-import javax.persistence.AccessType;
-import javax.persistence.Convert;
-import javax.persistence.Embeddable;
+import jakarta.persistence.Access;
+import jakarta.persistence.AccessType;
+import jakarta.persistence.Convert;
+import jakarta.persistence.Embeddable;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

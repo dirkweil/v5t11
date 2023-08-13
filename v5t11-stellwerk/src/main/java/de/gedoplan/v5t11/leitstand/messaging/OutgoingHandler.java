@@ -2,27 +2,27 @@ package de.gedoplan.v5t11.leitstand.messaging;
 
 import de.gedoplan.v5t11.util.jsf.NavigationItem;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
+
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.eclipse.microprofile.reactive.messaging.OnOverflow;
 import org.jboss.logging.Logger;
 import org.jboss.logging.Logger.Level;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Alternative;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Alternative;
+import jakarta.inject.Inject;
 
 /**
  * Handler für ausgehende Meldungen.
- * 
+ * <p>
  * Die Methoden werden i. W. von {@link de.gedoplan.v5t11.leitstand.service.EventDispatcher} genutzt, um Veränderungen von Gleisen etc.
  * zu veröffentlichen.
- * 
+ * <p>
  * Achtung: Die Methoden hierin sind nicht als Observer ausgeprägt, weil dann ein Mocking mittels {@link Alternative @Alternative}
  * nicht gelingt.
- * 
- * @author dw
  *
+ * @author dw
  */
 @ApplicationScoped
 public class OutgoingHandler {

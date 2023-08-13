@@ -1,25 +1,29 @@
 package de.gedoplan.v5t11.util.jsf;
 
 import de.gedoplan.v5t11.util.cdi.EventFirer;
+
 import io.quarkus.runtime.StartupEvent;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
 import org.primefaces.model.menu.DefaultMenuModel;
 import org.primefaces.model.menu.DefaultSubMenu;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.Observes;
-import javax.enterprise.inject.Instance;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.websocket.OnClose;
-import javax.websocket.OnError;
-import javax.websocket.OnOpen;
-import javax.websocket.Session;
-import javax.websocket.server.ServerEndpoint;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.Observes;
+import jakarta.enterprise.inject.Instance;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.websocket.OnClose;
+import jakarta.websocket.OnError;
+import jakarta.websocket.OnOpen;
+import jakarta.websocket.Session;
+import jakarta.websocket.server.ServerEndpoint;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,25 +36,25 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Presenter für das globale Navigationsmenü.
- *
+ * <p>
  * Die Anwendung muss ihre Menü-Einträge mit Hilfe von Producern für den Typ {@Link NavigationItem} bereitstellen. Sie werden
  * initial genutzt, um das Menü mit Eigeneinträgen zu bestücken.
- *
+ * <p>
  * Die Eigeneinträge werden regelmäßig als Heartbeat an die anderen Anwendungen versendet. Dazu muss die Anwendung einen
  * CDI-Observer besitzen, der Events des Typs {@Link NavigationItem} per Messaging versendet. Alle V5t11-Services verhalten
  * sich so.
- *
+ * <p>
  * Somit gehen die versendeten Eigeneinträge einer Anwendung als Messages bei den anderen Anwendungen ein. Die Anwendungen
  * müssen diese eingehenden {@Link NavigationItem NavigationItems} an {@link #heartBeat(NavigationItem)} propagieren. Sie
  * werden dann als Fremdeinträge im Menü eingebaut.
- *
+ * <p>
  * Während der Heartbeat-Verarbeitung wird überprüft, ob alle Fremdeinträge innerhalb der letzten Zeit aufgefrischt wurden,
  * ob die aussendende Anwendung also noch "lebt". Falls nicht, werden die Einträge deaktiviert.
  *
  * @author dw
  */
 @Named
-@ServerEndpoint("/javax.faces.push/menu-refresh")
+@ServerEndpoint("/jakarta.faces.push/menu-refresh")
 @ApplicationScoped
 public class NavigationPresenter extends AbstractPushService {
 

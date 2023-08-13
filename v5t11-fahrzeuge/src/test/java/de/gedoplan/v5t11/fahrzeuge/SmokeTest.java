@@ -4,7 +4,7 @@ import io.quarkus.test.junit.QuarkusTest;
 import org.jboss.logging.Logger;
 import org.junit.jupiter.api.Test;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 @QuarkusTest
 public class SmokeTest {
@@ -14,6 +14,6 @@ public class SmokeTest {
 
   @Test
   void test() {
-    logger.info("Quarkus running ...");
+    this.logger.info("Quarkus running ...");
   }
 }

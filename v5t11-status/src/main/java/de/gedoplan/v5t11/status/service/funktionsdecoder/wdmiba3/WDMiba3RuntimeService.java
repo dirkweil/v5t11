@@ -9,8 +9,8 @@ import de.gedoplan.v5t11.status.service.ConfigurationRuntimeService;
 import de.gedoplan.v5t11.status.service.Current;
 import de.gedoplan.v5t11.status.service.Programmierfamilie;
 
-import javax.enterprise.context.Dependent;
-import javax.inject.Inject;
+import jakarta.enterprise.context.Dependent;
+import jakarta.inject.Inject;
 
 import lombok.Getter;
 

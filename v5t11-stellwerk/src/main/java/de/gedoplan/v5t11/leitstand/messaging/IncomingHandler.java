@@ -14,23 +14,22 @@ import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.jboss.logging.Logger;
 
 /**
  * Handler für eingehende Meldungen.
- *
+ * <p>
  * Die eingehenden Meldungen enthalten jeweils ein Objekt des passenden Typs als JSON in byte[] verpackt. Dieses Objekt
  * wird deserialisiert und mit dem Qualifier {@link Received @Received} als CDI Event gefeuert.
- * 
+ * <p>
  * Achtung: Observer, die blockierend arbeiten (z. B. JPA-Code), müssen den Event asynchron verarbeiten, da in einem
  * Incoming Thread von Reactive Messaging keine blockierenden Operationen erlaubt sind!
- * 
- * @author dw
  *
+ * @author dw
  */
 @ApplicationScoped
 public class IncomingHandler {

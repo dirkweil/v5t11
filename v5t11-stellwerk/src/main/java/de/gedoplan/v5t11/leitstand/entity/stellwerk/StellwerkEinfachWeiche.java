@@ -5,14 +5,16 @@ import de.gedoplan.v5t11.leitstand.entity.fahrweg.Weiche;
 import de.gedoplan.v5t11.leitstand.persistence.GleisRepository;
 import de.gedoplan.v5t11.leitstand.persistence.WeicheRepository;
 import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
-import lombok.Getter;
 
-import javax.inject.Inject;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import jakarta.inject.Inject;
+import jakarta.xml.bind.Unmarshaller;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+
+import lombok.Getter;
 
 /**
  * Leeres Stellwerkselement
@@ -88,9 +90,7 @@ public class StellwerkEinfachWeiche extends StellwerkElement {
    * @return Weiche
    */
   public Weiche findWeiche() {
-    Weiche weiche = this.weicheRepository.findById(this.getId());
-    assert weiche != null;
-    return weiche;
+    return this.weicheRepository.findById(this.getId()).get();
   }
 
   /**
@@ -99,8 +99,6 @@ public class StellwerkEinfachWeiche extends StellwerkElement {
    * @return Gleis
    */
   public Gleis findGleis() {
-    Gleis gleis = this.gleisRepository.findById(this.gleisId);
-    assert gleis != null;
-    return gleis;
+    return this.gleisRepository.findById(this.gleisId).get();
   }
 }

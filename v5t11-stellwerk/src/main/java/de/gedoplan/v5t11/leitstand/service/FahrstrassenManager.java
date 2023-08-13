@@ -8,10 +8,10 @@ import de.gedoplan.v5t11.util.cdi.Changed;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.transaction.Transactional;
-import javax.ws.rs.NotFoundException;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
+import jakarta.ws.rs.NotFoundException;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logging.Logger;
@@ -36,7 +36,7 @@ public class FahrstrassenManager {
   public void updateFahrstrasse(Fahrstrasse statusFahrstrasse) {
     this.logger.debugf("Update für Fahrstrasse: %s", statusFahrstrasse);
 
-    Fahrstrasse fahrstrasse = this.fahrstrasseRepository.findById(statusFahrstrasse.getId());
+    Fahrstrasse fahrstrasse = this.fahrstrasseRepository.findById(statusFahrstrasse.getId()).orElse(null);
     if (fahrstrasse == null) {
       // Fahrstrasse ist noch nicht hier registriert
       this.logger.debugf("Fahrstrasse ist nicht registriert");
@@ -79,10 +79,10 @@ public class FahrstrassenManager {
 
   public Fahrstrasse getReservierteFahrstrasse(Gleis gleis) {
     return this.fahrstrasseRepository
-        .findByGleis(gleis)
-        .stream()
-        .filter(fs -> fs.getElement(gleis, true) != null)
-        .findAny()
-        .orElse(null);
+      .findByGleis(gleis)
+      .stream()
+      .filter(fs -> fs.getElement(gleis, true) != null)
+      .findAny()
+      .orElse(null);
   }
 }

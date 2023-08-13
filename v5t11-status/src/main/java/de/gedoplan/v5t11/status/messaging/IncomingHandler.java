@@ -7,8 +7,8 @@ import de.gedoplan.v5t11.util.jsf.NavigationItem;
 import de.gedoplan.v5t11.util.jsf.NavigationPresenter;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.jboss.logging.Logger;

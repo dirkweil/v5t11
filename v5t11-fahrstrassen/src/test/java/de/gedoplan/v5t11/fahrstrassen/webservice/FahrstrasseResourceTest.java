@@ -9,9 +9,9 @@ import de.gedoplan.v5t11.util.test.V5t11TestConfigDirExtension;
 
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status;
 
 import org.jboss.logging.Logger;
 import org.junit.jupiter.api.MethodOrderer;

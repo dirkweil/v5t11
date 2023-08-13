@@ -1,11 +1,13 @@
 package de.gedoplan.v5t11.util.jsf;
 
 import de.gedoplan.baselibs.utils.util.ClassUtil;
+
 import org.jboss.logging.Logger;
 
-import javax.json.Json;
-import javax.json.JsonValue;
-import javax.websocket.Session;
+import jakarta.json.Json;
+import jakarta.json.JsonValue;
+import jakarta.websocket.Session;
+
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;

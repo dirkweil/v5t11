@@ -7,14 +7,16 @@ import de.gedoplan.v5t11.leitstand.entity.fahrweg.Signal;
 import de.gedoplan.v5t11.leitstand.persistence.SignalRepository;
 import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import de.gedoplan.v5t11.util.domain.entity.Bereichselement;
-import lombok.Getter;
 
-import javax.inject.Inject;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
 import java.util.function.Function;
 import java.util.stream.Stream;
+
+import jakarta.inject.Inject;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlAttribute;
+
+import lombok.Getter;
 
 /**
  * Stellwerkselement.
@@ -79,7 +81,7 @@ public abstract class StellwerkElement extends Bereichselement implements Clonea
   }
 
   protected <K, E extends SingleIdEntity<K>, R extends SingleIdEntityRepository<K, E>> E createIfNotPresent(R repository, K id, Function<K, E> creator) {
-    E entity = repository.findById(id);
+    E entity = repository.findById(id).orElse(null);
     if (entity == null) {
       entity = creator.apply(id);
       repository.persist(entity);
@@ -97,9 +99,7 @@ public abstract class StellwerkElement extends Bereichselement implements Clonea
       return null;
     }
 
-    Signal signal = this.signalRepository.findById(this.signalId);
-    assert signal != null;
-    return signal;
+    return this.signalRepository.findById(this.signalId).get();
   }
 
   public StellwerkElement clone() {

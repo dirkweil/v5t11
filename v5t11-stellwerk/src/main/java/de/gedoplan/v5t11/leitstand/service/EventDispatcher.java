@@ -2,12 +2,13 @@ package de.gedoplan.v5t11.leitstand.service;
 
 import de.gedoplan.v5t11.leitstand.messaging.OutgoingHandler;
 import de.gedoplan.v5t11.util.jsf.NavigationItem;
+
 import org.jboss.logging.Logger;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.Observes;
-import javax.enterprise.inject.Default;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.Observes;
+import jakarta.enterprise.inject.Default;
+import jakarta.inject.Inject;
 
 @ApplicationScoped
 public class EventDispatcher {

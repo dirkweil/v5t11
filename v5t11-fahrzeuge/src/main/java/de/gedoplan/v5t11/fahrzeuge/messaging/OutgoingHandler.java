@@ -4,9 +4,9 @@ import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug;
 import de.gedoplan.v5t11.util.jsf.NavigationItem;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Alternative;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Alternative;
+import jakarta.inject.Inject;
 
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
@@ -16,15 +16,14 @@ import org.jboss.logging.Logger.Level;
 
 /**
  * Handler für ausgehende Meldungen.
- * 
+ * <p>
  * Die Methoden werden i. W. von {@link EventDispatcher} genutzt, um Veränderungen von Gleisen etc.
  * zu veröffentlichen.
- * 
+ * <p>
  * Achtung: Die Methoden hierin sind nicht als Observer ausgeprägt, weil dann ein Mocking mittels {@link Alternative @Alternative}
  * nicht gelingt.
- * 
- * @author dw
  *
+ * @author dw
  */
 @ApplicationScoped
 public class OutgoingHandler {

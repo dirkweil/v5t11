@@ -2,9 +2,9 @@ package de.gedoplan.v5t11.status.entity;
 
 import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -32,8 +32,8 @@ public class SX2Kanal {
   @Override
   public String toString() {
     return String.format("SX2Kanal [index=%d, systemTyp=%s, adresse=%d, licht=%b, rueckwaerts=%b, fahrstufe=%d, funktionStatus=0x%04x]", this.index, this.systemTyp, this.adresse, this.licht,
-        this.rueckwaerts,
-        this.fahrstufe,
-        this.funktionStatus);
+      this.rueckwaerts,
+      this.fahrstufe,
+      this.funktionStatus);
   }
 }

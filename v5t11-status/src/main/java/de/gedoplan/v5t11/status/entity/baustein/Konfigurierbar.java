@@ -7,8 +7,8 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import javax.enterprise.context.Dependent;
-import javax.enterprise.inject.Stereotype;
+import jakarta.enterprise.context.Dependent;
+import jakarta.enterprise.inject.Stereotype;
 
 @Stereotype
 @Dependent

@@ -4,8 +4,8 @@ import de.gedoplan.v5t11.status.entity.fahrweg.Gleis;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 import de.gedoplan.v5t11.util.test.V5t11TestConfigDirExtension;
 
-import javax.inject.Inject;
-import javax.json.Json;
+import jakarta.inject.Inject;
+import jakarta.json.Json;
 
 import org.jboss.logging.Logger;
 import org.junit.jupiter.api.MethodOrderer;
@@ -38,10 +38,10 @@ public class GleisTest {
     this.log.debug("JSON string: " + json);
 
     String expected = Json.createObjectBuilder()
-        .add("key", gleis.getKey().toString())
-        .add("lastChangeMillis", gleis.getLastChangeMillis())
-        .add("besetzt", gleis.isBesetzt())
-        .build().toString();
+      .add("key", gleis.getKey().toString())
+      .add("lastChangeMillis", gleis.getLastChangeMillis())
+      .add("besetzt", gleis.isBesetzt())
+      .build().toString();
 
     JSONAssert.assertEquals(expected, json, true);
   }

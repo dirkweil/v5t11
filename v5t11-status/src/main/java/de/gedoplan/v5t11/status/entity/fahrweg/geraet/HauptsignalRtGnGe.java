@@ -7,12 +7,12 @@ import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
 import de.gedoplan.v5t11.util.domain.attribute.SignalTyp;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
 
 /**
  * Hauptsignal, 3-begriffig (Halt, Fahrt, Langsamfahrt).
- *
+ * <p>
  * Das Signal belegt am Decoder SXSD1 zwei Ausgänge (Idx, Idx+1) und wird wie folgt angeschlossen:
  * <ul>
  * <li>Ausgang Idx: Pin1 = +5V, Pin3 = rot, Pin4 = grün</li>

@@ -1,20 +1,24 @@
 package de.gedoplan.v5t11.status.entity.baustein;
 
 import com.fazecast.jSerialComm.SerialPort;
+
 import de.gedoplan.baselibs.utils.inject.InjectionUtil;
 import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
 import de.gedoplan.v5t11.status.service.ConfigService;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 import de.gedoplan.v5t11.util.misc.V5t11Exception;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
 import org.jboss.logging.Logger;
 
-import javax.inject.Inject;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
+import jakarta.inject.Inject;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlAttribute;
+
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
@@ -237,7 +241,7 @@ public abstract class Zentrale implements Closeable {
 
   /**
    * Gleisprotokoll einstellen.
-   *
+   * <p>
    * Derzeit wird stets mit SX1+SX2+DCC gefahren. Das könnte ggf. in Zukunft konfigurierbar gemacht werden.
    */
   public abstract void setGleisProtokoll();

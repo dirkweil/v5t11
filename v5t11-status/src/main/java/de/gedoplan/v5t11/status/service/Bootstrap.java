@@ -1,26 +1,24 @@
 package de.gedoplan.v5t11.status.service;
 
-import com.fazecast.jSerialComm.SerialPort;
 import de.gedoplan.v5t11.status.entity.Steuerung;
 import de.gedoplan.v5t11.util.jsf.NavigationPresenter;
 
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
-import javax.enterprise.context.Dependent;
-import javax.enterprise.event.Observes;
+import jakarta.enterprise.context.Dependent;
+import jakarta.enterprise.event.Observes;
 import javax.sql.DataSource;
 
-import org.eclipse.microprofile.config.inject.ConfigProperty;
-import org.jboss.logging.Logger;
-
+import com.fazecast.jSerialComm.SerialPort;
 import io.quarkus.runtime.ShutdownEvent;
 import io.quarkus.runtime.StartupEvent;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.jboss.logging.Logger;
 
 @Dependent
 public class Bootstrap {
@@ -28,14 +26,14 @@ public class Bootstrap {
   private final static ExecutorService scheduler = Executors.newSingleThreadExecutor();
 
   void boot(@Observes StartupEvent startupEvent,
-      ConfigService configService,
-      DataSource dataSource,
-      @ConfigProperty(name = "kafka.bootstrap.servers", defaultValue = "(dev service; see url above)") String kafkaUrl,
-      JoinService joinService,
-      Steuerung steuerung,
-      AnlagenstatusService anlagenstatusService,
-      Logger log,
-      NavigationPresenter navigationPresenter) {
+    ConfigService configService,
+    DataSource dataSource,
+    @ConfigProperty(name = "kafka.bootstrap.servers", defaultValue = "(dev service; see url above)") String kafkaUrl,
+    JoinService joinService,
+    Steuerung steuerung,
+    AnlagenstatusService anlagenstatusService,
+    Logger log,
+    NavigationPresenter navigationPresenter) {
     log.infof("app: %s:%s", configService.getArtifactId(), configService.getVersion());
 
     log.infof("configDir: %s", configService.getConfigDir());

@@ -3,9 +3,9 @@ package de.gedoplan.v5t11.fahrzeuge.testenvironment;
 import de.gedoplan.v5t11.fahrzeuge.gateway.StatusGateway;
 import de.gedoplan.v5t11.util.domain.attribute.FahrzeugId;
 
-import javax.annotation.Priority;
-import javax.enterprise.context.Dependent;
-import javax.enterprise.inject.Alternative;
+import jakarta.annotation.Priority;
+import jakarta.enterprise.context.Dependent;
+import jakarta.enterprise.inject.Alternative;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 

@@ -8,7 +8,7 @@ import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Schalter;
 import de.gedoplan.v5t11.util.domain.attribute.SchalterStellung;
 import de.gedoplan.v5t11.util.test.V5t11TestConfigDirExtension;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.jboss.logging.Logger;
 import org.junit.jupiter.api.MethodOrderer;

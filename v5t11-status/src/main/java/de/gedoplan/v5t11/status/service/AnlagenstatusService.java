@@ -7,9 +7,9 @@ import de.gedoplan.v5t11.status.entity.baustein.Zentrale;
 import de.gedoplan.v5t11.status.persistence.KanalRepository;
 import de.gedoplan.v5t11.util.cdi.Changed;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.ObservesAsync;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.ObservesAsync;
+import jakarta.inject.Inject;
 
 @ApplicationScoped
 public class AnlagenstatusService {

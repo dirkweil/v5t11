@@ -8,9 +8,9 @@ import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleis;
 import de.gedoplan.v5t11.util.cdi.Changed;
 import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.Observes;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.Observes;
+import jakarta.inject.Inject;
 
 import org.jboss.logging.Logger;
 
@@ -26,8 +26,7 @@ public class FahrstrasseMonitor {
   /**
    * Auf Belegtänderung eines Gleiss reagieren.
    *
-   * @param gleis
-   *        Gleis
+   * @param gleis Gleis
    */
   void processGleis(@Observes @Changed Gleis gleis) {
 

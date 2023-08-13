@@ -7,8 +7,8 @@ import de.gedoplan.v5t11.util.jsf.NavigationItem;
 import de.gedoplan.v5t11.util.jsf.NavigationPresenter;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.jboss.logging.Logger;
@@ -20,7 +20,6 @@ import java.util.regex.Pattern;
  * Handler für eingehende Meldungen.
  *
  * @author dw
- *
  */
 @ApplicationScoped
 public class IncomingHandler {
@@ -64,6 +63,5 @@ public class IncomingHandler {
     NavigationItem receivedObject = JsonbWithIncludeVisibility.SHORT.fromJson(json, NavigationItem.class);
     this.navigationPresenter.heartBeat(receivedObject);
   }
-
 
 }

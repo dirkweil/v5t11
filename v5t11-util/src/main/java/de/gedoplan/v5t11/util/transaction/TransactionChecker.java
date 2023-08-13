@@ -1,8 +1,8 @@
 package de.gedoplan.v5t11.util.transaction;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.transaction.Transactional;
-import javax.transaction.Transactional.TxType;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.transaction.Transactional;
+import jakarta.transaction.Transactional.TxType;
 
 @ApplicationScoped
 public class TransactionChecker {

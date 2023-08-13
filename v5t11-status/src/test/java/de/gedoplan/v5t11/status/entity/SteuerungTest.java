@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.jboss.logging.Logger;
 import org.junit.jupiter.api.MethodOrderer;
@@ -63,14 +63,14 @@ public class SteuerungTest {
     this.log.info("----- test_02_adjustGleise -----");
 
     Gleis[] gleise = {
-        this.steuerung.getGleis("test", "1"),
-        this.steuerung.getGleis("test", "2"),
-        this.steuerung.getGleis("test", "3"),
-        this.steuerung.getGleis("test", "4"),
-        this.steuerung.getGleis("test", "5"),
-        this.steuerung.getGleis("test", "6"),
-        this.steuerung.getGleis("test", "7"),
-        this.steuerung.getGleis("test", "8")
+      this.steuerung.getGleis("test", "1"),
+      this.steuerung.getGleis("test", "2"),
+      this.steuerung.getGleis("test", "3"),
+      this.steuerung.getGleis("test", "4"),
+      this.steuerung.getGleis("test", "5"),
+      this.steuerung.getGleis("test", "6"),
+      this.steuerung.getGleis("test", "7"),
+      this.steuerung.getGleis("test", "8")
     };
 
     // Grundzustand herstellen: Alle Gleise an BM-1 nicht besetzt
@@ -112,16 +112,16 @@ public class SteuerungTest {
     this.log.info("----- test_03_adjustGeraete -----");
 
     AbstractGeraet[] geraete = {
-        this.steuerung.getSignal("test", "P2"),
-        this.steuerung.getSignal("test", "P3"),
-        this.steuerung.getSignal("test", "P4"),
-        this.steuerung.getWeiche("test", "10"),
-        this.steuerung.getWeiche("test", "11"),
-        this.steuerung.getSignal("test", "2a"),
-        this.steuerung.getSignal("test", "2b"),
-        this.steuerung.getSignal("test", "A"),
-        this.steuerung.getSignal("test", "B"),
-        this.steuerung.getSignal("test", "C")
+      this.steuerung.getSignal("test", "P2"),
+      this.steuerung.getSignal("test", "P3"),
+      this.steuerung.getSignal("test", "P4"),
+      this.steuerung.getWeiche("test", "10"),
+      this.steuerung.getWeiche("test", "11"),
+      this.steuerung.getSignal("test", "2a"),
+      this.steuerung.getSignal("test", "2b"),
+      this.steuerung.getSignal("test", "A"),
+      this.steuerung.getSignal("test", "B"),
+      this.steuerung.getSignal("test", "C")
     };
 
     // Grundzustand herstellen: Alle Geraete an FD-2 in Grundstellung
@@ -205,16 +205,16 @@ public class SteuerungTest {
     this.log.info("----- test_04_setGeraete -----");
 
     AbstractGeraet[] geraete = {
-        this.steuerung.getSignal("test", "P2"),
-        this.steuerung.getSignal("test", "P3"),
-        this.steuerung.getSignal("test", "P4"),
-        this.steuerung.getWeiche("test", "10"),
-        this.steuerung.getWeiche("test", "11"),
-        this.steuerung.getSignal("test", "2a"),
-        this.steuerung.getSignal("test", "2b"),
-        this.steuerung.getSignal("test", "A"),
-        this.steuerung.getSignal("test", "B"),
-        this.steuerung.getSignal("test", "C")
+      this.steuerung.getSignal("test", "P2"),
+      this.steuerung.getSignal("test", "P3"),
+      this.steuerung.getSignal("test", "P4"),
+      this.steuerung.getWeiche("test", "10"),
+      this.steuerung.getWeiche("test", "11"),
+      this.steuerung.getSignal("test", "2a"),
+      this.steuerung.getSignal("test", "2b"),
+      this.steuerung.getSignal("test", "A"),
+      this.steuerung.getSignal("test", "B"),
+      this.steuerung.getSignal("test", "C")
     };
 
     // Grundzustand herstellen: Alle Geraete an FD-2 in Grundstellung

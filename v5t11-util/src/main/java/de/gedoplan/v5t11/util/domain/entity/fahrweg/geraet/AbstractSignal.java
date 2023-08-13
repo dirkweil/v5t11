@@ -6,10 +6,10 @@ import de.gedoplan.v5t11.util.domain.entity.Fahrwegelement;
 import de.gedoplan.v5t11.util.domain.entity.fahrweg.AbstractGeraet;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
-import javax.persistence.Convert;
-import javax.persistence.MappedSuperclass;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
+import jakarta.persistence.Convert;
+import jakarta.persistence.MappedSuperclass;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
 
 import lombok.AccessLevel;
 import lombok.Getter;

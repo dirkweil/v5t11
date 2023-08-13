@@ -2,10 +2,9 @@ package de.gedoplan.v5t11.status.service;
 
 import de.gedoplan.v5t11.util.config.ConfigBase;
 
-
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.logging.Logger;
@@ -28,7 +27,7 @@ public class ConfigService extends ConfigBase {
 
   @PostConstruct
   void postConstruct() {
-    logger.infof("Initialized ConfigService; statusWebUrl=" + statusWebUrl);
+    this.logger.infof("Initialized ConfigService; statusWebUrl=" + this.statusWebUrl);
   }
 
   @Inject

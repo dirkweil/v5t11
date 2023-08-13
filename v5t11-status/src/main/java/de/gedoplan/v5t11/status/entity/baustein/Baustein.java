@@ -11,15 +11,15 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
 
-import javax.inject.Inject;
-import javax.persistence.Id;
-import javax.persistence.Transient;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
+import jakarta.inject.Inject;
+import jakarta.persistence.Id;
+import jakarta.persistence.Transient;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.xml.bind.Unmarshaller;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlAttribute;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -93,11 +93,10 @@ public abstract class Baustein extends SingleIdEntity<String> implements Compara
 
   /**
    * Konstruktor.
-   *
+   * <p>
    * Wird nur während des JAXB-Unmarshalling aufgerufen.
    *
-   * @param byteAnzahl
-   *          Anzahl belegter Bytes (Adressen)
+   * @param byteAnzahl Anzahl belegter Bytes (Adressen)
    */
   protected Baustein(int byteAnzahl) {
     if (byteAnzahl < 0 || byteAnzahl > 8) {
@@ -109,7 +108,7 @@ public abstract class Baustein extends SingleIdEntity<String> implements Compara
 
   /**
    * Alle belegten Adressen liefern.
-   *
+   * <p>
    * Die Ermittlung der Adressen geschieht 'LAZY', da zum Zeitpunkt der
    * Erzeugung des Objektes die Hauptadresse ggf. noch nicht
    * gesetzt ist.
@@ -130,8 +129,7 @@ public abstract class Baustein extends SingleIdEntity<String> implements Compara
   /**
    * Wert setzen: {@link #wert}.
    *
-   * @param wert
-   *          Wert
+   * @param wert Wert
    */
   public void setWert(long wert) {
     setWert(wert, true);
@@ -188,12 +186,12 @@ public abstract class Baustein extends SingleIdEntity<String> implements Compara
 
   /**
    * Ist der Baustein am SX-Bus angeschlossen?
-   *
+   * <p>
    * Der Default ist <code>true</code>. Die Ausnahme bilden Decoder in den
    * Fahrzeugen.
    *
    * @return <code>true</code>, wenn der Baustein am SX-Bus angeschlossen ist,
-   *         <code>false</code>, wenn er am Gleis hängt.
+   *   <code>false</code>, wenn er am Gleis hängt.
    */
   public boolean isBusBaustein() {
     return true;
@@ -202,10 +200,8 @@ public abstract class Baustein extends SingleIdEntity<String> implements Compara
   /**
    * Bausteinwert entsprechend Kanalwert aktualisieren.
    *
-   * @param adr
-   *          Adresse
-   * @param kanalWert
-   *          Wert
+   * @param adr Adresse
+   * @param kanalWert Wert
    */
   public void adjustWert(int adr, int kanalWert) {
     long mask = 0b11111111;
@@ -232,7 +228,7 @@ public abstract class Baustein extends SingleIdEntity<String> implements Compara
 
   /**
    * Einfachen Klassennamen liefern. Wird für JSF-EL in der Bausteinprogrammierung verwendet.
-   * 
+   *
    * @return Klassenname
    */
   public String getSimpleClassName() {

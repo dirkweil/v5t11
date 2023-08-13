@@ -4,16 +4,16 @@ import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
 import java.io.Serializable;
 
-import javax.json.bind.JsonbException;
-import javax.json.bind.adapter.JsonbAdapter;
-import javax.json.bind.annotation.JsonbTypeAdapter;
-import javax.persistence.Access;
-import javax.persistence.AccessType;
-import javax.persistence.Embeddable;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.validation.constraints.AssertTrue;
-import javax.validation.constraints.NotNull;
+import jakarta.json.bind.JsonbException;
+import jakarta.json.bind.adapter.JsonbAdapter;
+import jakarta.json.bind.annotation.JsonbTypeAdapter;
+import jakarta.persistence.Access;
+import jakarta.persistence.AccessType;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.validation.constraints.AssertTrue;
+import jakarta.validation.constraints.NotNull;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -62,7 +62,7 @@ public class FahrzeugId implements Serializable, Comparable<FahrzeugId> {
 
   /**
    * Code für Id aus Adresse und Systemtypnamen kombinieren.
-   * 
+   *
    * @return Adresse + '@' + Systemtypname
    */
   @Override
@@ -72,7 +72,7 @@ public class FahrzeugId implements Serializable, Comparable<FahrzeugId> {
 
   /**
    * Code in Adresse und Systemtyp aufteilen.
-   * 
+   *
    * @param Adresse + '@' + Systemtypname
    * @return Decodierte Id
    */

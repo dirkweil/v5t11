@@ -3,9 +3,9 @@ package de.gedoplan.v5t11.fahrstrassen.messaging;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Alternative;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Alternative;
+import jakarta.inject.Inject;
 
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
@@ -14,7 +14,7 @@ import org.jboss.logging.Logger;
 
 /**
  * Handler für ausgehende Meldungen.
- *
+ * <p>
  * Achtung: Die Methoden hierin sind nicht als Observer ausgeprägt, weil dann ein Mocking mittels {@link Alternative @Alternative}
  * nicht gelingt.
  *

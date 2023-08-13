@@ -16,9 +16,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.ObservesAsync;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.ObservesAsync;
+import jakarta.inject.Inject;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logging.Logger;
@@ -61,13 +61,13 @@ public class FahrstrasseStellenService {
 
   private void signaleStellen(Fahrstrasse fahrstrasse, boolean schutz) {
     Stream<Fahrstrassenelement> stream = fahrstrasse.getElemente().stream()
-        .filter(fe -> fe instanceof FahrstrassenSignal)
-        .filter(fe -> fe.isSchutz() == schutz);
+      .filter(fe -> fe instanceof FahrstrassenSignal)
+      .filter(fe -> fe.isSchutz() == schutz);
 
     stream
-        .map(fe -> (FahrstrassenSignal) fe)
-        .filter(fs -> !fs.isVorsignal())
-        .forEach(fs -> signalStellen(fahrstrasse, fs));
+      .map(fe -> (FahrstrassenSignal) fe)
+      .filter(fs -> !fs.isVorsignal())
+      .forEach(fs -> signalStellen(fahrstrasse, fs));
   }
 
   private void signalStellen(Fahrstrasse fahrstrasse, FahrstrassenSignal fahrstrassenSignal) {
@@ -79,8 +79,8 @@ public class FahrstrasseStellenService {
       }
 
       this.statusGateway.signalStellen(
-          signal.getBereich(), signal.getName(),
-          stellungen);
+        signal.getBereich(), signal.getName(),
+        stellungen);
     } catch (Exception e) {
       this.log.error("Kann " + signal + " nicht stellen", e);
     }
@@ -90,12 +90,12 @@ public class FahrstrasseStellenService {
 
   private void weichenStellen(Fahrstrasse fahrstrasse, boolean schutz) {
     Stream<Fahrstrassenelement> stream = fahrstrasse.getElemente().stream()
-        .filter(fe -> fe instanceof FahrstrassenWeiche)
-        .filter(fe -> fe.isSchutz() == schutz);
+      .filter(fe -> fe instanceof FahrstrassenWeiche)
+      .filter(fe -> fe.isSchutz() == schutz);
 
     stream
-        .map(fe -> (FahrstrassenWeiche) fe)
-        .forEach(fw -> weicheStellen(fahrstrasse, fw));
+      .map(fe -> (FahrstrassenWeiche) fe)
+      .forEach(fw -> weicheStellen(fahrstrasse, fw));
   }
 
   private void weicheStellen(Fahrstrasse fahrstrasse, FahrstrassenWeiche fahrstrassenWeiche) {
@@ -123,10 +123,8 @@ public class FahrstrasseStellenService {
   /**
    * Stellung passend zum Reservierungstyp liefern.
    *
-   * @param stellung
-   *        gewünschte Stellung
-   * @param reservierungsTyp
-   *        Reservierungstyp, falls Signal für eine Fahrstrasse gestellt wird, sonst <code>null</code>
+   * @param stellung gewünschte Stellung
+   * @param reservierungsTyp Reservierungstyp, falls Signal für eine Fahrstrasse gestellt wird, sonst <code>null</code>
    * @return angepasste Stellung
    */
   private static List<SignalStellung> getAngepassteStellung(SignalStellung stellung, FahrstrassenReservierungsTyp reservierungsTyp) {

@@ -12,27 +12,25 @@ import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
 
 import java.util.stream.Collectors;
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.Observes;
-import javax.inject.Inject;
-
-import org.jboss.logging.Logger;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.Observes;
+import jakarta.inject.Inject;
 
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
+import org.jboss.logging.Logger;
 
 import lombok.AccessLevel;
 import lombok.Getter;
 
 /**
  * Fahrstrassen-Automatik.
- * 
+ * <p>
  * Ändert sich der Zustand des auslösenden Geisabschnitts ("Trigger") einer {@link AutoFahrstrasse}, wird eine der zugehörigen Fahrstrassen reserviert, soweit
  * das möglich ist.
- * 
- * @author dw
  *
+ * @author dw
  */
 @ApplicationScoped
 public class AutoFahrstrassenService {
@@ -57,28 +55,32 @@ public class AutoFahrstrassenService {
      */
     this.parcours.getAutoFahrstrassen().forEach(afs -> {
       BereichselementId triggerId = new BereichselementId(afs.getTriggerBereich(), afs.getTriggerName());
-      Gleis trigger = this.gleisRepository.findById(triggerId);
-      if (trigger == null) {
-        this.logger.warnf("Trigger nicht gefunden: %s", triggerId);
-      } else {
-        afs.getElemente().forEach(e -> {
-          BereichselementId startId = new BereichselementId(e.getStartBereich(), e.getStartName());
-          Gleis start = this.gleisRepository.findById(startId);
-          if (start == null) {
-            this.logger.warnf("Start nicht gefunden: %s", startId);
-          } else {
-            BereichselementId endeId = new BereichselementId(e.getEndeBereich(), e.getEndeName());
-            Gleis ende = this.gleisRepository.findById(endeId);
-            if (ende == null) {
-              this.logger.warnf("Ende nicht gefunden: %s", endeId);
-            } else {
-              this.parcours.getFahrstrassen(start.getId(), ende.getId(), null).forEach(fs -> this.autoFahrstrassen.put(trigger, fs));
-            }
-          }
-        });
+      this.gleisRepository
+        .findById(triggerId)
+        .ifPresentOrElse(
+          trigger -> {
+            afs.getElemente().forEach(e -> {
+              BereichselementId startId = new BereichselementId(e.getStartBereich(), e.getStartName());
+              this.gleisRepository
+                .findById(startId)
+                .ifPresentOrElse(
+                  start -> {
+                    BereichselementId endeId = new BereichselementId(e.getEndeBereich(), e.getEndeName());
+                    this.gleisRepository
+                      .findById(endeId)
+                      .ifPresentOrElse(
+                        ende -> this.parcours.getFahrstrassen(start.getId(), ende.getId(), null).forEach(fs -> this.autoFahrstrassen.put(trigger, fs)),
+                        () -> this.logger.warnf("Ende nicht gefunden: %s", endeId)
+                      );
+                  },
+                  () -> this.logger.warnf("Start nicht gefunden: %s", startId)
+                );
+            });
 
-        this.logger.debugf("%s -> %s", trigger.getId(), this.autoFahrstrassen.get(trigger).stream().map(Fahrstrasse::getId).collect(Collectors.toList()));
-      }
+            this.logger.debugf("%s -> %s", trigger.getId(), this.autoFahrstrassen.get(trigger).stream().map(Fahrstrasse::getId).collect(Collectors.toList()));
+          },
+          () -> this.logger.warnf("Trigger nicht gefunden: %s", triggerId));
+
     });
   }
 
@@ -87,7 +89,7 @@ public class AutoFahrstrassenService {
 
   /**
    * Bei Änderung eines Triggers auf besetzt, die erste zugehörige und reservierbare Fahrstrasse reservieren.
-   * 
+   *
    * @param gleis
    */
   void autoReserviere(@Observes @Changed Gleis gleis) {

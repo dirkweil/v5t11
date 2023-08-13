@@ -18,9 +18,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.annotation.Priority;
-import javax.enterprise.context.Dependent;
-import javax.enterprise.inject.Alternative;
+import jakarta.annotation.Priority;
+import jakarta.enterprise.context.Dependent;
+import jakarta.enterprise.inject.Alternative;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
@@ -31,14 +31,14 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 public class TestStatusGateway implements StatusGateway {
 
   private static final Gleis[] TEST_GLEISE = {
-      createTestGleis("show", "1", false),
-      createTestGleis("show", "2", true),
-      createTestGleis("show", "11", false),
-      createTestGleis("show", "12", false),
-      createTestGleis("show", "S", false),
-      createTestGleis("show", "W1", false),
-      createTestGleis("show", "W2", false),
-      createTestGleis("show", "W3", false)
+    createTestGleis("show", "1", false),
+    createTestGleis("show", "2", true),
+    createTestGleis("show", "11", false),
+    createTestGleis("show", "12", false),
+    createTestGleis("show", "S", false),
+    createTestGleis("show", "W1", false),
+    createTestGleis("show", "W2", false),
+    createTestGleis("show", "W3", false)
   };
 
   @Override
@@ -61,9 +61,9 @@ public class TestStatusGateway implements StatusGateway {
   }
 
   private static final Signal[] TEST_SIGNALE = {
-      createTestSignal("show", "F", SignalTyp.HAUPTSIGNAL_RT_GE_GN),
-      createTestSignal("show", "N1", SignalTyp.HAUPTSIGNAL_RT_GE),
-      createTestSignal("show", "N2", SignalTyp.HAUPTSIGNAL_RT_GN)
+    createTestSignal("show", "F", SignalTyp.HAUPTSIGNAL_RT_GE_GN),
+    createTestSignal("show", "N1", SignalTyp.HAUPTSIGNAL_RT_GE),
+    createTestSignal("show", "N2", SignalTyp.HAUPTSIGNAL_RT_GN)
   };
 
   @Override
@@ -91,9 +91,9 @@ public class TestStatusGateway implements StatusGateway {
   }
 
   private static final Weiche[] TEST_WEICHEN = {
-      createTestWeiche("show", "1", WeichenStellung.GERADE),
-      createTestWeiche("show", "2", WeichenStellung.ABZWEIGEND),
-      createTestWeiche("show", "3", WeichenStellung.GERADE)
+    createTestWeiche("show", "1", WeichenStellung.GERADE),
+    createTestWeiche("show", "2", WeichenStellung.ABZWEIGEND),
+    createTestWeiche("show", "3", WeichenStellung.GERADE)
   };
 
   @Override

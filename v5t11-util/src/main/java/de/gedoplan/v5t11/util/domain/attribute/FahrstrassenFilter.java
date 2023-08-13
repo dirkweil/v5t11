@@ -3,10 +3,10 @@ package de.gedoplan.v5t11.util.domain.attribute;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.json.bind.adapter.JsonbAdapter;
-import javax.json.bind.annotation.JsonbTypeAdapter;
-import javax.persistence.AttributeConverter;
-import javax.persistence.Converter;
+import jakarta.json.bind.adapter.JsonbAdapter;
+import jakarta.json.bind.annotation.JsonbTypeAdapter;
+import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Converter;
 
 @JsonbTypeAdapter(FahrstrassenFilter.Adapter4Json.class)
 public enum FahrstrassenFilter {
@@ -17,6 +17,7 @@ public enum FahrstrassenFilter {
   private String string;
 
   private static Map<String, FahrstrassenFilter> lookup = new HashMap<>();
+
   static {
     for (FahrstrassenFilter s : FahrstrassenFilter.values()) {
       lookup.put(s.string, s);

@@ -1,1 +1,0 @@
-java -Dv5t11.configDir=../src/main/v5t11/ -Dv5t11.anlage=dw -jar target/quarkus-app/quarkus-run.jar

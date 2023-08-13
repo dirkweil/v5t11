@@ -3,11 +3,12 @@ package de.gedoplan.v5t11.fahrzeuge.webui;
 import de.gedoplan.v5t11.fahrzeuge.service.ConfigService;
 import de.gedoplan.v5t11.util.jsf.NavigationItem;
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.Dependent;
-import javax.enterprise.inject.Produces;
-import javax.inject.Inject;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.Dependent;
+import jakarta.enterprise.inject.Produces;
+import jakarta.inject.Inject;
+
 import java.util.List;
 
 @Dependent

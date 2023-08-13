@@ -9,11 +9,11 @@ import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
 
 import java.lang.annotation.Annotation;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.Observes;
-import javax.enterprise.event.TransactionPhase;
-import javax.enterprise.inject.spi.EventMetadata;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.Observes;
+import jakarta.enterprise.event.TransactionPhase;
+import jakarta.enterprise.inject.spi.EventMetadata;
+import jakarta.inject.Inject;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logging.Logger;
@@ -44,14 +44,14 @@ public class FahrstrasseRueckstellenService {
 
     // Nicht-Schutz-Signale auf HALT stellen
     fahrstrasse.getElemente().stream()
-        .limit(freigegeben.neu())
-        .skip(freigegeben.bisher())
-        .filter(fe -> fe instanceof FahrstrassenSignal)
-        .filter(fe -> !fe.isSchutz())
-        .filter(fe -> fe.getFahrwegelement().getReserviertefahrstrasseId() == null)
-        .map(fe -> (FahrstrassenSignal) fe)
-        .filter(fs -> !fs.isVorsignal())
-        .forEach(fs -> signalRueckstellen(fahrstrasse, fs));
+      .limit(freigegeben.neu())
+      .skip(freigegeben.bisher())
+      .filter(fe -> fe instanceof FahrstrassenSignal)
+      .filter(fe -> !fe.isSchutz())
+      .filter(fe -> fe.getFahrwegelement().getReserviertefahrstrasseId() == null)
+      .map(fe -> (FahrstrassenSignal) fe)
+      .filter(fs -> !fs.isVorsignal())
+      .forEach(fs -> signalRueckstellen(fahrstrasse, fs));
   }
 
   private void signalRueckstellen(Fahrstrasse fahrstrasse, FahrstrassenSignal fahrstrassenSignal) {
@@ -63,8 +63,8 @@ public class FahrstrasseRueckstellenService {
       }
 
       this.statusGateway.signalStellen(
-          signal.getBereich(), signal.getName(),
-          stellung);
+        signal.getBereich(), signal.getName(),
+        stellung);
     } catch (Exception e) {
       this.log.error("Kann " + signal + " nicht stellen", e);
     }

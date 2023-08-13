@@ -48,14 +48,14 @@ import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.ExecutorService;
 
-import javax.inject.Inject;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlElements;
-import javax.xml.bind.annotation.XmlRootElement;
+import jakarta.inject.Inject;
+import jakarta.xml.bind.Unmarshaller;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlElementWrapper;
+import jakarta.xml.bind.annotation.XmlElements;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 import org.jboss.logging.Logger;
 
@@ -63,7 +63,7 @@ import lombok.Getter;
 
 /**
  * Steuerung.
- *
+ * <p>
  * Diese Klasse fasst alle zur Steuerung gehörenden Elemente zusammen.
  *
  * @author dw
@@ -79,8 +79,8 @@ public class Steuerung implements Serializable {
   EventFirer eventFirer;
 
   @XmlElements({
-      @XmlElement(name = "DummyZentrale", type = DummyZentrale.class),
-      @XmlElement(name = "FCC", type = FCC.class)
+    @XmlElement(name = "DummyZentrale", type = DummyZentrale.class),
+    @XmlElement(name = "FCC", type = FCC.class)
   })
   @Getter
   private Zentrale zentrale;
@@ -90,31 +90,31 @@ public class Steuerung implements Serializable {
 
   @XmlElementWrapper(name = "Lokcontroller")
   @XmlElements({
-      @XmlElement(name = "SxLokControl", type = SxLokControl.class),
+    @XmlElement(name = "SxLokControl", type = SxLokControl.class),
   })
   @Getter
   SortedSet<Lokcontroller> lokcontroller = new TreeSet<>();
 
   @XmlElementWrapper(name = "Besetztmelder")
   @XmlElements({
-      @XmlElement(name = "BMMiba3", type = BMMiba3.class),
-      @XmlElement(name = "HEBM8", type = HEBM8.class),
-      @XmlElement(name = "Muet8i", type = Muet8i.class),
-      @XmlElement(name = "Muet8k", type = Muet8k.class),
-      @XmlElement(name = "SXBM1", type = SXBM1.class),
-      @XmlElement(name = "VM5262", type = VM5262.class),
+    @XmlElement(name = "BMMiba3", type = BMMiba3.class),
+    @XmlElement(name = "HEBM8", type = HEBM8.class),
+    @XmlElement(name = "Muet8i", type = Muet8i.class),
+    @XmlElement(name = "Muet8k", type = Muet8k.class),
+    @XmlElement(name = "SXBM1", type = SXBM1.class),
+    @XmlElement(name = "VM5262", type = VM5262.class),
   })
   @Getter
   private SortedSet<Besetztmelder> besetztmelder = new TreeSet<>();
 
   @XmlElementWrapper(name = "Funktionsdecoder")
   @XmlElements({
-      @XmlElement(name = "NoFD", type = NoFD.class),
-      @XmlElement(name = "SD8", type = SD8.class),
-      @XmlElement(name = "STRFD1", type = STRFD1.class),
-      @XmlElement(name = "SXSD1", type = SXSD1.class),
-      @XmlElement(name = "WDMiba", type = WDMiba.class),
-      @XmlElement(name = "WDMiba3", type = WDMiba3.class),
+    @XmlElement(name = "NoFD", type = NoFD.class),
+    @XmlElement(name = "SD8", type = SD8.class),
+    @XmlElement(name = "STRFD1", type = STRFD1.class),
+    @XmlElement(name = "SXSD1", type = SXSD1.class),
+    @XmlElement(name = "WDMiba", type = WDMiba.class),
+    @XmlElement(name = "WDMiba3", type = WDMiba3.class),
   })
   @Getter
   private SortedSet<Funktionsdecoder> funktionsdecoder = new TreeSet<>();
@@ -211,10 +211,8 @@ public class Steuerung implements Serializable {
   /**
    * Gleis liefern.
    *
-   * @param bereich
-   *        Bereich
-   * @param name
-   *        Name
+   * @param bereich Bereich
+   * @param name Name
    * @return gefundener Gleis oder <code>null</code>
    */
   public Gleis getGleis(String bereich, String name) {
@@ -233,10 +231,8 @@ public class Steuerung implements Serializable {
   /**
    * Signal liefern.
    *
-   * @param bereich
-   *        Bereich
-   * @param name
-   *        Name
+   * @param bereich Bereich
+   * @param name Name
    * @return gefundenes Signal oder <code>null</code>
    */
   public Signal getSignal(String bereich, String name) {
@@ -255,10 +251,8 @@ public class Steuerung implements Serializable {
   /**
    * Schalter liefern.
    *
-   * @param bereich
-   *        Bereich
-   * @param name
-   *        Name
+   * @param bereich Bereich
+   * @param name Name
    * @return gefundener Schalter oder <code>null</code>
    */
   public Schalter getSchalter(String bereich, String name) {
@@ -277,10 +271,8 @@ public class Steuerung implements Serializable {
   /**
    * Weiche liefern.
    *
-   * @param bereich
-   *        Bereich
-   * @param name
-   *        Name
+   * @param bereich Bereich
+   * @param name Name
    * @return gefundene Weiche oder <code>null</code>
    */
   public Weiche getWeiche(String bereich, String name) {
@@ -315,10 +307,8 @@ public class Steuerung implements Serializable {
   /**
    * Nachbearbeitung nach JAXB-Unmarshal.
    *
-   * @param unmarshaller
-   *        Unmarshaller
-   * @param parent
-   *        Parent
+   * @param unmarshaller Unmarshaller
+   * @param parent Parent
    */
   @SuppressWarnings("unused")
   private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
@@ -418,8 +408,7 @@ public class Steuerung implements Serializable {
   /**
    * Textliche Repräsentation der Steuerung erstellen.
    *
-   * @param idOnly
-   *        nur IDs?
+   * @param idOnly nur IDs?
    * @return Steuerung als String
    */
   public String toDebugString(boolean idOnly) {

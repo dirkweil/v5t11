@@ -4,27 +4,26 @@ import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.lang.annotation.Annotation; 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.nio.charset.Charset;
 
-import javax.json.bind.Jsonb;
-import javax.ws.rs.Produces;
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.ext.MessageBodyWriter;
-import javax.ws.rs.ext.Provider;
+import jakarta.json.bind.Jsonb;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.ext.MessageBodyWriter;
+import jakarta.ws.rs.ext.Provider;
 
 /**
  * Message Body Writer für Object -> application/json.
- *
+ * <p>
  * In JEE8 ist ein MBW fuer JSON bereits enthalten, allerdings enthaelt bspw. die Implementierung in WildFly 13
  * (RestEasy, Jackson2) einen Bug, der u. a. JAXB-Annotationen faelschlicherweise beruecksichtigt.
  * Der hier enthaltenen MBW nutzen ausschliesslich JSON-B.
  *
  * @author dw
- *
  */
 public abstract class JsonMessageBodyWriter implements MessageBodyWriter<Object> {
 
@@ -66,8 +65,8 @@ public abstract class JsonMessageBodyWriter implements MessageBodyWriter<Object>
 
   @Override
   public void writeTo(Object object, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType,
-      MultivaluedMap<String, Object> httpHeaders, OutputStream entityStream)
-      throws IOException, WebApplicationException {
+    MultivaluedMap<String, Object> httpHeaders, OutputStream entityStream)
+    throws IOException, WebApplicationException {
 
     String json = this.jsonb.toJson(object);
 

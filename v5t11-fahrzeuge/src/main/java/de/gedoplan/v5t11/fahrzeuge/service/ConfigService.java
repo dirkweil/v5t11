@@ -2,8 +2,8 @@ package de.gedoplan.v5t11.fahrzeuge.service;
 
 import de.gedoplan.v5t11.util.config.ConfigBase;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 

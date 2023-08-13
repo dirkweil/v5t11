@@ -4,9 +4,9 @@ import de.gedoplan.v5t11.leitstand.entity.Leitstand;
 import de.gedoplan.v5t11.util.cdi.Created;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Produces;
-import javax.transaction.Transactional;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Produces;
+import jakarta.transaction.Transactional;
 
 @ApplicationScoped
 public class LeitstandProducer {

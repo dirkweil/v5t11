@@ -2,7 +2,7 @@ package de.gedoplan.v5t11.leitstand.entity;
 
 import de.gedoplan.v5t11.util.test.V5t11TestConfigDirExtension;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;

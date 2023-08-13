@@ -23,16 +23,15 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.Observes;
-import javax.enterprise.event.ObservesAsync;
-import javax.inject.Inject;
-
-import org.eclipse.microprofile.rest.client.inject.RestClient;
-import org.jboss.logging.Logger;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.Observes;
+import jakarta.enterprise.event.ObservesAsync;
+import jakarta.inject.Inject;
 
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
+import org.jboss.logging.Logger;
 
 /**
  * Vorsignal-Automatik.
@@ -66,11 +65,11 @@ public class VorsignalService {
   void init(@Observes @Created Parcours parcours) {
     // Pro Fahrstraße mit Start-Vorsignal eine Vorsignalregel erstellen
     List<VorsignalRegel> vorsignalRegeln = parcours.getFahrstrassen()
-        .stream()
-        .filter(fs -> fs.getStartVorsignalName() != null)
-        .map(this::createVorsignalRegel)
-        .filter(Objects::nonNull)
-        .collect(Collectors.toList());
+      .stream()
+      .filter(fs -> fs.getStartVorsignalName() != null)
+      .map(this::createVorsignalRegel)
+      .filter(Objects::nonNull)
+      .collect(Collectors.toList());
 
     /*
      * Es können nun Regeln in der Liste sein, die einander enthalten, d. h. der Fahrweg der einen ist Teil der anderen.
@@ -144,8 +143,7 @@ public class VorsignalService {
   /**
    * Vorsignalregel aus Fahrstraße ableiten
    *
-   * @param fahrstrasse
-   *        Fahrstraße
+   * @param fahrstrasse Fahrstraße
    * @return Vorsignalregel oder <code>null</code>, falls Fahrstraße ab dem zweiten Abschnitt nicht nur Sperrsignale enthält
    */
   private VorsignalRegel createVorsignalRegel(Fahrstrasse fahrstrasse) {
@@ -189,7 +187,6 @@ public class VorsignalService {
    * - das betroffene Vorsignal.
    *
    * @author dw
-   *
    */
   private class VorsignalRegel {
     private BereichselementId id;
@@ -201,12 +198,12 @@ public class VorsignalService {
     @Override
     public String toString() {
       return "VorsignalRegel{"
-          + this.vorsignalId
-          + " -> " + this.zielHauptsignalId
-          + ", id=" + this.id
-          + ", weichen=" + this.fahrstrassenWeichen.stream().map(x -> x.getId() + ":" + x.getStellung()).collect(Collectors.joining(","))
-          + ", signale=" + this.sperrSignalIds.stream().map(x -> x.toString()).collect(Collectors.joining(","))
-          + "}";
+        + this.vorsignalId
+        + " -> " + this.zielHauptsignalId
+        + ", id=" + this.id
+        + ", weichen=" + this.fahrstrassenWeichen.stream().map(x -> x.getId() + ":" + x.getStellung()).collect(Collectors.joining(","))
+        + ", signale=" + this.sperrSignalIds.stream().map(x -> x.toString()).collect(Collectors.joining(","))
+        + "}";
     }
 
     // Regel ausführen.
@@ -218,32 +215,30 @@ public class VorsignalService {
 
       SignalStellung vorsignalStellung = getVorsignalStellung();
 
-      Signal vorsignal = VorsignalService.this.signalRepository.findById(this.vorsignalId);
-      if (vorsignal == null) {
-        VorsignalService.this.logger.tracef("  kein Vorsignal: %s", this);
-        return;
-      }
+      VorsignalService.this.signalRepository
+        .findById(this.vorsignalId)
+        .ifPresentOrElse(vorsignal -> {
+            if (vorsignal.getStellung() == vorsignalStellung) {
+              VorsignalService.this.logger.tracef("  bereits richtige Stellung: %s", this);
+              return;
+            }
 
-      if (vorsignal.getStellung() == vorsignalStellung) {
-        VorsignalService.this.logger.tracef("  bereits richtige Stellung: %s", this);
-        return;
-      }
+            VorsignalService.this.logger.debugf("Vorsignal %s auf %s stellen", this.vorsignalId, vorsignalStellung);
+            VorsignalService.this.logger.tracef("  wegen %s", this.toString());
 
-      VorsignalService.this.logger.debugf("Vorsignal %s auf %s stellen", this.vorsignalId, vorsignalStellung);
-      VorsignalService.this.logger.tracef("  wegen %s", this.toString());
-
-      try {
-        VorsignalService.this.statusGateway.signalStellen(this.vorsignalId.getBereich(), this.vorsignalId.getName(), vorsignalStellung);
-      } catch (Exception e) {
-        VorsignalService.this.logger.errorf(e, "Kann Vorsignal %s nicht auf %s stellen", this.vorsignalId, vorsignalStellung);
-      }
+            try {
+              VorsignalService.this.statusGateway.signalStellen(this.vorsignalId.getBereich(), this.vorsignalId.getName(), vorsignalStellung);
+            } catch (Exception e) {
+              VorsignalService.this.logger.errorf(e, "Kann Vorsignal %s nicht auf %s stellen", this.vorsignalId, vorsignalStellung);
+            }
+          },
+          () -> VorsignalService.this.logger.tracef("  kein Vorsignal: %s", this));
     }
 
     // Prüfen, ob alle Weichen in den gewünschten Stellungen stehen
     private boolean weichestellungenPassen() {
       for (FahrstrassenWeiche fahrstrassenWeiche : this.fahrstrassenWeichen) {
-        Weiche weiche = VorsignalService.this.weicheRepository.findById(fahrstrassenWeiche.getId());
-        assert weiche != null;
+        Weiche weiche = VorsignalService.this.weicheRepository.findById(fahrstrassenWeiche.getId()).get();
         if (weiche.getStellung() != fahrstrassenWeiche.getStellung()) {
           return false;
         }
@@ -255,8 +250,7 @@ public class VorsignalService {
     private SignalStellung getVorsignalStellung() {
       // Sollte ein im Weg liegendes Sperrsignal HALT anzeigen, HALT
       for (BereichselementId sperrSignalId : this.sperrSignalIds) {
-        Signal sperrSignal = VorsignalService.this.signalRepository.findById(sperrSignalId);
-        assert sperrSignal != null;
+        Signal sperrSignal = VorsignalService.this.signalRepository.findById(sperrSignalId).get();
         if (sperrSignal.getStellung() == SignalStellung.HALT) {
           return SignalStellung.HALT;
         }
@@ -268,8 +262,7 @@ public class VorsignalService {
       }
 
       // Sonst Stellung des Ziel-Hauptsignals (allerdings HALT bei RANGIERFAHRT)
-      Signal zielHauptsignal = VorsignalService.this.signalRepository.findById(this.zielHauptsignalId);
-      assert zielHauptsignal != null;
+      Signal zielHauptsignal = VorsignalService.this.signalRepository.findById(this.zielHauptsignalId).get();
       SignalStellung vorsignalStellung = zielHauptsignal.getStellung();
       if (vorsignalStellung == SignalStellung.RANGIERFAHRT) {
         vorsignalStellung = SignalStellung.HALT;

@@ -3,15 +3,17 @@ package de.gedoplan.v5t11.leitstand.entity.stellwerk;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleis;
 import de.gedoplan.v5t11.leitstand.persistence.GleisRepository;
 import de.gedoplan.v5t11.util.misc.V5t11Exception;
-import lombok.Getter;
 
-import javax.inject.Inject;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
 import java.util.List;
 import java.util.stream.Stream;
+
+import jakarta.inject.Inject;
+import jakarta.xml.bind.Unmarshaller;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlAttribute;
+
+import lombok.Getter;
 
 /**
  * Leeres Stellwerkselement
@@ -64,9 +66,7 @@ public class StellwerkGleis extends StellwerkElement {
    * @return Gleis
    */
   public Gleis findGleis() {
-    Gleis gleis = this.gleisRepository.findById(getId());
-    assert gleis != null;
-    return gleis;
+    return this.gleisRepository.findById(getId()).get();
   }
 
 }

@@ -1,6 +1,6 @@
 const urlParams = new URLSearchParams(window.location.search);
 const bereich = urlParams.get('bereich');
-let socket = new WebSocket("ws://" + window.location.host + "/javax.faces.push/stellwerk/" + bereich);
+let socket = new WebSocket("ws://" + window.location.host + "/jakarta.faces.push/stellwerk/" + bereich);
 socket.onmessage = function (event) {
   // alert(`[message] Data received from server: ` + JSON.stringify(event.data));
   let pushMsg = JSON.parse(event.data);

@@ -12,19 +12,19 @@ import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.cdi.Received;
 import de.gedoplan.v5t11.util.domain.entity.Fahrwegelement;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.ObservesAsync;
-import javax.inject.Inject;
-import javax.transaction.Transactional;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.ObservesAsync;
+import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 
 import org.jboss.logging.Logger;
 
 /**
  * Aktualisierung der Status von Gleisen, Signalen etc.
- * 
+ * <p>
  * Die Aktualisierung wird durch eingehende Meldungen (von v5t11-status gesendet) ausgelöst. {@link IncomingHandler}
  * wandelt die Meldungen in CDI Event um, die hier verarbeitet werden.
- * 
+ *
  * @author dw
  */
 @ApplicationScoped
@@ -48,32 +48,35 @@ public class StatusUpdater {
 
   /**
    * Aktualisierung eines Gleiss.
-   * 
+   *
    * @param receivedObject Empfangenes Objekt mit dem neuen Status.
    */
   void gleisReceived(@ObservesAsync @Received Gleis receivedObject) {
-    Gleis gleis = this.gleisRepository.findById(receivedObject.getId());
-    copyStatus(gleis, receivedObject);
+    this.gleisRepository
+      .findById(receivedObject.getId())
+      .ifPresent(gleis -> copyStatus(gleis, receivedObject));
   }
 
   /**
    * Aktualisierung eines Signals.
-   * 
+   *
    * @param receivedObject Empfangenes Objekt mit dem neuen Status.
    */
   void signalReceived(@ObservesAsync @Received Signal receivedObject) {
-    Signal signal = this.signalRepository.findById(receivedObject.getId());
-    copyStatus(signal, receivedObject);
+    this.signalRepository
+      .findById(receivedObject.getId())
+      .ifPresent(signal -> copyStatus(signal, receivedObject));
   }
 
   /**
    * Aktualisierung einer Weiche.
-   * 
+   *
    * @param receivedObject Empfangenes Objekt mit dem neuen Status.
    */
   void weicheReceived(@ObservesAsync @Received Weiche receivedObject) {
-    Weiche signal = this.weicheRepository.findById(receivedObject.getId());
-    copyStatus(signal, receivedObject);
+    this.weicheRepository
+      .findById(receivedObject.getId())
+      .ifPresent(weiche -> copyStatus(weiche, receivedObject));
   }
 
   private void copyStatus(Fahrwegelement to, Fahrwegelement from) {

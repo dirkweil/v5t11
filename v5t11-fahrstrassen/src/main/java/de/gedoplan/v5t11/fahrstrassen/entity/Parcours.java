@@ -12,10 +12,10 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 import org.jboss.logging.Logger;
 
@@ -26,7 +26,7 @@ import lombok.Getter;
 
 /**
  * Parcours.
- *
+ * <p>
  * Diese Klasse fasst alle zum Parcours gehörenden Elemente zusammen.
  *
  * @author dw
@@ -48,10 +48,8 @@ public class Parcours {
   /**
    * Fahrstrasse liefern.
    *
-   * @param bereich
-   *   Bereich
-   * @param name
-   *   Name
+   * @param bereich Bereich
+   * @param name Name
    * @return gefundene Fahrstrasse oder <code>null</code>
    */
   public Fahrstrasse getFahrstrasse(String bereich, String name) {
@@ -61,8 +59,7 @@ public class Parcours {
   /**
    * Fahrstrasse liefern.
    *
-   * @param id
-   *   Id
+   * @param id Id
    * @return gefundene Fahrstrasse oder <code>null</code>
    */
   public Fahrstrasse getFahrstrasse(BereichselementId id) {
@@ -118,7 +115,7 @@ public class Parcours {
 
   /**
    * Fahrstrassen komplettieren.
-   *
+   * <p>
    * - Fahrstrassen kombinieren,
    * - Signalstellungen korrigieren,
    * - Doppeleinträge entfernen.
@@ -195,12 +192,9 @@ public class Parcours {
   /**
    * Fahrstrassen suchen.
    *
-   * @param beginnGleisId
-   *   Beginn-Gleis
-   * @param endeGleisId
-   *   Ende-Gleis
-   * @param filter
-   *   Filter (nur freie/reservierte/unkombinierte) oder <code>null</code> für alle
+   * @param beginnGleisId Beginn-Gleis
+   * @param endeGleisId Ende-Gleis
+   * @param filter Filter (nur freie/reservierte/unkombinierte) oder <code>null</code> für alle
    * @return gefundene Fahrstrassen in aufsteigender Rang-Reihenfolge
    */
   public List<Fahrstrasse> getFahrstrassen(BereichselementId beginnGleisId, BereichselementId endeGleisId, FahrstrassenFilter filter) {

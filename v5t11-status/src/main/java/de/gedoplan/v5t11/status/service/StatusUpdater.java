@@ -6,19 +6,19 @@ import de.gedoplan.v5t11.status.messaging.IncomingHandler;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.cdi.Received;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.ObservesAsync;
-import javax.inject.Inject;
-import javax.transaction.Transactional;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.ObservesAsync;
+import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 
 import org.jboss.logging.Logger;
 
 /**
  * Aktualisierung der Status von Fahrzeugen etc.
- * 
+ * <p>
  * Die Aktualisierung wird durch eingehende Meldungen (von v5t11-status gesendet) ausgelöst. {@link IncomingHandler}
  * wandelt die Meldungen in CDI Event um, die hier verarbeitet werden.
- * 
+ *
  * @author dw
  */
 @ApplicationScoped
@@ -36,7 +36,7 @@ public class StatusUpdater {
 
   /**
    * Aktualisierung eines Fahrzeugs.
-   * 
+   *
    * @param receivedObject Empfangenes Objekt mit dem neuen Status.
    */
   void fahrzeugReceived(@ObservesAsync @Received Fahrzeug receivedObject) {

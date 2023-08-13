@@ -4,8 +4,8 @@ import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug;
 import de.gedoplan.v5t11.fahrzeuge.persistence.FahrzeugRepository;
 import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 
-import javax.enterprise.context.Dependent;
-import javax.inject.Inject;
+import jakarta.enterprise.context.Dependent;
+import jakarta.inject.Inject;
 
 @Dependent
 public class DbInitService {
@@ -16,8 +16,9 @@ public class DbInitService {
   void fillDb() {
     if (this.fahrzeugRepository.countAll() != fahrzeuge.length) {
       for (Fahrzeug f : fahrzeuge) {
-        if (this.fahrzeugRepository.findById(f.getId()) == null)
+        if (this.fahrzeugRepository.findById(f.getId()) == null) {
           this.fahrzeugRepository.persist(f);
+        }
       }
     }
   }

@@ -3,12 +3,15 @@ package de.gedoplan.v5t11.leitstand.webui;
 import de.gedoplan.v5t11.leitstand.entity.Leitstand;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.Stellwerk;
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkElement;
+
 import lombok.Getter;
+
 import org.jboss.logging.Logger;
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
-import javax.inject.Inject;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Inject;
+
 import java.io.Serializable;
 import java.util.Map;
 import java.util.stream.Collectors;

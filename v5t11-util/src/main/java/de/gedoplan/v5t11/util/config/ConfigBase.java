@@ -13,8 +13,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import javax.enterprise.inject.CreationException;
-import javax.inject.Inject;
+import jakarta.enterprise.inject.CreationException;
+import jakarta.inject.Inject;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
@@ -22,7 +22,7 @@ import lombok.Getter;
 
 /**
  * Basisklasse für Konfigurationsservices in den einzelnen V5T11-Anwendungen.
- *
+ * <p>
  * Diese Klasse soll als Basisklasse für @ApplicationScoped-Beans genutzt werden, die die
  * anwendungsspezifischen Konfigurationswerte bereitstellen und sich dabei der übergreifenden
  * Funktionen dieser Klasse bedienen:
@@ -31,7 +31,6 @@ import lombok.Getter;
  * - Der Name der angeschlossenen Anlage wird über die Property {@link #PROPERTY_ANLAGE} spezifiziert; Default ist {@link #DEFAULT_ANLAGE}.
  *
  * @author dw
- *
  */
 public abstract class ConfigBase {
 
@@ -117,7 +116,7 @@ public abstract class ConfigBase {
 
   /**
    * Veränderungs-Zeit der XML-Konfigurationsdatei ermitteln.
-   * 
+   *
    * @param fileNameSuffix Dateinamen-Suffix
    * @return Letzte Änderung in ms seit 1970.
    */
@@ -128,7 +127,7 @@ public abstract class ConfigBase {
 
   /**
    * XML-Konfigurationsfile lesen und deserialisieren.
-   *
+   * <p>
    * Der Dateiname setzt sich aus dem Anwendungsnamen und dem übergebenen Suffix zusammen. Die Datei wird im Konfigurationsverzeichnis oder als Classpath Ressource gesucht.
    *
    * @param fileNameSuffix Dateinamen-Suffix

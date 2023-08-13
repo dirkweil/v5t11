@@ -3,10 +3,10 @@ package de.gedoplan.v5t11.util.domain.attribute;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.json.bind.adapter.JsonbAdapter;
-import javax.json.bind.annotation.JsonbTypeAdapter;
-import javax.persistence.AttributeConverter;
-import javax.persistence.Converter;
+import jakarta.json.bind.adapter.JsonbAdapter;
+import jakarta.json.bind.annotation.JsonbTypeAdapter;
+import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Converter;
 
 /**
  * Schalterstellung.
@@ -22,6 +22,7 @@ public enum SchalterStellung {
   private String string;
 
   private static Map<String, SchalterStellung> lookup = new HashMap<>();
+
   static {
     for (SchalterStellung s : SchalterStellung.values()) {
       lookup.put(s.string, s);

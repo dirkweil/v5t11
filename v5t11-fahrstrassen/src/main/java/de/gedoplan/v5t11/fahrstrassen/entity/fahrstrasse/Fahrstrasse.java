@@ -1,14 +1,5 @@
 package de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse;
 
-import static java.lang.annotation.ElementType.FIELD;
-import static java.lang.annotation.ElementType.METHOD;
-import static java.lang.annotation.ElementType.PARAMETER;
-import static java.lang.annotation.ElementType.TYPE;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
-
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.ListMultimap;
-import com.google.common.collect.MultimapBuilder;
 import de.gedoplan.baselibs.utils.inject.InjectionUtil;
 import de.gedoplan.v5t11.fahrstrassen.entity.Parcours;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleis;
@@ -27,23 +18,35 @@ import de.gedoplan.v5t11.util.transaction.TransactionChecker;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
-import javax.enterprise.util.AnnotationLiteral;
-import javax.enterprise.util.Nonbinding;
-import javax.inject.Inject;
-import javax.inject.Qualifier;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElements;
-import javax.xml.bind.annotation.XmlRootElement;
+import jakarta.enterprise.util.AnnotationLiteral;
+import jakarta.enterprise.util.Nonbinding;
+import jakarta.inject.Inject;
+import jakarta.inject.Qualifier;
+import jakarta.xml.bind.Unmarshaller;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlElements;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
-import io.quarkus.runtime.Quarkus;
 import lombok.Getter;
+
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.ElementType.PARAMETER;
+import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.NONE)
@@ -255,13 +258,11 @@ public class Fahrstrasse extends Bereichselement {
 
   /**
    * Fahrstrassen kombinieren.
-   *
+   * <p>
    * Die angegebenen Fahrstrassen werden in der Reihenfolge links-rechts kombiniert, wenn dies möglich ist.
    *
-   * @param linkeFahrstrasse
-   *   Linke Fahrstrasse (Einfahrt)
-   * @param rechteFahrstrasse
-   *   Rechte Fahrstrasse (Ausfahrt)
+   * @param linkeFahrstrasse Linke Fahrstrasse (Einfahrt)
+   * @param rechteFahrstrasse Rechte Fahrstrasse (Ausfahrt)
    * @return Kombi-Fahrstrasse, wenn Kombination möglich, sonst <code>null</code>
    */
   public static Fahrstrasse concat(Fahrstrasse linkeFahrstrasse, Fahrstrasse rechteFahrstrasse) {
@@ -345,16 +346,18 @@ public class Fahrstrasse extends Bereichselement {
       // Nur wenn positionen mehrere Werte enthält, sind es Doppelte
       if (doppelteAnzahl > 1) {
         // Das erste Element kann kein Doppeltes sein
-        if (positionen.get(0).equals(ZERO))
+        if (positionen.get(0).equals(ZERO)) {
           throw new V5t11Exception("Doppeltes Fahrstrassenelement an Position 0");
+        }
 
         // Zu den Doppelpositionen die FahrstrassenElemente holen
-        List<Fahrstrassenelement> doppelte = positionen.stream().map(p -> elemente.get(p)).toList();
+        List<Fahrstrassenelement> doppelte = positionen.stream().map(p -> this.elemente.get(p)).toList();
 
         // Der Typ der Elemente kann nicht FahrstrassenGleis sein
         Fahrstrassenelement doppelt0 = doppelte.get(0);
-        if (doppelt0 instanceof FahrstrassenGleis)
+        if (doppelt0 instanceof FahrstrassenGleis) {
           throw new V5t11Exception("Doppelt: " + doppelt0);
+        }
 
         // Ein Element bleibt später erhalten. Dies ist das letzte Nicht-Schutz-Element
         // oder, falls dies nicht existiert, das letzte Element
@@ -363,13 +366,15 @@ public class Fahrstrasse extends Bereichselement {
           Fahrstrassenelement doppelteI = doppelte.get(i);
 
           // Letztes Nicht-Schutz-Element beibehalten
-          if (!doppelteI.isSchutz())
+          if (!doppelteI.isSchutz()) {
             beibehalten = i;
+          }
         }
 
         for (int i = 0; i < doppelteAnzahl; ++i) {
-          if (i != beibehalten)
+          if (i != beibehalten) {
             zuLoeschendePositionen.add(positionen.get(i));
+          }
         }
 
         //        System.out.printf("%s: %s %s\n", doppelt0, Arrays.toString(positions.toArray()), Arrays.toString(zuLoeschendePositionen.toArray()));
@@ -379,22 +384,22 @@ public class Fahrstrasse extends Bereichselement {
 
     // Doppelte entfernen (Liste ist absteigend sortiert)
     if (!zuLoeschendePositionen.isEmpty()) {
-//      elemente.forEach(e -> System.out.printf("<<< %s\n", e));
-//      System.out.printf("--- %s\n", Arrays.toString(zuLoeschendePositionen.toArray()));
-      zuLoeschendePositionen.forEach(p -> elemente.remove(p.intValue()));
-//      elemente.forEach(e -> System.out.printf(">>> %s\n", e));
+      //      elemente.forEach(e -> System.out.printf("<<< %s\n", e));
+      //      System.out.printf("--- %s\n", Arrays.toString(zuLoeschendePositionen.toArray()));
+      zuLoeschendePositionen.forEach(p -> this.elemente.remove(p.intValue()));
+      //      elemente.forEach(e -> System.out.printf(">>> %s\n", e));
     }
   }
 
   /**
    * Signalstellungen für Hauptsignale passend zu Weichenstellungen anpassen.
-   *
+   * <p>
    * Die Stellung von Hauptsignalen (erkennbar an Stellung FAHRT bzw. LANGSAMFAHRT) werden zu FAHRT bzw. LANGSAMFAHRT korrigiert,
    * wenn bis zum nächsten Hauptsignal bzw. bis zum Fahrstrassenende das kleinste Limit der befahrenen Weichen über bzw. unter 40 liegt.
    */
   public void adjustLangsamfahrt() {
     // Falls keine Signale enthalten sind, ist nichts zu tun
-    if ( !this.elemente.stream().anyMatch(e -> e instanceof FahrstrassenSignal)) {
+    if (!this.elemente.stream().anyMatch(e -> e instanceof FahrstrassenSignal)) {
       return;
     }
 
@@ -435,7 +440,7 @@ public class Fahrstrasse extends Bereichselement {
 
   /**
    * Umgekehrte Fahrstrasse erzeugen.
-   *
+   * <p>
    * Es wird eine Fahrstrasse mit umgekehrten Elementen in umgekehrter Reihung erzeugt.
    *
    * @return umgekehrte Fahrstrasse
@@ -456,8 +461,7 @@ public class Fahrstrasse extends Bereichselement {
   }
 
   public void addPersistentEntries() {
-    FahrstrassenStatus fahrstrassenStatus = this.fahrstrassenStatusRepository.findById(getId());
-    if (fahrstrassenStatus == null) {
+    if (this.fahrstrassenStatusRepository.findById(getId()).isEmpty()) {
       this.fahrstrassenStatusRepository.persist(new FahrstrassenStatus(getBereich(), getName()));
     }
 
@@ -486,8 +490,7 @@ public class Fahrstrasse extends Bereichselement {
   /**
    * Beginnt die Fahrstrasse mit dem angegebenen Gleis?
    *
-   * @param gleisId
-   *   Id des Gleises
+   * @param gleisId Id des Gleises
    * @return <code>true</code>, wenn die Fahrstrasse mit dem angegebenen Gleis beginnt
    */
   public boolean startsWith(BereichselementId gleisId) {
@@ -497,8 +500,7 @@ public class Fahrstrasse extends Bereichselement {
   /**
    * Endet die Fahrstrasse mit dem angegebenen Gleis?
    *
-   * @param gleisId
-   *   Id des Gleises
+   * @param gleisId Id des Gleises
    * @return <code>true</code>, wenn die Fahrstrasse mit dem angegebenen Gleis endet
    */
   public boolean endsWith(BereichselementId gleisId) {
@@ -511,13 +513,9 @@ public class Fahrstrasse extends Bereichselement {
    * @return Fahrstrassen-Sstatus
    */
   public FahrstrassenStatus getFahrstrassenStatus() {
-    FahrstrassenStatus fahrstrassenStatus = this.fahrstrassenStatusRepository.findById(getId());
-    if (fahrstrassenStatus == null) {
-      throw new IllegalStateException("FahrstrassenStatus nicht vorhanden: " + getId());
-      // fahrstrassenStatus = new FahrstrassenStatus(getBereich(), getName());
-      // this.fahrstrassenStatusRepository.persist(fahrstrassenStatus);
-    }
-    return fahrstrassenStatus;
+    return this.fahrstrassenStatusRepository
+      .findById(getId())
+      .orElseThrow(() -> new IllegalStateException("FahrstrassenStatus nicht vorhanden: " + getId()));
   }
 
   /**
@@ -542,15 +540,13 @@ public class Fahrstrasse extends Bereichselement {
 
   /**
    * Ist die Fahrstrasse (komplett) frei?
-   *
+   * <p>
    * Die Fahrstrasse ist dann frei,
    * - wenn sie mit keiner bereits reservierten Fahrstrasse kollidiert,
    * - wenn keiner ihrer Gleise besetzt ist, wobei für diese Prüfung der Start und das Ende per Parameter ausgenommen werden können.
    *
-   * @param includeStart
-   *   Erstes Element der Fahrstrasse in Besetztprüfung berücksichtigen?
-   * @param includeEnde
-   *   Letztes Element der Fahrstrasse in Besetztprüfung berücksichtigen?
+   * @param includeStart Erstes Element der Fahrstrasse in Besetztprüfung berücksichtigen?
+   * @param includeEnde Letztes Element der Fahrstrasse in Besetztprüfung berücksichtigen?
    * @return <code>true</code>, wenn die Fahrstrasse frei ist.
    */
   public boolean isFrei(boolean includeStart, boolean includeEnde) {
@@ -593,18 +589,15 @@ public class Fahrstrasse extends Bereichselement {
 
   /**
    * Fahrstrasse reservieren oder freigeben.
-   *
+   * <p>
    * Wird als reservierungsTyp {@link FahrstrassenReservierungsTyp#UNRESERVIERT} übergeben, wird die Fahrstrasse freigegeben.
    * Bei anderem reservierungsTyp wird die Fahrstrasse entsprechend reserviert, wenn sie noch frei ist.
-   *
+   * <p>
    * Zur Freigabe kann aber auch {@link #freigeben(Gleis)} genutzt werden.
    *
-   * @param reservierungsTyp
-   *   Art der Fahrstrassenreservierung, <code>UNRESERVIERT</code> für Freigabe
-   * @param includeStart
-   *   Erstes Element der Fahrstrasse in Besetztprüfung berücksichtigen?
-   * @param includeEnde
-   *   Letztes Element der Fahrstrasse in Besetztprüfung berücksichtigen?
+   * @param reservierungsTyp Art der Fahrstrassenreservierung, <code>UNRESERVIERT</code> für Freigabe
+   * @param includeStart Erstes Element der Fahrstrasse in Besetztprüfung berücksichtigen?
+   * @param includeEnde Letztes Element der Fahrstrasse in Besetztprüfung berücksichtigen?
    * @return <code>true</code>, wenn die Fahrstrasse reserviert bzw. freigegeben werden konnte
    */
   public boolean reservieren(FahrstrassenReservierungsTyp reservierungsTyp, boolean includeStart, boolean includeEnde) {
@@ -635,8 +628,7 @@ public class Fahrstrasse extends Bereichselement {
   /**
    * Fahrstrasse komplett oder teilweise freigeben.
    *
-   * @param teilFreigabeEnde
-   *   <code>null</code> für Komplettfreigabe oder erster Gleis, der nicht freigegeben wird
+   * @param teilFreigabeEnde <code>null</code> für Komplettfreigabe oder erster Gleis, der nicht freigegeben wird
    * @return <code>true</code>, wenn die Fahrstrasse freigegeben werden konnte
    */
   public boolean freigeben(Gleis teilFreigabeEnde) {
@@ -727,8 +719,7 @@ public class Fahrstrasse extends Bereichselement {
    * Sind alle Gleise ab dem übergebenen Index besetzt?
    * Wird in der Freigabesteuerung benutzt: Ist die restliche Fahrstrasse komplett besetzt, kann sie freigegeben werden.
    *
-   * @param startIndex
-   *   Start-Index
+   * @param startIndex Start-Index
    * @return alles besetzt?
    */
   public boolean isKomplettBesetzt(int startIndex) {
@@ -757,8 +748,7 @@ public class Fahrstrasse extends Bereichselement {
    * Wird in der Freigabesteuerung benutzt: Falls die restliche Fahtrstrasse nur aus Gleisen besteht,
    * kann sie freigegeben werden.
    *
-   * @param startIndex
-   *   Start-Index
+   * @param startIndex Start-Index
    * @return nur noch Gleise?
    */
   public boolean isNurGleise(int startIndex) {

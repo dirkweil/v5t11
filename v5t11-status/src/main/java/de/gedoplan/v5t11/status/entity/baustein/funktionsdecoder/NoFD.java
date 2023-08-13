@@ -4,12 +4,12 @@ import de.gedoplan.v5t11.status.entity.baustein.Funktionsdecoder;
 
 import java.util.UUID;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
 
 /**
  * Funktionsdecoder.
- *
+ * <p>
  * Objekte dieser Klasse repräsentieren Decoder vom Typ WD-Miba
  *
  * @author dw

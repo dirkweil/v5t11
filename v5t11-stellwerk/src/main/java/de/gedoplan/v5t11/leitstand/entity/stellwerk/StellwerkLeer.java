@@ -1,7 +1,7 @@
 package de.gedoplan.v5t11.leitstand.entity.stellwerk;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
 
 /**
  * Leeres Stellwerkselement

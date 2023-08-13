@@ -7,8 +7,8 @@ import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 import de.gedoplan.v5t11.util.test.V5t11TestConfigDirExtension;
 
-import javax.inject.Inject;
-import javax.json.Json;
+import jakarta.inject.Inject;
+import jakarta.json.Json;
 
 import org.jboss.logging.Logger;
 import org.junit.jupiter.api.MethodOrderer;
@@ -41,10 +41,10 @@ public class WeicheTest {
     this.log.debug("JSON string: " + json);
 
     String expected = Json.createObjectBuilder()
-        .add("key", weiche.getKey().toString())
-        .add("lastChangeMillis", weiche.getLastChangeMillis())
-        .add("stellung", weiche.getStellung().toString())
-        .build().toString();
+      .add("key", weiche.getKey().toString())
+      .add("lastChangeMillis", weiche.getLastChangeMillis())
+      .add("stellung", weiche.getStellung().toString())
+      .build().toString();
 
     JSONAssert.assertEquals(expected, json, true);
   }
@@ -61,11 +61,11 @@ public class WeicheTest {
     this.log.debug("JSON string: " + json);
 
     String expected = Json.createObjectBuilder()
-        .add("key", weiche.getKey().toString())
-        .add("lastChangeMillis", weiche.getLastChangeMillis())
-        .add("stellung", weiche.getStellung().toString())
-        .add("gleisName", weiche.getGleisName())
-        .build().toString();
+      .add("key", weiche.getKey().toString())
+      .add("lastChangeMillis", weiche.getLastChangeMillis())
+      .add("stellung", weiche.getStellung().toString())
+      .add("gleisName", weiche.getGleisName())
+      .build().toString();
 
     JSONAssert.assertEquals(expected, json, true);
   }

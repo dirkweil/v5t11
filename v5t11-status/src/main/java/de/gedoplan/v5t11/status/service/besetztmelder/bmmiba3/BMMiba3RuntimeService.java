@@ -11,8 +11,8 @@ import de.gedoplan.v5t11.status.service.besetztmelder.bmmiba3.BMMiba3Configurati
 import de.gedoplan.v5t11.status.service.besetztmelder.bmmiba3.BMMiba3ConfigurationAdapter.MeldungsSpeicherung;
 import de.gedoplan.v5t11.status.service.besetztmelder.bmmiba3.BMMiba3ConfigurationAdapter.Zeittakt;
 
-import javax.enterprise.context.Dependent;
-import javax.inject.Inject;
+import jakarta.enterprise.context.Dependent;
+import jakarta.inject.Inject;
 
 import org.jboss.logging.Logger;
 

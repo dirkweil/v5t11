@@ -2,15 +2,15 @@ package de.gedoplan.v5t11.util.cdi;
 
 import java.lang.annotation.Annotation;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.Event;
-import javax.enterprise.inject.Any;
-import javax.enterprise.inject.Default;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.Event;
+import jakarta.enterprise.inject.Any;
+import jakarta.enterprise.inject.Default;
+import jakarta.inject.Inject;
 
 /**
  * Helferklasse zum Feuern von CDI-Events.
- *
+ * <p>
  * Die übergebenen Events werden synchron und asynchron gefeuert.
  *
  * @author dw

@@ -7,9 +7,9 @@ import de.gedoplan.v5t11.status.persistence.BausteinConfigurationRepository;
 
 import java.io.Serializable;
 
-import javax.enterprise.context.Dependent;
-import javax.inject.Inject;
-import javax.transaction.Transactional;
+import jakarta.enterprise.context.Dependent;
+import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 
 @Dependent
 public class BausteinConfigurationService implements Serializable {
@@ -20,7 +20,7 @@ public class BausteinConfigurationService implements Serializable {
     BausteinConfiguration bausteinConfiguration = null;
 
     if (baustein.getId() != null) {
-      bausteinConfiguration = this.bausteinConfigurationRepository.findById(baustein.getId());
+      bausteinConfiguration = this.bausteinConfigurationRepository.findById(baustein.getId()).orElse(null);
     }
 
     if (bausteinConfiguration == null) {

@@ -6,10 +6,10 @@ import de.gedoplan.v5t11.status.entity.fahrweg.Gleis;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -34,11 +34,10 @@ public abstract class Besetztmelder extends Baustein implements Encoder {
 
   /**
    * Konstruktor.
-   *
+   * <p>
    * Wird nur während des JAXB-Unmarshalling aufgerufen.
    *
-   * @param byteAnzahl
-   *          Anzahl belegter Bytes (Adressen)
+   * @param byteAnzahl Anzahl belegter Bytes (Adressen)
    */
   protected Besetztmelder(int byteAnzahl) {
     super(byteAnzahl);

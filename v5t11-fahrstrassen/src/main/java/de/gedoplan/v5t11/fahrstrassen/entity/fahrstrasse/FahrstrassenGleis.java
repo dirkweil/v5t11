@@ -6,11 +6,11 @@ import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenelementTyp;
 import de.gedoplan.v5t11.util.domain.entity.fahrweg.geraet.AbstractWeiche;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
-import javax.inject.Inject;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
+import jakarta.inject.Inject;
+import jakarta.xml.bind.Unmarshaller;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlAttribute;
 
 import lombok.NoArgsConstructor;
 
@@ -41,17 +41,14 @@ public class FahrstrassenGleis extends Fahrstrassenelement {
 
   @Override
   public Gleis getFahrwegelement() {
-    Gleis gleis = this.gleisRepository.findById(getId());
-    if (gleis == null) {
-      throw new IllegalStateException("Gleis nicht vorhanden: " + getId());
-    }
-    return gleis;
+    return this.gleisRepository
+      .findById(getId())
+      .orElseThrow(() -> new IllegalStateException("Gleis nicht vorhanden: " + getId()));
   }
 
   @Override
   public void createFahrwegelement() {
-    Gleis gleis = this.gleisRepository.findById(getId());
-    if (gleis == null) {
+    if (this.gleisRepository.findById(getId()).isEmpty()) {
       this.gleisRepository.persist(new Gleis(getBereich(), getName()));
     }
   }
@@ -70,10 +67,8 @@ public class FahrstrassenGleis extends Fahrstrassenelement {
   /**
    * Nachbearbeitung nach JAXB-Unmarshal.
    *
-   * @param unmarshaller
-   *        Unmarshaller
-   * @param parent
-   *        Parent
+   * @param unmarshaller Unmarshaller
+   * @param parent Parent
    */
   @SuppressWarnings("unused")
   private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {

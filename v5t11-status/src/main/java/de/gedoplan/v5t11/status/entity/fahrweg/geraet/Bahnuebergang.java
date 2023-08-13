@@ -7,8 +7,8 @@ import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
 import de.gedoplan.v5t11.util.domain.attribute.SignalTyp;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
 
 @XmlAccessorType(XmlAccessType.NONE)
 public class Bahnuebergang extends Signal {
@@ -23,7 +23,7 @@ public class Bahnuebergang extends Signal {
 
   /**
    * Bahnübergang schliessen.
-   *
+   * <p>
    * Conveniance-Methode äquivalent zu {@link #setStellung(SignalStellung) setStellung(FAHRT)}.
    */
   public void schliessen() {
@@ -32,7 +32,7 @@ public class Bahnuebergang extends Signal {
 
   /**
    * Bahnübergang öffnen.
-   *
+   * <p>
    * Conveniance-Methode äquivalent zu {@link #setStellung(SignalStellung) setStellung(HALT)}.
    */
   public void oeffnen() {

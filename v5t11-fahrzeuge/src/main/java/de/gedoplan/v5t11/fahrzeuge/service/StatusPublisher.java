@@ -1,6 +1,6 @@
 package de.gedoplan.v5t11.fahrzeuge.service;
 
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 
 //TODO JMS -> RM
 

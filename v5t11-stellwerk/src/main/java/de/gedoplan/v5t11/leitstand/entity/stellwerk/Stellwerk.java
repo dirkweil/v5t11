@@ -2,14 +2,16 @@ package de.gedoplan.v5t11.leitstand.entity.stellwerk;
 
 import de.gedoplan.baselibs.utils.inject.InjectionUtil;
 import de.gedoplan.v5t11.leitstand.entity.Leitstand;
+
 import lombok.Getter;
 
-import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.Unmarshaller;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
+
 import java.io.Serializable;
 import java.util.List;
 import java.util.ListIterator;
@@ -24,7 +26,7 @@ import java.util.ListIterator;
 public class Stellwerk implements Serializable, Comparable<Stellwerk> {
   /**
    * Bereich.
-   *
+   * <p>
    * Dient auch als ID.
    */
   @XmlAttribute(required = true)
@@ -48,10 +50,8 @@ public class Stellwerk implements Serializable, Comparable<Stellwerk> {
   /**
    * Nachbearbeitung nach JAXB-Unmarshal.
    *
-   * @param unmarshaller
-   *   Unmarshaller
-   * @param parent
-   *   Parent
+   * @param unmarshaller Unmarshaller
+   * @param parent Parent
    */
   @SuppressWarnings("unused")
   private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {

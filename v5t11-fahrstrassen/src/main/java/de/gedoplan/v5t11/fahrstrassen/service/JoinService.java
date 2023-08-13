@@ -7,20 +7,19 @@ import de.gedoplan.v5t11.fahrstrassen.persistence.SignalRepository;
 import de.gedoplan.v5t11.fahrstrassen.persistence.WeicheRepository;
 import de.gedoplan.v5t11.util.cdi.Received;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.ObservesAsync;
-import javax.inject.Inject;
-import javax.transaction.Transactional;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.ObservesAsync;
+import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 
 import org.jboss.logging.Logger;
 
 /**
  * Service für den Beitritt einer Anwendung zum Gesamtsystem.
- *
+ * <p>
  * Wird aufgerufen, wenn diese Anwendung startet oder sich eine andere (durch deren JoinService) per Messaging meldet.
  *
  * @author dw
- *
  */
 @ApplicationScoped
 @Transactional(rollbackOn = Exception.class)

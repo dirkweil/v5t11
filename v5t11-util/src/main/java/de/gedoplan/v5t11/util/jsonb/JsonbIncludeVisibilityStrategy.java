@@ -6,7 +6,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.logging.Logger;
 
-import javax.json.bind.config.PropertyVisibilityStrategy;
+import jakarta.json.bind.config.PropertyVisibilityStrategy;
 
 public enum JsonbIncludeVisibilityStrategy implements PropertyVisibilityStrategy {
   SHORT(false),

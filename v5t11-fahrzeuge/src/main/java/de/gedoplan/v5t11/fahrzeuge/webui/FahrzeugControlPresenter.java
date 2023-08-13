@@ -13,9 +13,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logging.Logger;
@@ -44,7 +44,7 @@ public class FahrzeugControlPresenter implements Serializable {
 
   private Fahrzeug getRefreshedFahrzeug() {
     if (!this.fahrzeugRepository.isAttached(this.currentFahrzeug)) {
-      this.currentFahrzeug = this.fahrzeugRepository.findById(this.currentFahrzeug.getId());
+      this.currentFahrzeug = this.fahrzeugRepository.findById(this.currentFahrzeug.getId()).get();
     }
     return this.currentFahrzeug;
   }
@@ -81,23 +81,23 @@ public class FahrzeugControlPresenter implements Serializable {
     return Stream.concat(
         Stream.of(FahrzeugFunktionsGruppe.FL),
         this.currentFahrzeug.getFunktionen().stream().map(FahrzeugFunktion::getGruppe))
-        .sorted()
-        .distinct()
-        .collect(Collectors.toList());
+      .sorted()
+      .distinct()
+      .collect(Collectors.toList());
   }
 
   public List<FahrzeugFunktionWrapper> getLokFunktionen(FahrzeugFunktionsGruppe fahrzeugFunktionsGruppe) {
     Stream<FahrzeugFunktionWrapper> stream = this.currentFahrzeug
-        .getFunktionen()
-        .stream()
-        .filter(f -> f.getGruppe() == fahrzeugFunktionsGruppe)
-        .map(FahrzeugFunktionWrapper::new)
-        .sorted();
+      .getFunktionen()
+      .stream()
+      .filter(f -> f.getGruppe() == fahrzeugFunktionsGruppe)
+      .map(FahrzeugFunktionWrapper::new)
+      .sorted();
     if (fahrzeugFunktionsGruppe == FahrzeugFunktionsGruppe.FL) {
       stream = Stream.concat(Stream.of(this.lichtWrapper), stream);
     }
     return stream
-        .collect(Collectors.toList());
+      .collect(Collectors.toList());
   }
 
   public FahrzeugFunktionWrapper getFahrzeugFunktionWrapper(FahrzeugFunktion fahrzeugFunktion) {

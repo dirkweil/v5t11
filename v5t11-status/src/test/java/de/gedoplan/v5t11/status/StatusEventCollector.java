@@ -7,8 +7,8 @@ import de.gedoplan.v5t11.util.domain.entity.Fahrwegelement;
 import java.util.Collection;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.Observes;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.Observes;
 
 import lombok.Getter;
 

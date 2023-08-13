@@ -12,19 +12,19 @@ import de.gedoplan.v5t11.util.webservice.ResponseFactory;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.transaction.Transactional;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.NotFoundException;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.NotFoundException;
+import jakarta.ws.rs.PUT;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 import org.jboss.logging.Logger;
 
@@ -57,26 +57,26 @@ public class FahrstrasseResource {
   @GET
   @Produces(MediaType.APPLICATION_JSON + "; qs=1.0")
   public Response getFahrstrassenAsJson(
-      @QueryParam("startBereich") String startBereich,
-      @QueryParam("startName") String startName,
-      @QueryParam("endeBereich") String endeBereich,
-      @QueryParam("endeName") String endeName,
-      @QueryParam("filter") String filterAsString) {
+    @QueryParam("startBereich") String startBereich,
+    @QueryParam("startName") String startName,
+    @QueryParam("endeBereich") String endeBereich,
+    @QueryParam("endeName") String endeName,
+    @QueryParam("filter") String filterAsString) {
 
     List<Fahrstrasse> fahrstrassen = getFahrstrassen(startBereich, startName, endeBereich, endeName, filterAsString);
     return fahrstrassen != null
-        ? ResponseFactory.createJsonResponse(fahrstrassen, JsonbWithIncludeVisibility.FULL)
-        : ResponseFactory.createNotFoundResponse();
+      ? ResponseFactory.createJsonResponse(fahrstrassen, JsonbWithIncludeVisibility.FULL)
+      : ResponseFactory.createNotFoundResponse();
   }
 
   @GET
   @Produces(MediaType.TEXT_PLAIN + "; qs=0.7")
   public List<String> getFahrstrassenIds(
-      @QueryParam("startBereich") String startBereich,
-      @QueryParam("startName") String startName,
-      @QueryParam("endeBereich") String endeBereich,
-      @QueryParam("endeName") String endeName,
-      @QueryParam("filter") String filterAsString) {
+    @QueryParam("startBereich") String startBereich,
+    @QueryParam("startName") String startName,
+    @QueryParam("endeBereich") String endeBereich,
+    @QueryParam("endeName") String endeName,
+    @QueryParam("filter") String filterAsString) {
 
     List<Fahrstrasse> fahrstrassen = getFahrstrassen(startBereich, startName, endeBereich, endeName, filterAsString);
     if (fahrstrassen == null) {
@@ -87,11 +87,11 @@ public class FahrstrasseResource {
   }
 
   private List<Fahrstrasse> getFahrstrassen(
-      String startBereich,
-      String startName,
-      String endeBereich,
-      String endeName,
-      String filterAsString) {
+    String startBereich,
+    String startName,
+    String endeBereich,
+    String endeName,
+    String filterAsString) {
 
     FahrstrassenFilter filter = filterAsString != null ? FahrstrassenFilter.fromString(filterAsString, false) : null;
 

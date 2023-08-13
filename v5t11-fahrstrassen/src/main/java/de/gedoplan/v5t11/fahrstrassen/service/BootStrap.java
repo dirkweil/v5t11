@@ -4,18 +4,17 @@ import de.gedoplan.v5t11.fahrstrassen.entity.Parcours;
 import de.gedoplan.v5t11.util.cdi.Created;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
 
-import javax.enterprise.context.Dependent;
-import javax.enterprise.event.Observes;
-import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.SQLException;
 
-import org.eclipse.microprofile.config.inject.ConfigProperty;
-import org.jboss.logging.Logger;
+import jakarta.enterprise.context.Dependent;
+import jakarta.enterprise.event.Observes;
+import javax.sql.DataSource;
 
 import io.quarkus.runtime.Quarkus;
 import io.quarkus.runtime.StartupEvent;
-
-import java.sql.Connection;
-import java.sql.SQLException;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.jboss.logging.Logger;
 
 @Dependent
 public class BootStrap {

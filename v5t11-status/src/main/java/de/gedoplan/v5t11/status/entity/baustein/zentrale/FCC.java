@@ -22,8 +22,8 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
 
 import lombok.NoArgsConstructor;
 
@@ -259,11 +259,11 @@ public class FCC extends Zentrale {
     for (int idx = 0; idx <= BUSEXT_MAX_IDX; ++idx) {
       int offset = BUSEXT_OFFSET(idx);
       if (blockDaten[offset + BUSEXT_OFFSET_FORMAT] != blockDatenAlt[offset + BUSEXT_OFFSET_FORMAT]
-          || blockDaten[offset + BUSEXT_OFFSET_ADR_HIGH] != blockDatenAlt[offset + BUSEXT_OFFSET_ADR_HIGH]
-          || blockDaten[offset + BUSEXT_OFFSET_ADR_LOW_LICHT] != blockDatenAlt[offset + BUSEXT_OFFSET_ADR_LOW_LICHT]
-          || blockDaten[offset + BUSEXT_OFFSET_RUECKWAERTS_FAHRSTUFE] != blockDatenAlt[offset + BUSEXT_OFFSET_RUECKWAERTS_FAHRSTUFE]
-          || blockDaten[offset + BUSEXT_OFFSET_FUNKTION_1_8] != blockDatenAlt[offset + BUSEXT_OFFSET_FUNKTION_1_8]
-          || blockDaten[offset + BUSEXT_OFFSET_FUNKTION_9_16] != blockDatenAlt[offset + BUSEXT_OFFSET_FUNKTION_9_16]) {
+        || blockDaten[offset + BUSEXT_OFFSET_ADR_HIGH] != blockDatenAlt[offset + BUSEXT_OFFSET_ADR_HIGH]
+        || blockDaten[offset + BUSEXT_OFFSET_ADR_LOW_LICHT] != blockDatenAlt[offset + BUSEXT_OFFSET_ADR_LOW_LICHT]
+        || blockDaten[offset + BUSEXT_OFFSET_RUECKWAERTS_FAHRSTUFE] != blockDatenAlt[offset + BUSEXT_OFFSET_RUECKWAERTS_FAHRSTUFE]
+        || blockDaten[offset + BUSEXT_OFFSET_FUNKTION_1_8] != blockDatenAlt[offset + BUSEXT_OFFSET_FUNKTION_1_8]
+        || blockDaten[offset + BUSEXT_OFFSET_FUNKTION_9_16] != blockDatenAlt[offset + BUSEXT_OFFSET_FUNKTION_9_16]) {
         SystemTyp systemTyp = decodeSystemTyp(blockDaten[offset + BUSEXT_OFFSET_ADR_LOW_LICHT], blockDaten[offset + BUSEXT_OFFSET_FORMAT]);
         if (systemTyp != null) {
           this.eventFirer.fire(new SX2Kanal(
@@ -274,7 +274,7 @@ public class FCC extends Zentrale {
               decodeRueckwaerts(blockDaten[offset + BUSEXT_OFFSET_RUECKWAERTS_FAHRSTUFE]),
               decodeFahrstufe(systemTyp, blockDaten[offset + BUSEXT_OFFSET_RUECKWAERTS_FAHRSTUFE]),
               decodeFunktionsstatus(blockDaten[offset + BUSEXT_OFFSET_FUNKTION_9_16], blockDaten[offset + BUSEXT_OFFSET_FUNKTION_1_8])),
-              Changed.Literal.INSTANCE);
+            Changed.Literal.INSTANCE);
         }
       }
     }
@@ -292,15 +292,12 @@ public class FCC extends Zentrale {
 
   /**
    * Adresse decodieren.
-   *
+   * <p>
    * Die Adress-Bits kommen in zwei Bytes und werden zu einem <code>int</code>-Wert zusammengesetzt.
    * Achtung: Für SX2 sind die <code>H</code>s Tausender und Hunderter, die <code>L</code>s Zehner und Einer.
    *
-   * @param adrHigh
-   *        oberer Teil der Adresse <code>HHHH_HHHL</code>
-   * @param adrLow
-   *        unterer Teil der Adresse <code>LLLL_LLxx</code>
-   *
+   * @param adrHigh oberer Teil der Adresse <code>HHHH_HHHL</code>
+   * @param adrLow unterer Teil der Adresse <code>LLLL_LLxx</code>
    * @return decodierte Adresse <code>00HH_HHHH_HLLL_LLLL</code>
    */
   private static int decodeAdresse(SystemTyp systemTyp, byte adrHigh, byte adrLow) {
@@ -398,16 +395,13 @@ public class FCC extends Zentrale {
 
   /**
    * Befehl senden, Antwort lesen und prüfen.
-   *
+   * <p>
    * Die Befehls-Bytes werden gesendet und soviele Antwort-Bytes eingelesen, wie in <code>antwort</code> Platz haben.
    * Ist <code>antwortCheck</code> nicht <code>null</code>, wird die Antwort damit geprüft.
    *
-   * @param befehl
-   *        Befehl
-   * @param antwort
-   *        Antwort
-   * @param antwortCheck
-   *        Antwortprüfung oder <code>null</code>
+   * @param befehl Befehl
+   * @param antwort Antwort
+   * @param antwortCheck Antwortprüfung oder <code>null</code>
    */
   private void send(byte[] befehl, byte[] antwort, Predicate<byte[]> antwortCheck) {
     synchronized (Zentrale.class) {
@@ -610,12 +604,12 @@ public class FCC extends Zentrale {
 
       if (this.log.isDebugEnabled()) {
         this.log.debug(String.format(
-            "Fahrzeugdaten setzen: idx=%d, fahrstufe=%d, rückwärts=%b, licht=%b, f=0x%04x",
-            idx,
-            fahrstufe,
-            rueckwaerts,
-            licht,
-            funktionStatus));
+          "Fahrzeugdaten setzen: idx=%d, fahrstufe=%d, rückwärts=%b, licht=%b, f=0x%04x",
+          idx,
+          fahrstufe,
+          rueckwaerts,
+          licht,
+          funktionStatus));
       }
 
       byte[] antwort = new byte[1];

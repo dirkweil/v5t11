@@ -7,11 +7,11 @@ import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenelementTyp;
 import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
-import javax.inject.Inject;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
+import jakarta.inject.Inject;
+import jakarta.xml.bind.Unmarshaller;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlAttribute;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,25 +29,22 @@ public class FahrstrassenSignal extends FahrstrassenGeraet implements Cloneable 
 
   @Override
   public Signal getFahrwegelement() {
-    Signal signal = this.signalRepository.findById(getId());
-    if (signal == null) {
-      throw new IllegalStateException("Signal nicht vorhanden: " + getId());
-    }
-    return signal;
+    return this.signalRepository
+      .findById(getId())
+      .orElseThrow(() -> new IllegalStateException("Signal nicht vorhanden: " + getId()));
   }
 
   @Override
   public void createFahrwegelement() {
-    Signal signal = this.signalRepository.findById(getId());
-    if (signal == null) {
+    if (this.signalRepository.findById(getId()).isEmpty()) {
       this.signalRepository.persist(new Signal(getBereich(), getName()));
     }
   }
 
-//  @Override
-//  public String toString() {
-//    return super.toString() + ", stellung=" + this.stellung;
-//  }
+  //  @Override
+  //  public String toString() {
+  //    return super.toString() + ", stellung=" + this.stellung;
+  //  }
 
   public Fahrstrassenelement createCopy(SignalStellung stellung) {
     try {

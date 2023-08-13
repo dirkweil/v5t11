@@ -1,8 +1,8 @@
 package de.gedoplan.v5t11.util.jsonb;
 
-import javax.json.bind.Jsonb;
-import javax.json.bind.JsonbBuilder;
-import javax.json.bind.JsonbConfig;
+import jakarta.json.bind.Jsonb;
+import jakarta.json.bind.JsonbBuilder;
+import jakarta.json.bind.JsonbConfig;
 
 public final class JsonbWithIncludeVisibility {
   public static final Jsonb SHORT = JsonbBuilder.create(new JsonbConfig().withPropertyVisibilityStrategy(JsonbIncludeVisibilityStrategy.SHORT));

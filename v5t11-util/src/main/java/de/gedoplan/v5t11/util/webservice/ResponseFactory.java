@@ -1,9 +1,9 @@
 package de.gedoplan.v5t11.util.webservice;
 
-import javax.json.bind.Jsonb;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import jakarta.json.bind.Jsonb;
+import jakarta.ws.rs.core.HttpHeaders;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 public abstract class ResponseFactory {
 
@@ -25,9 +25,9 @@ public abstract class ResponseFactory {
 
   public static Response createJsonResponse(Object object, Jsonb jsonb) {
     return Response.ok()
-        .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
-        .entity(jsonb.toJson(object))
-        .build();
+      .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
+      .entity(jsonb.toJson(object))
+      .build();
   }
 
 }

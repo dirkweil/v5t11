@@ -6,10 +6,10 @@ import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import javax.json.bind.adapter.JsonbAdapter;
-import javax.json.bind.annotation.JsonbTypeAdapter;
-import javax.persistence.AttributeConverter;
-import javax.persistence.Converter;
+import jakarta.json.bind.adapter.JsonbAdapter;
+import jakarta.json.bind.annotation.JsonbTypeAdapter;
+import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Converter;
 
 import lombok.Getter;
 
@@ -61,6 +61,7 @@ public enum SignalTyp {
   private SortedSet<SignalStellung> erlaubteStellungen;
 
   private static Map<String, SignalTyp> lookup = new HashMap<>();
+
   static {
     for (SignalTyp s : SignalTyp.values()) {
       lookup.put(s.string, s);

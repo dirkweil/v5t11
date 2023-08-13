@@ -1,10 +1,5 @@
 package de.gedoplan.v5t11.fahrstrassen.entity;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.FahrstrassenGeraet;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.FahrstrassenSignal;
@@ -19,12 +14,13 @@ import de.gedoplan.v5t11.util.test.V5t11TestConfigDirExtension;
 
 import java.util.stream.Stream;
 
-import javax.inject.Inject;
-import javax.json.Json;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObjectBuilder;
-import javax.transaction.Transactional;
+import jakarta.inject.Inject;
+import jakarta.json.Json;
+import jakarta.json.JsonArrayBuilder;
+import jakarta.json.JsonObjectBuilder;
+import jakarta.transaction.Transactional;
 
+import io.quarkus.test.junit.QuarkusTestExtension;
 import org.jboss.logging.Logger;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
@@ -32,7 +28,10 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.skyscreamer.jsonassert.JSONAssert;
 
-import io.quarkus.test.junit.QuarkusTestExtension;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith({ V5t11TestConfigDirExtension.class, QuarkusTestExtension.class })
 @TestMethodOrder(MethodOrderer.MethodName.class)
@@ -57,10 +56,10 @@ public class FahrstrasseTest {
     this.log.debug("JSON string: " + json);
 
     String expected = Json.createObjectBuilder()
-        .add("key", fahrstrasse.getKey().toString())
-        .add("reservierungsTyp", fahrstrasse.getReservierungsTyp().toString())
-        .add("teilFreigabeAnzahl", fahrstrasse.getTeilFreigabeAnzahl())
-        .build().toString();
+      .add("key", fahrstrasse.getKey().toString())
+      .add("reservierungsTyp", fahrstrasse.getReservierungsTyp().toString())
+      .add("teilFreigabeAnzahl", fahrstrasse.getTeilFreigabeAnzahl())
+      .build().toString();
 
     JSONAssert.assertEquals(expected, json, true);
   }
@@ -77,9 +76,9 @@ public class FahrstrasseTest {
     JsonArrayBuilder elementeBuilder = Json.createArrayBuilder();
     fahrstrasse.getElemente().forEach(fe -> {
       JsonObjectBuilder elementBuilder = Json.createObjectBuilder()
-          .add("key", fe.getKey().toString())
-          .add("typ", fe.getTyp().toString())
-          .add("zaehlrichtung", fe.isZaehlrichtung());
+        .add("key", fe.getKey().toString())
+        .add("typ", fe.getTyp().toString())
+        .add("zaehlrichtung", fe.isZaehlrichtung());
       if (fe instanceof FahrstrassenGeraet) {
         elementBuilder.add("schutz", fe.isSchutz());
         String code = "?";
@@ -97,14 +96,14 @@ public class FahrstrasseTest {
       elementeBuilder.add(elementBuilder.build());
     });
     String expected = Json.createObjectBuilder()
-        .add("key", fahrstrasse.getKey().toString())
-        .add("elemente", elementeBuilder.build())
-        .add("rank", fahrstrasse.getRank())
-        .add("reservierungsTyp", fahrstrasse.getReservierungsTyp().toString())
-        .add("teilFreigabeAnzahl", fahrstrasse.getTeilFreigabeAnzahl())
-        .add("zaehlrichtung", fahrstrasse.isZaehlrichtung())
-        .build()
-        .toString();
+      .add("key", fahrstrasse.getKey().toString())
+      .add("elemente", elementeBuilder.build())
+      .add("rank", fahrstrasse.getRank())
+      .add("reservierungsTyp", fahrstrasse.getReservierungsTyp().toString())
+      .add("teilFreigabeAnzahl", fahrstrasse.getTeilFreigabeAnzahl())
+      .add("zaehlrichtung", fahrstrasse.isZaehlrichtung())
+      .build()
+      .toString();
 
     JSONAssert.assertEquals(expected, json, true);
   }
@@ -195,11 +194,11 @@ public class FahrstrasseTest {
     Fahrstrasse fahrstrasse = this.parcours.getFahrstrasse(FS_BEREICH, FS_NAME);
     assertNotNull(fahrstrasse);
 
-    Gleis gleis11 = this.gleisRepository.findById(new BereichselementId(FS_BEREICH, "11"));
+    Gleis gleis11 = this.gleisRepository.findById(new BereichselementId(FS_BEREICH, "11")).orElse(null);
     assertNotNull(gleis11);
-    Gleis gleis1 = this.gleisRepository.findById(new BereichselementId(FS_BEREICH, "1"));
+    Gleis gleis1 = this.gleisRepository.findById(new BereichselementId(FS_BEREICH, "1")).orElse(null);
     assertNotNull(gleis1);
-    Gleis gleisS = this.gleisRepository.findById(new BereichselementId(FS_BEREICH, "S"));
+    Gleis gleisS = this.gleisRepository.findById(new BereichselementId(FS_BEREICH, "S")).orElse(null);
     assertNotNull(gleisS);
 
     assertThat("Fahrstrassenreservierung zu Beginn", fahrstrasse.getFahrstrassenStatus().getReservierungsTyp(), is(FahrstrassenReservierungsTyp.UNRESERVIERT));
@@ -210,34 +209,34 @@ public class FahrstrasseTest {
       assertThat("Reservierungsergebnis", reservierenResult, is(true));
 
       Stream.of(gleis11, gleis1, gleisS)
-          .forEach(g -> {
-            // Fahrstrasse teilweise freigeben (aktueller Gleis ist erstes *nicht* freigegebenes Element)
-            fahrstrasse.freigeben(g);
+        .forEach(g -> {
+          // Fahrstrasse teilweise freigeben (aktueller Gleis ist erstes *nicht* freigegebenes Element)
+          fahrstrasse.freigeben(g);
 
-            // Ist die Anzahl bislang freigegebener Elemente richtig?
-            int teilFreigabeAnzahl = 0;
-            for (Fahrstrassenelement fe : fahrstrasse.getElemente()) {
-              if (g.equals(fe.getFahrwegelement())) {
-                break;
-              }
-              ++teilFreigabeAnzahl;
+          // Ist die Anzahl bislang freigegebener Elemente richtig?
+          int teilFreigabeAnzahl = 0;
+          for (Fahrstrassenelement fe : fahrstrasse.getElemente()) {
+            if (g.equals(fe.getFahrwegelement())) {
+              break;
             }
-            assertThat("Teilfreigabeanzahl", fahrstrasse.getFahrstrassenStatus().getTeilFreigabeAnzahl(), is(teilFreigabeAnzahl));
+            ++teilFreigabeAnzahl;
+          }
+          assertThat("Teilfreigabeanzahl", fahrstrasse.getFahrstrassenStatus().getTeilFreigabeAnzahl(), is(teilFreigabeAnzahl));
 
-            // Sind die teilfreigegebenen Elemente auch freigegeben?
-            fahrstrasse.getElemente().stream().limit(teilFreigabeAnzahl).forEach(fe -> {
-              assertThat("Fahrstrassenelement reserviert (d. h. der FS zugeordnet)", fe.getFahrwegelement().getReserviertefahrstrasseId(), nullValue());
-            });
-
-            // Sind die restlichen Elemente noch reserviert?
-            fahrstrasse.getElemente().stream().skip(teilFreigabeAnzahl).forEach(fe -> {
-              if (fe.isSchutz()) {
-                assertThat("Fahrstrassenelement reserviert (d. h. der FS zugeordnet)", fe.getFahrwegelement().getReserviertefahrstrasseId(), nullValue());
-              } else {
-                assertThat("Fahrstrassenelement reserviert (d. h. der FS zugeordnet)", fe.getFahrwegelement().getReserviertefahrstrasseId(), is(fahrstrasse.getId()));
-              }
-            });
+          // Sind die teilfreigegebenen Elemente auch freigegeben?
+          fahrstrasse.getElemente().stream().limit(teilFreigabeAnzahl).forEach(fe -> {
+            assertThat("Fahrstrassenelement reserviert (d. h. der FS zugeordnet)", fe.getFahrwegelement().getReserviertefahrstrasseId(), nullValue());
           });
+
+          // Sind die restlichen Elemente noch reserviert?
+          fahrstrasse.getElemente().stream().skip(teilFreigabeAnzahl).forEach(fe -> {
+            if (fe.isSchutz()) {
+              assertThat("Fahrstrassenelement reserviert (d. h. der FS zugeordnet)", fe.getFahrwegelement().getReserviertefahrstrasseId(), nullValue());
+            } else {
+              assertThat("Fahrstrassenelement reserviert (d. h. der FS zugeordnet)", fe.getFahrwegelement().getReserviertefahrstrasseId(), is(fahrstrasse.getId()));
+            }
+          });
+        });
 
     } finally {
       // FS wieder auf Ausgangszustand (unreserviert) setzen

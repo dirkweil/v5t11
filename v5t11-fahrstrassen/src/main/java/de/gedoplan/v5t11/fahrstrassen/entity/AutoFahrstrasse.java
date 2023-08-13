@@ -1,34 +1,31 @@
 package de.gedoplan.v5t11.fahrstrassen.entity;
 
-import de.gedoplan.baselibs.persistence.entity.UuidEntity;
+import de.gedoplan.baselibs.persistence.entity.UUIdEntity;
 import de.gedoplan.baselibs.utils.inject.InjectionUtil;
 
 import java.util.List;
 
-import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.Unmarshaller;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlElement;
 
 import lombok.Getter;
 import lombok.ToString;
 
 /**
  * Automatik-Fahrstrasse.
- * 
- * Eine AutoFahrstrasse verknüpft einen auslösenden Gleis - den sog. Trigger - mit einer Liste von
+ * <p>
+ * Eine AutoFahrstrasse verknüpft ein auslösendes Gleis - den sog. Trigger - mit einer Liste von
  * Fahrstrassen. Ändert sich im Betrieb der Trigger auf besetzt, wird eine der Fahrstrassen reserviert, soweit
  * das möglich ist. Die Fahrstrassen werden in der Reihenfolge der Liste berücksichtigt.
- * 
- * @author dw
  *
+ * @author dw
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @Getter
-public class AutoFahrstrasse extends UuidEntity {
-
-  public static final String TABLE_NAME = "FS_AUTO_FAHRSTRASSE";
+public class AutoFahrstrasse extends UUIdEntity {
 
   // Bereich des Triggers (und der AutoFahrstrasse)
   @XmlAttribute(name = "bereich", required = true)

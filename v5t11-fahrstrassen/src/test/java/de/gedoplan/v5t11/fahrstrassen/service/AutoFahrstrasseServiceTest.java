@@ -1,9 +1,5 @@
 package de.gedoplan.v5t11.fahrstrassen.service;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.hamcrest.MatcherAssert.*;
-import static org.junit.jupiter.api.Assertions.*;
-
 import de.gedoplan.v5t11.fahrstrassen.entity.Parcours;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleis;
@@ -15,16 +11,21 @@ import de.gedoplan.v5t11.util.test.V5t11TestConfigDirExtension;
 
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.transaction.Transactional;
+import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 
+import io.quarkus.test.junit.QuarkusTestExtension;
 import org.jboss.logging.Logger;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import io.quarkus.test.junit.QuarkusTestExtension;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith({ V5t11TestConfigDirExtension.class, QuarkusTestExtension.class })
 @TestMethodOrder(MethodOrderer.MethodName.class)
@@ -56,7 +57,7 @@ public class AutoFahrstrasseServiceTest {
   @Test
   public void test_01_triggerToFahrstrassenMap() throws Exception {
 
-    Gleis trigger = this.gleisRepository.findByBereichAndName(BEREICH, TRIGGER_NAME);
+    Gleis trigger = this.gleisRepository.findByBereichAndName(BEREICH, TRIGGER_NAME).orElse(null);
     assertNotNull(trigger);
 
     List<Fahrstrasse> fahrstrassen = this.autoFahrstrassenService.getAutoFahrstrassen().get(trigger);
@@ -72,7 +73,7 @@ public class AutoFahrstrasseServiceTest {
   public void test_02_autoreserviere_allesFrei() throws Exception {
 
     // Beteiligte Objekte besorgen und Grundzustand sicherstellen
-    Gleis trigger = this.gleisRepository.findByBereichAndName(BEREICH, TRIGGER_NAME);
+    Gleis trigger = this.gleisRepository.findByBereichAndName(BEREICH, TRIGGER_NAME).orElse(null);
     assertNotNull(trigger);
     assertFalse(trigger.isBesetzt());
 
@@ -107,7 +108,7 @@ public class AutoFahrstrasseServiceTest {
   public void test_03_autoreserviere_1besetzt() throws Exception {
 
     // Beteiligte Objekte besorgen und Grundzustand sicherstellen
-    Gleis trigger = this.gleisRepository.findByBereichAndName(BEREICH, TRIGGER_NAME);
+    Gleis trigger = this.gleisRepository.findByBereichAndName(BEREICH, TRIGGER_NAME).orElse(null);
     assertNotNull(trigger);
     assertFalse(trigger.isBesetzt());
 
@@ -124,7 +125,7 @@ public class AutoFahrstrasseServiceTest {
     assertEquals(FahrstrassenReservierungsTyp.UNRESERVIERT, fahrstrasse3.getReservierungsTyp());
 
     // Gleis 1 besetzen (ist Teil der ersten zugeordneten Fahrstrasse)
-    Gleis gleis1 = this.gleisRepository.findByBereichAndName(BEREICH, "1");
+    Gleis gleis1 = this.gleisRepository.findByBereichAndName(BEREICH, "1").get();
     gleis1.setBesetzt(true);
 
     // Trigger besetzen und dies melden
@@ -147,7 +148,7 @@ public class AutoFahrstrasseServiceTest {
   public void test_04_autoreserviere_11besetzt() throws Exception {
 
     // Beteiligte Objekte besorgen und Grundzustand sicherstellen
-    Gleis trigger = this.gleisRepository.findByBereichAndName(BEREICH, TRIGGER_NAME);
+    Gleis trigger = this.gleisRepository.findByBereichAndName(BEREICH, TRIGGER_NAME).orElse(null);
     assertNotNull(trigger);
     assertFalse(trigger.isBesetzt());
 
@@ -164,7 +165,7 @@ public class AutoFahrstrasseServiceTest {
     assertEquals(FahrstrassenReservierungsTyp.UNRESERVIERT, fahrstrasse3.getReservierungsTyp());
 
     // Gleis 11 besetzen (ist Teil der ersten beiden zugeordneten Fahrstrasse)
-    Gleis gleis11 = this.gleisRepository.findByBereichAndName(BEREICH, "11");
+    Gleis gleis11 = this.gleisRepository.findByBereichAndName(BEREICH, "11").get();
     gleis11.setBesetzt(true);
 
     // Trigger besetzen und dies melden
