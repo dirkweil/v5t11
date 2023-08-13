@@ -6,7 +6,7 @@
   <parent>
     <groupId>de.gedoplan</groupId>
     <artifactId>build-master</artifactId>
-    <version>2020.9.1</version>
+    <version>2023.5.1</version>
   </parent>
 
   <artifactId>v5t11</artifactId>
@@ -16,10 +16,6 @@
 
   <properties>
     <java.code.version>17</java.code.version>
-
-    <jee.version>8.0.0</jee.version>
-
-    <microprofile.version>4.1</microprofile.version>
 
     <myfaces-quarkus.version>2.3-next-M7</myfaces-quarkus.version>
 
