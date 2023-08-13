@@ -64,9 +64,8 @@
     </dependency>
 
     <dependency>
-      <groupId>org.primefaces</groupId>
-      <artifactId>primefaces</artifactId>
-      <version>12.0.0</version>
+      <groupId>io.quarkiverse.primefaces</groupId>
+      <artifactId>quarkus-primefaces</artifactId>
     </dependency>
 
     <dependency>
