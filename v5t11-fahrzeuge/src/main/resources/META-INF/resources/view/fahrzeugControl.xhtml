@@ -59,7 +59,16 @@
     </h:form>
 
     <p:remoteCommand name="updateFahrzeug" update=":fahrzeug"/>
-    <f:websocket channel="fahrzeug-control" onmessage="updateFahrzeug"/>
+    <!--
+      Das JSF-Tag funktioniert mit Quarkus/MyFaces nicht. Daher JS-Workaround.
+      <f:websocket channel="fahrzeug-control" onmessage="updateFahrzeug"/>
+      -->
+    <h:outputScript target="body">
+      let fahrzeugControlSocket = new WebSocket("ws://" + window.location.host + "/jakarta.faces.push/fahrzeug-control");
+      fahrzeugControlSocket.onmessage = function (event) {
+        updateFahrzeug();
+      }
+    </h:outputScript>
 
   </ui:define>
 </ui:composition>

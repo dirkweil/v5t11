@@ -16,7 +16,7 @@ import jakarta.websocket.OnOpen;
 import jakarta.websocket.Session;
 import jakarta.websocket.server.ServerEndpoint;
 
-@ServerEndpoint("/javax.faces.push/system-control")
+@ServerEndpoint("/jakarta.faces.push/system-control")
 @ApplicationScoped
 public class PushService extends AbstractPushService {
 

@@ -126,7 +126,17 @@
     <!--    </f:websocket>-->
 
     <p:remoteCommand name="updateContent" update=":content"/>
-    <f:websocket channel="system-control" onmessage="updateContent"/>
+
+    <!--
+      Das JSF-Tag funktioniert mit Quarkus/MyFaces nicht. Daher JS-Workaround.
+      <f:websocket channel="system-control" onmessage="updateContent"/>
+      -->
+    <h:outputScript target="body">
+      let systemControlSocket = new WebSocket("ws://" + window.location.host + "/jakarta.faces.push/system-control");
+      systemControlSocket.onmessage = function (event) {
+        updateContent();
+      }
+    </h:outputScript>
   </ui:define>
 </ui:composition>
 </html>

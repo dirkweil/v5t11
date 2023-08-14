@@ -30,7 +30,17 @@
   </p:splitter>
 
   <p:remoteCommand name="updateMenu" update=":navigation"/>
-  <f:websocket channel="menu-refresh" onmessage="updateMenu"/>
+
+  <!--
+    Das JSF-Tag funktioniert mit Quarkus/MyFaces nicht. Daher JS-Workaround.
+    <f:websocket channel="menu-refresh" onmessage="updateMenu"/>
+    -->
+  <h:outputScript target="body">
+    let menuRefreshSocket = new WebSocket("ws://" + window.location.host + "/jakarta.faces.push/menu-refresh");
+    menuRefreshSocket.onmessage = function (event) {
+      updateMenu();
+    }
+  </h:outputScript>
 
   <h:outputStylesheet name="primeicons/primeicons.css" library="primefaces"/>
   <h:outputStylesheet library="webjars" name="primeflex/primeflex.css"/>
