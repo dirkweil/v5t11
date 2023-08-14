@@ -383,7 +383,7 @@ public class PushService extends AbstractPushService {
   protected void onOpen(Session session, @PathParam("bereich") String bereich) {
     super.openSession(session, bereich);
     this.managedExecutor.runAsync(() -> {
-      send(Json.createObjectBuilder().add("wsid", session.getId()).build(), session);
+      send(Json.createObjectBuilder().add("wsId", session.getId()).build(), session);
       sendAll(session, bereich);
     });
   }

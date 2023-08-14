@@ -3,17 +3,17 @@ package de.gedoplan.v5t11.leitstand.webui;
 import de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.leitstand.entity.fahrweg.Gleis;
 
-import org.jboss.logging.Logger;
-
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
-
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
+
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+
+import org.jboss.logging.Logger;
 
 @ApplicationScoped
 public class StellwerkVorschlagService {
@@ -28,12 +28,14 @@ public class StellwerkVorschlagService {
   private Map<String, Collection<Fahrstrasse>> weitere4Session = new ConcurrentHashMap<>();
 
   public void clear(String sessionId) {
-    Fahrstrasse vorschlag = this.vorschlag4Session.remove(sessionId);
-    Collection<Fahrstrasse> weitere = this.weitere4Session.remove(sessionId);
+    if (sessionId != null) {
+      Fahrstrasse vorschlag = this.vorschlag4Session.remove(sessionId);
+      Collection<Fahrstrasse> weitere = this.weitere4Session.remove(sessionId);
 
-    pushUpdates(vorschlag, weitere);
+      pushUpdates(vorschlag, weitere);
 
-    this.logger.debugf("Vorschläge für Session %s gelöscht", sessionId);
+      this.logger.debugf("Vorschläge für Session %s gelöscht", sessionId);
+    }
   }
 
   public void set(String sessionId, Fahrstrasse vorschlag, Collection<Fahrstrasse> weitere) {

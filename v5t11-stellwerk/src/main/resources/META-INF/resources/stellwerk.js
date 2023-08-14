@@ -4,8 +4,8 @@ let socket = new WebSocket("ws://" + window.location.host + "/jakarta.faces.push
 socket.onmessage = function (event) {
   // alert(`[message] Data received from server: ` + JSON.stringify(event.data));
   let pushMsg = JSON.parse(event.data);
-  if (pushMsg.wsid != null) {
-    updateWebSocketSessionId(pushMsg.wsid);
+  if (pushMsg.wsId != null) {
+    updateWebSocketSessionId(pushMsg.wsId);
   } else {
     for (const drawCommand of pushMsg) {
       drawElement(drawCommand);
@@ -17,7 +17,7 @@ socket.onmessage = function (event) {
 
 function updateWebSocketSessionId(id) {
   console.log('Websocket Session: ' + id);
-  const htmlElement = document.getElementById('wsid');
+  const htmlElement = document.getElementById('wsId');
   if (htmlElement != null) {
     htmlElement.value = id;
   }
