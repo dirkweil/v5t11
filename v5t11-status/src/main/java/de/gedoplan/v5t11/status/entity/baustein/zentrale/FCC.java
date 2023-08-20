@@ -675,18 +675,13 @@ public class FCC extends Zentrale {
     }
 
     return switch (systemTyp) {
-      case SX1 -> readSX1FahrzeugConfig(key);
+      case SX1 -> switch (key) {
+        case 1 -> readSX1FahrzeugConfigBasis();
+        case 2 -> readSX1FahrzeugConfigErweitert();
+        default -> -1;
+      };
       case SX2 -> readSX2orDCCFahrzeugConfig(key, (byte) 0xc2);
       case DCC -> readSX2orDCCFahrzeugConfig(key, (byte) 0xc6);
-      default -> throw new IllegalArgumentException("ungültiger Systemtyp");
-    };
-  }
-
-  private Integer readSX1FahrzeugConfig(int key) {
-    return switch (key) {
-      case 1 -> readSX1FahrzeugConfigBasis();
-      case 2 -> readSX1FahrzeugConfigErweitert();
-      default -> -1;
     };
   }
 
@@ -724,7 +719,43 @@ public class FCC extends Zentrale {
 
   @Override
   public void writeFahrzeugConfig(SystemTyp systemTyp, Map<Integer, Integer> fahrzeugConfigParameters) {
-    throw new UnsupportedOperationException("not yet implemented");
+    setGleisspannung(false);
+    try {
+      fahrzeugConfigParameters
+        .entrySet()
+        .stream()
+        .filter(entry -> entry.getValue() >= 0)
+        .forEach(entry -> writeFahrzeugConfig(systemTyp, entry.getKey(), entry.getValue()));
+    } finally {
+      stopProgMode();
+    }
   }
 
+  private void writeFahrzeugConfig(SystemTyp systemTyp, int key, int value) {
+    switch (systemTyp) {
+    case SX1 -> {
+      switch (key) {
+      case 1 -> writeSX1FahrzeugConfigBasis(value);
+      case 2 -> writeSX1FahrzeugConfigErweitert(value);
+      }
+    }
+    case SX2 -> writeSX2orDCCFahrzeugConfig(key, (byte) 0xca, value);
+    case DCC -> writeSX2orDCCFahrzeugConfig(key, (byte) 0xce, value);
+    }
+
+  }
+
+  private void writeSX1FahrzeugConfigBasis(int value) {
+    var as = value & 0xff;
+    var vai = (value >> 8) & 0xff;
+    send(new byte[] { (byte) 0x83, (byte) 0xc9, (byte) as, (byte) vai, 0 }, new byte[3], ALL_ZEROES);
+  }
+
+  private void writeSX1FahrzeugConfigErweitert(int value) {
+    send(new byte[] { (byte) 0x83, (byte) 0xcf, (byte) 0x80, (byte) value, 0 }, new byte[3], ALL_ZEROES);
+  }
+
+  private void writeSX2orDCCFahrzeugConfig(int key, byte systemTypDiscriminator, int value) {
+    send(new byte[] { (byte) 0x83, systemTypDiscriminator, (byte) (key / 100), (byte) (key % 100), (byte) value }, new byte[3], ALL_ZEROES);
+  }
 }

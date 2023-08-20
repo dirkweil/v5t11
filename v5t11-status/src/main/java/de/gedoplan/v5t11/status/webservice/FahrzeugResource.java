@@ -74,9 +74,18 @@ public class FahrzeugResource {
   @Produces(MediaType.APPLICATION_JSON)
   @Path("config/{systemTyp}")
   public Map<Integer, Integer> getFahrzeugConfig(@PathParam("systemTyp") SystemTyp systemTyp, @QueryParam("key") List<Integer> keys) {
-    this.logger.infof("getFahrzeugConfig(%s): keys=%s", systemTyp, keys);
+    this.logger.debugf("getFahrzeugConfig(%s): keys=%s", systemTyp, keys);
 
     return this.steuerung.getZentrale().readFahrzeugConfig(systemTyp, keys);
+  }
+
+  @PUT
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Path("config/{systemTyp}")
+  public void setFahrzeugConfig(@PathParam("systemTyp") SystemTyp systemTyp, Map<Integer, Integer> fahrzeugConfigParameters) {
+    this.logger.infof("setFahrzeugConfig(%s): fahrzeugConfigParameters=%s", systemTyp, fahrzeugConfigParameters);
+
+    this.steuerung.getZentrale().writeFahrzeugConfig(systemTyp, fahrzeugConfigParameters);
   }
 
 }
