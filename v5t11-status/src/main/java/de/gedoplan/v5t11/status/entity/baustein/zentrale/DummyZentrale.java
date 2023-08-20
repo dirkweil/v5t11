@@ -3,10 +3,14 @@ package de.gedoplan.v5t11.status.entity.baustein.zentrale;
 import de.gedoplan.v5t11.status.entity.Kanal;
 import de.gedoplan.v5t11.status.entity.baustein.Zentrale;
 import de.gedoplan.v5t11.util.cdi.Changed;
+import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 
+import java.util.Collection;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutorService;
+import java.util.stream.Collectors;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -72,6 +76,17 @@ public class DummyZentrale extends Zentrale {
 
   @Override
   public void setGleisProtokoll() {
+  }
+
+  @Override
+  public Map<Integer, Integer> readFahrzeugConfig(SystemTyp systemTyp, Collection<Integer> fahrzeugConfigParameterKeys) {
+    return fahrzeugConfigParameterKeys
+      .stream()
+      .collect(Collectors.toMap(key -> key, key -> null));
+  }
+
+  @Override
+  public void writeFahrzeugConfig(SystemTyp systemTyp, Map<Integer, Integer> fahrzeugConfigParameters) {
   }
 
 }

@@ -10,6 +10,8 @@ import de.gedoplan.v5t11.util.misc.V5t11Exception;
 
 import java.io.EOFException;
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
@@ -653,6 +655,50 @@ public class FCC extends Zentrale {
 
       delay(250);
     }
+  }
+
+  @Override
+  public Map<Integer, Integer> readFahrzeugConfig(SystemTyp systemTyp, Collection<Integer> fahrzeugConfigParameterKeys) {
+    setGleisspannung(false);
+    try {
+      return fahrzeugConfigParameterKeys
+        .stream()
+        .collect(Collectors.toMap(key -> key, key -> readFahrzeugConfig(systemTyp, key)));
+    } finally {
+      stopProgMode();
+    }
+  }
+
+  private Integer readFahrzeugConfig(SystemTyp systemTyp, Integer key) {
+    if (key == null) {
+      return null;
+    }
+
+    return switch (systemTyp) {
+      case SX1 -> readSX1FahrzeugConfig(key);
+      case SX2 -> readSX2orDCCFahrzeugConfig(key, (byte) 0xc2);
+      case DCC -> readSX2orDCCFahrzeugConfig(key, (byte) 0xc6);
+      default -> throw new IllegalArgumentException("ungültiger Systemtyp");
+    };
+  }
+
+  private Integer readSX1FahrzeugConfig(int key) {
+    throw new UnsupportedOperationException("not yet implemented");
+  }
+
+  private Integer readSX2orDCCFahrzeugConfig(int key, byte systemTypDiscriminator) {
+    var antwort = new byte[3];
+    send(new byte[] { (byte) 0x83, systemTypDiscriminator, (byte) (key / 100), (byte) (key % 100), 0 }, antwort, null);
+    return (antwort[0] == 1 && antwort[2] == 0) ? (int) antwort[1] : -1;
+  }
+
+  private void stopProgMode() {
+    send(new byte[] { (byte) 0x83, 0, 0, 0, 0 }, new byte[3], ALL_ZEROES);
+  }
+
+  @Override
+  public void writeFahrzeugConfig(SystemTyp systemTyp, Map<Integer, Integer> fahrzeugConfigParameters) {
+    throw new UnsupportedOperationException("not yet implemented");
   }
 
 }

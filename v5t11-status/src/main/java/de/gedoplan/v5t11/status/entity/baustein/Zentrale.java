@@ -6,6 +6,7 @@ import de.gedoplan.baselibs.utils.inject.InjectionUtil;
 import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
 import de.gedoplan.v5t11.status.service.ConfigService;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
+import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 import de.gedoplan.v5t11.util.misc.V5t11Exception;
 
@@ -25,6 +26,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Collection;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -250,4 +253,32 @@ public abstract class Zentrale implements Closeable {
     return this.portName != null && !"none".equals(this.portName);
   }
 
+  /**
+   * Konfigurationswerte des Fahrzeugs lesen, das auf dem Programmiergleis steht.
+   * <p>
+   * Die Nummern der zu lesenden Werte sind
+   * <ul>
+   *   <li>für SX1: TBD</li>
+   *   <li>für SX2: PAR-Nummern</li>
+   *   <li>für DCC: CV-Nummern</li>
+   * </ul>
+   * <p>
+   * Die gelesenen Werte werden als Map geliefert, wobei als Key die Nummer des Wertes und als Value der Wert selbst eingetragen wird.
+   * Sollte ein Wert nicht gelesen werden können, wird dafür im Map -1 eingetragen.
+   *
+   * @param systemTyp Systemtyp (SX1, SX2, DCC)
+   * @param fahrzeugConfigParameterKeys Nummern der Parameter (SX) bzw. Config Variables (DCC), die gelesen werden sollen
+   * @return gelesene Werte
+   */
+  public abstract Map<Integer, Integer> readFahrzeugConfig(SystemTyp systemTyp, Collection<Integer> fahrzeugConfigParameterKeys);
+
+  /**
+   * Konfigurationswerte des Fahrzeugs schreiben, das auf dem Programmiergleis steht.
+   * <p>
+   * Die zu schreibenden Werte stehen im übergebenen Map wie in {@link #readFahrzeugConfig(SystemTyp, Collection)} beschrieben.
+   *
+   * @param systemTyp Systemtyp (SX1, SX2, DCC)
+   * @param fahrzeugConfigParameters zu schreibende Werte
+   */
+  public abstract void writeFahrzeugConfig(SystemTyp systemTyp, Map<Integer, Integer> fahrzeugConfigParameters);
 }
