@@ -41,7 +41,7 @@ import java.util.regex.Pattern;
 @NoArgsConstructor
 public abstract class Zentrale implements Closeable {
 
-  public static final int PORT_RECEIVE_TIMEOUT_MILLIS = 500;
+  public static final int PORT_RECEIVE_TIMEOUT_MILLIS = 10000;
 
   @XmlAttribute
   @Getter

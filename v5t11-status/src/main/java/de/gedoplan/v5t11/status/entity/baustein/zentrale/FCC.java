@@ -447,7 +447,7 @@ public class FCC extends Zentrale {
   };
 
   private static CharSequence toHexString(byte[] werte) {
-    return IntStream.range(0, werte.length).mapToObj(i -> String.format("0x%02x", werte[i])).collect(Collectors.joining("[", ",", "]"));
+    return IntStream.range(0, werte.length).mapToObj(i -> String.format("0x%02x", werte[i])).collect(Collectors.joining(",", "[", "]"));
   }
 
   private static void delay(long millis) {
@@ -689,11 +689,15 @@ public class FCC extends Zentrale {
   private Integer readSX2orDCCFahrzeugConfig(int key, byte systemTypDiscriminator) {
     var antwort = new byte[3];
     send(new byte[] { (byte) 0x83, systemTypDiscriminator, (byte) (key / 100), (byte) (key % 100), 0 }, antwort, null);
-    return (antwort[0] == 1 && antwort[2] == 0) ? (int) antwort[1] : -1;
+    return (antwort[0] == 1 && antwort[2] == 0) ? ((int) antwort[1]) & 0xff : -1;
   }
 
   private void stopProgMode() {
-    send(new byte[] { (byte) 0x83, 0, 0, 0, 0 }, new byte[3], ALL_ZEROES);
+    try {
+      send(new byte[] { (byte) 0x83, 0, 0, 0, 0 }, new byte[3], ALL_ZEROES);
+    } catch (Exception e) {
+      this.log.warn("Kann Programmiermodus nicht stoppen", e);
+    }
   }
 
   @Override
