@@ -683,7 +683,29 @@ public class FCC extends Zentrale {
   }
 
   private Integer readSX1FahrzeugConfig(int key) {
-    throw new UnsupportedOperationException("not yet implemented");
+    return switch (key) {
+      case 1 -> readSX1FahrzeugConfigBasis();
+      case 2 -> readSX1FahrzeugConfigErweitert();
+      default -> -1;
+    };
+  }
+
+  private Integer readSX1FahrzeugConfigBasis() {
+    var antwort = new byte[3];
+    send(new byte[] { (byte) 0x83, (byte) 0xc1, 0, 0, 0 }, antwort, null);
+    if (antwort[0] != 2) {
+      return -1;
+    }
+
+    int as = ((int) antwort[1]) & 0xff;
+    int vai = ((int) antwort[2]) & 0xff;
+    return as + (vai << 8);
+  }
+
+  private Integer readSX1FahrzeugConfigErweitert() {
+    var antwort = new byte[3];
+    send(new byte[] { (byte) 0x83, (byte) 0xc7, 0, 0, 0 }, antwort, null);
+    return (antwort[0] == 2 && antwort[1] == 0) ? ((int) antwort[2]) & 0xff : -1;
   }
 
   private Integer readSX2orDCCFahrzeugConfig(int key, byte systemTypDiscriminator) {
