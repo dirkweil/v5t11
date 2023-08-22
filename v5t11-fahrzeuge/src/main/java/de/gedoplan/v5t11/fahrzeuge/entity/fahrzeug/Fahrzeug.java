@@ -7,7 +7,6 @@ import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.Access;
@@ -31,9 +30,11 @@ import jakarta.validation.constraints.NotNull;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.Singular;
 import lombok.ToString;
 
 @Entity
@@ -44,6 +45,7 @@ public class Fahrzeug extends SingleIdEntity<FahrzeugId> {
 
   public static final String TABLE_NAME = "FZ_FAHRZEUG";
   public static final String TABLE_NAME_FUNKTION = "FZ_FAHRZEUG_FUNKTION";
+  public static final String TABLE_NAME_CONFIG_DEF = "FZ_FAHRZEUG_CONFIG_DEF";
 
   // @Transient
   // @Inject
@@ -118,19 +120,30 @@ public class Fahrzeug extends SingleIdEntity<FahrzeugId> {
   @ElementCollection(fetch = FetchType.EAGER)
   @CollectionTable(name = TABLE_NAME_FUNKTION)
   @Getter(onMethod_ = @JsonbInclude(full = true))
-  private List<@NotNull FahrzeugFunktion> funktionen = new ArrayList<>();
+  private List<@NotNull FahrzeugFunktion> funktionen;
 
-  public Fahrzeug(FahrzeugId id, String betriebsnummer, String decoder, FahrzeugFunktion... funktionen) {
+  @ElementCollection(fetch = FetchType.EAGER)
+  @CollectionTable(name = TABLE_NAME_CONFIG_DEF)
+  @Getter(onMethod_ = @JsonbInclude(full = true))
+  private List<@NotNull ConfigDefinition> fahrzeugConfigDefinitionen;
+
+  public Fahrzeug(FahrzeugId id) {
+    this.id = id;
+  }
+
+  public Fahrzeug(FahrzeugId id, String betriebsnummer, String decoder, List<FahrzeugFunktion> funktionen, List<ConfigDefinition> configDefinitionen) {
     this.id = id;
     this.betriebsnummer = betriebsnummer;
     this.decoder = decoder;
-    for (FahrzeugFunktion funktion : funktionen) {
-      this.funktionen.add(funktion);
-    }
+    this.funktionen = funktionen;
+    this.fahrzeugConfigDefinitionen = configDefinitionen;
   }
 
-  public Fahrzeug(String betriebsnummer, String decoder, @NotNull SystemTyp systemTyp, int adresse, FahrzeugFunktion... funktionen) {
-    this(new FahrzeugId(systemTyp, adresse), betriebsnummer, decoder, funktionen);
+  @Builder
+  public Fahrzeug(String betriebsnummer, String decoder, @NotNull SystemTyp systemTyp, int adresse,
+    @Singular("funktion") List<FahrzeugFunktion> funktionen,
+    @Singular("configDefinition") List<ConfigDefinition> configDefinitionen) {
+    this(new FahrzeugId(systemTyp, adresse), betriebsnummer, decoder, funktionen, configDefinitionen);
   }
 
   public void injectFields() {

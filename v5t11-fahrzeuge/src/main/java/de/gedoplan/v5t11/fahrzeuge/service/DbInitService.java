@@ -1,11 +1,19 @@
 package de.gedoplan.v5t11.fahrzeuge.service;
 
+import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.ConfigDefinition;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug;
+import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug.FahrzeugFunktion;
 import de.gedoplan.v5t11.fahrzeuge.persistence.FahrzeugRepository;
 import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
+
+import static de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.AF;
+import static de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BA;
+import static de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG;
+import static de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FG;
+import static de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL;
 
 @Dependent
 public class DbInitService {
@@ -16,234 +24,323 @@ public class DbInitService {
   void fillDb() {
     if (this.fahrzeugRepository.countAll() != fahrzeuge.length) {
       for (Fahrzeug f : fahrzeuge) {
-        if (this.fahrzeugRepository.findById(f.getId()) == null) {
+        if (this.fahrzeugRepository.findById(f.getId()).isEmpty()) {
           this.fahrzeugRepository.persist(f);
         }
       }
     }
   }
 
-  public static final Fahrzeug lok103_003_0 = new Fahrzeug("103 003-0", null, SystemTyp.DCC, 1103,
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.AF, 1, false, false, false, "Maschinenraumbeleuchtung"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FG, 2, false, false, false, "Motor"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 3, true, true, false, "Pfeife"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.AF, 4, false, false, false, "Direktsteuerung"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.AF, 5, false, false, false, "Führerstandsbeleuchtung"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BA, 7, true, false, false, "Schaffnerpfiff"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 9, false, false, false, "Bremsenquietschen aus"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BA, 10, true, false, false, "Bitte einsteigen ..."),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 11, false, false, false, "Lüfter"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 12, true, false, false, "Sanden"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BA, 13, true, false, false, "... an Gleis 1 fährt ein Zug durch ..."),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BA, 14, true, false, false, "Betriebsgefahr ..."),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 15, false, false, false, "Lüfter2"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_0000_0000, false, false, false, "beidseitig"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_0010_0000, false, false, false, "nur Seite 1"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_1000_0000, false, false, false, "nur Seite 2"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_1010_0000, false, false, false, "Doppel-A"));
+  public static final Fahrzeug lok103_003_0 = Fahrzeug.builder()
+    .betriebsnummer("103 003-0")
+    .systemTyp(SystemTyp.DCC)
+    .adresse(1103)
+    .funktion(new FahrzeugFunktion(AF, 1, false, false, false, "Maschinenraumbeleuchtung"))
+    .funktion(new FahrzeugFunktion(FG, 2, false, false, false, "Motor"))
+    .funktion(new FahrzeugFunktion(BG, 3, true, true, false, "Pfeife"))
+    .funktion(new FahrzeugFunktion(AF, 4, false, false, false, "Direktsteuerung"))
+    .funktion(new FahrzeugFunktion(AF, 5, false, false, false, "Führerstandsbeleuchtung"))
+    .funktion(new FahrzeugFunktion(BA, 7, true, false, false, "Schaffnerpfiff"))
+    .funktion(new FahrzeugFunktion(BG, 9, false, false, false, "Bremsenquietschen aus"))
+    .funktion(new FahrzeugFunktion(BA, 10, true, false, false, "Bitte einsteigen ..."))
+    .funktion(new FahrzeugFunktion(BG, 11, false, false, false, "Lüfter"))
+    .funktion(new FahrzeugFunktion(BG, 12, true, false, false, "Sanden"))
+    .funktion(new FahrzeugFunktion(BA, 13, true, false, false, "... an Gleis 1 fährt ein Zug durch ..."))
+    .funktion(new FahrzeugFunktion(BA, 14, true, false, false, "Betriebsgefahr ..."))
+    .funktion(new FahrzeugFunktion(BG, 15, false, false, false, "Lüfter2"))
+    .funktion(new FahrzeugFunktion(FL, 0b0000_0000_1010_0000, 0b0000_0000_0000_0000, false, false, false, "beidseitig"))
+    .funktion(new FahrzeugFunktion(FL, 0b0000_0000_1010_0000, 0b0000_0000_0010_0000, false, false, false, "nur Seite 1"))
+    .funktion(new FahrzeugFunktion(FL, 0b0000_0000_1010_0000, 0b0000_0000_1000_0000, false, false, false, "nur Seite 2"))
+    .funktion(new FahrzeugFunktion(FL, 0b0000_0000_1010_0000, 0b0000_0000_1010_0000, false, false, false, "Doppel-A"))
+    .configDefinition(new ConfigDefinition(17, "Höherwertiger Teil der langen Adresse"))
+    .configDefinition(new ConfigDefinition(18, "Niederwertiger Teil der langen Adresse"))
+    .configDefinition(new ConfigDefinition(29, """
+      Konfigurationsregister
+      Bit 0: Richtung umkehren
+      Bit 1: 28/126 Fahrstufen (statt 14)
+      Bit 2: Analogbetrieb erlaubt
+      Bit 3: Rückmeldung erlaubt
+      Bit 5: Lange Lokadresse nach CV17/18
+      """))
+    .build();
 
-  public static final Fahrzeug lok110_389_4 = new Fahrzeug("110 389-4", null, SystemTyp.DCC, 1110,
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 1, true, false, false, "Pfeife lang"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FG, 2, false, false, false, "Motor"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 3, true, true, false, "Pfeife kurz"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.AF, 4, false, false, false, "Direktsteuerung"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 5, false, false, false, "Bremsenquietschen aus"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BA, 7, true, false, false, "Schaffnerpfiff"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BA, 9, true, false, false, "Türen schließen"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BA, 10, true, false, false, "???"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 11, false, false, false, "Kompressor"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 12, true, false, false, "Sanden"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 13, true, false, false, "Kabinenfunk"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 14, true, false, false, "Lüfter"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 15, false, false, false, "Türenschließen"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.AF, 16, false, false, true, "Geräusche ausblenden"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_0000_0000, false, false, false, "beidseitig"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_0010_0000, false, false, false, "nur Seite 1"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_1000_0000, false, false, false, "nur Seite 2"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_1010_0000, false, false, false, "Doppel-A"));
+  public static final Fahrzeug lok110_389_4 = Fahrzeug.builder()
+    .betriebsnummer("110 389-4")
+    .systemTyp(SystemTyp.DCC)
+    .adresse(1110)
+    .funktion(new FahrzeugFunktion(BG, 1, true, false, false, "Pfeife lang"))
+    .funktion(new FahrzeugFunktion(FG, 2, false, false, false, "Motor"))
+    .funktion(new FahrzeugFunktion(BG, 3, true, true, false, "Pfeife kurz"))
+    .funktion(new FahrzeugFunktion(AF, 4, false, false, false, "Direktsteuerung"))
+    .funktion(new FahrzeugFunktion(BG, 5, false, false, false, "Bremsenquietschen aus"))
+    .funktion(new FahrzeugFunktion(BA, 7, true, false, false, "Schaffnerpfiff"))
+    .funktion(new FahrzeugFunktion(BA, 9, true, false, false, "Türen schließen"))
+    .funktion(new FahrzeugFunktion(BA, 10, true, false, false, "???"))
+    .funktion(new FahrzeugFunktion(BG, 11, false, false, false, "Kompressor"))
+    .funktion(new FahrzeugFunktion(BG, 12, true, false, false, "Sanden"))
+    .funktion(new FahrzeugFunktion(BG, 13, true, false, false, "Kabinenfunk"))
+    .funktion(new FahrzeugFunktion(BG, 14, true, false, false, "Lüfter"))
+    .funktion(new FahrzeugFunktion(BG, 15, false, false, false, "Türenschließen"))
+    .funktion(new FahrzeugFunktion(AF, 16, false, false, true, "Geräusche ausblenden"))
+    .funktion(new FahrzeugFunktion(FL, 0b0000_0000_1010_0000, 0b0000_0000_0000_0000, false, false, false, "beidseitig"))
+    .funktion(new FahrzeugFunktion(FL, 0b0000_0000_1010_0000, 0b0000_0000_0010_0000, false, false, false, "nur Seite 1"))
+    .funktion(new FahrzeugFunktion(FL, 0b0000_0000_1010_0000, 0b0000_0000_1000_0000, false, false, false, "nur Seite 2"))
+    .funktion(new FahrzeugFunktion(FL, 0b0000_0000_1010_0000, 0b0000_0000_1010_0000, false, false, false, "Doppel-A"))
+    .build();
 
-  public static final Fahrzeug lok112_491_6 = new Fahrzeug("112 491-6", null, SystemTyp.DCC, 1112,
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FG, 1, false, false, false, "Motor"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 2, true, false, false, "Pfeife lang"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BA, 3, true, false, false, "Schaffnerpfiff"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 4, true, false, false, "Kompressor"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 5, true, false, false, "Ankuppeln"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.AF, 6, false, false, false, "Direktsteuerung"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BA, 7, true, false, false, "???"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 8, true, false, false, "Sanden"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.AF, 9, false, false, false, "Rangiergang"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.AF, 10, false, false, true, "Geräusche ausblenden"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 13, true, true, false, "Pfeife kurz"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 14, true, false, false, "Kurvenquietschen"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_1100_0000_0000, 0b0000_0000_0000_0000, false, false, false, "beidseitig"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_1100_0000_0000, 0b0000_0100_0000_0000, false, false, false, "nur Seite 1"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_1100_0000_0000, 0b0000_1000_0000_0000, false, false, false, "nur Seite 2"));
+  public static final Fahrzeug lok112_491_6 = Fahrzeug.builder()
+    .betriebsnummer("112 491-6")
+    .systemTyp(SystemTyp.DCC)
+    .adresse(1112)
+    .funktion(new FahrzeugFunktion(FG, 1, false, false, false, "Motor"))
+    .funktion(new FahrzeugFunktion(BG, 2, true, false, false, "Pfeife lang"))
+    .funktion(new FahrzeugFunktion(BA, 3, true, false, false, "Schaffnerpfiff"))
+    .funktion(new FahrzeugFunktion(BG, 4, true, false, false, "Kompressor"))
+    .funktion(new FahrzeugFunktion(BG, 5, true, false, false, "Ankuppeln"))
+    .funktion(new FahrzeugFunktion(AF, 6, false, false, false, "Direktsteuerung"))
+    .funktion(new FahrzeugFunktion(BA, 7, true, false, false, "???"))
+    .funktion(new FahrzeugFunktion(BG, 8, true, false, false, "Sanden"))
+    .funktion(new FahrzeugFunktion(AF, 9, false, false, false, "Rangiergang"))
+    .funktion(new FahrzeugFunktion(AF, 10, false, false, true, "Geräusche ausblenden"))
+    .funktion(new FahrzeugFunktion(BG, 13, true, true, false, "Pfeife kurz"))
+    .funktion(new FahrzeugFunktion(BG, 14, true, false, false, "Kurvenquietschen"))
+    .funktion(new FahrzeugFunktion(FL, 0b0000_1100_0000_0000, 0b0000_0000_0000_0000, false, false, false, "beidseitig"))
+    .funktion(new FahrzeugFunktion(FL, 0b0000_1100_0000_0000, 0b0000_0100_0000_0000, false, false, false, "nur Seite 1"))
+    .funktion(new FahrzeugFunktion(FL, 0b0000_1100_0000_0000, 0b0000_1000_0000_0000, false, false, false, "nur Seite 2"))
+    .build();
 
-  public static final Fahrzeug lok151_032_0 = new Fahrzeug("151 032-0", "DHL100", SystemTyp.SX1, 20);
+  public static final Fahrzeug lok151_032_0 = Fahrzeug.builder()
+    .betriebsnummer("151 032-0")
+    .decoder("DHL100")
+    .systemTyp(SystemTyp.SX1)
+    .adresse(20)
+    .build();
 
-  public static final Fahrzeug lok194_183_0 = new Fahrzeug("194 183-0", "Zimo", SystemTyp.DCC, 1194,
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FG, 1, false, false, false, "Motor"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 2, true, true, false, "Pfeife kurz"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 3, true, false, false, "Pfeife lang"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BA, 4, true, false, false, "Schaffnerpfiff"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 5, true, false, false, "Ankuppeln"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.AF, 6, false, false, false, "Direktsteuerung"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 7, false, false, false, "Kurvenquietschen"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 8, false, false, false, "Handpumpe"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.AF, 9, false, false, false, "Rangiergang"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 10, false, false, false, "Lüfter"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 11, false, false, false, "Kompressor"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 12, false, false, false, "Tür"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.AF, 14, false, false, true, "Geräusche ausblenden"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 15, true, false, false, "Sanden"));
+  public static final Fahrzeug lok194_183_0 = Fahrzeug.builder()
+    .betriebsnummer("194 183-0")
+    .decoder("Zimo")
+    .systemTyp(SystemTyp.DCC)
+    .adresse(1194)
+    .funktion(new FahrzeugFunktion(FG, 1, false, false, false, "Motor"))
+    .funktion(new FahrzeugFunktion(BG, 2, true, true, false, "Pfeife kurz"))
+    .funktion(new FahrzeugFunktion(BG, 3, true, false, false, "Pfeife lang"))
+    .funktion(new FahrzeugFunktion(BA, 4, true, false, false, "Schaffnerpfiff"))
+    .funktion(new FahrzeugFunktion(BG, 5, true, false, false, "Ankuppeln"))
+    .funktion(new FahrzeugFunktion(AF, 6, false, false, false, "Direktsteuerung"))
+    .funktion(new FahrzeugFunktion(BG, 7, false, false, false, "Kurvenquietschen"))
+    .funktion(new FahrzeugFunktion(BG, 8, false, false, false, "Handpumpe"))
+    .funktion(new FahrzeugFunktion(AF, 9, false, false, false, "Rangiergang"))
+    .funktion(new FahrzeugFunktion(BG, 10, false, false, false, "Lüfter"))
+    .funktion(new FahrzeugFunktion(BG, 11, false, false, false, "Kompressor"))
+    .funktion(new FahrzeugFunktion(BG, 12, false, false, false, "Tür"))
+    .funktion(new FahrzeugFunktion(AF, 14, false, false, true, "Geräusche ausblenden"))
+    .funktion(new FahrzeugFunktion(BG, 15, true, false, false, "Sanden"))
+    .build();
 
-  public static final Fahrzeug lok217_001_7 = new Fahrzeug("217 001-7", null, SystemTyp.SX2, 1217,
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.AF, 1, false, false, false, "Führerstandsbeleuchtung"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FG, 2, false, false, false, "Motor"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 3, true, true, false, "Signalhorn hoch"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.AF, 4, false, false, false, "Direktsteuerung"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 5, false, false, false, "Bremsenquietschen aus"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 7, true, false, false, "Signalhorn tief"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 9, true, false, false, "Hilfsdiesel"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 10, true, false, false, "Kompressor"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BA, 11, true, false, false, "Schaffnerpfiff"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BA, 12, true, false, false, "... an Gleis 1 fährt ein Zug durch ..."),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 13, true, false, false, "Sanden"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BA, 14, true, false, false, "Bitte einsteigen ..."),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 15, false, false, true, "Geräusche ausblenden"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_0000_0000, false, false, false, "beidseitig"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_0010_0000, false, false, false, "nur Seite 1"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_1000_0000, false, false, false, "nur Seite 2"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_1010_0000, false, false, false, "Doppel-A"));
+  public static final Fahrzeug lok217_001_7 = Fahrzeug.builder()
+    .betriebsnummer("217 001-7")
+    .systemTyp(SystemTyp.SX2)
+    .adresse(1217)
+    .funktion(new FahrzeugFunktion(AF, 1, false, false, false, "Führerstandsbeleuchtung"))
+    .funktion(new FahrzeugFunktion(FG, 2, false, false, false, "Motor"))
+    .funktion(new FahrzeugFunktion(BG, 3, true, true, false, "Signalhorn hoch"))
+    .funktion(new FahrzeugFunktion(AF, 4, false, false, false, "Direktsteuerung"))
+    .funktion(new FahrzeugFunktion(BG, 5, false, false, false, "Bremsenquietschen aus"))
+    .funktion(new FahrzeugFunktion(BG, 7, true, false, false, "Signalhorn tief"))
+    .funktion(new FahrzeugFunktion(BG, 9, true, false, false, "Hilfsdiesel"))
+    .funktion(new FahrzeugFunktion(BG, 10, true, false, false, "Kompressor"))
+    .funktion(new FahrzeugFunktion(BA, 11, true, false, false, "Schaffnerpfiff"))
+    .funktion(new FahrzeugFunktion(BA, 12, true, false, false, "... an Gleis 1 fährt ein Zug durch ..."))
+    .funktion(new FahrzeugFunktion(BG, 13, true, false, false, "Sanden"))
+    .funktion(new FahrzeugFunktion(BA, 14, true, false, false, "Bitte einsteigen ..."))
+    .funktion(new FahrzeugFunktion(BG, 15, false, false, true, "Geräusche ausblenden"))
+    .funktion(new FahrzeugFunktion(FL, 0b0000_0000_1010_0000, 0b0000_0000_0000_0000, false, false, false, "beidseitig"))
+    .funktion(new FahrzeugFunktion(FL, 0b0000_0000_1010_0000, 0b0000_0000_0010_0000, false, false, false, "nur Seite 1"))
+    .funktion(new FahrzeugFunktion(FL, 0b0000_0000_1010_0000, 0b0000_0000_1000_0000, false, false, false, "nur Seite 2"))
+    .funktion(new FahrzeugFunktion(FL, 0b0000_0000_1010_0000, 0b0000_0000_1010_0000, false, false, false, "Doppel-A"))
+    .build();
 
-  public static final Fahrzeug lok217_014_0 = new Fahrzeug("217 014-0", "DH14B+Sound", SystemTyp.SX2, 2217,
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.AF, 1, false, false, false, "Führerstandsbeleuchtung"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FG, 2, false, false, false, "Motor"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 3, true, true, false, "Signalhorn hoch"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.AF, 4, false, false, false, "Direktsteuerung"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 5, false, false, false, "Bremsenquietschen aus"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 7, true, false, false, "Signalhorn tief"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 9, true, false, false, "Hilfsdiesel"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 10, true, false, false, "Kompressor"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BA, 11, true, false, false, "Schaffnerpfiff"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_0000_0000, false, false, false, "beidseitig"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_0010_0000, false, false, false, "nur Seite 1"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_1000_0000, false, false, false, "nur Seite 2"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_1010_0000, false, false, false, "Doppel-A"));
+  public static final Fahrzeug lok217_014_0 = Fahrzeug.builder()
+    .betriebsnummer("217 014-0")
+    .decoder("DH14B+Sound")
+    .systemTyp(SystemTyp.SX2)
+    .adresse(2217)
+    .funktion(new FahrzeugFunktion(AF, 1, false, false, false, "Führerstandsbeleuchtung"))
+    .funktion(new FahrzeugFunktion(FG, 2, false, false, false, "Motor"))
+    .funktion(new FahrzeugFunktion(BG, 3, true, true, false, "Signalhorn hoch"))
+    .funktion(new FahrzeugFunktion(AF, 4, false, false, false, "Direktsteuerung"))
+    .funktion(new FahrzeugFunktion(BG, 5, false, false, false, "Bremsenquietschen aus"))
+    .funktion(new FahrzeugFunktion(BG, 7, true, false, false, "Signalhorn tief"))
+    .funktion(new FahrzeugFunktion(BG, 9, true, false, false, "Hilfsdiesel"))
+    .funktion(new FahrzeugFunktion(BG, 10, true, false, false, "Kompressor"))
+    .funktion(new FahrzeugFunktion(BA, 11, true, false, false, "Schaffnerpfiff"))
+    .funktion(new FahrzeugFunktion(FL, 0b0000_0000_1010_0000, 0b0000_0000_0000_0000, false, false, false, "beidseitig"))
+    .funktion(new FahrzeugFunktion(FL, 0b0000_0000_1010_0000, 0b0000_0000_0010_0000, false, false, false, "nur Seite 1"))
+    .funktion(new FahrzeugFunktion(FL, 0b0000_0000_1010_0000, 0b0000_0000_1000_0000, false, false, false, "nur Seite 2"))
+    .funktion(new FahrzeugFunktion(FL, 0b0000_0000_1010_0000, 0b0000_0000_1010_0000, false, false, false, "Doppel-A"))
+    .build();
 
-  public static final Fahrzeug lok230_001_0 = new Fahrzeug("230 001-0", null, SystemTyp.DCC, 1230,
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 1, true, true, false, "Horn kurz"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FG, 2, false, false, false, "Motor"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 3, true, false, false, "Horn lang"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.AF, 4, false, false, false, "Direktsteuerung"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 5, true, false, false, "Druckluft ablassen"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 7, false, false, false, "Bremsenquietschen aus"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 9, true, false, false, "Sanden"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BA, 10, true, false, false, "Schaffnerpfiff"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BA, 11, true, false, false, "???"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 12, true, false, false, "Türen schließen"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_0000_0000, false, false, false, "beidseitig"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_0010_0000, false, false, false, "nur Seite 2"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_1000_0000, false, false, false, "nur Seite 1"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_1010_0000, false, false, false, "Doppel-A"));
+  public static final Fahrzeug lok230_001_0 = Fahrzeug.builder()
+    .betriebsnummer("230 001-0")
+    .systemTyp(SystemTyp.DCC)
+    .adresse(1230)
+    .funktion(new FahrzeugFunktion(BG, 1, true, true, false, "Horn kurz"))
+    .funktion(new FahrzeugFunktion(FG, 2, false, false, false, "Motor"))
+    .funktion(new FahrzeugFunktion(BG, 3, true, false, false, "Horn lang"))
+    .funktion(new FahrzeugFunktion(AF, 4, false, false, false, "Direktsteuerung"))
+    .funktion(new FahrzeugFunktion(BG, 5, true, false, false, "Druckluft ablassen"))
+    .funktion(new FahrzeugFunktion(BG, 7, false, false, false, "Bremsenquietschen aus"))
+    .funktion(new FahrzeugFunktion(BG, 9, true, false, false, "Sanden"))
+    .funktion(new FahrzeugFunktion(BA, 10, true, false, false, "Schaffnerpfiff"))
+    .funktion(new FahrzeugFunktion(BA, 11, true, false, false, "???"))
+    .funktion(new FahrzeugFunktion(BG, 12, true, false, false, "Türen schließen"))
+    .funktion(new FahrzeugFunktion(FL, 0b0000_0000_1010_0000, 0b0000_0000_0000_0000, false, false, false, "beidseitig"))
+    .funktion(new FahrzeugFunktion(FL, 0b0000_0000_1010_0000, 0b0000_0000_0010_0000, false, false, false, "nur Seite 2"))
+    .funktion(new FahrzeugFunktion(FL, 0b0000_0000_1010_0000, 0b0000_0000_1000_0000, false, false, false, "nur Seite 1"))
+    .funktion(new FahrzeugFunktion(FL, 0b0000_0000_1010_0000, 0b0000_0000_1010_0000, false, false, false, "Doppel-A"))
+    .build();
 
-  public static final Fahrzeug lok332_262_5 = new Fahrzeug("332 262-5", "DHL100", SystemTyp.SX1, 14);
+  public static final Fahrzeug lok332_262_5 = Fahrzeug.builder()
+    .betriebsnummer("332 262-5")
+    .decoder("DHL100")
+    .systemTyp(SystemTyp.SX1)
+    .adresse(14)
+    .build();
 
-  public static final Fahrzeug lok430_119_8 = new Fahrzeug("430 119-8", "DHL100", SystemTyp.SX1, 16);
+  public static final Fahrzeug lok430_119_8 = Fahrzeug.builder()
+    .betriebsnummer("430 119-8")
+    .decoder("DHL100")
+    .systemTyp(SystemTyp.SX1)
+    .adresse(16)
+    .build();
 
-  public static final Fahrzeug lokE10_472 = new Fahrzeug("E10 472", null, SystemTyp.DCC, 1104,
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FG, 1, false, false, false, "Motor"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 2, true, false, false, "Pfeife lang"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BA, 3, true, false, false, "Schaffnerpfiff"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 4, true, false, false, "Kompressor"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 5, true, false, false, "Ankuppeln"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.AF, 6, false, false, false, "Direktsteuerung"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BA, 7, true, false, false, "???"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 8, true, false, false, "Sanden"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.AF, 9, false, false, false, "Rangiergang"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.AF, 10, false, false, true, "Geräusche ausblenden"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 13, true, true, false, "Pfeife kurz"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 14, true, false, false, "Kurvenquietschen"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_1100_0000_0000, 0b0000_0000_0000_0000, false, false, false, "beidseitig"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_1100_0000_0000, 0b0000_0100_0000_0000, false, false, false, "nur Seite 1"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_1100_0000_0000, 0b0000_1000_0000_0000, false, false, false, "nur Seite 2"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_1100_0000_0000, 0b0000_1100_0000_0000, false, false, false, "Doppel-A"));
+  public static final Fahrzeug lokE10_472 = Fahrzeug.builder()
+    .betriebsnummer("E10 472")
+    .systemTyp(SystemTyp.DCC)
+    .adresse(1104)
+    .funktion(new FahrzeugFunktion(FG, 1, false, false, false, "Motor"))
+    .funktion(new FahrzeugFunktion(BG, 2, true, false, false, "Pfeife lang"))
+    .funktion(new FahrzeugFunktion(BA, 3, true, false, false, "Schaffnerpfiff"))
+    .funktion(new FahrzeugFunktion(BG, 4, true, false, false, "Kompressor"))
+    .funktion(new FahrzeugFunktion(BG, 5, true, false, false, "Ankuppeln"))
+    .funktion(new FahrzeugFunktion(AF, 6, false, false, false, "Direktsteuerung"))
+    .funktion(new FahrzeugFunktion(BA, 7, true, false, false, "???"))
+    .funktion(new FahrzeugFunktion(BG, 8, true, false, false, "Sanden"))
+    .funktion(new FahrzeugFunktion(AF, 9, false, false, false, "Rangiergang"))
+    .funktion(new FahrzeugFunktion(AF, 10, false, false, true, "Geräusche ausblenden"))
+    .funktion(new FahrzeugFunktion(BG, 13, true, true, false, "Pfeife kurz"))
+    .funktion(new FahrzeugFunktion(BG, 14, true, false, false, "Kurvenquietschen"))
+    .funktion(new FahrzeugFunktion(FL, 0b0000_1100_0000_0000, 0b0000_0000_0000_0000, false, false, false, "beidseitig"))
+    .funktion(new FahrzeugFunktion(FL, 0b0000_1100_0000_0000, 0b0000_0100_0000_0000, false, false, false, "nur Seite 1"))
+    .funktion(new FahrzeugFunktion(FL, 0b0000_1100_0000_0000, 0b0000_1000_0000_0000, false, false, false, "nur Seite 2"))
+    .funktion(new FahrzeugFunktion(FL, 0b0000_1100_0000_0000, 0b0000_1100_0000_0000, false, false, false, "Doppel-A"))
+    .build();
 
-  public static final Fahrzeug lokE50_047 = new Fahrzeug("E50 047", null, SystemTyp.SX2, 1050,
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.AF, 1, false, false, false, "Führerstandsbeleuchtung"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FG, 2, false, false, false, "Motor"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 3, true, false, false, "Pfeife lang"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.AF, 4, false, false, false, "Direktsteuerung"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 5, true, true, false, "Pfeife kurz"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BA, 7, true, false, false, "Schaffnerpfiff"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 9, false, false, false, "Bremsenquietschen aus"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 10, true, false, false, "Ankuppeln"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_0000_0000, false, false, false, "beidseitig"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_0010_0000, false, false, false, "nur Seite 1"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_1000_0000, false, false, false, "nur Seite 2"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_1010_0000, false, false, false, "Doppel-A"));
+  public static final Fahrzeug lokE50_047 = Fahrzeug.builder()
+    .betriebsnummer("E50 047")
+    .systemTyp(SystemTyp.SX2)
+    .adresse(1050)
+    .funktion(new FahrzeugFunktion(AF, 1, false, false, false, "Führerstandsbeleuchtung"))
+    .funktion(new FahrzeugFunktion(FG, 2, false, false, false, "Motor"))
+    .funktion(new FahrzeugFunktion(BG, 3, true, false, false, "Pfeife lang"))
+    .funktion(new FahrzeugFunktion(AF, 4, false, false, false, "Direktsteuerung"))
+    .funktion(new FahrzeugFunktion(BG, 5, true, true, false, "Pfeife kurz"))
+    .funktion(new FahrzeugFunktion(BA, 7, true, false, false, "Schaffnerpfiff"))
+    .funktion(new FahrzeugFunktion(BG, 9, false, false, false, "Bremsenquietschen aus"))
+    .funktion(new FahrzeugFunktion(BG, 10, true, false, false, "Ankuppeln"))
+    .funktion(new FahrzeugFunktion(FL, 0b0000_0000_1010_0000, 0b0000_0000_0000_0000, false, false, false, "beidseitig"))
+    .funktion(new FahrzeugFunktion(FL, 0b0000_0000_1010_0000, 0b0000_0000_0010_0000, false, false, false, "nur Seite 1"))
+    .funktion(new FahrzeugFunktion(FL, 0b0000_0000_1010_0000, 0b0000_0000_1000_0000, false, false, false, "nur Seite 2"))
+    .funktion(new FahrzeugFunktion(FL, 0b0000_0000_1010_0000, 0b0000_0000_1010_0000, false, false, false, "Doppel-A"))
+    .build();
 
-  public static final Fahrzeug lokE9103 = new Fahrzeug("E9103", "DHL100", SystemTyp.SX1, 28);
+  public static final Fahrzeug lokE9103 = Fahrzeug.builder()
+    .betriebsnummer("E9103")
+    .decoder("DHL100")
+    .systemTyp(SystemTyp.SX1)
+    .adresse(28)
+    .build();
 
-  public static final Fahrzeug lokV100_1365 = new Fahrzeug("V100 1365", null, SystemTyp.SX2, 1365,
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FG, 2, false, false, false, "Motor"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 3, true, true, false, "Signalhorn hoch"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.AF, 4, false, false, false, "Direktsteuerung"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 5, false, false, false, "Bremsenquietschen aus"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.AF, 7, false, false, false, "Führerstandsbeleuchtung"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 9, true, false, false, "Glocke"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 10, true, false, false, "Signalhorn tief"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 11, false, false, false, "Kompressor"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BA, 12, true, false, false, "Stuttgart Hauptbahnhof, bitte alle aussteigen"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BA, 13, true, false, false, "Schaffnerpfiff"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BA, 14, true, false, false, "Türenschließen"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.AF, 15, false, false, true, "Geräusche ausblenden"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BA, 16, true, false, false, "Bitte einsteigen ..."),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_0000_0000, false, false, false, "beidseitig"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_0010_0000, false, false, false, "nur Seite 1"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_1000_0000, false, false, false, "nur Seite 2"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_1010_0000, 0b0000_0000_1010_0000, false, false, false, "Doppel-A"));
+  public static final Fahrzeug lokV100_1365 = Fahrzeug.builder()
+    .betriebsnummer("V100 1365")
+    .systemTyp(SystemTyp.SX2)
+    .adresse(1365)
+    .funktion(new FahrzeugFunktion(FG, 2, false, false, false, "Motor"))
+    .funktion(new FahrzeugFunktion(BG, 3, true, true, false, "Signalhorn hoch"))
+    .funktion(new FahrzeugFunktion(AF, 4, false, false, false, "Direktsteuerung"))
+    .funktion(new FahrzeugFunktion(BG, 5, false, false, false, "Bremsenquietschen aus"))
+    .funktion(new FahrzeugFunktion(AF, 7, false, false, false, "Führerstandsbeleuchtung"))
+    .funktion(new FahrzeugFunktion(BG, 9, true, false, false, "Glocke"))
+    .funktion(new FahrzeugFunktion(BG, 10, true, false, false, "Signalhorn tief"))
+    .funktion(new FahrzeugFunktion(BG, 11, false, false, false, "Kompressor"))
+    .funktion(new FahrzeugFunktion(BA, 12, true, false, false, "Stuttgart Hauptbahnhof, bitte alle aussteigen"))
+    .funktion(new FahrzeugFunktion(BA, 13, true, false, false, "Schaffnerpfiff"))
+    .funktion(new FahrzeugFunktion(BA, 14, true, false, false, "Türenschließen"))
+    .funktion(new FahrzeugFunktion(AF, 15, false, false, true, "Geräusche ausblenden"))
+    .funktion(new FahrzeugFunktion(BA, 16, true, false, false, "Bitte einsteigen ..."))
+    .funktion(new FahrzeugFunktion(FL, 0b0000_0000_1010_0000, 0b0000_0000_0000_0000, false, false, false, "beidseitig"))
+    .funktion(new FahrzeugFunktion(FL, 0b0000_0000_1010_0000, 0b0000_0000_0010_0000, false, false, false, "nur Seite 1"))
+    .funktion(new FahrzeugFunktion(FL, 0b0000_0000_1010_0000, 0b0000_0000_1000_0000, false, false, false, "nur Seite 2"))
+    .funktion(new FahrzeugFunktion(FL, 0b0000_0000_1010_0000, 0b0000_0000_1010_0000, false, false, false, "Doppel-A"))
+    .build();
 
-  public static final Fahrzeug lokV200_116 = new Fahrzeug("V200 116", null, SystemTyp.DCC, 1200,
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FG, 1, false, false, false, "Motor"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 2, true, true, false, "Signalhorn"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FG, 3, false, false, false, "Motor 2"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 6, true, false, false, "Abschlammen"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.AF, 7, false, false, false, "Rangiergang"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 8, false, false, false, "Handbremse"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 9, false, false, false, "Kompressor"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 10, false, false, false, "Führerstandstür"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 11, false, false, false, "Maschinenraumtür"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 12, false, false, false, "Führerstandsfenster"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 13, false, false, false, "Seitenfenster"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 14, false, false, false, "Kraftstoffpumpe"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 15, false, false, false, "Speisepumpe"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 16, true, false, false, "Vorwärmgerät"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_0001_1000, 0b0000_0000_0000_0000, false, false, false, "beidseitig"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_0001_1000, 0b0000_0000_0000_1000, false, false, false, "nur weiß"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL, 0b0000_0000_0001_1000, 0b0000_0000_0001_0000, false, false, false, "nur rot"));
+  public static final Fahrzeug lokV200_116 = Fahrzeug.builder()
+    .betriebsnummer("V200 116")
+    .systemTyp(SystemTyp.DCC)
+    .adresse(1200)
+    .funktion(new FahrzeugFunktion(FG, 1, false, false, false, "Motor"))
+    .funktion(new FahrzeugFunktion(BG, 2, true, true, false, "Signalhorn"))
+    .funktion(new FahrzeugFunktion(FG, 3, false, false, false, "Motor 2"))
+    .funktion(new FahrzeugFunktion(BG, 6, true, false, false, "Abschlammen"))
+    .funktion(new FahrzeugFunktion(AF, 7, false, false, false, "Rangiergang"))
+    .funktion(new FahrzeugFunktion(BG, 8, false, false, false, "Handbremse"))
+    .funktion(new FahrzeugFunktion(BG, 9, false, false, false, "Kompressor"))
+    .funktion(new FahrzeugFunktion(BG, 10, false, false, false, "Führerstandstür"))
+    .funktion(new FahrzeugFunktion(BG, 11, false, false, false, "Maschinenraumtür"))
+    .funktion(new FahrzeugFunktion(BG, 12, false, false, false, "Führerstandsfenster"))
+    .funktion(new FahrzeugFunktion(BG, 13, false, false, false, "Seitenfenster"))
+    .funktion(new FahrzeugFunktion(BG, 14, false, false, false, "Kraftstoffpumpe"))
+    .funktion(new FahrzeugFunktion(BG, 15, false, false, false, "Speisepumpe"))
+    .funktion(new FahrzeugFunktion(BG, 16, true, false, false, "Vorwärmgerät"))
+    .funktion(new FahrzeugFunktion(FL, 0b0000_0000_0001_1000, 0b0000_0000_0000_0000, false, false, false, "beidseitig"))
+    .funktion(new FahrzeugFunktion(FL, 0b0000_0000_0001_1000, 0b0000_0000_0000_1000, false, false, false, "nur weiß"))
+    .funktion(new FahrzeugFunktion(FL, 0b0000_0000_0001_1000, 0b0000_0000_0001_0000, false, false, false, "nur rot"))
+    .build();
 
-  public static final Fahrzeug lok612_509_0 = new Fahrzeug("612 509-0", null, SystemTyp.DCC, 1612,
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FG, 1, false, false, false, "Motor"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.AF, 2, false, false, false, "Innenbeleuchtung"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 3, true, true, false, "Signalhorn hoch"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 4, false, false, false, "Kompressor"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BA, 5, true, false, false, "Schaffnerpfiff"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BA, 7, true, false, false, "Bitte einsteigen ..., Türenschließen, Pfiff"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BA, 8, true, false, false, "Bitte einsteigen ..."),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.AF, 10, false, false, true, "Geräusche ausblenden"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 15, true, false, false, "Signalhorn tief kurz"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 16, true, false, false, "Signalhorn tief lang"));
+  public static final Fahrzeug lok612_509_0 = Fahrzeug.builder()
+    .betriebsnummer("612 509-0")
+    .systemTyp(SystemTyp.DCC)
+    .adresse(1612)
+    .funktion(new FahrzeugFunktion(FG, 1, false, false, false, "Motor"))
+    .funktion(new FahrzeugFunktion(AF, 2, false, false, false, "Innenbeleuchtung"))
+    .funktion(new FahrzeugFunktion(BG, 3, true, true, false, "Signalhorn hoch"))
+    .funktion(new FahrzeugFunktion(BG, 4, false, false, false, "Kompressor"))
+    .funktion(new FahrzeugFunktion(BA, 5, true, false, false, "Schaffnerpfiff"))
+    .funktion(new FahrzeugFunktion(BA, 7, true, false, false, "Bitte einsteigen ..., Türenschließen, Pfiff"))
+    .funktion(new FahrzeugFunktion(BA, 8, true, false, false, "Bitte einsteigen ..."))
+    .funktion(new FahrzeugFunktion(AF, 10, false, false, true, "Geräusche ausblenden"))
+    .funktion(new FahrzeugFunktion(BG, 15, true, false, false, "Signalhorn tief kurz"))
+    .funktion(new FahrzeugFunktion(BG, 16, true, false, false, "Signalhorn tief lang"))
+    .build();
 
-  public static final Fahrzeug lokVT_11_5019 = new Fahrzeug("VT 11.5019", "DHL100", SystemTyp.SX1, 1);
+  public static final Fahrzeug lokVT_11_5019 = Fahrzeug.builder()
+    .betriebsnummer("VT 11.5019")
+    .decoder("DHL100")
+    .systemTyp(SystemTyp.SX1)
+    .adresse(1)
+    .build();
 
-  public static final Fahrzeug lokVT_98_9667 = new Fahrzeug("VT 98 9667", null, SystemTyp.DCC, 1098,
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FG, 1, false, false, false, "Motor"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BA, 2, true, false, false, "Türenschließen"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 3, true, true, false, "Signalhorn"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG, 5, true, false, false, "Glocke"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.AF, 6, false, false, true, "Geräusche ausblenden"),
-    new Fahrzeug.FahrzeugFunktion(Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.AF, 7, false, false, false, "Innenbeleuchtung"));
+  public static final Fahrzeug lokVT_98_9667 = Fahrzeug.builder()
+    .betriebsnummer("VT 98 9667")
+    .systemTyp(SystemTyp.DCC)
+    .adresse(1098)
+    .funktion(new FahrzeugFunktion(FG, 1, false, false, false, "Motor"))
+    .funktion(new FahrzeugFunktion(BA, 2, true, false, false, "Türenschließen"))
+    .funktion(new FahrzeugFunktion(BG, 3, true, true, false, "Signalhorn"))
+    .funktion(new FahrzeugFunktion(BG, 5, true, false, false, "Glocke"))
+    .funktion(new FahrzeugFunktion(AF, 6, false, false, true, "Geräusche ausblenden"))
+    .funktion(new FahrzeugFunktion(AF, 7, false, false, false, "Innenbeleuchtung"))
+    .build();
 
   // public static final Fahrzeug lokX_VT_98_9731 = new Fahrzeug("X VT 98.9731", "DHL100", SystemTyp.SX1, false, 6, 31);
   // public static final Fahrzeug lokX_103_118_6 = new Fahrzeug("X 103 118-6", "DHL100", SystemTyp.SX1, false, 13, 31);

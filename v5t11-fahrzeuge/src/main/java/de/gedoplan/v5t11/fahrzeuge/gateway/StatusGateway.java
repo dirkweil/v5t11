@@ -2,6 +2,8 @@ package de.gedoplan.v5t11.fahrzeuge.gateway;
 
 import de.gedoplan.v5t11.util.domain.attribute.FahrzeugId;
 
+import java.io.Serializable;
+
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
@@ -12,7 +14,7 @@ import jakarta.ws.rs.core.MediaType;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 @RegisterRestClient(configKey = "v5t11.status")
-public interface StatusGateway {
+public interface StatusGateway extends Serializable {
   // Fahrzeuge
   @PUT
   @Path("fahrzeug/{id}")

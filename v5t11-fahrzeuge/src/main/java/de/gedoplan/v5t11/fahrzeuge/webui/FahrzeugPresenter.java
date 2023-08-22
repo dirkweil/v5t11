@@ -43,10 +43,7 @@ public class FahrzeugPresenter implements Serializable {
   @Getter
   private List<Fahrzeug> fahrzeuge;
 
-  @Getter
-  @Produces
-  @Current
-  Fahrzeug currentFahrzeug;
+  private Fahrzeug currentFahrzeug;
 
   @Getter
   @NotNull
@@ -63,6 +60,12 @@ public class FahrzeugPresenter implements Serializable {
   @PostConstruct
   void refreshFahrzeuge() {
     this.fahrzeuge = this.fahrzeugRepository.findAllSortedByBetriebsnummer();
+  }
+
+  @Produces
+  @Current
+  public Fahrzeug getCurrentFahrzeug() {
+    return this.currentFahrzeug;
   }
 
   public String getImage(Fahrzeug fahrzeug) {
@@ -95,7 +98,7 @@ public class FahrzeugPresenter implements Serializable {
   }
 
   public String create() {
-    this.currentFahrzeug = new Fahrzeug(this.newId, null, null);
+    this.currentFahrzeug = new Fahrzeug(this.newId);
     this.fahrzeuge.add(this.currentFahrzeug);
     this.logger.debugf("Create %s", this.currentFahrzeug);
     return "edit";
