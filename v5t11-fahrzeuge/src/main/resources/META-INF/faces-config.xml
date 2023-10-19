@@ -1,36 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <faces-config xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_3.xsd" version="2.3">
+              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_3.xsd" version="2.3">
   <navigation-rule>
     <from-view-id>/view/fahrzeug*</from-view-id>
     <navigation-case>
       <from-outcome>control</from-outcome>
       <to-view-id>/view/fahrzeugControl.xhtml</to-view-id>
-      <redirect />
+      <redirect/>
     </navigation-case>
 
     <navigation-case>
       <from-outcome>create</from-outcome>
       <to-view-id>/view/fahrzeugCreate.xhtml</to-view-id>
-      <redirect />
+      <redirect/>
     </navigation-case>
 
     <navigation-case>
       <from-outcome>edit</from-outcome>
       <to-view-id>/view/fahrzeugEdit.xhtml</to-view-id>
-      <redirect />
+      <redirect/>
+    </navigation-case>
+
+    <navigation-case>
+      <from-outcome>program</from-outcome>
+      <to-view-id>/view/fahrzeugProgram.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
 
     <navigation-case>
       <from-outcome>finished</from-outcome>
       <to-view-id>/view/fahrzeugManagement.xhtml</to-view-id>
-      <redirect />
+      <redirect/>
     </navigation-case>
 
     <navigation-case>
       <from-outcome>remove</from-outcome>
       <to-view-id>/view/fahrzeugRemoveConfirm.xhtml</to-view-id>
-      <redirect />
+      <redirect/>
     </navigation-case>
   </navigation-rule>
 

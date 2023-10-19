@@ -13,3 +13,7 @@
 @media (max-width: 1500px) {
 }
 
+.ui-datatable-data {
+  vertical-align: top
+}
+

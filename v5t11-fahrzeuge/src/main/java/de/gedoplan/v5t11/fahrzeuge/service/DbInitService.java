@@ -1,8 +1,8 @@
 package de.gedoplan.v5t11.fahrzeuge.service;
 
-import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.ConfigDefinition;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug.FahrzeugFunktion;
+import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.FahrzeugKonfiguration;
 import de.gedoplan.v5t11.fahrzeuge.persistence.FahrzeugRepository;
 import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 
@@ -52,16 +52,6 @@ public class DbInitService {
     .funktion(new FahrzeugFunktion(FL, 0b0000_0000_1010_0000, 0b0000_0000_0010_0000, false, false, false, "nur Seite 1"))
     .funktion(new FahrzeugFunktion(FL, 0b0000_0000_1010_0000, 0b0000_0000_1000_0000, false, false, false, "nur Seite 2"))
     .funktion(new FahrzeugFunktion(FL, 0b0000_0000_1010_0000, 0b0000_0000_1010_0000, false, false, false, "Doppel-A"))
-    .configDefinition(new ConfigDefinition(17, "Höherwertiger Teil der langen Adresse"))
-    .configDefinition(new ConfigDefinition(18, "Niederwertiger Teil der langen Adresse"))
-    .configDefinition(new ConfigDefinition(29, """
-      Konfigurationsregister
-      Bit 0: Richtung umkehren
-      Bit 1: 28/126 Fahrstufen (statt 14)
-      Bit 2: Analogbetrieb erlaubt
-      Bit 3: Rückmeldung erlaubt
-      Bit 5: Lange Lokadresse nach CV17/18
-      """))
     .build();
 
   public static final Fahrzeug lok110_389_4 = Fahrzeug.builder()
@@ -107,6 +97,15 @@ public class DbInitService {
     .funktion(new FahrzeugFunktion(FL, 0b0000_1100_0000_0000, 0b0000_0000_0000_0000, false, false, false, "beidseitig"))
     .funktion(new FahrzeugFunktion(FL, 0b0000_1100_0000_0000, 0b0000_0100_0000_0000, false, false, false, "nur Seite 1"))
     .funktion(new FahrzeugFunktion(FL, 0b0000_1100_0000_0000, 0b0000_1000_0000_0000, false, false, false, "nur Seite 2"))
+    .konfiguration(new FahrzeugKonfiguration(17, 192, "Höherwertiger Teil der langen Adresse"))
+    .konfiguration(new FahrzeugKonfiguration(18, 0, "Niederwertiger Teil der langen Adresse"))
+    .konfiguration(new FahrzeugKonfiguration(29, 46, """
+      Konfigurationsregister
+      Bit 0: Richtung umkehren
+      Bit 1: 28/126 Fahrstufen (statt 14)
+      Bit 2: Analogbetrieb erlaubt
+      Bit 3: Rückmeldung erlaubt
+      Bit 5: Lange Lokadresse nach CV17/18"""))
     .build();
 
   public static final Fahrzeug lok151_032_0 = Fahrzeug.builder()

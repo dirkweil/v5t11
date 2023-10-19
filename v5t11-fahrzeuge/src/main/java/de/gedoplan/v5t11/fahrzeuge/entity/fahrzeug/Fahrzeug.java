@@ -23,6 +23,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -44,8 +45,8 @@ import lombok.ToString;
 public class Fahrzeug extends SingleIdEntity<FahrzeugId> {
 
   public static final String TABLE_NAME = "FZ_FAHRZEUG";
-  public static final String TABLE_NAME_FUNKTION = "FZ_FAHRZEUG_FUNKTION";
-  public static final String TABLE_NAME_CONFIG_DEF = "FZ_FAHRZEUG_CONFIG_DEF";
+  public static final String TABLE_NAME_FUNKTIONEN = "FZ_FAHRZEUG_FUNKTION";
+  public static final String TABLE_NAME_KONFIGURATIONEN = "FZ_FAHRZEUG_KONFIGURATION";
 
   // @Transient
   // @Inject
@@ -118,32 +119,32 @@ public class Fahrzeug extends SingleIdEntity<FahrzeugId> {
   private String decoder;
 
   @ElementCollection(fetch = FetchType.EAGER)
-  @CollectionTable(name = TABLE_NAME_FUNKTION)
+  @CollectionTable(name = TABLE_NAME_FUNKTIONEN)
   @Getter(onMethod_ = @JsonbInclude(full = true))
   private List<@NotNull FahrzeugFunktion> funktionen;
 
   @ElementCollection(fetch = FetchType.EAGER)
-  @CollectionTable(name = TABLE_NAME_CONFIG_DEF)
+  @CollectionTable(name = TABLE_NAME_KONFIGURATIONEN)
   @Getter(onMethod_ = @JsonbInclude(full = true))
-  private List<@NotNull ConfigDefinition> fahrzeugConfigDefinitionen;
+  private List<@NotNull @Valid FahrzeugKonfiguration> konfigurationen;
 
   public Fahrzeug(FahrzeugId id) {
     this.id = id;
   }
 
-  public Fahrzeug(FahrzeugId id, String betriebsnummer, String decoder, List<FahrzeugFunktion> funktionen, List<ConfigDefinition> configDefinitionen) {
+  public Fahrzeug(FahrzeugId id, String betriebsnummer, String decoder, List<FahrzeugFunktion> funktionen, List<FahrzeugKonfiguration> konfigurationen) {
     this.id = id;
     this.betriebsnummer = betriebsnummer;
     this.decoder = decoder;
     this.funktionen = funktionen;
-    this.fahrzeugConfigDefinitionen = configDefinitionen;
+    this.konfigurationen = konfigurationen;
   }
 
   @Builder
   public Fahrzeug(String betriebsnummer, String decoder, @NotNull SystemTyp systemTyp, int adresse,
     @Singular("funktion") List<FahrzeugFunktion> funktionen,
-    @Singular("configDefinition") List<ConfigDefinition> configDefinitionen) {
-    this(new FahrzeugId(systemTyp, adresse), betriebsnummer, decoder, funktionen, configDefinitionen);
+    @Singular("konfiguration") List<FahrzeugKonfiguration> konfigurationen) {
+    this(new FahrzeugId(systemTyp, adresse), betriebsnummer, decoder, funktionen, konfigurationen);
   }
 
   public void injectFields() {

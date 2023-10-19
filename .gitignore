@@ -16,3 +16,4 @@ ObjectStore/
 .idea/
 *.iml
 .vscode/
+.sdkmanrc
