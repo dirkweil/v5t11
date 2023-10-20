@@ -5,7 +5,7 @@
 
 <ui:composition template="/WEB-INF/templates/fahrzeugManagement.xhtml">
   <ui:define name="content">
-    <h:form>
+    <h:form id="fahrzeug-config">
       <h:panelGrid columns="1">
         <p:toolbar>
           <f:facet name="left">
@@ -48,7 +48,8 @@
                              update="konfigurationen"/>
           </p:column>
 
-          <p:column headerText="CV/par" sortBy="#{konfiguration.nr}" width="200">
+          <p:column headerText="#{fahrzeugProgramPresenter.currentFahrzeug.id.systemTyp.konfigWertBezeichnung}"
+                    sortBy="#{konfiguration.nr}" width="200">
             <p:inputText value="#{konfiguration.nr}" readonly="#{!empty konfiguration.nr}" style="width: 100%" id="nr"/>
             <p:message for="nr"/>
           </p:column>
@@ -62,12 +63,12 @@
             <f:facet name="header">
               <p:commandButton icon="pi pi-upload" title="Alle Werte in Fahrzeug programmieren"
                                style="width: 100%"
-                               action="#{fahrzeugProgramPresenter.writeAll()}"
+                               action="#{fahrzeugProgramPresenter.writeAllKonfigurationen()}"
                                update="konfigurationen"/>
             </f:facet>
             <p:commandButton icon="pi pi-upload" title="Wert in Fahrzeug programmieren"
                              style="width: 100%"
-                             action="#{fahrzeugProgramPresenter.write(konfiguration)}"
+                             action="#{fahrzeugProgramPresenter.writeKonfiguration(konfiguration)}"
                              update="konfigurationen"/>
           </p:column>
 
@@ -97,16 +98,35 @@
             <f:facet name="header">
               <p:commandButton icon="pi pi-download" title="Alle Werte aus Fahrzeug lesen"
                                style="width: 100%"
-                               action="#{fahrzeugProgramPresenter.readAll()}"
+                               action="#{fahrzeugProgramPresenter.readAllKonfigurationen()}"
                                update="konfigurationen"/>
             </f:facet>
             <p:commandButton icon="pi pi-download" title="Wert aus Fahrzeug lesen"
                              style="width: 100%"
-                             action="#{fahrzeugProgramPresenter.read(konfiguration)}"
+                             action="#{fahrzeugProgramPresenter.readKonfiguration(konfiguration)}"
                              update="konfigurationen"/>
           </p:column>
         </p:dataTable>
       </h:panelGrid>
+    </h:form>
+
+    <h:form id="fahrzeug-read-write-confirm">
+      <p:dialog
+          header="#{fahrzeugProgramPresenter.selectedAktionsBeschreibung}"
+          showEffect="fade" modal="true" widgetVar="fahrzeugReadWriteConfirm">
+        <h:panelGrid columns="1">
+          <h:outputText value="Das Fahrzeug muss sich alleine auf dem Programmiergleis befinden!"/>
+
+          <h:panelGroup>
+            <p:commandButton value="ok" icon="pi pi-check"
+                             actionListener="#{fahrzeugProgramPresenter.execSelectedAktion()}"
+                             process="@form"/>
+            <p:commandButton value="abbrechen" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+                             onclick="PF('fahrzeugReadWriteConfirm').hide()"/>
+          </h:panelGroup>
+        </h:panelGrid>
+      </p:dialog>
+
     </h:form>
   </ui:define>
 </ui:composition>

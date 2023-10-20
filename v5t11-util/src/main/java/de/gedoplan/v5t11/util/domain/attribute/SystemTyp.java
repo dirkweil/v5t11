@@ -1,16 +1,16 @@
 package de.gedoplan.v5t11.util.domain.attribute;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+@AllArgsConstructor
+@Getter
 public enum SystemTyp {
-  SX1(31),
-  SX2(127),
-  DCC(126);
+  SX1(31, "Par"),
+  SX2(127, "Par"),
+  DCC(126, "CV");
 
-  @Getter
   private int maxFahrstufe;
+  private String konfigWertBezeichnung;
 
-  private SystemTyp(int maxFahrstufe) {
-    this.maxFahrstufe = maxFahrstufe;
-  }
 }
