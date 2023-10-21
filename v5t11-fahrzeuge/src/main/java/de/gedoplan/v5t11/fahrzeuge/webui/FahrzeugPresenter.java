@@ -1,6 +1,7 @@
 package de.gedoplan.v5t11.fahrzeuge.webui;
 
 import de.gedoplan.baselibs.utils.util.ResourceUtil;
+import de.gedoplan.baselibs.utils.xml.XmlConverter;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug.FahrzeugFunktion;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe;
@@ -10,7 +11,9 @@ import de.gedoplan.v5t11.util.cdi.Current;
 import de.gedoplan.v5t11.util.domain.attribute.FahrzeugId;
 import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 
+import java.io.ByteArrayInputStream;
 import java.io.Serializable;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import jakarta.annotation.PostConstruct;
@@ -22,6 +25,8 @@ import jakarta.validation.constraints.NotNull;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logging.Logger;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -184,6 +189,20 @@ public class FahrzeugPresenter implements Serializable {
 
     this.statusGateway.setLokcontrollerAssignment(Integer.toString(lokcontrollerId), fahrzeugId, hornBits);
 
+  }
+
+  public StreamedContent getXmlFile(Fahrzeug fahrzeug) {
+    String filename = fahrzeug.getBetriebsnummer().replaceAll("[^a-zA-Z0-9-]", "_");
+    try {
+      String xmlString = XmlConverter.toXml(fahrzeug);
+      return DefaultStreamedContent.builder()
+        .name(filename)
+        .contentType("application/xml")
+        .stream(() -> new ByteArrayInputStream(xmlString.getBytes(StandardCharsets.UTF_8)))
+        .build();
+    } catch (Exception e) {
+      return null;
+    }
   }
 
 }

@@ -29,6 +29,26 @@
                                    icon="pi pi-sliders-v"
                                    styleClass="fahrzeug-button"
                                    title="steuern" ajax="false"/>
+                  <p:menuButton icon="pi pi-bars"
+                                styleClass="fahrzeug-button">
+                    <p:menuitem value="Funktionen" icon="pi pi-list" action="#{fahrzeugPresenter.edit(fahrzeug)}"
+                                ajax="false"/>
+                    <p:menuitem value="Konfiguration" icon="pi pi-wrench"
+                                action="#{fahrzeugPresenter.program(fahrzeug)}" ajax="false"/>
+                    <p:divider/>
+                    <p:menuitem value="Download" icon="pi pi-download" ajax="false">
+                      <p:fileDownload value="#{fahrzeugPresenter.getXmlFile(fahrzeug)}"/>
+                    </p:menuitem>
+                    <p:divider/>
+                    <p:menuitem value="Löschen" icon="pi pi-trash" action="remove" ajax="false" immediate="true"/>
+                  </p:menuButton>
+                </h:panelGroup>
+              </p:column>
+            </p:row>
+
+            <p:row>
+              <p:column styleClass="rightAligned">
+                <h:panelGroup>
                   <p:selectBooleanButton onLabel="1" offLabel="1" title="Lok-Control 1"
                                          styleClass="fahrzeug-button"
                                          value="#{fahrzeugPresenter.getLokcontrollerAdapter(fahrzeug,0).assigned}">
@@ -43,20 +63,6 @@
               </p:column>
             </p:row>
 
-            <p:row>
-              <p:column styleClass="rightAligned">
-                <h:panelGroup>
-                  <p:commandButton action="#{fahrzeugPresenter.edit(fahrzeug)}"
-                                   icon="pi pi-pencil" title="bearbeiten"
-                                   styleClass="fahrzeug-button"
-                                   ajax="false"/>
-                  <p:commandButton action="#{fahrzeugPresenter.program(fahrzeug)}"
-                                   icon="pi pi-cog"
-                                   styleClass="fahrzeug-button"
-                                   title="programmieren" ajax="false"/>
-                </h:panelGroup>
-              </p:column>
-            </p:row>
           </p:panelGrid>
         </p:column>
       </p:dataGrid>

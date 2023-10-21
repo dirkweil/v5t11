@@ -28,6 +28,12 @@ import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlTransient;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -42,6 +48,8 @@ import lombok.ToString;
 @Access(AccessType.FIELD)
 @Table(name = Fahrzeug.TABLE_NAME)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Fahrzeug extends SingleIdEntity<FahrzeugId> {
 
   public static final String TABLE_NAME = "FZ_FAHRZEUG";
@@ -62,16 +70,19 @@ public class Fahrzeug extends SingleIdEntity<FahrzeugId> {
   @Getter(onMethod_ = @JsonbInclude)
   @Setter
   @Transient
+  @XmlTransient
   private boolean removed;
 
   // Fahrzeug ist aktiv, d. h. in der Zentrale angemeldet
   @Getter(onMethod_ = @JsonbInclude(full = true))
   @Setter(onMethod_ = @JsonbInclude)
+  @XmlTransient
   private boolean aktiv;
 
   // Aktuelle Fahrstufe
   @Getter(onMethod_ = @JsonbInclude(full = true))
   @Setter(onMethod_ = @JsonbInclude)
+  @XmlTransient
   private int fahrstufe;
 
   @AssertTrue(message = "Ungültige Fahrstufe")
@@ -82,22 +93,26 @@ public class Fahrzeug extends SingleIdEntity<FahrzeugId> {
   // Rückwärtsfahrt
   @Getter(onMethod_ = @JsonbInclude(full = true))
   @Setter(onMethod_ = @JsonbInclude)
+  @XmlTransient
   private boolean rueckwaerts;
 
   // Fahrlicht
   @Getter(onMethod_ = @JsonbInclude(full = true))
   @Setter(onMethod_ = @JsonbInclude)
+  @XmlTransient
   private boolean licht;
 
   // Status der Funktionen (pro Funktion 1 Bit, nur 16 Bits releavant)
   @Column(name = "FKT_BITS", nullable = false)
   @Getter(onMethod_ = @JsonbInclude(full = true))
   @Setter(onMethod_ = @JsonbInclude)
+  @XmlTransient
   private int fktBits;
 
   @Getter(onMethod_ = @JsonbInclude(full = true))
   @Setter(onMethod_ = @JsonbInclude)
   @Column(name = "LAST_CHANGE_MS")
+  @XmlTransient
   private long lastChangeMillis;
 
   /**
@@ -112,6 +127,7 @@ public class Fahrzeug extends SingleIdEntity<FahrzeugId> {
   @Lob
   @Getter
   @Setter
+  @XmlTransient
   private Serializable image;
 
   @Getter(onMethod_ = @JsonbInclude)
@@ -121,11 +137,13 @@ public class Fahrzeug extends SingleIdEntity<FahrzeugId> {
   @ElementCollection(fetch = FetchType.EAGER)
   @CollectionTable(name = TABLE_NAME_FUNKTIONEN)
   @Getter(onMethod_ = @JsonbInclude(full = true))
+  @XmlElement(name = "funktion")
   private List<@NotNull FahrzeugFunktion> funktionen;
 
   @ElementCollection(fetch = FetchType.EAGER)
   @CollectionTable(name = TABLE_NAME_KONFIGURATIONEN)
   @Getter(onMethod_ = @JsonbInclude(full = true))
+  @XmlElement(name = "konfiguration")
   private List<@NotNull @Valid FahrzeugKonfiguration> konfigurationen;
 
   public Fahrzeug(FahrzeugId id) {
@@ -179,13 +197,16 @@ public class Fahrzeug extends SingleIdEntity<FahrzeugId> {
   @Setter
   @NoArgsConstructor(access = AccessLevel.PROTECTED)
   @ToString
+  @XmlAccessorType(XmlAccessType.FIELD)
   public static class FahrzeugFunktion {
     @NotNull
     @Enumerated(EnumType.STRING)
     private FahrzeugFunktionsGruppe gruppe;
     @NotEmpty
     private String beschreibung;
+    @XmlAttribute
     private int maske;
+    @XmlAttribute
     private int wert;
     private boolean impuls;
     private boolean horn;

@@ -1,5 +1,6 @@
 package de.gedoplan.v5t11.fahrzeuge.entity;
 
+import de.gedoplan.baselibs.utils.xml.XmlConverter;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug.FahrzeugFunktion;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.FahrzeugKonfiguration;
@@ -78,7 +79,7 @@ public class FahrzeugTest {
   }
 
   @Test
-  public void test_01_toFullJson() throws Exception {
+  public void test_02_toFullJson() throws Exception {
 
     Fahrzeug fahrzeug = lok112_491_6;
 
@@ -123,5 +124,15 @@ public class FahrzeugTest {
       .build().toString();
 
     JSONAssert.assertEquals(expected, json, true);
+  }
+
+  @Test
+  public void test_03_toXml() throws Exception {
+
+    Fahrzeug fahrzeug = lok112_491_6;
+
+    String xmlString = XmlConverter.toXml(fahrzeug);
+    System.out.println("XML string: " + xmlString);
+
   }
 }

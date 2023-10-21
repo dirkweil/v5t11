@@ -14,6 +14,8 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotNull;
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -30,11 +32,13 @@ import lombok.Setter;
 @Setter(onMethod_ = @JsonbInclude)
 @EqualsAndHashCode
 @JsonbTypeAdapter(FahrzeugId.JsonTypeAdapter.class)
+@XmlJavaTypeAdapter(FahrzeugId.XmlTypeAdapter.class)
 public class FahrzeugId implements Serializable, Comparable<FahrzeugId> {
 
   @NotNull
   @Enumerated(EnumType.STRING)
   private SystemTyp systemTyp;
+
   private int adresse;
 
   @AssertTrue(message = "Ungültige Adresse")
@@ -109,4 +113,16 @@ public class FahrzeugId implements Serializable, Comparable<FahrzeugId> {
 
   }
 
+  public static class XmlTypeAdapter extends XmlAdapter<String, FahrzeugId> {
+
+    @Override
+    public FahrzeugId unmarshal(String s) throws Exception {
+      return s == null ? null : FahrzeugId.fromString(s);
+    }
+
+    @Override
+    public String marshal(FahrzeugId fahrzeugId) throws Exception {
+      return fahrzeugId == null ? null : fahrzeugId.toString();
+    }
+  }
 }

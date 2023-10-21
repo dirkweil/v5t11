@@ -19,14 +19,15 @@
                          style="vertical-align: middle;" id="betriebsnummer"/>
           </f:facet>
           <f:facet name="right">
-            <p:commandButton value="Löschen" icon="pi pi-trash" action="remove" ajax="false" immediate="true"/>
+            <p:commandButton value="Speichern" icon="pi pi-save"
+                             action="#{fahrzeugEditPresenter.save()}"
+                             ajax="false"/>
 
-            <span class="ui-separator"> <span class="ui-icon pi pi-ellipsis-v"/>
-            </span>
-
-            <p:commandButton value="Abbrechen" icon="pi pi-times" action="#{fahrzeugPresenter.cancel()}" ajax="false"
+            <span class="ui-separator"> <span class="ui-icon pi pi-ellipsis-v"/></span>
+            <p:commandButton value="Abbrechen" icon="pi pi-times"
+                             action="#{fahrzeugPresenter.cancel()}"
+                             ajax="false"
                              immediate="true"/>
-            <p:commandButton value="Speichern" icon="pi pi-save" action="#{fahrzeugEditPresenter.save()}" ajax="false"/>
           </f:facet>
         </p:toolbar>
 

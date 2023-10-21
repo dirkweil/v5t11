@@ -9,6 +9,9 @@ import jakarta.persistence.Transient;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlAttribute;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -20,12 +23,15 @@ import lombok.Setter;
 @Getter(onMethod_ = @JsonbInclude(full = true))
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@XmlAccessorType(XmlAccessType.FIELD)
 public class FahrzeugKonfiguration extends ToStringable {
   @NotNull
   @Positive
   @EqualsAndHashCode.Include
+  @XmlAttribute
   private Integer nr;
 
+  @XmlAttribute
   private Integer soll;
 
   @Transient
