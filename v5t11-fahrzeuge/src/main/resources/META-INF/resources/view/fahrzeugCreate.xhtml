@@ -1,19 +1,42 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-  xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
 
 <ui:composition template="/WEB-INF/templates/fahrzeugManagement.xhtml">
   <ui:define name="content">
     <h:form id="form">
       <h2>Neues Fahrzeug</h2>
 
-      <h:panelGrid columns="2">
-        <p:inputText value="#{fahrzeugPresenter.newId.adresse}" size="6" id="adresse" style="vertical-align: middle;" />
-        <p:selectOneMenu value="#{fahrzeugPresenter.newId.systemTyp}" id="systemTyp" style="vertical-align: middle;">
-          <f:selectItems value="#{fahrzeugPresenter.systemTypen}" />
+      <h:panelGrid columns="3">
+        <p:outputLabel for="@next" value="Systemtyp"/>
+        <p:selectOneMenu value="#{fahrzeugPresenter.currentFahrzeug.id.systemTyp}" id="systemTyp">
+          <f:selectItems value="#{fahrzeugPresenter.systemTypen}"/>
         </p:selectOneMenu>
+        <p:fileUpload label="importieren" chooseIcon="pi pi-file-import"
+                      title="Fahrzeugstammdaten aus XML-File lesen"
+                      listener="#{fahrzeugPresenter.handleFileUpload}"
+                      mode="simple"
+                      skinSimple="true"
+                      auto="true"
+                      update="@form :messages"
+                      sizeLimit="100000"
+                      allowTypes="/(\.|\/)xml$/"/>
 
-        <p:commandButton value="anlegen" action="#{fahrzeugPresenter.create}" ajax="false" />
-        <p:commandButton value="abbrechen" action="#{fahrzeugPresenter.cancel()}" immediate="true" ajax="false" />
+        <p:outputLabel for="@next" value="Adresse"/>
+        <p:inputText value="#{fahrzeugPresenter.currentFahrzeug.id.adresse}" size="6" id="adresse" required="true"/>
+        <p:commandButton value="speichern" icon="pi pi-check"
+                         title="Daten speichern"
+                         action="#{fahrzeugPresenter.store()}"
+                         ajax="false"/>
+
+        <p:outputLabel for="@next" value="Betriebsnummer"/>
+        <p:inputText value="#{fahrzeugPresenter.currentFahrzeug.betriebsnummer}" size="15"/>
+        <p:commandButton value="abbrechen" icon="pi pi-times"
+                         title="Ohne Speichern zurück"
+                         action="#{fahrzeugPresenter.cancel()}"
+                         immediate="true"
+                         ajax="false"/>
       </h:panelGrid>
 
     </h:form>

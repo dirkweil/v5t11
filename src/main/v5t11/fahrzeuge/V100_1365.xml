@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<fahrzeug>
+  <id>1365@SX2</id>
+  <betriebsnummer>V100 1365</betriebsnummer>
+  <funktion maske="2" wert="2">
+    <gruppe>FG</gruppe>
+    <beschreibung>Motor</beschreibung>
+    <impuls>false</impuls>
+    <horn>false</horn>
+    <fader>false</fader>
+  </funktion>
+  <funktion maske="4" wert="4">
+    <gruppe>BG</gruppe>
+    <beschreibung>Signalhorn hoch</beschreibung>
+    <impuls>true</impuls>
+    <horn>true</horn>
+    <fader>false</fader>
+  </funktion>
+  <funktion maske="8" wert="8">
+    <gruppe>AF</gruppe>
+    <beschreibung>Direktsteuerung</beschreibung>
+    <impuls>false</impuls>
+    <horn>false</horn>
+    <fader>false</fader>
+  </funktion>
+  <funktion maske="16" wert="16">
+    <gruppe>BG</gruppe>
+    <beschreibung>Bremsenquietschen aus</beschreibung>
+    <impuls>false</impuls>
+    <horn>false</horn>
+    <fader>false</fader>
+  </funktion>
+  <funktion maske="64" wert="64">
+    <gruppe>AF</gruppe>
+    <beschreibung>Führerstandsbeleuchtung</beschreibung>
+    <impuls>false</impuls>
+    <horn>false</horn>
+    <fader>false</fader>
+  </funktion>
+  <funktion maske="256" wert="256">
+    <gruppe>BG</gruppe>
+    <beschreibung>Glocke</beschreibung>
+    <impuls>true</impuls>
+    <horn>false</horn>
+    <fader>false</fader>
+  </funktion>
+  <funktion maske="512" wert="512">
+    <gruppe>BG</gruppe>
+    <beschreibung>Signalhorn tief</beschreibung>
+    <impuls>true</impuls>
+    <horn>false</horn>
+    <fader>false</fader>
+  </funktion>
+  <funktion maske="1024" wert="1024">
+    <gruppe>BG</gruppe>
+    <beschreibung>Kompressor</beschreibung>
+    <impuls>false</impuls>
+    <horn>false</horn>
+    <fader>false</fader>
+  </funktion>
+  <funktion maske="2048" wert="2048">
+    <gruppe>BA</gruppe>
+    <beschreibung>Stuttgart Hauptbahnhof, bitte alle aussteigen</beschreibung>
+    <impuls>true</impuls>
+    <horn>false</horn>
+    <fader>false</fader>
+  </funktion>
+  <funktion maske="4096" wert="4096">
+    <gruppe>BA</gruppe>
+    <beschreibung>Schaffnerpfiff</beschreibung>
+    <impuls>true</impuls>
+    <horn>false</horn>
+    <fader>false</fader>
+  </funktion>
+  <funktion maske="8192" wert="8192">
+    <gruppe>BA</gruppe>
+    <beschreibung>Türenschließen</beschreibung>
+    <impuls>true</impuls>
+    <horn>false</horn>
+    <fader>false</fader>
+  </funktion>
+  <funktion maske="16384" wert="16384">
+    <gruppe>AF</gruppe>
+    <beschreibung>Geräusche ausblenden</beschreibung>
+    <impuls>false</impuls>
+    <horn>false</horn>
+    <fader>true</fader>
+  </funktion>
+  <funktion maske="32768" wert="32768">
+    <gruppe>BA</gruppe>
+    <beschreibung>Bitte einsteigen ...</beschreibung>
+    <impuls>true</impuls>
+    <horn>false</horn>
+    <fader>false</fader>
+  </funktion>
+  <funktion maske="160" wert="0">
+    <gruppe>FL</gruppe>
+    <beschreibung>beidseitig</beschreibung>
+    <impuls>false</impuls>
+    <horn>false</horn>
+    <fader>false</fader>
+  </funktion>
+  <funktion maske="160" wert="32">
+    <gruppe>FL</gruppe>
+    <beschreibung>nur Seite 1</beschreibung>
+    <impuls>false</impuls>
+    <horn>false</horn>
+    <fader>false</fader>
+  </funktion>
+  <funktion maske="160" wert="128">
+    <gruppe>FL</gruppe>
+    <beschreibung>nur Seite 2</beschreibung>
+    <impuls>false</impuls>
+    <horn>false</horn>
+    <fader>false</fader>
+  </funktion>
+  <funktion maske="160" wert="160">
+    <gruppe>FL</gruppe>
+    <beschreibung>Doppel-A</beschreibung>
+    <impuls>false</impuls>
+    <horn>false</horn>
+    <fader>false</fader>
+  </funktion>
+  <konfiguration nr="1" soll="65">
+    <beschreibung>Adresse Einer- u. Zehner-Stelle</beschreibung>
+  </konfiguration>
+  <konfiguration nr="2" soll="13">
+    <beschreibung>Adresse Hunderter- u. Tausender-Stelle</beschreibung>
+  </konfiguration>
+  <konfiguration nr="11" soll="4">
+    <beschreibung>Anfahrverzögerung</beschreibung>
+  </konfiguration>
+  <konfiguration nr="12" soll="4">
+    <beschreibung>Bremsverzögerung</beschreibung>
+  </konfiguration>
+  <konfiguration nr="13" soll="120">
+    <beschreibung>Maximalgeschwindigkeit</beschreibung>
+  </konfiguration>
+  <konfiguration nr="14" soll="10">
+    <beschreibung>Mindestgeschwindigkeit</beschreibung>
+  </konfiguration>
+  <konfiguration nr="18" soll="120">
+    <beschreibung>Geschwindigkeit Rangiergang</beschreibung>
+  </konfiguration>
+  <konfiguration nr="81" soll="31">
+    <beschreibung>Dimmung Licht normal</beschreibung>
+  </konfiguration>
+  <konfiguration nr="82" soll="15">
+    <beschreibung>Dimmung Licht alternativ</beschreibung>
+  </konfiguration>
+</fahrzeug>

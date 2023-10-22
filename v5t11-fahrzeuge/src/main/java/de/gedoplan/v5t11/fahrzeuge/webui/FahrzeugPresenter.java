@@ -12,6 +12,8 @@ import de.gedoplan.v5t11.util.domain.attribute.FahrzeugId;
 import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 
 import java.io.ByteArrayInputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -19,14 +21,18 @@ import java.util.List;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.enterprise.inject.Produces;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.validation.constraints.NotNull;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logging.Logger;
+import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
+import org.primefaces.model.file.UploadedFile;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -103,22 +109,40 @@ public class FahrzeugPresenter implements Serializable {
   }
 
   public String create() {
-    this.currentFahrzeug = new Fahrzeug(this.newId);
-    this.fahrzeuge.add(this.currentFahrzeug);
-    this.logger.debugf("Create %s", this.currentFahrzeug);
-    return "edit";
+    this.currentFahrzeug = new Fahrzeug(new FahrzeugId(SystemTyp.DCC, 3));
+    return "create";
   }
 
-  public String edit(Fahrzeug fahrzeug) {
-    this.currentFahrzeug = fahrzeug;
-    this.logger.debugf("Edit %s", this.currentFahrzeug);
-    return "edit";
+  public String store() {
+    if (this.fahrzeuge.stream()
+      .filter(f -> !f.equals(this.currentFahrzeug))
+      .anyMatch(f -> f.getBetriebsnummer().equals(this.currentFahrzeug.getBetriebsnummer()))) {
+      FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Betriebsnummer bereits vergeben", null);
+      FacesContext.getCurrentInstance().addMessage(null, message);
+      return null;
+    }
+
+    this.fahrzeugRepository.merge(this.currentFahrzeug);
+
+    int i = this.fahrzeuge.indexOf(this.currentFahrzeug);
+    if (i >= 0) {
+      this.fahrzeuge.set(i, this.currentFahrzeug);
+    } else {
+      this.fahrzeuge.add(this.currentFahrzeug);
+    }
+    return "finished";
   }
 
-  public String program(Fahrzeug fahrzeug) {
+  public String editFunktionen(Fahrzeug fahrzeug) {
     this.currentFahrzeug = fahrzeug;
-    this.logger.debugf("Program %s", this.currentFahrzeug);
-    return "program";
+    this.logger.debugf("EditFunktionen %s", this.currentFahrzeug);
+    return "editFunktionen";
+  }
+
+  public String editKonfiguration(Fahrzeug fahrzeug) {
+    this.currentFahrzeug = fahrzeug;
+    this.logger.debugf("EditKonfiguration %s", this.currentFahrzeug);
+    return "editKonfiguration";
   }
 
   public String control(Fahrzeug fahrzeug) {
@@ -205,4 +229,18 @@ public class FahrzeugPresenter implements Serializable {
     }
   }
 
+  public void handleFileUpload(FileUploadEvent event) {
+    UploadedFile file = event.getFile();
+    logger.debugf("File %s hochgeladen", file.getFileName());
+
+    try (Reader contentReader = new InputStreamReader(file.getInputStream())) {
+      Fahrzeug fahrzeug = XmlConverter.fromXml(Fahrzeug.class, contentReader);
+      logger.debugf("Hochgeladene Fahrzeugdaten: %s", fahrzeug);
+      this.currentFahrzeug = fahrzeug;
+    } catch (Exception e) {
+      logger.error("File-Import fehlgeschlagen", e);
+      FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Upload fehlgeschlagen", null);
+      FacesContext.getCurrentInstance().addMessage(null, message);
+    }
+  }
 }

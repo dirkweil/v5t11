@@ -31,16 +31,26 @@
                                    title="steuern" ajax="false"/>
                   <p:menuButton icon="pi pi-bars"
                                 styleClass="fahrzeug-button">
-                    <p:menuitem value="Funktionen" icon="pi pi-list" action="#{fahrzeugPresenter.edit(fahrzeug)}"
+                    <p:menuitem value="Funktionen" icon="pi pi-calculator"
+                                title="Funktionszuordnung bearbeiten"
+                                action="#{fahrzeugPresenter.editFunktionen(fahrzeug)}"
                                 ajax="false"/>
                     <p:menuitem value="Konfiguration" icon="pi pi-wrench"
-                                action="#{fahrzeugPresenter.program(fahrzeug)}" ajax="false"/>
+                                title="Decoder-Konfiguration bearbeiten"
+                                action="#{fahrzeugPresenter.editKonfiguration(fahrzeug)}"
+                                ajax="false"/>
                     <p:divider/>
-                    <p:menuitem value="Download" icon="pi pi-download" ajax="false">
+                    <p:menuitem value="Speichern" icon="pi pi-save"
+                                title="Fahrzeugdefinition in Datei speichern"
+                                ajax="false">
                       <p:fileDownload value="#{fahrzeugPresenter.getXmlFile(fahrzeug)}"/>
                     </p:menuitem>
                     <p:divider/>
-                    <p:menuitem value="Löschen" icon="pi pi-trash" action="remove" ajax="false" immediate="true"/>
+                    <p:menuitem value="Löschen" icon="pi pi-trash"
+                                title="Fahrzeug löschen"
+                                action="remove"
+                                ajax="false"
+                                immediate="true"/>
                   </p:menuButton>
                 </h:panelGroup>
               </p:column>
@@ -67,7 +77,7 @@
         </p:column>
       </p:dataGrid>
 
-      <p:commandButton value="Neu" icon="pi pi-plus-circle" action="create" ajax="false"/>
+      <p:commandButton value="Neu" icon="pi pi-plus-circle" action="#{fahrzeugPresenter.create()}" ajax="false"/>
     </h:form>
 
     <h:outputStylesheet name="fahrzeuge.css"/>

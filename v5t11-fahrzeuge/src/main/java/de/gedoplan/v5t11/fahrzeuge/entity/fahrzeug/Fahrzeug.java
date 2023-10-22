@@ -7,6 +7,7 @@ import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.Access;
@@ -148,6 +149,8 @@ public class Fahrzeug extends SingleIdEntity<FahrzeugId> {
 
   public Fahrzeug(FahrzeugId id) {
     this.id = id;
+    this.funktionen = new ArrayList<>();
+    this.konfigurationen = new ArrayList<>();
   }
 
   public Fahrzeug(FahrzeugId id, String betriebsnummer, String decoder, List<FahrzeugFunktion> funktionen, List<FahrzeugKonfiguration> konfigurationen) {

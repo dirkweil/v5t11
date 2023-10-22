@@ -16,14 +16,14 @@
     </navigation-case>
 
     <navigation-case>
-      <from-outcome>edit</from-outcome>
-      <to-view-id>/view/fahrzeugEdit.xhtml</to-view-id>
+      <from-outcome>editFunktionen</from-outcome>
+      <to-view-id>/view/fahrzeugFunktionen.xhtml</to-view-id>
       <redirect/>
     </navigation-case>
 
     <navigation-case>
-      <from-outcome>program</from-outcome>
-      <to-view-id>/view/fahrzeugProgram.xhtml</to-view-id>
+      <from-outcome>editKonfiguration</from-outcome>
+      <to-view-id>/view/fahrzeugKonfiguration.xhtml</to-view-id>
       <redirect/>
     </navigation-case>
 

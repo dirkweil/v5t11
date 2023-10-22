@@ -49,7 +49,7 @@
           </p:column>
 
           <p:column headerText="#{fahrzeugProgramPresenter.currentFahrzeug.id.systemTyp.konfigWertBezeichnung}"
-                    sortBy="#{konfiguration.nr}" width="200">
+                    sortBy="#{konfiguration.nr}" width="60">
             <p:inputText value="#{konfiguration.nr}" readonly="#{!empty konfiguration.nr}" style="width: 100%" id="nr"/>
             <p:message for="nr"/>
           </p:column>
@@ -72,7 +72,7 @@
                              update="konfigurationen"/>
           </p:column>
 
-          <p:column headerText="Soll" sortable="false" width="200">
+          <p:column headerText="Soll" sortable="false" width="150">
             <p:inputText value="#{konfiguration.soll}" style="width: 100%" id="soll"/>
             <p:message for="nr"/>
           </p:column>
@@ -90,7 +90,7 @@
                              update="konfigurationen"/>
           </p:column>
 
-          <p:column headerText="Ist" sortable="false" width="200">
+          <p:column headerText="Ist" sortable="false" width="150">
             <p:inputText value="#{konfiguration.ist}" readonly="true" style="width: 100%" id="ist"/>
           </p:column>
 

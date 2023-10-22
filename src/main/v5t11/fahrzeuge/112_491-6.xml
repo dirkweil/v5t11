@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<fahrzeug>
+  <id>1112@DCC</id>
+  <betriebsnummer>112 491-6</betriebsnummer>
+  <funktion maske="1" wert="1">
+    <gruppe>FG</gruppe>
+    <beschreibung>Motor</beschreibung>
+    <impuls>false</impuls>
+    <horn>false</horn>
+    <fader>false</fader>
+  </funktion>
+  <funktion maske="2" wert="2">
+    <gruppe>BG</gruppe>
+    <beschreibung>Pfeife lang</beschreibung>
+    <impuls>true</impuls>
+    <horn>false</horn>
+    <fader>false</fader>
+  </funktion>
+  <funktion maske="4" wert="4">
+    <gruppe>BA</gruppe>
+    <beschreibung>Schaffnerpfiff</beschreibung>
+    <impuls>true</impuls>
+    <horn>false</horn>
+    <fader>false</fader>
+  </funktion>
+  <funktion maske="8" wert="8">
+    <gruppe>BG</gruppe>
+    <beschreibung>Kompressor</beschreibung>
+    <impuls>true</impuls>
+    <horn>false</horn>
+    <fader>false</fader>
+  </funktion>
+  <funktion maske="16" wert="16">
+    <gruppe>BG</gruppe>
+    <beschreibung>Ankuppeln</beschreibung>
+    <impuls>true</impuls>
+    <horn>false</horn>
+    <fader>false</fader>
+  </funktion>
+  <funktion maske="32" wert="32">
+    <gruppe>AF</gruppe>
+    <beschreibung>Direktsteuerung</beschreibung>
+    <impuls>false</impuls>
+    <horn>false</horn>
+    <fader>false</fader>
+  </funktion>
+  <funktion maske="64" wert="64">
+    <gruppe>BA</gruppe>
+    <beschreibung>???</beschreibung>
+    <impuls>true</impuls>
+    <horn>false</horn>
+    <fader>false</fader>
+  </funktion>
+  <funktion maske="128" wert="128">
+    <gruppe>BG</gruppe>
+    <beschreibung>Sanden</beschreibung>
+    <impuls>true</impuls>
+    <horn>false</horn>
+    <fader>false</fader>
+  </funktion>
+  <funktion maske="256" wert="256">
+    <gruppe>AF</gruppe>
+    <beschreibung>Rangiergang</beschreibung>
+    <impuls>false</impuls>
+    <horn>false</horn>
+    <fader>false</fader>
+  </funktion>
+  <funktion maske="512" wert="512">
+    <gruppe>AF</gruppe>
+    <beschreibung>Geräusche ausblenden</beschreibung>
+    <impuls>false</impuls>
+    <horn>false</horn>
+    <fader>true</fader>
+  </funktion>
+  <funktion maske="4096" wert="4096">
+    <gruppe>BG</gruppe>
+    <beschreibung>Pfeife kurz</beschreibung>
+    <impuls>true</impuls>
+    <horn>true</horn>
+    <fader>false</fader>
+  </funktion>
+  <funktion maske="8192" wert="8192">
+    <gruppe>BG</gruppe>
+    <beschreibung>Kurvenquietschen</beschreibung>
+    <impuls>true</impuls>
+    <horn>false</horn>
+    <fader>false</fader>
+  </funktion>
+  <funktion maske="3072" wert="0">
+    <gruppe>FL</gruppe>
+    <beschreibung>beidseitig</beschreibung>
+    <impuls>false</impuls>
+    <horn>false</horn>
+    <fader>false</fader>
+  </funktion>
+  <funktion maske="3072" wert="1024">
+    <gruppe>FL</gruppe>
+    <beschreibung>nur Seite 1</beschreibung>
+    <impuls>false</impuls>
+    <horn>false</horn>
+    <fader>false</fader>
+  </funktion>
+  <funktion maske="3072" wert="2048">
+    <gruppe>FL</gruppe>
+    <beschreibung>nur Seite 2</beschreibung>
+    <impuls>false</impuls>
+    <horn>false</horn>
+    <fader>false</fader>
+  </funktion>
+
+  <konfiguration nr="2" soll="42">
+    <beschreibung>Motorspannung in Fahrstufe 1 (siehe auch CV 29,Bit 4)</beschreibung>
+  </konfiguration>
+  <konfiguration nr="3" soll="42">
+    <beschreibung>Anfahrverzögerung</beschreibung>
+  </konfiguration>
+  <konfiguration nr="4" soll="42">
+    <beschreibung>Bremsverzögerung</beschreibung>
+  </konfiguration>
+  <konfiguration nr="5" soll="42">
+    <beschreibung>Motorspannung in höchster Fahrstufe, max 252 (siehe auch CV 29,Bit 4)</beschreibung>
+  </konfiguration>
+  <konfiguration nr="6" soll="42">
+    <beschreibung>Motorspannung in mittlerer Fahrstufe (siehe auch CV 29,Bit 4)</beschreibung>
+  </konfiguration>
+  <konfiguration nr="17" soll="192">
+    <beschreibung>Höherwertiger Teil der langen Adresse</beschreibung>
+  </konfiguration>
+  <konfiguration nr="18" soll="0">
+    <beschreibung>Niederwertiger Teil der langen Adresse</beschreibung>
+  </konfiguration>
+  <konfiguration nr="29" soll="46">
+    <beschreibung>Konfigurationsregister
+      Bit 0: Richtung umkehren
+      Bit 1: 28/126 Fahrstufen (statt 14)
+      Bit 2: Analogbetrieb erlaubt
+      Bit 3: Rückmeldung erlaubt
+      Bit 4: Motorkennlinie nach CV 67 bis 94 (statt interpoliert nach CV 2, 5 und 6)
+      Bit 5: Lange Lokadresse nach CV17/18
+    </beschreibung>
+  </konfiguration>
+  <konfiguration nr="60" soll="42">
+    <beschreibung>Helligkeit der Stirnbeleuchtung</beschreibung>
+  </konfiguration>
+  <konfiguration nr="66" soll="42">
+    <beschreibung>Geschwindigkeitsanpassung vorwärts (0=keine Anpassung, 1-127=verringern, 129-255=vergrößern)</beschreibung>
+  </konfiguration>
+
+  <konfiguration nr="67" soll="42">
+    <beschreibung>Motorspannung für Fahrstufe 1/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
+  </konfiguration>
+  <konfiguration nr="68" soll="42">
+    <beschreibung>Motorspannung für Fahrstufe 2/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
+  </konfiguration>
+  <konfiguration nr="69" soll="42">
+    <beschreibung>Motorspannung für Fahrstufe 3/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
+  </konfiguration>
+  <konfiguration nr="70" soll="42">
+    <beschreibung>Motorspannung für Fahrstufe 4/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
+  </konfiguration>
+  <konfiguration nr="71" soll="42">
+    <beschreibung>Motorspannung für Fahrstufe 5/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
+  </konfiguration>
+  <konfiguration nr="72" soll="42">
+    <beschreibung>Motorspannung für Fahrstufe 6/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
+  </konfiguration>
+  <konfiguration nr="73" soll="42">
+    <beschreibung>Motorspannung für Fahrstufe 7/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
+  </konfiguration>
+  <konfiguration nr="74" soll="42">
+    <beschreibung>Motorspannung für Fahrstufe 8/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
+  </konfiguration>
+  <konfiguration nr="75" soll="42">
+    <beschreibung>Motorspannung für Fahrstufe 9/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
+  </konfiguration>
+  <konfiguration nr="76" soll="42">
+    <beschreibung>Motorspannung für Fahrstufe 10/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
+  </konfiguration>
+  <konfiguration nr="77" soll="42">
+    <beschreibung>Motorspannung für Fahrstufe 11/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
+  </konfiguration>
+  <konfiguration nr="78" soll="42">
+    <beschreibung>Motorspannung für Fahrstufe 12/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
+  </konfiguration>
+  <konfiguration nr="79" soll="42">
+    <beschreibung>Motorspannung für Fahrstufe 13/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
+  </konfiguration>
+  <konfiguration nr="80" soll="42">
+    <beschreibung>Motorspannung für Fahrstufe 14/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
+  </konfiguration>
+  <konfiguration nr="81" soll="42">
+    <beschreibung>Motorspannung für Fahrstufe 15/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
+  </konfiguration>
+  <konfiguration nr="82" soll="42">
+    <beschreibung>Motorspannung für Fahrstufe 16/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
+  </konfiguration>
+  <konfiguration nr="83" soll="42">
+    <beschreibung>Motorspannung für Fahrstufe 17/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
+  </konfiguration>
+  <konfiguration nr="84" soll="42">
+    <beschreibung>Motorspannung für Fahrstufe 18/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
+  </konfiguration>
+  <konfiguration nr="85" soll="42">
+    <beschreibung>Motorspannung für Fahrstufe 19/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
+  </konfiguration>
+  <konfiguration nr="86" soll="42">
+    <beschreibung>Motorspannung für Fahrstufe 20/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
+  </konfiguration>
+  <konfiguration nr="87" soll="42">
+    <beschreibung>Motorspannung für Fahrstufe 21/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
+  </konfiguration>
+  <konfiguration nr="88" soll="42">
+    <beschreibung>Motorspannung für Fahrstufe 22/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
+  </konfiguration>
+  <konfiguration nr="89" soll="42">
+    <beschreibung>Motorspannung für Fahrstufe 23/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
+  </konfiguration>
+  <konfiguration nr="90" soll="42">
+    <beschreibung>Motorspannung für Fahrstufe 24/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
+  </konfiguration>
+  <konfiguration nr="91" soll="42">
+    <beschreibung>Motorspannung für Fahrstufe 25/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
+  </konfiguration>
+  <konfiguration nr="92" soll="42">
+    <beschreibung>Motorspannung für Fahrstufe 26/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
+  </konfiguration>
+  <konfiguration nr="93" soll="42">
+    <beschreibung>Motorspannung für Fahrstufe 27/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
+  </konfiguration>
+  <konfiguration nr="94" soll="42">
+    <beschreibung>Motorspannung für Fahrstufe 28/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
+  </konfiguration>
+  <konfiguration nr="95" soll="42">
+    <beschreibung>Geschwindigkeitsanpassung rückwärts (0=keine Anpassung, 1-127=verringern, 129-255=vergrößern)</beschreibung>
+  </konfiguration>
+  <konfiguration nr="266" soll="42">
+    <beschreibung>Lautstärke</beschreibung>
+  </konfiguration>
+  <konfiguration nr="287" soll="42">
+    <beschreibung>Bremssoundschwelle (je größer der Wert, umso früher wird beim Bremsen das Bremsgeräusch gestartet)</beschreibung>
+  </konfiguration>
+</fahrzeug>
