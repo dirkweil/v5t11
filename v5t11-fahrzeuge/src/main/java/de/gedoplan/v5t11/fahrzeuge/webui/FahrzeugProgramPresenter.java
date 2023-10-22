@@ -19,7 +19,6 @@ import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
-import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
@@ -56,18 +55,14 @@ public class FahrzeugProgramPresenter implements Serializable {
   private String selectedAktionsBeschreibung;
 
   public String save() {
-    Set<ConstraintViolation<Fahrzeug>> violations = this.validator.validate(this.currentFahrzeug);
-    if (!violations.isEmpty()) {
+    if (Set.copyOf(this.currentFahrzeug.getKonfigurationen()).size() != this.currentFahrzeug.getKonfigurationen().size()) {
       FacesContext facesContext = FacesContext.getCurrentInstance();
-      violations.forEach(cv -> {
-        FacesMessage facesMessage = new FacesMessage(cv.getMessage());
-        facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
-        facesContext.addMessage(null, facesMessage);
-      });
-      facesContext.validationFailed();
+      facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, this.currentFahrzeug.getId().getSystemTyp().getKonfigWertBezeichnung() + " doppelt", null));
     } else {
       this.fahrzeugRepository.merge(this.currentFahrzeug);
     }
+
+    this.currentFahrzeug.getKonfigurationen().sort((o1, o2) -> Integer.compare(o1.getNr(), o2.getNr()));
 
     return null;
 

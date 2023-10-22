@@ -41,10 +41,12 @@
             <f:facet name="header">
               <p:commandButton icon="pi pi-plus" title="Neu" style="width: 100%"
                                action="#{fahrzeugProgramPresenter.addKonfiguration()}"
+                               immediate="true"
                                update="konfigurationen"/>
             </f:facet>
             <p:commandButton icon="pi pi-trash" title="Löschen" style="width: 100%"
                              action="#{fahrzeugProgramPresenter.removeKonfiguration(konfiguration)}"
+                             immediate="true"
                              update="konfigurationen"/>
           </p:column>
 

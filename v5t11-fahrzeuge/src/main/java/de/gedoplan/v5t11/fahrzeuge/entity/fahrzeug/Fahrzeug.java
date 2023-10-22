@@ -22,6 +22,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Lob;
+import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import jakarta.validation.Valid;
@@ -143,6 +144,7 @@ public class Fahrzeug extends SingleIdEntity<FahrzeugId> {
 
   @ElementCollection(fetch = FetchType.EAGER)
   @CollectionTable(name = TABLE_NAME_KONFIGURATIONEN)
+  @OrderBy("nr")
   @Getter(onMethod_ = @JsonbInclude(full = true))
   @XmlElement(name = "konfiguration")
   private List<@NotNull @Valid FahrzeugKonfiguration> konfigurationen;
