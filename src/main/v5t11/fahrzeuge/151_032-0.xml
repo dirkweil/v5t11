@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<fahrzeug>
+    <id>20@SX1</id>
+    <betriebsnummer>151 032-0</betriebsnummer>
+    <decoder>DHL100</decoder>
+    <konfiguration nr="1" soll="25876">
+        <beschreibung>Standard-Parameter
+  Bit 0-6: Adresse
+  Bit 7: Anzahl Diodenbremsabschnitte
+  Bit 8-10: Höchstgeschwindigkeit
+  Bit 11-13: Anfahr- und Bremsverzögerung
+  Bit 14-15: Motorimpulsbreite</beschreibung>
+    </konfiguration>
+    <konfiguration nr="2" soll="139">
+        <beschreibung>Erweiterte Konfiguration
+  Bit 0-2: Anschlussvertauschungen
+  Bit 5-7: Motorregelungsvariante </beschreibung>
+    </konfiguration>
+</fahrzeug>

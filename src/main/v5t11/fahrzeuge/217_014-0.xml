@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<fahrzeug>
+    <id>2217@SX2</id>
+    <betriebsnummer>217 014-0</betriebsnummer>
+    <decoder>DH14B+Sound</decoder>
+    <funktion maske="1" wert="1">
+        <gruppe>AF</gruppe>
+        <beschreibung>Führerstandsbeleuchtung</beschreibung>
+        <impuls>false</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="2" wert="2">
+        <gruppe>FG</gruppe>
+        <beschreibung>Motor</beschreibung>
+        <impuls>false</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="4" wert="4">
+        <gruppe>BG</gruppe>
+        <beschreibung>Signalhorn hoch</beschreibung>
+        <impuls>true</impuls>
+        <horn>true</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="8" wert="8">
+        <gruppe>AF</gruppe>
+        <beschreibung>Direktsteuerung</beschreibung>
+        <impuls>false</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="16" wert="16">
+        <gruppe>BG</gruppe>
+        <beschreibung>Bremsenquietschen aus</beschreibung>
+        <impuls>false</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="64" wert="64">
+        <gruppe>BG</gruppe>
+        <beschreibung>Signalhorn tief</beschreibung>
+        <impuls>true</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="256" wert="256">
+        <gruppe>BG</gruppe>
+        <beschreibung>Hilfsdiesel</beschreibung>
+        <impuls>true</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="512" wert="512">
+        <gruppe>BG</gruppe>
+        <beschreibung>Kompressor</beschreibung>
+        <impuls>true</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="1024" wert="1024">
+        <gruppe>BA</gruppe>
+        <beschreibung>Schaffnerpfiff</beschreibung>
+        <impuls>true</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="160" wert="0">
+        <gruppe>FL</gruppe>
+        <beschreibung>beidseitig</beschreibung>
+        <impuls>false</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="160" wert="32">
+        <gruppe>FL</gruppe>
+        <beschreibung>nur Seite 1</beschreibung>
+        <impuls>false</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="160" wert="128">
+        <gruppe>FL</gruppe>
+        <beschreibung>nur Seite 2</beschreibung>
+        <impuls>false</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="160" wert="160">
+        <gruppe>FL</gruppe>
+        <beschreibung>Doppel-A</beschreibung>
+        <impuls>false</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <konfiguration nr="1" soll="17">
+        <beschreibung>Adresse Einer- u. Zehner-Stelle</beschreibung>
+    </konfiguration>
+    <konfiguration nr="2" soll="22">
+        <beschreibung>Adresse Hunderter- u. Tausender-Stelle</beschreibung>
+    </konfiguration>
+    <konfiguration nr="11" soll="5">
+        <beschreibung>Anfahrverzögerung</beschreibung>
+    </konfiguration>
+    <konfiguration nr="12" soll="5">
+        <beschreibung>Bremsverzögerung</beschreibung>
+    </konfiguration>
+    <konfiguration nr="13" soll="92">
+        <beschreibung>Maximalgeschwindigkeit</beschreibung>
+    </konfiguration>
+    <konfiguration nr="14" soll="10">
+        <beschreibung>Mindestgeschwindigkeit</beschreibung>
+    </konfiguration>
+    <konfiguration nr="18" soll="92">
+        <beschreibung>Geschwindigkeit Rangiergang</beschreibung>
+    </konfiguration>
+    <konfiguration nr="81" soll="31">
+        <beschreibung>Dimmung Licht normal</beschreibung>
+    </konfiguration>
+    <konfiguration nr="82" soll="15">
+        <beschreibung>Dimmung Licht alternativ</beschreibung>
+    </konfiguration>
+</fahrzeug>

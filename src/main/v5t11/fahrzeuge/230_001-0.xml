@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<fahrzeug>
+    <id>1230@DCC</id>
+    <betriebsnummer>230 001-0</betriebsnummer>
+    <funktion maske="1" wert="1">
+        <gruppe>BG</gruppe>
+        <beschreibung>Horn kurz</beschreibung>
+        <impuls>true</impuls>
+        <horn>true</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="2" wert="2">
+        <gruppe>FG</gruppe>
+        <beschreibung>Motor</beschreibung>
+        <impuls>false</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="4" wert="4">
+        <gruppe>BG</gruppe>
+        <beschreibung>Horn lang</beschreibung>
+        <impuls>true</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="8" wert="8">
+        <gruppe>AF</gruppe>
+        <beschreibung>Direktsteuerung</beschreibung>
+        <impuls>false</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="16" wert="16">
+        <gruppe>BG</gruppe>
+        <beschreibung>Druckluft ablassen</beschreibung>
+        <impuls>true</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="64" wert="64">
+        <gruppe>BG</gruppe>
+        <beschreibung>Bremsenquietschen aus</beschreibung>
+        <impuls>false</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="256" wert="256">
+        <gruppe>BG</gruppe>
+        <beschreibung>Sanden</beschreibung>
+        <impuls>true</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="512" wert="512">
+        <gruppe>BA</gruppe>
+        <beschreibung>Schaffnerpfiff</beschreibung>
+        <impuls>true</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="1024" wert="1024">
+        <gruppe>BA</gruppe>
+        <beschreibung>???</beschreibung>
+        <impuls>true</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="2048" wert="2048">
+        <gruppe>BG</gruppe>
+        <beschreibung>Türen schließen</beschreibung>
+        <impuls>true</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="160" wert="0">
+        <gruppe>FL</gruppe>
+        <beschreibung>beidseitig</beschreibung>
+        <impuls>false</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="160" wert="32">
+        <gruppe>FL</gruppe>
+        <beschreibung>nur Seite 2</beschreibung>
+        <impuls>false</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="160" wert="128">
+        <gruppe>FL</gruppe>
+        <beschreibung>nur Seite 1</beschreibung>
+        <impuls>false</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="160" wert="160">
+        <gruppe>FL</gruppe>
+        <beschreibung>Doppel-A</beschreibung>
+        <impuls>false</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <konfiguration nr="2" soll="10">
+        <beschreibung>Minimalgeschwindigkeit</beschreibung>
+    </konfiguration>
+    <konfiguration nr="3" soll="5">
+        <beschreibung>Anfahrverzögerung</beschreibung>
+    </konfiguration>
+    <konfiguration nr="4" soll="5">
+        <beschreibung>Bremsverzögerung</beschreibung>
+    </konfiguration>
+    <konfiguration nr="5" soll="83">
+        <beschreibung>Maximalgeschwindigkeit)</beschreibung>
+    </konfiguration>
+    <konfiguration nr="17" soll="196">
+        <beschreibung>Höherwertiger Teil der langen Adresse</beschreibung>
+    </konfiguration>
+    <konfiguration nr="18" soll="206">
+        <beschreibung>Niederwertiger Teil der langen Adresse</beschreibung>
+    </konfiguration>
+    <konfiguration nr="29" soll="38">
+        <beschreibung>Konfigurationsregister
+      Bit 0: Richtung umkehren
+      Bit 1: 28/126 Fahrstufen (statt 14)
+      Bit 2: Analogbetrieb erlaubt
+      Bit 5: Lange Lokadresse nach CV17/18
+    </beschreibung>
+    </konfiguration>
+</fahrzeug>

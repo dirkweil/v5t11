@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <fahrzeug>
-    <id>1112@DCC</id>
-    <betriebsnummer>112 491-6</betriebsnummer>
-    <decoder>Zimo MX648</decoder>
+    <id>1612@DCC</id>
+    <betriebsnummer>612 509-0</betriebsnummer>
     <funktion maske="1" wert="1">
         <gruppe>FG</gruppe>
         <beschreibung>Motor</beschreibung>
@@ -11,58 +10,44 @@
         <fader>false</fader>
     </funktion>
     <funktion maske="2" wert="2">
-        <gruppe>BG</gruppe>
-        <beschreibung>Pfeife lang</beschreibung>
-        <impuls>true</impuls>
+        <gruppe>AF</gruppe>
+        <beschreibung>Innenbeleuchtung</beschreibung>
+        <impuls>false</impuls>
         <horn>false</horn>
         <fader>false</fader>
     </funktion>
     <funktion maske="4" wert="4">
+        <gruppe>BG</gruppe>
+        <beschreibung>Signalhorn hoch</beschreibung>
+        <impuls>true</impuls>
+        <horn>true</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="8" wert="8">
+        <gruppe>BG</gruppe>
+        <beschreibung>Kompressor</beschreibung>
+        <impuls>false</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="16" wert="16">
         <gruppe>BA</gruppe>
         <beschreibung>Schaffnerpfiff</beschreibung>
         <impuls>true</impuls>
         <horn>false</horn>
         <fader>false</fader>
     </funktion>
-    <funktion maske="8" wert="8">
-        <gruppe>BG</gruppe>
-        <beschreibung>Kompressor</beschreibung>
-        <impuls>true</impuls>
-        <horn>false</horn>
-        <fader>false</fader>
-    </funktion>
-    <funktion maske="16" wert="16">
-        <gruppe>BG</gruppe>
-        <beschreibung>Ankuppeln</beschreibung>
-        <impuls>true</impuls>
-        <horn>false</horn>
-        <fader>false</fader>
-    </funktion>
-    <funktion maske="32" wert="32">
-        <gruppe>AF</gruppe>
-        <beschreibung>Direktsteuerung</beschreibung>
-        <impuls>false</impuls>
-        <horn>false</horn>
-        <fader>false</fader>
-    </funktion>
     <funktion maske="64" wert="64">
         <gruppe>BA</gruppe>
-        <beschreibung>???</beschreibung>
+        <beschreibung>Bitte einsteigen ..., Türenschließen, Pfiff</beschreibung>
         <impuls>true</impuls>
         <horn>false</horn>
         <fader>false</fader>
     </funktion>
     <funktion maske="128" wert="128">
-        <gruppe>BG</gruppe>
-        <beschreibung>Sanden</beschreibung>
+        <gruppe>BA</gruppe>
+        <beschreibung>Bitte einsteigen ...</beschreibung>
         <impuls>true</impuls>
-        <horn>false</horn>
-        <fader>false</fader>
-    </funktion>
-    <funktion maske="256" wert="256">
-        <gruppe>AF</gruppe>
-        <beschreibung>Rangiergang</beschreibung>
-        <impuls>false</impuls>
         <horn>false</horn>
         <fader>false</fader>
     </funktion>
@@ -73,63 +58,42 @@
         <horn>false</horn>
         <fader>true</fader>
     </funktion>
-    <funktion maske="4096" wert="4096">
+    <funktion maske="16384" wert="16384">
         <gruppe>BG</gruppe>
-        <beschreibung>Pfeife kurz</beschreibung>
-        <impuls>true</impuls>
-        <horn>true</horn>
-        <fader>false</fader>
-    </funktion>
-    <funktion maske="8192" wert="8192">
-        <gruppe>BG</gruppe>
-        <beschreibung>Kurvenquietschen</beschreibung>
+        <beschreibung>Signalhorn tief kurz</beschreibung>
         <impuls>true</impuls>
         <horn>false</horn>
         <fader>false</fader>
     </funktion>
-    <funktion maske="3072" wert="0">
-        <gruppe>FL</gruppe>
-        <beschreibung>beidseitig</beschreibung>
-        <impuls>false</impuls>
-        <horn>false</horn>
-        <fader>false</fader>
-    </funktion>
-    <funktion maske="3072" wert="1024">
-        <gruppe>FL</gruppe>
-        <beschreibung>nur Seite 1</beschreibung>
-        <impuls>false</impuls>
-        <horn>false</horn>
-        <fader>false</fader>
-    </funktion>
-    <funktion maske="3072" wert="2048">
-        <gruppe>FL</gruppe>
-        <beschreibung>nur Seite 2</beschreibung>
-        <impuls>false</impuls>
+    <funktion maske="32768" wert="32768">
+        <gruppe>BG</gruppe>
+        <beschreibung>Signalhorn tief lang</beschreibung>
+        <impuls>true</impuls>
         <horn>false</horn>
         <fader>false</fader>
     </funktion>
     <konfiguration nr="2" soll="10">
         <beschreibung>Motorspannung in Fahrstufe 1 (siehe auch CV 29,Bit 4)</beschreibung>
     </konfiguration>
-    <konfiguration nr="3" soll="10">
+    <konfiguration nr="3" soll="2">
         <beschreibung>Anfahrverzögerung</beschreibung>
     </konfiguration>
-    <konfiguration nr="4" soll="7">
+    <konfiguration nr="4" soll="2">
         <beschreibung>Bremsverzögerung</beschreibung>
     </konfiguration>
-    <konfiguration nr="5" soll="210">
+    <konfiguration nr="5" soll="240">
         <beschreibung>Motorspannung in höchster Fahrstufe, max 252 (siehe auch CV 29,Bit 4)</beschreibung>
     </konfiguration>
-    <konfiguration nr="6" soll="1">
+    <konfiguration nr="6" soll="100">
         <beschreibung>Motorspannung in mittlerer Fahrstufe (siehe auch CV 29,Bit 4)</beschreibung>
     </konfiguration>
-    <konfiguration nr="17" soll="196">
+    <konfiguration nr="17" soll="198">
         <beschreibung>Höherwertiger Teil der langen Adresse</beschreibung>
     </konfiguration>
-    <konfiguration nr="18" soll="88">
+    <konfiguration nr="18" soll="76">
         <beschreibung>Niederwertiger Teil der langen Adresse</beschreibung>
     </konfiguration>
-    <konfiguration nr="29" soll="46">
+    <konfiguration nr="29" soll="38">
         <beschreibung>Konfigurationsregister
       Bit 0: Richtung umkehren
       Bit 1: 28/126 Fahrstufen (statt 14)
@@ -139,7 +103,7 @@
       Bit 5: Lange Lokadresse nach CV17/18
     </beschreibung>
     </konfiguration>
-    <konfiguration nr="60" soll="60">
+    <konfiguration nr="60" soll="0">
         <beschreibung>Helligkeit der Stirnbeleuchtung</beschreibung>
     </konfiguration>
     <konfiguration nr="66" soll="0">
@@ -232,10 +196,10 @@
     <konfiguration nr="95" soll="0">
         <beschreibung>Geschwindigkeitsanpassung rückwärts (0=keine Anpassung, 1-127=verringern, 129-255=vergrößern)</beschreibung>
     </konfiguration>
-    <konfiguration nr="266" soll="56">
+    <konfiguration nr="266" soll="96">
         <beschreibung>Lautstärke</beschreibung>
     </konfiguration>
-    <konfiguration nr="287" soll="60">
+    <konfiguration nr="287" soll="50">
         <beschreibung>Bremssoundschwelle (je größer der Wert, umso früher wird beim Bremsen das Bremsgeräusch gestartet)</beschreibung>
     </konfiguration>
 </fahrzeug>

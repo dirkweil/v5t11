@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <fahrzeug>
-    <id>1112@DCC</id>
-    <betriebsnummer>112 491-6</betriebsnummer>
-    <decoder>Zimo MX648</decoder>
+    <id>1104@DCC</id>
+    <betriebsnummer>E10 472</betriebsnummer>
     <funktion maske="1" wert="1">
         <gruppe>FG</gruppe>
         <beschreibung>Motor</beschreibung>
@@ -108,6 +107,13 @@
         <horn>false</horn>
         <fader>false</fader>
     </funktion>
+    <funktion maske="3072" wert="3072">
+        <gruppe>FL</gruppe>
+        <beschreibung>Doppel-A</beschreibung>
+        <impuls>false</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
     <konfiguration nr="2" soll="10">
         <beschreibung>Motorspannung in Fahrstufe 1 (siehe auch CV 29,Bit 4)</beschreibung>
     </konfiguration>
@@ -126,7 +132,7 @@
     <konfiguration nr="17" soll="196">
         <beschreibung>Höherwertiger Teil der langen Adresse</beschreibung>
     </konfiguration>
-    <konfiguration nr="18" soll="88">
+    <konfiguration nr="18" soll="80">
         <beschreibung>Niederwertiger Teil der langen Adresse</beschreibung>
     </konfiguration>
     <konfiguration nr="29" soll="46">
@@ -139,7 +145,7 @@
       Bit 5: Lange Lokadresse nach CV17/18
     </beschreibung>
     </konfiguration>
-    <konfiguration nr="60" soll="60">
+    <konfiguration nr="60" soll="0">
         <beschreibung>Helligkeit der Stirnbeleuchtung</beschreibung>
     </konfiguration>
     <konfiguration nr="66" soll="0">
@@ -232,7 +238,7 @@
     <konfiguration nr="95" soll="0">
         <beschreibung>Geschwindigkeitsanpassung rückwärts (0=keine Anpassung, 1-127=verringern, 129-255=vergrößern)</beschreibung>
     </konfiguration>
-    <konfiguration nr="266" soll="56">
+    <konfiguration nr="266" soll="86">
         <beschreibung>Lautstärke</beschreibung>
     </konfiguration>
     <konfiguration nr="287" soll="60">

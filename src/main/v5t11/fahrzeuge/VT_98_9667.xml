@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<fahrzeug>
+    <id>1098@DCC</id>
+    <betriebsnummer>VT 98 9667</betriebsnummer>
+    <funktion maske="1" wert="1">
+        <gruppe>FG</gruppe>
+        <beschreibung>Motor</beschreibung>
+        <impuls>false</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="2" wert="2">
+        <gruppe>BA</gruppe>
+        <beschreibung>Türenschließen</beschreibung>
+        <impuls>true</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="4" wert="4">
+        <gruppe>BG</gruppe>
+        <beschreibung>Signalhorn</beschreibung>
+        <impuls>true</impuls>
+        <horn>true</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="16" wert="16">
+        <gruppe>BG</gruppe>
+        <beschreibung>Glocke</beschreibung>
+        <impuls>true</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="32" wert="32">
+        <gruppe>AF</gruppe>
+        <beschreibung>Geräusche ausblenden</beschreibung>
+        <impuls>false</impuls>
+        <horn>false</horn>
+        <fader>true</fader>
+    </funktion>
+    <funktion maske="64" wert="64">
+        <gruppe>AF</gruppe>
+        <beschreibung>Innenbeleuchtung</beschreibung>
+        <impuls>false</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <konfiguration nr="3" soll="10">
+        <beschreibung>Anfahrverzögerung (nur Motorwagen)</beschreibung>
+    </konfiguration>
+    <konfiguration nr="4" soll="7">
+        <beschreibung>Bremsverzögerung (nur Motorwagen)</beschreibung>
+    </konfiguration>
+    <konfiguration nr="5" soll="7">
+        <beschreibung>Motorspannung in höchster Fahrstufe (nur Motorwagen)</beschreibung>
+    </konfiguration>
+    <konfiguration nr="17" soll="196">
+        <beschreibung>Höherwertiger Teil der langen Adresse</beschreibung>
+    </konfiguration>
+    <konfiguration nr="18" soll="74">
+        <beschreibung>Niederwertiger Teil der langen Adresse</beschreibung>
+    </konfiguration>
+    <konfiguration nr="29" soll="35">
+        <beschreibung>Konfigurationsregister
+      Bit 0: Richtung umkehren
+      Bit 1: 28/126 Fahrstufen (statt 14)
+      Bit 2: Analogbetrieb erlaubt
+      Bit 5: Lange Lokadresse nach CV17/18
+    </beschreibung>
+    </konfiguration>
+    <konfiguration nr="49" soll="1">
+        <beschreibung>Impulsbreite zur Motorsteuerung (0-3) (nur Motorwagen)</beschreibung>
+    </konfiguration>
+    <konfiguration nr="50" soll="2">
+        <beschreibung>Regelvariante (0-3) (nur Motorwagen)</beschreibung>
+    </konfiguration>
+    <konfiguration nr="902" soll="95">
+        <beschreibung>Lautstärke (nur Steuerwagen)</beschreibung>
+    </konfiguration>
+</fahrzeug>

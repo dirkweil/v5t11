@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<fahrzeug>
+    <id>1200@DCC</id>
+    <betriebsnummer>V200 116</betriebsnummer>
+    <funktion maske="1" wert="1">
+        <gruppe>FG</gruppe>
+        <beschreibung>Motor</beschreibung>
+        <impuls>false</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="2" wert="2">
+        <gruppe>BG</gruppe>
+        <beschreibung>Signalhorn</beschreibung>
+        <impuls>true</impuls>
+        <horn>true</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="4" wert="4">
+        <gruppe>FG</gruppe>
+        <beschreibung>Motor 2</beschreibung>
+        <impuls>false</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="32" wert="32">
+        <gruppe>BG</gruppe>
+        <beschreibung>Abschlammen</beschreibung>
+        <impuls>true</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="64" wert="64">
+        <gruppe>AF</gruppe>
+        <beschreibung>Rangiergang</beschreibung>
+        <impuls>false</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="128" wert="128">
+        <gruppe>BG</gruppe>
+        <beschreibung>Handbremse</beschreibung>
+        <impuls>false</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="256" wert="256">
+        <gruppe>BG</gruppe>
+        <beschreibung>Kompressor</beschreibung>
+        <impuls>false</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="512" wert="512">
+        <gruppe>BG</gruppe>
+        <beschreibung>Führerstandstür</beschreibung>
+        <impuls>false</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="1024" wert="1024">
+        <gruppe>BG</gruppe>
+        <beschreibung>Maschinenraumtür</beschreibung>
+        <impuls>false</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="2048" wert="2048">
+        <gruppe>BG</gruppe>
+        <beschreibung>Führerstandsfenster</beschreibung>
+        <impuls>false</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="4096" wert="4096">
+        <gruppe>BG</gruppe>
+        <beschreibung>Seitenfenster</beschreibung>
+        <impuls>false</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="8192" wert="8192">
+        <gruppe>BG</gruppe>
+        <beschreibung>Kraftstoffpumpe</beschreibung>
+        <impuls>false</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="16384" wert="16384">
+        <gruppe>BG</gruppe>
+        <beschreibung>Speisepumpe</beschreibung>
+        <impuls>false</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="32768" wert="32768">
+        <gruppe>BG</gruppe>
+        <beschreibung>Vorwärmgerät</beschreibung>
+        <impuls>true</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="24" wert="0">
+        <gruppe>FL</gruppe>
+        <beschreibung>beidseitig</beschreibung>
+        <impuls>false</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="24" wert="8">
+        <gruppe>FL</gruppe>
+        <beschreibung>nur weiß</beschreibung>
+        <impuls>false</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="24" wert="16">
+        <gruppe>FL</gruppe>
+        <beschreibung>nur rot</beschreibung>
+        <impuls>false</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <konfiguration nr="2" soll="1">
+        <beschreibung>Minimalgeschwindigkeit</beschreibung>
+    </konfiguration>
+    <konfiguration nr="3" soll="15">
+        <beschreibung>Anfahrverzögerung</beschreibung>
+    </konfiguration>
+    <konfiguration nr="4" soll="7">
+        <beschreibung>Bremsverzögerung</beschreibung>
+    </konfiguration>
+    <konfiguration nr="5" soll="63">
+        <beschreibung>Maximalgeschwindigkeit</beschreibung>
+    </konfiguration>
+    <konfiguration nr="6" soll="21">
+        <beschreibung>Mittlere Geschwindigkeit</beschreibung>
+    </konfiguration>
+    <konfiguration nr="17" soll="196">
+        <beschreibung>Höherwertiger Teil der langen Adresse</beschreibung>
+    </konfiguration>
+    <konfiguration nr="18" soll="176">
+        <beschreibung>Niederwertiger Teil der langen Adresse</beschreibung>
+    </konfiguration>
+    <konfiguration nr="29" soll="46">
+        <beschreibung>Konfigurationsregister
+      Bit 0: Richtung umkehren
+      Bit 1: 28/126 Fahrstufen (statt 14)
+      Bit 2: Analogbetrieb erlaubt
+      Bit 3: Rückmeldung erlaubt
+      Bit 4: Kennlinie aus CV 67-94 statt CV 2,5,6
+      Bit 5: Lange Lokadresse nach CV17/18
+    </beschreibung>
+    </konfiguration>
+</fahrzeug>

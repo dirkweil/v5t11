@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<fahrzeug>
+    <id>1194@DCC</id>
+    <betriebsnummer>194 183-0</betriebsnummer>
+    <decoder>Zimo MX649F</decoder>
+    <funktion maske="1" wert="1">
+        <gruppe>FG</gruppe>
+        <beschreibung>Motor</beschreibung>
+        <impuls>false</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="2" wert="2">
+        <gruppe>BG</gruppe>
+        <beschreibung>Pfeife kurz</beschreibung>
+        <impuls>true</impuls>
+        <horn>true</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="4" wert="4">
+        <gruppe>BG</gruppe>
+        <beschreibung>Pfeife lang</beschreibung>
+        <impuls>true</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="8" wert="8">
+        <gruppe>BA</gruppe>
+        <beschreibung>Schaffnerpfiff</beschreibung>
+        <impuls>true</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="16" wert="16">
+        <gruppe>BG</gruppe>
+        <beschreibung>Ankuppeln</beschreibung>
+        <impuls>true</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="32" wert="32">
+        <gruppe>AF</gruppe>
+        <beschreibung>Direktsteuerung</beschreibung>
+        <impuls>false</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="64" wert="64">
+        <gruppe>BG</gruppe>
+        <beschreibung>Kurvenquietschen</beschreibung>
+        <impuls>false</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="128" wert="128">
+        <gruppe>BG</gruppe>
+        <beschreibung>Handpumpe</beschreibung>
+        <impuls>false</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="256" wert="256">
+        <gruppe>AF</gruppe>
+        <beschreibung>Rangiergang</beschreibung>
+        <impuls>false</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="512" wert="512">
+        <gruppe>BG</gruppe>
+        <beschreibung>Lüfter</beschreibung>
+        <impuls>false</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="1024" wert="1024">
+        <gruppe>BG</gruppe>
+        <beschreibung>Kompressor</beschreibung>
+        <impuls>false</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="2048" wert="2048">
+        <gruppe>BG</gruppe>
+        <beschreibung>Tür</beschreibung>
+        <impuls>false</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="8192" wert="8192">
+        <gruppe>AF</gruppe>
+        <beschreibung>Geräusche ausblenden</beschreibung>
+        <impuls>false</impuls>
+        <horn>false</horn>
+        <fader>true</fader>
+    </funktion>
+    <funktion maske="16384" wert="16384">
+        <gruppe>BG</gruppe>
+        <beschreibung>Sanden</beschreibung>
+        <impuls>true</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <konfiguration nr="2" soll="4">
+        <beschreibung>Motorspannung in Fahrstufe 1 (siehe auch CV 29,Bit 4)</beschreibung>
+    </konfiguration>
+    <konfiguration nr="3" soll="10">
+        <beschreibung>Beschleunigungszeit</beschreibung>
+    </konfiguration>
+    <konfiguration nr="4" soll="10">
+        <beschreibung>Verzögerungszeit</beschreibung>
+    </konfiguration>
+    <konfiguration nr="5" soll="165">
+        <beschreibung>Motorspannung in höchster Fahrstufe, max 252, 1 bedeutet 255 (siehe auch CV 29,Bit 4)</beschreibung>
+    </konfiguration>
+    <konfiguration nr="6" soll="1">
+        <beschreibung>Motorspannung in mittlerer Fahrstufe, 1 bedeutet 1/3 von CV 5 (siehe auch CV 29,Bit 4)</beschreibung>
+    </konfiguration>
+    <konfiguration nr="17" soll="196">
+        <beschreibung>Höherwertiger Teil der langen Adresse</beschreibung>
+    </konfiguration>
+    <konfiguration nr="18" soll="170">
+        <beschreibung>Niederwertiger Teil der langen Adresse</beschreibung>
+    </konfiguration>
+    <konfiguration nr="29" soll="46">
+        <beschreibung>Konfigurationsregister
+      Bit 0: Richtung umkehren
+      Bit 1: 28/126 Fahrstufen (statt 14)
+      Bit 2: Analogbetrieb erlaubt
+      Bit 3: Rückmeldung erlaubt
+      Bit 5: Lange Lokadresse nach CV17/18
+    </beschreibung>
+    </konfiguration>
+</fahrzeug>
