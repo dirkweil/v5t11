@@ -2,8 +2,10 @@ package de.gedoplan.v5t11.fahrzeuge.service;
 
 import de.gedoplan.v5t11.util.jsf.NavigationPresenter;
 
+import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Optional;
 
 import jakarta.enterprise.context.Dependent;
 import jakarta.enterprise.event.Observes;
@@ -32,7 +34,12 @@ public class BootStrap {
     log.infof("kafka: %s", kafkaUrl);
     log.infof("statusRestUrl: %s", configService.getStatusRestUrl());
 
-    dbInitService.fillDb();
+    Optional<Path> optionalPath = configService.getFahrzeugeInitPath();
+    if (optionalPath.isPresent()) {
+      dbInitService.loadFahrzeuge(optionalPath.get());
+    }
+
+    //    dbInitService.fillDb();
 
     joinService.joinMyself();
   }

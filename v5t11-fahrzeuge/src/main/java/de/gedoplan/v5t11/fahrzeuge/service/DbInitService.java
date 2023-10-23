@@ -1,19 +1,22 @@
 package de.gedoplan.v5t11.fahrzeuge.service;
 
+import de.gedoplan.baselibs.utils.xml.XmlConverter;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug;
-import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.FahrzeugFunktion;
-import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.FahrzeugKonfiguration;
 import de.gedoplan.v5t11.fahrzeuge.persistence.FahrzeugRepository;
-import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.nio.file.Path;
 
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
+import jakarta.xml.bind.JAXBException;
 
-import static de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.AF;
-import static de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BA;
-import static de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG;
-import static de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FG;
-import static de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL;
+import org.jboss.logging.Logger;
 
 @Dependent
 public class DbInitService {
@@ -21,6 +24,7 @@ public class DbInitService {
   @Inject
   FahrzeugRepository fahrzeugRepository;
 
+/*
   void fillDb() {
     if (this.fahrzeugRepository.countAll() != fahrzeuge.length) {
       for (Fahrzeug f : fahrzeuge) {
@@ -376,5 +380,36 @@ public class DbInitService {
     lokVT_11_5019,
     lokVT_98_9667
   };
+*/
 
+  @Inject
+  Logger logger;
+
+  @Transactional
+  public void loadFahrzeuge(Path path) {
+    File dir = path.toFile();
+    if (dir.exists() && dir.isDirectory()) {
+      for (File xmlFile : dir.listFiles((f, n) -> n.endsWith(".xml"))) {
+        loadFahrzeug(xmlFile);
+      }
+    }
+  }
+
+  private void loadFahrzeug(File xmlFile) {
+    try (Reader reader = new FileReader(xmlFile)) {
+      Fahrzeug fahrzeug = XmlConverter.fromXml(Fahrzeug.class, reader);
+
+      if (this.fahrzeugRepository.findById(fahrzeug.getId()).isEmpty()) {
+        this.fahrzeugRepository.persist(fahrzeug);
+        logger.debugf("%s aus %s importiert", fahrzeug.toString(true), xmlFile);
+      }
+
+    } catch (JAXBException e) {
+      logger.warnf("Datei %s enthält keine gültige Fahrzeugdefinition", xmlFile);
+    } catch (FileNotFoundException e) {
+      // ignore
+    } catch (IOException e) {
+      logger.errorf(e, "Kann Datei %s nicht lesen", xmlFile);
+    }
+  }
 }
