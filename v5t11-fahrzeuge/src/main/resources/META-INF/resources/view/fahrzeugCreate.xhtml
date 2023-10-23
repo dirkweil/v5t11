@@ -13,7 +13,7 @@
         <p:selectOneMenu value="#{fahrzeugPresenter.currentFahrzeug.id.systemTyp}" id="systemTyp">
           <f:selectItems value="#{fahrzeugPresenter.systemTypen}"/>
         </p:selectOneMenu>
-        <p:fileUpload label="importieren" chooseIcon="pi pi-file-import"
+        <p:fileUpload label="importieren" chooseIcon="pi pi-file-export"
                       title="Fahrzeugstammdaten aus XML-File lesen"
                       listener="#{fahrzeugPresenter.handleFileUpload}"
                       mode="simple"

@@ -40,8 +40,8 @@
                                 action="#{fahrzeugPresenter.editKonfiguration(fahrzeug)}"
                                 ajax="false"/>
                     <p:divider/>
-                    <p:menuitem value="Speichern" icon="pi pi-save"
-                                title="Fahrzeugdefinition in Datei speichern"
+                    <p:menuitem value="Export" icon="pi pi-file-import"
+                                title="Fahrzeugdefinition in XML-Datei speichern"
                                 ajax="false">
                       <p:fileDownload value="#{fahrzeugPresenter.getXmlFile(fahrzeug)}"/>
                     </p:menuitem>

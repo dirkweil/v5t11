@@ -14,9 +14,14 @@
                 id="id" style="vertical-align: middle;"/>
             <p:graphicImage name="#{fahrzeugPresenter.getImage(fahrzeugPresenter.currentFahrzeug)}" id="image"
                             height="50px" style="vertical-align: middle; margin-left: 20px; margin-right: 20px;"/>
+
             <h:outputLabel value="Betriebsnummer: " for="betriebsnummer"/>
             <p:inputText value="#{fahrzeugProgramPresenter.currentFahrzeug.betriebsnummer}" size="15"
                          style="vertical-align: middle;" id="betriebsnummer"/>
+
+            <h:outputLabel value="Decoder: " for="decoder"/>
+            <p:inputText value="#{fahrzeugProgramPresenter.currentFahrzeug.decoder}" size="15"
+                         style="vertical-align: middle;" id="decoder"/>
           </f:facet>
           <f:facet name="right">
             <p:commandButton value="Speichern" icon="pi pi-save"
