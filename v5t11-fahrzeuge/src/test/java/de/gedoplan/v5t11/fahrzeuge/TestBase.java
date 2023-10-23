@@ -1,7 +1,7 @@
 package de.gedoplan.v5t11.fahrzeuge;
 
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug;
-import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug.FahrzeugFunktion;
+import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.FahrzeugFunktion;
 import de.gedoplan.v5t11.fahrzeuge.persistence.FahrzeugRepository;
 import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 
@@ -9,11 +9,11 @@ import jakarta.inject.Inject;
 
 import org.junit.jupiter.api.BeforeEach;
 
-import static de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.AF;
-import static de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BA;
-import static de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG;
-import static de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FG;
-import static de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL;
+import static de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.AF;
+import static de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BA;
+import static de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG;
+import static de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FG;
+import static de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL;
 
 public class TestBase {
 

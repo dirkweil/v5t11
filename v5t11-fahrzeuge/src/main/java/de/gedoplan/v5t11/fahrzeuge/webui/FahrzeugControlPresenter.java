@@ -1,8 +1,8 @@
 package de.gedoplan.v5t11.fahrzeuge.webui;
 
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug;
-import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug.FahrzeugFunktion;
-import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe;
+import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.FahrzeugFunktion;
+import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe;
 import de.gedoplan.v5t11.fahrzeuge.gateway.StatusGateway;
 import de.gedoplan.v5t11.fahrzeuge.persistence.FahrzeugRepository;
 import de.gedoplan.v5t11.util.cdi.Current;
