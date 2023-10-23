@@ -25,7 +25,8 @@
 
               <p:column styleClass="rightAligned">
                 <h:panelGroup>
-                  <p:commandButton action="#{fahrzeugPresenter.control(fahrzeug)}"
+                  <p:commandButton actionListener="#{fahrzeugPresenter.setCurrentFahrzeug(fahrzeug)}"
+                                   action="control"
                                    icon="pi pi-sliders-v"
                                    styleClass="fahrzeug-button"
                                    title="steuern" ajax="false"/>
@@ -33,11 +34,13 @@
                                 styleClass="fahrzeug-button">
                     <p:menuitem value="Funktionen" icon="pi pi-calculator"
                                 title="Funktionszuordnung bearbeiten"
-                                action="#{fahrzeugPresenter.editFunktionen(fahrzeug)}"
+                                actionListener="#{fahrzeugPresenter.setCurrentFahrzeug(fahrzeug)}"
+                                action="editFunktionen"
                                 ajax="false"/>
                     <p:menuitem value="Konfiguration" icon="pi pi-wrench"
                                 title="Decoder-Konfiguration bearbeiten"
-                                action="#{fahrzeugPresenter.editKonfiguration(fahrzeug)}"
+                                actionListener="#{fahrzeugPresenter.setCurrentFahrzeug(fahrzeug)}"
+                                action="editKonfiguration"
                                 ajax="false"/>
                     <p:divider/>
                     <p:menuitem value="Export" icon="pi pi-file-import"
@@ -48,6 +51,7 @@
                     <p:divider/>
                     <p:menuitem value="Löschen" icon="pi pi-trash"
                                 title="Fahrzeug löschen"
+                                actionListener="#{fahrzeugPresenter.setCurrentFahrzeug(fahrzeug)}"
                                 action="remove"
                                 ajax="false"
                                 immediate="true"/>

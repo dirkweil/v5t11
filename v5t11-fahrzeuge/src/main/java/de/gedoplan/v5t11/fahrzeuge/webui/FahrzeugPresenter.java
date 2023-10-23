@@ -36,6 +36,7 @@ import org.primefaces.model.file.UploadedFile;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 @Named
 @SessionScoped
@@ -54,6 +55,7 @@ public class FahrzeugPresenter implements Serializable {
   @Getter
   private List<Fahrzeug> fahrzeuge;
 
+  @Setter
   private Fahrzeug currentFahrzeug;
 
   @Getter
@@ -123,32 +125,8 @@ public class FahrzeugPresenter implements Serializable {
     }
 
     this.fahrzeugRepository.merge(this.currentFahrzeug);
-
-    int i = this.fahrzeuge.indexOf(this.currentFahrzeug);
-    if (i >= 0) {
-      this.fahrzeuge.set(i, this.currentFahrzeug);
-    } else {
-      this.fahrzeuge.add(this.currentFahrzeug);
-    }
+    refreshFahrzeuge();
     return "finished";
-  }
-
-  public String editFunktionen(Fahrzeug fahrzeug) {
-    this.currentFahrzeug = fahrzeug;
-    this.logger.debugf("EditFunktionen %s", this.currentFahrzeug);
-    return "editFunktionen";
-  }
-
-  public String editKonfiguration(Fahrzeug fahrzeug) {
-    this.currentFahrzeug = fahrzeug;
-    this.logger.debugf("EditKonfiguration %s", this.currentFahrzeug);
-    return "editKonfiguration";
-  }
-
-  public String control(Fahrzeug fahrzeug) {
-    this.currentFahrzeug = fahrzeug;
-    this.logger.debugf("Control %s", this.currentFahrzeug);
-    return "control";
   }
 
   public String remove() {
