@@ -39,7 +39,6 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logging.Logger;
 
 import lombok.Getter;
-import lombok.Setter;
 
 @Named
 @ViewScoped
@@ -72,8 +71,12 @@ public class StellwerkPresenter implements Serializable {
   Logger logger;
 
   @Getter
-  @Setter
   private String webSocketSessionId;
+
+  public void setWebSocketSessionId(String webSocketSessionId) {
+    this.webSocketSessionId = webSocketSessionId;
+    this.logger.debugf("webSocketSessionId: " + this.webSocketSessionId);
+  }
 
   @Getter
   private boolean controlPanelEnabled;
@@ -117,7 +120,9 @@ public class StellwerkPresenter implements Serializable {
   }
 
   public void elementClicked() {
-    String uiId = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("uiId");
+    Map<String, String> requestParameterMap = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+    String uiId = requestParameterMap.get("uiId");
+    this.webSocketSessionId = requestParameterMap.get("wsId");
     this.logger.tracef("elementClicked: uiId=%s, webSocketSessionId=%s", uiId, this.webSocketSessionId);
 
     StellwerkElement element = this.stellwerkSessionHolder.getElementByUiUd(uiId);

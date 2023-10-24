@@ -9,7 +9,6 @@
   <ui:define name="content">
     <p:remoteCommand name="elementClicked"
                      action="#{stellwerkPresenter.elementClicked}"
-                     process="wsId"
                      update="controlPanel :messages"/>
 
     <h:form prependId="false">
@@ -19,7 +18,7 @@
             <canvas id="#{element.uiId}"
                     width="1000" height="1000"
                     style="grid-row-start: #{element.zeilenNr}; grid-column-start: #{element.spaltenNr}"
-                    onclick="elementClicked([{name:'uiId', value:'#{element.uiId}'}])">
+                    onclick="elementClicked([{name:'uiId', value:'#{element.uiId}'}, {name:'wsId', value:document.getElementById('wsId').value}])">
             </canvas>
           </ui:repeat>
         </ui:repeat>
