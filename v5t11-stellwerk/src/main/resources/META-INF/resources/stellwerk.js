@@ -7,9 +7,17 @@ socket.onmessage = function (event) {
   if (pushMsg.wsId != null) {
     updateWebSocketSessionId(pushMsg.wsId);
   } else {
+    var startTime = performance.now();
+
     for (const drawCommand of pushMsg) {
       drawElement(drawCommand);
     }
+
+    var endTime = performance.now();
+    var elementCount = pushMsg.length;
+    var elapsedTime = endTime - startTime;
+    var elementTime = elapsedTime / elementCount;
+    console.log('Drawing ' + elementCount + ' elements in ' + elapsedTime + ' ms (' + elementTime + ' ms/element)');
   }
 
   updateControlPanel();
@@ -24,7 +32,7 @@ function updateWebSocketSessionId(id) {
 }
 
 function drawElement(drawCommand) {
-  console.log('drawElement: ' + JSON.stringify(drawCommand));
+  // console.log('drawElement: ' + JSON.stringify(drawCommand));
   const htmlElement = document.getElementById(drawCommand.uiId);
 
   if (htmlElement != null) {
