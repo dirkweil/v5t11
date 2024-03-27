@@ -535,6 +535,15 @@ public class FCC extends Zentrale {
     this.sx2BusSlot.set(idx, null);
   }
 
+  /**
+   * Fahrzeug (DCC oder SX2) am SX2-Bus anmelden.
+   * <p>
+   * Zur Ansteuerung eines DCC- oder SX2-Fahrzeugs wird eine der 32 Buserweiterungen mit dem Fahrzeug belegt.
+   *
+   * @param lok Fahrzeug
+   * @return Index der genutzen Sx2-Buserweiterung (0..31)
+   * @throws V5t11Exception falls keine Buserweiterung frei ist
+   */
   private int sx2Anmelden(Fahrzeug lok) {
     synchronized (Zentrale.class) {
       if (this.log.isDebugEnabled()) {
@@ -579,6 +588,11 @@ public class FCC extends Zentrale {
     };
   }
 
+  /**
+   * Buserweiterung für DCC- oder SX2-Fahrzeug freigeben.
+   *
+   * @param idx Index der Buserweiterung (0..31)
+   */
   private void sx2Abmelden(int idx) {
     synchronized (Zentrale.class) {
       if (this.log.isDebugEnabled()) {
