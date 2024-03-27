@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<fahrzeug>
+    <id>9999@DCC</id>
+    <betriebsnummer>Decodertest</betriebsnummer>
+    <decoder>Decoderwerk 60501</decoder>
+    <konfiguration nr="17" soll="231">
+        <beschreibung>Höherwertiger Teil der langen Adresse</beschreibung>
+    </konfiguration>
+    <konfiguration nr="18" soll="15">
+        <beschreibung>Niederwertiger Teil der langen Adresse</beschreibung>
+    </konfiguration>
+    <konfiguration nr="29" soll="34">
+        <beschreibung>Konfigurationsregister
+    Bit 0: Richtung umkehren
+    Bit 1: 28/126 Fahrstufen (statt 14)
+    Bit 2: Analogbetrieb erlaubt
+    Bit 5: Lange Lokadresse nach CV17/18</beschreibung>
+    </konfiguration>
+    <konfiguration nr="120" soll="0">
+        <beschreibung>A1 Schaltbefehlszuordnung</beschreibung>
+    </konfiguration>
+    <konfiguration nr="121" soll="100">
+        <beschreibung>A1 Dimmwert</beschreibung>
+    </konfiguration>
+    <konfiguration nr="122" soll="1">
+        <beschreibung>A1 Bedingung</beschreibung>
+    </konfiguration>
+    <konfiguration nr="123" soll="0">
+        <beschreibung>A1 Sonderfunktion</beschreibung>
+    </konfiguration>
+    <konfiguration nr="124" soll="5">
+        <beschreibung>A1 Zeitwert für Sonderfunktion</beschreibung>
+    </konfiguration>
+
+    <konfiguration nr="125" soll="0">
+        <beschreibung>A2 Schaltbefehlszuordnung</beschreibung>
+    </konfiguration>
+    <konfiguration nr="126" soll="100">
+        <beschreibung>A2 Dimmwert</beschreibung>
+    </konfiguration>
+    <konfiguration nr="127" soll="2">
+        <beschreibung>A2 Bedingung</beschreibung>
+    </konfiguration>
+    <konfiguration nr="128" soll="0">
+        <beschreibung>A2 Sonderfunktion</beschreibung>
+    </konfiguration>
+    <konfiguration nr="129" soll="5">
+        <beschreibung>A2 Zeitwert für Sonderfunktion</beschreibung>
+    </konfiguration>
+
+    <konfiguration nr="130" soll="8">
+        <beschreibung>A3 Schaltbefehlszuordnung</beschreibung>
+    </konfiguration>
+    <konfiguration nr="131" soll="100">
+        <beschreibung>A3 Dimmwert</beschreibung>
+    </konfiguration>
+    <konfiguration nr="132" soll="0">
+        <beschreibung>A3 Bedingung</beschreibung>
+    </konfiguration>
+    <konfiguration nr="133" soll="0">
+        <beschreibung>A3 Sonderfunktion</beschreibung>
+    </konfiguration>
+    <konfiguration nr="134" soll="5">
+        <beschreibung>A3 Zeitwert für Sonderfunktion</beschreibung>
+    </konfiguration>
+
+    <konfiguration nr="135" soll="7">
+        <beschreibung>A4 Schaltbefehlszuordnung</beschreibung>
+    </konfiguration>
+    <konfiguration nr="136" soll="100">
+        <beschreibung>A4 Dimmwert</beschreibung>
+    </konfiguration>
+    <konfiguration nr="137" soll="0">
+        <beschreibung>A4 Bedingung</beschreibung>
+    </konfiguration>
+    <konfiguration nr="138" soll="0">
+        <beschreibung>A4 Sonderfunktion</beschreibung>
+    </konfiguration>
+    <konfiguration nr="139" soll="5">
+        <beschreibung>A4 Zeitwert für Sonderfunktion</beschreibung>
+    </konfiguration>
+
+    <konfiguration nr="140" soll="1">
+        <beschreibung>RGB1 Schaltbefehlszuordnung</beschreibung>
+    </konfiguration>
+    <konfiguration nr="141" soll="0">
+        <beschreibung>Rot1 Dimmwert</beschreibung>
+    </konfiguration>
+    <konfiguration nr="142" soll="0">
+        <beschreibung>Grün1 Dimmwert</beschreibung>
+    </konfiguration>
+    <konfiguration nr="143" soll="0">
+        <beschreibung>Blau1 Dimmwert</beschreibung>
+    </konfiguration>
+    <konfiguration nr="144" soll="228">
+        <beschreibung>Weiß1 Dimmwert</beschreibung>
+    </konfiguration>
+    <konfiguration nr="145" soll="0">
+        <beschreibung>RGB1 Bedingung</beschreibung>
+    </konfiguration>
+    <konfiguration nr="146" soll="0">
+        <beschreibung>RGB1 Sonderfunktion</beschreibung>
+    </konfiguration>
+    <konfiguration nr="147" soll="5">
+        <beschreibung>RGB1 Zeitwert für Sonderfunktion</beschreibung>
+    </konfiguration>
+
+    <konfiguration nr="150" soll="1">
+        <beschreibung>RGB2 Schaltbefehlszuordnung</beschreibung>
+    </konfiguration>
+    <konfiguration nr="151" soll="0">
+        <beschreibung>Rot2 Dimmwert</beschreibung>
+    </konfiguration>
+    <konfiguration nr="152" soll="0">
+        <beschreibung>Grün2 Dimmwert</beschreibung>
+    </konfiguration>
+    <konfiguration nr="153" soll="30">
+        <beschreibung>Blau2 Dimmwert</beschreibung>
+    </konfiguration>
+    <konfiguration nr="154" soll="100">
+        <beschreibung>Weiß2 Dimmwert</beschreibung>
+    </konfiguration>
+    <konfiguration nr="155" soll="0">
+        <beschreibung>RGB2 Bedingung</beschreibung>
+    </konfiguration>
+    <konfiguration nr="156" soll="0">
+        <beschreibung>RGB2 Sonderfunktion</beschreibung>
+    </konfiguration>
+    <konfiguration nr="157" soll="5">
+        <beschreibung>RGB2 Zeitwert für Sonderfunktion</beschreibung>
+    </konfiguration>
+
+    <konfiguration nr="160" soll="1">
+        <beschreibung>RGB3Schaltbefehlszuordnung</beschreibung>
+    </konfiguration>
+    <konfiguration nr="161" soll="0">
+        <beschreibung>Rot3Dimmwert</beschreibung>
+    </konfiguration>
+    <konfiguration nr="162" soll="0">
+        <beschreibung>Grün3Dimmwert</beschreibung>
+    </konfiguration>
+    <konfiguration nr="163" soll="0">
+        <beschreibung>Blau3Dimmwert</beschreibung>
+    </konfiguration>
+    <konfiguration nr="164" soll="228">
+        <beschreibung>Weiß3Dimmwert</beschreibung>
+    </konfiguration>
+    <konfiguration nr="165" soll="0">
+        <beschreibung>RGB3Bedingung</beschreibung>
+    </konfiguration>
+    <konfiguration nr="166" soll="0">
+        <beschreibung>RGB3Sonderfunktion</beschreibung>
+    </konfiguration>
+    <konfiguration nr="167" soll="5">
+        <beschreibung>RGB3Zeitwert für Sonderfunktion</beschreibung>
+    </konfiguration>
+
+    <konfiguration nr="170" soll="1">
+        <beschreibung>RGB4Schaltbefehlszuordnung</beschreibung>
+    </konfiguration>
+    <konfiguration nr="171" soll="0">
+        <beschreibung>Rot4Dimmwert</beschreibung>
+    </konfiguration>
+    <konfiguration nr="172" soll="0">
+        <beschreibung>Grün4Dimmwert</beschreibung>
+    </konfiguration>
+    <konfiguration nr="173" soll="0">
+        <beschreibung>Blau4Dimmwert</beschreibung>
+    </konfiguration>
+    <konfiguration nr="174" soll="228">
+        <beschreibung>Weiß4Dimmwert</beschreibung>
+    </konfiguration>
+    <konfiguration nr="175" soll="0">
+        <beschreibung>RGB4Bedingung</beschreibung>
+    </konfiguration>
+    <konfiguration nr="176" soll="0">
+        <beschreibung>RGB4Sonderfunktion</beschreibung>
+    </konfiguration>
+    <konfiguration nr="177" soll="5">
+        <beschreibung>RGB4Zeitwert für Sonderfunktion</beschreibung>
+    </konfiguration>
+
+    <konfiguration nr="180" soll="1">
+        <beschreibung>RGB5Schaltbefehlszuordnung</beschreibung>
+    </konfiguration>
+    <konfiguration nr="181" soll="0">
+        <beschreibung>Rot5Dimmwert</beschreibung>
+    </konfiguration>
+    <konfiguration nr="182" soll="0">
+        <beschreibung>Grün5Dimmwert</beschreibung>
+    </konfiguration>
+    <konfiguration nr="183" soll="0">
+        <beschreibung>Blau5Dimmwert</beschreibung>
+    </konfiguration>
+    <konfiguration nr="184" soll="228">
+        <beschreibung>Weiß5Dimmwert</beschreibung>
+    </konfiguration>
+    <konfiguration nr="185" soll="0">
+        <beschreibung>RGB5Bedingung</beschreibung>
+    </konfiguration>
+    <konfiguration nr="186" soll="0">
+        <beschreibung>RGB5Sonderfunktion</beschreibung>
+    </konfiguration>
+    <konfiguration nr="187" soll="5">
+        <beschreibung>RGB5Zeitwert für Sonderfunktion</beschreibung>
+    </konfiguration>
+</fahrzeug>

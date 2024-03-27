@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<fahrzeug>
+    <id>4100@DCC</id>
+    <betriebsnummer>RW-IC-41xx</betriebsnummer>
+    <funktion maske="63" wert="63">
+        <gruppe>AF</gruppe>
+        <beschreibung>Innenbeleuchtung komplett</beschreibung>
+        <impuls>false</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="32" wert="32">
+        <gruppe>AF</gruppe>
+        <beschreibung>Innenbeleuchtung Wagen 6</beschreibung>
+        <impuls>false</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="16" wert="16">
+        <gruppe>AF</gruppe>
+        <beschreibung>Innenbeleuchtung Wagen 5</beschreibung>
+        <impuls>false</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="8" wert="8">
+        <gruppe>AF</gruppe>
+        <beschreibung>Innenbeleuchtung Wagen 4</beschreibung>
+        <impuls>false</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="4" wert="4">
+        <gruppe>AF</gruppe>
+        <beschreibung>Innenbeleuchtung Wagen 3</beschreibung>
+        <impuls>false</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="2" wert="2">
+        <gruppe>AF</gruppe>
+        <beschreibung>Innenbeleuchtung Wagen 2</beschreibung>
+        <impuls>false</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="1" wert="1">
+        <gruppe>AF</gruppe>
+        <beschreibung>Innenbeleuchtung Wagen 1</beschreibung>
+        <impuls>false</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+</fahrzeug>

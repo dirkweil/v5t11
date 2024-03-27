@@ -1,0 +1,46 @@
+= Konfiguration Reisezugwaggons IC-41xx
+
+* Lichtleisten: Decoderwerk 60202
+** LED-Vorwiderstände ausgetauscht gegen 1k8
+
+* Gemeinsame Adresse 4100@DCC
+** CV17=208
+** CV18=4
+** CV29=34
+
+* Waggons 1-2
+** Eine Lichtleiste im Waggon 1,
++
+abgetrennter Teil der Lichtleiste im Waggon 2, angeschlossen an A2
+** Funktionszuordnung F1 und F2, Dimmwert 190, Sonderfunktion Neon:
+*** CV120=1, CV125=2
+*** CV121=CV126=190
+*** CV123=CV128=10
+
+* Waggons 3-4
+** Eine Lichtleiste im Waggon 3,
++
+abgetrennter Teil der Lichtleiste im Waggon 4, angeschlossen an A2
+** Funktionszuordnung F3 und F4, Dimmwert 190, Sonderfunktion Neon:
+*** CV120=3, CV125=4
+*** CV121=CV126=190
+*** CV123=CV128=10
+
+* Waggon 5
+** Funktionszuordnung F5, Dimmwert 190, Sonderfunktion Neon:
+*** CV120=5
+*** CV121=CV126=190
+*** CV123=CV128=10
+
+* Waggon 6
+** Wagenschlusslicht an A2 des Decoders angeschlossen
+** Funktionszuordnung F0 und F6, Dimmwert 190,
++
+Sonderfunktion A1 Neon, A2 Ein/Ausblenden:
+
+*** CV49=32
+*** CV120=6
+*** CV121=CV126=190
+*** CV123=10
+*** CV128=0
+

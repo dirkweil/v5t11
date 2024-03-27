@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<fahrzeug>
+    <id>4300@DCC</id>
+    <betriebsnummer>RW-NV-43xx</betriebsnummer>
+    <funktion maske="7" wert="7">
+        <gruppe>AF</gruppe>
+        <beschreibung>Innenbeleuchtung komplett</beschreibung>
+        <impuls>false</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="4" wert="4">
+        <gruppe>AF</gruppe>
+        <beschreibung>Innenbeleuchtung Wagen 3</beschreibung>
+        <impuls>false</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="2" wert="2">
+        <gruppe>AF</gruppe>
+        <beschreibung>Innenbeleuchtung Wagen 2</beschreibung>
+        <impuls>false</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+    <funktion maske="1" wert="1">
+        <gruppe>AF</gruppe>
+        <beschreibung>Innenbeleuchtung Wagen 1</beschreibung>
+        <impuls>false</impuls>
+        <horn>false</horn>
+        <fader>false</fader>
+    </funktion>
+</fahrzeug>

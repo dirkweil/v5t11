@@ -1,0 +1,13 @@
+= Konfiguration Reisezugwaggons IC-43xx (Silberlinge mit beige-blauem Steuerwagen)
+
+* Lichtleisten: ESU 50708
+
+* Gemeinsame Adresse 4300@DCC
+** CV17=208
+** CV18=204
+** CV29=34
+
+* Waggons 1-2
+** Eine Lichtleiste im Waggon 1 (LEDs 1-7),
++
+abgetrennter Teil der Lichtleiste im Waggon 2 (LEDs 8-11)
