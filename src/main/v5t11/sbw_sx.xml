@@ -3,11 +3,17 @@
   <FCC />
 
   <Besetztmelder>
-    <Muet8k id="BM-2019-1" adr="63" einbauOrt="SBf Ausfahrt">
-    </Muet8k>
+    <SXBM1 id="BM-2003-1" adr="52" einbauOrt="SBf Ausfahrt">
+      <Gleis idx="0" bereich="SBf" name="W9" />
+      <Gleis idx="1" bereich="SBf" name="W10" />
+      <Gleis idx="2" bereich="SBf" name="W11" />
+      <Gleis idx="3" bereich="SBf" name="W14" />
+      <Gleis idx="4" bereich="SBf" name="W16" />
+      <Gleis idx="5" bereich="SBf" name="W13" />
+      <Gleis idx="6" bereich="SBf" name="W15" />
+      <Gleis idx="7" bereich="SBf" name="W12" />
+    </SXBM1>
 
-    <Muet8k id="BM-2018-2" adr="43" einbauOrt="SBf Ausfahrt">
-    </Muet8k>
 
     <VM5262 id="BM-2019-4" adr="44" einbauOrt="SBf C">
     </VM5262>
@@ -33,9 +39,14 @@
     </SXBM1>
 
     <SXBM1 id="BM-2003-4" adr="49" einbauOrt="SBf A"> 
-    </SXBM1>
-
-    <SXBM1 id="BM-2003-1" adr="52" einbauOrt="SBf A">
+      <Gleis idx="0" bereich="SBf" name="5b" />
+      <Gleis idx="1" bereich="SBf" name="3b" />
+      <Gleis idx="2" bereich="SBf" name="1b" />
+      <Gleis idx="3" bereich="SBf" name="2b" />
+      <Gleis idx="4" bereich="SBf" name="4b" />
+      <Gleis idx="5" bereich="SBf" name="7b" />
+      <Gleis idx="6" bereich="SBf" name="8b" />
+      <Gleis idx="7" bereich="SBf" name="6b" />
     </SXBM1>
 
     <SXBM1 id="BM-2003-8" adr="50" einbauOrt="SBf Einfahrt">
