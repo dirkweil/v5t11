@@ -150,7 +150,7 @@
       <Leer anzahl="3" />
       <Gleis lage="N,SO" name="1005" bereich="S2000"/>
       <Leer anzahl="4" />
-      <Weiche lage="SW|S,N" name="1"/>
+      <Weiche lage="S|SW,N" name="1"/>
       <Gleis lage="N,S" name="1004" bereich="S2000"/>
     </Zeile>
     <Zeile>

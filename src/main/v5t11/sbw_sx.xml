@@ -176,6 +176,8 @@
   <Funktionsdecoder>
     <WDMiba3 id="FD-2003-1" adr="70" einbauOrt="SBf Einfahrt">
       <Weiche idx="0" bereich="SBf" name="7" />
+      <Weiche idx="1" bereich="SBf" name="2" />
+      <Weiche idx="5" bereich="SBf" name="1" />
       <Weiche idx="6" bereich="SBf" name="5" />
       <Weiche idx="7" bereich="SBf" name="3" />
     </WDMiba3>
