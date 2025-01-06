@@ -19,17 +19,14 @@
     </VM5262>
 
     <SXBM1 id="BM-2014-1" adr="45" einbauOrt="SBf C (mit SX-KS-1)">
-      <Gleis idx="0" bereich="SBf" name="XYZ0" /> <!-- M -->
+      <Gleis idx="0" bereich="SBf" name="9c" /> <!-- M -->
       <Gleis idx="1" bereich="SBf" name="XYZ1" /> <!-- lE -->
       <Gleis idx="2" bereich="SBf" name="XYZ2" /> <!-- lA -->
       <Gleis idx="3" bereich="SBf" name="XYZ3" /> <!-- rA -->
-      <Gleis idx="4" bereich="SBf" name="XYZ4" /> <!-- rA -->
-      <Gleis idx="5" bereich="SBf" name="XYZ5" /> <!-- lA -->
-      <Gleis idx="6" bereich="SBf" name="XYZ6" /> <!-- lE -->
-      <Gleis idx="7" bereich="SBf" name="XYZ7" /> <!-- rE -->
-    </SXBM1>
-
-    <SXBM1 id="BM-2014-3" adr="46" einbauOrt="SBf A">
+      <Gleis idx="4" bereich="SBf" name="9b" /> <!-- rA -->
+      <Gleis idx="5" bereich="SBf" name="9d" /> <!-- lA -->
+      <Gleis idx="6" bereich="SBf" name="9e" /> <!-- lE -->
+      <Gleis idx="7" bereich="SBf" name="9a" /> <!-- rE -->
     </SXBM1>
 
     <SXBM1 id="BM-2003-3" adr="47" einbauOrt="SBf A">
@@ -38,7 +35,7 @@
     <SXBM1 id="BM-2003-6" adr="48" einbauOrt="SBf A">
     </SXBM1>
 
-    <SXBM1 id="BM-2003-4" adr="49" einbauOrt="SBf A"> 
+    <SXBM1 id="BM-2014-3" adr="49" einbauOrt="SBf A"> 
       <Gleis idx="0" bereich="SBf" name="5b" />
       <Gleis idx="1" bereich="SBf" name="3b" />
       <Gleis idx="2" bereich="SBf" name="1b" />
@@ -50,9 +47,19 @@
     </SXBM1>
 
     <SXBM1 id="BM-2003-8" adr="50" einbauOrt="SBf Einfahrt">
+      <Gleis idx="1" bereich="SBf" name="W3" />
+      <Gleis idx="2" bereich="SBf" name="W5" />
+      <Gleis idx="3" bereich="SBf" name="W7" />
+      <Gleis idx="4" bereich="SBf" name="W8" />
     </SXBM1>
 
     <SXBM1 id="BM-2014-2" adr="51" einbauOrt="SBf Einfahrt">
+      <Gleis idx="0" bereich="SBf" name="W6" />
+      <Gleis idx="1" bereich="SBf" name="W1" />
+      <Gleis idx="1" bereich="SBf" name="W2" />
+      <Gleis idx="2" bereich="SBf" name="101" />
+      <Gleis idx="6" bereich="SBf" name="105" />
+      <Gleis idx="7" bereich="SBf" name="W4" />
     </SXBM1>
 
     <!-- Check OK -->
@@ -167,14 +174,30 @@
   </Besetztmelder>
   
   <Funktionsdecoder>
-    <WDMiba id="FD-2003-1" adr="70" einbauOrt="SBf Einfahrt">
-    </WDMiba>
+    <WDMiba3 id="FD-2003-1" adr="70" einbauOrt="SBf Einfahrt">
+      <Weiche idx="0" bereich="SBf" name="7" />
+      <Weiche idx="6" bereich="SBf" name="5" />
+      <Weiche idx="7" bereich="SBf" name="3" />
+    </WDMiba3>
 
-    <WDMiba id="FD-2003-2" adr="71" einbauOrt="SBf Einfahrt">
-    </WDMiba>
+    <WDMiba3 id="FD-2003-2" adr="71" einbauOrt="SBf Einfahrt">
 
-    <WDMiba id="FD-2003-3" adr="72" einbauOrt="SBf Ausfahrt">
-    </WDMiba>
+      <Schalter idx="1" bereich="SBf" name="KS9" />
+      <Weiche idx="2" bereich="SBf" name="6" />
+      <Weiche idx="3" bereich="SBf" name="8" />
+      <Weiche idx="4" bereich="SBf" name="4" />
+    </WDMiba3>
+
+    <WDMiba3 id="FD-2003-3" adr="72" einbauOrt="SBf Ausfahrt">
+      <Weiche idx="0" bereich="SBf" name="10" />
+      <Weiche idx="1" bereich="SBf" name="12" />
+      <Weiche idx="2" bereich="SBf" name="14" />
+      <Weiche idx="3" bereich="SBf" name="15" />
+      <Weiche idx="4" bereich="SBf" name="16" />
+      <Weiche idx="5" bereich="SBf" name="13" />
+      <Weiche idx="6" bereich="SBf" name="11" />
+      <Weiche idx="7" bereich="SBf" name="9" />
+    </WDMiba3>
 
     <!-- Check OK -->
     <SD8 id="FD-2013-2" adr="76" einbauOrt="Ausfahrt rechts NBf">
@@ -307,5 +330,58 @@
     <SxLokControl id="0" adr="30" />
     <SxLokControl id="1" adr="31" />
   </Lokcontroller>
+
+  <AutoSkripte>
+    <AutoSkript bereich="SBf" beschreibung="Polung Wendestrecke 9">
+      <Gleis name="9a" />
+      <Gleis name="9b" />
+      <Gleis name="9c" />
+      <Gleis name="9d" />
+      <Gleis name="9e" />
+      <Schalter name="KS9" />
+      <Skript sprache="groovy">
+        if (gleis9d.isBesetzt() || gleis9e.isBesetzt()) {
+          log.debug("Polung KS9: links");
+          schalterKS9.setStellung(EIN);
+        } else if (gleis9a.isBesetzt() || gleis9b.isBesetzt()) {
+          log.debug("Polung KS9: rechts");
+          schalterKS9.setStellung(AUS);
+        }
+      </Skript>
+    </AutoSkript>
+
+<!--
+    <AutoSkript bereich="SBf" beschreibung="Polung Wendestrecke 18">
+      <Gleis name="18a" />
+      <Gleis name="18b" />
+      <Gleis name="18c" />
+      <Schalter name="KS18" />
+      <Skript sprache="groovy">
+        if (gleis18c.isBesetzt()) {
+          log.debug("Polung KS18: links");
+          schalterKS18.setStellung(EIN);
+        } else if (gleis18a.isBesetzt()) {
+          log.debug("Polung KS18: rechts");
+          schalterKS18.setStellung(AUS);
+        }
+      </Skript>
+    </AutoSkript>
+-->
+<!--
+    <AutoSkript bereich="HBf" beschreibung="Sbk2">
+      <Gleis bereich="S20" name="2002" />
+      <Signal name="Sbk2" />
+      <Skript sprache="groovy">
+        if (gleis2002.isBesetzt()) {
+          log.debug("Sbk2: HALT");
+          signalSbk2.setStellung(HALT);
+        } else {
+          log.debug("Sbk2: FAHRT");
+          signalSbk2.setStellung(FAHRT);
+        }
+      </Skript>
+    </AutoSkript>
+-->
+  </AutoSkripte>
 
 </sx>
