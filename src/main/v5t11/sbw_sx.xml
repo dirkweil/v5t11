@@ -15,7 +15,7 @@
     </SXBM1>
 
 
-    <VM5262 id="BM-2019-4" adr="44" einbauOrt="SBf C">
+    <VM5262 id="BM-2019-4" adr="44" einbauOrt="TBD">
     </VM5262>
 
     <SXBM1 id="BM-2014-1" adr="45" einbauOrt="SBf C (mit SX-KS-1)">
@@ -30,9 +30,17 @@
     </SXBM1>
 
     <SXBM1 id="BM-2003-3" adr="47" einbauOrt="SBf A">
+      <Gleis idx="0" bereich="SBf" name="2a" />
+      <Gleis idx="1" bereich="SBf" name="1a" /> 
+      <Gleis idx="2" bereich="SBf" name="3a" /> 
     </SXBM1>
 
     <SXBM1 id="BM-2003-6" adr="48" einbauOrt="SBf A">
+      <Gleis idx="1" bereich="SBf" name="4a" /> 
+      <Gleis idx="2" bereich="SBf" name="5a" /> 
+      <Gleis idx="3" bereich="SBf" name="6a" /> 
+      <Gleis idx="4" bereich="SBf" name="7a" /> 
+      <Gleis idx="5" bereich="SBf" name="8a" /> 
     </SXBM1>
 
     <SXBM1 id="BM-2014-3" adr="49" einbauOrt="SBf A"> 
@@ -305,23 +313,6 @@
     </SD8>
 
     <NoFD>
-      <Weiche bereich="SBf" name="1" />
-      <Weiche bereich="SBf" name="2" />
-      <Weiche bereich="SBf" name="3" />
-      <Weiche bereich="SBf" name="4" />
-      <Weiche bereich="SBf" name="5" />
-      <Weiche bereich="SBf" name="6" />
-      <Weiche bereich="SBf" name="7" />
-      <Weiche bereich="SBf" name="8" />
-      <Weiche bereich="SBf" name="9" />
-      <Weiche bereich="SBf" name="10" />
-      <Weiche bereich="SBf" name="11" />
-      <Weiche bereich="SBf" name="12" />
-      <Weiche bereich="SBf" name="13" />
-      <Weiche bereich="SBf" name="14" />
-      <Weiche bereich="SBf" name="15" />
-      <Weiche bereich="SBf" name="16" />
-
       <Weiche bereich="S1000" name="1003" />
 
     </NoFD>
