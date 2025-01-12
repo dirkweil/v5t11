@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Parcours>
-  <!-- Fahrstrassen im Bereich S30 -->
+  <!-- Fahrstrassen im Bereich S30 
   <Fahrstrasse bereich="S30" zaehlrichtung="true" umkehrbar="true">
     <Gleis name="3001" />
     <Gleis name="1001" bereich="S10" />
   </Fahrstrasse>
-
+  
   <Fahrstrasse bereich="S30" zaehlrichtung="true" umkehrbar="true">
     <Gleis name="3002" />
     <Gleis name="1002" bereich="S10" />
   </Fahrstrasse>
+  -->
 
-  <!-- Fahrstrassen im Bereich S20 --> 
+  <!-- Fahrstrassen im Bereich S20  
   <Fahrstrasse bereich="S20" zaehlrichtung="true">
     <Gleis name="W2001" />
     <Weiche name="2001" stellung="GERADE" />
@@ -33,8 +34,9 @@
     <Gleis name="2003" />
     <Gleis name="407" bereich="HBf" />
   </Fahrstrasse>
+  -->
 
-  <!-- Fahrstrassen im Bereich S10 -->
+  <!-- Fahrstrassen im Bereich S10 
   <Fahrstrasse bereich="S10" zaehlrichtung="true" umkehrbar="true">
     <Gleis name="1001" />
     <Weiche name="1003" stellung="GERADE" />
@@ -66,6 +68,25 @@
   <Fahrstrasse bereich="S10" zaehlrichtung="true" umkehrbar="true">
     <Gleis name="1006" />
     <Gleis name="308" bereich="SBf" />
+  </Fahrstrasse>
+  -->
+
+  <!-- Fahrstrassen im Bereich S1000 --> 
+  <Fahrstrasse bereich="S1000" zaehlrichtung="true" umkehrbar="true">
+    <Gleis name="1004" />
+    <Gleis name="W1003" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="S1000" zaehlrichtung="true" umkehrbar="true">
+    <Gleis name="W1003" />
+    <Weiche name="1003" stellung="ABZWEIGEND" />
+    <Gleis name="1005" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="S1000" zaehlrichtung="true" umkehrbar="true">
+    <Gleis name="1005" />
+    <Weiche name="1" bereich="SBf" stellung="ABZWEIGEND" />
+    <Gleis name="W1" bereich="SBf"/>
   </Fahrstrasse>
 
   <!-- Fahrstrassen im Bereich SBf -->
