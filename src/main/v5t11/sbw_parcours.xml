@@ -76,12 +76,6 @@
   </Fahrstrasse>
 
   <Fahrstrasse bereich="SBf" zaehlrichtung="true" umkehrbar="true">
-    <Gleis name="9a" />
-    <Weiche name="1" stellung="GERADE" />
-    <Gleis name="W1" />
-  </Fahrstrasse>
-
-  <Fahrstrasse bereich="SBf" zaehlrichtung="true" umkehrbar="true">
     <Gleis name="W1" />
     <Gleis name="W2" />
   </Fahrstrasse>
@@ -304,7 +298,7 @@
     <Gleis name="W15" />
   </Fahrstrasse>
 
-  <Fahrstrasse bereich="SBf" zaehlrichtung="true" umkehrbar="true">
+  <Fahrstrasse bereich="SBf" zaehlrichtung="true" umkehrbar="false">
     <Gleis name="W15" />
     <Weiche name="16" stellung="GERADE" />
     <Gleis name="W16" />
@@ -315,10 +309,10 @@
     <Gleis name="201" />
   </Fahrstrasse>
 
-  <Fahrstrasse bereich="SBf" zaehlrichtung="false" umkehrbar="true">
-    <Gleis name="9a" />
+  <Fahrstrasse bereich="SBf" zaehlrichtung="true" umkehrbar="true">
+    <Gleis name="W1" zaehlrichtung="false" />
     <Weiche name="1" stellung="GERADE" />
-    <Gleis name="W1" zaehlrichtung="true" />
+    <Gleis name="9a" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="SBf" zaehlrichtung="true" umkehrbar="true">
