@@ -13,12 +13,12 @@
       <Leer anzahl="1"/>
       <Gleis lage="SW,NO" name="2001" bereich="S2000"/>
       <Gleis lage="O,SW" name="1b"/>
-      <Gleis lage="O,W" name="1b" anzahl="2"/>
-      <Gleis lage="O,W" name="1b" label="true"/>
       <Gleis lage="O,W" name="1b" anzahl="3"/>
-      <Gleis lage="O,W" name="1a" anzahl="3"/>
+      <Gleis lage="O,W" name="1b" label="true"/>
+      <Gleis lage="O,W" name="1b" anzahl="2"/>
+      <Gleis lage="O,W" name="1a" anzahl="4"/>
       <Gleis lage="O,W" name="1a" label="true"/>
-      <Gleis lage="O,W" name="1a" anzahl="5"/>
+      <Gleis lage="O,W" name="1a" anzahl="4"/>
       <Weiche lage="O,W|SW" name="7"/>
       <Weiche lage="O,W|SW" name="5"/>
       <Weiche lage="O,W|SW" name="3"/>
@@ -32,12 +32,12 @@
       <Gleis lage="S,NO" name="2001" bereich="S2000"/>
       <Gleis lage="NO,S" name="1b"/>
       <Gleis lage="O,SW" name="2b"/>
-      <Gleis lage="O,W" name="2b" anzahl="2"/>
+      <Gleis lage="O,W" name="2b" anzahl="3"/>
       <Gleis lage="O,W" name="2b" label="true"/>
       <Gleis lage="O,W" name="2b" anzahl="3"/>
       <Gleis lage="O,W" name="2a" anzahl="3"/>
       <Gleis lage="O,W" name="2a" label="true"/>
-      <Gleis lage="O,W" name="2a" anzahl="4"/>
+      <Gleis lage="O,W" name="2a" anzahl="3"/>
       <Gleis lage="NO,W" name="2a"/>
       <Gleis lage="NO,SW" name="3a"/>
       <Gleis lage="NO,SW" name="4a"/>
@@ -49,12 +49,12 @@
       <Gleis lage="S,N" name="2001" bereich="S2000"/>
       <Weiche lage="N|NO,S" name="9"/>
       <Gleis lage="O,SW" name="3b"/>
-      <Gleis lage="O,W" name="3b" anzahl="2"/>
+      <Gleis lage="O,W" name="3b" anzahl="3"/>
       <Gleis lage="O,W" name="3b" label="true"/>
       <Gleis lage="O,W" name="3b" anzahl="3"/>
       <Gleis lage="O,W" name="3a" anzahl="3"/>
       <Gleis lage="O,W" name="3a" label="true"/>
-      <Gleis lage="O,W" name="3a" anzahl="4"/>
+      <Gleis lage="O,W" name="3a" anzahl="3"/>
       <Gleis lage="NO,W" name="3a"/>
       <Gleis lage="NO,SW" name="4a"/>
       <Leer anzahl="7" />
@@ -65,12 +65,12 @@
       <Gleis lage="S,N" name="2001" bereich="S2000"/>
       <Weiche lage="N|NO,S" name="10"/>
       <Gleis lage="O,SW" name="4b"/>
-      <Gleis lage="O,W" name="4b" anzahl="2"/>
-      <Gleis lage="O,W" name="4b" label="true"/>
       <Gleis lage="O,W" name="4b" anzahl="3"/>
-      <Gleis lage="O,W" name="4a" anzahl="3"/>
+      <Gleis lage="O,W" name="4b" label="true"/>
+      <Gleis lage="O,W" name="4b" anzahl="4"/>
+      <Gleis lage="O,W" name="4a" anzahl="2"/>
       <Gleis lage="O,W" name="4a" label="true"/>
-      <Gleis lage="O,W" name="4a" anzahl="4"/>
+      <Gleis lage="O,W" name="4a" anzahl="3"/>
       <Gleis lage="NO,W" name="4a"/>
       <Leer anzahl="4" />
       <Gleis lage="O,SW" name="1005" bereich="S2000"/>
@@ -82,12 +82,12 @@
       <Gleis lage="S,N" name="2001" bereich="S2000"/>
       <Weiche lage="N|NO,S" name="11"/>
       <Gleis lage="O,SW" name="5b"/>
-      <Gleis lage="O,W" name="5b" anzahl="2"/>
-      <Gleis lage="O,W" name="5b" label="true"/>
       <Gleis lage="O,W" name="5b" anzahl="3"/>
-      <Gleis lage="O,W" name="5a" anzahl="3"/>
+      <Gleis lage="O,W" name="5b" label="true"/>
+      <Gleis lage="O,W" name="5b" anzahl="2"/>
+      <Gleis lage="O,W" name="5a" anzahl="4"/>
       <Gleis lage="O,W" name="5a" label="true"/>
-      <Gleis lage="O,W" name="5a" anzahl="5"/>
+      <Gleis lage="O,W" name="5a" anzahl="4"/>
       <Weiche lage="O,W|SW" name="8"/>
       <Weiche lage="O,W|SW" name="6"/>
       <Weiche lage="O,W|SW" name="4"/>
@@ -103,12 +103,12 @@
       <Gleis lage="S,N" name="2001" bereich="S2000"/>
       <Weiche lage="N|NO,S" name="12"/>
       <Gleis lage="O,SW" name="6b"/>
-      <Gleis lage="O,W" name="6b" anzahl="2"/>
+      <Gleis lage="O,W" name="6b" anzahl="3"/>
       <Gleis lage="O,W" name="6b" label="true"/>
       <Gleis lage="O,W" name="6b" anzahl="3"/>
       <Gleis lage="O,W" name="6a" anzahl="3"/>
       <Gleis lage="O,W" name="6a" label="true"/>
-      <Gleis lage="O,W" name="6a" anzahl="4"/>
+      <Gleis lage="O,W" name="6a" anzahl="3"/>
       <Gleis lage="NO,W" name="6a"/>
       <Gleis lage="NO,SW" name="7a"/>
       <Gleis lage="NO,SW" name="8a"/>
@@ -122,12 +122,12 @@
       <Gleis lage="S,N" name="2001" bereich="S2000"/>
       <Weiche lage="N|NO,S" name="13"/>
       <Gleis lage="O,SW" name="7b"/>
-      <Gleis lage="O,W" name="7b" anzahl="2"/>
+      <Gleis lage="O,W" name="7b" anzahl="3"/>
       <Gleis lage="O,W" name="7b" label="true"/>
       <Gleis lage="O,W" name="7b" anzahl="3"/>
       <Gleis lage="O,W" name="7a" anzahl="3"/>
       <Gleis lage="O,W" name="7a" label="true"/>
-      <Gleis lage="O,W" name="7a" anzahl="4"/>
+      <Gleis lage="O,W" name="7a" anzahl="3"/>
       <Gleis lage="NO,W" name="7a"/>
       <Gleis lage="NO,SW" name="8a"/>
       <Leer anzahl="2" />
@@ -140,12 +140,12 @@
       <Gleis lage="S,N" name="2001" bereich="S2000"/>
       <Weiche lage="N|NO,S" name="14"/>
       <Gleis lage="O,SW" name="8b"/>
-      <Gleis lage="O,W" name="8b" anzahl="2"/>
-      <Gleis lage="O,W" name="8b" label="true"/>
       <Gleis lage="O,W" name="8b" anzahl="3"/>
-      <Gleis lage="O,W" name="8a" anzahl="3"/>
+      <Gleis lage="O,W" name="8b" label="true"/>
+      <Gleis lage="O,W" name="8b" anzahl="4"/>
+      <Gleis lage="O,W" name="8a" anzahl="2"/>
       <Gleis lage="O,W" name="8a" label="true"/>
-      <Gleis lage="O,W" name="8a" anzahl="4"/>
+      <Gleis lage="O,W" name="8a" anzahl="3"/>
       <Gleis lage="NO,W" name="8a"/>
       <Leer anzahl="3" />
       <Gleis lage="N,SO" name="1005" bereich="S2000"/>
