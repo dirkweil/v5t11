@@ -314,6 +314,10 @@
 
     <NoFD>
       <Weiche bereich="S1000" name="1003" />
+      <Weiche bereich="S1000" name="1006" />
+      <Weiche bereich="S1000" name="1008" />
+      <Weiche bereich="S2000" name="2003" />
+      <Weiche bereich="S2000" name="2005" />
 
     </NoFD>
     

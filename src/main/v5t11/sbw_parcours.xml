@@ -73,20 +73,105 @@
 
   <!-- Fahrstrassen im Bereich S1000 --> 
   <Fahrstrasse bereich="S1000" zaehlrichtung="true" umkehrbar="true">
-    <Gleis name="1004" />
-    <Gleis name="W1003" />
-  </Fahrstrasse>
-
-  <Fahrstrasse bereich="S1000" zaehlrichtung="true" umkehrbar="true">
-    <Gleis name="W1003" />
+    <Gleis name="1001" />
     <Weiche name="1003" stellung="ABZWEIGEND" />
-    <Gleis name="1005" />
+    <Gleis name="W1003" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="S1000" zaehlrichtung="true" umkehrbar="true">
+    <Gleis name="1002" />
+    <Weiche name="1003" stellung="GERADE" />
+    <Gleis name="W1003" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="S1000" zaehlrichtung="true" umkehrbar="true">
+    <Gleis name="W1003" />
+    <Gleis name="1004" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="S1000" zaehlrichtung="true" umkehrbar="true">
+    <Gleis name="1004" />
+    <Weiche name="1006" stellung="ABZWEIGEND" />
+    <Gleis name="W1006" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="S1000" zaehlrichtung="true" umkehrbar="true">
     <Gleis name="1005" />
+    <Weiche name="1006" stellung="GERADE" />
+    <Gleis name="W1006" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="S1000" zaehlrichtung="true" umkehrbar="true">
+    <Gleis name="W1006" />
+    <Gleis name="1007" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="S1000" zaehlrichtung="true" umkehrbar="true">
+    <Gleis name="1007" />
+    <Gleis name="W1008" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="S1000" zaehlrichtung="true" umkehrbar="true">
+    <Gleis name="W1008" />
+    <Weiche name="1008" stellung="GERADE" />
+    <Gleis name="1010" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="S1000" zaehlrichtung="true" umkehrbar="true">
+    <Gleis name="W1008" />
+    <Weiche name="1008" stellung="ABZWEIGEND" />
+    <Gleis name="1009" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="S1000" zaehlrichtung="true" umkehrbar="true">
+    <Gleis name="1009" />
     <Weiche name="1" bereich="SBf" stellung="ABZWEIGEND" />
     <Gleis name="W1" bereich="SBf"/>
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="S1000" zaehlrichtung="true" umkehrbar="true">
+    <Gleis name="1010" />
+    <Gleis name="1011" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="S1000" zaehlrichtung="true" umkehrbar="true">
+    <Gleis name="1011" />
+    <Gleis name="1012" />
+  </Fahrstrasse>
+
+  <!-- Fahrstrassen im Bereich S2000 --> 
+  <Fahrstrasse bereich="S2000" zaehlrichtung="true" umkehrbar="true">
+    <Gleis name="2002" />
+    <Gleis name="W2003" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="S2000" zaehlrichtung="true" umkehrbar="true">
+    <Gleis name="W2003" />
+    <Weiche name="2003" stellung="ABZWEIGEND" />
+    <Gleis name="2004" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="S2000" zaehlrichtung="true" umkehrbar="true">
+    <Gleis name="W2003" />
+    <Weiche name="2003" stellung="GERADE" />
+    <Gleis name="2001" zaehlrichtung="false" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="S2000" zaehlrichtung="true" umkehrbar="true">
+    <Gleis name="2004" />
+    <Gleis name="W2005" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="S2000" zaehlrichtung="true" umkehrbar="true">
+    <Gleis name="W2005" />
+    <Weiche name="2005" stellung="ABZWEIGEND" />
+    <Gleis name="2006" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="S2000" zaehlrichtung="true" umkehrbar="true">
+    <Gleis name="W2005" />
+    <Weiche name="2005" stellung="GERADE" />
+    <Gleis name="2007" />
   </Fahrstrasse>
 
   <!-- Fahrstrassen im Bereich SBf -->
