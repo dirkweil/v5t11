@@ -325,10 +325,17 @@
     </SD8>
 
     <NoFD>
-      <Weiche bereich="SBf" name="1003" />
-      <Weiche bereich="SBf" name="2003" />
-      <Weiche bereich="SBf" name="2005" />
+      <!-- TODO --> <Weiche bereich="SBf" name="1003" />
+      <!-- TODO --> <Weiche bereich="SBf" name="2003" />
+      <!-- TODO --> <Weiche bereich="SBf" name="2005" />
 
+      <!-- TODO --> <Hauptsperrsignal idx="0" bereich="HBf" name="N21-25" />
+      <!-- TODO --> <Sperrsignal idx="0" bereich="HBf" name="21" />
+      <!-- TODO --> <Sperrsignal idx="6" bereich="HBf" name="W30" />
+      <!-- TODO --> <HauptsignalRtGnGe idx="8" bereich="HBf" name="F" />
+      <!-- TODO --> <HauptsignalRtGnGe idx="10" bereich="HBf" name="G" />
+      <!-- TODO --> <Vorsignal idx="12" bereich="HBf" name="p[F]" />
+      <!-- TODO --> <Vorsignal idx="14" bereich="HBf" name="p[G]" />
     </NoFD>
     
   </Funktionsdecoder>
