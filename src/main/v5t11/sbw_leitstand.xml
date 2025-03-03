@@ -189,7 +189,7 @@
       <Gleis lage="N,SO" name="201" label="true"/>
       <Leer anzahl="24" />
       <Gleis lage="SW,NO" name="1004" bereich="S1000" label="true"/>
-      <Gleis lage="S,N" name="1005" bereich="S1000" label="true"/>
+      <Gleis lage="S,N" name="201" bereich="NBf" label="true"/>
     </Zeile>
     <Zeile>
       <Leer />
@@ -278,8 +278,6 @@
     <Zeile>
       <Gleis lage="NW,SO" name="102" bereich="NBf" label="true"/>
       <Gleis lage="NW,SO" name="11" bereich="NBf" label="true"/>
-      <Leer anzahl="10"/>
-      <Gleis lage="SW,NO" name="202" bereich="NBf" label="true"/>
     </Zeile>
     <Zeile>
       <Leer anzahl="1"/>
@@ -288,7 +286,8 @@
       <Gleis lage="W,O" name="1" bereich="NBf" anzahl="3"/>
       <Gleis lage="W,O" name="1" bereich="NBf" label="true"/>
       <Gleis lage="W,O" name="1" bereich="NBf" anzahl="4"/>
-      <Weiche lage="SW|W,NO" name="7" bereich="NBf"/>
+      <Weiche lage="W|SW,O" name="7" bereich="NBf"/>
+      <Gleis lage="W,O" name="201" bereich="NBf" label="true"/>
     </Zeile>
     <Zeile>
       <Leer anzahl="2"/>

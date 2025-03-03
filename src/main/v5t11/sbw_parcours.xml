@@ -507,7 +507,7 @@
 
   <Fahrstrasse bereich="NBf" zaehlrichtung="true" umkehrbar="true">
     <Gleis name="1" />
-    <Weiche name="7" stellung="ABZWEIGEND" />
+    <Weiche name="7" stellung="GERADE" />
     <Gleis name="W7" />
   </Fahrstrasse>
 
@@ -520,7 +520,7 @@
 
   <Fahrstrasse bereich="NBf" zaehlrichtung="true" umkehrbar="true">
     <Gleis name="W6" />
-    <Weiche name="7" stellung="GERADE" />
+    <Weiche name="7" stellung="ABZWEIGEND" />
     <Gleis name="W7" />
   </Fahrstrasse>
 
@@ -552,14 +552,14 @@
 
   <Fahrstrasse bereich="NBf" zaehlrichtung="true" umkehrbar="true">
     <Gleis name="W7" />
-    <Gleis name="202" />
+    <Gleis name="201" />
   </Fahrstrasse>
 
   <!-- TODO Kombination mit anderen FS-Anteilen funktioniert nicht - Bereichsüberschreitung? -->
   <Fahrstrasse bereich="Nbf" zaehlrichtung="true" umkehrbar="true">
-    <Gleis name="202" />
-    <Weiche name="1005" stellung="GERADE" bereich="S10" />
-    <Gleis name="W1005" bereich="S10" />
+    <Gleis name="201" />
+    <Weiche name="1006" stellung="GERADE" bereich="S1000" />
+    <Gleis name="W1006" bereich="S1000" />
   </Fahrstrasse>
 
   <!-- Fahrstrassen im HBf -->
