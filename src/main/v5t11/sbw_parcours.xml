@@ -1,97 +1,102 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Parcours>
-  <!-- Fahrstrassen im Bereich S1000 --> 
-  <Fahrstrasse bereich="S1000" zaehlrichtung="true" umkehrbar="true">
+  <!-- Fahrstrassen im Bereich SBf --> 
+  <Fahrstrasse bereich="SBf" zaehlrichtung="true" umkehrbar="true">
     <Gleis name="1001" />
     <Weiche name="1003" stellung="ABZWEIGEND" />
     <Gleis name="W1003" />
   </Fahrstrasse>
 
-  <Fahrstrasse bereich="S1000" zaehlrichtung="true" umkehrbar="true">
+  <Fahrstrasse bereich="SBf" zaehlrichtung="true" umkehrbar="true">
     <Gleis name="1002" />
     <Weiche name="1003" stellung="GERADE" />
     <Gleis name="W1003" />
   </Fahrstrasse>
 
-  <Fahrstrasse bereich="S1000" zaehlrichtung="true" umkehrbar="true">
+  <Fahrstrasse bereich="SBf" zaehlrichtung="true" umkehrbar="true">
     <Gleis name="W1003" />
     <Gleis name="1004" />
   </Fahrstrasse>
 
-  <Fahrstrasse bereich="S1000" zaehlrichtung="true" umkehrbar="true">
+  <Fahrstrasse bereich="SBf" zaehlrichtung="true" umkehrbar="true">
     <Gleis name="1004" />
     <Weiche name="1006" stellung="ABZWEIGEND" />
     <Gleis name="W1006" />
   </Fahrstrasse>
 
-  <Fahrstrasse bereich="S1000" zaehlrichtung="true" umkehrbar="true">
+  <Fahrstrasse bereich="SBf" zaehlrichtung="true" umkehrbar="true">
     <Gleis name="W1006" />
     <Gleis name="1007" />
   </Fahrstrasse>
 
-  <Fahrstrasse bereich="S1000" zaehlrichtung="true" umkehrbar="true">
+  <Fahrstrasse bereich="SBf" zaehlrichtung="true" umkehrbar="true">
     <Gleis name="1007" />
     <Gleis name="W1008" />
   </Fahrstrasse>
 
-  <Fahrstrasse bereich="S1000" zaehlrichtung="false" umkehrbar="false">
+  <Fahrstrasse bereich="SBf" zaehlrichtung="false" umkehrbar="false">
     <Gleis name="1010" />
     <Weiche name="1008" stellung="GERADE" />
     <Gleis name="W1008" />
   </Fahrstrasse>
 
-  <Fahrstrasse bereich="S1000" zaehlrichtung="true" umkehrbar="true">
+  <Fahrstrasse bereich="SBf" zaehlrichtung="true" umkehrbar="true">
     <Gleis name="W1008" />
     <Weiche name="1008" stellung="ABZWEIGEND" />
     <Gleis name="1009" />
   </Fahrstrasse>
 
-  <Fahrstrasse bereich="S1000" zaehlrichtung="true" umkehrbar="true">
+  <Fahrstrasse bereich="SBf" zaehlrichtung="true" umkehrbar="true">
     <Gleis name="1009" />
     <Weiche name="1" bereich="SBf" stellung="ABZWEIGEND" />
     <Gleis name="W1" bereich="SBf"/>
   </Fahrstrasse>
 
-  <Fahrstrasse bereich="S1000" zaehlrichtung="false" umkehrbar="false">
+  <Fahrstrasse bereich="SBf" zaehlrichtung="false" umkehrbar="false">
     <Gleis name="1011" />
     <Gleis name="1010" />
   </Fahrstrasse>
 
-  <Fahrstrasse bereich="S1000" zaehlrichtung="false" umkehrbar="false">
+  <Fahrstrasse bereich="SBf" zaehlrichtung="false" umkehrbar="false">
     <Gleis name="1012" />
     <Gleis name="1011" />
   </Fahrstrasse>
 
-  <!-- Fahrstrassen im Bereich S2000 --> 
-  <Fahrstrasse bereich="S2000" zaehlrichtung="true" umkehrbar="true">
+  <!-- Fahrstrassen im Bereich SBf --> 
+  <Fahrstrasse bereich="SBf" zaehlrichtung="true" umkehrbar="true">
     <Gleis name="2002" />
     <Gleis name="W2003" />
   </Fahrstrasse>
 
-  <Fahrstrasse bereich="S2000" zaehlrichtung="true" umkehrbar="true">
+  <Fahrstrasse bereich="SBf" zaehlrichtung="true" umkehrbar="true">
     <Gleis name="W2003" />
     <Weiche name="2003" stellung="ABZWEIGEND" />
     <Gleis name="2004" />
   </Fahrstrasse>
 
-  <Fahrstrasse bereich="S2000" zaehlrichtung="true" umkehrbar="false">
+  <Fahrstrasse bereich="SBf" zaehlrichtung="true" umkehrbar="false">
     <Gleis name="W2003" />
     <Weiche name="2003" stellung="GERADE" />
     <Gleis name="2001" zaehlrichtung="false" />
   </Fahrstrasse>
 
-  <Fahrstrasse bereich="S2000" zaehlrichtung="true" umkehrbar="true">
+  <Fahrstrasse bereich="SBf" zaehlrichtung="false" umkehrbar="false">
+    <Gleis name="2001" />
+    <Gleis name="1012" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="SBf" zaehlrichtung="true" umkehrbar="true">
     <Gleis name="2004" />
     <Gleis name="W2005" />
   </Fahrstrasse>
 
-  <Fahrstrasse bereich="S2000" zaehlrichtung="true" umkehrbar="true">
+  <Fahrstrasse bereich="SBf" zaehlrichtung="true" umkehrbar="true">
     <Gleis name="W2005" />
     <Weiche name="2005" stellung="ABZWEIGEND" />
     <Gleis name="2006" />
   </Fahrstrasse>
 
-  <Fahrstrasse bereich="S2000" zaehlrichtung="true" umkehrbar="true">
+  <Fahrstrasse bereich="SBf" zaehlrichtung="true" umkehrbar="true">
     <Gleis name="W2005" />
     <Weiche name="2005" stellung="GERADE" />
     <Gleis name="2007" />
@@ -339,6 +344,11 @@
   </Fahrstrasse>
 
   <Fahrstrasse bereich="SBf" zaehlrichtung="true" umkehrbar="true">
+    <Gleis name="201" />
+    <Gleis name="2002" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="SBf" zaehlrichtung="true" umkehrbar="true">
     <Gleis name="W1" zaehlrichtung="false" />
     <Weiche name="1" stellung="GERADE" />
     <Gleis name="9a" />
@@ -479,10 +489,10 @@
   </Fahrstrasse>
 
   <!-- TODO Kombination mit anderen FS-Anteilen funktioniert nicht - Bereichsüberschreitung? -->
-  <Fahrstrasse bereich="Nbf" zaehlrichtung="true" umkehrbar="true">
-    <Gleis name="201" />
-    <Weiche name="1006" stellung="GERADE" bereich="S1000" />
-    <Gleis name="W1006" bereich="S1000" />
+  <Fahrstrasse bereich="SBf" zaehlrichtung="true" umkehrbar="true">
+    <Gleis name="201" bereich="NBf" />
+    <Weiche name="1006" stellung="GERADE" bereich="SBf" />
+    <Gleis name="W1006" bereich="SBf" />
   </Fahrstrasse>
 
   <!-- Fahrstrassen im HBf -->
@@ -1247,7 +1257,7 @@
     <Fahrstrasse ende="8b" />
   </AutoFahrstrasse>
 
-  <AutoFahrstrasse bereich="S1000" trigger="1009">
+  <AutoFahrstrasse bereich="SBf" trigger="1009">
     <Fahrstrasse ende="1b" bereich="SBf"/>
     <Fahrstrasse ende="2b" bereich="SBf"/>
     <Fahrstrasse ende="3b" bereich="SBf"/>
@@ -1256,6 +1266,14 @@
     <Fahrstrasse ende="6b" bereich="SBf"/>
     <Fahrstrasse ende="7b" bereich="SBf"/>
     <Fahrstrasse ende="8b" bereich="SBf"/>
+  </AutoFahrstrasse>
+
+  <AutoFahrstrasse bereich="SBf" trigger="1010">
+    <Fahrstrasse ende="1007"/>
+  </AutoFahrstrasse>
+
+  <AutoFahrstrasse bereich="SBf" trigger="1007">
+    <Fahrstrasse ende="1009"/>
   </AutoFahrstrasse>
 
   <AutoFahrstrasse bereich="SBf" trigger="201">
