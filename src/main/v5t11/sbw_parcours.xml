@@ -1,76 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Parcours>
-  <!-- Fahrstrassen im Bereich S30 
-  <Fahrstrasse bereich="S30" zaehlrichtung="true" umkehrbar="true">
-    <Gleis name="3001" />
-    <Gleis name="1001" bereich="S10" />
-  </Fahrstrasse>
-  
-  <Fahrstrasse bereich="S30" zaehlrichtung="true" umkehrbar="true">
-    <Gleis name="3002" />
-    <Gleis name="1002" bereich="S10" />
-  </Fahrstrasse>
-  -->
-
-  <!-- Fahrstrassen im Bereich S20  
-  <Fahrstrasse bereich="S20" zaehlrichtung="true">
-    <Gleis name="W2001" />
-    <Weiche name="2001" stellung="GERADE" />
-    <Gleis name="2003" />
-  </Fahrstrasse>
-
-  <Fahrstrasse bereich="S20" zaehlrichtung="true">
-    <Gleis name="W2001" />
-    <Weiche name="2001" stellung="ABZWEIGEND" />
-    <Gleis name="2002" />
-  </Fahrstrasse>
-
-  <Fahrstrasse bereich="S20" zaehlrichtung="true" umkehrbar="true">
-    <Gleis name="2002" />
-    <Gleis name="406" bereich="HBf" />
-  </Fahrstrasse>
-
-  <Fahrstrasse bereich="S20" zaehlrichtung="true" umkehrbar="true">
-    <Gleis name="2003" />
-    <Gleis name="407" bereich="HBf" />
-  </Fahrstrasse>
-  -->
-
-  <!-- Fahrstrassen im Bereich S10 
-  <Fahrstrasse bereich="S10" zaehlrichtung="true" umkehrbar="true">
-    <Gleis name="1001" />
-    <Weiche name="1003" stellung="GERADE" />
-    <Gleis name="W1003" />
-  </Fahrstrasse>
-
-  <Fahrstrasse bereich="S10" zaehlrichtung="true" umkehrbar="true">
-    <Gleis name="1002" />
-    <Weiche name="1003" stellung="ABZWEIGEND" />
-    <Gleis name="W1003" />
-  </Fahrstrasse>
-
-  <Fahrstrasse bereich="S10" zaehlrichtung="true" umkehrbar="true">
-    <Gleis name="W1003" />
-    <Gleis name="1004" />
-  </Fahrstrasse>
-
-  <Fahrstrasse bereich="S10" zaehlrichtung="true" umkehrbar="true">
-    <Gleis name="1004" />
-    <Weiche name="1005" stellung="ABZWEIGEND" />
-    <Gleis name="W1005" />
-  </Fahrstrasse>
-
-  <Fahrstrasse bereich="S10" zaehlrichtung="true" umkehrbar="true">
-    <Gleis name="W1005" />
-    <Gleis name="1006" />
-  </Fahrstrasse>
-
-  <Fahrstrasse bereich="S10" zaehlrichtung="true" umkehrbar="true">
-    <Gleis name="1006" />
-    <Gleis name="308" bereich="SBf" />
-  </Fahrstrasse>
-  -->
-
   <!-- Fahrstrassen im Bereich S1000 --> 
   <Fahrstrasse bereich="S1000" zaehlrichtung="true" umkehrbar="true">
     <Gleis name="1001" />
@@ -96,12 +25,6 @@
   </Fahrstrasse>
 
   <Fahrstrasse bereich="S1000" zaehlrichtung="true" umkehrbar="true">
-    <Gleis name="1005" />
-    <Weiche name="1006" stellung="GERADE" />
-    <Gleis name="W1006" />
-  </Fahrstrasse>
-
-  <Fahrstrasse bereich="S1000" zaehlrichtung="true" umkehrbar="true">
     <Gleis name="W1006" />
     <Gleis name="1007" />
   </Fahrstrasse>
@@ -111,10 +34,10 @@
     <Gleis name="W1008" />
   </Fahrstrasse>
 
-  <Fahrstrasse bereich="S1000" zaehlrichtung="true" umkehrbar="true">
-    <Gleis name="W1008" />
-    <Weiche name="1008" stellung="GERADE" />
+  <Fahrstrasse bereich="S1000" zaehlrichtung="false" umkehrbar="false">
     <Gleis name="1010" />
+    <Weiche name="1008" stellung="GERADE" />
+    <Gleis name="W1008" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="S1000" zaehlrichtung="true" umkehrbar="true">
@@ -129,14 +52,14 @@
     <Gleis name="W1" bereich="SBf"/>
   </Fahrstrasse>
 
-  <Fahrstrasse bereich="S1000" zaehlrichtung="true" umkehrbar="true">
-    <Gleis name="1010" />
+  <Fahrstrasse bereich="S1000" zaehlrichtung="false" umkehrbar="false">
     <Gleis name="1011" />
+    <Gleis name="1010" />
   </Fahrstrasse>
 
-  <Fahrstrasse bereich="S1000" zaehlrichtung="true" umkehrbar="true">
-    <Gleis name="1011" />
+  <Fahrstrasse bereich="S1000" zaehlrichtung="false" umkehrbar="false">
     <Gleis name="1012" />
+    <Gleis name="1011" />
   </Fahrstrasse>
 
   <!-- Fahrstrassen im Bereich S2000 --> 
@@ -151,7 +74,7 @@
     <Gleis name="2004" />
   </Fahrstrasse>
 
-  <Fahrstrasse bereich="S2000" zaehlrichtung="true" umkehrbar="true">
+  <Fahrstrasse bereich="S2000" zaehlrichtung="true" umkehrbar="false">
     <Gleis name="W2003" />
     <Weiche name="2003" stellung="GERADE" />
     <Gleis name="2001" zaehlrichtung="false" />
@@ -1313,34 +1236,7 @@
     <Gleis name="3001" bereich="S30" />
   </Fahrstrasse>
 
-  <AutoFahrstrasse bereich="SBf" trigger="402">
-    <Fahrstrasse ende="1b" />
-    <Fahrstrasse ende="2b" />
-    <Fahrstrasse ende="3b" />
-    <Fahrstrasse ende="4b" />
-    <Fahrstrasse ende="5b" />
-    <Fahrstrasse ende="6b" />
-    <Fahrstrasse ende="7b" />
-    <Fahrstrasse ende="8b" />
-    <Fahrstrasse ende="9b" />
-    <Fahrstrasse ende="10b" />
-    <Fahrstrasse ende="11b" />
-    <Fahrstrasse ende="12b" />
-    <Fahrstrasse ende="13b" />
-    <Fahrstrasse ende="14b" />
-    <Fahrstrasse ende="15b" />
-    <Fahrstrasse ende="16b" />
-  </AutoFahrstrasse>
-
-  <AutoFahrstrasse bereich="SBf" trigger="108">
-    <Fahrstrasse ende="9b" />
-    <Fahrstrasse ende="10b" />
-    <Fahrstrasse ende="11b" />
-    <Fahrstrasse ende="12b" />
-    <Fahrstrasse ende="13b" />
-    <Fahrstrasse ende="14b" />
-    <Fahrstrasse ende="15b" />
-    <Fahrstrasse ende="16b" />
+  <AutoFahrstrasse bereich="SBf" trigger="9a">
     <Fahrstrasse ende="1b" />
     <Fahrstrasse ende="2b" />
     <Fahrstrasse ende="3b" />
@@ -1351,19 +1247,19 @@
     <Fahrstrasse ende="8b" />
   </AutoFahrstrasse>
 
-  <AutoFahrstrasse bereich="SBf" trigger="202">
-    <Fahrstrasse ende="402" />
+  <AutoFahrstrasse bereich="S1000" trigger="1009">
+    <Fahrstrasse ende="1b" bereich="SBf"/>
+    <Fahrstrasse ende="2b" bereich="SBf"/>
+    <Fahrstrasse ende="3b" bereich="SBf"/>
+    <Fahrstrasse ende="4b" bereich="SBf"/>
+    <Fahrstrasse ende="5b" bereich="SBf"/>
+    <Fahrstrasse ende="6b" bereich="SBf"/>
+    <Fahrstrasse ende="7b" bereich="SBf"/>
+    <Fahrstrasse ende="8b" bereich="SBf"/>
   </AutoFahrstrasse>
 
-  <AutoFahrstrasse bereich="SBf" trigger="W4">
-    <Fahrstrasse ende="402" />
+  <AutoFahrstrasse bereich="SBf" trigger="201">
+    <Fahrstrasse ende="9a" />
   </AutoFahrstrasse>
 
-  <AutoFahrstrasse bereich="SBf" trigger="W31">
-    <Fahrstrasse start="W32" ende="308" />
-  </AutoFahrstrasse>
-
-  <AutoFahrstrasse bereich="SBf" trigger="W5">
-    <Fahrstrasse ende="308" />
-  </AutoFahrstrasse>
 </Parcours>
