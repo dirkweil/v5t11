@@ -218,9 +218,9 @@ public class Fahrstrasse extends Bereichselement {
     }
 
     // Bereich der Stecke und des Startelements müssen gleich sein
-    if (!getBereich().equals(this.getStart().getBereich())) {
-      throw new IllegalArgumentException("Erster Gleise muss im gleichen Bereich wie die Fahrstrasse liegen");
-    }
+    //    if (!getBereich().equals(this.getStart().getBereich())) {
+    //      throw new IllegalArgumentException("Erstes Gleis muss im gleichen Bereich wie die Fahrstrasse liegen");
+    //    }
 
     // Doppelte entfernen
     removeDoppeleintraege();
