@@ -137,7 +137,8 @@
       <Gleis idx="3" bereich="HBf" name="9" />
       <Gleis idx="4" bereich="HBf" name="10" />
       <Gleis idx="5" bereich="HBf" name="W10" />
-      <Gleis idx="6" bereich="HBf" name="1" />
+      <Gleis idx="6" bereich="HBf" name="1"
+ />
       <Gleis idx="7" bereich="HBf" name="W11" />
     </SXBM1>
 
@@ -155,7 +156,7 @@
     </SXBM1>
 
     <!-- Check OK -->
-    <BMMiba3 id="BM-2019-2" adr="61" einbauOrt="HBf Gleisende rechts">
+    <BMMiba3 id="BM-2019-2" adr="1061" einbauOrt="HBf Gleisende rechts">
       <Gleis idx="0" bereich="HBf" name="W17" />
       <Gleis idx="1" bereich="HBf" name="W18" />
       <Gleis idx="2" bereich="HBf" name="W19" />
@@ -169,7 +170,7 @@
     </BMMiba3>
 
     <!-- Check OK -->
-    <HEBM8 id="BM-2019-3" adr="62" einbauOrt="HBf Ausfahrt rechts">
+    <HEBM8 id="BM-2019-3" adr="1062" einbauOrt="HBf Ausfahrt rechts">
       <Gleis idx="0" bereich="HBf" name="105" />
       <Gleis idx="1" bereich="HBf" name="W27" />
       <Gleis idx="1" bereich="HBf" name="W28" />
@@ -309,7 +310,7 @@
     </SXSD1>
     
     <!-- Check OK -->
-    <SD8 id="FD-2019-1" adr="83" einbauOrt="HBf Ausfahrt rechts">
+    <SD8 id="FD-2019-1" adr="1083" einbauOrt="HBf Ausfahrt rechts">
       <Weiche idx="0" bereich="HBf" name="20" />
       <Weiche idx="1" bereich="HBf" name="22" />
       <Weiche idx="1" bereich="HBf" name="24" />
