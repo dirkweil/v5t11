@@ -17,8 +17,6 @@ public class Bahnuebergang extends Signal {
    */
   protected Bahnuebergang() {
     super(1);
-    addErlaubteStellung(SignalStellung.HALT, 0);
-    addErlaubteStellung(SignalStellung.FAHRT, 1);
   }
 
   /**
@@ -37,6 +35,12 @@ public class Bahnuebergang extends Signal {
    */
   public void oeffnen() {
     setStellung(SignalStellung.HALT);
+  }
+
+  @Override
+  protected void addErlaubteStellungen() {
+    addErlaubteStellung(SignalStellung.HALT, 0);
+    addErlaubteStellung(SignalStellung.FAHRT, 1);
   }
 
   @Override

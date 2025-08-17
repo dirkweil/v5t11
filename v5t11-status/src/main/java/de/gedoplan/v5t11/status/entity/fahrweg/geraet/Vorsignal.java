@@ -17,11 +17,14 @@ public class Vorsignal extends Signal {
    */
   protected Vorsignal() {
     super(2);
+  }
+
+  @Override
+  protected void addErlaubteStellungen() {
     addErlaubteStellung(SignalStellung.HALT, 0);
     addErlaubteStellung(SignalStellung.FAHRT, 3);
     addErlaubteStellung(SignalStellung.LANGSAMFAHRT, 2);
     addErlaubteStellung(SignalStellung.DUNKEL, 1);
-    assert this.stellung2wert.keySet().containsAll(getTyp().getErlaubteStellungen());
   }
 
   @Override

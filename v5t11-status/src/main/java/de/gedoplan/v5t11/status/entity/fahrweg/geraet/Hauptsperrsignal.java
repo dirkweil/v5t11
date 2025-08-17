@@ -17,11 +17,14 @@ public class Hauptsperrsignal extends Hauptsignal {
    */
   protected Hauptsperrsignal() {
     super(2);
+  }
+
+  @Override
+  protected void addErlaubteStellungen() {
     addErlaubteStellung(SignalStellung.HALT, 0);
     addErlaubteStellung(SignalStellung.FAHRT, 1);
     addErlaubteStellung(SignalStellung.LANGSAMFAHRT, 3);
     addErlaubteStellung(SignalStellung.RANGIERFAHRT, 2);
-    assert this.stellung2wert.keySet().containsAll(getTyp().getErlaubteStellungen());
   }
 
   @Override

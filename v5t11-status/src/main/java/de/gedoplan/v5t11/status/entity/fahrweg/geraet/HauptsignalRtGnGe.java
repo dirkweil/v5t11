@@ -26,10 +26,13 @@ public class HauptsignalRtGnGe extends Hauptsignal {
    */
   protected HauptsignalRtGnGe() {
     super(2);
+  }
+
+  @Override
+  protected void addErlaubteStellungen() {
     addErlaubteStellung(SignalStellung.HALT, 0);
     addErlaubteStellung(SignalStellung.FAHRT, 1);
     addErlaubteStellung(SignalStellung.LANGSAMFAHRT, 3);
-    assert this.stellung2wert.keySet().containsAll(getTyp().getErlaubteStellungen());
   }
 
   @Override

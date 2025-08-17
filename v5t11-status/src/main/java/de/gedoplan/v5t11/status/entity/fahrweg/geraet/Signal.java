@@ -29,18 +29,21 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public abstract class Signal extends AbstractSignal implements FunktionsdecoderGeraet {
 
+  @XmlAttribute
+  private boolean invertiert;
+
   @Getter
   private FunktionsdecoderZuordnung funktionsdecoderZuordnung;
 
   /**
    * Map Stellung -> Stellungswert für alle erlaubten Stellungen.
    */
-  protected SortedMap<SignalStellung, Long> stellung2wert = new TreeMap<SignalStellung, Long>();
+  private SortedMap<SignalStellung, Long> stellung2wert = new TreeMap<SignalStellung, Long>();
 
   /**
    * Map Stellungswert -> Stellung für alle erlaubten Stellungen.
    */
-  protected Map<Long, SignalStellung> wert2stellung = new HashMap<Long, SignalStellung>();
+  private Map<Long, SignalStellung> wert2stellung = new HashMap<Long, SignalStellung>();
 
   /**
    * Konstruktor.
@@ -58,9 +61,15 @@ public abstract class Signal extends AbstractSignal implements FunktionsdecoderG
    * @param stellungswert Stellungswert
    */
   protected void addErlaubteStellung(SignalStellung stellung, long stellungswert) {
+    if (this.invertiert) {
+      stellungswert = ~stellungswert;
+    }
+    stellungswert &= this.funktionsdecoderZuordnung.getBitMaske0();
     this.stellung2wert.put(stellung, stellungswert);
     this.wert2stellung.put(stellungswert, stellung);
   }
+
+  protected abstract void addErlaubteStellungen();
 
   @JsonbInclude
   public abstract SignalTyp getTyp();
@@ -150,7 +159,7 @@ public abstract class Signal extends AbstractSignal implements FunktionsdecoderG
   }
 
   /**
-   * Nach JAXB-Unmarshal Funktionsdecoder in die Funktionsdecoder-Zuordnung speichern.
+   * Nach JAXB-Unmarshal Funktionsdecoder in die Funktionsdecoder-Zuordnung speichern und erlaubte Stellungen initialisieren.
    *
    * @param unmarshaller Unmarshaller
    * @param parent Parent
@@ -162,6 +171,8 @@ public abstract class Signal extends AbstractSignal implements FunktionsdecoderG
     } else {
       throw new IllegalArgumentException("Illegal parent " + parent);
     }
+
+    addErlaubteStellungen();
 
   }
 
