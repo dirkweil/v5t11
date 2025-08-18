@@ -36,25 +36,27 @@ public class AnlagenstatusService {
 
   public void init() {
     this.logger.debug("Initiale Kanalwerte aus DB holen");
-    this.kanalRepository.findAll().forEach(k -> initialeKanalwerte.put(k.getAdresse(), k.getWert()));
+    this.kanalRepository
+      .findAll()
+      .stream()
+      .peek(logger::debug)
+      .forEach(k -> initialeKanalwerte.put(k.getAdresse(), k.getWert()));
   }
 
   void onConnect(@ObservesAsync @Connected Zentrale zentrale) {
-    this.logger.debug("Gleisprotokoll setzen");
+    this.logger.debug("***** Connected *****");
     // Gleisprotokoll (z. B. SX1+SX2+DCC) einstellen
     zentrale.setGleisProtokoll();
 
     // Alle Bausteine auf den uns bekannten Status setzen
-    this.logger.debug("Bausteine auf gemerkte Werte setzen");
-    this.steuerung.getBausteinAdressen().forEach(adr -> zentrale.setSX1Kanal(adr, this.initialeKanalwerte.get(adr)));
+    //    this.steuerung.getBausteinAdressen().forEach(adr -> zentrale.setSX1Kanal(adr, this.initialeKanalwerte.get(adr)));
 
     // Alle Autoskripte einmal ausführen
-    this.logger.debug("Alle Autoskripte ausführen");
     this.autoSkriptService.executeAll();
   }
 
   void onDisconnect(@ObservesAsync @Disconnected Zentrale zentrale) {
-    init();
+    this.logger.debug("***** Disconnected *****");
   }
 
   void onKanalChange(@ObservesAsync @Changed Kanal kanal) {
