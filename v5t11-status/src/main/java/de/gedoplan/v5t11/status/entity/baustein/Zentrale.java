@@ -1,7 +1,5 @@
 package de.gedoplan.v5t11.status.entity.baustein;
 
-import com.fazecast.jSerialComm.SerialPort;
-
 import de.gedoplan.baselibs.utils.inject.InjectionUtil;
 import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
 import de.gedoplan.v5t11.status.service.ConfigService;
@@ -9,16 +7,6 @@ import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 import de.gedoplan.v5t11.util.misc.V5t11Exception;
-
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
-import org.jboss.logging.Logger;
-
-import jakarta.inject.Inject;
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlAttribute;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -31,6 +19,17 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import jakarta.inject.Inject;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlAttribute;
+
+import com.fazecast.jSerialComm.SerialPort;
+import org.jboss.logging.Logger;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * Zentrale inkl. PC-Interface.
@@ -191,6 +190,8 @@ public abstract class Zentrale implements Closeable {
       }
     }
     this.device = null;
+
+    this.eventFirer.fire(this, Disconnected.Literal.INSTANCE);
 
   }
 

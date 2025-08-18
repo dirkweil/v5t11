@@ -45,9 +45,9 @@ public class Bootstrap {
 
     joinService.joinMyself();
 
-    steuerung.open(scheduler);
-
     anlagenstatusService.init();
+
+    steuerung.open(scheduler);
   }
 
   private String getDbUrl(DataSource dataSource) {
