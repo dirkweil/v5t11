@@ -1246,6 +1246,7 @@
     <Gleis name="3001" bereich="S30" />
   </Fahrstrasse>
 
+<!--
   <AutoFahrstrasse bereich="SBf" trigger="9a">
     <Fahrstrasse ende="1b" />
     <Fahrstrasse ende="2b" />
@@ -1279,5 +1280,6 @@
   <AutoFahrstrasse bereich="SBf" trigger="201">
     <Fahrstrasse ende="9a" />
   </AutoFahrstrasse>
+-->
 
 </Parcours>
