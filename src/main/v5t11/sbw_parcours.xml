@@ -1236,6 +1236,7 @@
     <Gleis name="W31" />
   </Fahrstrasse>
 
+<!--
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleis name="507" />
     <Gleis name="3002" bereich="S30" />
@@ -1245,7 +1246,7 @@
     <Gleis name="506" />
     <Gleis name="3001" bereich="S30" />
   </Fahrstrasse>
-
+-->
 <!--
   <AutoFahrstrasse bereich="SBf" trigger="9a">
     <Fahrstrasse ende="1b" />
