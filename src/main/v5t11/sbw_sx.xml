@@ -21,6 +21,9 @@
       <Gleis idx="2" bereich="SBf" name="2002"/>
       <Gleis idx="3" bereich="SBf" name="201"/>
       <Gleis idx="4" bereich="SBf" name="2004"/>
+      <Gleis idx="5" bereich="SBf" name="W2005"/>
+      <Gleis idx="6" bereich="SBf" name="2006"/>
+      <Gleis idx="7" bereich="SBf" name="2007"/>
     </VM5262>
 
     <SXBM1 id="BM-2014-1" adr="45" einbauOrt="SBf C (mit SX-KS-1)">
@@ -184,6 +187,8 @@
     <WDMiba3 id="FD-2003-1" adr="70" einbauOrt="SBf Einfahrt">
       <Weiche idx="0" bereich="SBf" name="7"/>
       <Weiche idx="1" bereich="SBf" name="2"/>
+      <Weiche idx="3" bereich="SBf" name="2003"/>
+      <Weiche idx="4" bereich="SBf" name="2005"/>
       <Weiche idx="5" bereich="SBf" name="1"/>
       <Weiche idx="6" bereich="SBf" name="5"/>
       <Weiche idx="7" bereich="SBf" name="3"/>
@@ -320,10 +325,6 @@
     <NoFD>
       <!-- TODO -->
       <Weiche bereich="SBf" name="1003"/>
-      <!-- TODO -->
-      <Weiche bereich="SBf" name="2003"/>
-      <!-- TODO -->
-      <Weiche bereich="SBf" name="2005"/>
 
       <!-- TODO -->
       <Hauptsperrsignal idx="0" bereich="HBf" name="N21-25"/>
