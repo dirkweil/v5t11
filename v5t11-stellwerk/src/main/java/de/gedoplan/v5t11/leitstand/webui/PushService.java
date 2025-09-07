@@ -343,6 +343,10 @@ public class PushService extends AbstractPushService {
 
   private static void addSignal(Signal signal, String signalPosition, JsonObjectBuilder builder) {
 
+    // TODO: Kann nach Umstellung auf Java 21 durch case null ersetzt werden
+    if (signal.getTyp()==null)
+      return;
+      
     List<String> lichter = switch (signal.getTyp()) {
       case SPERRSIGNAL -> switch (signal.getStellung()) {
         default -> FARBEN_SPERR_SH0;
