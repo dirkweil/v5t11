@@ -1,25 +1,23 @@
 package de.gedoplan.v5t11.fahrstrassen.webservice;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
-
 import de.gedoplan.v5t11.fahrstrassen.entity.Parcours;
+import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import de.gedoplan.v5t11.util.test.V5t11TestConfigDirExtension;
 
 import java.util.List;
 
 import jakarta.inject.Inject;
-import jakarta.ws.rs.core.Response;
-import jakarta.ws.rs.core.Response.Status;
 
+import io.quarkus.test.junit.QuarkusTestExtension;
 import org.jboss.logging.Logger;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import io.quarkus.test.junit.QuarkusTestExtension;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
 @ExtendWith({ V5t11TestConfigDirExtension.class, QuarkusTestExtension.class })
 @TestMethodOrder(MethodOrderer.MethodName.class)
@@ -44,10 +42,8 @@ public class FahrstrasseResourceTest {
 
     this.log.debug("----- test_01_getFahrstrasse -----");
 
-    Response response = this.fahrstrasseResource.getFahrstrasse(new BereichselementId(BEREICH, FS_NAME));
-    assertThat("Response-Code", response.getStatus(), is(Status.OK.getStatusCode()));
-
-    this.log.debug(response.getEntity());
+    Fahrstrasse fahrstrasse = this.fahrstrasseResource.getFahrstrasse(new BereichselementId(BEREICH, FS_NAME));
+    this.log.debug(fahrstrasse);
   }
 
   @Test

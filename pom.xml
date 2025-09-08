@@ -19,9 +19,9 @@
 
     <myfaces-quarkus.version>4.0.1</myfaces-quarkus.version>
 
-    <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
     <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
-    <quarkus.platform.version>3.2.4.Final</quarkus.platform.version>
+    <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
+    <quarkus.platform.version>3.26.2</quarkus.platform.version>
 
     <quarkus-primefaces.version>3.12.5</quarkus-primefaces.version>
   </properties>

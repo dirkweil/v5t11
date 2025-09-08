@@ -6,7 +6,6 @@ import de.gedoplan.v5t11.fahrstrassen.persistence.FahrstrassenStatusRepository;
 import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenFilter;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
-import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 import de.gedoplan.v5t11.util.webservice.ResponseFactory;
 
 import java.util.List;
@@ -45,18 +44,18 @@ public class FahrstrasseResource {
   @GET
   @Path("{id}")
   @Produces(MediaType.APPLICATION_JSON)
-  public Response getFahrstrasse(@PathParam("id") BereichselementId id) {
+  public Fahrstrasse getFahrstrasse(@PathParam("id") BereichselementId id) {
     Fahrstrasse fahrstrasse = this.parcours.getFahrstrasse(id);
     if (fahrstrasse == null) {
-      return ResponseFactory.createNotFoundResponse();
+      throw new NotFoundException();
     }
 
-    return ResponseFactory.createJsonResponse(fahrstrasse, JsonbWithIncludeVisibility.FULL);
+    return fahrstrasse;
   }
 
   @GET
   @Produces(MediaType.APPLICATION_JSON + "; qs=1.0")
-  public Response getFahrstrassenAsJson(
+  public List<Fahrstrasse> getFahrstrassenAsJson(
     @QueryParam("startBereich") String startBereich,
     @QueryParam("startName") String startName,
     @QueryParam("endeBereich") String endeBereich,
@@ -64,9 +63,11 @@ public class FahrstrasseResource {
     @QueryParam("filter") String filterAsString) {
 
     List<Fahrstrasse> fahrstrassen = getFahrstrassen(startBereich, startName, endeBereich, endeName, filterAsString);
-    return fahrstrassen != null
-      ? ResponseFactory.createJsonResponse(fahrstrassen, JsonbWithIncludeVisibility.FULL)
-      : ResponseFactory.createNotFoundResponse();
+    if (fahrstrassen == null) {
+      throw new NotFoundException();
+    }
+
+    return fahrstrassen;
   }
 
   @GET
