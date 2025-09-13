@@ -25,6 +25,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import jakarta.enterprise.context.ApplicationScoped;
@@ -32,6 +33,7 @@ import jakarta.enterprise.event.Observes;
 import jakarta.enterprise.event.TransactionPhase;
 import jakarta.inject.Inject;
 import jakarta.json.Json;
+import jakarta.json.JsonArray;
 import jakarta.json.JsonArrayBuilder;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
@@ -89,6 +91,11 @@ public class PushService extends AbstractPushService {
     this.gleisRepository = gleisRepository;
     this.stellwerkVorschlagService = stellwerkVorschlagService;
 
+    /*
+     * Lookup-Struktur aufbauen: Für jedes Stellwerkselement werden je nach Typ
+     * Einträge in gleisElemente, weichenElemente, signalElemente gamacht,
+     * die von der Id des Elements auf das Element selbst mappen.
+     */
     leitstand
       .getStellwerke()
       .stream()
@@ -114,35 +121,62 @@ public class PushService extends AbstractPushService {
         if (element.getSignalId() != null) {
           this.signalElemente.put(element.getSignalId(), element);
         }
+
       });
   }
 
+  /**
+   * Observer: Nach Änderung eines Gleises die zugehörigen Stellwerkselemente neu zeichnen.
+   *
+   * @param gleis
+   */
   void gleisChanged(@Observes(during = TransactionPhase.AFTER_COMPLETION) @Changed Gleis gleis) {
     send(this.gleisElemente.get(gleis.getId()));
   }
 
+  /**
+   * Observer: Nach Änderung eines Signals die zugehörigen Stellwerkselemente neu zeichnen.
+   *
+   * @param signal
+   */
   void signalChanged(@Observes(during = TransactionPhase.AFTER_COMPLETION) @Changed Signal signal) {
     send(this.signalElemente.get(signal.getId()));
   }
 
+  /**
+   * Observer: Nach Änderung einer Weiche die zugehörigen Stellwerkselemente neu zeichnen.
+   *
+   * @param weiche
+   */
   void weicheChanged(@Observes(during = TransactionPhase.AFTER_COMPLETION) @Changed Weiche weiche) {
     send(this.weichenElemente.get(weiche.getId()));
   }
 
+  /**
+   * Observer: Nach Änderung einer Fahrstrasse die zugehörigen Stellwerkselemente - nur Gleise - neu zeichnen.
+   *
+   * @param fahrstrasse
+   */
   void fahrstrasseChanged(@Observes(during = TransactionPhase.AFTER_COMPLETION) @Changed Fahrstrasse fahrstrasse) {
-    send(fahrstrasse
-      .getElemente()
-      .stream()
-      .filter(fse -> fse.getTyp() == FahrstrassenelementTyp.GLEIS)
-      .map(fse -> this.gleisRepository.findById(fse.getId()).get())
-      .flatMap(g -> this.gleisElemente.get(g.getId()).stream())
-      .toList());
+    sendFahrstrassen(Set.of(fahrstrasse));
+    // send(fahrstrasse
+    // .getElemente()
+    // .stream()
+    // .filter(fse -> fse.getTyp() == FahrstrassenelementTyp.GLEIS)
+    // .map(fse -> this.gleisRepository.findById(fse.getId()).get())
+    // .flatMap(g -> this.gleisElemente.get(g.getId()).stream())
+    // .toList());
   }
 
+  /**
+   * Gleis-Elemente von Fahrstrassen neu zeichnen.
+   *
+   * @param fahrstrassen
+   */
   public void sendFahrstrassen(Collection<Fahrstrasse> fahrstrassen) {
     /*
-     Alle Gleis-Elemente der Fahrstrassen sammeln - jedes nur einmal.
-     Achtung: FahrstrassenElement hat keine eindeutige ID. Daher wird ein Map mit der UI-ID als Key zur Vereinzelung verwendet.
+     * Alle Gleis-Elemente der Fahrstrassen sammeln - jedes nur einmal.
+     * Achtung: FahrstrassenElement hat keine eindeutige ID. Daher wird ein Map mit der UI-ID als Key zur Vereinzelung verwendet.
      */
     Map<String, StellwerkElement> gleisElemente = new HashMap<>();
     fahrstrassen
@@ -155,25 +189,19 @@ public class PushService extends AbstractPushService {
     send(gleisElemente.values());
   }
 
-  private void sendAll(Session session, String bereich) {
-    JsonArrayBuilder builder = Json.createArrayBuilder();
-    this.leitstand
-      .getStellwerk(bereich)
-      .getZeilen()
-      .stream()
-      .flatMap(zeile -> zeile.getElemente().stream())
-      .filter(element -> !(element instanceof StellwerkLeer) || element.getSignalId() != null)
-      .forEach(element -> builder.add(createDrawCommand(element, session.getId())));
-    send(builder.build(), session);
-  }
-
+  /**
+   * Elemente in allen aktiven Sessions zeichnen lassen.
+   *
+   * @param elemente
+   */
   private void send(Collection<StellwerkElement> elemente) {
+    List<Fahrstrasse> reservierteFahrstrassen = this.fahrstrassenManager.getReservierteFahrstrassen();
     this.sessions.keySet().forEach(session -> {
       Map<String, List<StellwerkElement>> elementeProBereich = elemente.stream().collect(Collectors.groupingBy(e -> e.getStellwerksBereich()));
       elementeProBereich.forEach((stellwerksBereich, elementeDesBereichs) -> {
         JsonArrayBuilder builder = Json.createArrayBuilder();
         for (StellwerkElement element : elementeDesBereichs) {
-          builder.add(createDrawCommand(element, session.getId()));
+          builder.add(createDrawCommand(element, session.getId(), reservierteFahrstrassen));
         }
         send(builder.build(), session, info -> stellwerksBereich.equals(info));
       });
@@ -187,43 +215,55 @@ public class PushService extends AbstractPushService {
    * <p>
    * Die UI-Id ist stets vorhanden:
    * <dl>
-   *   <dt>uiId</dt><dd>Id des Canvas-Elements auf der Webseite</dd>
+   * <dt>uiId</dt>
+   * <dd>Id des Canvas-Elements auf der Webseite</dd>
    * </dl>
    * <p>
    * Falls ein Gleis gezeichnet werden soll, gibt es diese Attribute:
    * <dl>
-   *   <dt>b</dt><dd>Gleis besetzt?</dd>
-   *   <dt>a</dt><dd>Aktive Gleissegmente als Array der Länge 2 aus den Richtungen N, NO, O, SO, S, SW, W, NW</dd>
+   * <dt>b</dt>
+   * <dd>Gleis besetzt?</dd>
+   * <dt>a</dt>
+   * <dd>Aktive Gleissegmente als Array der Länge 2 aus den Richtungen N, NO, O, SO, S, SW, W, NW</dd>
    * </dl>
    * <p>
    * <p>
    * Für Weichen gibt es diese Attribute:
    * <dl>
-   *   <dt>i</dt><dd>Inaktive Gleissegmente als Array aus den Richtungen N, NO, O, SO, S, SW, W, NW</dd>
+   * <dt>i</dt>
+   * <dd>Inaktive Gleissegmente als Array aus den Richtungen N, NO, O, SO, S, SW, W, NW</dd>
    * </dl>
    * <p>
    * Für Signale gibt es diese Attribute:
    * <dl>
-   *   <dt>l</dt><dd>Anzuzeigende Lichter als Array aus r, g, y, w, -; ein oder zwei Elemente von oben nach unten</dd>
-   *   <dt>s</dt><dd>Position des Signals als Richtung N, NO, O, SO, S, SW, W, NW</dd>
+   * <dt>l</dt>
+   * <dd>Anzuzeigende Lichter als Array aus r, g, y, w, -; ein oder zwei Elemente von oben nach unten</dd>
+   * <dt>s</dt>
+   * <dd>Position des Signals als Richtung N, NO, O, SO, S, SW, W, NW</dd>
    * </dl>
    * <p>
    * Ist das Gleis Teil einer Fahrstrasse, gibt es diese Attribute:
    * <dl>
-   *   <dt>f</dt><dd>Reservierungstyp als Kürzel Z, R</dd>
-   *   <dt>z</dt><dd>In Zählrichtung?</dd>
+   * <dt>f</dt>
+   * <dd>Reservierungstyp als Kürzel Z, R</dd>
+   * <dt>z</dt>
+   * <dd>In Zählrichtung?</dd>
    * </dl>
    * <p>
    * Soll ein Name angezeigt werden (Gleis, Weiche, Signal), gibt es diese Attribute:
    * <dl>
-   *   <dt>n</dt><dd>Name</dd>
-   *   <dt>p</dt><dd>Position des Namens als Richtung N, NO, O, SO, S, SW, W, NW</dd>
+   * <dt>n</dt>
+   * <dd>Name</dd>
+   * <dt>p</dt>
+   * <dd>Position des Namens als Richtung N, NO, O, SO, S, SW, W, NW</dd>
    * </dl>
    *
    * @param element
    * @return
    */
-  private JsonObject createDrawCommand(StellwerkElement element, String sessionId) {
+  private Map<String, Long> cdcNanoMap = new HashMap<>();
+
+  private JsonObject createDrawCommand(StellwerkElement element, String sessionId, List<Fahrstrasse> reservierteFahrstrassen) {
     JsonObjectBuilder builder = Json.createObjectBuilder();
     builder.add(ATTR_UIID, element.getUiId());
 
@@ -234,6 +274,8 @@ public class PushService extends AbstractPushService {
     List<StellwerkRichtung> aktiveRichtungen = null;
     List<StellwerkRichtung> inaktiveRichtungen = null;
 
+    long startNanos = System.nanoTime();
+
     if (element instanceof StellwerkGleis stellwerkGleis) {
       if (stellwerkGleis.isLabel()) {
         name = stellwerkGleis.getName();
@@ -243,6 +285,9 @@ public class PushService extends AbstractPushService {
       aktiveRichtungen = stellwerkGleis.getRichtungen();
 
       gleis = stellwerkGleis.findGleis();
+
+      cdcNanoMap.merge("A1", System.nanoTime() - startNanos, (a, b) -> a + b);
+
     } else if (element instanceof StellwerkEinfachWeiche stellwerkEinfachWeiche) {
       name = stellwerkEinfachWeiche.getName();
       namensPosition = stellwerkEinfachWeiche.getLabelPos();
@@ -257,6 +302,9 @@ public class PushService extends AbstractPushService {
       }
 
       gleis = stellwerkEinfachWeiche.findGleis();
+
+      cdcNanoMap.merge("A2", System.nanoTime() - startNanos, (a, b) -> a + b);
+
     } else if (element instanceof StellwerkDkw2 stellwerkDkw2) {
       name = stellwerkDkw2.getName();
       namensPosition = stellwerkDkw2.getLabelPos();
@@ -267,52 +315,87 @@ public class PushService extends AbstractPushService {
       addRichtungen(stellwerkDkw2.findWeicheB(), stellwerkDkw2.getGeradeRichtung()[1], stellwerkDkw2.getAbzweigRichtung()[1], aktiveRichtungen, inaktiveRichtungen);
 
       gleis = stellwerkDkw2.findGleis();
+
+      cdcNanoMap.merge("A3", System.nanoTime() - startNanos, (a, b) -> a + b);
+
     }
+
+    cdcNanoMap.merge("A", System.nanoTime() - startNanos, (a, b) -> a + b);
+
+    startNanos = System.nanoTime();
 
     if (gleis != null) {
       builder.add(ATTR_GLEIS_BESETZT, gleis.isBesetzt());
 
-      addFahrstrasse(gleis, sessionId, builder);
+      addFahrstrasse(gleis, sessionId, builder, reservierteFahrstrassen);
 
     }
+
+    cdcNanoMap.merge("B", System.nanoTime() - startNanos, (a, b) -> a + b);
+
+    startNanos = System.nanoTime();
 
     if (aktiveRichtungen != null) {
       List<String> richtungsNamen = aktiveRichtungen.stream().map(x -> x.name()).toList();
       builder.add(ATTR_AKTIVE_RICHTUNGEN, Json.createArrayBuilder(richtungsNamen));
     }
 
+    cdcNanoMap.merge("C", System.nanoTime() - startNanos, (a, b) -> a + b);
+
+    startNanos = System.nanoTime();
+
     if (inaktiveRichtungen != null) {
       List<String> richtungsNamen = inaktiveRichtungen.stream().map(x -> x.name()).toList();
       builder.add(ATTR_INAKTIVE_RICHTUNGEN, Json.createArrayBuilder(richtungsNamen));
     }
 
+    cdcNanoMap.merge("D", System.nanoTime() - startNanos, (a, b) -> a + b);
+
+    startNanos = System.nanoTime();
+
     if (element.getSignalId() != null) {
       addSignal(element.findSignal(), element.getSignalPosition(), builder);
     }
+
+    cdcNanoMap.merge("E", System.nanoTime() - startNanos, (a, b) -> a + b);
+
+    startNanos = System.nanoTime();
 
     if (name != null && namensPosition != null) {
       builder.add(ATTR_NAME, name);
       builder.add(ATTR_NAMENS_POSITION, namensPosition.toString());
     }
 
+    cdcNanoMap.merge("F", System.nanoTime() - startNanos, (a, b) -> a + b);
+
     return builder.build();
   }
 
-  private void addFahrstrasse(Gleis gleis, String sessionId, JsonObjectBuilder builder) {
+  private void addFahrstrasse(Gleis gleis, String sessionId, JsonObjectBuilder builder, List<Fahrstrasse> reservierteFahrstrassen) {
+    // Zu ermittelnder Wert für das Fahrstrassenattribut im Kommando
     String f = null;
-    Fahrstrassenelement fahrstrassenelement = null;
 
-    Fahrstrasse fahrstrasse = this.fahrstrassenManager.getReservierteFahrstrasse(gleis);
+    // Ist das Gleis Teil einer reservierten Fahrstrasse?
+    Fahrstrasse fahrstrasse = null;
+    Fahrstrassenelement fahrstrassenelement = null;
+    for (Fahrstrasse fs : reservierteFahrstrassen) {
+      fahrstrassenelement = fs.getElement(gleis, true);
+      if (fahrstrassenelement != null) {
+        fahrstrasse = fs;
+        break;
+      }
+    }
     if (fahrstrasse != null) {
       // Gleis ist in aktiver Fahrstrasse
       f = fahrstrasse.getReservierungsTyp().toString();
-      fahrstrassenelement = fahrstrasse.getElement(gleis, true);
     } else {
+      // Ist das Gleis Teil der ggf. vorgeschlagenen Fahrstrasse?
       fahrstrasse = this.stellwerkVorschlagService.getVorgeschlageneFahrstrasse(gleis, sessionId);
       if (fahrstrasse != null) {
         // Gleis ist in vorgeschlagener Fahrstrasse
         f = "V";
       } else {
+        // Ist das Gleis Teil einer ggf. vorgeschlagenen Fahrstrassenalternative?
         fahrstrasse = this.stellwerkVorschlagService.getAlternativeFahrstrasse(gleis, sessionId);
         // Gleis könnte in alternativ vorgeschlagener Fahrstrasse sein
         // (Prüfung überflüssig wegen nächster Abfrage)
@@ -344,9 +427,10 @@ public class PushService extends AbstractPushService {
   private static void addSignal(Signal signal, String signalPosition, JsonObjectBuilder builder) {
 
     // TODO: Kann nach Umstellung auf Java 21 durch case null ersetzt werden
-    if (signal.getTyp()==null)
+    if (signal.getTyp() == null) {
       return;
-      
+    }
+
     List<String> lichter = switch (signal.getTyp()) {
       case SPERRSIGNAL -> switch (signal.getStellung()) {
         default -> FARBEN_SPERR_SH0;
@@ -388,7 +472,7 @@ public class PushService extends AbstractPushService {
     super.openSession(session, bereich);
     this.managedExecutor.runAsync(() -> {
       send(Json.createObjectBuilder().add("wsId", session.getId()).build(), session);
-      sendAll(session, bereich);
+      sendAll(bereich, session);
     });
   }
 
@@ -401,4 +485,45 @@ public class PushService extends AbstractPushService {
   protected void onError(Session session, Throwable throwable) {
     super.abortSession(session, throwable);
   }
+
+  /**
+   * Alle Elemente eines Bereichs in einer Session neu zeichnen.
+   *
+   * @param session
+   * @param bereich
+   */
+  private long cdcNanos = 0;
+
+  private void sendAll(String bereich, Session session) {
+    long startNanos = System.nanoTime();
+    cdcNanoMap.clear();
+
+    List<Fahrstrasse> reservierteFahrstrassen = this.fahrstrassenManager.getReservierteFahrstrassen();
+
+    JsonArrayBuilder builder = Json.createArrayBuilder();
+    cdcNanos = 0;
+    this.leitstand
+      .getStellwerk(bereich)
+      .getZeilen()
+      .stream()
+      .flatMap(zeile -> zeile.getElemente().stream())
+      .filter(element -> !(element instanceof StellwerkLeer) || element.getSignalId() != null)
+      .forEach(element -> {
+        long cdcStartNanos = System.nanoTime();
+        JsonObject drawCommand = createDrawCommand(element, session.getId(), reservierteFahrstrassen);
+        cdcNanos += (System.nanoTime() - cdcStartNanos);
+        builder.add(drawCommand);
+      });
+    JsonArray jsonMessage = builder.build();
+    long messageBuiltNanos = System.nanoTime();
+
+    send(jsonMessage, session);
+    long messageSentNanos = System.nanoTime();
+
+    logger.debugf("Message built in %d ms", (messageBuiltNanos - startNanos) / 1000000);
+    logger.debugf("  including %d ms for cdc", cdcNanos / 1000000);
+    cdcNanoMap.entrySet().forEach(e -> logger.debugf("    including %d ms for cdc[%s]", e.getValue() / 1000000, e.getKey()));
+    logger.debugf("Message sent in %d ms", (messageSentNanos - messageBuiltNanos) / 1000000);
+  }
+
 }

@@ -8,6 +8,8 @@ import de.gedoplan.v5t11.util.cdi.Changed;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
 
+import java.util.List;
+
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -75,6 +77,10 @@ public class FahrstrassenManager {
     }
 
     this.eventFirer.fire(fahrstrasse, Changed.Literal.INSTANCE);
+  }
+
+  public List<Fahrstrasse> getReservierteFahrstrassen() {
+    return this.fahrstrasseRepository.findReserviert();
   }
 
   public Fahrstrasse getReservierteFahrstrasse(Gleis gleis) {

@@ -3,15 +3,17 @@ package de.gedoplan.v5t11.leitstand.entity.fahrweg;
 import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import de.gedoplan.v5t11.util.domain.entity.fahrweg.geraet.AbstractWeiche;
 
-import lombok.NoArgsConstructor;
-
+import jakarta.persistence.Cacheable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 
+import lombok.NoArgsConstructor;
+
 @Entity
 @Table(name = Weiche.TABLE_NAME)
+@Cacheable(true)
 @XmlAccessorType(XmlAccessType.NONE)
 @NoArgsConstructor
 public class Weiche extends AbstractWeiche {

@@ -6,18 +6,20 @@ import de.gedoplan.v5t11.util.domain.entity.Fahrwegelement;
 import de.gedoplan.v5t11.util.domain.entity.fahrweg.geraet.AbstractSignal;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
+import jakarta.persistence.Cacheable;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 @Entity
 @Table(name = Signal.TABLE_NAME)
+@Cacheable(true)
 @XmlAccessorType(XmlAccessType.NONE)
 @NoArgsConstructor
 public class Signal extends AbstractSignal {
