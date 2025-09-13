@@ -115,6 +115,10 @@ public class StellwerkPresenter implements Serializable {
     this.stellwerkSessionHolder.changeBereich(bereich);
   }
 
+  public boolean isWsIdDisplayEnabled() {
+    return this.logger.isDebugEnabled();
+  }
+
   public Stellwerk getStellwerk() {
     return this.stellwerkSessionHolder.getStellwerk();
   }

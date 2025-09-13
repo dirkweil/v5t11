@@ -12,6 +12,8 @@
                      update="controlPanel :messages"/>
 
     <h:form prependId="false">
+      <h:inputText id="wsId" value="#{stellwerkPresenter.webSocketSessionId}" style="width: 100%; background-color: midnightblue; color: white; display: ${stellwerkPresenter.wsIdDisplayEnabled}"/>
+
       <h:panelGroup id="stellwerk" layout="block" styleClass="stellwerk">
         <ui:repeat var="zeile" value="#{stellwerkPresenter.stellwerk.zeilen}">
           <ui:repeat var="element" value="#{zeile.elemente}">
@@ -23,8 +25,6 @@
           </ui:repeat>
         </ui:repeat>
       </h:panelGroup>
-
-      <h:inputText id="wsId" value="#{stellwerkPresenter.webSocketSessionId}" style="width: 100%; display: none"/>
     </h:form>
 
     <h:outputStylesheet name="stellwerk.css"/>
