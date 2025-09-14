@@ -1,5 +1,6 @@
 package de.gedoplan.v5t11.status.entity.baustein.lokcontroller;
 
+import de.gedoplan.v5t11.status.entity.Steuerung;
 import de.gedoplan.v5t11.status.entity.baustein.Lokcontroller;
 import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
 import de.gedoplan.v5t11.util.cdi.Changed;
@@ -56,6 +57,9 @@ public class SxLokControl extends Lokcontroller {
   @Inject
   EventFirer eventFirer;
 
+  @Inject
+  Steuerung steuerung;
+
   public SxLokControl() {
     super(1);
   }
@@ -105,6 +109,11 @@ public class SxLokControl extends Lokcontroller {
 
   @Override
   public void adjustStatus() {
+    // Hack: Mit Horn-Taste Gleisspannung einschalten (OMG)
+    if (!this.steuerung.getZentrale().isGleisspannung() && (this.wert & MASK_HORN) != 0) {
+      this.steuerung.getZentrale().setGleisspannung(true);
+    }
+
     if (this.lok != null) {
       long thisWert = this.wert ^ this.invertMask;
       boolean licht = (thisWert & MASK_LICHT) != 0;
