@@ -1,11 +1,13 @@
 package de.gedoplan.v5t11.status.entity.baustein;
 
 import de.gedoplan.baselibs.utils.inject.InjectionUtil;
+import de.gedoplan.v5t11.status.entity.Steuerung;
 import de.gedoplan.v5t11.status.entity.fahrweg.Gleis;
 
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import jakarta.inject.Inject;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -32,6 +34,9 @@ public abstract class Besetztmelder extends Baustein implements Encoder {
   @XmlElement(name = "Gleis", type = Gleis.class)
   protected SortedSet<Gleis> gleise = new TreeSet<>();
 
+  @Inject
+  Steuerung steuerung;
+
   /**
    * Konstruktor.
    * <p>
@@ -50,7 +55,9 @@ public abstract class Besetztmelder extends Baustein implements Encoder {
 
   @Override
   public void adjustStatus() {
-    this.gleise.forEach(Gleis::adjustStatus);
+    if (this.steuerung.getZentrale().isGleisspannung()) {
+      this.gleise.forEach(Gleis::adjustStatus);
+    }
   }
 
   public void injectFields() {
