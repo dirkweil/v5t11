@@ -15,7 +15,7 @@
   <packaging>pom</packaging>
 
   <properties>
-    <java.code.version>17</java.code.version>
+    <java.code.version>21</java.code.version>
 
     <myfaces-quarkus.version>4.0.1</myfaces-quarkus.version>
 
@@ -94,7 +94,7 @@
       <dependency>
         <groupId>org.projectlombok</groupId>
         <artifactId>lombok</artifactId>
-        <version>1.18.26</version>
+        <version>1.18.38</version>
       </dependency>
 
       <dependency>
