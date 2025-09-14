@@ -24,7 +24,7 @@ public class FahrstrasseMonitor {
   Parcours parcours;
 
   /**
-   * Auf Belegtänderung eines Gleiss reagieren.
+   * Auf Belegtänderung eines Gleises reagieren.
    *
    * @param gleis Gleis
    */
@@ -42,7 +42,7 @@ public class FahrstrasseMonitor {
     }
 
     /*
-     * Im reservierten Teil der Fahrstrasse den Gleis suchen, der noch nicht durchfahren wurde,
+     * Im reservierten Teil der Fahrstrasse das Gleis suchen, das noch nicht durchfahren wurde,
      * und vor dem nur durchfahrene Gleise liegen.
      */
     int elementAnzahl = fahrstrasse.getElemente().size();
@@ -64,7 +64,7 @@ public class FahrstrasseMonitor {
 
     /*
      * Komplettfreigabe ist möglich,
-     * - wenn ab dem ersten nicht durchfahrerenen Abschnitt alles besetzt ist
+     * - wenn ab dem ersten nicht durchfahrenen Abschnitt alles besetzt ist
      * - oder wenn nur noch Gleise folgen.
      */
     boolean totalFreigabe = fahrstrasse.isKomplettBesetzt(idxGrenze) || fahrstrasse.isNurGleise(idxGrenze + 1);
