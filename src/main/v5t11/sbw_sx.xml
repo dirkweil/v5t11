@@ -105,15 +105,15 @@
     </SXBM1>
 
     <HEBM8 id="BM-2019-5" adr="1057" einbauOrt="HBf Einfahrt links">
-      <Gleis idx="0" bereich="HBf" name="W3"/> <!-- nicht angeschlossen? -->
-      <Gleis idx="0" bereich="HBf" name="W4"/> <!-- nicht angeschlossen? -->
+      <Gleis idx="0" bereich="HBf" name="W3"/>
+      <Gleis idx="0" bereich="HBf" name="W4"/>
       <Gleis idx="1" bereich="HBf" name="W5"/>
-      <Gleis idx="2" bereich="HBf" name="W2"/> <!-- nicht angeschlossen? -->
-      <Gleis idx="3" bereich="HBf" name="W1"/> <!-- nicht angeschlossen? -->
+      <Gleis idx="2" bereich="HBf" name="W2"/>
+      <Gleis idx="3" bereich="HBf" name="W1"/>
       <Gleis idx="4" bereich="HBf" name="207"/>
-      <Gleis idx="5" bereich="HBf" name="406"/> <!-- nicht angeschlossen? -->
-      <Gleis idx="6" bereich="HBf" name="407"/> <!-- nicht angeschlossen? -->
-      <Gleis idx="7" bereich="HBf" name="404"/> <!-- nicht angeschlossen? -->
+      <Gleis idx="5" bereich="HBf" name="406"/>
+      <Gleis idx="6" bereich="HBf" name="407"/>
+      <Gleis idx="7" bereich="HBf" name="404"/> <!-- nicht angeschlossen -->
     </HEBM8>
 
     <SXBM1 id="BM-2013-4" adr="1058" einbauOrt="HBf Einfahrt links">
@@ -177,8 +177,6 @@
       <Gleis idx="0" bereich="HBf" name="505"/>
       <Gleis idx="1" bereich="HBf" name="506"/>
       <Gleis idx="2" bereich="HBf" name="507"/>
-      <!-- <Gleis idx="3" bereich="S30" name="3001" /> -->
-      <!-- <Gleis idx="4" bereich="S30" name="3002" /> -->
     </Muet8i>
 
   </Besetztmelder>
@@ -289,13 +287,8 @@
     <SXSD1 id="FD-2021-1" adr="1074" einbauOrt="HBf unter WÜSt">
       <!-- TODO -->
       <Hauptsperrsignal idx="0" bereich="HBf" name="N6"/>
-      <!-- TODO -->
-      <Sperrsignal idx="4" bereich="HBf" name="25"/>
-      <!-- TODO -->
       <Sperrsignal idx="5" bereich="HBf" name="24"/>
-      <!-- TODO -->
       <Sperrsignal idx="6" bereich="HBf" name="23"/>
-      <!-- TODO -->
       <Sperrsignal idx="7" bereich="HBf" name="22"/>
       <!-- TODO -->
       <Hauptsperrsignal idx="8" bereich="HBf" name="N7"/>
@@ -323,23 +316,17 @@
     </SD8>
 
     <NoFD>
-      <!-- TODO -->
-      <Weiche bereich="SBf" name="1003"/>
+      <Hauptsperrsignal bereich="HBf" name="N21-25"/>
+      <Sperrsignal bereich="HBf" name="21"/>
+      <Sperrsignal bereich="HBf" name="25"/>
 
-      <!-- TODO -->
-      <Hauptsperrsignal idx="0" bereich="HBf" name="N21-25"/>
-      <!-- TODO -->
-      <Sperrsignal idx="0" bereich="HBf" name="21"/>
-      <!-- TODO -->
-      <Sperrsignal idx="6" bereich="HBf" name="W30"/>
-      <!-- TODO -->
-      <HauptsignalRtGnGe idx="8" bereich="HBf" name="F"/>
-      <!-- TODO -->
-      <HauptsignalRtGnGe idx="10" bereich="HBf" name="G"/>
-      <!-- TODO -->
-      <Vorsignal idx="12" bereich="HBf" name="p[F]"/>
-      <!-- TODO -->
-      <Vorsignal idx="14" bereich="HBf" name="p[G]"/>
+      <!-- Die folgenden Geräte kommen noch an einen echten FD -->
+      <Weiche bereich="SBf" name="1003"/>
+      <Sperrsignal bereich="HBf" name="W30"/>
+      <HauptsignalRtGnGe bereich="HBf" name="F"/>
+      <HauptsignalRtGnGe bereich="HBf" name="G"/>
+      <Vorsignal bereich="HBf" name="p[F]"/>
+      <Vorsignal bereich="HBf" name="p[G]"/>
     </NoFD>
 
   </Funktionsdecoder>
