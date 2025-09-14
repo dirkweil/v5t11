@@ -55,7 +55,7 @@ public abstract class Besetztmelder extends Baustein implements Encoder {
 
   @Override
   public void adjustStatus() {
-    if (this.steuerung.getZentrale().isGleisspannung()) {
+    if (this.steuerung.getZentrale().isNormalbetrieb()) {
       this.gleise.forEach(Gleis::adjustStatus);
     }
   }

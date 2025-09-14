@@ -254,6 +254,10 @@ public abstract class Zentrale implements Closeable {
     return this.portName != null && !"none".equals(this.portName);
   }
 
+  public boolean isNormalbetrieb() {
+    return this.gleisspannung && !this.kurzschluss;
+  }
+
   /**
    * Konfigurationswerte des Fahrzeugs lesen, das auf dem Programmiergleis steht.
    * <p>

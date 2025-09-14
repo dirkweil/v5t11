@@ -1,8 +1,10 @@
 package de.gedoplan.v5t11.status.service;
 
 import de.gedoplan.v5t11.status.entity.Steuerung;
+import de.gedoplan.v5t11.status.entity.baustein.Zentrale;
 import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
 import de.gedoplan.v5t11.status.messaging.IncomingHandler;
+import de.gedoplan.v5t11.util.cdi.Changed;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.cdi.Received;
 
@@ -44,5 +46,16 @@ public class StatusUpdater {
 
     // TODO Löschen implementieren
     this.steuerung.getOrCreateFahrzeug(receivedObject.getId());
+  }
+
+  private boolean zentraleImNormalbetrieb = false;
+
+  void zentraleChanged(@ObservesAsync @Changed Zentrale zentrale) {
+    // Wenn wieder Normalbetrieb, Besetztmelder aktualisieren
+    boolean normalbetrieb = zentrale.isNormalbetrieb();
+    if (!this.zentraleImNormalbetrieb && normalbetrieb) {
+      this.steuerung.adjustAllBesetztmelderStatus();
+    }
+    this.zentraleImNormalbetrieb = normalbetrieb;
   }
 }
