@@ -12,8 +12,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.Observes;
 import jakarta.enterprise.event.ObservesAsync;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 
 import org.jboss.logging.Logger;
 
@@ -59,7 +61,8 @@ public class AnlagenstatusService {
     this.logger.debug("***** Disconnected *****");
   }
 
-  void onKanalChange(@ObservesAsync @Changed Kanal kanal) {
+  @Transactional
+  void onKanalChange(@Observes @Changed Kanal kanal) {
     this.kanalRepository.merge(kanal);
   }
 
