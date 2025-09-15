@@ -11,9 +11,13 @@ import de.gedoplan.v5t11.util.domain.attribute.FahrzeugId;
 import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
 
-import lombok.Getter;
-
-import org.jboss.logging.Logger;
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.SessionScoped;
@@ -22,13 +26,9 @@ import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import org.jboss.logging.Logger;
+
+import lombok.Getter;
 
 @Named
 @SessionScoped
@@ -215,6 +215,10 @@ public class SystemControlPresenter implements Serializable {
     if (stellung != null && this.signal != null) {
       this.signal.setStellung(stellung);
     }
+  }
+
+  public void setAlleSignaleHalt() {
+    getSignale().forEach(s -> s.setStellung(SignalStellung.HALT));
   }
 
   public Collection<Fahrzeug> getLoks() {

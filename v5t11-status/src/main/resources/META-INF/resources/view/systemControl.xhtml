@@ -66,6 +66,9 @@
               <f:selectItems value="#{systemControlPresenter.signalStellungen}"/>
               <p:ajax/>
             </p:selectOneButton>
+            <h:outputText value="  |  "/>
+            <p:commandButton value="alle: H" action="#{systemControlPresenter.setAlleSignaleHalt()}" process="@this"
+                             update="signal"/>
           </h:panelGroup>
 
         </h:panelGrid>
