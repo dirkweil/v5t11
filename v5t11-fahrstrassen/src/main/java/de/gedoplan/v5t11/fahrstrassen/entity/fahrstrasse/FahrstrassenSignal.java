@@ -5,9 +5,9 @@ import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Signal;
 import de.gedoplan.v5t11.fahrstrassen.persistence.SignalRepository;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenelementTyp;
 import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
-import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
 import jakarta.inject.Inject;
+import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.xml.bind.Unmarshaller;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -23,11 +23,12 @@ public class FahrstrassenSignal extends FahrstrassenGeraet implements Cloneable 
   @Inject
   SignalRepository signalRepository;
 
-  @Getter(onMethod_ = @JsonbInclude(full = true))
+  @Getter
   @XmlAttribute
   private SignalStellung stellung;
 
   @Override
+  @JsonbTransient
   public Signal getFahrwegelement() {
     return this.signalRepository
       .findById(getId())
@@ -40,11 +41,6 @@ public class FahrstrassenSignal extends FahrstrassenGeraet implements Cloneable 
       this.signalRepository.persist(new Signal(getBereich(), getName()));
     }
   }
-
-  //  @Override
-  //  public String toString() {
-  //    return super.toString() + ", stellung=" + this.stellung;
-  //  }
 
   public Fahrstrassenelement createCopy(SignalStellung stellung) {
     try {
@@ -64,7 +60,6 @@ public class FahrstrassenSignal extends FahrstrassenGeraet implements Cloneable 
   }
 
   @Override
-  @JsonbInclude(full = true)
   public FahrstrassenelementTyp getTyp() {
     return FahrstrassenelementTyp.SIGNAL;
   }

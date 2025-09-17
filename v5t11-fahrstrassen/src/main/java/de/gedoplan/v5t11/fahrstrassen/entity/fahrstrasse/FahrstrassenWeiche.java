@@ -5,9 +5,9 @@ import de.gedoplan.v5t11.fahrstrassen.persistence.WeicheRepository;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenelementTyp;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
 import de.gedoplan.v5t11.util.domain.entity.fahrweg.geraet.AbstractWeiche;
-import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
 import jakarta.inject.Inject;
+import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.xml.bind.Unmarshaller;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -23,15 +23,16 @@ public class FahrstrassenWeiche extends FahrstrassenGeraet {
   @Inject
   WeicheRepository weicheRepository;
 
-  @Getter(onMethod_ = @JsonbInclude(full = true))
+  @Getter
   @XmlAttribute
   private WeichenStellung stellung;
 
-  @Getter(onMethod_ = @JsonbInclude(full = true))
+  @Getter
   @XmlAttribute
   private Integer limit;
 
   @Override
+  @JsonbTransient
   public Weiche getFahrwegelement() {
     return this.weicheRepository
       .findById(getId())
@@ -65,17 +66,12 @@ public class FahrstrassenWeiche extends FahrstrassenGeraet {
   }
 
   @Override
+  @JsonbTransient
   public int getRank() {
     return this.stellung == WeichenStellung.ABZWEIGEND ? 1 : 0;
   }
 
-  //  @Override
-  //  public String toString() {
-  //    return super.toString() + ", stellung=" + this.stellung;
-  //  }
-
   @Override
-  @JsonbInclude(full = true)
   public FahrstrassenelementTyp getTyp() {
     return FahrstrassenelementTyp.WEICHE;
   }

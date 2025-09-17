@@ -6,8 +6,8 @@ import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.ReservierbaresFahrwegelemen
 import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenelementTyp;
 import de.gedoplan.v5t11.util.domain.entity.Bereichselement;
-import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
+import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
@@ -31,7 +31,6 @@ public abstract class Fahrstrassenelement extends Bereichselement implements Clo
    *
    * @return <code>true</code>, wenn in Zählrichtung
    */
-  @JsonbInclude(full = true)
   public boolean isZaehlrichtung() {
     return this.zaehlrichtung != null ? this.zaehlrichtung : false;
   }
@@ -42,9 +41,7 @@ public abstract class Fahrstrassenelement extends Bereichselement implements Clo
    *
    * @return <code>true</code>, wenn Schutzfunktion
    */
-  public boolean isSchutz() {
-    return false;
-  }
+  public abstract boolean isSchutz();
 
   /**
    * Benötigte Stellung.
@@ -60,6 +57,7 @@ public abstract class Fahrstrassenelement extends Bereichselement implements Clo
    *
    * @return <code>true</code>, wenn Hauptsignal
    */
+  @JsonbTransient
   public boolean isHauptsignal() {
     return false;
   }
@@ -69,6 +67,7 @@ public abstract class Fahrstrassenelement extends Bereichselement implements Clo
    *
    * @return <code>true</code>, wenn Vorsignal
    */
+  @JsonbTransient
   public boolean isVorsignal() {
     return false;
   }
@@ -78,6 +77,7 @@ public abstract class Fahrstrassenelement extends Bereichselement implements Clo
    *
    * @return <code>true</code>, wenn Vorsignal
    */
+  @JsonbTransient
   public boolean isSperrsignal() {
     return false;
   }
@@ -99,6 +99,7 @@ public abstract class Fahrstrassenelement extends Bereichselement implements Clo
    *
    * @return Rang der Fahrstrasse (kleiner = besser passend)
    */
+  @JsonbTransient
   public int getRank() {
     return 0;
   }
@@ -122,6 +123,7 @@ public abstract class Fahrstrassenelement extends Bereichselement implements Clo
    *
    * @return Code
    */
+  @JsonbTransient
   public String getCode() {
     StringBuilder b = new StringBuilder();
     b.append(getTyp().toString());

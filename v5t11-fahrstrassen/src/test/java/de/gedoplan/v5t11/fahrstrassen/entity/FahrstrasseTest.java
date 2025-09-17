@@ -18,6 +18,7 @@ import jakarta.inject.Inject;
 import jakarta.json.Json;
 import jakarta.json.JsonArrayBuilder;
 import jakarta.json.JsonObjectBuilder;
+import jakarta.json.bind.JsonbBuilder;
 import jakarta.transaction.Transactional;
 
 import io.quarkus.test.junit.QuarkusTestExtension;
@@ -69,7 +70,7 @@ public class FahrstrasseTest {
 
     Fahrstrasse fahrstrasse = this.parcours.getFahrstrasse(FS_BEREICH, FS_NAME);
 
-    String json = JsonbWithIncludeVisibility.FULL.toJson(fahrstrasse);
+    String json = JsonbBuilder.create().toJson(fahrstrasse);
 
     this.log.debug("JSON string: " + json);
 

@@ -4,9 +4,9 @@ import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleis;
 import de.gedoplan.v5t11.fahrstrassen.persistence.GleisRepository;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenelementTyp;
 import de.gedoplan.v5t11.util.domain.entity.fahrweg.geraet.AbstractWeiche;
-import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
 import jakarta.inject.Inject;
+import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.xml.bind.Unmarshaller;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -31,15 +31,24 @@ public class FahrstrassenGleis extends Fahrstrassenelement {
     super(bereich, name, zaehlrichtung);
   }
 
+  @Override
+  @JsonbTransient
+  public boolean isSchutz() {
+    return false;
+  }
+
+  @JsonbTransient
   public boolean isStartErlaubt() {
     return this.startErlaubt;
   }
 
+  @JsonbTransient
   public boolean isEndeErlaubt() {
     return this.endeErlaubt;
   }
 
   @Override
+  @JsonbTransient
   public Gleis getFahrwegelement() {
     return this.gleisRepository
       .findById(getId())
@@ -54,12 +63,12 @@ public class FahrstrassenGleis extends Fahrstrassenelement {
   }
 
   @Override
+  @JsonbTransient
   public int getRank() {
     return 1;
   }
 
   @Override
-  @JsonbInclude(full = true)
   public FahrstrassenelementTyp getTyp() {
     return FahrstrassenelementTyp.GLEIS;
   }

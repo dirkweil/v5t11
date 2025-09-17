@@ -32,6 +32,7 @@ import jakarta.enterprise.util.AnnotationLiteral;
 import jakarta.enterprise.util.Nonbinding;
 import jakarta.inject.Inject;
 import jakarta.inject.Qualifier;
+import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.xml.bind.Unmarshaller;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -68,7 +69,7 @@ public class Fahrstrasse extends Bereichselement {
    * Dieses Attribut dient nur als Default für die zugehörigen Fahrstrassenelemente.
    */
   @XmlAttribute
-  @Getter(onMethod_ = @JsonbInclude(full = true))
+  @Getter
   private boolean zaehlrichtung;
 
   /**
@@ -76,7 +77,7 @@ public class Fahrstrasse extends Bereichselement {
    * Wenn gesetzt, steht am Beginn der Fahrstrasse dieses Vorsignal.
    */
   @XmlAttribute(name = "start-vorsignal")
-  @Getter(onMethod_ = @JsonbInclude(full = true))
+  @Getter
   private String startVorsignalName;
 
   /**
@@ -84,7 +85,7 @@ public class Fahrstrasse extends Bereichselement {
    * Bereich zu {@link #startVorsignalName}.
    */
   @XmlAttribute(name = "start-vorsignal-bereich")
-  @Getter(onMethod_ = @JsonbInclude(full = true))
+  @Getter
   private String startVorsignalBereich;
 
   /**
@@ -92,7 +93,7 @@ public class Fahrstrasse extends Bereichselement {
    * Wenn gesetzt, endet die Fahrstrasse vor diesem Hauptsignal
    */
   @XmlAttribute(name = "ziel-hauptsignal")
-  @Getter(onMethod_ = @JsonbInclude(full = true))
+  @Getter
   private String zielHauptsignalName;
 
   /**
@@ -100,19 +101,19 @@ public class Fahrstrasse extends Bereichselement {
    * Bereich zu {@link #zielHauptsignalName}.
    */
   @XmlAttribute(name = "ziel-hauptsignal-bereich")
-  @Getter(onMethod_ = @JsonbInclude(full = true))
+  @Getter
   private String zielHauptsignalBereich;
 
   /**
    * Aus anderen Fahrstrassen kombiniert?
    */
-  @Getter
+  @Getter(onMethod_ = @JsonbTransient)
   private boolean combi;
 
   /**
    * Ranking (für Auswahl aus Alternativen).
    */
-  @Getter(onMethod_ = @JsonbInclude(full = true))
+  @Getter
   private int rank;
 
   /**
@@ -122,7 +123,7 @@ public class Fahrstrasse extends Bereichselement {
     @XmlElement(name = "Gleis", type = FahrstrassenGleis.class),
     @XmlElement(name = "Signal", type = FahrstrassenSignal.class),
     @XmlElement(name = "Weiche", type = FahrstrassenWeiche.class) })
-  @Getter(onMethod_ = @JsonbInclude(full = true))
+  @Getter
   private List<Fahrstrassenelement> elemente = new ArrayList<>();
 
   /*
@@ -137,7 +138,7 @@ public class Fahrstrasse extends Bereichselement {
    * Ist nur zum Aufbau der Daten aus dem XML nötig und wird nicht in der DB abgelegt
    */
   @XmlAttribute
-  @Getter
+  @Getter(onMethod_ = @JsonbTransient)
   private boolean umkehrbar;
 
   /**
@@ -145,6 +146,7 @@ public class Fahrstrasse extends Bereichselement {
    */
   private FahrstrassenGleis start;
 
+  @JsonbTransient
   public FahrstrassenGleis getStart() {
     if (this.start == null) {
       this.start = (FahrstrassenGleis) this.elemente.get(0);
@@ -157,6 +159,7 @@ public class Fahrstrasse extends Bereichselement {
    */
   private FahrstrassenGleis ende;
 
+  @JsonbTransient
   public FahrstrassenGleis getEnde() {
     if (this.ende == null) {
       this.ende = (FahrstrassenGleis) this.elemente.get(this.elemente.size() - 1);
@@ -512,6 +515,7 @@ public class Fahrstrasse extends Bereichselement {
    *
    * @return Fahrstrassen-Sstatus
    */
+  @JsonbTransient
   public FahrstrassenStatus getFahrstrassenStatus() {
     return this.fahrstrassenStatusRepository
       .findById(getId())
