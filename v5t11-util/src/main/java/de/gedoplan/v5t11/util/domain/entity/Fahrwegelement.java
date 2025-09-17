@@ -1,7 +1,7 @@
 package de.gedoplan.v5t11.util.domain.entity;
 
 import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
-import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
+import de.gedoplan.v5t11.util.jsonb.JsonbShort;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
@@ -25,8 +25,8 @@ import lombok.Setter;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class Fahrwegelement extends Bereichselement {
 
-  @Getter(onMethod_ = @JsonbInclude)
-  @Setter(onMethod_ = @JsonbInclude)
+  @Getter(onMethod_ = @JsonbShort)
+  @Setter(onMethod_ = @JsonbShort)
   @Column(name = "LAST_CHANGE_MS")
   protected long lastChangeMillis;
 

@@ -4,7 +4,7 @@ import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenelementTyp;
 import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
-import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
+import de.gedoplan.v5t11.util.jsonb.JsonbShort;
 
 import jakarta.persistence.Access;
 import jakarta.persistence.AccessType;
@@ -40,7 +40,7 @@ public class Fahrstrassenelement {
   @Setter
   protected String stellung;
 
-  @JsonbInclude
+  @JsonbShort
   public void setKey(BereichselementId id) {
     this.id = id;
   }

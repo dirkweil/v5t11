@@ -3,7 +3,7 @@ package de.gedoplan.v5t11.util.domain.entity.fahrweg;
 import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import de.gedoplan.v5t11.util.domain.entity.Fahrwegelement;
 import de.gedoplan.v5t11.util.domain.entity.fahrweg.geraet.AbstractWeiche;
-import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
+import de.gedoplan.v5t11.util.jsonb.JsonbShort;
 
 import jakarta.persistence.MappedSuperclass;
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -28,8 +28,8 @@ public abstract class AbstractGleis extends Fahrwegelement {
   /**
    * Gleis besetzt?
    */
-  @Getter(onMethod_ = @JsonbInclude)
-  @Setter(onMethod_ = @JsonbInclude)
+  @Getter(onMethod_ = @JsonbShort)
+  @Setter(onMethod_ = @JsonbShort)
   private boolean besetzt;
 
   /**

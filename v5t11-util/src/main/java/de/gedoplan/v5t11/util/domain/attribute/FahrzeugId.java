@@ -1,6 +1,6 @@
 package de.gedoplan.v5t11.util.domain.attribute;
 
-import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
+import de.gedoplan.v5t11.util.jsonb.JsonbShort;
 
 import java.io.Serializable;
 
@@ -28,8 +28,8 @@ import lombok.Setter;
 @Access(AccessType.FIELD)
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Getter(onMethod_ = @JsonbInclude)
-@Setter(onMethod_ = @JsonbInclude)
+@Getter(onMethod_ = @JsonbShort)
+@Setter(onMethod_ = @JsonbShort)
 @EqualsAndHashCode
 @JsonbTypeAdapter(FahrzeugId.JsonTypeAdapter.class)
 @XmlJavaTypeAdapter(FahrzeugId.XmlTypeAdapter.class)

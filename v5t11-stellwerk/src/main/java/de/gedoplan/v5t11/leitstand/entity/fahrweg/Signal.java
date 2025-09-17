@@ -4,7 +4,7 @@ import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import de.gedoplan.v5t11.util.domain.attribute.SignalTyp;
 import de.gedoplan.v5t11.util.domain.entity.Fahrwegelement;
 import de.gedoplan.v5t11.util.domain.entity.fahrweg.geraet.AbstractSignal;
-import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
+import de.gedoplan.v5t11.util.jsonb.JsonbShort;
 
 import jakarta.persistence.Cacheable;
 import jakarta.persistence.Convert;
@@ -28,7 +28,7 @@ public class Signal extends AbstractSignal {
 
   @Getter
   @Setter
-  @JsonbInclude
+  @JsonbShort
   @Convert(converter = SignalTyp.Adapter4Jpa.class)
   private SignalTyp typ;
 

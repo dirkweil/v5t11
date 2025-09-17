@@ -1,7 +1,7 @@
 package de.gedoplan.v5t11.status.entity;
 
 import de.gedoplan.baselibs.persistence.entity.SingleIdEntity;
-import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
+import de.gedoplan.v5t11.util.jsonb.JsonbShort;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -24,10 +24,10 @@ public class Kanal extends SingleIdEntity<Integer> {
   public static final String TABLE_NAME = "ST_KANAL";
 
   @Id
-  @Getter(onMethod_ = @JsonbInclude)
+  @Getter(onMethod_ = @JsonbShort)
   private int adresse;
 
-  @Getter(onMethod_ = @JsonbInclude)
+  @Getter(onMethod_ = @JsonbShort)
   private int wert;
 
   public Kanal(int adresse, int wert) {

@@ -7,7 +7,7 @@ import de.gedoplan.v5t11.status.entity.baustein.Funktionsdecoder;
 import de.gedoplan.v5t11.util.cdi.Changed;
 import de.gedoplan.v5t11.util.domain.attribute.SchalterStellung;
 import de.gedoplan.v5t11.util.domain.entity.fahrweg.AbstractGeraet;
-import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
+import de.gedoplan.v5t11.util.jsonb.JsonbShort;
 
 import jakarta.xml.bind.Unmarshaller;
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -29,7 +29,7 @@ public class Schalter extends AbstractGeraet implements FunktionsdecoderGeraet {
   /**
    * Aktuelle Stellung.
    */
-  @Getter(onMethod_ = @JsonbInclude)
+  @Getter(onMethod_ = @JsonbShort)
   private SchalterStellung stellung = SchalterStellung.AUS;
 
   @Getter
@@ -45,8 +45,7 @@ public class Schalter extends AbstractGeraet implements FunktionsdecoderGeraet {
   /**
    * Wert setzen: {@link #stellung}.
    *
-   * @param stellung
-   *        Wert
+   * @param stellung Wert
    */
   public void setStellung(SchalterStellung stellung) {
     setStellung(stellung, true);
@@ -71,8 +70,7 @@ public class Schalter extends AbstractGeraet implements FunktionsdecoderGeraet {
   /**
    * Stellungswert für Stellung ermitteln.
    *
-   * @param stellung
-   *        Stellung
+   * @param stellung Stellung
    * @return Stellungswert
    */
   public long getWertForStellung(SchalterStellung stellung) {
@@ -82,8 +80,7 @@ public class Schalter extends AbstractGeraet implements FunktionsdecoderGeraet {
   /**
    * Stellung für Stellungswert ermitteln.
    *
-   * @param stellungsWert
-   *        Stellungswert
+   * @param stellungsWert Stellungswert
    * @return Stellung
    */
   public SchalterStellung getStellungForWert(long stellungsWert) {
@@ -115,8 +112,7 @@ public class Schalter extends AbstractGeraet implements FunktionsdecoderGeraet {
   /**
    * Bei JAXB-Unmarshal Attribut idx als anschluss in die Funktionsdecoder-Zuordnung speichern.
    *
-   * @param idx
-   *        Anschlussnummer
+   * @param idx Anschlussnummer
    */
   @XmlAttribute
   public void setIdx(int idx) {
@@ -126,10 +122,8 @@ public class Schalter extends AbstractGeraet implements FunktionsdecoderGeraet {
   /**
    * Nach JAXB-Unmarshal Funktionsdecoder in die Funktionsdecoder-Zuordnung speichern.
    *
-   * @param unmarshaller
-   *        Unmarshaller
-   * @param parent
-   *        Parent
+   * @param unmarshaller Unmarshaller
+   * @param parent Parent
    */
   @SuppressWarnings("unused")
   private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {

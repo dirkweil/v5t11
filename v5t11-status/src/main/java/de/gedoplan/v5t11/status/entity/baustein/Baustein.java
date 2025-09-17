@@ -4,7 +4,7 @@ import de.gedoplan.baselibs.persistence.entity.SingleIdEntity;
 import de.gedoplan.baselibs.utils.util.ClassUtil;
 import de.gedoplan.v5t11.status.entity.Steuerung;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
-import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
+import de.gedoplan.v5t11.util.jsonb.JsonbShort;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +38,7 @@ public abstract class Baustein extends SingleIdEntity<String> implements Compara
    */
   @Id
   @XmlAttribute(required = true)
-  @Getter(onMethod_ = @JsonbInclude)
+  @Getter(onMethod_ = @JsonbShort)
   protected String id;
 
   /**

@@ -6,7 +6,7 @@ import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenelementTyp;
 import de.gedoplan.v5t11.util.domain.entity.Bereichselement;
-import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
+import de.gedoplan.v5t11.util.jsonb.JsonbShort;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,13 +46,13 @@ public class Fahrstrasse extends Bereichselement {
   /**
    * Falls reserviert, Typ der Reservierung, sonst <code>null</code>.
    */
-  @Getter(onMethod_ = @JsonbInclude)
-  @Setter(onMethod_ = @JsonbInclude)
+  @Getter(onMethod_ = @JsonbShort)
+  @Setter(onMethod_ = @JsonbShort)
   @Convert(converter = FahrstrassenReservierungsTyp.Adapter4Jpa.class)
   private FahrstrassenReservierungsTyp reservierungsTyp = FahrstrassenReservierungsTyp.UNRESERVIERT;
 
-  @Getter(onMethod_ = @JsonbInclude)
-  @Setter(onMethod_ = @JsonbInclude)
+  @Getter(onMethod_ = @JsonbShort)
+  @Setter(onMethod_ = @JsonbShort)
   private int teilFreigabeAnzahl = 0;
 
   @JsonbTransient

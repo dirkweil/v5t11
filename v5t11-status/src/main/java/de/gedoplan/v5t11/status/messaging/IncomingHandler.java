@@ -5,7 +5,7 @@ import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.cdi.Received;
 import de.gedoplan.v5t11.util.jsf.NavigationItem;
 import de.gedoplan.v5t11.util.jsf.NavigationPresenter;
-import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
+import de.gedoplan.v5t11.util.jsonb.JsonbWithVisibility;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -45,14 +45,14 @@ public class IncomingHandler {
 
   private void fireReceived(String json, Class<?> eventClass) {
     this.logger.debugf("Received: %s", json);
-    Object receivedObject = JsonbWithIncludeVisibility.SHORT.fromJson(json, eventClass);
+    Object receivedObject = JsonbWithVisibility.SHORT.fromJson(json, eventClass);
     this.eventFirer.fire(receivedObject, Received.Literal.INSTANCE);
   }
 
   @Incoming("navigation-in")
   void navigationChanged(String json) {
     this.logger.tracef("Received: %s", json);
-    NavigationItem receivedObject = JsonbWithIncludeVisibility.SHORT.fromJson(json, NavigationItem.class);
+    NavigationItem receivedObject = JsonbWithVisibility.SHORT.fromJson(json, NavigationItem.class);
     this.navigationPresenter.heartBeat(receivedObject);
   }
 

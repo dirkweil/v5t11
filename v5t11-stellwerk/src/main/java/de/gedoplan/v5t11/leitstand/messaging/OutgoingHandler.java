@@ -1,17 +1,17 @@
 package de.gedoplan.v5t11.leitstand.messaging;
 
 import de.gedoplan.v5t11.util.jsf.NavigationItem;
-import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
+import de.gedoplan.v5t11.util.jsonb.JsonbWithVisibility;
+
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Alternative;
+import jakarta.inject.Inject;
 
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.eclipse.microprofile.reactive.messaging.OnOverflow;
 import org.jboss.logging.Logger;
 import org.jboss.logging.Logger.Level;
-
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.inject.Alternative;
-import jakarta.inject.Inject;
 
 /**
  * Handler für ausgehende Meldungen.
@@ -44,7 +44,7 @@ public class OutgoingHandler {
   }
 
   protected void send(Emitter<String> emitter, Object obj, Level logLevel) {
-    String json = JsonbWithIncludeVisibility.SHORT.toJson(obj);
+    String json = JsonbWithVisibility.SHORT.toJson(obj);
     this.logger.logf(logLevel, "Send %s: %s", obj, json);
     emitter.send(json);
   }

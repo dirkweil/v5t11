@@ -7,7 +7,7 @@ import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
 import de.gedoplan.v5t11.util.domain.entity.Fahrwegelement;
 import de.gedoplan.v5t11.util.domain.entity.fahrweg.AbstractGeraet;
-import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
+import de.gedoplan.v5t11.util.jsonb.JsonbShort;
 
 import jakarta.persistence.Convert;
 import jakarta.persistence.MappedSuperclass;
@@ -34,8 +34,8 @@ public abstract class AbstractWeiche extends AbstractGeraet {
   /**
    * Aktuelle Stellung der Weiche.
    */
-  @Getter(onMethod_ = @JsonbInclude)
-  @Setter(onMethod_ = @JsonbInclude)
+  @Getter(onMethod_ = @JsonbShort)
+  @Setter(onMethod_ = @JsonbShort)
   @Convert(converter = WeichenStellung.Adapter4Jpa.class)
   private WeichenStellung stellung = WeichenStellung.GERADE;
 

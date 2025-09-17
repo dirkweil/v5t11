@@ -4,7 +4,7 @@ import de.gedoplan.baselibs.utils.inject.InjectionUtil;
 import de.gedoplan.v5t11.status.entity.Kanal;
 import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
 import de.gedoplan.v5t11.util.domain.attribute.FahrzeugId;
-import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
+import de.gedoplan.v5t11.util.jsonb.JsonbShort;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +39,7 @@ public abstract class Lokcontroller extends Baustein implements Encoder {
     super(byteAnzahl);
   }
 
-  @JsonbInclude
+  @JsonbShort
   public FahrzeugId getLokId() {
     return this.lok != null ? this.lok.getId() : null;
   }
@@ -59,7 +59,7 @@ public abstract class Lokcontroller extends Baustein implements Encoder {
 
   // TODO Ohne diese Methode wird die ID nicht ins JSON aufgenommen; warum nicht?
   @Override
-  @JsonbInclude
+  @JsonbShort
   public String getId() {
     return super.getId();
   }

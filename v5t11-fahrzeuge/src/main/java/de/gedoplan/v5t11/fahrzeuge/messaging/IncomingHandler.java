@@ -5,16 +5,16 @@ import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.cdi.Received;
 import de.gedoplan.v5t11.util.jsf.NavigationItem;
 import de.gedoplan.v5t11.util.jsf.NavigationPresenter;
-import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
+import de.gedoplan.v5t11.util.jsonb.JsonbWithVisibility;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
 import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.jboss.logging.Logger;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Handler für eingehende Meldungen.
@@ -46,7 +46,7 @@ public class IncomingHandler {
       };
 
       if (type != null) {
-        Object object = JsonbWithIncludeVisibility.SHORT.fromJson(matcher.group("object"), type);
+        Object object = JsonbWithVisibility.SHORT.fromJson(matcher.group("object"), type);
         this.logger.debugf("Received %s: %s", object, json);
         this.eventFirer.fire(object, Received.Literal.INSTANCE);
       } else {
@@ -60,7 +60,7 @@ public class IncomingHandler {
   @Incoming("navigation-in")
   void navigationChanged(String json) {
     this.logger.tracef("Received: %s", json);
-    NavigationItem receivedObject = JsonbWithIncludeVisibility.SHORT.fromJson(json, NavigationItem.class);
+    NavigationItem receivedObject = JsonbWithVisibility.SHORT.fromJson(json, NavigationItem.class);
     this.navigationPresenter.heartBeat(receivedObject);
   }
 

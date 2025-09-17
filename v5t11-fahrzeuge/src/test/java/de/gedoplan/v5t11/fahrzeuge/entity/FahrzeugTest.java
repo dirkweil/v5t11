@@ -5,7 +5,7 @@ import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.FahrzeugFunktion;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.FahrzeugKonfiguration;
 import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
-import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
+import de.gedoplan.v5t11.util.jsonb.JsonbWithVisibility;
 
 import jakarta.json.Json;
 import jakarta.json.JsonArrayBuilder;
@@ -66,7 +66,7 @@ public class FahrzeugTest {
 
     Fahrzeug fahrzeug = lok112_491_6;
 
-    String json = JsonbWithIncludeVisibility.SHORT.toJson(fahrzeug);
+    String json = JsonbWithVisibility.SHORT.toJson(fahrzeug);
 
     System.out.println("JSON string: " + json);
 

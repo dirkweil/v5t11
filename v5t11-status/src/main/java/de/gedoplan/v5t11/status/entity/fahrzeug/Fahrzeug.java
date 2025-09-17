@@ -9,7 +9,7 @@ import de.gedoplan.v5t11.util.cdi.Changed;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.domain.attribute.FahrzeugId;
 import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
-import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
+import de.gedoplan.v5t11.util.jsonb.JsonbShort;
 
 import jakarta.inject.Inject;
 
@@ -30,33 +30,33 @@ public class Fahrzeug extends SingleIdEntity<FahrzeugId> {
   @Inject
   EventFirer eventFirer;
 
-  @Getter(onMethod_ = @JsonbInclude)
-  @Setter(onMethod_ = @JsonbInclude)
+  @Getter(onMethod_ = @JsonbShort)
+  @Setter(onMethod_ = @JsonbShort)
   private FahrzeugId id;
 
   // Fahrzeug ist aktiv, d. h. in der Zentrale angemeldet
-  @Getter(onMethod_ = @JsonbInclude)
+  @Getter(onMethod_ = @JsonbShort)
   private boolean aktiv;
 
   // Aktuelle Fahrstufe
-  @Getter(onMethod_ = @JsonbInclude)
+  @Getter(onMethod_ = @JsonbShort)
   private int fahrstufe;
 
   // Rückwärtsfahrt
-  @Getter(onMethod_ = @JsonbInclude)
+  @Getter(onMethod_ = @JsonbShort)
   private boolean rueckwaerts;
 
   // Fahrlicht
-  @Getter(onMethod_ = @JsonbInclude)
+  @Getter(onMethod_ = @JsonbShort)
   private boolean licht;
 
   // Status der Funktionen (pro Funktion 1 Bit, nur 16 Bits releavant)
-  @Getter(onMethod_ = @JsonbInclude)
+  @Getter(onMethod_ = @JsonbShort)
   private int fktBits;
 
   // Letze Statusänderung
-  @Getter(onMethod_ = @JsonbInclude)
-  @Setter(onMethod_ = @JsonbInclude)
+  @Getter(onMethod_ = @JsonbShort)
+  @Setter(onMethod_ = @JsonbShort)
   private long lastChangeMillis;
 
   public Fahrzeug(FahrzeugId id) {

@@ -3,7 +3,7 @@ package de.gedoplan.v5t11.util.domain.entity;
 import de.gedoplan.baselibs.persistence.entity.SingleIdEntity;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
-import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
+import de.gedoplan.v5t11.util.jsonb.JsonbShort;
 
 import jakarta.inject.Inject;
 import jakarta.json.bind.annotation.JsonbTransient;
@@ -57,13 +57,13 @@ public abstract class Bereichselement extends SingleIdEntity<BereichselementId> 
     this.name = id.getName();
   }
 
-  @JsonbInclude
+  @JsonbShort
   public void setBereich(String bereich) {
     this.bereich = bereich;
     this.id = null;
   }
 
-  @JsonbInclude
+  @JsonbShort
   public void setName(String name) {
     this.name = name;
     this.id = null;
@@ -82,12 +82,12 @@ public abstract class Bereichselement extends SingleIdEntity<BereichselementId> 
    * geliefert wird - nicht getId()!
    * Könnte ein Bug in Yasson sein.
    */
-  @JsonbInclude
+  @JsonbShort
   public BereichselementId getKey() {
     return getId();
   }
 
-  @JsonbInclude
+  @JsonbShort
   public void setKey(BereichselementId id) {
     this.id = id;
     this.bereich = id.getBereich();

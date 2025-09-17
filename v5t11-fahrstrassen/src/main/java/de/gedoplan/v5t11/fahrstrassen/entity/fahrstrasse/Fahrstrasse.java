@@ -11,7 +11,7 @@ import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
 import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
 import de.gedoplan.v5t11.util.domain.entity.Bereichselement;
-import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
+import de.gedoplan.v5t11.util.jsonb.JsonbShort;
 import de.gedoplan.v5t11.util.misc.V5t11Exception;
 import de.gedoplan.v5t11.util.transaction.TransactionChecker;
 
@@ -527,7 +527,7 @@ public class Fahrstrasse extends Bereichselement {
    *
    * @return Reservierungstyp
    */
-  @JsonbInclude
+  @JsonbShort
   public FahrstrassenReservierungsTyp getReservierungsTyp() {
     return getFahrstrassenStatus().getReservierungsTyp();
   }
@@ -537,7 +537,7 @@ public class Fahrstrasse extends Bereichselement {
    *
    * @return Teilfreigabeanzahl
    */
-  @JsonbInclude
+  @JsonbShort
   public int getTeilFreigabeAnzahl() {
     return getFahrstrassenStatus().getTeilFreigabeAnzahl();
   }

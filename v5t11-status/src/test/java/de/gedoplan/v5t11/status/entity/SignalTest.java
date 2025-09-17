@@ -1,7 +1,7 @@
 package de.gedoplan.v5t11.status.entity;
 
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
-import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
+import de.gedoplan.v5t11.util.jsonb.JsonbWithVisibility;
 import de.gedoplan.v5t11.util.test.V5t11TestConfigDirExtension;
 
 import jakarta.inject.Inject;
@@ -33,7 +33,7 @@ public class SignalTest {
 
     Signal signal = this.steuerung.getSignal("test", "P2");
 
-    String json = JsonbWithIncludeVisibility.SHORT.toJson(signal);
+    String json = JsonbWithVisibility.SHORT.toJson(signal);
 
     this.log.debug("JSON string: " + json);
 

@@ -1,6 +1,6 @@
 package de.gedoplan.v5t11.util.jsf;
 
-import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
+import de.gedoplan.v5t11.util.jsonb.JsonbShort;
 
 import java.io.Serializable;
 
@@ -15,16 +15,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class NavigationItem implements Comparable<NavigationItem>, Serializable {
 
-  @JsonbInclude
+  @JsonbShort
   private String name;
-  @JsonbInclude
+  @JsonbShort
   private String category;
-  @JsonbInclude
+  @JsonbShort
   private String url;
-  @JsonbInclude
+  @JsonbShort
   private String icon;
 
-  @JsonbInclude
+  @JsonbShort
   int order;
 
   public NavigationItem(String name, String category, String url, String icon, int order) {
@@ -37,15 +37,15 @@ public class NavigationItem implements Comparable<NavigationItem>, Serializable 
 
   public MenuItem toMenuItem(boolean disabled) {
     Builder builder = DefaultMenuItem.builder()
-        .value(this.name)
-        .icon(this.icon)
-        .disabled(disabled)
-        .ajax(false);
+      .value(this.name)
+      .icon(this.icon)
+      .disabled(disabled)
+      .ajax(false);
     if (this.url != null) {
       builder.url(this.url);
     }
     return builder
-        .build();
+      .build();
   }
 
   @Override

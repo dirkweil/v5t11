@@ -4,7 +4,7 @@ import de.gedoplan.baselibs.persistence.entity.SingleIdEntity;
 import de.gedoplan.baselibs.utils.inject.InjectionUtil;
 import de.gedoplan.v5t11.util.domain.attribute.FahrzeugId;
 import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
-import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
+import de.gedoplan.v5t11.util.jsonb.JsonbShort;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -57,13 +57,13 @@ public class Fahrzeug extends SingleIdEntity<FahrzeugId> {
   // EventFirer eventFirer;
 
   @EmbeddedId
-  @Getter(onMethod_ = @JsonbInclude)
-  @Setter(onMethod_ = @JsonbInclude)
+  @Getter(onMethod_ = @JsonbShort)
+  @Setter(onMethod_ = @JsonbShort)
   private FahrzeugId id;
 
   // Fahrzeug ist/wird gelöscht
   // nur für temporäre Benachrichtigung; wird nicht in der DB gespeichert
-  @Getter(onMethod_ = @JsonbInclude)
+  @Getter(onMethod_ = @JsonbShort)
   @Setter
   @Transient
   @XmlTransient
@@ -71,13 +71,13 @@ public class Fahrzeug extends SingleIdEntity<FahrzeugId> {
 
   // Fahrzeug ist aktiv, d. h. in der Zentrale angemeldet
   @Getter
-  @Setter(onMethod_ = @JsonbInclude)
+  @Setter(onMethod_ = @JsonbShort)
   @XmlTransient
   private boolean aktiv;
 
   // Aktuelle Fahrstufe
   @Getter
-  @Setter(onMethod_ = @JsonbInclude)
+  @Setter(onMethod_ = @JsonbShort)
   @XmlTransient
   private int fahrstufe;
 
@@ -89,25 +89,25 @@ public class Fahrzeug extends SingleIdEntity<FahrzeugId> {
 
   // Rückwärtsfahrt
   @Getter
-  @Setter(onMethod_ = @JsonbInclude)
+  @Setter(onMethod_ = @JsonbShort)
   @XmlTransient
   private boolean rueckwaerts;
 
   // Fahrlicht
   @Getter
-  @Setter(onMethod_ = @JsonbInclude)
+  @Setter(onMethod_ = @JsonbShort)
   @XmlTransient
   private boolean licht;
 
   // Status der Funktionen (pro Funktion 1 Bit, nur 16 Bits releavant)
   @Column(name = "FKT_BITS", nullable = false)
   @Getter
-  @Setter(onMethod_ = @JsonbInclude)
+  @Setter(onMethod_ = @JsonbShort)
   @XmlTransient
   private int fktBits;
 
   @Getter
-  @Setter(onMethod_ = @JsonbInclude)
+  @Setter(onMethod_ = @JsonbShort)
   @Column(name = "LAST_CHANGE_MS")
   @XmlTransient
   private long lastChangeMillis;
@@ -115,7 +115,7 @@ public class Fahrzeug extends SingleIdEntity<FahrzeugId> {
   /**
    * Betriebsnummer des Fahrzeugs (DB-Nr. ö. ä.).
    */
-  @Getter(onMethod_ = @JsonbInclude)
+  @Getter(onMethod_ = @JsonbShort)
   @Setter
   @NotBlank
   @Column(nullable = false, unique = true)
@@ -128,7 +128,7 @@ public class Fahrzeug extends SingleIdEntity<FahrzeugId> {
   @JsonbTransient
   private Serializable image;
 
-  @Getter(onMethod_ = @JsonbInclude)
+  @Getter(onMethod_ = @JsonbShort)
   @Setter
   private String decoder;
 

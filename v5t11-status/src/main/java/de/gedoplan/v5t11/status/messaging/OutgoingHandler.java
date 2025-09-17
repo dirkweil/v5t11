@@ -7,7 +7,7 @@ import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
 import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
 import de.gedoplan.v5t11.status.service.EventDispatcher;
 import de.gedoplan.v5t11.util.jsf.NavigationItem;
-import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
+import de.gedoplan.v5t11.util.jsonb.JsonbWithVisibility;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Alternative;
@@ -55,7 +55,7 @@ public class OutgoingHandler {
   }
 
   public void publish(NavigationItem navigationItem) {
-    send(this.navigationItemEmitter, JsonbWithIncludeVisibility.SHORT.toJson(navigationItem), Level.TRACE);
+    send(this.navigationItemEmitter, JsonbWithVisibility.SHORT.toJson(navigationItem), Level.TRACE);
   }
 
   public void publish(Signal signal) {
@@ -80,7 +80,7 @@ public class OutgoingHandler {
   }
 
   private String getStatusJson(String name, Object value) {
-    return String.format("{\"%s\":%s}", name, JsonbWithIncludeVisibility.SHORT.toJson(value));
+    return String.format("{\"%s\":%s}", name, JsonbWithVisibility.SHORT.toJson(value));
   }
 
 }

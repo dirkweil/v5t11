@@ -1,7 +1,7 @@
 package de.gedoplan.v5t11.status.entity;
 
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
-import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
+import de.gedoplan.v5t11.util.jsonb.JsonbWithVisibility;
 import de.gedoplan.v5t11.util.test.V5t11TestConfigDirExtension;
 
 import jakarta.inject.Inject;
@@ -36,7 +36,7 @@ public class WeicheTest {
 
     Weiche weiche = this.steuerung.getWeiche("test", "10");
 
-    String json = JsonbWithIncludeVisibility.SHORT.toJson(weiche);
+    String json = JsonbWithVisibility.SHORT.toJson(weiche);
 
     this.log.debug("JSON string: " + json);
 
@@ -77,7 +77,7 @@ public class WeicheTest {
 
     String json = "{\"key\":\"10@test\",\"lastChangeMillis\":12345,\"stellung\":\"A\"}";
 
-    Weiche weiche = JsonbWithIncludeVisibility.SHORT.fromJson(json, Weiche.class);
+    Weiche weiche = JsonbWithVisibility.SHORT.fromJson(json, Weiche.class);
 
     assertThat("Bereich", weiche.getBereich(), is("test"));
     assertThat("Name", weiche.getName(), is("10"));

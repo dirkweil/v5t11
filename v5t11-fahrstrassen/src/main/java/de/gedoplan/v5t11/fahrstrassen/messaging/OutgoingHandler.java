@@ -1,7 +1,7 @@
 package de.gedoplan.v5t11.fahrstrassen.messaging;
 
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrasse;
-import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
+import de.gedoplan.v5t11.util.jsonb.JsonbWithVisibility;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Alternative;
@@ -36,7 +36,7 @@ public class OutgoingHandler {
   }
 
   protected void send(Emitter<String> emitter, Object obj) {
-    String json = JsonbWithIncludeVisibility.SHORT.toJson(obj);
+    String json = JsonbWithVisibility.SHORT.toJson(obj);
     this.logger.debugf("Send %s: %s", obj, json);
     emitter.send(json);
   }

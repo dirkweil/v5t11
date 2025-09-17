@@ -5,7 +5,7 @@ package de.gedoplan.v5t11.status.entity.fahrweg.geraet;
 
 import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
 import de.gedoplan.v5t11.util.domain.attribute.SignalTyp;
-import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
+import de.gedoplan.v5t11.util.jsonb.JsonbShort;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -26,7 +26,7 @@ public class Sperrsignal extends Signal {
   }
 
   @Override
-  @JsonbInclude
+  @JsonbShort
   public SignalTyp getTyp() {
     return SignalTyp.SPERRSIGNAL;
   }

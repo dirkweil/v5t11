@@ -5,7 +5,7 @@ import de.gedoplan.v5t11.util.cdi.Changed;
 import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
 import de.gedoplan.v5t11.util.domain.attribute.SignalTyp;
 import de.gedoplan.v5t11.util.domain.entity.fahrweg.geraet.AbstractSignal;
-import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
+import de.gedoplan.v5t11.util.jsonb.JsonbShort;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -72,7 +72,7 @@ public abstract class Signal extends AbstractSignal implements FunktionsdecoderG
 
   protected abstract void addErlaubteStellungen();
 
-  @JsonbInclude
+  @JsonbShort
   public abstract SignalTyp getTyp();
 
   /**

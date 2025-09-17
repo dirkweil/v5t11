@@ -2,7 +2,7 @@ package de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse;
 
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
 import de.gedoplan.v5t11.util.domain.entity.Bereichselement;
-import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
+import de.gedoplan.v5t11.util.jsonb.JsonbShort;
 
 import jakarta.persistence.Cacheable;
 import jakarta.persistence.Convert;
@@ -30,16 +30,16 @@ public class FahrstrassenStatus extends Bereichselement {
   /**
    * Falls reserviert, Typ der Reservierung, sonst <code>null</code>.
    */
-  @Getter(onMethod_ = @JsonbInclude)
-  @Setter(onMethod_ = @JsonbInclude)
+  @Getter(onMethod_ = @JsonbShort)
+  @Setter(onMethod_ = @JsonbShort)
   @Convert(converter = FahrstrassenReservierungsTyp.Adapter4Jpa.class)
   private FahrstrassenReservierungsTyp reservierungsTyp = FahrstrassenReservierungsTyp.UNRESERVIERT;
 
   /**
    * Anzahl der bereits freigegebenen Elemente.
    */
-  @Getter(onMethod_ = @JsonbInclude)
-  @Setter(onMethod_ = @JsonbInclude)
+  @Getter(onMethod_ = @JsonbShort)
+  @Setter(onMethod_ = @JsonbShort)
   private int teilFreigabeAnzahl = 0;
 
   public FahrstrassenStatus(String bereich, String name) {

@@ -11,5 +11,5 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Documented
 @Retention(RUNTIME)
 @Target({ FIELD, METHOD })
-public @interface JsonbInclude {
+public @interface JsonbShort {
 }

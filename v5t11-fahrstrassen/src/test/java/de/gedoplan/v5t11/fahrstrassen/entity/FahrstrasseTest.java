@@ -9,7 +9,7 @@ import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleis;
 import de.gedoplan.v5t11.fahrstrassen.persistence.GleisRepository;
 import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
-import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
+import de.gedoplan.v5t11.util.jsonb.JsonbWithVisibility;
 import de.gedoplan.v5t11.util.test.V5t11TestConfigDirExtension;
 
 import java.util.stream.Stream;
@@ -52,7 +52,7 @@ public class FahrstrasseTest {
 
     Fahrstrasse fahrstrasse = this.parcours.getFahrstrasse(FS_BEREICH, FS_NAME);
 
-    String json = JsonbWithIncludeVisibility.SHORT.toJson(fahrstrasse);
+    String json = JsonbWithVisibility.SHORT.toJson(fahrstrasse);
 
     this.log.debug("JSON string: " + json);
 

@@ -1,8 +1,9 @@
 package de.gedoplan.v5t11.fahrzeuge.messaging;
 
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug;
+import de.gedoplan.v5t11.fahrzeuge.service.EventDispatcher;
 import de.gedoplan.v5t11.util.jsf.NavigationItem;
-import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
+import de.gedoplan.v5t11.util.jsonb.JsonbWithVisibility;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Alternative;
@@ -54,7 +55,7 @@ public class OutgoingHandler {
   }
 
   protected void send(Emitter<String> emitter, Object obj, Level logLevel) {
-    String json = JsonbWithIncludeVisibility.SHORT.toJson(obj);
+    String json = JsonbWithVisibility.SHORT.toJson(obj);
     this.logger.logf(logLevel, "Send %s: %s", obj, json);
     emitter.send(json);
   }

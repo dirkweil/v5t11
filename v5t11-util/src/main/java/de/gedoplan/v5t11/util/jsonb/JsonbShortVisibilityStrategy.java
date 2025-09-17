@@ -8,14 +8,14 @@ import java.util.logging.Logger;
 
 import jakarta.json.bind.config.PropertyVisibilityStrategy;
 
-public enum JsonbIncludeVisibilityStrategy implements PropertyVisibilityStrategy {
+public enum JsonbShortVisibilityStrategy implements PropertyVisibilityStrategy {
   SHORT;
 
-  private static final Logger LOGGER = Logger.getLogger(JsonbIncludeVisibilityStrategy.class.getName());
+  private static final Logger LOGGER = Logger.getLogger(JsonbShortVisibilityStrategy.class.getName());
 
   @Override
   public boolean isVisible(Field field) {
-    return isVisible(field, field.getAnnotation(JsonbInclude.class));
+    return isVisible(field, field.getAnnotation(JsonbShort.class));
   }
 
   @Override
@@ -25,11 +25,11 @@ public enum JsonbIncludeVisibilityStrategy implements PropertyVisibilityStrategy
       return false;
     }
 
-    return isVisible(method, method.getAnnotation(JsonbInclude.class));
+    return isVisible(method, method.getAnnotation(JsonbShort.class));
   }
 
-  private boolean isVisible(Member member, JsonbInclude jsonBInclude) {
-    if (jsonBInclude == null) {
+  private boolean isVisible(Member member, JsonbShort jsonBShort) {
+    if (jsonBShort == null) {
       LOGGER.finer(() -> member + " not visible (not annotated)");
       return false;
     }

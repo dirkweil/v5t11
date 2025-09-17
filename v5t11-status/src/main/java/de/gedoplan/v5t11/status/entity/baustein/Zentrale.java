@@ -5,7 +5,7 @@ import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
 import de.gedoplan.v5t11.status.service.ConfigService;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
-import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
+import de.gedoplan.v5t11.util.jsonb.JsonbShort;
 import de.gedoplan.v5t11.util.misc.V5t11Exception;
 
 import java.io.Closeable;
@@ -55,10 +55,10 @@ public abstract class Zentrale implements Closeable {
 
   protected volatile OutputStream out;
 
-  @Getter(onMethod_ = @JsonbInclude)
+  @Getter(onMethod_ = @JsonbShort)
   protected boolean gleisspannung;
 
-  @Getter(onMethod_ = @JsonbInclude)
+  @Getter(onMethod_ = @JsonbShort)
   protected boolean kurzschluss;
 
   // Zentrale, Kanal, SX2Kanal
