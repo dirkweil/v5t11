@@ -1,7 +1,6 @@
 package de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug;
 
 import de.gedoplan.baselibs.persistence.entity.ToStringable;
-import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
@@ -20,9 +19,9 @@ import lombok.Setter;
 
 @Embeddable
 @NoArgsConstructor
-@Getter(onMethod_ = @JsonbInclude(full = true))
+@Getter
 @Setter
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@EqualsAndHashCode(callSuper = false, onlyExplicitlyIncluded = true)
 @XmlAccessorType(XmlAccessType.FIELD)
 public class FahrzeugKonfiguration extends ToStringable {
   @NotNull

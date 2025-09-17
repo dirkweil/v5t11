@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.Access;
 import jakarta.persistence.AccessType;
 import jakarta.persistence.CollectionTable;
@@ -69,42 +70,43 @@ public class Fahrzeug extends SingleIdEntity<FahrzeugId> {
   private boolean removed;
 
   // Fahrzeug ist aktiv, d. h. in der Zentrale angemeldet
-  @Getter(onMethod_ = @JsonbInclude(full = true))
+  @Getter
   @Setter(onMethod_ = @JsonbInclude)
   @XmlTransient
   private boolean aktiv;
 
   // Aktuelle Fahrstufe
-  @Getter(onMethod_ = @JsonbInclude(full = true))
+  @Getter
   @Setter(onMethod_ = @JsonbInclude)
   @XmlTransient
   private int fahrstufe;
 
   @AssertTrue(message = "Ungültige Fahrstufe")
+  @JsonbTransient
   boolean isfahrstufeValid() {
     return this.fahrstufe >= 0 && this.fahrstufe <= this.id.getSystemTyp().getMaxFahrstufe();
   }
 
   // Rückwärtsfahrt
-  @Getter(onMethod_ = @JsonbInclude(full = true))
+  @Getter
   @Setter(onMethod_ = @JsonbInclude)
   @XmlTransient
   private boolean rueckwaerts;
 
   // Fahrlicht
-  @Getter(onMethod_ = @JsonbInclude(full = true))
+  @Getter
   @Setter(onMethod_ = @JsonbInclude)
   @XmlTransient
   private boolean licht;
 
   // Status der Funktionen (pro Funktion 1 Bit, nur 16 Bits releavant)
   @Column(name = "FKT_BITS", nullable = false)
-  @Getter(onMethod_ = @JsonbInclude(full = true))
+  @Getter
   @Setter(onMethod_ = @JsonbInclude)
   @XmlTransient
   private int fktBits;
 
-  @Getter(onMethod_ = @JsonbInclude(full = true))
+  @Getter
   @Setter(onMethod_ = @JsonbInclude)
   @Column(name = "LAST_CHANGE_MS")
   @XmlTransient
@@ -123,6 +125,7 @@ public class Fahrzeug extends SingleIdEntity<FahrzeugId> {
   @Getter
   @Setter
   @XmlTransient
+  @JsonbTransient
   private Serializable image;
 
   @Getter(onMethod_ = @JsonbInclude)
@@ -131,14 +134,14 @@ public class Fahrzeug extends SingleIdEntity<FahrzeugId> {
 
   @ElementCollection(fetch = FetchType.EAGER)
   @CollectionTable(name = TABLE_NAME_FUNKTIONEN)
-  @Getter(onMethod_ = @JsonbInclude(full = true))
+  @Getter
   @XmlElement(name = "funktion")
   private List<@NotNull FahrzeugFunktion> funktionen;
 
   @ElementCollection(fetch = FetchType.EAGER)
   @CollectionTable(name = TABLE_NAME_KONFIGURATIONEN)
   @OrderBy("nr")
-  @Getter(onMethod_ = @JsonbInclude(full = true))
+  @Getter
   @XmlElement(name = "konfiguration")
   private List<@NotNull @Valid FahrzeugKonfiguration> konfigurationen;
 

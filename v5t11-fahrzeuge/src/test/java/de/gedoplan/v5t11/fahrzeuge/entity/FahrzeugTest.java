@@ -9,6 +9,7 @@ import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 
 import jakarta.json.Json;
 import jakarta.json.JsonArrayBuilder;
+import jakarta.json.bind.JsonbBuilder;
 
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
@@ -83,7 +84,7 @@ public class FahrzeugTest {
 
     Fahrzeug fahrzeug = lok112_491_6;
 
-    String json = JsonbWithIncludeVisibility.FULL.toJson(fahrzeug);
+    String json = JsonbBuilder.create().toJson(fahrzeug);
 
     System.out.println("JSON string: " + json);
 

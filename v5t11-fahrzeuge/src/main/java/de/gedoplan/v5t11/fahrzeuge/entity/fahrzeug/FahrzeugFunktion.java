@@ -1,7 +1,5 @@
 package de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug;
 
-import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
-
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -19,7 +17,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Embeddable
-@Getter(onMethod_ = @JsonbInclude(full = true))
+@Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
