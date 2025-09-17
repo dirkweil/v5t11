@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.xml.bind.Unmarshaller;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -32,7 +33,7 @@ public abstract class Signal extends AbstractSignal implements FunktionsdecoderG
   @XmlAttribute
   private boolean invertiert;
 
-  @Getter
+  @Getter(onMethod_ = @JsonbTransient)
   private FunktionsdecoderZuordnung funktionsdecoderZuordnung;
 
   /**

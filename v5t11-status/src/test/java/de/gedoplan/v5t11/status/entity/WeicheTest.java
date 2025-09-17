@@ -1,15 +1,14 @@
 package de.gedoplan.v5t11.status.entity;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
-
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithIncludeVisibility;
 import de.gedoplan.v5t11.util.test.V5t11TestConfigDirExtension;
 
 import jakarta.inject.Inject;
 import jakarta.json.Json;
+import jakarta.json.bind.JsonbBuilder;
 
+import io.quarkus.test.junit.QuarkusTestExtension;
 import org.jboss.logging.Logger;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
@@ -17,7 +16,8 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.skyscreamer.jsonassert.JSONAssert;
 
-import io.quarkus.test.junit.QuarkusTestExtension;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
 @ExtendWith({ V5t11TestConfigDirExtension.class, QuarkusTestExtension.class })
 @TestMethodOrder(MethodOrderer.MethodName.class)
@@ -56,7 +56,7 @@ public class WeicheTest {
 
     Weiche weiche = this.steuerung.getWeiche("test", "10");
 
-    String json = JsonbWithIncludeVisibility.FULL.toJson(weiche);
+    String json = JsonbBuilder.create().toJson(weiche);
 
     this.log.debug("JSON string: " + json);
 

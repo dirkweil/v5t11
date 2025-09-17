@@ -1,8 +1,5 @@
 package de.gedoplan.v5t11.status.entity;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
-
 import de.gedoplan.v5t11.status.entity.fahrweg.Gleis;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Schalter;
 import de.gedoplan.v5t11.util.domain.attribute.SchalterStellung;
@@ -10,13 +7,16 @@ import de.gedoplan.v5t11.util.test.V5t11TestConfigDirExtension;
 
 import jakarta.inject.Inject;
 
+import io.quarkus.test.junit.QuarkusTestExtension;
 import org.jboss.logging.Logger;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import io.quarkus.test.junit.QuarkusTestExtension;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
 @ExtendWith({ V5t11TestConfigDirExtension.class, QuarkusTestExtension.class })
 @TestMethodOrder(MethodOrderer.MethodName.class)
@@ -32,17 +32,25 @@ public class KehrschleifenTest {
 
   private static final int FD_ADR = 83;
 
-  @Test
-  public void test_01_fahrt17linksNachRechts() {
-    this.log.info("----- test_01_fahrt17linksNachRechts -----");
+  @BeforeEach
+  public void beforeEach() {
+    // Gleisspannung ein (sonst gibt es keine Gleis-Events)
+    this.steuerung.getZentrale().setGleisspannung(true);
 
-    // Grundzustand herstellen: Alle Gleise an BM nicht besetzt, Schalter an FD aus
+    // Alle Gleise an BM nicht besetzt
     this.steuerung.setSX1Kanal(BM_ADR, (byte) 0b1111_1111);
     int wert = 0;
     this.steuerung.setSX1Kanal(BM_ADR, (byte) wert);
 
+    // Schalter an FD aus
     this.steuerung.setSX1Kanal(FD_ADR, (byte) 0b1111_1111);
     this.steuerung.setSX1Kanal(FD_ADR, (byte) 0);
+
+  }
+
+  @Test
+  public void test_01_fahrt17linksNachRechts() {
+    this.log.info("----- test_01_fahrt17linksNachRechts -----");
 
     Schalter schalterKS17 = this.steuerung.getSchalter("SBf", "KS17");
     assertThat(schalterKS17.getStellung(), is(SchalterStellung.AUS));
@@ -80,14 +88,6 @@ public class KehrschleifenTest {
   public void test_02_fahrt17rechtsNachLinks() {
     this.log.info("----- test_02_fahrt17rechtsNachLinks -----");
 
-    // Grundzustand herstellen: Alle Gleise an BM nicht besetzt, Schalter an FD aus
-    this.steuerung.setSX1Kanal(BM_ADR, (byte) 0b1111_1111);
-    int wert = 0;
-    this.steuerung.setSX1Kanal(BM_ADR, (byte) wert);
-
-    this.steuerung.setSX1Kanal(FD_ADR, (byte) 0b1111_1111);
-    this.steuerung.setSX1Kanal(FD_ADR, (byte) 0);
-
     Schalter schalterKS17 = this.steuerung.getSchalter("SBf", "KS17");
     assertThat(schalterKS17.getStellung(), is(SchalterStellung.AUS));
 
@@ -123,14 +123,6 @@ public class KehrschleifenTest {
   @Test
   public void test_03_fahrt18linksNachRechts() {
     this.log.info("----- test_03_fahrt18linksNachRechts -----");
-
-    // Grundzustand herstellen: Alle Gleise an BM nicht besetzt, Schalter an FD aus
-    this.steuerung.setSX1Kanal(BM_ADR, (byte) 0b1111_1111);
-    int wert = 0;
-    this.steuerung.setSX1Kanal(BM_ADR, (byte) wert);
-
-    this.steuerung.setSX1Kanal(FD_ADR, (byte) 0b1111_1111);
-    this.steuerung.setSX1Kanal(FD_ADR, (byte) 0);
 
     Schalter schalterKS18 = this.steuerung.getSchalter("SBf", "KS18");
     assertThat(schalterKS18.getStellung(), is(SchalterStellung.AUS));

@@ -1,9 +1,5 @@
 package de.gedoplan.v5t11.status.entity;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.Assertions.*;
-
 import de.gedoplan.v5t11.status.StatusEventCollector;
 import de.gedoplan.v5t11.status.entity.fahrweg.Gleis;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
@@ -19,13 +15,16 @@ import java.util.Random;
 
 import jakarta.inject.Inject;
 
+import io.quarkus.test.junit.QuarkusTestExtension;
 import org.jboss.logging.Logger;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import io.quarkus.test.junit.QuarkusTestExtension;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.fail;
 
 @ExtendWith({ V5t11TestConfigDirExtension.class, QuarkusTestExtension.class })
 @TestMethodOrder(MethodOrderer.MethodName.class)
@@ -73,7 +72,9 @@ public class SteuerungTest {
       this.steuerung.getGleis("test", "8")
     };
 
-    // Grundzustand herstellen: Alle Gleise an BM-1 nicht besetzt
+    // Grundzustand herstellen: Gleisspanung ein, alle Gleise an BM-1 nicht besetzt
+    this.steuerung.getZentrale().setGleisspannung(true);
+
     this.steuerung.setSX1Kanal(BM_ADR, (byte) 0b1111_1111);
     int wert = 0;
     this.steuerung.setSX1Kanal(BM_ADR, (byte) wert);

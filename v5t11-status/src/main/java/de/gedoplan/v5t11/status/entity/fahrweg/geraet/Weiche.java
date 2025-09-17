@@ -7,8 +7,8 @@ import de.gedoplan.v5t11.status.entity.baustein.Funktionsdecoder;
 import de.gedoplan.v5t11.util.cdi.Changed;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
 import de.gedoplan.v5t11.util.domain.entity.fahrweg.geraet.AbstractWeiche;
-import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
+import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.xml.bind.Unmarshaller;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -24,7 +24,7 @@ import lombok.Getter;
 @XmlAccessorType(XmlAccessType.NONE)
 public class Weiche extends AbstractWeiche implements FunktionsdecoderGeraet {
 
-  @Getter
+  @Getter(onMethod_ = @JsonbTransient)
   private FunktionsdecoderZuordnung funktionsdecoderZuordnung;
 
   @XmlAttribute
@@ -38,7 +38,7 @@ public class Weiche extends AbstractWeiche implements FunktionsdecoderGeraet {
   }
 
   /**
-   * Wert setzen: {@link #stellung}.
+   * Wert setzen: Stellung.
    *
    * @param stellung Wert
    */
@@ -92,7 +92,6 @@ public class Weiche extends AbstractWeiche implements FunktionsdecoderGeraet {
   }
 
   @Override
-  @JsonbInclude(full = true)
   public String getGleisName() {
     boolean doppelweiche = Character.isAlphabetic(getName().charAt(getName().length() - 1));
     if (doppelweiche) {
