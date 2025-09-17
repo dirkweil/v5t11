@@ -8,10 +8,10 @@ import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenelementTyp;
 import de.gedoplan.v5t11.util.domain.entity.Bereichselement;
 import de.gedoplan.v5t11.util.jsonb.JsonbInclude;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import java.util.ArrayList;
+import java.util.List;
 
+import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.Access;
 import jakarta.persistence.AccessType;
 import jakarta.persistence.CollectionTable;
@@ -21,8 +21,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Table;
 
-import java.util.ArrayList;
-import java.util.List;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Access(AccessType.FIELD)
@@ -36,8 +37,8 @@ public class Fahrstrasse extends Bereichselement {
   /**
    * Liste der Fahrstrassenelemente. Beginnt und endet immer mit einem Gleis.
    */
-  @Getter(onMethod_ = @JsonbInclude(full = true))
-  @Setter(onMethod_ = @JsonbInclude(full = true))
+  @Getter
+  @Setter
   @ElementCollection(fetch = FetchType.EAGER)
   @CollectionTable(name = TABLE_NAME_ELEMENTE)
   private List<Fahrstrassenelement> elemente = new ArrayList<>();
@@ -54,6 +55,7 @@ public class Fahrstrasse extends Bereichselement {
   @Setter(onMethod_ = @JsonbInclude)
   private int teilFreigabeAnzahl = 0;
 
+  @JsonbTransient
   public String getShortName() {
     return getName().replaceAll("-W\\d+", "");
   }

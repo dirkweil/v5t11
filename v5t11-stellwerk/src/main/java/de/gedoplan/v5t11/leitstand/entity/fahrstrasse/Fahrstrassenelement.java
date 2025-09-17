@@ -24,20 +24,20 @@ public class Fahrstrassenelement {
   private BereichselementId id;
 
   @Getter
-  @Setter(onMethod_ = @JsonbInclude(full = true))
+  @Setter
   protected boolean zaehlrichtung;
 
   @Getter
-  @Setter(onMethod_ = @JsonbInclude(full = true))
+  @Setter
   protected boolean schutz;
 
   @Getter
-  @Setter(onMethod_ = @JsonbInclude(full = true))
+  @Setter
   @Convert(converter = FahrstrassenelementTyp.Adapter4Jpa.class)
   protected FahrstrassenelementTyp typ;
 
   @Getter
-  @Setter(onMethod_ = @JsonbInclude(full = true))
+  @Setter
   protected String stellung;
 
   @JsonbInclude
