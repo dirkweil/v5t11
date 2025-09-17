@@ -47,7 +47,6 @@ public abstract class AbstractWeiche extends AbstractGeraet {
     super(id);
   }
 
-  @JsonbInclude(full = true)
   public String getGleisName() {
     String name = getName();
     boolean doppelweiche = Character.isAlphabetic(name.charAt(name.length() - 1));

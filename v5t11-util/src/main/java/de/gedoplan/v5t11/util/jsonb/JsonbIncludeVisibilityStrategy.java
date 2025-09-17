@@ -9,14 +9,7 @@ import java.util.logging.Logger;
 import jakarta.json.bind.config.PropertyVisibilityStrategy;
 
 public enum JsonbIncludeVisibilityStrategy implements PropertyVisibilityStrategy {
-  SHORT(false),
-  FULL(true);
-
-  private boolean full;
-
-  private JsonbIncludeVisibilityStrategy(boolean full) {
-    this.full = full;
-  }
+  SHORT;
 
   private static final Logger LOGGER = Logger.getLogger(JsonbIncludeVisibilityStrategy.class.getName());
 
@@ -41,17 +34,7 @@ public enum JsonbIncludeVisibilityStrategy implements PropertyVisibilityStrategy
       return false;
     }
 
-    if (this.full) {
-      LOGGER.finer(() -> member + " visible (full view)");
-      return true;
-    }
-
-    if (jsonBInclude.full()) {
-      LOGGER.finer(() -> member + " not visible (full item in short view)");
-      return false;
-    }
-
-    LOGGER.finer(() -> member + " visible (short item in short view)");
+    LOGGER.finer(() -> member + " visible (annotated)");
     return true;
 
   }

@@ -6,5 +6,4 @@ import jakarta.json.bind.JsonbConfig;
 
 public final class JsonbWithIncludeVisibility {
   public static final Jsonb SHORT = JsonbBuilder.create(new JsonbConfig().withPropertyVisibilityStrategy(JsonbIncludeVisibilityStrategy.SHORT));
-  public static final Jsonb FULL = JsonbBuilder.create(new JsonbConfig().withPropertyVisibilityStrategy(JsonbIncludeVisibilityStrategy.FULL));
 }
