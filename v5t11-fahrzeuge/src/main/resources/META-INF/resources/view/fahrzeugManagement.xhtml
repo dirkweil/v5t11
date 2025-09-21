@@ -8,68 +8,27 @@
 
       <p:dataGrid var="fahrzeug" value="#{fahrzeugPresenter.filteredFahrzeuge}" layout="grid" columns="4">
         <p:column>
-          <p:panelGrid styleClass="width100Percent">
-            <f:facet name="header">
+          <p:commandLink actionListener="#{fahrzeugPresenter.setCurrentFahrzeug(fahrzeug)}"
+                         action="control"
+                         ajax="false">
+            <p:panelGrid styleClass="width100Percent">
+              <f:facet name="header">
+                <p:row>
+                  <p:column>
+                    <h:outputText value="#{fahrzeug.betriebsnummer}"/>
+                  </p:column>
+                </p:row>
+              </f:facet>
+
               <p:row>
-                <p:column colspan="2">
-                  <h:outputText value="#{fahrzeug.betriebsnummer}"/>
+                <p:column styleClass="width100Percent">
+                  <p:graphicImage name="#{fahrzeugPresenter.getImage(fahrzeug)}" styleClass="fahrzeug-image"/>
                 </p:column>
               </p:row>
-            </f:facet>
-
-            <p:row>
-              <p:column rowspan="2" styleClass="width60Percent">
-                <p:graphicImage name="#{fahrzeugPresenter.getImage(fahrzeug)}" styleClass="fahrzeug-image"/>
-              </p:column>
-
-              <p:column styleClass="rightAligned">
-                <h:panelGroup>
-                  <p:commandButton id="steuern" actionListener="#{fahrzeugPresenter.setCurrentFahrzeug(fahrzeug)}"
-                                   action="control"
-                                   icon="pi pi-sliders-v" styleClass="fahrzeug-button" title="steuern" ajax="false"/>
-                  <p:menuButton icon="pi pi-bars" styleClass="fahrzeug-button">
-                    <p:menuitem value="Funktionen" icon="pi pi-calculator" title="Funktionszuordnung bearbeiten"
-                                actionListener="#{fahrzeugPresenter.setCurrentFahrzeug(fahrzeug)}"
-                                action="editFunktionen"
-                                ajax="false"/>
-                    <p:menuitem value="Konfiguration" icon="pi pi-wrench" title="Decoder-Konfiguration bearbeiten"
-                                actionListener="#{fahrzeugPresenter.setCurrentFahrzeug(fahrzeug)}"
-                                action="editKonfiguration"
-                                ajax="false"/>
-                    <p:divider/>
-                    <p:menuitem value="Export" icon="pi pi-file-import"
-                                title="Fahrzeugdefinition in XML-Datei speichern" ajax="false">
-                      <p:fileDownload value="#{fahrzeugPresenter.getXmlFile(fahrzeug)}"/>
-                    </p:menuitem>
-                    <p:divider/>
-                    <p:menuitem value="Löschen" icon="pi pi-trash" title="Fahrzeug löschen"
-                                actionListener="#{fahrzeugPresenter.setCurrentFahrzeug(fahrzeug)}" action="remove"
-                                ajax="false"
-                                immediate="true"/>
-                  </p:menuButton>
-                </h:panelGroup>
-              </p:column>
-            </p:row>
-
-            <p:row>
-              <p:column styleClass="rightAligned">
-                <h:panelGroup>
-                  <p:selectBooleanButton onLabel="1" offLabel="1" title="Lok-Control 1" styleClass="fahrzeug-button"
-                                         value="#{fahrzeugPresenter.getLokcontrollerAdapter(fahrzeug,0).assigned}">
-                    <p:ajax update="@form"/>
-                  </p:selectBooleanButton>
-                  <p:selectBooleanButton onLabel="2" offLabel="2" title="Lok-Control 2" styleClass="fahrzeug-button"
-                                         value="#{fahrzeugPresenter.getLokcontrollerAdapter(fahrzeug,1).assigned}">
-                    <p:ajax update="@form"/>
-                  </p:selectBooleanButton>
-                </h:panelGroup>
-              </p:column>
-            </p:row>
-          </p:panelGrid>
+            </p:panelGrid>
+          </p:commandLink>
         </p:column>
       </p:dataGrid>
-
-      <p:commandButton value="Neu" icon="pi pi-plus-circle" action="#{fahrzeugPresenter.create()}" ajax="false"/>
     </h:form>
 
     <h:outputStylesheet name="fahrzeuge.css"/>
