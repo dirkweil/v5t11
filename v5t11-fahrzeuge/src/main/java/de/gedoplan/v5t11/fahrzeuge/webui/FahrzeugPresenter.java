@@ -5,6 +5,7 @@ import de.gedoplan.baselibs.utils.xml.XmlConverter;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.FahrzeugFunktion;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe;
+import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.FahrzeugTyp;
 import de.gedoplan.v5t11.fahrzeuge.gateway.StatusGateway;
 import de.gedoplan.v5t11.fahrzeuge.persistence.FahrzeugRepository;
 import de.gedoplan.v5t11.util.cdi.Current;
@@ -17,6 +18,7 @@ import java.io.Reader;
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Set;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.SessionScoped;
@@ -55,6 +57,10 @@ public class FahrzeugPresenter implements Serializable {
   @Getter
   private List<Fahrzeug> fahrzeuge;
 
+  @Getter
+  @Setter
+  private Set<FahrzeugTyp> filter = Set.of(FahrzeugTyp.LOK);
+
   @Setter
   private Fahrzeug currentFahrzeug;
 
@@ -73,6 +79,16 @@ public class FahrzeugPresenter implements Serializable {
   @PostConstruct
   void refreshFahrzeuge() {
     this.fahrzeuge = this.fahrzeugRepository.findAllSortedByBetriebsnummer();
+  }
+
+  public FahrzeugTyp[] getFahrzeugTypen() {
+    return FahrzeugTyp.values();
+  }
+
+  public List<Fahrzeug> getFilteredFahrzeuge() {
+    return this.fahrzeuge.stream()
+      .filter(f -> this.filter.contains(f.getFahrzeugTyp()))
+      .toList();
   }
 
   @Produces

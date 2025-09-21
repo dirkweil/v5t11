@@ -19,6 +19,13 @@
             <p:inputText value="#{fahrzeugProgramPresenter.currentFahrzeug.betriebsnummer}" size="15"
                          style="vertical-align: middle;" id="betriebsnummer"/>
 
+            <h:outputLabel value="Typ: " for="typ"/>
+            <p:selectOneMenu value="#{fahrzeugProgramPresenter.currentFahrzeug.fahrzeugTyp}"
+                             style="vertical-align: middle;" id="typ">
+              <f:selectItems value="#{fahrzeugPresenter.fahrzeugTypen}"
+                             var="t" itemValue="${t}" itemLabel="${t.bezeichnung}"/>
+            </p:selectOneMenu>
+
             <h:outputLabel value="Decoder: " for="decoder"/>
             <p:inputText value="#{fahrzeugProgramPresenter.currentFahrzeug.decoder}" size="15"
                          style="vertical-align: middle;" id="decoder"/>

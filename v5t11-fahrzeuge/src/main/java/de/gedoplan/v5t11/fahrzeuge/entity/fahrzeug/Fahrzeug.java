@@ -18,6 +18,9 @@ import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.EnumeratedValue;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Lob;
 import jakarta.persistence.OrderBy;
@@ -113,6 +116,14 @@ public class Fahrzeug extends SingleIdEntity<FahrzeugId> {
   private long lastChangeMillis;
 
   /**
+   * Typ des Fahrzeugs (Lok, Wagen, ...).
+   */
+  @Getter
+  @Setter
+  @Enumerated(EnumType.STRING)
+  private FahrzeugTyp fahrzeugTyp;
+ 
+  /**
    * Betriebsnummer des Fahrzeugs (DB-Nr. ö. ä.).
    */
   @Getter(onMethod_ = @JsonbShort)
@@ -151,7 +162,7 @@ public class Fahrzeug extends SingleIdEntity<FahrzeugId> {
     this.konfigurationen = new ArrayList<>();
   }
 
-  public Fahrzeug(FahrzeugId id, String betriebsnummer, String decoder, List<FahrzeugFunktion> funktionen, List<FahrzeugKonfiguration> konfigurationen) {
+  public Fahrzeug(FahrzeugId id, FahrzeugTyp fahrzeugTyp,String betriebsnummer, String decoder, List<FahrzeugFunktion> funktionen, List<FahrzeugKonfiguration> konfigurationen) {
     this.id = id;
     this.betriebsnummer = betriebsnummer;
     this.decoder = decoder;
@@ -160,10 +171,10 @@ public class Fahrzeug extends SingleIdEntity<FahrzeugId> {
   }
 
   @Builder
-  public Fahrzeug(String betriebsnummer, String decoder, @NotNull SystemTyp systemTyp, int adresse,
+  public Fahrzeug(FahrzeugTyp fahrzeugTyp, String betriebsnummer, String decoder, @NotNull SystemTyp systemTyp, int adresse,
     @Singular("funktion") List<FahrzeugFunktion> funktionen,
     @Singular("konfiguration") List<FahrzeugKonfiguration> konfigurationen) {
-    this(new FahrzeugId(systemTyp, adresse), betriebsnummer, decoder, funktionen, konfigurationen);
+    this(new FahrzeugId(systemTyp, adresse), fahrzeugTyp, betriebsnummer, decoder, funktionen, konfigurationen);
   }
 
   public void injectFields() {
