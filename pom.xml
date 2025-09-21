@@ -17,11 +17,11 @@
   <properties>
     <java.code.version>21</java.code.version>
 
-    <myfaces-quarkus.version>4.0.1</myfaces-quarkus.version>
+    <myfaces-quarkus.version>4.1.1</myfaces-quarkus.version>
 
     <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
     <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
-    <quarkus.platform.version>3.26.2</quarkus.platform.version>
+    <quarkus.platform.version>3.26.4</quarkus.platform.version>
 
     <quarkus-primefaces.version>3.12.5</quarkus-primefaces.version>
   </properties>
