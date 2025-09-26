@@ -33,12 +33,6 @@
     </navigation-case>
 
     <navigation-case>
-      <from-outcome>finished</from-outcome>
-      <to-view-id>/view/fahrzeugList.xhtml</to-view-id>
-      <redirect/>
-    </navigation-case>
-
-    <navigation-case>
       <from-outcome>remove</from-outcome>
       <to-view-id>/view/fahrzeugRemoveConfirm.xhtml</to-view-id>
       <redirect/>
@@ -63,7 +57,10 @@
       <to-view-id>/view/fahrzeugControl.xhtml</to-view-id>
       <redirect/>
     </navigation-case>
+  </navigation-rule>
 
+  <navigation-rule>
+    <from-view-id>/view/fahrzeug*</from-view-id>
     <navigation-case>
       <from-outcome>finished</from-outcome>
       <to-view-id>/view/fahrzeugList.xhtml</to-view-id>
