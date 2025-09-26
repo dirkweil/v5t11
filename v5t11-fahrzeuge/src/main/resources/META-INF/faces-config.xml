@@ -22,7 +22,7 @@
 
     <navigation-case>
       <from-outcome>editFunktionen</from-outcome>
-      <to-view-id>/view/fahrzeugFunktionen.xhtml</to-view-id>
+      <to-view-id>/view/fahrzeugFunction.xhtml</to-view-id>
       <redirect/>
     </navigation-case>
 
@@ -46,7 +46,7 @@
   </navigation-rule>
 
   <navigation-rule>
-    <from-view-id>/view/fahrzeugFunktionen.xhtml</from-view-id>
+    <from-view-id>/view/fahrzeugFunction.xhtml</from-view-id>
 
     <navigation-case>
       <from-outcome>finished</from-outcome>
