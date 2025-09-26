@@ -158,6 +158,18 @@ public class FahrzeugListPresenter implements Serializable {
     return "finished";
   }
 
+  public String insertCurrentFahrzeug() {
+    if (this.fahrzeuge.stream()
+      .anyMatch(f -> f.getId().equals(this.currentFahrzeug.getId()))) {
+      FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Id bereits vergeben", null);
+      FacesContext.getCurrentInstance().addMessage(null, message);
+      return null;
+    }
+
+    String outcome = saveCurrentFahrzeug();
+    return "finished".equals(outcome) ? "inserted" : outcome;
+  }
+
   public String remove() {
     this.fahrzeugRepository.removeById(this.currentFahrzeug.getId());
     refreshFahrzeuge();

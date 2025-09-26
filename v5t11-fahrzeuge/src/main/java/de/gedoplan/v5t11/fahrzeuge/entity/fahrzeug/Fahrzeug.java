@@ -20,7 +20,6 @@ import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.EnumeratedValue;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Lob;
 import jakarta.persistence.OrderBy;
@@ -118,11 +117,12 @@ public class Fahrzeug extends SingleIdEntity<FahrzeugId> {
   /**
    * Typ des Fahrzeugs (Lok, Wagen, ...).
    */
-  @Getter
   @Setter
+  @Getter
   @Enumerated(EnumType.STRING)
+  @NotNull
   private FahrzeugTyp fahrzeugTyp;
- 
+
   /**
    * Betriebsnummer des Fahrzeugs (DB-Nr. ö. ä.).
    */
@@ -162,7 +162,7 @@ public class Fahrzeug extends SingleIdEntity<FahrzeugId> {
     this.konfigurationen = new ArrayList<>();
   }
 
-  public Fahrzeug(FahrzeugId id, FahrzeugTyp fahrzeugTyp,String betriebsnummer, String decoder, List<FahrzeugFunktion> funktionen, List<FahrzeugKonfiguration> konfigurationen) {
+  public Fahrzeug(FahrzeugId id, FahrzeugTyp fahrzeugTyp, String betriebsnummer, String decoder, List<FahrzeugFunktion> funktionen, List<FahrzeugKonfiguration> konfigurationen) {
     this.id = id;
     this.betriebsnummer = betriebsnummer;
     this.decoder = decoder;

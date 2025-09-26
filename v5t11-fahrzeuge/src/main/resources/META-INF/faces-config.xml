@@ -55,6 +55,22 @@
     </navigation-case>
   </navigation-rule>
 
+  <navigation-rule>
+    <from-view-id>/view/fahrzeugCreate.xhtml</from-view-id>
+
+    <navigation-case>
+      <from-outcome>inserted</from-outcome>
+      <to-view-id>/view/fahrzeugControl.xhtml</to-view-id>
+      <redirect/>
+    </navigation-case>
+
+    <navigation-case>
+      <from-outcome>finished</from-outcome>
+      <to-view-id>/view/fahrzeugList.xhtml</to-view-id>
+      <redirect/>
+    </navigation-case>
+  </navigation-rule>
+
   <factory>
     <exception-handler-factory>de.gedoplan.v5t11.util.jsf.ViewExpiredExceptionHandlerFactory</exception-handler-factory>
   </factory>
