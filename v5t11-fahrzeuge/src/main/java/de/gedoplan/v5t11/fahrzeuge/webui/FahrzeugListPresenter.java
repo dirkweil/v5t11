@@ -182,7 +182,10 @@ public class FahrzeugListPresenter implements Serializable {
   }
 
   public StreamedContent getXmlFile(Fahrzeug fahrzeug) {
-    String filename = fahrzeug.getBetriebsnummer().replaceAll("[^a-zA-Z0-9-]", "_");
+    String filename = fahrzeug
+      .getBetriebsnummer()
+      .replaceAll("[^a-zA-Z0-9-]", "_")
+      + ".xml";
     try {
       String xmlString = XmlConverter.toXml(fahrzeug);
       return DefaultStreamedContent.builder()
