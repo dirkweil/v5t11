@@ -2,7 +2,8 @@
 <faces-config xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_3.xsd" version="2.3">
   <navigation-rule>
-    <from-view-id>/view/fahrzeug*</from-view-id>
+    <from-view-id>/view/fahrzeugList.xhtml</from-view-id>
+
     <navigation-case>
       <from-outcome>control</from-outcome>
       <to-view-id>/view/fahrzeugControl.xhtml</to-view-id>
@@ -14,6 +15,10 @@
       <to-view-id>/view/fahrzeugCreate.xhtml</to-view-id>
       <redirect/>
     </navigation-case>
+  </navigation-rule>
+
+  <navigation-rule>
+    <from-view-id>/view/fahrzeugControl.xhtml</from-view-id>
 
     <navigation-case>
       <from-outcome>editFunktionen</from-outcome>
@@ -29,13 +34,23 @@
 
     <navigation-case>
       <from-outcome>finished</from-outcome>
-      <to-view-id>/view/fahrzeugManagement.xhtml</to-view-id>
+      <to-view-id>/view/fahrzeugList.xhtml</to-view-id>
       <redirect/>
     </navigation-case>
 
     <navigation-case>
       <from-outcome>remove</from-outcome>
       <to-view-id>/view/fahrzeugRemoveConfirm.xhtml</to-view-id>
+      <redirect/>
+    </navigation-case>
+  </navigation-rule>
+
+  <navigation-rule>
+    <from-view-id>/view/fahrzeugFunktionen.xhtml</from-view-id>
+
+    <navigation-case>
+      <from-outcome>finished</from-outcome>
+      <to-view-id>/view/fahrzeugControl.xhtml</to-view-id>
       <redirect/>
     </navigation-case>
   </navigation-rule>

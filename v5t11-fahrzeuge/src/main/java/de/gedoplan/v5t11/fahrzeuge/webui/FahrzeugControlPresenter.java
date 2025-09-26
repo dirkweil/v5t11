@@ -5,7 +5,6 @@ import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.FahrzeugFunktion;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe;
 import de.gedoplan.v5t11.fahrzeuge.gateway.StatusGateway;
 import de.gedoplan.v5t11.fahrzeuge.persistence.FahrzeugRepository;
-import de.gedoplan.v5t11.util.cdi.Current;
 
 import java.io.Serializable;
 import java.text.Collator;
@@ -21,16 +20,13 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logging.Logger;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 
 @Named
 @ViewScoped
 public class FahrzeugControlPresenter implements Serializable {
 
   @Inject
-  @Current
-  @Getter
-  Fahrzeug currentFahrzeug;
+  FahrzeugListPresenter fahrzeugListPresenter;
 
   @Inject
   FahrzeugRepository fahrzeugRepository;
@@ -43,10 +39,10 @@ public class FahrzeugControlPresenter implements Serializable {
   Logger logger;
 
   private Fahrzeug getRefreshedFahrzeug() {
-    if (!this.fahrzeugRepository.isAttached(this.currentFahrzeug)) {
-      this.currentFahrzeug = this.fahrzeugRepository.findById(this.currentFahrzeug.getId()).get();
+    if (!this.fahrzeugRepository.isAttached(this.fahrzeugListPresenter.getCurrentFahrzeug())) {
+      this.fahrzeugListPresenter.setCurrentFahrzeug(this.fahrzeugRepository.findById(this.fahrzeugListPresenter.getCurrentFahrzeug().getId()).get());
     }
-    return this.currentFahrzeug;
+    return this.fahrzeugListPresenter.getCurrentFahrzeug();
   }
 
   public boolean isLokAktiv() {
@@ -54,7 +50,7 @@ public class FahrzeugControlPresenter implements Serializable {
   }
 
   public void setLokAktiv(boolean aktiv) {
-    this.statusGateway.changeFahrzeug(this.currentFahrzeug.getId(), aktiv, null, null, null, null);
+    this.statusGateway.changeFahrzeug(this.fahrzeugListPresenter.getCurrentFahrzeug().getId(), aktiv, null, null, null, null);
   }
 
   public boolean isLokRueckwaerts() {
@@ -62,7 +58,7 @@ public class FahrzeugControlPresenter implements Serializable {
   }
 
   public void setLokRueckwaerts(boolean rueckwaerts) {
-    this.statusGateway.changeFahrzeug(this.currentFahrzeug.getId(), null, null, null, null, rueckwaerts);
+    this.statusGateway.changeFahrzeug(this.fahrzeugListPresenter.getCurrentFahrzeug().getId(), null, null, null, null, rueckwaerts);
   }
 
   public int getLokFahrstufe() {
@@ -70,24 +66,24 @@ public class FahrzeugControlPresenter implements Serializable {
   }
 
   public void setLokFahrstufe(int fahrstufe) {
-    this.statusGateway.changeFahrzeug(this.currentFahrzeug.getId(), null, fahrstufe, null, null, null);
+    this.statusGateway.changeFahrzeug(this.fahrzeugListPresenter.getCurrentFahrzeug().getId(), null, fahrstufe, null, null, null);
   }
 
   public int getLokMaxFahrstufe() {
-    return this.currentFahrzeug.getId().getSystemTyp().getMaxFahrstufe();
+    return this.fahrzeugListPresenter.getCurrentFahrzeug().getId().getSystemTyp().getMaxFahrstufe();
   }
 
   public List<FahrzeugFunktionsGruppe> getCurrentFunktionsGruppen() {
     return Stream.concat(
         Stream.of(FahrzeugFunktionsGruppe.FL),
-        this.currentFahrzeug.getFunktionen().stream().map(FahrzeugFunktion::getGruppe))
+        this.fahrzeugListPresenter.getCurrentFahrzeug().getFunktionen().stream().map(FahrzeugFunktion::getGruppe))
       .sorted()
       .distinct()
       .collect(Collectors.toList());
   }
 
   public List<FahrzeugFunktionWrapper> getLokFunktionen(FahrzeugFunktionsGruppe fahrzeugFunktionsGruppe) {
-    Stream<FahrzeugFunktionWrapper> stream = this.currentFahrzeug
+    Stream<FahrzeugFunktionWrapper> stream = this.fahrzeugListPresenter.getCurrentFahrzeug()
       .getFunktionen()
       .stream()
       .filter(f -> f.getGruppe() == fahrzeugFunktionsGruppe)
@@ -126,7 +122,7 @@ public class FahrzeugControlPresenter implements Serializable {
         fktBits |= this.fahrzeugFunktion.getWert();
       }
 
-      FahrzeugControlPresenter.this.statusGateway.changeFahrzeug(FahrzeugControlPresenter.this.currentFahrzeug.getId(), null, null, fktBits, null, null);
+      FahrzeugControlPresenter.this.statusGateway.changeFahrzeug(FahrzeugControlPresenter.this.fahrzeugListPresenter.getCurrentFahrzeug().getId(), null, null, fktBits, null, null);
     }
 
     @Override
@@ -154,7 +150,7 @@ public class FahrzeugControlPresenter implements Serializable {
 
     @Override
     public void setAktiv(boolean aktiv) {
-      FahrzeugControlPresenter.this.statusGateway.changeFahrzeug(FahrzeugControlPresenter.this.currentFahrzeug.getId(), null, null, null, aktiv, null);
+      FahrzeugControlPresenter.this.statusGateway.changeFahrzeug(FahrzeugControlPresenter.this.fahrzeugListPresenter.getCurrentFahrzeug().getId(), null, null, null, aktiv, null);
     }
 
   };
