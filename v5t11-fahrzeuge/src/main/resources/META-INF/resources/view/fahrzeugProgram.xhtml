@@ -9,23 +9,13 @@
       <h:panelGrid columns="1">
         <p:toolbar>
           <f:facet name="left">
+            <h:outputText value="#{fahrzeugListPresenter.currentFahrzeug.betriebsnummer}"
+                          style="font-size: 30px; vertical-align: middle;"/>
+            <p:graphicImage name="#{fahrzeugListPresenter.getImageOfCurrentFahrzeug()}" height="50px"
+                            style="vertical-align: middle; margin-left: 20px; margin-right: 20px;"/>
             <h:outputText
-                value="#{fahrzeugProgramPresenter.currentFahrzeug.id.adresse}@#{fahrzeugProgramPresenter.currentFahrzeug.id.systemTyp}"
+                value="#{fahrzeugListPresenter.currentFahrzeug.id.adresse}@#{fahrzeugListPresenter.currentFahrzeug.id.systemTyp}"
                 id="id" style="vertical-align: middle;"/>
-            <p:graphicImage name="#{fahrzeugPresenter.getImage(fahrzeugPresenter.currentFahrzeug)}" id="image"
-                            height="50px" style="vertical-align: middle; margin-left: 20px; margin-right: 20px;"/>
-
-            <h:outputLabel value="Betriebsnummer: " for="betriebsnummer"/>
-            <p:inputText value="#{fahrzeugProgramPresenter.currentFahrzeug.betriebsnummer}" size="15"
-                         style="vertical-align: middle;" id="betriebsnummer"/>
-
-            <h:outputLabel value="Typ: " for="typ"/>
-            <p:selectOneMenu value="#{fahrzeugProgramPresenter.currentFahrzeug.fahrzeugTyp}"
-                             style="vertical-align: middle;" id="typ">
-              <f:selectItems value="#{fahrzeugPresenter.fahrzeugTypen}"
-                             var="t" itemValue="${t}" itemLabel="${t.bezeichnung}"/>
-            </p:selectOneMenu>
-
             <h:outputLabel value="Decoder: " for="decoder"/>
             <p:inputText value="#{fahrzeugProgramPresenter.currentFahrzeug.decoder}" size="15"
                          style="vertical-align: middle;" id="decoder"/>
@@ -39,7 +29,7 @@
             <span class="ui-separator"> <span class="ui-icon pi pi-ellipsis-v"/>
             </span>
 
-            <p:commandButton value="zurück" icon="pi pi-times" action="#{fahrzeugPresenter.cancel()}" ajax="false"
+            <p:commandButton value="zurück" icon="pi pi-times" action="#{fahrzeugListPresenter.cancel()}" ajax="false"
                              immediate="true"/>
           </f:facet>
         </p:toolbar>

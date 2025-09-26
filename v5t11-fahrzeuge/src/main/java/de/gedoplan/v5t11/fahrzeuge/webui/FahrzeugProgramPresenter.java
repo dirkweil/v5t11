@@ -4,7 +4,6 @@ import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.FahrzeugKonfiguration;
 import de.gedoplan.v5t11.fahrzeuge.gateway.StatusGateway;
 import de.gedoplan.v5t11.fahrzeuge.persistence.FahrzeugRepository;
-import de.gedoplan.v5t11.util.cdi.Current;
 
 import java.io.Serializable;
 import java.util.Iterator;
@@ -32,9 +31,7 @@ import lombok.Getter;
 public class FahrzeugProgramPresenter implements Serializable {
 
   @Inject
-  @Current
-  @Getter
-  Fahrzeug currentFahrzeug;
+  FahrzeugListPresenter fahrzeugListPresenter;
 
   @Inject
   FahrzeugRepository fahrzeugRepository;
@@ -54,26 +51,31 @@ public class FahrzeugProgramPresenter implements Serializable {
   @Getter
   private String selectedAktionsBeschreibung;
 
+  public Fahrzeug getCurrentFahrzeug() {
+    return this.fahrzeugListPresenter.getCurrentFahrzeug();
+  }
+
   public String save() {
-    if (Set.copyOf(this.currentFahrzeug.getKonfigurationen()).size() != this.currentFahrzeug.getKonfigurationen().size()) {
+    if (Set.copyOf(getCurrentFahrzeug().getKonfigurationen()).size() != getCurrentFahrzeug().getKonfigurationen().size()) {
       FacesContext facesContext = FacesContext.getCurrentInstance();
-      facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, this.currentFahrzeug.getId().getSystemTyp().getKonfigWertBezeichnung() + " doppelt", null));
+      facesContext.addMessage(null,
+        new FacesMessage(FacesMessage.SEVERITY_ERROR, getCurrentFahrzeug().getId().getSystemTyp().getKonfigWertBezeichnung() + " doppelt", null));
     } else {
-      this.fahrzeugRepository.merge(this.currentFahrzeug);
+      this.fahrzeugRepository.merge(getCurrentFahrzeug());
     }
 
-    this.currentFahrzeug.getKonfigurationen().sort((o1, o2) -> Integer.compare(o1.getNr(), o2.getNr()));
+    getCurrentFahrzeug().getKonfigurationen().sort((o1, o2) -> Integer.compare(o1.getNr(), o2.getNr()));
 
     return null;
 
   }
 
   public void addKonfiguration() {
-    this.currentFahrzeug.getKonfigurationen().add(0, new FahrzeugKonfiguration(null, null, null));
+    getCurrentFahrzeug().getKonfigurationen().add(0, new FahrzeugKonfiguration(null, null, null));
   }
 
   public void removeKonfiguration(FahrzeugKonfiguration konfiguration) {
-    Iterator<FahrzeugKonfiguration> iterator = this.currentFahrzeug.getKonfigurationen().iterator();
+    Iterator<FahrzeugKonfiguration> iterator = getCurrentFahrzeug().getKonfigurationen().iterator();
     while (iterator.hasNext()) {
       if (iterator.next() == konfiguration) {
         iterator.remove();
@@ -83,7 +85,7 @@ public class FahrzeugProgramPresenter implements Serializable {
   }
 
   public void readAllKonfigurationen() {
-    setSelectedAktion(this.currentFahrzeug.getKonfigurationen(), " aus dem Fahrzeug lesen", this::readKonfigurationen);
+    setSelectedAktion(getCurrentFahrzeug().getKonfigurationen(), " aus dem Fahrzeug lesen", this::readKonfigurationen);
   }
 
   public void readKonfiguration(FahrzeugKonfiguration konfiguration) {
@@ -91,7 +93,7 @@ public class FahrzeugProgramPresenter implements Serializable {
   }
 
   public void writeAllKonfigurationen() {
-    setSelectedAktion(this.currentFahrzeug.getKonfigurationen(), " in das Fahrzeug schreiben", this::writeKonfigurationen);
+    setSelectedAktion(getCurrentFahrzeug().getKonfigurationen(), " in das Fahrzeug schreiben", this::writeKonfigurationen);
   }
 
   public void writeKonfiguration(FahrzeugKonfiguration konfiguration) {
@@ -105,7 +107,7 @@ public class FahrzeugProgramPresenter implements Serializable {
       .stream()
       .map(FahrzeugKonfiguration::getNr)
       .map(Object::toString)
-      .collect(Collectors.joining(",", this.currentFahrzeug.getId().getSystemTyp().getKonfigWertBezeichnung() + " ", beschreibung));
+      .collect(Collectors.joining(",", getCurrentFahrzeug().getId().getSystemTyp().getKonfigWertBezeichnung() + " ", beschreibung));
 
     PrimeFaces.current().ajax().update(":fahrzeug-read-write-confirm");
     PrimeFaces.current().executeScript("PF('fahrzeugReadWriteConfirm').show()");
@@ -131,14 +133,15 @@ public class FahrzeugProgramPresenter implements Serializable {
 
   private void readKonfigurationen(List<FahrzeugKonfiguration> konfigurationen) {
     List<Integer> keys = konfigurationen.stream().map(FahrzeugKonfiguration::getNr).toList();
-    Map<Integer, Integer> result = this.statusGateway.getFahrzeugConfig(this.currentFahrzeug.getId().getSystemTyp(), keys);
+    Map<Integer, Integer> result = this.statusGateway.getFahrzeugConfig(getCurrentFahrzeug().getId().getSystemTyp(), keys);
     konfigurationen.forEach(k -> {
       Integer ist = result.get(k.getNr());
       if (ist != null && ist < 0) {
         ist = null;
 
         FacesContext facesContext = FacesContext.getCurrentInstance();
-        FacesMessage facesMessage = new FacesMessage(this.currentFahrzeug.getId().getSystemTyp().getKonfigWertBezeichnung() + " " + k.getNr() + " kann nicht gelesen werden");
+        FacesMessage facesMessage = new FacesMessage(
+          getCurrentFahrzeug().getId().getSystemTyp().getKonfigWertBezeichnung() + " " + k.getNr() + " kann nicht gelesen werden");
         facesMessage.setSeverity(FacesMessage.SEVERITY_WARN);
         facesContext.addMessage(null, facesMessage);
       }
@@ -148,12 +151,12 @@ public class FahrzeugProgramPresenter implements Serializable {
 
   private void writeKonfigurationen(List<FahrzeugKonfiguration> konfigurationen) {
     Map<Integer, Integer> nrSollMap = konfigurationen.stream().collect(Collectors.toMap(FahrzeugKonfiguration::getNr, FahrzeugKonfiguration::getSoll));
-    this.statusGateway.setFahrzeugConfig(this.currentFahrzeug.getId().getSystemTyp(), nrSollMap);
+    this.statusGateway.setFahrzeugConfig(getCurrentFahrzeug().getId().getSystemTyp(), nrSollMap);
     konfigurationen.forEach(k -> k.setIst(k.getSoll()));
   }
 
   public void copyIst2SollAll() {
-    copyIst2SollAll(this.currentFahrzeug.getKonfigurationen());
+    copyIst2SollAll(getCurrentFahrzeug().getKonfigurationen());
   }
 
   public void copyIst2Soll(FahrzeugKonfiguration konfiguration) {
