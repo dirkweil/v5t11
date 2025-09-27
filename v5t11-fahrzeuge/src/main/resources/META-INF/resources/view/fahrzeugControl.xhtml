@@ -15,7 +15,21 @@
               value="#{fahrzeugListPresenter.currentFahrzeug.id.adresse}@#{fahrzeugListPresenter.currentFahrzeug.id.systemTyp}"
               id="id" style="vertical-align: middle;"/>
         </f:facet>
+
         <f:facet name="right">
+          <p:selectBooleanButton onLabel="1" offLabel="1" title="Lok-Control 1" styleClass="fahrzeug-button"
+                                 value="#{lokControllerPresenter.getLokcontrollerAdapter(fahrzeugListPresenter.currentFahrzeug,0).assigned}">
+            <p:ajax update="@form"/>
+          </p:selectBooleanButton>
+          <p:selectBooleanButton onLabel="2" offLabel="2" title="Lok-Control 2" styleClass="fahrzeug-button"
+                                 value="#{lokControllerPresenter.getLokcontrollerAdapter(fahrzeugListPresenter.currentFahrzeug,1).assigned}">
+            <p:ajax update="@form"/>
+          </p:selectBooleanButton>
+
+          <span class="ui-separator">
+            <span class="ui-icon pi pi-ellipsis-v"/>
+          </span>
+
           <p:menuButton value="bearbeiten" icon="pi pi-pencil" styleClass="fahrzeug-button">
             <p:menuitem value="Funktionen" icon="pi pi-calculator" title="Funktionszuordnung bearbeiten"
                         action="editFunktionen"
@@ -23,7 +37,9 @@
             <p:menuitem value="Konfiguration" icon="pi pi-wrench" title="Decoder-Konfiguration bearbeiten"
                         action="editKonfiguration"
                         ajax="false"/>
+
             <p:divider/>
+
             <p:menuitem value="Export" icon="pi pi-file-import"
                         title="Fahrzeugdefinition in XML-Datei speichern" ajax="false">
               <p:fileDownload value="#{fahrzeugListPresenter.getXmlFile(fahrzeugListPresenter.currentFahrzeug)}"/>
@@ -34,9 +50,11 @@
                         ajax="false"
                         immediate="true"/>
           </p:menuButton>
+
           <span class="ui-separator">
             <span class="ui-icon pi pi-ellipsis-v"/>
           </span>
+
           <p:commandButton value="zurück" icon="pi pi-times" action="finished" ajax="false" immediate="true"/>
         </f:facet>
       </p:toolbar>
