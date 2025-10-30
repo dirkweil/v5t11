@@ -106,14 +106,14 @@ public class TestBase {
 
   public static final Fahrzeug lok151_032_0 = Fahrzeug.builder()
     .betriebsnummer("151 032-0")
-    .decoder("DHL100")
+    .decoderName("DHL100")
     .systemTyp(SystemTyp.SX1)
     .adresse(20)
     .build();
 
   public static final Fahrzeug lok194_183_0 = Fahrzeug.builder()
     .betriebsnummer("194 183-0")
-    .decoder("Zimo")
+    .decoderName("Zimo")
     .systemTyp(SystemTyp.DCC)
     .adresse(1194)
     .funktion(new FahrzeugFunktion(FG, 1, false, false, false, "Motor"))
@@ -157,7 +157,7 @@ public class TestBase {
 
   public static final Fahrzeug lok217_014_0 = Fahrzeug.builder()
     .betriebsnummer("217 014-0")
-    .decoder("DH14B+Sound")
+    .decoderName("DH14B+Sound")
     .systemTyp(SystemTyp.SX2)
     .adresse(2217)
     .funktion(new FahrzeugFunktion(AF, 1, false, false, false, "Führerstandsbeleuchtung"))
@@ -197,14 +197,14 @@ public class TestBase {
 
   public static final Fahrzeug lok332_262_5 = Fahrzeug.builder()
     .betriebsnummer("332 262-5")
-    .decoder("DHL100")
+    .decoderName("DHL100")
     .systemTyp(SystemTyp.SX1)
     .adresse(14)
     .build();
 
   public static final Fahrzeug lok430_119_8 = Fahrzeug.builder()
     .betriebsnummer("430 119-8")
-    .decoder("DHL100")
+    .decoderName("DHL100")
     .systemTyp(SystemTyp.SX1)
     .adresse(16)
     .build();
@@ -251,7 +251,7 @@ public class TestBase {
 
   public static final Fahrzeug lokE9103 = Fahrzeug.builder()
     .betriebsnummer("E9103")
-    .decoder("DHL100")
+    .decoderName("DHL100")
     .systemTyp(SystemTyp.SX1)
     .adresse(28)
     .build();
@@ -320,7 +320,7 @@ public class TestBase {
 
   public static final Fahrzeug lokVT_11_5019 = Fahrzeug.builder()
     .betriebsnummer("VT 11.5019")
-    .decoder("DHL100")
+    .decoderName("DHL100")
     .systemTyp(SystemTyp.SX1)
     .adresse(1)
     .build();

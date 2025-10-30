@@ -1,6 +1,6 @@
 package de.gedoplan.v5t11.status.webui;
 
-import de.gedoplan.v5t11.util.domain.attribute.FahrzeugId;
+import de.gedoplan.v5t11.util.domain.attribute.DecoderId;
 import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 
 import jakarta.faces.component.UIComponent;
@@ -8,11 +8,11 @@ import jakarta.faces.context.FacesContext;
 import jakarta.faces.convert.Converter;
 import jakarta.faces.convert.FacesConverter;
 
-@FacesConverter(forClass = FahrzeugId.class, value = "??")
-public class FahrzeugIdConverter implements Converter<FahrzeugId> {
+@FacesConverter(forClass = DecoderId.class, value = "??")
+public class FahrzeugIdConverter implements Converter<DecoderId> {
 
   @Override
-  public FahrzeugId getAsObject(FacesContext context, UIComponent component, String value) {
+  public DecoderId getAsObject(FacesContext context, UIComponent component, String value) {
     if (value == null) {
       return null;
     }
@@ -20,11 +20,11 @@ public class FahrzeugIdConverter implements Converter<FahrzeugId> {
     String[] parts = value.split("@");
     int adresse = Integer.parseInt(parts[0]);
     SystemTyp systemTyp = SystemTyp.valueOf(parts[1]);
-    return new FahrzeugId(systemTyp, adresse);
+    return new DecoderId(systemTyp, adresse);
   }
 
   @Override
-  public String getAsString(FacesContext context, UIComponent component, FahrzeugId value) {
+  public String getAsString(FacesContext context, UIComponent component, DecoderId value) {
     if (value == null) {
       return null;
     }

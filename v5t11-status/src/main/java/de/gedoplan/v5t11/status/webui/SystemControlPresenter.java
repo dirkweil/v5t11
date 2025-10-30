@@ -7,7 +7,7 @@ import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
 import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
 import de.gedoplan.v5t11.util.cdi.Changed;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
-import de.gedoplan.v5t11.util.domain.attribute.FahrzeugId;
+import de.gedoplan.v5t11.util.domain.attribute.DecoderId;
 import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
 
@@ -62,7 +62,7 @@ public class SystemControlPresenter implements Serializable {
   private Signal signal;
 
   @Getter
-  private FahrzeugId lokId;
+  private DecoderId lokId;
 
   @Getter
   private Fahrzeug lok;
@@ -225,7 +225,7 @@ public class SystemControlPresenter implements Serializable {
     return this.steuerung.getFahrzeuge();
   }
 
-  public void setLokId(FahrzeugId lokId) {
+  public void setLokId(DecoderId lokId) {
     if (this.log.isTraceEnabled()) {
       this.log.trace("setLokId(" + lokId + ")");
     }

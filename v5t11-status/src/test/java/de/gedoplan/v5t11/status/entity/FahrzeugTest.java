@@ -3,7 +3,7 @@ package de.gedoplan.v5t11.status.entity;
 import de.gedoplan.v5t11.status.StatusEventCollector;
 import de.gedoplan.v5t11.status.entity.baustein.zentrale.DummyZentrale;
 import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
-import de.gedoplan.v5t11.util.domain.attribute.FahrzeugId;
+import de.gedoplan.v5t11.util.domain.attribute.DecoderId;
 import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithVisibility;
 import de.gedoplan.v5t11.util.test.V5t11TestConfigDirExtension;
@@ -27,9 +27,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @TestMethodOrder(MethodOrderer.MethodName.class)
 public class FahrzeugTest {
 
-  public static final Fahrzeug lok103_003_0 = new Fahrzeug(new FahrzeugId(SystemTyp.DCC, 1103));
-  public static final Fahrzeug lok210_004_8 = new Fahrzeug(new FahrzeugId(SystemTyp.SX1, 2));
-  public static final Fahrzeug lok217_001_7 = new Fahrzeug(new FahrzeugId(SystemTyp.SX2, 1217));
+  public static final Fahrzeug lok103_003_0 = new Fahrzeug(new DecoderId(SystemTyp.DCC, 1103));
+  public static final Fahrzeug lok210_004_8 = new Fahrzeug(new DecoderId(SystemTyp.SX1, 2));
+  public static final Fahrzeug lok217_001_7 = new Fahrzeug(new DecoderId(SystemTyp.SX2, 1217));
 
   public static final Fahrzeug[] loks = { lok103_003_0, lok210_004_8, lok217_001_7 };
 
@@ -60,7 +60,7 @@ public class FahrzeugTest {
     this.log.debug("JSON string: " + json);
 
     String expected = Json.createObjectBuilder()
-      .add("id", fahrzeug.getId().toString())
+      .add("decoderId", fahrzeug.getId().toString())
       .add("lastChangeMillis", fahrzeug.getLastChangeMillis())
       .add("aktiv", fahrzeug.isAktiv())
       .add("fahrstufe", fahrzeug.getFahrstufe())

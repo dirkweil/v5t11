@@ -7,10 +7,13 @@ import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.FahrzeugKonfiguration;
 import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithVisibility;
 
+import java.io.StringReader;
+
 import jakarta.json.Json;
 import jakarta.json.JsonArrayBuilder;
 import jakarta.json.bind.JsonbBuilder;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -21,6 +24,7 @@ import static de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.FahrzeugFunktion.Fahrz
 import static de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.BG;
 import static de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FG;
 import static de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 //@ExtendWith({ V5t11TestConfigDirExtension.class, QuarkusTestExtension.class })
 @TestMethodOrder(MethodOrderer.MethodName.class)
@@ -30,6 +34,7 @@ public class FahrzeugTest {
     .betriebsnummer("112 491-6")
     .systemTyp(SystemTyp.DCC)
     .adresse(1112)
+    .decoderName("Zimo 646")
     .funktion(new FahrzeugFunktion(FG, 1, false, false, false, "Motor"))
     .funktion(new FahrzeugFunktion(BG, 2, true, false, false, "Pfeife lang"))
     .funktion(new FahrzeugFunktion(BA, 3, true, false, false, "Schaffnerpfiff"))
@@ -58,6 +63,134 @@ public class FahrzeugTest {
 
   public static final Fahrzeug[] loks = { lok112_491_6 };
 
+  public static final String lok112_491_6XmlString = """
+    <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    <fahrzeug>
+        <betriebsnummer>112 491-6</betriebsnummer>
+        <decoderName>Zimo 646</decoderName>
+        <decoderId>1112@DCC</decoderId>
+        <funktion maske="1" wert="1">
+            <gruppe>FG</gruppe>
+            <beschreibung>Motor</beschreibung>
+            <impuls>false</impuls>
+            <horn>false</horn>
+            <fader>false</fader>
+        </funktion>
+        <funktion maske="2" wert="2">
+            <gruppe>BG</gruppe>
+            <beschreibung>Pfeife lang</beschreibung>
+            <impuls>true</impuls>
+            <horn>false</horn>
+            <fader>false</fader>
+        </funktion>
+        <funktion maske="4" wert="4">
+            <gruppe>BA</gruppe>
+            <beschreibung>Schaffnerpfiff</beschreibung>
+            <impuls>true</impuls>
+            <horn>false</horn>
+            <fader>false</fader>
+        </funktion>
+        <funktion maske="8" wert="8">
+            <gruppe>BG</gruppe>
+            <beschreibung>Kompressor</beschreibung>
+            <impuls>true</impuls>
+            <horn>false</horn>
+            <fader>false</fader>
+        </funktion>
+        <funktion maske="16" wert="16">
+            <gruppe>BG</gruppe>
+            <beschreibung>Ankuppeln</beschreibung>
+            <impuls>true</impuls>
+            <horn>false</horn>
+            <fader>false</fader>
+        </funktion>
+        <funktion maske="32" wert="32">
+            <gruppe>AF</gruppe>
+            <beschreibung>Direktsteuerung</beschreibung>
+            <impuls>false</impuls>
+            <horn>false</horn>
+            <fader>false</fader>
+        </funktion>
+        <funktion maske="64" wert="64">
+            <gruppe>BA</gruppe>
+            <beschreibung>???</beschreibung>
+            <impuls>true</impuls>
+            <horn>false</horn>
+            <fader>false</fader>
+        </funktion>
+        <funktion maske="128" wert="128">
+            <gruppe>BG</gruppe>
+            <beschreibung>Sanden</beschreibung>
+            <impuls>true</impuls>
+            <horn>false</horn>
+            <fader>false</fader>
+        </funktion>
+        <funktion maske="256" wert="256">
+            <gruppe>AF</gruppe>
+            <beschreibung>Rangiergang</beschreibung>
+            <impuls>false</impuls>
+            <horn>false</horn>
+            <fader>false</fader>
+        </funktion>
+        <funktion maske="512" wert="512">
+            <gruppe>AF</gruppe>
+            <beschreibung>Geräusche ausblenden</beschreibung>
+            <impuls>false</impuls>
+            <horn>false</horn>
+            <fader>true</fader>
+        </funktion>
+        <funktion maske="4096" wert="4096">
+            <gruppe>BG</gruppe>
+            <beschreibung>Pfeife kurz</beschreibung>
+            <impuls>true</impuls>
+            <horn>true</horn>
+            <fader>false</fader>
+        </funktion>
+        <funktion maske="8192" wert="8192">
+            <gruppe>BG</gruppe>
+            <beschreibung>Kurvenquietschen</beschreibung>
+            <impuls>true</impuls>
+            <horn>false</horn>
+            <fader>false</fader>
+        </funktion>
+        <funktion maske="3072" wert="0">
+            <gruppe>FL</gruppe>
+            <beschreibung>beidseitig</beschreibung>
+            <impuls>false</impuls>
+            <horn>false</horn>
+            <fader>false</fader>
+        </funktion>
+        <funktion maske="3072" wert="1024">
+            <gruppe>FL</gruppe>
+            <beschreibung>nur Seite 1</beschreibung>
+            <impuls>false</impuls>
+            <horn>false</horn>
+            <fader>false</fader>
+        </funktion>
+        <funktion maske="3072" wert="2048">
+            <gruppe>FL</gruppe>
+            <beschreibung>nur Seite 2</beschreibung>
+            <impuls>false</impuls>
+            <horn>false</horn>
+            <fader>false</fader>
+        </funktion>
+        <konfiguration nr="17" soll="192">
+            <beschreibung>Höherwertiger Teil der langen Adresse</beschreibung>
+        </konfiguration>
+        <konfiguration nr="18" soll="0">
+            <beschreibung>Niederwertiger Teil der langen Adresse</beschreibung>
+        </konfiguration>
+        <konfiguration nr="29" soll="46">
+            <beschreibung>Konfigurationsregister
+    Bit 0: Richtung umkehren
+    Bit 1: 28/126 Fahrstufen (statt 14)
+    Bit 2: Analogbetrieb erlaubt
+    Bit 3: Rückmeldung erlaubt
+    Bit 5: Lange Lokadresse nach CV17/18</beschreibung>
+        </konfiguration>
+    </fahrzeug>
+    """;
+
   //  @Inject
   //  Logger log;
 
@@ -71,8 +204,7 @@ public class FahrzeugTest {
     System.out.println("JSON string: " + json);
 
     String expected = Json.createObjectBuilder()
-      .add("id", fahrzeug.getId().toString())
-      .add("betriebsnummer", fahrzeug.getBetriebsnummer())
+      .add("decoderId", fahrzeug.getDecoderId().toString())
       .add("removed", fahrzeug.isRemoved())
       .build().toString();
 
@@ -111,7 +243,8 @@ public class FahrzeugTest {
     });
 
     String expected = Json.createObjectBuilder()
-      .add("id", fahrzeug.getId().toString())
+      .add("decoderId", fahrzeug.getDecoderId().toString())
+      .add("decoderName", fahrzeug.getDecoderName())
       .add("betriebsnummer", fahrzeug.getBetriebsnummer())
       .add("removed", fahrzeug.isRemoved())
       .add("aktiv", fahrzeug.isAktiv())
@@ -135,5 +268,31 @@ public class FahrzeugTest {
     String xmlString = XmlConverter.toXml(fahrzeug);
     System.out.println("XML string: " + xmlString);
 
+    Assertions.assertEquals(lok112_491_6XmlString, xmlString);
+  }
+
+  @Test
+  public void test_04_fromXml() throws Exception {
+
+    Fahrzeug fahrzeug = XmlConverter.fromXml(Fahrzeug.class, new StringReader(lok112_491_6XmlString));
+    System.out.println("fahrzeug: " + fahrzeug);
+
+    assertEquals(lok112_491_6, fahrzeug);
+    assertEquals(lok112_491_6.getBetriebsnummer(), fahrzeug.getBetriebsnummer());
+    assertEquals(lok112_491_6.getDecoderId(), fahrzeug.getDecoderId());
+  }
+
+  @Test
+  public void test_05_fromOldXml() throws Exception {
+
+    String oldXml = lok112_491_6XmlString
+      .replace("decoderName", "decoder")
+      .replace("decoderId", "id");
+    Fahrzeug fahrzeug = XmlConverter.fromXml(Fahrzeug.class, new StringReader(oldXml));
+    System.out.println("fahrzeug: " + fahrzeug);
+
+    assertEquals(lok112_491_6, fahrzeug);
+    assertEquals(lok112_491_6.getBetriebsnummer(), fahrzeug.getBetriebsnummer());
+    assertEquals(lok112_491_6.getDecoderId(), fahrzeug.getDecoderId());
   }
 }

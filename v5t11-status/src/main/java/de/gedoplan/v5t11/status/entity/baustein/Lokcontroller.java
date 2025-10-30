@@ -3,7 +3,7 @@ package de.gedoplan.v5t11.status.entity.baustein;
 import de.gedoplan.baselibs.utils.inject.InjectionUtil;
 import de.gedoplan.v5t11.status.entity.Kanal;
 import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
-import de.gedoplan.v5t11.util.domain.attribute.FahrzeugId;
+import de.gedoplan.v5t11.util.domain.attribute.DecoderId;
 import de.gedoplan.v5t11.util.jsonb.JsonbShort;
 
 import java.util.ArrayList;
@@ -40,7 +40,7 @@ public abstract class Lokcontroller extends Baustein implements Encoder {
   }
 
   @JsonbShort
-  public FahrzeugId getLokId() {
+  public DecoderId getLokId() {
     return this.lok != null ? this.lok.getId() : null;
   }
 

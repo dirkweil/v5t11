@@ -31,9 +31,9 @@ import lombok.Setter;
 @Getter(onMethod_ = @JsonbShort)
 @Setter(onMethod_ = @JsonbShort)
 @EqualsAndHashCode
-@JsonbTypeAdapter(FahrzeugId.JsonTypeAdapter.class)
-@XmlJavaTypeAdapter(FahrzeugId.XmlTypeAdapter.class)
-public class FahrzeugId implements Serializable, Comparable<FahrzeugId> {
+@JsonbTypeAdapter(DecoderId.JsonTypeAdapter.class)
+@XmlJavaTypeAdapter(DecoderId.XmlTypeAdapter.class)
+public class DecoderId implements Serializable, Comparable<DecoderId> {
 
   @NotNull
   @Enumerated(EnumType.STRING)
@@ -55,7 +55,7 @@ public class FahrzeugId implements Serializable, Comparable<FahrzeugId> {
   }
 
   @Override
-  public int compareTo(FahrzeugId o) {
+  public int compareTo(DecoderId o) {
     int diff = Integer.compare(this.adresse, o.adresse);
     if (diff != 0) {
       return diff;
@@ -77,10 +77,10 @@ public class FahrzeugId implements Serializable, Comparable<FahrzeugId> {
   /**
    * Code in Adresse und Systemtyp aufteilen.
    *
-   * @param Adresse + '@' + Systemtypname
+   * @param Text der Form Adresse + '@' + Systemtypname
    * @return Decodierte Id
    */
-  public static FahrzeugId fromString(String s) {
+  public static DecoderId fromString(String s) {
     String[] parts = s.split("@");
     if (parts.length != 2) {
       throw new JsonbException("Ungültiges Format der FahrzeugId: " + s);
@@ -93,35 +93,35 @@ public class FahrzeugId implements Serializable, Comparable<FahrzeugId> {
 
     try {
       int adresse = Integer.parseInt(parts[0]);
-      return new FahrzeugId(systemTyp, adresse);
+      return new DecoderId(systemTyp, adresse);
     } catch (Exception e) {
       throw new IllegalArgumentException("Ungültige FahrzeugId: " + s, e);
     }
   }
 
-  public static class JsonTypeAdapter implements JsonbAdapter<FahrzeugId, String> {
+  public static class JsonTypeAdapter implements JsonbAdapter<DecoderId, String> {
 
     @Override
-    public String adaptToJson(FahrzeugId fahrzeugId) throws Exception {
+    public String adaptToJson(DecoderId fahrzeugId) throws Exception {
       return fahrzeugId == null ? null : fahrzeugId.toString();
     }
 
     @Override
-    public FahrzeugId adaptFromJson(String s) throws Exception {
-      return s == null ? null : FahrzeugId.fromString(s);
+    public DecoderId adaptFromJson(String s) throws Exception {
+      return s == null ? null : DecoderId.fromString(s);
     }
 
   }
 
-  public static class XmlTypeAdapter extends XmlAdapter<String, FahrzeugId> {
+  public static class XmlTypeAdapter extends XmlAdapter<String, DecoderId> {
 
     @Override
-    public FahrzeugId unmarshal(String s) throws Exception {
-      return s == null ? null : FahrzeugId.fromString(s);
+    public DecoderId unmarshal(String s) throws Exception {
+      return s == null ? null : DecoderId.fromString(s);
     }
 
     @Override
-    public String marshal(FahrzeugId fahrzeugId) throws Exception {
+    public String marshal(DecoderId fahrzeugId) throws Exception {
       return fahrzeugId == null ? null : fahrzeugId.toString();
     }
   }

@@ -7,7 +7,7 @@ import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.FahrzeugFunktion;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.FahrzeugTyp;
 import de.gedoplan.v5t11.fahrzeuge.gateway.StatusGateway;
 import de.gedoplan.v5t11.fahrzeuge.persistence.FahrzeugRepository;
-import de.gedoplan.v5t11.util.domain.attribute.FahrzeugId;
+import de.gedoplan.v5t11.util.domain.attribute.DecoderId;
 import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 
 import java.io.ByteArrayInputStream;
@@ -74,7 +74,7 @@ public class FahrzeugListPresenter implements Serializable {
 
   @Getter
   @NotNull
-  private FahrzeugId newId = new FahrzeugId(SystemTyp.DCC, 3);
+  private DecoderId newId = new DecoderId(SystemTyp.DCC, 3);
 
   @PostConstruct
   void refreshFahrzeuge() {
@@ -119,25 +119,12 @@ public class FahrzeugListPresenter implements Serializable {
     return SystemTyp.values();
   }
 
-  public String create() {
-    this.currentFahrzeug = new Fahrzeug(new FahrzeugId(SystemTyp.DCC, 3));
-    return "create";
-  }
-
   public String saveCurrentFahrzeug() {
-    if (this.fahrzeuge.stream()
-      .filter(f -> !f.equals(this.currentFahrzeug))
-      .anyMatch(f -> f.getBetriebsnummer().equals(this.currentFahrzeug.getBetriebsnummer()))) {
-      FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Betriebsnummer bereits vergeben", null);
-      FacesContext.getCurrentInstance().addMessage(null, message);
-      return null;
-    }
-
     Set<ConstraintViolation<Fahrzeug>> violations = this.validator.validate(this.currentFahrzeug);
     if (!violations.isEmpty()) {
       FacesContext facesContext = FacesContext.getCurrentInstance();
       violations.forEach(cv -> {
-        FacesMessage facesMessage = new FacesMessage(cv.getMessage());
+        FacesMessage facesMessage = new FacesMessage(cv.getPropertyPath() + " " + cv.getMessage());
         facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
         facesContext.addMessage(null, facesMessage);
       });

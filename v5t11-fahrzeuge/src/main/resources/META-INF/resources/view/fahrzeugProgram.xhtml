@@ -14,11 +14,8 @@
             <p:graphicImage name="#{fahrzeugListPresenter.getImageOfCurrentFahrzeug()}" height="50px"
                             style="vertical-align: middle; margin-left: 20px; margin-right: 20px;"/>
             <h:outputText
-                value="#{fahrzeugListPresenter.currentFahrzeug.id.adresse}@#{fahrzeugListPresenter.currentFahrzeug.id.systemTyp}"
+                value="#{fahrzeugListPresenter.currentFahrzeug.decoderId.adresse}@#{fahrzeugListPresenter.currentFahrzeug.decoderId.systemTyp}"
                 id="id" style="vertical-align: middle;"/>
-            <h:outputLabel value="Decoder: " for="decoder"/>
-            <p:inputText value="#{fahrzeugProgramPresenter.currentFahrzeug.decoder}" size="15"
-                         style="vertical-align: middle;" id="decoder"/>
           </f:facet>
           <f:facet name="right">
             <p:commandButton value="Speichern" icon="pi pi-save"
@@ -51,7 +48,7 @@
                              update="konfigurationen"/>
           </p:column>
 
-          <p:column headerText="#{fahrzeugProgramPresenter.currentFahrzeug.id.systemTyp.konfigWertBezeichnung}"
+          <p:column headerText="#{fahrzeugProgramPresenter.currentFahrzeug.decoderId.systemTyp.konfigWertBezeichnung}"
                     sortBy="#{konfiguration.nr}" width="60">
             <p:inputText value="#{konfiguration.nr}" readonly="#{!empty konfiguration.nr}" style="width: 100%" id="nr"/>
             <p:message for="nr"/>

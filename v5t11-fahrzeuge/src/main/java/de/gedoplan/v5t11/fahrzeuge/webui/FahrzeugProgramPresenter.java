@@ -56,10 +56,11 @@ public class FahrzeugProgramPresenter implements Serializable {
   }
 
   public String save() {
+    // TODO
     if (Set.copyOf(getCurrentFahrzeug().getKonfigurationen()).size() != getCurrentFahrzeug().getKonfigurationen().size()) {
       FacesContext facesContext = FacesContext.getCurrentInstance();
       facesContext.addMessage(null,
-        new FacesMessage(FacesMessage.SEVERITY_ERROR, getCurrentFahrzeug().getId().getSystemTyp().getKonfigWertBezeichnung() + " doppelt", null));
+        new FacesMessage(FacesMessage.SEVERITY_ERROR, getCurrentFahrzeug().getDecoderId().getSystemTyp().getKonfigWertBezeichnung() + " doppelt", null));
     } else {
       this.fahrzeugRepository.merge(getCurrentFahrzeug());
     }
@@ -107,7 +108,7 @@ public class FahrzeugProgramPresenter implements Serializable {
       .stream()
       .map(FahrzeugKonfiguration::getNr)
       .map(Object::toString)
-      .collect(Collectors.joining(",", getCurrentFahrzeug().getId().getSystemTyp().getKonfigWertBezeichnung() + " ", beschreibung));
+      .collect(Collectors.joining(",", getCurrentFahrzeug().getDecoderId().getSystemTyp().getKonfigWertBezeichnung() + " ", beschreibung));
 
     PrimeFaces.current().ajax().update(":fahrzeug-read-write-confirm");
     PrimeFaces.current().executeScript("PF('fahrzeugReadWriteConfirm').show()");
@@ -133,7 +134,7 @@ public class FahrzeugProgramPresenter implements Serializable {
 
   private void readKonfigurationen(List<FahrzeugKonfiguration> konfigurationen) {
     List<Integer> keys = konfigurationen.stream().map(FahrzeugKonfiguration::getNr).toList();
-    Map<Integer, Integer> result = this.statusGateway.getFahrzeugConfig(getCurrentFahrzeug().getId().getSystemTyp(), keys);
+    Map<Integer, Integer> result = this.statusGateway.getFahrzeugConfig(getCurrentFahrzeug().getDecoderId().getSystemTyp(), keys);
     konfigurationen.forEach(k -> {
       Integer ist = result.get(k.getNr());
       if (ist != null && ist < 0) {
@@ -141,7 +142,7 @@ public class FahrzeugProgramPresenter implements Serializable {
 
         FacesContext facesContext = FacesContext.getCurrentInstance();
         FacesMessage facesMessage = new FacesMessage(
-          getCurrentFahrzeug().getId().getSystemTyp().getKonfigWertBezeichnung() + " " + k.getNr() + " kann nicht gelesen werden");
+          getCurrentFahrzeug().getDecoderId().getSystemTyp().getKonfigWertBezeichnung() + " " + k.getNr() + " kann nicht gelesen werden");
         facesMessage.setSeverity(FacesMessage.SEVERITY_WARN);
         facesContext.addMessage(null, facesMessage);
       }
@@ -151,7 +152,7 @@ public class FahrzeugProgramPresenter implements Serializable {
 
   private void writeKonfigurationen(List<FahrzeugKonfiguration> konfigurationen) {
     Map<Integer, Integer> nrSollMap = konfigurationen.stream().collect(Collectors.toMap(FahrzeugKonfiguration::getNr, FahrzeugKonfiguration::getSoll));
-    this.statusGateway.setFahrzeugConfig(getCurrentFahrzeug().getId().getSystemTyp(), nrSollMap);
+    this.statusGateway.setFahrzeugConfig(getCurrentFahrzeug().getDecoderId().getSystemTyp(), nrSollMap);
     konfigurationen.forEach(k -> k.setIst(k.getSoll()));
   }
 

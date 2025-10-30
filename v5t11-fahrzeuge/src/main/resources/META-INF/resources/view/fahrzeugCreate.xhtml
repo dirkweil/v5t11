@@ -9,10 +9,35 @@
       <h2>Neues Fahrzeug</h2>
 
       <h:panelGrid columns="3">
+        <p:outputLabel for="@next" value="Betriebsnummer"/>
+        <p:inputText value="#{fahrzeugCreatePresenter.betriebsnummer}" size="15"/>
+        <p:commandButton value="speichern" icon="pi pi-check"
+                         title="Daten speichern"
+                         action="#{fahrzeugCreatePresenter.createFahrzeug()}"
+                         ajax="false"/>
+
+        <p:outputLabel for="@next" value="Fahrzeugtyp"/>
+        <p:selectOneMenu value="#{fahrzeugCreatePresenter.fahrzeugTyp}" id="fahrzeugTyp">
+          <f:selectItems value="#{fahrzeugListPresenter.fahrzeugTypen}"/>
+        </p:selectOneMenu>
+        <p:commandButton value="abbrechen" icon="pi pi-times"
+                         title="Ohne Speichern zurück"
+                         action="#{fahrzeugListPresenter.cancel()}"
+                         immediate="true"
+                         ajax="false"/>
+
         <p:outputLabel for="@next" value="Systemtyp"/>
-        <p:selectOneMenu value="#{fahrzeugListPresenter.currentFahrzeug.id.systemTyp}" id="systemTyp">
+        <p:selectOneMenu value="#{fahrzeugCreatePresenter.systemTyp}" id="systemTyp">
           <f:selectItems value="#{fahrzeugListPresenter.systemTypen}"/>
         </p:selectOneMenu>
+        <h:panelGrid/>
+
+        <p:outputLabel for="@next" value="Adresse"/>
+        <p:inputText value="#{fahrzeugCreatePresenter.adresse}" size="5" id="adresse"/>
+        <h:panelGrid/>
+
+        <h:panelGrid/>
+        <h:panelGrid/>
         <p:fileUpload label="importieren" chooseIcon="pi pi-file-export"
                       title="Fahrzeugstammdaten aus XML-File lesen"
                       listener="#{fahrzeugListPresenter.handleFileUpload}"
@@ -23,25 +48,6 @@
                       sizeLimit="100000"
                       allowTypes="/(\.|\/)xml$/"/>
 
-        <p:outputLabel for="@next" value="Adresse"/>
-        <p:inputText value="#{fahrzeugListPresenter.currentFahrzeug.id.adresse}" size="6" id="adresse" required="true"/>
-        <p:commandButton value="speichern" icon="pi pi-check"
-                         title="Daten speichern"
-                         action="#{fahrzeugListPresenter.insertCurrentFahrzeug()}"
-                         ajax="false"/>
-
-        <p:outputLabel for="@next" value="Betriebsnummer"/>
-        <p:inputText value="#{fahrzeugListPresenter.currentFahrzeug.betriebsnummer}" size="15"/>
-        <p:commandButton value="abbrechen" icon="pi pi-times"
-                         title="Ohne Speichern zurück"
-                         action="#{fahrzeugListPresenter.cancel()}"
-                         immediate="true"
-                         ajax="false"/>
-
-        <p:outputLabel for="@next" value="Fahrzeugtyp"/>
-        <p:selectOneMenu value="#{fahrzeugListPresenter.currentFahrzeug.fahrzeugTyp}" id="fahrzeugTyp">
-          <f:selectItems value="#{fahrzeugListPresenter.fahrzeugTypen}"/>
-        </p:selectOneMenu>
       </h:panelGrid>
 
     </h:form>

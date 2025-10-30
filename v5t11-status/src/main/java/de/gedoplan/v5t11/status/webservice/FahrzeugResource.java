@@ -2,13 +2,12 @@ package de.gedoplan.v5t11.status.webservice;
 
 import de.gedoplan.v5t11.status.entity.Steuerung;
 import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
-import de.gedoplan.v5t11.util.domain.attribute.FahrzeugId;
+import de.gedoplan.v5t11.util.domain.attribute.DecoderId;
 import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
@@ -44,7 +43,7 @@ public class FahrzeugResource {
   @Path("{id}")
   @Consumes(MediaType.MEDIA_TYPE_WILDCARD)
   public void change(
-    @PathParam("id") FahrzeugId id,
+    @PathParam("id") DecoderId id,
     @QueryParam("aktiv") Boolean aktiv,
     @QueryParam("fahrstufe") Integer fahrstufe,
     @QueryParam("fktBits") Integer fktBits,

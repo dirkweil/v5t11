@@ -9,14 +9,13 @@
       <h:panelGrid columns="1">
         <p:toolbar>
           <f:facet name="left">
-            <h:outputText
-                value="#{fahrzeugFunctionPresenter.currentFahrzeug.id.adresse}@#{fahrzeugFunctionPresenter.currentFahrzeug.id.systemTyp}"
-                id="id" style="vertical-align: middle;"/>
+            <h:outputText value="#{fahrzeugListPresenter.currentFahrzeug.betriebsnummer}"
+                          style="font-size: 30px; vertical-align: middle;"/>
             <p:graphicImage name="#{fahrzeugListPresenter.getImageOfCurrentFahrzeug()}" height="50px"
                             style="vertical-align: middle; margin-left: 20px; margin-right: 20px;"/>
-            <h:outputLabel value="Betriebsnummer: " for="betriebsnummer"/>
-            <p:inputText value="#{fahrzeugFunctionPresenter.currentFahrzeug.betriebsnummer}" size="15"
-                         style="vertical-align: middle;" id="betriebsnummer"/>
+            <h:outputText
+                value="#{fahrzeugListPresenter.currentFahrzeug.decoderId.adresse}@#{fahrzeugListPresenter.currentFahrzeug.decoderId.systemTyp}"
+                id="id" style="vertical-align: middle;"/>
           </f:facet>
           <f:facet name="right">
             <p:commandButton value="Speichern" icon="pi pi-save"

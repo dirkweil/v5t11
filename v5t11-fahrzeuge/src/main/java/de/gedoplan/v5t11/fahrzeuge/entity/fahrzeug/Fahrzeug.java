@@ -2,7 +2,7 @@ package de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug;
 
 import de.gedoplan.baselibs.persistence.entity.SingleIdEntity;
 import de.gedoplan.baselibs.utils.inject.InjectionUtil;
-import de.gedoplan.v5t11.util.domain.attribute.FahrzeugId;
+import de.gedoplan.v5t11.util.domain.attribute.DecoderId;
 import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 import de.gedoplan.v5t11.util.jsonb.JsonbShort;
 
@@ -16,19 +16,19 @@ import jakarta.persistence.AccessType;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
-import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.AssertTrue;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.xml.bind.Unmarshaller;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -48,20 +48,16 @@ import lombok.Singular;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Fahrzeug extends SingleIdEntity<FahrzeugId> {
+public class Fahrzeug extends SingleIdEntity<String> {
 
-  public static final String TABLE_NAME = "FZ_FAHRZEUG";
-  public static final String TABLE_NAME_FUNKTIONEN = "FZ_FAHRZEUG_FUNKTION";
-  public static final String TABLE_NAME_KONFIGURATIONEN = "FZ_FAHRZEUG_KONFIGURATION";
+  public static final String TABLE_NAME = "FZ_FAHRZEUG2";
+  public static final String TABLE_NAME_FUNKTIONEN = "FZ_FAHRZEUG2_FUNKTION";
+  public static final String TABLE_NAME_KONFIGURATIONEN = "FZ_FAHRZEUG2_KONFIGURATION";
 
-  // @Transient
-  // @Inject
-  // EventFirer eventFirer;
-
-  @EmbeddedId
-  @Getter(onMethod_ = @JsonbShort)
-  @Setter(onMethod_ = @JsonbShort)
-  private FahrzeugId id;
+  @Getter
+  @NotNull
+  @Id
+  private String betriebsnummer;
 
   // Fahrzeug ist/wird gelöscht
   // nur für temporäre Benachrichtigung; wird nicht in der DB gespeichert
@@ -86,7 +82,7 @@ public class Fahrzeug extends SingleIdEntity<FahrzeugId> {
   @AssertTrue(message = "Ungültige Fahrstufe")
   @JsonbTransient
   boolean isfahrstufeValid() {
-    return this.fahrstufe >= 0 && this.fahrstufe <= this.id.getSystemTyp().getMaxFahrstufe();
+    return this.fahrstufe >= 0 && this.fahrstufe <= this.decoderId.getSystemTyp().getMaxFahrstufe();
   }
 
   // Rückwärtsfahrt
@@ -101,7 +97,7 @@ public class Fahrzeug extends SingleIdEntity<FahrzeugId> {
   @XmlTransient
   private boolean licht;
 
-  // Status der Funktionen (pro Funktion 1 Bit, nur 16 Bits releavant)
+  // Status der Funktionen (pro Funktion 1 Bit, nur 16 Bits relevant)
   @Column(name = "FKT_BITS", nullable = false)
   @Getter
   @Setter(onMethod_ = @JsonbShort)
@@ -123,15 +119,6 @@ public class Fahrzeug extends SingleIdEntity<FahrzeugId> {
   @NotNull
   private FahrzeugTyp fahrzeugTyp;
 
-  /**
-   * Betriebsnummer des Fahrzeugs (DB-Nr. ö. ä.).
-   */
-  @Getter(onMethod_ = @JsonbShort)
-  @Setter
-  @NotBlank
-  @Column(nullable = false, unique = true)
-  private String betriebsnummer;
-
   @Lob
   @Getter
   @Setter
@@ -139,9 +126,14 @@ public class Fahrzeug extends SingleIdEntity<FahrzeugId> {
   @JsonbTransient
   private Serializable image;
 
-  @Getter(onMethod_ = @JsonbShort)
+  @Getter
   @Setter
-  private String decoder;
+  private String decoderName;
+
+  @Getter(onMethod_ = @JsonbShort)
+  @Setter(onMethod_ = @JsonbShort)
+  @NotNull
+  private DecoderId decoderId;
 
   @ElementCollection(fetch = FetchType.EAGER)
   @CollectionTable(name = TABLE_NAME_FUNKTIONEN)
@@ -156,25 +148,32 @@ public class Fahrzeug extends SingleIdEntity<FahrzeugId> {
   @XmlElement(name = "konfiguration")
   private List<@NotNull @Valid FahrzeugKonfiguration> konfigurationen;
 
-  public Fahrzeug(FahrzeugId id) {
-    this.id = id;
+  public Fahrzeug(String betriebsnummer) {
+    this.betriebsnummer = betriebsnummer;
     this.funktionen = new ArrayList<>();
     this.konfigurationen = new ArrayList<>();
   }
 
-  public Fahrzeug(FahrzeugId id, FahrzeugTyp fahrzeugTyp, String betriebsnummer, String decoder, List<FahrzeugFunktion> funktionen, List<FahrzeugKonfiguration> konfigurationen) {
-    this.id = id;
+  public Fahrzeug(String betriebsnummer, FahrzeugTyp fahrzeugTyp, String decoderName, DecoderId decoderId, List<FahrzeugFunktion> funktionen, List<FahrzeugKonfiguration> konfigurationen) {
     this.betriebsnummer = betriebsnummer;
-    this.decoder = decoder;
+    this.fahrzeugTyp = fahrzeugTyp;
+    this.decoderName = decoderName;
+    this.decoderId = decoderId;
     this.funktionen = funktionen;
     this.konfigurationen = konfigurationen;
   }
 
   @Builder
-  public Fahrzeug(FahrzeugTyp fahrzeugTyp, String betriebsnummer, String decoder, @NotNull SystemTyp systemTyp, int adresse,
+  public Fahrzeug(String betriebsnummer, FahrzeugTyp fahrzeugTyp, String decoderName, @NotNull SystemTyp systemTyp, int adresse,
     @Singular("funktion") List<FahrzeugFunktion> funktionen,
     @Singular("konfiguration") List<FahrzeugKonfiguration> konfigurationen) {
-    this(new FahrzeugId(systemTyp, adresse), fahrzeugTyp, betriebsnummer, decoder, funktionen, konfigurationen);
+    this(betriebsnummer, fahrzeugTyp, decoderName, new DecoderId(systemTyp, adresse), funktionen, konfigurationen);
+  }
+
+  @Override
+  @JsonbTransient
+  public String getId() {
+    return this.betriebsnummer;
   }
 
   public void injectFields() {
@@ -202,6 +201,39 @@ public class Fahrzeug extends SingleIdEntity<FahrzeugId> {
     }
 
     return changed;
+  }
+
+  /*
+   * Die folgenden Methoden dienen dazu, die alte XML-Form (bevor Betriebsnummer ID wurde)
+   * noch lesen zu können.
+   */
+  private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
+    if (this.fahrzeugTyp == null) {
+      this.fahrzeugTyp =
+        this.betriebsnummer.startsWith("RW-")
+          ? FahrzeugTyp.WAGEN
+          : this.betriebsnummer.endsWith("est")
+            ? FahrzeugTyp.SONSTIGES
+            : FahrzeugTyp.LOK;
+    }
+  }
+
+  @XmlElement(name = "decoder")
+  private String getDecoderNameFromOldDecoderElement() {
+    return null;
+  }
+
+  private void setDecoderNameFromOldDecoderElement(String decoderName) {
+    this.decoderName = decoderName;
+  }
+
+  @XmlElement(name = "id")
+  private DecoderId getDecoderIdFromOldIdElement() {
+    return null;
+  }
+
+  private void setDecoderIdFromOldIdElement(DecoderId decoderId) {
+    this.decoderId = decoderId;
   }
 
 }

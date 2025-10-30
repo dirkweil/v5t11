@@ -1,7 +1,7 @@
 package de.gedoplan.v5t11.fahrzeuge.testenvironment;
 
 import de.gedoplan.v5t11.fahrzeuge.gateway.StatusGateway;
-import de.gedoplan.v5t11.util.domain.attribute.FahrzeugId;
+import de.gedoplan.v5t11.util.domain.attribute.DecoderId;
 import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 
 import java.util.List;
@@ -20,7 +20,7 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 public class TestStatusGateway implements StatusGateway {
 
   @Override
-  public void changeFahrzeug(FahrzeugId id, Boolean aktiv, Integer fahrstufe, Integer fktBits, Boolean licht, Boolean rueckwaerts) {
+  public void changeFahrzeug(DecoderId id, Boolean aktiv, Integer fahrstufe, Integer fktBits, Boolean licht, Boolean rueckwaerts) {
     throw new UnsupportedOperationException();
   }
 
@@ -35,7 +35,7 @@ public class TestStatusGateway implements StatusGateway {
   }
 
   @Override
-  public void setLokcontrollerAssignment(String id, FahrzeugId lokId, int hornBits) {
+  public void setLokcontrollerAssignment(String id, DecoderId lokId, int hornBits) {
     throw new UnsupportedOperationException();
   }
 

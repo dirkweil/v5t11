@@ -2,7 +2,7 @@ package de.gedoplan.v5t11.status.webservice;
 
 import de.gedoplan.v5t11.status.entity.Steuerung;
 import de.gedoplan.v5t11.status.entity.baustein.Lokcontroller;
-import de.gedoplan.v5t11.util.domain.attribute.FahrzeugId;
+import de.gedoplan.v5t11.util.domain.attribute.DecoderId;
 
 import java.util.SortedSet;
 
@@ -48,7 +48,7 @@ public class LokcontrollerResource {
   @PUT
   @Path("{id}")
   @Consumes(MediaType.MEDIA_TYPE_WILDCARD)
-  public void setLok(@PathParam("id") String id, @QueryParam("lokId") FahrzeugId lokId, @QueryParam("hornBits") int hornBits) {
+  public void setLok(@PathParam("id") String id, @QueryParam("lokId") DecoderId lokId, @QueryParam("hornBits") int hornBits) {
 
     if (lokId != null && (lokId.getSystemTyp() == null || lokId.getAdresse() == 0)) {
       lokId = null;

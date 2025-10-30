@@ -1,6 +1,6 @@
 package de.gedoplan.v5t11.fahrzeuge.gateway;
 
-import de.gedoplan.v5t11.util.domain.attribute.FahrzeugId;
+import de.gedoplan.v5t11.util.domain.attribute.DecoderId;
 import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 
 import java.io.Serializable;
@@ -25,7 +25,7 @@ public interface StatusGateway extends Serializable {
   @Path("fahrzeug/{id}")
   @Consumes(MediaType.MEDIA_TYPE_WILDCARD)
   public void changeFahrzeug(
-    @PathParam("id") FahrzeugId id,
+    @PathParam("id") DecoderId id,
     @QueryParam("aktiv") Boolean aktiv,
     @QueryParam("fahrstufe") Integer fahrstufe,
     @QueryParam("fktBits") Integer fktBits,
@@ -46,6 +46,6 @@ public interface StatusGateway extends Serializable {
   @PUT
   @Path("lokcontroller/{id}")
   @Consumes(MediaType.MEDIA_TYPE_WILDCARD)
-  public void setLokcontrollerAssignment(@PathParam("id") String id, @QueryParam("lokId") FahrzeugId lokId, @QueryParam("hornBits") int hornBits);
+  public void setLokcontrollerAssignment(@PathParam("id") String id, @QueryParam("lokId") DecoderId lokId, @QueryParam("hornBits") int hornBits);
 
 }

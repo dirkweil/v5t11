@@ -7,11 +7,12 @@ import de.gedoplan.v5t11.status.entity.SX2Kanal;
 import de.gedoplan.v5t11.status.entity.baustein.Zentrale;
 import de.gedoplan.v5t11.util.cdi.Changed;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
-import de.gedoplan.v5t11.util.domain.attribute.FahrzeugId;
+import de.gedoplan.v5t11.util.domain.attribute.DecoderId;
 import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 import de.gedoplan.v5t11.util.jsonb.JsonbShort;
 
 import jakarta.inject.Inject;
+import jakarta.json.bind.annotation.JsonbTransient;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -24,7 +25,7 @@ import lombok.Setter;
  * @author dw
  */
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Fahrzeug extends SingleIdEntity<FahrzeugId> {
+public class Fahrzeug extends SingleIdEntity<DecoderId> {
 
   // Fahrzeug
   @Inject
@@ -32,7 +33,7 @@ public class Fahrzeug extends SingleIdEntity<FahrzeugId> {
 
   @Getter(onMethod_ = @JsonbShort)
   @Setter(onMethod_ = @JsonbShort)
-  private FahrzeugId id;
+  private DecoderId decoderId;
 
   // Fahrzeug ist aktiv, d. h. in der Zentrale angemeldet
   @Getter(onMethod_ = @JsonbShort)
@@ -59,9 +60,14 @@ public class Fahrzeug extends SingleIdEntity<FahrzeugId> {
   @Setter(onMethod_ = @JsonbShort)
   private long lastChangeMillis;
 
-  public Fahrzeug(FahrzeugId id) {
-    this.id = id;
+  public Fahrzeug(DecoderId decoderId) {
+    this.decoderId = decoderId;
     InjectionUtil.injectFields(this);
+  }
+
+  @JsonbTransient
+  public DecoderId getId() {
+    return this.decoderId;
   }
 
   public void injectFields() {
@@ -72,7 +78,7 @@ public class Fahrzeug extends SingleIdEntity<FahrzeugId> {
     synchronized (Zentrale.class) {
 
       if (fahrstufe != this.fahrstufe) {
-        if (fahrstufe < 0 || fahrstufe > this.id.getSystemTyp().getMaxFahrstufe()) {
+        if (fahrstufe < 0 || fahrstufe > this.decoderId.getSystemTyp().getMaxFahrstufe()) {
           throw new IllegalArgumentException("Ungültige Fahrstufe: " + fahrstufe);
         }
 
@@ -164,11 +170,11 @@ public class Fahrzeug extends SingleIdEntity<FahrzeugId> {
   public void adjustTo(Kanal kanal) {
     synchronized (Zentrale.class) {
 
-      if (this.id.getSystemTyp() != SystemTyp.SX1) {
+      if (this.decoderId.getSystemTyp() != SystemTyp.SX1) {
         throw new IllegalArgumentException("adjustTo(Kanal) kann nur für SX1-Loks aufgerufen werden");
       }
 
-      if (this.id.getAdresse() != kanal.getAdresse()) {
+      if (this.decoderId.getAdresse() != kanal.getAdresse()) {
         throw new IllegalArgumentException("adjustTo(Kanal) fuer falsche Adresse aufgerufen");
       }
 
@@ -199,11 +205,11 @@ public class Fahrzeug extends SingleIdEntity<FahrzeugId> {
   public void adjustTo(SX2Kanal kanal) {
     synchronized (Zentrale.class) {
 
-      if (this.id.getSystemTyp() == SystemTyp.SX1) {
+      if (this.decoderId.getSystemTyp() == SystemTyp.SX1) {
         throw new IllegalArgumentException("adjustTo(SX2Kanal) darf nicht für SX1-Loks aufgerufen werden");
       }
 
-      if (this.id.getAdresse() != kanal.getAdresse()) {
+      if (this.decoderId.getAdresse() != kanal.getAdresse()) {
         throw new IllegalArgumentException("adjustTo(SX2Kanal) fuer falsche Adresse aufgerufen");
       }
 

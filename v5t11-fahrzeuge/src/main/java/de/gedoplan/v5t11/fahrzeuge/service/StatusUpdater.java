@@ -41,9 +41,17 @@ public class StatusUpdater {
    * @param receivedObject Empfangenes Objekt mit dem neuen Status.
    */
   void fahrzeugReceived(@ObservesAsync @Received Fahrzeug receivedObject) {
-    this.fahrzeugRepository
-      .findById(receivedObject.getId())
-      .ifPresent(fahrzeug -> copyStatus(fahrzeug, receivedObject));
+    if (receivedObject.getId() != null) {
+      this.fahrzeugRepository
+        .findById(receivedObject.getId())
+        .ifPresent(fahrzeug -> copyStatus(fahrzeug, receivedObject));
+    } else if (receivedObject.getDecoderId() != null) {
+      this.fahrzeugRepository
+        .findByDecoderId(receivedObject.getDecoderId())
+        .forEach(fahrzeug -> copyStatus(fahrzeug, receivedObject));
+    } else {
+      this.logger.warnf("Fahrzeug ohne id und decoderId empfangen - wird ignoriert: %s", receivedObject);
+    }
   }
 
   private void copyStatus(Fahrzeug to, Fahrzeug from) {
@@ -58,17 +66,4 @@ public class StatusUpdater {
     }
 
   }
-
-  // private void copyStatus(Fahrwegelement to, Fahrwegelement from) {
-  // if (to != null) {
-  // if (to.copyStatus(from)) {
-  // if (this.logger.isDebugEnabled()) {
-  // this.logger.debug(to);
-  // }
-  //
-  // this.eventFirer.fire(to);
-  // }
-  // }
-  //
-  // }
 }
