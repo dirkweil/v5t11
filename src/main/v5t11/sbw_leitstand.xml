@@ -199,10 +199,11 @@
       <Gleis lage="SW,O" name="2002" bereich="SBf"/>
       <Gleis lage="W,O" name="2002" bereich="SBf" anzahl="2"/>
       <Gleis lage="W,SO" name="2002" bereich="SBf"/>
-      <Leer anzahl="5" />
+      <Leer anzahl="4" />
       <Gleis lage="W,O" name="HBf" bereich="SBf" label="true"/>
       <Gleis lage="W,O" name="1001" bereich="SBf" label="true"/>
-      <Weiche lage="SW|W,NO" name="1003" bereich="SBf"/>
+      <Weiche lage="W|SW,O" name="1003" bereich="SBf"/>
+      <Gleis lage="W,NO" name="1004" bereich="SBf" />
       <Leer/>
       <Gleis lage="S,N" name="NBf" bereich="SBf" label="true"/>
     </Zeile>
@@ -214,7 +215,7 @@
       <Gleis lage="SW,NO" name="2002" bereich="SBf"/>
       <Leer anzahl="4" />
       <Gleis lage="NW,S" name="2002" bereich="SBf"/>
-      <Leer anzahl="4" />
+      <Leer anzahl="3" />
       <Gleis lage="W,O" name="HBf" bereich="SBf" label="true"/>
       <Gleis lage="W,NO" name="1002" bereich="SBf" label="true"/>
     </Zeile>

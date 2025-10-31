@@ -3,13 +3,13 @@
   <!-- Fahrstrassen im Bereich SBf --> 
   <Fahrstrasse bereich="SBf" zaehlrichtung="true" umkehrbar="true">
     <Gleis name="1001" />
-    <Weiche name="1003" stellung="ABZWEIGEND" />
+    <Weiche name="1003" stellung="GERADE" />
     <Gleis name="W1003" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="SBf" zaehlrichtung="true" umkehrbar="true">
     <Gleis name="1002" />
-    <Weiche name="1003" stellung="GERADE" />
+    <Weiche name="1003" stellung="ABZWEIGEND" />
     <Gleis name="W1003" />
   </Fahrstrasse>
 
