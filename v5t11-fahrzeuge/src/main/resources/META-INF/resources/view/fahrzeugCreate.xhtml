@@ -10,14 +10,14 @@
 
       <h:panelGrid columns="3">
         <p:outputLabel for="@next" value="Betriebsnummer"/>
-        <p:inputText value="#{fahrzeugCreatePresenter.betriebsnummer}" size="15"/>
+        <p:inputText value="#{fahrzeugCreatePresenter.newFahrzeug.betriebsnummer}" size="15"/>
         <p:commandButton value="speichern" icon="pi pi-check"
                          title="Daten speichern"
                          action="#{fahrzeugCreatePresenter.createFahrzeug()}"
                          ajax="false"/>
 
         <p:outputLabel for="@next" value="Fahrzeugtyp"/>
-        <p:selectOneMenu value="#{fahrzeugCreatePresenter.fahrzeugTyp}" id="fahrzeugTyp">
+        <p:selectOneMenu value="#{fahrzeugCreatePresenter.newFahrzeug.fahrzeugTyp}" id="fahrzeugTyp">
           <f:selectItems value="#{fahrzeugListPresenter.fahrzeugTypen}"/>
         </p:selectOneMenu>
         <p:commandButton value="abbrechen" icon="pi pi-times"
@@ -27,20 +27,20 @@
                          ajax="false"/>
 
         <p:outputLabel for="@next" value="Systemtyp"/>
-        <p:selectOneMenu value="#{fahrzeugCreatePresenter.systemTyp}" id="systemTyp">
+        <p:selectOneMenu value="#{fahrzeugCreatePresenter.newFahrzeug.decoderId.systemTyp}" id="systemTyp">
           <f:selectItems value="#{fahrzeugListPresenter.systemTypen}"/>
         </p:selectOneMenu>
         <h:panelGrid/>
 
         <p:outputLabel for="@next" value="Adresse"/>
-        <p:inputText value="#{fahrzeugCreatePresenter.adresse}" size="5" id="adresse"/>
+        <p:inputText value="#{fahrzeugCreatePresenter.newFahrzeug.decoderId.adresse}" size="5" id="adresse"/>
         <h:panelGrid/>
 
         <h:panelGrid/>
         <h:panelGrid/>
         <p:fileUpload label="importieren" chooseIcon="pi pi-file-export"
                       title="Fahrzeugstammdaten aus XML-File lesen"
-                      listener="#{fahrzeugListPresenter.handleFileUpload}"
+                      listener="#{fahrzeugCreatePresenter.handleFileUpload}"
                       mode="simple"
                       skinSimple="true"
                       auto="true"

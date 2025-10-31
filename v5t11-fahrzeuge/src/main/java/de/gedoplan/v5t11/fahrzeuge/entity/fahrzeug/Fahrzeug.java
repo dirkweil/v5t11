@@ -55,6 +55,7 @@ public class Fahrzeug extends SingleIdEntity<String> {
   public static final String TABLE_NAME_KONFIGURATIONEN = "FZ_FAHRZEUG2_KONFIGURATION";
 
   @Getter
+  @Setter
   @NotNull
   @Id
   private String betriebsnummer;

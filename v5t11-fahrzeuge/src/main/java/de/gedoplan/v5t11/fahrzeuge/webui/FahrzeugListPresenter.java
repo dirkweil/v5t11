@@ -11,8 +11,6 @@ import de.gedoplan.v5t11.util.domain.attribute.DecoderId;
 import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 
 import java.io.ByteArrayInputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
@@ -31,10 +29,8 @@ import jakarta.validation.constraints.NotNull;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logging.Logger;
-import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
-import org.primefaces.model.file.UploadedFile;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -185,18 +181,4 @@ public class FahrzeugListPresenter implements Serializable {
     }
   }
 
-  public void handleFileUpload(FileUploadEvent event) {
-    UploadedFile file = event.getFile();
-    logger.debugf("File %s hochgeladen", file.getFileName());
-
-    try (Reader contentReader = new InputStreamReader(file.getInputStream())) {
-      Fahrzeug fahrzeug = XmlConverter.fromXml(Fahrzeug.class, contentReader);
-      logger.debugf("Hochgeladene Fahrzeugdaten: %s", fahrzeug);
-      this.currentFahrzeug = fahrzeug;
-    } catch (Exception e) {
-      logger.error("File-Import fehlgeschlagen", e);
-      FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Upload fehlgeschlagen", null);
-      FacesContext.getCurrentInstance().addMessage(null, message);
-    }
-  }
 }
