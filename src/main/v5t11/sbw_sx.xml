@@ -63,6 +63,7 @@
     </SXBM1>
 
     <SXBM1 id="BM-2003-8" adr="50" einbauOrt="SBf Einfahrt">
+      <Gleis idx="0" bereich="SBf" name="1002"/>
       <Gleis idx="1" bereich="SBf" name="W3"/>
       <Gleis idx="2" bereich="SBf" name="W5"/>
       <Gleis idx="3" bereich="SBf" name="W7"/>
@@ -70,6 +71,8 @@
       <Gleis idx="5" bereich="SBf" name="W1006"/>
       <Gleis idx="5" bereich="SBf" name="1007"/>
       <Gleis idx="5" bereich="SBf" name="W1008"/>
+      <Gleis idx="6" bereich="SBf" name="1004"/>
+      <Gleis idx="7" bereich="SBf" name="W1003"/>
     </SXBM1>
 
     <SXBM1 id="BM-2014-2" adr="51" einbauOrt="SBf Einfahrt">
@@ -77,6 +80,7 @@
       <Gleis idx="1" bereich="SBf" name="W1"/>
       <Gleis idx="1" bereich="SBf" name="W2"/>
       <Gleis idx="2" bereich="SBf" name="101"/>
+      <Gleis idx="4" bereich="SBf" name="1001"/>
       <Gleis idx="5" bereich="SBf" name="1009"/>
       <Gleis idx="6" bereich="SBf" name="105"/>
       <Gleis idx="7" bereich="SBf" name="W4"/>
@@ -113,7 +117,7 @@
       <Gleis idx="4" bereich="HBf" name="207"/>
       <Gleis idx="5" bereich="HBf" name="406"/>
       <Gleis idx="6" bereich="HBf" name="407"/>
-      <Gleis idx="7" bereich="HBf" name="404"/> <!-- nicht angeschlossen -->
+      <Gleis idx="7" bereich="HBf" name="404"/> 
     </HEBM8>
 
     <SXBM1 id="BM-2013-4" adr="1058" einbauOrt="HBf Einfahrt links">
@@ -127,16 +131,16 @@
       <Gleis idx="7" bereich="HBf" name="W9"/>
     </SXBM1>
 
-    <Muet8k id="BM-2019-1" adr="59" einbauOrt="HBf unter EG">
+    <Muet8i id="BM-2018-2" adr="59" einbauOrt="HBf unter EG">
       <Gleis idx="0" bereich="HBf" name="5"/>
       <Gleis idx="1" bereich="HBf" name="W12"/>
-      <Gleis idx="2" bereich="HBf" name="8"/>
-      <Gleis idx="3" bereich="HBf" name="9"/>
+      <Gleis idx="2" bereich="HBf" name="1"/>
+      <Gleis idx="3" bereich="HBf" name="W11"/>
       <Gleis idx="4" bereich="HBf" name="10"/>
       <Gleis idx="5" bereich="HBf" name="W10"/>
-      <Gleis idx="6" bereich="HBf" name="1"/>
-      <Gleis idx="7" bereich="HBf" name="W11"/>
-    </Muet8k>
+      <Gleis idx="6" bereich="HBf" name="8"/>
+      <Gleis idx="7" bereich="HBf" name="9"/>
+    </Muet8i>
 
     <SXBM1 id="BM-2003-9" adr="1060" einbauOrt="HBf unter Wuest">
       <Gleis idx="0" bereich="HBf" name="25"/>
@@ -185,6 +189,7 @@
     <WDMiba3 id="FD-2003-1" adr="70" einbauOrt="SBf Einfahrt">
       <Weiche idx="0" bereich="SBf" name="7"/>
       <Weiche idx="1" bereich="SBf" name="2"/>
+      <Weiche idx="2" bereich="SBf" name="1003"/>
       <Weiche idx="3" bereich="SBf" name="2003"/>
       <Weiche idx="4" bereich="SBf" name="2005"/>
       <Weiche idx="5" bereich="SBf" name="1"/>
@@ -321,7 +326,6 @@
       <Sperrsignal bereich="HBf" name="25"/>
 
       <!-- Die folgenden Geräte kommen noch an einen echten FD -->
-      <Weiche bereich="SBf" name="1003"/>
       <Sperrsignal bereich="HBf" name="W30"/>
       <HauptsignalRtGnGe bereich="HBf" name="F"/>
       <HauptsignalRtGnGe bereich="HBf" name="G"/>
