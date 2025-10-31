@@ -23,7 +23,7 @@ import lombok.Getter;
 public class HEBM8RuntimeService extends ConfigurationRuntimeService {
 
   private static final int LOCAL_ADR_ADR = 0;
-  private static final int LOCAL_ADR_ABFALLVERZOEGERUNG = 2;
+  private static final int LOCAL_ADR_ABFALLVERZOEGERUNG = 1;
   private static final int[] LOCAL_ADRESSEN = { LOCAL_ADR_ADR, LOCAL_ADR_ABFALLVERZOEGERUNG };
 
   @Getter
