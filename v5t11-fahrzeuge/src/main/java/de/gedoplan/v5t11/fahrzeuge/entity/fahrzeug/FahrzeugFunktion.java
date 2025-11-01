@@ -1,5 +1,6 @@
 package de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -25,6 +26,7 @@ import lombok.ToString;
 public class FahrzeugFunktion {
   @NotNull
   @Enumerated(EnumType.STRING)
+  @Column(columnDefinition = "CHAR(2)")
   private FahrzeugFunktionsGruppe gruppe;
   @NotEmpty
   private String beschreibung;
@@ -85,6 +87,7 @@ public class FahrzeugFunktion {
   public static enum FahrzeugFunktionsGruppe {
     FL("Fahrlicht"),
     FG("Fahrgeräusch"),
+    IB("Innenbeleuchtung"),
     BG("Betriebsgeräusch"),
     BA("Bahnsteigansage"),
     AF("Andere Funktion");

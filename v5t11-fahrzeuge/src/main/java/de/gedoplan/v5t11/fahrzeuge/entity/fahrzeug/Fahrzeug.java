@@ -50,9 +50,9 @@ import lombok.Singular;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Fahrzeug extends SingleIdEntity<String> {
 
-  public static final String TABLE_NAME = "FZ_FAHRZEUG2";
-  public static final String TABLE_NAME_FUNKTIONEN = "FZ_FAHRZEUG2_FUNKTION";
-  public static final String TABLE_NAME_KONFIGURATIONEN = "FZ_FAHRZEUG2_KONFIGURATION";
+  public static final String TABLE_NAME = "FZ_FAHRZEUG";
+  public static final String TABLE_NAME_FUNKTIONEN = "FZ_FAHRZEUG_FUNKTION";
+  public static final String TABLE_NAME_KONFIGURATIONEN = "FZ_FAHRZEUG_KONFIGURATION";
 
   @Getter
   @Setter

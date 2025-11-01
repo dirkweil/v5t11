@@ -95,7 +95,7 @@ public class FahrzeugListPresenter implements Serializable {
     if (fahrzeug.getBetriebsnummer() != null) {
       String name = fahrzeug.getBetriebsnummer().replaceAll("\\s+", "_");
       while (!name.isEmpty()) {
-        String resourceName = "images/loks/" + name + ".png";
+        String resourceName = "images/" + name + ".png";
         if (ResourceUtil.getResource("META-INF/resources/" + resourceName) != null) {
           return resourceName;
         }
@@ -104,7 +104,7 @@ public class FahrzeugListPresenter implements Serializable {
       }
     }
 
-    return "images/loks/none.png";
+    return "images/" + fahrzeug.getFahrzeugTyp().name() + ".png";
   }
 
   public String getImageOfCurrentFahrzeug() {
