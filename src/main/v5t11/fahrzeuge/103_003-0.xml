@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <fahrzeug>
-    <id>1103@DCC</id>
     <betriebsnummer>103 003-0</betriebsnummer>
+    <fahrzeugTyp>LOK</fahrzeugTyp>
+    <beschreibung>Schnellzuglok</beschreibung>
+    <decoderName>Trix Sounddecoder</decoderName>
+    <decoderId>1103@DCC</decoderId>
     <funktion maske="1" wert="1">
         <gruppe>AF</gruppe>
         <beschreibung>Maschinenraumbeleuchtung</beschreibung>

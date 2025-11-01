@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <fahrzeug>
-    <id>1112@DCC</id>
     <betriebsnummer>112 491-6</betriebsnummer>
-    <decoder>Zimo MX648</decoder>
+    <fahrzeugTyp>LOK</fahrzeugTyp>
+    <beschreibung>Schnellzuglok</beschreibung>
+    <decoderName>Zimo MX648</decoderName>
+    <decoderId>1112@DCC</decoderId>
     <funktion maske="1" wert="1">
         <gruppe>FG</gruppe>
         <beschreibung>Motor</beschreibung>

@@ -99,6 +99,16 @@ public class DecoderId implements Serializable, Comparable<DecoderId> {
     }
   }
 
+  public String getAdrInfo() {
+    if (this.systemTyp == SystemTyp.DCC) {
+      if (this.adresse >= 128) {
+        return String.format(" (CV17=%d, CV18=%d)", this.adresse / 256 + 192, this.adresse % 256);
+      }
+    }
+
+    return null;
+  }
+
   public static class JsonTypeAdapter implements JsonbAdapter<DecoderId, String> {
 
     @Override

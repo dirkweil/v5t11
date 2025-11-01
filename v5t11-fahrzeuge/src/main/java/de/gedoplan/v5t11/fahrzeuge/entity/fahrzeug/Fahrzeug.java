@@ -120,6 +120,10 @@ public class Fahrzeug extends SingleIdEntity<String> {
   @NotNull
   private FahrzeugTyp fahrzeugTyp;
 
+  @Getter
+  @Setter
+  private String beschreibung;
+
   @Lob
   @Getter
   @Setter
@@ -155,9 +159,11 @@ public class Fahrzeug extends SingleIdEntity<String> {
     this.konfigurationen = new ArrayList<>();
   }
 
-  public Fahrzeug(String betriebsnummer, FahrzeugTyp fahrzeugTyp, String decoderName, DecoderId decoderId, List<FahrzeugFunktion> funktionen, List<FahrzeugKonfiguration> konfigurationen) {
+  public Fahrzeug(String betriebsnummer, FahrzeugTyp fahrzeugTyp, String beschreibung, String decoderName, DecoderId decoderId, List<FahrzeugFunktion> funktionen,
+    List<FahrzeugKonfiguration> konfigurationen) {
     this.betriebsnummer = betriebsnummer;
     this.fahrzeugTyp = fahrzeugTyp;
+    this.beschreibung = beschreibung;
     this.decoderName = decoderName;
     this.decoderId = decoderId;
     this.funktionen = funktionen;
@@ -165,10 +171,10 @@ public class Fahrzeug extends SingleIdEntity<String> {
   }
 
   @Builder
-  public Fahrzeug(String betriebsnummer, FahrzeugTyp fahrzeugTyp, String decoderName, @NotNull SystemTyp systemTyp, int adresse,
+  public Fahrzeug(String betriebsnummer, FahrzeugTyp fahrzeugTyp, String beschreibung, String decoderName, @NotNull SystemTyp systemTyp, int adresse,
     @Singular("funktion") List<FahrzeugFunktion> funktionen,
     @Singular("konfiguration") List<FahrzeugKonfiguration> konfigurationen) {
-    this(betriebsnummer, fahrzeugTyp, decoderName, new DecoderId(systemTyp, adresse), funktionen, konfigurationen);
+    this(betriebsnummer, fahrzeugTyp, beschreibung, decoderName, new DecoderId(systemTyp, adresse), funktionen, konfigurationen);
   }
 
   @Override
