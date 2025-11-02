@@ -21,8 +21,11 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OrderBy;
+import jakarta.persistence.OrderColumn;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import jakarta.validation.Valid;
@@ -110,6 +113,22 @@ public class Fahrzeug extends SingleIdEntity<String> {
   @Column(name = "LAST_CHANGE_MS")
   @XmlTransient
   private long lastChangeMillis;
+
+  @Getter
+  @Setter
+  @XmlTransient
+  @JsonbTransient
+  @OneToMany
+  @JoinColumn(name = "zugfahrzeug_betriebsnummer")
+  @OrderColumn(name = "fahrzeug_reihenfolge")
+  private List<Fahrzeug> gezogeneFahrzeuge = new ArrayList<>();
+
+  //  @Getter
+  //  @XmlTransient
+  //  @JsonbTransient
+  //  @ManyToOne
+  //  @JoinColumn(name = "zugfahrzeug_betriebsnummer", insertable = false, updatable = false)
+  //  private Fahrzeug zugFahrzeug;
 
   /**
    * Typ des Fahrzeugs (Lok, Wagen, ...).

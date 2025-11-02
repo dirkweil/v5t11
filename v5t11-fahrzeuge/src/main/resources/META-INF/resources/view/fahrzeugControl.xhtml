@@ -31,10 +31,16 @@
           </span>
 
           <p:menuButton value="bearbeiten" icon="pi pi-pencil" styleClass="fahrzeug-button">
+            <p:menuitem value="Basisdaten" icon="pi pi-list" title="Basisdaten bearbeiten"
+                        action="editBasics"
+                        ajax="false"/>
+            <p:menuitem value="Zugbildung" icon="pi pi-link" title="Zug bearbeiten"
+                        action="editTraktion"
+                        ajax="false"/>
             <p:menuitem value="Funktionen" icon="pi pi-calculator" title="Funktionszuordnung bearbeiten"
                         action="editFunktionen"
                         ajax="false"/>
-            <p:menuitem value="Konfiguration" icon="pi pi-wrench" title="Decoder-Konfiguration bearbeiten"
+            <p:menuitem value="Programmierung" icon="pi pi-wrench" title="Decoder-Konfiguration bearbeiten"
                         action="editKonfiguration"
                         ajax="false"/>
 

@@ -21,6 +21,18 @@
     <from-view-id>/view/fahrzeugControl.xhtml</from-view-id>
 
     <navigation-case>
+      <from-outcome>editBasics</from-outcome>
+      <to-view-id>/view/fahrzeugBasics.xhtml</to-view-id>
+      <redirect/>
+    </navigation-case>
+
+    <navigation-case>
+      <from-outcome>editTraktion</from-outcome>
+      <to-view-id>/view/fahrzeugTraktion.xhtml</to-view-id>
+      <redirect/>
+    </navigation-case>
+
+    <navigation-case>
       <from-outcome>editFunktionen</from-outcome>
       <to-view-id>/view/fahrzeugFunction.xhtml</to-view-id>
       <redirect/>
@@ -35,6 +47,26 @@
     <navigation-case>
       <from-outcome>remove</from-outcome>
       <to-view-id>/view/fahrzeugRemoveConfirm.xhtml</to-view-id>
+      <redirect/>
+    </navigation-case>
+  </navigation-rule>
+
+  <navigation-rule>
+    <from-view-id>/view/fahrzeugBasics.xhtml</from-view-id>
+
+    <navigation-case>
+      <from-outcome>finished</from-outcome>
+      <to-view-id>/view/fahrzeugControl.xhtml</to-view-id>
+      <redirect/>
+    </navigation-case>
+  </navigation-rule>
+
+  <navigation-rule>
+    <from-view-id>/view/fahrzeugTraktion.xhtml</from-view-id>
+
+    <navigation-case>
+      <from-outcome>finished</from-outcome>
+      <to-view-id>/view/fahrzeugControl.xhtml</to-view-id>
       <redirect/>
     </navigation-case>
   </navigation-rule>

@@ -14,32 +14,21 @@
             <p:graphicImage name="#{fahrzeugListPresenter.getImageOfCurrentFahrzeug()}" height="50px"
                             style="vertical-align: middle; margin-left: 20px; margin-right: 20px;"/>
 
-            <h:panelGrid columns="2">
-              <p:outputLabel for="fahrzeugBeschreibung" value="Beschreibung"/>
-              <h:panelGroup>
-                <p:inputText value="#{fahrzeugListPresenter.currentFahrzeug.beschreibung}" size="80"
-                             id="fahrzeugBeschreibung"/>
-              </h:panelGroup>
+            <p:outputLabel for="@next" value="Decoder"/>
+            <p:inputText value="#{fahrzeugListPresenter.currentFahrzeug.decoderName}" id="decoderName"/>
 
-              <p:outputLabel for="decoderName" value="Decoder"/>
-              <h:panelGroup>
-                <p:inputText value="#{fahrzeugListPresenter.currentFahrzeug.decoderName}" id="decoderName"/>
+            <p:outputLabel for="@next" value="Systemtyp"/>
+            <p:selectOneMenu value="#{fahrzeugListPresenter.currentFahrzeug.decoderId.systemTyp}" id="systemTyp">
+              <f:selectItems value="#{fahrzeugListPresenter.systemTypen}"/>
+              <f:ajax event="change" execute="@this" render="adrInfo"/>
+            </p:selectOneMenu>
 
-                <p:outputLabel for="@next" value="Systemtyp"/>
-                <p:selectOneMenu value="#{fahrzeugListPresenter.currentFahrzeug.decoderId.systemTyp}" id="systemTyp">
-                  <f:selectItems value="#{fahrzeugListPresenter.systemTypen}"/>
-                  <f:ajax event="change" execute="@this" render="adrInfo"/>
-                </p:selectOneMenu>
-
-                <p:outputLabel for="@next" value="Adresse"/>
-                <p:inputText value="#{fahrzeugListPresenter.currentFahrzeug.decoderId.adresse}" size="5" id="adresse"
-                             required="true">
-                  <f:ajax event="change" execute="@this" render="adrInfo"/>
-                </p:inputText>
-                <h:outputText value="#{fahrzeugListPresenter.currentFahrzeug.decoderId.adrInfo}" id="adrInfo"/>
-              </h:panelGroup>
-
-            </h:panelGrid>
+            <p:outputLabel for="@next" value="Adresse"/>
+            <p:inputText value="#{fahrzeugListPresenter.currentFahrzeug.decoderId.adresse}" size="5" id="adresse"
+                         required="true">
+              <f:ajax event="change" execute="@this" render="adrInfo"/>
+            </p:inputText>
+            <h:outputText value="#{fahrzeugListPresenter.currentFahrzeug.decoderId.adrInfo}" id="adrInfo"/>
 
           </f:facet>
           <f:facet name="right">

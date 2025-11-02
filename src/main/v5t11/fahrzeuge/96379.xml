@@ -1,89 +1,53 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <fahrzeug>
-    <id>4516@DCC</id>
-    <betriebsnummer>31516</betriebsnummer>
-    <decoder>ESU50708</decoder>
-    <funktion maske="64" wert="64">
-        <gruppe>AF</gruppe>
-        <beschreibung>Innenbeleuchtung E</beschreibung>
-        <impuls>false</impuls>
-        <horn>false</horn>
-        <fader>false</fader>
-    </funktion>
-    <funktion maske="32" wert="32">
-        <gruppe>AF</gruppe>
-        <beschreibung>Innenbeleuchtung D</beschreibung>
-        <impuls>false</impuls>
-        <horn>false</horn>
-        <fader>false</fader>
-    </funktion>
-    <funktion maske="16" wert="16">
-        <gruppe>AF</gruppe>
-        <beschreibung>Innenbeleuchtung C</beschreibung>
-        <impuls>false</impuls>
-        <horn>false</horn>
-        <fader>false</fader>
-    </funktion>
-    <funktion maske="8" wert="8">
-        <gruppe>AF</gruppe>
-        <beschreibung>Innenbeleuchtung B</beschreibung>
-        <impuls>false</impuls>
-        <horn>false</horn>
-        <fader>false</fader>
-    </funktion>
+    <betriebsnummer>96379</betriebsnummer>
+    <fahrzeugTyp>WAGEN</fahrzeugTyp>
+    <beschreibung>Nahverkehrswagen 96379 (Silberling, Steuerwagen)</beschreibung>
+    <decoderName>ESU50708</decoderName>
+    <decoderId>4200@DCC</decoderId>
     <funktion maske="4" wert="4">
-        <gruppe>AF</gruppe>
-        <beschreibung>Innenbeleuchtung A</beschreibung>
+        <gruppe>IB</gruppe>
+        <beschreibung>Innenbeleuchtung</beschreibung>
         <impuls>false</impuls>
         <horn>false</horn>
         <fader>false</fader>
     </funktion>
-    <funktion maske="2" wert="2">
-        <gruppe>AF</gruppe>
-        <beschreibung>Innenbeleuchtung komplett</beschreibung>
-        <impuls>false</impuls>
-        <horn>false</horn>
-        <fader>false</fader>
-    </funktion>
-    <funktion maske="1" wert="1">
-        <gruppe>AF</gruppe>
-        <beschreibung>AUX1</beschreibung>
-        <impuls>false</impuls>
-        <horn>false</horn>
-        <fader>false</fader>
-    </funktion>
-    <konfiguration nr="17" soll="209">
+    <konfiguration nr="17" soll="208">
         <beschreibung>Höherwertiger Teil der langen Adresse</beschreibung>
     </konfiguration>
-    <konfiguration nr="18" soll="27">
+    <konfiguration nr="18" soll="104">
         <beschreibung>Niederwertiger Teil der langen Adresse</beschreibung>
     </konfiguration>
-    <konfiguration nr="29" soll="34">
+    <konfiguration nr="19" soll="0">
+        <beschreibung>Verbundadresse</beschreibung>
+    </konfiguration>
+    <konfiguration nr="29" soll="35">
         <beschreibung>Konfigurationsregister
       Bit 0: Richtung umkehren
       Bit 1: 28/126 Fahrstufen (statt 14)
       Bit 2: Analogbetrieb erlaubt
-      Bit 5: Lange Lokadresse nach CV17/18</beschreibung>
+      Bit 5: Lange Lokadresse nach CV17/18
+    </beschreibung>
     </konfiguration>
-    <konfiguration nr="33" soll="0">
+    <konfiguration nr="33" soll="4">
         <beschreibung>Funktionsmapping F0 vorwärts</beschreibung>
     </konfiguration>
-    <konfiguration nr="34" soll="0">
+    <konfiguration nr="34" soll="2">
         <beschreibung>Funktionsmapping F0 rückwärts</beschreibung>
     </konfiguration>
     <konfiguration nr="35" soll="0">
         <beschreibung>Funktionsmapping F1 vorwärts</beschreibung>
     </konfiguration>
-    <konfiguration nr="36" soll="248">
+    <konfiguration nr="36" soll="0">
         <beschreibung>Funktionsmapping F2</beschreibung>
     </konfiguration>
-    <konfiguration nr="37" soll="8">
+    <konfiguration nr="37" soll="24">
         <beschreibung>Funktionsmapping F3</beschreibung>
     </konfiguration>
-    <konfiguration nr="38" soll="16">
+    <konfiguration nr="38" soll="0">
         <beschreibung>Funktionsmapping F4</beschreibung>
     </konfiguration>
-    <konfiguration nr="39" soll="32">
+    <konfiguration nr="39" soll="0">
         <beschreibung>Funktionsmapping F5</beschreibung>
     </konfiguration>
     <konfiguration nr="40" soll="0">
@@ -107,7 +71,7 @@
     <konfiguration nr="46" soll="0">
         <beschreibung>Funktionsmapping F12</beschreibung>
     </konfiguration>
-    <konfiguration nr="47" soll="4">
+    <konfiguration nr="47" soll="0">
         <beschreibung>Funktionsmapping F1 rückwärts</beschreibung>
     </konfiguration>
     <konfiguration nr="59" soll="0">
@@ -131,10 +95,10 @@
     <konfiguration nr="113" soll="0">
         <beschreibung>Ausgangskonfiguration Spitzenlicht</beschreibung>
     </konfiguration>
-    <konfiguration nr="114" soll="0">
+    <konfiguration nr="114" soll="15">
         <beschreibung>Ausgangskonfiguration Schlusslicht</beschreibung>
     </konfiguration>
-    <konfiguration nr="115" soll="0">
+    <konfiguration nr="115" soll="15">
         <beschreibung>Ausgangskonfiguration AUX1</beschreibung>
     </konfiguration>
     <konfiguration nr="116" soll="84">
@@ -143,7 +107,7 @@
     <konfiguration nr="117" soll="84">
         <beschreibung>Ausgangskonfiguration LED 4-5</beschreibung>
     </konfiguration>
-    <konfiguration nr="118" soll="84">
+    <konfiguration nr="118" soll="0">
         <beschreibung>Ausgangskonfiguration LED 6-7</beschreibung>
     </konfiguration>
     <konfiguration nr="119" soll="0">
