@@ -19,7 +19,7 @@
           </f:facet>
           <f:facet name="right">
             <p:commandButton value="Speichern" icon="pi pi-save"
-                             action="#{fahrzeugListPresenter.saveCurrentFahrzeug()}"
+                             action="#{fahrzeugTraktionPresenter.saveCurrentFahrzeug()}"
                              ajax="false"/>
 
             <span class="ui-separator"> <span class="ui-icon pi pi-ellipsis-v"/></span>
@@ -27,28 +27,22 @@
           </f:facet>
         </p:toolbar>
 
-        <h:outputText value="Hier passierts!"/>
+        <h3>Zug mit diesem Zugfahrzeug:</h3>
+        
+        <p:pickList id="fahrzeugPicker"
+                    style="height: 100%"
+                    value="#{fahrzeugTraktionPresenter.fahrzeugPicker}" escapeValue="false"
+                    var="betriebsnummer" itemLabel="#{betriebsnummer}" itemValue="#{betriebsnummer}"
+                    transferOnCheckboxClick="true"
+                    showCheckbox="true" showSourceControls="false" showTargetControls="false">
+          <f:facet name="sourceCaption">Verfügbare Fahrzeuge</f:facet>
+          <f:facet name="targetCaption">Angehängte Fahrzeuge</f:facet>
+        </p:pickList>
       </h:panelGrid>
     </h:form>
 
-    <h:form id="fahrzeug-read-write-confirm">
-      <p:dialog
-          header="#{fahrzeugProgramPresenter.selectedAktionsBeschreibung}"
-          showEffect="fade" modal="true" widgetVar="fahrzeugReadWriteConfirm">
-        <h:panelGrid columns="1">
-          <h:outputText value="Das Fahrzeug muss sich alleine auf dem Programmiergleis befinden!"/>
+    <h:outputStylesheet name="fahrzeuge.css"/>
 
-          <h:panelGroup>
-            <p:commandButton value="ok" icon="pi pi-check"
-                             actionListener="#{fahrzeugProgramPresenter.execSelectedAktion()}"
-                             process="@form"/>
-            <p:commandButton value="abbrechen" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
-                             onclick="PF('fahrzeugReadWriteConfirm').hide()"/>
-          </h:panelGroup>
-        </h:panelGrid>
-      </p:dialog>
-
-    </h:form>
   </ui:define>
 </ui:composition>
 </html>

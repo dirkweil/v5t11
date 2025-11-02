@@ -23,6 +23,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OrderBy;
 import jakarta.persistence.OrderColumn;
@@ -118,17 +119,16 @@ public class Fahrzeug extends SingleIdEntity<String> {
   @Setter
   @XmlTransient
   @JsonbTransient
-  @OneToMany
+  @OneToMany(fetch = FetchType.EAGER)
   @JoinColumn(name = "zugfahrzeug_betriebsnummer")
   @OrderColumn(name = "fahrzeug_reihenfolge")
   private List<Fahrzeug> gezogeneFahrzeuge = new ArrayList<>();
 
-  //  @Getter
-  //  @XmlTransient
-  //  @JsonbTransient
-  //  @ManyToOne
-  //  @JoinColumn(name = "zugfahrzeug_betriebsnummer", insertable = false, updatable = false)
-  //  private Fahrzeug zugFahrzeug;
+  @XmlTransient
+  @JsonbTransient
+  @ManyToOne
+  @JoinColumn(name = "zugfahrzeug_betriebsnummer", insertable = false, updatable = false)
+  private Fahrzeug zugFahrzeug;
 
   /**
    * Typ des Fahrzeugs (Lok, Wagen, ...).
