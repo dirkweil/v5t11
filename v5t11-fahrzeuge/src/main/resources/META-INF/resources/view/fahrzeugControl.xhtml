@@ -4,7 +4,7 @@
 
 <ui:composition template="/WEB-INF/templates/fahrzeugManagement.xhtml">
   <ui:define name="content">
-    <h:form id="fahrzeug">
+    <h:form id="fahrzeugdecoder">
       <p:toolbar>
         <f:facet name="left">
           <h:outputText value="#{fahrzeugListPresenter.currentFahrzeug.betriebsnummer}"
@@ -12,16 +12,16 @@
           <p:graphicImage name="#{fahrzeugListPresenter.getImageOfCurrentFahrzeug()}" height="50px"
                           style="vertical-align: middle; margin-left: 20px; margin-right: 20px;"/>
           <h:outputText
-              value="#{fahrzeugListPresenter.currentFahrzeug.decoderId}"
+              value="#{fahrzeugListPresenter.currentFahrzeug.fahrzeugdecoder.decoderAdr}"
               id="id" style="vertical-align: middle;"/>
         </f:facet>
 
         <f:facet name="right">
-          <p:selectBooleanButton onLabel="1" offLabel="1" title="Lok-Control 1" styleClass="fahrzeug-button"
+          <p:selectBooleanButton onLabel="1" offLabel="1" title="Lok-Control 1" styleClass="fahrzeugdecoder-button"
                                  value="#{lokControllerPresenter.getLokcontrollerAdapter(fahrzeugListPresenter.currentFahrzeug,0).assigned}">
             <p:ajax update="@form"/>
           </p:selectBooleanButton>
-          <p:selectBooleanButton onLabel="2" offLabel="2" title="Lok-Control 2" styleClass="fahrzeug-button"
+          <p:selectBooleanButton onLabel="2" offLabel="2" title="Lok-Control 2" styleClass="fahrzeugdecoder-button"
                                  value="#{lokControllerPresenter.getLokcontrollerAdapter(fahrzeugListPresenter.currentFahrzeug,1).assigned}">
             <p:ajax update="@form"/>
           </p:selectBooleanButton>
@@ -30,7 +30,7 @@
             <span class="ui-icon pi pi-ellipsis-v"/>
           </span>
 
-          <p:menuButton value="bearbeiten" icon="pi pi-pencil" styleClass="fahrzeug-button">
+          <p:menuButton value="bearbeiten" icon="pi pi-pencil" styleClass="fahrzeugdecoder-button">
             <p:menuitem value="Basisdaten" icon="pi pi-list" title="Basisdaten bearbeiten"
                         action="editBasics"
                         ajax="false"/>
@@ -100,14 +100,14 @@
 
     </h:form>
 
-    <p:remoteCommand name="updateFahrzeug" update=":fahrzeug"/>
+    <p:remoteCommand name="updateFahrzeug" update=":fahrzeugdecoder"/>
     <!--
       Das JSF-Tag funktioniert mit Quarkus/MyFaces nicht. Daher JS-Workaround.
-      <f:websocket channel="fahrzeug-control" onmessage="updateFahrzeug"/>
+      <f:websocket channel="fahrzeugdecoder-control" onmessage="updateFahrzeug"/>
       -->
     <h:outputScript target="body">
       let fahrzeugControlSocket = new WebSocket("ws://" + window.location.host +
-          "/jakarta.faces.push/fahrzeug-control");
+          "/jakarta.faces.push/fahrzeugdecoder-control");
       fahrzeugControlSocket.onmessage = function (event) {
         updateFahrzeug();
       }

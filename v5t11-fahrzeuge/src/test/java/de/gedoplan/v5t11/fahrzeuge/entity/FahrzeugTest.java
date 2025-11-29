@@ -4,6 +4,7 @@ import de.gedoplan.baselibs.utils.xml.XmlConverter;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.FahrzeugFunktion;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.FahrzeugKonfiguration;
+import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeugdecoder;
 import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithVisibility;
 
@@ -13,7 +14,6 @@ import jakarta.json.Json;
 import jakarta.json.JsonArrayBuilder;
 import jakarta.json.bind.JsonbBuilder;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -65,10 +65,10 @@ public class FahrzeugTest {
 
   public static final String lok112_491_6XmlString = """
     <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-    <fahrzeug>
+    <fahrzeugdecoder>
         <betriebsnummer>112 491-6</betriebsnummer>
         <decoderName>Zimo 646</decoderName>
-        <decoderId>1112@DCC</decoderId>
+        <decoderAdr>1112@DCC</decoderAdr>
         <funktion maske="1" wert="1">
             <gruppe>FG</gruppe>
             <beschreibung>Motor</beschreibung>
@@ -188,7 +188,7 @@ public class FahrzeugTest {
     Bit 3: Rückmeldung erlaubt
     Bit 5: Lange Lokadresse nach CV17/18</beschreibung>
         </konfiguration>
-    </fahrzeug>
+    </fahrzeugdecoder>
     """;
 
   //  @Inject
@@ -197,15 +197,14 @@ public class FahrzeugTest {
   @Test
   public void test_01_toShortJson() throws Exception {
 
-    Fahrzeug fahrzeug = lok112_491_6;
+    Fahrzeugdecoder fahrzeugdecoder = lok112_491_6.getFahrzeugdecoder();
 
-    String json = JsonbWithVisibility.SHORT.toJson(fahrzeug);
+    String json = JsonbWithVisibility.SHORT.toJson(fahrzeugdecoder);
 
     System.out.println("JSON string: " + json);
 
     String expected = Json.createObjectBuilder()
-      .add("decoderId", fahrzeug.getDecoderId().toString())
-      .add("removed", fahrzeug.isRemoved())
+      .add("decoderAdr", fahrzeugdecoder.getDecoderAdr().toString())
       .build().toString();
 
     JSONAssert.assertEquals(expected, json, true);
@@ -214,14 +213,14 @@ public class FahrzeugTest {
   @Test
   public void test_02_toFullJson() throws Exception {
 
-    Fahrzeug fahrzeug = lok112_491_6;
+    Fahrzeugdecoder fahrzeugdecoder = lok112_491_6.getFahrzeugdecoder();
 
-    String json = JsonbBuilder.create().toJson(fahrzeug);
+    String json = JsonbBuilder.create().toJson(fahrzeugdecoder);
 
     System.out.println("JSON string: " + json);
 
     JsonArrayBuilder funktionenBuilder = Json.createArrayBuilder();
-    fahrzeug.getFunktionen().forEach(f -> {
+    fahrzeugdecoder.getFunktionen().forEach(f -> {
       funktionenBuilder.add(Json.createObjectBuilder()
         .add("gruppe", f.getGruppe().name())
         .add("beschreibung", f.getBeschreibung())
@@ -234,7 +233,7 @@ public class FahrzeugTest {
     });
 
     JsonArrayBuilder konfigurationenBuilder = Json.createArrayBuilder();
-    fahrzeug.getKonfigurationen().forEach(k -> {
+    fahrzeugdecoder.getKonfigurationen().forEach(k -> {
       konfigurationenBuilder.add(Json.createObjectBuilder()
         .add("nr", k.getNr())
         .add("beschreibung", k.getBeschreibung())
@@ -243,16 +242,14 @@ public class FahrzeugTest {
     });
 
     String expected = Json.createObjectBuilder()
-      .add("decoderId", fahrzeug.getDecoderId().toString())
-      .add("decoderName", fahrzeug.getDecoderName())
-      .add("betriebsnummer", fahrzeug.getBetriebsnummer())
-      .add("removed", fahrzeug.isRemoved())
-      .add("aktiv", fahrzeug.isAktiv())
-      .add("fahrstufe", fahrzeug.getFahrstufe())
-      .add("fktBits", fahrzeug.getFktBits())
-      .add("lastChangeMillis", fahrzeug.getLastChangeMillis())
-      .add("licht", fahrzeug.isLicht())
-      .add("rueckwaerts", fahrzeug.isRueckwaerts())
+      .add("decoderAdr", fahrzeugdecoder.getDecoderAdr().toString())
+      .add("decoderName", fahrzeugdecoder.getDecoderName())
+      .add("aktiv", fahrzeugdecoder.isAktiv())
+      .add("fahrstufe", fahrzeugdecoder.getFahrstufe())
+      .add("fktBits", fahrzeugdecoder.getFktBits())
+      .add("lastChangeMillis", fahrzeugdecoder.getLastChangeMillis())
+      .add("licht", fahrzeugdecoder.isLicht())
+      .add("rueckwaerts", fahrzeugdecoder.isRueckwaerts())
       .add("funktionen", funktionenBuilder.build())
       .add("konfigurationen", konfigurationenBuilder.build())
       .build().toString();
@@ -263,23 +260,23 @@ public class FahrzeugTest {
   @Test
   public void test_03_toXml() throws Exception {
 
-    Fahrzeug fahrzeug = lok112_491_6;
+    Fahrzeug fahrzeugdecoder = lok112_491_6;
 
-    String xmlString = XmlConverter.toXml(fahrzeug);
+    String xmlString = XmlConverter.toXml(fahrzeugdecoder);
     System.out.println("XML string: " + xmlString);
 
-    Assertions.assertEquals(lok112_491_6XmlString, xmlString);
+    assertEquals(lok112_491_6XmlString, xmlString);
   }
 
   @Test
   public void test_04_fromXml() throws Exception {
 
-    Fahrzeug fahrzeug = XmlConverter.fromXml(Fahrzeug.class, new StringReader(lok112_491_6XmlString));
-    System.out.println("fahrzeug: " + fahrzeug);
+    Fahrzeug fahrzeugdecoder = XmlConverter.fromXml(Fahrzeug.class, new StringReader(lok112_491_6XmlString));
+    System.out.println("fahrzeugdecoder: " + fahrzeugdecoder);
 
-    assertEquals(lok112_491_6, fahrzeug);
-    assertEquals(lok112_491_6.getBetriebsnummer(), fahrzeug.getBetriebsnummer());
-    assertEquals(lok112_491_6.getDecoderId(), fahrzeug.getDecoderId());
+    assertEquals(lok112_491_6, fahrzeugdecoder);
+    assertEquals(lok112_491_6.getBetriebsnummer(), fahrzeugdecoder.getBetriebsnummer());
+    assertEquals(lok112_491_6.getFahrzeugdecoder().getDecoderAdr(), fahrzeugdecoder.getFahrzeugdecoder().getDecoderAdr());
   }
 
   @Test
@@ -287,12 +284,12 @@ public class FahrzeugTest {
 
     String oldXml = lok112_491_6XmlString
       .replace("decoderName", "decoder")
-      .replace("decoderId", "id");
-    Fahrzeug fahrzeug = XmlConverter.fromXml(Fahrzeug.class, new StringReader(oldXml));
-    System.out.println("fahrzeug: " + fahrzeug);
+      .replace("decoderAdr", "id");
+    Fahrzeug fahrzeugdecoder = XmlConverter.fromXml(Fahrzeug.class, new StringReader(oldXml));
+    System.out.println("fahrzeugdecoder: " + fahrzeugdecoder);
 
-    assertEquals(lok112_491_6, fahrzeug);
-    assertEquals(lok112_491_6.getBetriebsnummer(), fahrzeug.getBetriebsnummer());
-    assertEquals(lok112_491_6.getDecoderId(), fahrzeug.getDecoderId());
+    assertEquals(lok112_491_6, fahrzeugdecoder);
+    assertEquals(lok112_491_6.getBetriebsnummer(), fahrzeugdecoder.getBetriebsnummer());
+    assertEquals(lok112_491_6.getFahrzeugdecoder().getDecoderAdr(), fahrzeugdecoder.getFahrzeugdecoder().getDecoderAdr());
   }
 }

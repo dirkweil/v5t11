@@ -22,7 +22,7 @@ public class PushService extends AbstractPushService {
 
   // TODO
   public String getEventName(Fahrzeug fahrzeug) {
-    return "_" + fahrzeug.getDecoderId().getAdresse() + "_" + fahrzeug.getDecoderId().getSystemTyp().name();
+    return "_" + fahrzeug.getFahrzeugdecoder().getDecoderAdr().getAdresse() + "_" + fahrzeug.getFahrzeugdecoder().getDecoderAdr().getSystemTyp().name();
   }
 
   @OnOpen

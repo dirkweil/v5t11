@@ -30,11 +30,11 @@ public class FahrzeugFunctionPresenter implements Serializable {
   }
 
   public void addFunktion() {
-    getCurrentFahrzeug().getFunktionen().add(0, new FahrzeugFunktion(FahrzeugFunktionsGruppe.AF, 0, 0, false, false, false, ""));
+    getCurrentFahrzeug().getFahrzeugdecoder().getFunktionen().add(0, new FahrzeugFunktion(FahrzeugFunktionsGruppe.AF, 0, 0, false, false, false, ""));
   }
 
   public void removeFunktion(FahrzeugFunktion funktion) {
-    Iterator<FahrzeugFunktion> iterator = getCurrentFahrzeug().getFunktionen().iterator();
+    Iterator<FahrzeugFunktion> iterator = getCurrentFahrzeug().getFahrzeugdecoder().getFunktionen().iterator();
     while (iterator.hasNext()) {
       if (iterator.next() == funktion) {
         iterator.remove();

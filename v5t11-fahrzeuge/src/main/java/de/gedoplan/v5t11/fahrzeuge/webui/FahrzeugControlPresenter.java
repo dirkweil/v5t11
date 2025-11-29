@@ -46,37 +46,37 @@ public class FahrzeugControlPresenter implements Serializable {
   }
 
   public boolean isLokAktiv() {
-    return getRefreshedFahrzeug().isAktiv();
+    return getRefreshedFahrzeug().getFahrzeugdecoder().isAktiv();
   }
 
   public void setLokAktiv(boolean aktiv) {
-    this.statusGateway.changeFahrzeug(this.fahrzeugListPresenter.getCurrentFahrzeug().getDecoderId(), aktiv, null, null, null, null);
+    this.statusGateway.changeFahrzeug(this.fahrzeugListPresenter.getCurrentFahrzeug().getFahrzeugdecoder().getDecoderAdr(), aktiv, null, null, null, null);
   }
 
   public boolean isLokRueckwaerts() {
-    return getRefreshedFahrzeug().isRueckwaerts();
+    return getRefreshedFahrzeug().getFahrzeugdecoder().isRueckwaerts();
   }
 
   public void setLokRueckwaerts(boolean rueckwaerts) {
-    this.statusGateway.changeFahrzeug(this.fahrzeugListPresenter.getCurrentFahrzeug().getDecoderId(), null, null, null, null, rueckwaerts);
+    this.statusGateway.changeFahrzeug(this.fahrzeugListPresenter.getCurrentFahrzeug().getFahrzeugdecoder().getDecoderAdr(), null, null, null, null, rueckwaerts);
   }
 
   public int getLokFahrstufe() {
-    return getRefreshedFahrzeug().getFahrstufe();
+    return getRefreshedFahrzeug().getFahrzeugdecoder().getFahrstufe();
   }
 
   public void setLokFahrstufe(int fahrstufe) {
-    this.statusGateway.changeFahrzeug(this.fahrzeugListPresenter.getCurrentFahrzeug().getDecoderId(), null, fahrstufe, null, null, null);
+    this.statusGateway.changeFahrzeug(this.fahrzeugListPresenter.getCurrentFahrzeug().getFahrzeugdecoder().getDecoderAdr(), null, fahrstufe, null, null, null);
   }
 
   public int getLokMaxFahrstufe() {
-    return this.fahrzeugListPresenter.getCurrentFahrzeug().getDecoderId().getSystemTyp().getMaxFahrstufe();
+    return this.fahrzeugListPresenter.getCurrentFahrzeug().getFahrzeugdecoder().getDecoderAdr().getSystemTyp().getMaxFahrstufe();
   }
 
   public List<FahrzeugFunktionsGruppe> getCurrentFunktionsGruppen() {
     return Stream.concat(
         Stream.of(FahrzeugFunktionsGruppe.FL),
-        this.fahrzeugListPresenter.getCurrentFahrzeug().getFunktionen().stream().map(FahrzeugFunktion::getGruppe))
+        this.fahrzeugListPresenter.getCurrentFahrzeug().getFahrzeugdecoder().getFunktionen().stream().map(FahrzeugFunktion::getGruppe))
       .sorted()
       .distinct()
       .collect(Collectors.toList());
@@ -84,6 +84,7 @@ public class FahrzeugControlPresenter implements Serializable {
 
   public List<FahrzeugFunktionWrapper> getLokFunktionen(FahrzeugFunktionsGruppe fahrzeugFunktionsGruppe) {
     Stream<FahrzeugFunktionWrapper> stream = this.fahrzeugListPresenter.getCurrentFahrzeug()
+      .getFahrzeugdecoder()
       .getFunktionen()
       .stream()
       .filter(f -> f.getGruppe() == fahrzeugFunktionsGruppe)
@@ -113,16 +114,17 @@ public class FahrzeugControlPresenter implements Serializable {
     }
 
     public boolean isAktiv() {
-      return (getRefreshedFahrzeug().getFktBits() & this.fahrzeugFunktion.getMaske()) == this.fahrzeugFunktion.getWert();
+      return (getRefreshedFahrzeug().getFahrzeugdecoder().getFktBits() & this.fahrzeugFunktion.getMaske()) == this.fahrzeugFunktion.getWert();
     }
 
     public void setAktiv(boolean aktiv) {
-      int fktBits = getRefreshedFahrzeug().getFktBits() & (~this.fahrzeugFunktion.getMaske());
+      int fktBits = getRefreshedFahrzeug().getFahrzeugdecoder().getFktBits() & (~this.fahrzeugFunktion.getMaske());
       if (aktiv) {
         fktBits |= this.fahrzeugFunktion.getWert();
       }
 
-      FahrzeugControlPresenter.this.statusGateway.changeFahrzeug(FahrzeugControlPresenter.this.fahrzeugListPresenter.getCurrentFahrzeug().getDecoderId(), null, null, fktBits, null, null);
+      FahrzeugControlPresenter.this.statusGateway.changeFahrzeug(FahrzeugControlPresenter.this.fahrzeugListPresenter.getCurrentFahrzeug().getFahrzeugdecoder().getDecoderAdr(), null, null, fktBits,
+        null, null);
     }
 
     @Override
@@ -145,12 +147,13 @@ public class FahrzeugControlPresenter implements Serializable {
 
     @Override
     public boolean isAktiv() {
-      return getRefreshedFahrzeug().isLicht();
+      return getRefreshedFahrzeug().getFahrzeugdecoder().isLicht();
     }
 
     @Override
     public void setAktiv(boolean aktiv) {
-      FahrzeugControlPresenter.this.statusGateway.changeFahrzeug(FahrzeugControlPresenter.this.fahrzeugListPresenter.getCurrentFahrzeug().getDecoderId(), null, null, null, aktiv, null);
+      FahrzeugControlPresenter.this.statusGateway.changeFahrzeug(FahrzeugControlPresenter.this.fahrzeugListPresenter.getCurrentFahrzeug().getFahrzeugdecoder().getDecoderAdr(), null, null, null, aktiv,
+        null);
     }
 
   };

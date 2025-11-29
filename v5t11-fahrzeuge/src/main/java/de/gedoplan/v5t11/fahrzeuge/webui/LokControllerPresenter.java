@@ -3,7 +3,7 @@ package de.gedoplan.v5t11.fahrzeuge.webui;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.FahrzeugFunktion;
 import de.gedoplan.v5t11.fahrzeuge.gateway.StatusGateway;
-import de.gedoplan.v5t11.util.domain.attribute.DecoderId;
+import de.gedoplan.v5t11.util.domain.attribute.DecoderAdr;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -70,22 +70,22 @@ public class LokControllerPresenter {
   }
 
   private void assignLokcontroller(int lokcontrollerId) {
-    DecoderId decoderId = null;
+    DecoderAdr decoderAdr = null;
     int hornBits = 0;
 
     Fahrzeug fahrzeug = this.lokcontrollerAssignment[lokcontrollerId];
     if (fahrzeug != null) {
       // TODO
-      decoderId = fahrzeug.getDecoderId();
-      for (FahrzeugFunktion f : fahrzeug.getFunktionen()) {
+      decoderAdr = fahrzeug.getFahrzeugdecoder().getDecoderAdr();
+      for (FahrzeugFunktion f : fahrzeug.getFahrzeugdecoder().getFunktionen()) {
         if (f.isHorn()) {
           hornBits |= f.getWert();
         }
       }
     }
 
-    logger.debugf("Lokcontroller %d -> %s", lokcontrollerId, decoderId);
-    this.statusGateway.setLokcontrollerAssignment(Integer.toString(lokcontrollerId), decoderId, hornBits);
+    logger.debugf("Lokcontroller %d -> %s", lokcontrollerId, decoderAdr);
+    this.statusGateway.setLokcontrollerAssignment(Integer.toString(lokcontrollerId), decoderAdr, hornBits);
 
   }
 

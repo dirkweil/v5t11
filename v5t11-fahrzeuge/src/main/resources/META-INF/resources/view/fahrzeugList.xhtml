@@ -6,23 +6,24 @@
   <ui:define name="content">
     <h:form id="form">
 
-      <p:dataGrid var="fahrzeug" value="#{fahrzeugListPresenter.filteredFahrzeuge}" layout="grid" columns="4">
+      <p:dataGrid var="fahrzeugdecoder" value="#{fahrzeugListPresenter.filteredFahrzeuge}" layout="grid" columns="4">
         <p:column>
-          <p:commandLink actionListener="#{fahrzeugListPresenter.setCurrentFahrzeug(fahrzeug)}"
+          <p:commandLink actionListener="#{fahrzeugListPresenter.setCurrentFahrzeug(fahrzeugdecoder)}"
                          action="control"
                          ajax="false">
             <p:panelGrid styleClass="width100Percent">
               <f:facet name="header">
                 <p:row>
                   <p:column>
-                    <h:outputText value="#{fahrzeug.betriebsnummer}"/>
+                    <h:outputText value="#{fahrzeugdecoder.betriebsnummer}"/>
                   </p:column>
                 </p:row>
               </f:facet>
 
               <p:row>
                 <p:column styleClass="width100Percent">
-                  <p:graphicImage name="#{fahrzeugListPresenter.getImage(fahrzeug)}" styleClass="fahrzeug-image"/>
+                  <p:graphicImage name="#{fahrzeugListPresenter.getImage(fahrzeugdecoder)}"
+                                  styleClass="fahrzeug-image"/>
                 </p:column>
               </p:row>
             </p:panelGrid>

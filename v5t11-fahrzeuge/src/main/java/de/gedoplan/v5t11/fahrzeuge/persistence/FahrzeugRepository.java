@@ -2,7 +2,7 @@ package de.gedoplan.v5t11.fahrzeuge.persistence;
 
 import de.gedoplan.baselibs.persistence.repository.SingleIdEntityRepository;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug;
-import de.gedoplan.v5t11.util.domain.attribute.DecoderId;
+import de.gedoplan.v5t11.util.domain.attribute.DecoderAdr;
 
 import java.util.List;
 
@@ -27,10 +27,10 @@ public class FahrzeugRepository extends SingleIdEntityRepository<String, Fahrzeu
     return findMulti("select x from Fahrzeug x where x.zugFahrzeug is null order by x.betriebsnummer");
   }
 
-  public List<Fahrzeug> findByDecoderId(DecoderId decoderId) {
+  public List<Fahrzeug> findByDecoderId(DecoderAdr decoderAdr) {
     TypedQuery<Fahrzeug> query = this.entityManager
       .createQuery("select x from Fahrzeug x where x.decoderId=?1", Fahrzeug.class)
-      .setParameter(1, decoderId);
+      .setParameter(1, decoderAdr);
     return findMulti(query);
   }
 }

@@ -27,13 +27,13 @@
                          ajax="false"/>
 
         <p:outputLabel for="@next" value="Systemtyp"/>
-        <p:selectOneMenu value="#{fahrzeugCreatePresenter.newFahrzeug.decoderId.systemTyp}" id="systemTyp">
+        <p:selectOneMenu value="#{fahrzeugCreatePresenter.newFahrzeug.decoderAdr.systemTyp}" id="systemTyp">
           <f:selectItems value="#{fahrzeugListPresenter.systemTypen}"/>
         </p:selectOneMenu>
         <h:panelGrid/>
 
         <p:outputLabel for="@next" value="Adresse"/>
-        <p:inputText value="#{fahrzeugCreatePresenter.newFahrzeug.decoderId.adresse}" size="5" id="adresse"/>
+        <p:inputText value="#{fahrzeugCreatePresenter.newFahrzeug.decoderAdr.adresse}" size="5" id="adresse"/>
         <h:panelGrid/>
 
         <h:panelGrid/>

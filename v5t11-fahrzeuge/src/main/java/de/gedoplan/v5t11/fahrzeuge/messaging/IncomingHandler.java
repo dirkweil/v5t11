@@ -1,6 +1,6 @@
 package de.gedoplan.v5t11.fahrzeuge.messaging;
 
-import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug;
+import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeugdecoder;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.cdi.Received;
 import de.gedoplan.v5t11.util.jsf.NavigationItem;
@@ -41,7 +41,7 @@ public class IncomingHandler {
     if (matcher.matches()) {
       String typeAsString = matcher.group("type");
       Class<?> type = switch (typeAsString) {
-        case "fahrzeug" -> Fahrzeug.class;
+        case "decoder" -> Fahrzeugdecoder.class;
         default -> null;
       };
 

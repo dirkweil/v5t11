@@ -1,6 +1,7 @@
 package de.gedoplan.v5t11.fahrzeuge.service;
 
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug;
+import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeugdecoder;
 import de.gedoplan.v5t11.fahrzeuge.messaging.IncomingHandler;
 import de.gedoplan.v5t11.fahrzeuge.persistence.FahrzeugRepository;
 import de.gedoplan.v5t11.util.cdi.Changed;
@@ -40,23 +41,19 @@ public class StatusUpdater {
    *
    * @param receivedObject Empfangenes Objekt mit dem neuen Status.
    */
-  void fahrzeugReceived(@ObservesAsync @Received Fahrzeug receivedObject) {
-    if (receivedObject.getId() != null) {
+  void fahrzeugReceived(@ObservesAsync @Received Fahrzeugdecoder receivedObject) {
+    if (receivedObject.getDecoderAdr() != null) {
       this.fahrzeugRepository
-        .findById(receivedObject.getId())
-        .ifPresent(fahrzeug -> copyStatus(fahrzeug, receivedObject));
-    } else if (receivedObject.getDecoderId() != null) {
-      this.fahrzeugRepository
-        .findByDecoderId(receivedObject.getDecoderId())
+        .findByDecoderId(receivedObject.getDecoderAdr())
         .forEach(fahrzeug -> copyStatus(fahrzeug, receivedObject));
     } else {
       this.logger.warnf("Fahrzeug ohne id und decoderId empfangen - wird ignoriert: %s", receivedObject);
     }
   }
 
-  private void copyStatus(Fahrzeug to, Fahrzeug from) {
+  private void copyStatus(Fahrzeug to, Fahrzeugdecoder from) {
     if (to != null) {
-      if (to.copyStatus(from)) {
+      if (to.getFahrzeugdecoder().copyStatus(from)) {
         if (this.logger.isDebugEnabled()) {
           this.logger.debug(to);
         }

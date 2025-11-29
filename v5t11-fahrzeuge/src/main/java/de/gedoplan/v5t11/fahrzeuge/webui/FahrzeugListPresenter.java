@@ -7,7 +7,7 @@ import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.FahrzeugFunktion;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.FahrzeugTyp;
 import de.gedoplan.v5t11.fahrzeuge.gateway.StatusGateway;
 import de.gedoplan.v5t11.fahrzeuge.persistence.FahrzeugRepository;
-import de.gedoplan.v5t11.util.domain.attribute.DecoderId;
+import de.gedoplan.v5t11.util.domain.attribute.DecoderAdr;
 import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 
 import java.io.ByteArrayInputStream;
@@ -70,7 +70,7 @@ public class FahrzeugListPresenter implements Serializable {
 
   @Getter
   @NotNull
-  private DecoderId newId = new DecoderId(SystemTyp.DCC, 3);
+  private DecoderAdr newId = new DecoderAdr(SystemTyp.DCC, 3);
 
   @PostConstruct
   void refreshFahrzeuge() {
@@ -128,7 +128,7 @@ public class FahrzeugListPresenter implements Serializable {
       return null;
     }
 
-    Iterator<FahrzeugFunktion> iterator = this.currentFahrzeug.getFunktionen().iterator();
+    Iterator<FahrzeugFunktion> iterator = this.currentFahrzeug.getFahrzeugdecoder().getFunktionen().iterator();
     while (iterator.hasNext()) {
       FahrzeugFunktion funktion = iterator.next();
       if (funktion.getMaske() == 0 || funktion.getBeschreibung() == null || funktion.getBeschreibung().strip().isEmpty()) {
