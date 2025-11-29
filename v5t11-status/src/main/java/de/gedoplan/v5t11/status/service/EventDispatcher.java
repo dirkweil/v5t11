@@ -7,7 +7,7 @@ import de.gedoplan.v5t11.status.entity.baustein.Zentrale;
 import de.gedoplan.v5t11.status.entity.fahrweg.Gleis;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
-import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
+import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeugdecoder;
 import de.gedoplan.v5t11.status.messaging.OutgoingHandler;
 import de.gedoplan.v5t11.util.cdi.Changed;
 import de.gedoplan.v5t11.util.jsf.NavigationItem;
@@ -64,8 +64,8 @@ public class EventDispatcher {
     this.outgoingHandler.publish(navigationItem);
   }
 
-  void dispatch(@Observes @Changed Fahrzeug fahrzeug) {
-    this.steuerung.getZentrale().lokChanged(fahrzeug);
-    this.outgoingHandler.publish(fahrzeug);
+  void dispatch(@Observes @Changed Fahrzeugdecoder fahrzeugdecoder) {
+    this.steuerung.getZentrale().decoderChanged(fahrzeugdecoder);
+    this.outgoingHandler.publish(fahrzeugdecoder);
   }
 }

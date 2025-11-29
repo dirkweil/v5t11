@@ -3,7 +3,7 @@ package de.gedoplan.v5t11.status.testenvironment.service;
 import de.gedoplan.v5t11.status.entity.Kanal;
 import de.gedoplan.v5t11.status.entity.SX2Kanal;
 import de.gedoplan.v5t11.status.entity.baustein.Zentrale;
-import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
+import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeugdecoder;
 import de.gedoplan.v5t11.util.domain.entity.Bereichselement;
 
 import jakarta.enterprise.context.ApplicationScoped;
@@ -36,7 +36,7 @@ public class V5t11EventLogger {
     log(event, eventMetadata);
   }
 
-  void logEvent(@Observes Fahrzeug event, EventMetadata eventMetadata) {
+  void logEvent(@Observes Fahrzeugdecoder event, EventMetadata eventMetadata) {
     log(event, eventMetadata);
   }
 

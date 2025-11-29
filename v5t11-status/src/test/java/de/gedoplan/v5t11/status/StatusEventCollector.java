@@ -1,6 +1,6 @@
 package de.gedoplan.v5t11.status;
 
-import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
+import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeugdecoder;
 import de.gedoplan.v5t11.util.cdi.Changed;
 import de.gedoplan.v5t11.util.domain.entity.Fahrwegelement;
 
@@ -26,8 +26,8 @@ public class StatusEventCollector {
     this.events.add(fahrwegelement);
   }
 
-  void lokChanged(@Observes @Changed Fahrzeug fahrzeug) {
-    this.events.add(fahrzeug);
+  void lokChanged(@Observes @Changed Fahrzeugdecoder fahrzeugdecoder) {
+    this.events.add(fahrzeugdecoder);
   }
 
 }

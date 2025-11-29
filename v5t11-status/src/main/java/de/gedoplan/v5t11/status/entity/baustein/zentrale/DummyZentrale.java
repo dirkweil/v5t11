@@ -79,14 +79,14 @@ public class DummyZentrale extends Zentrale {
   }
 
   @Override
-  public Map<Integer, Integer> readFahrzeugConfig(SystemTyp systemTyp, Collection<Integer> fahrzeugConfigParameterKeys) {
+  public Map<Integer, Integer> readFahrzeugdecoderConfig(SystemTyp systemTyp, Collection<Integer> fahrzeugConfigParameterKeys) {
     return fahrzeugConfigParameterKeys
       .stream()
       .collect(Collectors.toMap(key -> key, key -> null));
   }
 
   @Override
-  public void writeFahrzeugConfig(SystemTyp systemTyp, Map<Integer, Integer> fahrzeugConfigParameters) {
+  public void writeFahrzeugdecoderConfig(SystemTyp systemTyp, Map<Integer, Integer> fahrzeugConfigParameters) {
   }
 
 }

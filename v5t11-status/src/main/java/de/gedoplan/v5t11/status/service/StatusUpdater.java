@@ -2,7 +2,7 @@ package de.gedoplan.v5t11.status.service;
 
 import de.gedoplan.v5t11.status.entity.Steuerung;
 import de.gedoplan.v5t11.status.entity.baustein.Zentrale;
-import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
+import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeugdecoder;
 import de.gedoplan.v5t11.status.messaging.IncomingHandler;
 import de.gedoplan.v5t11.util.cdi.Changed;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
@@ -41,11 +41,11 @@ public class StatusUpdater {
    *
    * @param receivedObject Empfangenes Objekt mit dem neuen Status.
    */
-  void fahrzeugReceived(@ObservesAsync @Received Fahrzeug receivedObject) {
+  void fahrzeugReceived(@ObservesAsync @Received Fahrzeugdecoder receivedObject) {
     this.logger.debugf("Received %s", receivedObject);
 
     // TODO Löschen implementieren
-    this.steuerung.getOrCreateFahrzeug(receivedObject.getId());
+    this.steuerung.getOrCreateFahrzeugdecoder(receivedObject.getId());
   }
 
   private boolean zentraleImNormalbetrieb = false;

@@ -3,7 +3,7 @@ package de.gedoplan.v5t11.status.entity.baustein.zentrale;
 import de.gedoplan.v5t11.status.entity.Kanal;
 import de.gedoplan.v5t11.status.entity.SX2Kanal;
 import de.gedoplan.v5t11.status.entity.baustein.Zentrale;
-import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
+import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeugdecoder;
 import de.gedoplan.v5t11.util.cdi.Changed;
 import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 import de.gedoplan.v5t11.util.misc.V5t11Exception;
@@ -86,18 +86,18 @@ public class FCC extends Zentrale {
    * Jeder einzelne Eintrag der SX2-Buserweiterung besteht aus 6 Bytes im Abstand von 16 Bytes.
    */
   /*
-   * Lokformat: Typ des Buserweiterungseintrags. Es werden derzeit nur die u. a. Werte unterstützt
+   * Decoderformat: Typ des Buserweiterungseintrags. Es werden derzeit nur die u. a. Werte unterstützt
    */
   private static final int BUSEXT_OFFSET_FORMAT = 0;
 
   /*
-   * Höherwertiger Teil der Lokadresse
+   * Höherwertiger Teil der Decoderadresse
    */
   private static final int BUSEXT_OFFSET_ADR_HIGH = 16;
 
   /*
-   * Niederwertiger Teil der Lokadresse, Licht, DCC-Zusatzinfo:
-   * - Bits 2-7: Niederwertiger Teil der Lokadresse
+   * Niederwertiger Teil der Decoderadresse, Licht, DCC-Zusatzinfo:
+   * - Bits 2-7: Niederwertiger Teil der Decoderadresse
    * - Bit 1: Licht
    * - Bit 0: nur bei DCC relevant: 14 Fahrstufen statt 28 bzw. 126
    */
@@ -467,13 +467,13 @@ public class FCC extends Zentrale {
     }
   }
 
-  private AtomicReferenceArray<Fahrzeug> sx2BusSlot = new AtomicReferenceArray<>(BUSEXT_MAX_IDX + 1);
+  private AtomicReferenceArray<Fahrzeugdecoder> sx2BusSlot = new AtomicReferenceArray<>(BUSEXT_MAX_IDX + 1);
 
   @Override
-  public void lokChanged(Fahrzeug lok) {
-    if (lok.getId().getSystemTyp() == SystemTyp.SX1) {
+  public void decoderChanged(Fahrzeugdecoder fahrzeugdecoder) {
+    if (fahrzeugdecoder.getId().getSystemTyp() == SystemTyp.SX1) {
       /*
-       * Lok ist eine SX(1)-Lok.
+       * SX(1)-Decoder.
        * SX1-Kanalwert komponieren: 0bHLRFFFFF
        * - H = Horn
        * - L = Licht
@@ -481,54 +481,54 @@ public class FCC extends Zentrale {
        * - FFFFF = Fahrstufe
        */
       int wert = 0;
-      if (lok.isAktiv()) {
-        wert |= lok.getFahrstufe();
+      if (fahrzeugdecoder.isAktiv()) {
+        wert |= fahrzeugdecoder.getFahrstufe();
 
-        if (lok.isRueckwaerts()) {
+        if (fahrzeugdecoder.isRueckwaerts()) {
           wert |= 0b0010_0000;
         }
 
-        if (lok.isLicht()) {
+        if (fahrzeugdecoder.isLicht()) {
           wert |= 0b0100_0000;
         }
 
-        // TODO Horn unterstützen? Dann müsste Fahrzeug eine entsprechende Maske für die Funktion enthalten.
-        // for (LokFunktion funktion : lok.getFunktionen()) {
+        // TODO Horn unterstützen? Dann müsste Fahrzeugdecoder eine entsprechende Maske für die Funktion enthalten.
+        // for (LokFunktion funktion : fahrzeugdecoder.getFunktionen()) {
         // if (funktion != null && funktion.isHorn() && funktion.isAktiv()) {
         // wert |= 0b1000_0000;
         // break;
         // }
         // }
       }
-      setSX1Kanal(lok.getId().getAdresse(), wert);
+      setSX1Kanal(fahrzeugdecoder.getId().getAdresse(), wert);
 
       return;
     }
 
-    // Lok in SX2-Bus-Slots suchen
-    int idx = findSx2BusSlot(lok);
+    // Decoder in SX2-Bus-Slots suchen
+    int idx = findSx2BusSlot(fahrzeugdecoder);
     if (idx < 0) {
-      // Lok ist noch nicht angemeldet
+      // Decoder ist noch nicht angemeldet
 
-      // Falls Lok nicht aktiv ist, nichts zu tun
-      if (!lok.isAktiv()) {
+      // Falls Decoder nicht aktiv ist, nichts zu tun
+      if (!fahrzeugdecoder.isAktiv()) {
         return;
       }
 
-      idx = sx2Anmelden(lok);
-      this.sx2BusSlot.set(idx, lok);
+      idx = sx2Anmelden(fahrzeugdecoder);
+      this.sx2BusSlot.set(idx, fahrzeugdecoder);
     }
 
-    // Lok ist nun angemeldet
+    // Decoder ist nun angemeldet
 
-    // Falls Lok aktiv, Fahrstufe und alle Funktionen setzen
-    if (lok.isAktiv()) {
-      setSX2Werte(idx, lok.getId().getSystemTyp(), lok.getFahrstufe(), lok.isRueckwaerts(), lok.isLicht(), lok.getFktBits());
+    // Falls Decoder aktiv, Fahrstufe und alle Funktionen setzen
+    if (fahrzeugdecoder.isAktiv()) {
+      setSX2Werte(idx, fahrzeugdecoder.getId().getSystemTyp(), fahrzeugdecoder.getFahrstufe(), fahrzeugdecoder.isRueckwaerts(), fahrzeugdecoder.isLicht(), fahrzeugdecoder.getFktBits());
       return;
     }
 
-    // Inaktive Lok: Fahrstufe und alle Funktionen löschen und Lok abmelden
-    setSX2Werte(idx, lok.getId().getSystemTyp(), 0, false, false, 0);
+    // Inaktiver Decoder: Fahrstufe und alle Funktionen löschen und Decoder abmelden
+    setSX2Werte(idx, fahrzeugdecoder.getId().getSystemTyp(), 0, false, false, 0);
     sx2Abmelden(idx);
 
     // Slot freigeben
@@ -544,7 +544,7 @@ public class FCC extends Zentrale {
    * @return Index der genutzen Sx2-Buserweiterung (0..31)
    * @throws V5t11Exception falls keine Buserweiterung frei ist
    */
-  private int sx2Anmelden(Fahrzeug lok) {
+  private int sx2Anmelden(Fahrzeugdecoder lok) {
     synchronized (Zentrale.class) {
       if (this.log.isDebugEnabled()) {
         this.log.debug("Fahrzeug anmelden: " + lok);
@@ -635,7 +635,7 @@ public class FCC extends Zentrale {
     }
   }
 
-  private int findSx2BusSlot(Fahrzeug lok) {
+  private int findSx2BusSlot(Fahrzeugdecoder lok) {
     for (int idx = 0; idx <= BUSEXT_MAX_IDX; ++idx) {
       if (lok.equals(this.sx2BusSlot.get(idx))) {
         return idx;
@@ -672,34 +672,34 @@ public class FCC extends Zentrale {
   }
 
   @Override
-  public Map<Integer, Integer> readFahrzeugConfig(SystemTyp systemTyp, Collection<Integer> fahrzeugConfigParameterKeys) {
+  public Map<Integer, Integer> readFahrzeugdecoderConfig(SystemTyp systemTyp, Collection<Integer> fahrzeugConfigParameterKeys) {
     setGleisspannung(false);
     try {
       return fahrzeugConfigParameterKeys
         .stream()
-        .collect(Collectors.toMap(key -> key, key -> readFahrzeugConfig(systemTyp, key)));
+        .collect(Collectors.toMap(key -> key, key -> readFahrzeugdecoderConfig(systemTyp, key)));
     } finally {
       stopProgMode();
     }
   }
 
-  private Integer readFahrzeugConfig(SystemTyp systemTyp, Integer key) {
+  private Integer readFahrzeugdecoderConfig(SystemTyp systemTyp, Integer key) {
     if (key == null) {
       return null;
     }
 
     return switch (systemTyp) {
       case SX1 -> switch (key) {
-        case 1 -> readSX1FahrzeugConfigBasis();
-        case 2 -> readSX1FahrzeugConfigErweitert();
+        case 1 -> readSX1FahrzeugdecoderConfigBasis();
+        case 2 -> readSX1FahrzeugdecoderConfigErweitert();
         default -> -1;
       };
-      case SX2 -> readSX2orDCCFahrzeugConfig(key, (byte) 0xc2);
-      case DCC -> readSX2orDCCFahrzeugConfig(key, (byte) 0xc6);
+      case SX2 -> readSX2orDCCFahrzeugdecoderConfig(key, (byte) 0xc2);
+      case DCC -> readSX2orDCCFahrzeugdecoderConfig(key, (byte) 0xc6);
     };
   }
 
-  private Integer readSX1FahrzeugConfigBasis() {
+  private Integer readSX1FahrzeugdecoderConfigBasis() {
     var antwort = new byte[3];
     send(new byte[] { (byte) 0x83, (byte) 0xc1, 0, 0, 0 }, antwort, null);
     if (antwort[0] != 2) {
@@ -711,13 +711,13 @@ public class FCC extends Zentrale {
     return as + (vai << 8);
   }
 
-  private Integer readSX1FahrzeugConfigErweitert() {
+  private Integer readSX1FahrzeugdecoderConfigErweitert() {
     var antwort = new byte[3];
     send(new byte[] { (byte) 0x83, (byte) 0xc7, 0, 0, 0 }, antwort, null);
     return (antwort[0] == 2 && antwort[1] == 0) ? ((int) antwort[2]) & 0xff : -1;
   }
 
-  private Integer readSX2orDCCFahrzeugConfig(int key, byte systemTypDiscriminator) {
+  private Integer readSX2orDCCFahrzeugdecoderConfig(int key, byte systemTypDiscriminator) {
     var antwort = new byte[3];
     send(new byte[] { (byte) 0x83, systemTypDiscriminator, (byte) (key / 100), (byte) (key % 100), 0 }, antwort, null);
     return (antwort[0] == 1 && antwort[2] == 0) ? ((int) antwort[1]) & 0xff : -1;
@@ -732,44 +732,44 @@ public class FCC extends Zentrale {
   }
 
   @Override
-  public void writeFahrzeugConfig(SystemTyp systemTyp, Map<Integer, Integer> fahrzeugConfigParameters) {
+  public void writeFahrzeugdecoderConfig(SystemTyp systemTyp, Map<Integer, Integer> fahrzeugConfigParameters) {
     setGleisspannung(false);
     try {
       fahrzeugConfigParameters
         .entrySet()
         .stream()
         .filter(entry -> entry.getValue() >= 0)
-        .forEach(entry -> writeFahrzeugConfig(systemTyp, entry.getKey(), entry.getValue()));
+        .forEach(entry -> writeFahrzeugdecoderConfig(systemTyp, entry.getKey(), entry.getValue()));
     } finally {
       stopProgMode();
     }
   }
 
-  private void writeFahrzeugConfig(SystemTyp systemTyp, int key, int value) {
+  private void writeFahrzeugdecoderConfig(SystemTyp systemTyp, int key, int value) {
     switch (systemTyp) {
     case SX1 -> {
       switch (key) {
-      case 1 -> writeSX1FahrzeugConfigBasis(value);
-      case 2 -> writeSX1FahrzeugConfigErweitert(value);
+      case 1 -> writeSX1FahrzeugdecoderConfigBasis(value);
+      case 2 -> writeSX1FahrzeugdecoderConfigErweitert(value);
       }
     }
-    case SX2 -> writeSX2orDCCFahrzeugConfig(key, (byte) 0xca, value);
-    case DCC -> writeSX2orDCCFahrzeugConfig(key, (byte) 0xce, value);
+    case SX2 -> writeSX2orDCCFahrzeugdecoderConfig(key, (byte) 0xca, value);
+    case DCC -> writeSX2orDCCFahrzeugdecoderConfig(key, (byte) 0xce, value);
     }
 
   }
 
-  private void writeSX1FahrzeugConfigBasis(int value) {
+  private void writeSX1FahrzeugdecoderConfigBasis(int value) {
     var as = value & 0xff;
     var vai = (value >> 8) & 0xff;
     send(new byte[] { (byte) 0x83, (byte) 0xc9, (byte) as, (byte) vai, 0 }, new byte[3], ALL_ZEROES);
   }
 
-  private void writeSX1FahrzeugConfigErweitert(int value) {
+  private void writeSX1FahrzeugdecoderConfigErweitert(int value) {
     send(new byte[] { (byte) 0x83, (byte) 0xcf, (byte) 0x80, (byte) value, 0 }, new byte[3], ALL_ZEROES);
   }
 
-  private void writeSX2orDCCFahrzeugConfig(int key, byte systemTypDiscriminator, int value) {
+  private void writeSX2orDCCFahrzeugdecoderConfig(int key, byte systemTypDiscriminator, int value) {
     send(new byte[] { (byte) 0x83, systemTypDiscriminator, (byte) (key / 100), (byte) (key % 100), (byte) value }, new byte[3], ALL_ZEROES);
   }
 }

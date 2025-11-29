@@ -2,11 +2,8 @@ package de.gedoplan.v5t11.status.service;
 
 import de.gedoplan.v5t11.status.entity.Steuerung;
 import de.gedoplan.v5t11.status.messaging.OutgoingHandler;
-import de.gedoplan.v5t11.util.cdi.Received;
 
-import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.event.ObservesAsync;
 import jakarta.inject.Inject;
 
 import org.jboss.logging.Logger;
@@ -64,7 +61,7 @@ public class JoinService {
     this.logger.debugf("%d Weichen gesendet", count);
 
     count = this.steuerung
-      .getFahrzeuge()
+      .getFahrzeugdecoder()
       .stream()
       .filter(x -> x.getLastChangeMillis() >= sendUpdatesSinceMillis)
       .peek(x -> this.outgoingHandler.publish(x))

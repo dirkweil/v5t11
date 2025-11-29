@@ -122,7 +122,7 @@
     </h:form>
 
     <!--    <f:websocket channel="uiRefresh">-->
-    <!--      <f:ajax event="fahrzeug" render=":content" />-->
+    <!--      <f:ajax event="fahrzeugdecoder" render=":content" />-->
     <!--      <f:ajax event="signal" render=":content" />-->
     <!--      <f:ajax event="weiche" render=":content" />-->
     <!--      <f:ajax event="zentrale" render=":content" />-->
@@ -137,7 +137,7 @@
     <h:outputScript target="body">
       let systemControlSocket = new WebSocket("ws://" + window.location.host + "/jakarta.faces.push/system-control");
       systemControlSocket.onmessage = function (event) {
-        updateContent();
+      updateContent();
       }
     </h:outputScript>
   </ui:define>

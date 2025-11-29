@@ -1,7 +1,7 @@
 package de.gedoplan.v5t11.status.entity.baustein;
 
 import de.gedoplan.baselibs.utils.inject.InjectionUtil;
-import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
+import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeugdecoder;
 import de.gedoplan.v5t11.status.service.ConfigService;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
@@ -219,7 +219,7 @@ public abstract class Zentrale implements Closeable {
 
   public abstract void setSX1Kanal(int adr, int wert);
 
-  public void lokChanged(Fahrzeug lok) {
+  public void decoderChanged(Fahrzeugdecoder lok) {
   }
 
   public void injectFields() {
@@ -259,7 +259,7 @@ public abstract class Zentrale implements Closeable {
   }
 
   /**
-   * Konfigurationswerte des Fahrzeugs lesen, das auf dem Programmiergleis steht.
+   * Konfigurationswerte des Fahrzeugdecoders lesen, der auf dem Programmiergleis steht.
    * <p>
    * Die Nummern der zu lesenden Werte sind
    * <ul>
@@ -275,15 +275,15 @@ public abstract class Zentrale implements Closeable {
    * @param fahrzeugConfigParameterKeys Nummern der Parameter (SX) bzw. Config Variables (DCC), die gelesen werden sollen
    * @return gelesene Werte
    */
-  public abstract Map<Integer, Integer> readFahrzeugConfig(SystemTyp systemTyp, Collection<Integer> fahrzeugConfigParameterKeys);
+  public abstract Map<Integer, Integer> readFahrzeugdecoderConfig(SystemTyp systemTyp, Collection<Integer> fahrzeugConfigParameterKeys);
 
   /**
-   * Konfigurationswerte des Fahrzeugs schreiben, das auf dem Programmiergleis steht.
+   * Konfigurationswerte des Fahrzeugdecoders schreiben, der auf dem Programmiergleis steht.
    * <p>
-   * Die zu schreibenden Werte stehen im übergebenen Map wie in {@link #readFahrzeugConfig(SystemTyp, Collection)} beschrieben.
+   * Die zu schreibenden Werte stehen im übergebenen Map wie in {@link #readFahrzeugdecoderConfig(SystemTyp, Collection)} beschrieben.
    *
    * @param systemTyp Systemtyp (SX1, SX2, DCC)
    * @param fahrzeugConfigParameters zu schreibende Werte
    */
-  public abstract void writeFahrzeugConfig(SystemTyp systemTyp, Map<Integer, Integer> fahrzeugConfigParameters);
+  public abstract void writeFahrzeugdecoderConfig(SystemTyp systemTyp, Map<Integer, Integer> fahrzeugConfigParameters);
 }

@@ -4,7 +4,7 @@ import de.gedoplan.v5t11.status.entity.baustein.Zentrale;
 import de.gedoplan.v5t11.status.entity.fahrweg.Gleis;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
-import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
+import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeugdecoder;
 import de.gedoplan.v5t11.util.cdi.Changed;
 import de.gedoplan.v5t11.util.jsf.AbstractPushService;
 
@@ -20,7 +20,7 @@ import jakarta.websocket.server.ServerEndpoint;
 @ApplicationScoped
 public class PushService extends AbstractPushService {
 
-  void fahrzeugChanged(@ObservesAsync @Changed Fahrzeug fahrzeug) {
+  void fahrzeugChanged(@ObservesAsync @Changed Fahrzeugdecoder fahrzeugdecoder) {
     send("fahrzeug");
   }
 

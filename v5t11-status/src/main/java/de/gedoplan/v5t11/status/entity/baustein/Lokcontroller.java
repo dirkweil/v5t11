@@ -2,8 +2,8 @@ package de.gedoplan.v5t11.status.entity.baustein;
 
 import de.gedoplan.baselibs.utils.inject.InjectionUtil;
 import de.gedoplan.v5t11.status.entity.Kanal;
-import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
-import de.gedoplan.v5t11.util.domain.attribute.DecoderId;
+import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeugdecoder;
+import de.gedoplan.v5t11.util.domain.attribute.DecoderAdr;
 import de.gedoplan.v5t11.util.jsonb.JsonbShort;
 
 import java.util.ArrayList;
@@ -33,14 +33,14 @@ public abstract class Lokcontroller extends Baustein implements Encoder {
    * Zugewiesene Lok oder <code>null</code>.
    */
   @Getter
-  protected Fahrzeug lok;
+  protected Fahrzeugdecoder lok;
 
   protected Lokcontroller(int byteAnzahl) {
     super(byteAnzahl);
   }
 
   @JsonbShort
-  public DecoderId getLokId() {
+  public DecoderAdr getLokId() {
     return this.lok != null ? this.lok.getId() : null;
   }
 
@@ -50,7 +50,7 @@ public abstract class Lokcontroller extends Baustein implements Encoder {
    * @param lok Lok
    * @param hornBits Bits für das Signalhorn
    */
-  public abstract void setLok(Fahrzeug lok, int hornBits);
+  public abstract void setLok(Fahrzeugdecoder lok, int hornBits);
 
   @Override
   public String getLabelPrefix() {

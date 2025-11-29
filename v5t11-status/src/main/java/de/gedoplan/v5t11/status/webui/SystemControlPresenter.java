@@ -4,10 +4,10 @@ import de.gedoplan.v5t11.status.entity.Steuerung;
 import de.gedoplan.v5t11.status.entity.fahrweg.Gleis;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
-import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
+import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeugdecoder;
 import de.gedoplan.v5t11.util.cdi.Changed;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
-import de.gedoplan.v5t11.util.domain.attribute.DecoderId;
+import de.gedoplan.v5t11.util.domain.attribute.DecoderAdr;
 import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
 
@@ -62,10 +62,10 @@ public class SystemControlPresenter implements Serializable {
   private Signal signal;
 
   @Getter
-  private DecoderId lokId;
+  private DecoderAdr lokId;
 
   @Getter
-  private Fahrzeug lok;
+  private Fahrzeugdecoder lok;
 
   @Inject
   EventFirer eventFirer;
@@ -221,22 +221,22 @@ public class SystemControlPresenter implements Serializable {
     getSignale().forEach(s -> s.setStellung(SignalStellung.HALT));
   }
 
-  public Collection<Fahrzeug> getLoks() {
-    return this.steuerung.getFahrzeuge();
+  public Collection<Fahrzeugdecoder> getLoks() {
+    return this.steuerung.getFahrzeugdecoder();
   }
 
-  public void setLokId(DecoderId lokId) {
+  public void setLokId(DecoderAdr lokId) {
     if (this.log.isTraceEnabled()) {
       this.log.trace("setLokId(" + lokId + ")");
     }
 
     this.lokId = lokId;
-    this.lok = this.steuerung.getFahrzeug(lokId);
+    this.lok = this.steuerung.getFahrzeugdecoder(lokId);
 
     if (this.lok == null) {
-      this.lok = new Fahrzeug(lokId);
+      this.lok = new Fahrzeugdecoder(lokId);
       this.lok.injectFields();
-      this.steuerung.addFahrzeug(this.lok);
+      this.steuerung.addFahrzeugdecoder(this.lok);
     }
 
     if (this.log.isTraceEnabled()) {
@@ -245,7 +245,7 @@ public class SystemControlPresenter implements Serializable {
   }
 
   private void resetLok() {
-    Collection<Fahrzeug> loks = getLoks();
+    Collection<Fahrzeugdecoder> loks = getLoks();
     if (!loks.isEmpty()) {
       setLokId(loks.iterator().next().getId());
     }

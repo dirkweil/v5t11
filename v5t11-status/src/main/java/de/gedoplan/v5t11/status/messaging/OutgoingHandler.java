@@ -4,7 +4,7 @@ import de.gedoplan.v5t11.status.entity.baustein.Zentrale;
 import de.gedoplan.v5t11.status.entity.fahrweg.Gleis;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
-import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
+import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeugdecoder;
 import de.gedoplan.v5t11.status.service.EventDispatcher;
 import de.gedoplan.v5t11.util.jsf.NavigationItem;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithVisibility;
@@ -46,8 +46,8 @@ public class OutgoingHandler {
   @OnOverflow(OnOverflow.Strategy.NONE)
   Emitter<String> navigationItemEmitter;
 
-  public void publish(Fahrzeug fahrzeug) {
-    send(this.statusEmitter, getStatusJson("fahrzeug", fahrzeug));
+  public void publish(Fahrzeugdecoder fahrzeugdecoder) {
+    send(this.statusEmitter, getStatusJson("decoder", fahrzeugdecoder));
   }
 
   public void publish(Gleis gleis) {

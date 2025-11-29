@@ -2,7 +2,7 @@ package de.gedoplan.v5t11.status.entity.baustein.lokcontroller;
 
 import de.gedoplan.v5t11.status.entity.Steuerung;
 import de.gedoplan.v5t11.status.entity.baustein.Lokcontroller;
-import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
+import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeugdecoder;
 import de.gedoplan.v5t11.util.cdi.Changed;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
 
@@ -68,7 +68,7 @@ public class SxLokControl extends Lokcontroller {
    * {@inheritDoc}
    */
   @Override
-  public void setLok(Fahrzeug lok, int hornBits) {
+  public void setLok(Fahrzeugdecoder lok, int hornBits) {
     if (!Objects.equals(lok, this.lok)) {
 
       // Falls bisher zugeordnete Lok steht, inaktiv setzen

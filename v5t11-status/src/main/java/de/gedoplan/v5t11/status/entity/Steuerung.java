@@ -27,10 +27,10 @@ import de.gedoplan.v5t11.status.entity.fahrweg.geraet.FunktionsdecoderGeraet;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Schalter;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
-import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
+import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeugdecoder;
 import de.gedoplan.v5t11.util.cdi.Changed;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
-import de.gedoplan.v5t11.util.domain.attribute.DecoderId;
+import de.gedoplan.v5t11.util.domain.attribute.DecoderAdr;
 import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 import de.gedoplan.v5t11.util.domain.entity.Bereichselement;
 
@@ -134,32 +134,32 @@ public class Steuerung implements Serializable {
   @Getter
   private SortedSet<Weiche> weichen = new TreeSet<>();
 
-  private SortedMap<DecoderId, Fahrzeug> fahrzeuge = new ConcurrentSkipListMap<>();
+  private SortedMap<DecoderAdr, Fahrzeugdecoder> fahrzeugdecoder = new ConcurrentSkipListMap<>();
 
   @XmlElementWrapper(name = "AutoSkripte")
   @XmlElement(name = "AutoSkript")
   @Getter
   private List<AutoSkript> autoSkripte = new ArrayList<>();
 
-  public Collection<Fahrzeug> getFahrzeuge() {
-    return this.fahrzeuge.values();
+  public Collection<Fahrzeugdecoder> getFahrzeugdecoder() {
+    return this.fahrzeugdecoder.values();
   }
 
-  public Fahrzeug getFahrzeug(DecoderId id) {
-    return this.fahrzeuge.get(id);
+  public Fahrzeugdecoder getFahrzeugdecoder(DecoderAdr id) {
+    return this.fahrzeugdecoder.get(id);
   }
 
-  public Fahrzeug getOrCreateFahrzeug(DecoderId id) {
-    return this.fahrzeuge.computeIfAbsent(id, x -> {
-      Fahrzeug fahrzeug = new Fahrzeug(x);
-      addFahrzeug(fahrzeug);
-      return fahrzeug;
+  public Fahrzeugdecoder getOrCreateFahrzeugdecoder(DecoderAdr id) {
+    return this.fahrzeugdecoder.computeIfAbsent(id, x -> {
+      Fahrzeugdecoder fahrzeugdecoder = new Fahrzeugdecoder(x);
+      addFahrzeugdecoder(fahrzeugdecoder);
+      return fahrzeugdecoder;
     });
   }
 
-  public void addFahrzeug(Fahrzeug fahrzeug) {
-    DecoderId id = fahrzeug.getId();
-    if (this.fahrzeuge.containsKey(id)) {
+  public void addFahrzeugdecoder(Fahrzeugdecoder fahrzeugdecoder) {
+    DecoderAdr id = fahrzeugdecoder.getId();
+    if (this.fahrzeugdecoder.containsKey(id)) {
       return;
     }
 
@@ -168,18 +168,18 @@ public class Steuerung implements Serializable {
       throw new IllegalArgumentException("Adresse " + adresse + " bereits belegt");
     }
 
-    this.fahrzeuge.put(id, fahrzeug);
-    // TODO Fahrzeug in Zentrale anmelden
+    this.fahrzeugdecoder.put(id, fahrzeugdecoder);
+    // TODO Fahrzeugdecoder in Zentrale anmelden
 
-    this.eventFirer.fire(fahrzeug, Changed.Literal.INSTANCE);
+    this.eventFirer.fire(fahrzeugdecoder, Changed.Literal.INSTANCE);
   }
 
-  public void removeFahrzeug(DecoderId id) {
-    if (this.fahrzeuge.remove(id) == null) {
+  public void removeFahrzeugdecoder(DecoderAdr id) {
+    if (this.fahrzeugdecoder.remove(id) == null) {
       return;
     }
 
-    // TODO Fahrzeug in Zentrale abmelden
+    // TODO Fahrzeugdecoder in Zentrale abmelden
 
     //this.eventFirer.fire(fahrzeug, Changed.Literal.INSTANCE);
   }
@@ -371,15 +371,15 @@ public class Steuerung implements Serializable {
     this.autoSkripte.forEach(as -> as.linkSteuerungsObjekte(this));
   }
 
-  public void assignLokcontroller(String lokcontrollerId, DecoderId fahrzeugId, int hornBits) {
+  public void assignLokcontroller(String lokcontrollerId, DecoderAdr fahrzeugId, int hornBits) {
     Lokcontroller lokcontroller = getLokcontroller(lokcontrollerId);
     if (lokcontroller == null) {
       throw new IllegalArgumentException("Lokcontroller nicht gefunden: " + lokcontrollerId);
     }
 
-    Fahrzeug lok = null;
+    Fahrzeugdecoder lok = null;
     if (fahrzeugId != null) {
-      lok = getFahrzeug(fahrzeugId);
+      lok = getFahrzeugdecoder(fahrzeugId);
       if (lok == null) {
         throw new IllegalArgumentException("Lok nicht gefunden: " + fahrzeugId);
       }
@@ -512,17 +512,17 @@ public class Steuerung implements Serializable {
 
       // Ist es eine andere Adreses auf dem SX-Bus 0, ist es vermutlich eine SX1-Lok
       if (Kanal.toBusNr(adr) == 0) {
-        DecoderId fahrzeugId = new DecoderId(SystemTyp.SX1, adr);
-        Fahrzeug fahrzeug = getOrCreateFahrzeug(fahrzeugId);
-        fahrzeug.adjustTo(kanal);
+        DecoderAdr fahrzeugId = new DecoderAdr(SystemTyp.SX1, adr);
+        Fahrzeugdecoder fahrzeugdecoder = getOrCreateFahrzeugdecoder(fahrzeugId);
+        fahrzeugdecoder.adjustTo(kanal);
       }
     }
   }
 
   public void adjustTo(SX2Kanal kanal) {
-    DecoderId fahrzeugId = new DecoderId(kanal.getSystemTyp(), kanal.getAdresse());
-    Fahrzeug fahrzeug = getOrCreateFahrzeug(fahrzeugId);
-    fahrzeug.adjustTo(kanal);
+    DecoderAdr fahrzeugId = new DecoderAdr(kanal.getSystemTyp(), kanal.getAdresse());
+    Fahrzeugdecoder fahrzeugdecoder = getOrCreateFahrzeugdecoder(fahrzeugId);
+    fahrzeugdecoder.adjustTo(kanal);
   }
 
   public void adjustAllBesetztmelderStatus() {

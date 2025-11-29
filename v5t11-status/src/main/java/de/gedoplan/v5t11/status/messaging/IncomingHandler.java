@@ -1,6 +1,6 @@
 package de.gedoplan.v5t11.status.messaging;
 
-import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeug;
+import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeugdecoder;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.cdi.Received;
 import de.gedoplan.v5t11.util.jsf.NavigationItem;
@@ -28,7 +28,7 @@ import org.jboss.logging.Logger;
 @ApplicationScoped
 public class IncomingHandler {
 
-  // @Received JoinInfo, Fahrzeug
+  // @Received JoinInfo, Fahrzeugdecoder
   @Inject
   EventFirer eventFirer;
 
@@ -38,9 +38,9 @@ public class IncomingHandler {
   @Inject
   NavigationPresenter navigationPresenter;
 
-  @Incoming("fahrzeug")
+  @Incoming("fahrzeugdecoder")
   void fahrzeugDefined(String json) {
-    fireReceived(json, Fahrzeug.class);
+    fireReceived(json, Fahrzeugdecoder.class);
   }
 
   private void fireReceived(String json, Class<?> eventClass) {
