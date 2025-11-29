@@ -32,10 +32,10 @@
       <url>https://maven.gedoplan.de/repository/maven-public</url>
     </repository>
 
-    <repository>
-      <id>primefaces</id>
-      <url>https://repository.primefaces.org</url>
-    </repository>
+    <!--    <repository>-->
+    <!--      <id>primefaces</id>-->
+    <!--      <url>https://repository.primefaces.org</url>-->
+    <!--    </repository>-->
   </repositories>
 
   <pluginRepositories>
