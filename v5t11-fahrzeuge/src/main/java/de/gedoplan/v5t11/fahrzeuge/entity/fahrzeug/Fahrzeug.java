@@ -26,6 +26,7 @@ import jakarta.persistence.OrderColumn;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import jakarta.validation.constraints.NotNull;
+import jakarta.xml.bind.Unmarshaller;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -48,8 +49,6 @@ import lombok.Singular;
 public class Fahrzeug extends SingleIdEntity<String> {
 
   public static final String TABLE_NAME = "FZ_FAHRZEUG";
-  public static final String TABLE_NAME_FUNKTIONEN = "FZ_FAHRZEUG_FUNKTION";
-  public static final String TABLE_NAME_KONFIGURATIONEN = "FZ_FAHRZEUG_KONFIGURATION";
 
   @Getter(onMethod_ = @JsonbShort)
   @Setter
@@ -181,31 +180,33 @@ public class Fahrzeug extends SingleIdEntity<String> {
 
   @XmlElement(name = "funktion")
   private List<FahrzeugFunktion> getOldFunktionen() {
-    return null;
-  }
-
-  private void setOldFunktionen(List<FahrzeugFunktion> funktionen) {
     if (this.fahrzeugdecoder == null) {
       this.fahrzeugdecoder = createFahrzeugdecoder();
     }
-    this.fahrzeugdecoder.getFunktionen().clear();
-    this.fahrzeugdecoder.getFunktionen().addAll(funktionen);
+    return this.fahrzeugdecoder.getFunktionen();
   }
 
   @XmlElement(name = "konfiguration")
   private List<FahrzeugKonfiguration> getOldKonfigurationen() {
-    return null;
-  }
-
-  private void setOldKonfigurationen(List<FahrzeugKonfiguration> konfigurationen) {
     if (this.fahrzeugdecoder == null) {
       this.fahrzeugdecoder = createFahrzeugdecoder();
     }
-    this.fahrzeugdecoder.getKonfigurationen().clear();
-    this.fahrzeugdecoder.getKonfigurationen().addAll(konfigurationen);
+    return this.fahrzeugdecoder.getKonfigurationen();
   }
 
   private Fahrzeugdecoder createFahrzeugdecoder() {
     return new Fahrzeugdecoder(null, null, new ArrayList<>(), new ArrayList<>());
   }
+
+  private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
+    if (this.fahrzeugTyp == null) {
+      this.fahrzeugTyp =
+        this.betriebsnummer.startsWith("RW-")
+          ? FahrzeugTyp.WAGEN
+          : this.betriebsnummer.endsWith("est")
+            ? FahrzeugTyp.SONSTIGES
+            : FahrzeugTyp.LOK;
+    }
+  }
+
 }

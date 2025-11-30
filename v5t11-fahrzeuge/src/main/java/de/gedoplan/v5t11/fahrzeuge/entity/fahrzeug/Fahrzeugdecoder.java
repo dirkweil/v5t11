@@ -9,6 +9,7 @@ import java.util.List;
 import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.Access;
 import jakarta.persistence.AccessType;
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embeddable;
@@ -36,6 +37,9 @@ import lombok.Singular;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Fahrzeugdecoder {
+
+  public static final String TABLE_NAME_FUNKTIONEN = "FZ_FAHRZEUG_FUNKTION";
+  public static final String TABLE_NAME_KONFIGURATIONEN = "FZ_FAHRZEUG_KONFIGURATION";
 
   // Decoder ist aktiv, d. h. in der Zentrale angemeldet
   @Getter
@@ -90,13 +94,13 @@ public class Fahrzeugdecoder {
   private DecoderAdr decoderAdr;
 
   @ElementCollection(fetch = FetchType.EAGER)
-  //  @CollectionTable(name = TABLE_NAME_FUNKTIONEN)
+  @CollectionTable(name = TABLE_NAME_FUNKTIONEN)
   @Getter
   @XmlElement(name = "funktion")
   private List<@NotNull FahrzeugFunktion> funktionen;
 
   @ElementCollection(fetch = FetchType.EAGER)
-  //  @CollectionTable(name = TABLE_NAME_KONFIGURATIONEN)
+  @CollectionTable(name = TABLE_NAME_KONFIGURATIONEN)
   @OrderBy("nr")
   @Getter
   @XmlElement(name = "konfiguration")
