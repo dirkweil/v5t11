@@ -1,6 +1,5 @@
 package de.gedoplan.v5t11.fahrzeuge.service;
 
-import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug;
 import de.gedoplan.v5t11.fahrzeuge.messaging.OutgoingHandler;
 import de.gedoplan.v5t11.util.jsf.NavigationItem;
 
@@ -20,9 +19,9 @@ public class EventDispatcher {
   @Inject
   OutgoingHandler outgoingHandler;
 
-  void dispatch(@Observes @Default Fahrzeug fahrzeug) {
-    this.outgoingHandler.publish(fahrzeug);
-  }
+  //  void dispatch(@Observes @Default Fahrzeug fahrzeug) {
+  //    this.outgoingHandler.publish(fahrzeug);
+  //  }
 
   void dispatch(@Observes @Default NavigationItem navigationItem) {
     this.outgoingHandler.publish(navigationItem);

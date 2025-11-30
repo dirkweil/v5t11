@@ -1,4 +1,4 @@
-package de.gedoplan.v5t11.fahrzeuge.testenvironment;
+package de.gedoplan.v5t11.fahrzeuge.testenvironment.gateway;
 
 import de.gedoplan.v5t11.fahrzeuge.gateway.StatusGateway;
 import de.gedoplan.v5t11.util.domain.attribute.DecoderAdr;
@@ -17,7 +17,7 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 @RestClient
 @Alternative
 @Priority(1)
-public class TestStatusGateway implements StatusGateway {
+public class StatusGatewayMock implements StatusGateway {
 
   @Override
   public void changeFahrzeug(DecoderAdr id, Boolean aktiv, Integer fahrstufe, Integer fktBits, Boolean licht, Boolean rueckwaerts) {

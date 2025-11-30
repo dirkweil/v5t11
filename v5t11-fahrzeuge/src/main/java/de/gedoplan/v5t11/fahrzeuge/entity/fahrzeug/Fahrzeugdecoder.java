@@ -74,9 +74,10 @@ public class Fahrzeugdecoder {
   @XmlTransient
   private int fktBits;
 
-  // Letze Statusänderung
+  // Letzte Statusänderung
   @Getter(onMethod_ = @JsonbShort)
   @Setter(onMethod_ = @JsonbShort)
+  @XmlTransient
   private long lastChangeMillis;
 
   @Getter

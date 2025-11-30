@@ -1,17 +1,14 @@
 package de.gedoplan.v5t11.fahrzeuge.service;
 
-import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug;
 import de.gedoplan.v5t11.fahrzeuge.gateway.StatusGateway;
 import de.gedoplan.v5t11.fahrzeuge.messaging.OutgoingHandler;
 import de.gedoplan.v5t11.fahrzeuge.persistence.FahrzeugRepository;
 
-import org.eclipse.microprofile.rest.client.inject.RestClient;
-import org.jboss.logging.Logger;
-
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
-import java.util.List;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
+import org.jboss.logging.Logger;
 
 @ApplicationScoped
 public class JoinService {
@@ -40,10 +37,10 @@ public class JoinService {
   }
 
   private void join(long sendUpdatesSinceMillis) {
-    this.logger.debugf("Updates ab %tF %<tT.%<tL senden", sendUpdatesSinceMillis);
-    List<Fahrzeug> fahrzeuge = this.fahrzeugRepository.findAll();
-    fahrzeuge.forEach(this.outgoingHandler::publish);
-    this.logger.debugf("%d Fahrzeuge gesendet", fahrzeuge.size());
+    //    this.logger.debugf("Updates ab %tF %<tT.%<tL senden", sendUpdatesSinceMillis);
+    //    List<Fahrzeug> fahrzeuge = this.fahrzeugRepository.findAll();
+    //    fahrzeuge.forEach(this.outgoingHandler::publish);
+    //    this.logger.debugf("%d Fahrzeuge gesendet", fahrzeuge.size());
   }
 
 }

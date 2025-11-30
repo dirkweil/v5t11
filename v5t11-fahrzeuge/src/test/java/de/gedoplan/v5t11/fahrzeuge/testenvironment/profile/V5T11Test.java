@@ -31,7 +31,8 @@ public class V5T11Test implements QuarkusTestProfile {
     return Map.of(
       ConfigBase.PROPERTY_CONFIG_DIR, getTestConfigDirName(),
       "quarkus.datasource.db-kind", "h2",
-      "quarkus.kafka.devservices.enabled", "false");
+      "quarkus.kafka.devservices.enabled", "false",
+      "quarkus.log.category.\"org.apache.kafka.clients.NetworkClient\".level", "ERROR");
   }
 
   @Override

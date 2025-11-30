@@ -13,7 +13,6 @@ import java.util.List;
 import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.Access;
 import jakarta.persistence.AccessType;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -29,6 +28,7 @@ import jakarta.persistence.Transient;
 import jakarta.validation.constraints.NotNull;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlTransient;
 
@@ -51,7 +51,7 @@ public class Fahrzeug extends SingleIdEntity<String> {
   public static final String TABLE_NAME_FUNKTIONEN = "FZ_FAHRZEUG_FUNKTION";
   public static final String TABLE_NAME_KONFIGURATIONEN = "FZ_FAHRZEUG_KONFIGURATION";
 
-  @Getter
+  @Getter(onMethod_ = @JsonbShort)
   @Setter
   @NotNull
   @Id
@@ -64,12 +64,6 @@ public class Fahrzeug extends SingleIdEntity<String> {
   @Transient
   @XmlTransient
   private boolean removed;
-
-  @Getter
-  @Setter(onMethod_ = @JsonbShort)
-  @Column(name = "LAST_CHANGE_MS")
-  @XmlTransient
-  private long lastChangeMillis;
 
   @Getter
   @Setter
@@ -106,7 +100,7 @@ public class Fahrzeug extends SingleIdEntity<String> {
   @JsonbTransient
   private Serializable image;
 
-  @Getter
+  @Getter(onMethod_ = @JsonbShort)
   @Setter
   private Fahrzeugdecoder fahrzeugdecoder;
 
@@ -139,4 +133,79 @@ public class Fahrzeug extends SingleIdEntity<String> {
     InjectionUtil.injectFields(this);
   }
 
+  /*
+   * Die folgenden Methoden dienen dazu, die alte XML-Form (bevor Betriebsnummer ID wurde)
+   * noch lesen zu können.
+   */
+  @XmlElement(name = "decoderName")
+  private String getOldDecoderName() {
+    return null;
+  }
+
+  private void setOldDecoderName(String decoderName) {
+    if (this.fahrzeugdecoder == null) {
+      this.fahrzeugdecoder = createFahrzeugdecoder();
+    }
+    this.fahrzeugdecoder.setDecoderName(decoderName);
+  }
+
+  @XmlElement(name = "decoder")
+  private String getDecoderNameFromOldDecoderElement() {
+    return null;
+  }
+
+  private void setDecoderNameFromOldDecoderElement(String decoderName) {
+    setOldDecoderName(decoderName);
+  }
+
+  @XmlElement(name = "decoderAdr")
+  private String getOldDecoderAdr() {
+    return null;
+  }
+
+  private void setOldDecoderAdr(String decoderAdrString) {
+    if (this.fahrzeugdecoder == null) {
+      this.fahrzeugdecoder = createFahrzeugdecoder();
+    }
+    this.fahrzeugdecoder.setDecoderAdr(DecoderAdr.fromString(decoderAdrString));
+  }
+
+  @XmlElement(name = "id")
+  private String getDecoderAdrFromOldIdElement() {
+    return null;
+  }
+
+  private void setDecoderAdrFromOldIdElement(String decoderAdrString) {
+    setOldDecoderAdr(decoderAdrString);
+  }
+
+  @XmlElement(name = "funktion")
+  private List<FahrzeugFunktion> getOldFunktionen() {
+    return null;
+  }
+
+  private void setOldFunktionen(List<FahrzeugFunktion> funktionen) {
+    if (this.fahrzeugdecoder == null) {
+      this.fahrzeugdecoder = createFahrzeugdecoder();
+    }
+    this.fahrzeugdecoder.getFunktionen().clear();
+    this.fahrzeugdecoder.getFunktionen().addAll(funktionen);
+  }
+
+  @XmlElement(name = "konfiguration")
+  private List<FahrzeugKonfiguration> getOldKonfigurationen() {
+    return null;
+  }
+
+  private void setOldKonfigurationen(List<FahrzeugKonfiguration> konfigurationen) {
+    if (this.fahrzeugdecoder == null) {
+      this.fahrzeugdecoder = createFahrzeugdecoder();
+    }
+    this.fahrzeugdecoder.getKonfigurationen().clear();
+    this.fahrzeugdecoder.getKonfigurationen().addAll(konfigurationen);
+  }
+
+  private Fahrzeugdecoder createFahrzeugdecoder() {
+    return new Fahrzeugdecoder(null, null, new ArrayList<>(), new ArrayList<>());
+  }
 }
