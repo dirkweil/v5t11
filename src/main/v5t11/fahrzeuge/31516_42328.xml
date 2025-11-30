@@ -4,7 +4,7 @@
   <fahrzeugTyp>WAGEN</fahrzeugTyp>
   <beschreibung>Nahverkehrswagen 31516 und 42328 (Silberlinge)</beschreibung>
   <decoderName>ESU50708</decoderName>
-  <decoderId>4200@DCC</decoderId>
+  <decoderAdr>4200@DCC</decoderAdr>
   <funktion maske="1" wert="1">
     <gruppe>IB</gruppe>
     <beschreibung>Innenbeleuchtung Wagen 1</beschreibung>

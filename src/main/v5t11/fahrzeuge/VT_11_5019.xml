@@ -1,32 +1,33 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <fahrzeug>
-    <id>3333@DCC</id>
-    <betriebsnummer>Dec-Test</betriebsnummer>
-    <konfiguration nr="2" soll="3">
-        <beschreibung>Motorspannung in kleinster Fahrstufe</beschreibung>
-    </konfiguration>
-    <konfiguration nr="5" soll="127">
-        <beschreibung>Motorspannung in höchster Fahrstufe</beschreibung>
-    </konfiguration>
-    <konfiguration nr="6" soll="44">
-        <beschreibung>Motorspannung in mittlerer Fahrstufe</beschreibung>
-    </konfiguration>
-    <konfiguration nr="17" soll="205">
-        <beschreibung>Adr-L</beschreibung>
-    </konfiguration>
-    <konfiguration nr="18" soll="5">
-        <beschreibung>Adr-H</beschreibung>
-    </konfiguration>
-    <konfiguration nr="29" soll="46">
-        <beschreibung>Konfigurationsregister
+  <id>3333@DCC</id>
+  <betriebsnummer>Dec-Test</betriebsnummer>
+  <konfiguration nr="2" soll="3">
+    <beschreibung>Motorspannung in kleinster Fahrstufe</beschreibung>
+  </konfiguration>
+  <konfiguration nr="5" soll="127">
+    <beschreibung>Motorspannung in höchster Fahrstufe</beschreibung>
+  </konfiguration>
+  <konfiguration nr="6" soll="44">
+    <beschreibung>Motorspannung in mittlerer Fahrstufe</beschreibung>
+  </konfiguration>
+  <konfiguration nr="17" soll="205">
+    <beschreibung>Adr-L</beschreibung>
+  </konfiguration>
+  <konfiguration nr="18" soll="5">
+    <beschreibung>Adr-H</beschreibung>
+  </konfiguration>
+  <konfiguration nr="29" soll="46">
+    <beschreibung>Konfigurationsregister
       Bit 0: Richtung umkehren
       Bit 1: 28/126 Fahrstufen (statt 14)
       Bit 2: Analogbetrieb erlaubt
       Bit 3: Rückmeldung erlaubt
       Bit 4: Motorkennlinie nach CV 67 bis 94 (statt interpoliert nach CV 2, 5 und 6)
-      Bit 5: Lange Lokadresse nach CV17/18</beschreibung>
-    </konfiguration>
-    <konfiguration nr="63" soll="192">
-        <beschreibung>Lautstärke</beschreibung>
-    </konfiguration>
+      Bit 5: Lange Lokadresse nach CV17/18
+    </beschreibung>
+  </konfiguration>
+  <konfiguration nr="63" soll="192">
+    <beschreibung>Lautstärke</beschreibung>
+  </konfiguration>
 </fahrzeug>
