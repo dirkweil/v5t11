@@ -1,4 +1,4 @@
-package de.gedoplan.v5t11.fahrstrassen.testenvironment;
+package de.gedoplan.v5t11.fahrstrassen.testenvironment.gateway;
 
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleis;
 import de.gedoplan.v5t11.fahrstrassen.gateway.StatusGateway;
@@ -22,7 +22,7 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 @RestClient
 @Alternative
 @Priority(1)
-public class TestStatusGateway implements StatusGateway {
+public class StatusGatewayMock implements StatusGateway {
 
   private static final Gleis[] TEST_GLEISE = {
     createTestGleis("show", "1", false),

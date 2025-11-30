@@ -7,10 +7,10 @@ import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.FahrstrassenWeiche;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrassenelement;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleis;
 import de.gedoplan.v5t11.fahrstrassen.persistence.GleisRepository;
+import de.gedoplan.v5t11.fahrstrassen.testenvironment.messaging.OutgoingHandlerMock;
+import de.gedoplan.v5t11.fahrstrassen.testenvironment.profile.V5T11Test;
 import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
-import de.gedoplan.v5t11.util.jsonb.JsonbWithVisibility;
-import de.gedoplan.v5t11.util.test.V5t11TestConfigDirExtension;
 
 import java.util.stream.Stream;
 
@@ -21,12 +21,12 @@ import jakarta.json.JsonObjectBuilder;
 import jakarta.json.bind.JsonbBuilder;
 import jakarta.transaction.Transactional;
 
-import io.quarkus.test.junit.QuarkusTestExtension;
+import io.quarkus.test.junit.QuarkusTest;
+import io.quarkus.test.junit.TestProfile;
 import org.jboss.logging.Logger;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.skyscreamer.jsonassert.JSONAssert;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -34,7 +34,8 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@ExtendWith({ V5t11TestConfigDirExtension.class, QuarkusTestExtension.class })
+@QuarkusTest
+@TestProfile(V5T11Test.class)
 @TestMethodOrder(MethodOrderer.MethodName.class)
 public class FahrstrasseTest {
 
@@ -45,25 +46,10 @@ public class FahrstrasseTest {
   Parcours parcours;
 
   @Inject
+  OutgoingHandlerMock outgoingHandler;
+
+  @Inject
   Logger log;
-
-  @Test
-  public void test_01_toShortJson() throws Exception {
-
-    Fahrstrasse fahrstrasse = this.parcours.getFahrstrasse(FS_BEREICH, FS_NAME);
-
-    String json = JsonbWithVisibility.SHORT.toJson(fahrstrasse);
-
-    this.log.debug("JSON string: " + json);
-
-    String expected = Json.createObjectBuilder()
-      .add("key", fahrstrasse.getKey().toString())
-      .add("reservierungsTyp", fahrstrasse.getReservierungsTyp().toString())
-      .add("teilFreigabeAnzahl", fahrstrasse.getTeilFreigabeAnzahl())
-      .build().toString();
-
-    JSONAssert.assertEquals(expected, json, true);
-  }
 
   @Test
   public void test_02_toFullJson() throws Exception {

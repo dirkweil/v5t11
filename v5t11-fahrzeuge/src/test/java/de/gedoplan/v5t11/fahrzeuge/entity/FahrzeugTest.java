@@ -5,6 +5,7 @@ import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.FahrzeugFunktion;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.FahrzeugKonfiguration;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeugdecoder;
+import de.gedoplan.v5t11.fahrzeuge.testenvironment.profile.V5T11Test;
 import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithVisibility;
 
@@ -14,9 +15,9 @@ import jakarta.json.Json;
 import jakarta.json.JsonArrayBuilder;
 import jakarta.json.bind.JsonbBuilder;
 
-import org.junit.jupiter.api.MethodOrderer;
+import io.quarkus.test.junit.QuarkusTest;
+import io.quarkus.test.junit.TestProfile;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.skyscreamer.jsonassert.JSONAssert;
 
 import static de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.AF;
@@ -26,8 +27,8 @@ import static de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.FahrzeugFunktion.Fahrz
 import static de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe.FL;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-//@ExtendWith({ V5t11TestConfigDirExtension.class, QuarkusTestExtension.class })
-@TestMethodOrder(MethodOrderer.MethodName.class)
+@QuarkusTest
+@TestProfile(V5T11Test.class)
 public class FahrzeugTest {
 
   public static final Fahrzeug lok112_491_6 = Fahrzeug.builder()

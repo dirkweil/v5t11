@@ -1,31 +1,27 @@
 package de.gedoplan.v5t11.fahrzeuge.persistence;
 
 import de.gedoplan.v5t11.fahrzeuge.TestBase;
-import de.gedoplan.v5t11.util.test.V5t11TestConfigDirExtension;
+import de.gedoplan.v5t11.fahrzeuge.testenvironment.profile.V5T11Test;
 
 import jakarta.inject.Inject;
 
+import io.quarkus.test.junit.QuarkusTest;
+import io.quarkus.test.junit.TestProfile;
 import org.jboss.logging.Logger;
-import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.jupiter.api.extension.ExtendWith;
 
-import io.quarkus.test.junit.QuarkusTestExtension;
-
-@ExtendWith({ V5t11TestConfigDirExtension.class, QuarkusTestExtension.class })
-@TestMethodOrder(MethodOrderer.MethodName.class)
 /**
  * DB mit Testdaten füllen.
- *
- * Das eigentliche Füllen der DB geschieht in {@link TestBase#dbInit}.
- *
+ * <p>
+ * Das eigentliche Füllen der DB geschieht in {@link TestBase#fillDb()}.
+ * <p>
  * Soll statt der Test-DB (in-memory) die Produktions-DB genutzt werden, muss deren URL als Property im
  * Aufruf angegeben werden: -Dquarkus.datasource.url=jdbc:h2:~/h2/v5t11;AUTO_SERVER=TRUE
  *
  * @author dw
- *
  */
+@QuarkusTest
+@TestProfile(V5T11Test.class)
 public class DbInit extends TestBase {
 
   @Inject

@@ -2,23 +2,24 @@ package de.gedoplan.v5t11.status.entity;
 
 import de.gedoplan.v5t11.status.entity.fahrweg.Gleis;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Schalter;
+import de.gedoplan.v5t11.status.testenvironment.profile.V5T11Test;
 import de.gedoplan.v5t11.util.domain.attribute.SchalterStellung;
-import de.gedoplan.v5t11.util.test.V5t11TestConfigDirExtension;
 
 import jakarta.inject.Inject;
 
-import io.quarkus.test.junit.QuarkusTestExtension;
+import io.quarkus.test.junit.QuarkusTest;
+import io.quarkus.test.junit.TestProfile;
 import org.jboss.logging.Logger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.jupiter.api.extension.ExtendWith;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-@ExtendWith({ V5t11TestConfigDirExtension.class, QuarkusTestExtension.class })
+@QuarkusTest
+@TestProfile(V5T11Test.class)
 @TestMethodOrder(MethodOrderer.MethodName.class)
 public class KehrschleifenTest {
 

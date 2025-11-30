@@ -94,7 +94,7 @@
       <dependency>
         <groupId>org.projectlombok</groupId>
         <artifactId>lombok</artifactId>
-        <version>1.18.38</version>
+        <version>1.18.42</version>
       </dependency>
 
       <dependency>
@@ -126,14 +126,12 @@
   </dependencyManagement>
 
   <modules>
-    <!-- <module>v5t11-com-server</module> -->
     <module>v5t11-fahrstrassen</module>
     <module>v5t11-fahrzeuge</module>
     <module>v5t11-jsfcommon</module>
     <module>v5t11-status</module>
     <module>v5t11-stellwerk</module>
     <module>v5t11-util</module>
-    <module>v5t11-util-test</module>
   </modules>
 
 </project>

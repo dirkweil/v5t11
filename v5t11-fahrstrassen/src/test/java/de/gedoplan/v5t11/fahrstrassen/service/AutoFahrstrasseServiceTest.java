@@ -4,22 +4,22 @@ import de.gedoplan.v5t11.fahrstrassen.entity.Parcours;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrweg.Gleis;
 import de.gedoplan.v5t11.fahrstrassen.persistence.GleisRepository;
+import de.gedoplan.v5t11.fahrstrassen.testenvironment.profile.V5T11Test;
 import de.gedoplan.v5t11.util.cdi.Changed;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
-import de.gedoplan.v5t11.util.test.V5t11TestConfigDirExtension;
 
 import java.util.List;
 
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
-import io.quarkus.test.junit.QuarkusTestExtension;
+import io.quarkus.test.junit.QuarkusTest;
+import io.quarkus.test.junit.TestProfile;
 import org.jboss.logging.Logger;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.jupiter.api.extension.ExtendWith;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -27,7 +27,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@ExtendWith({ V5t11TestConfigDirExtension.class, QuarkusTestExtension.class })
+@QuarkusTest
+@TestProfile(V5T11Test.class)
 @TestMethodOrder(MethodOrderer.MethodName.class)
 public class AutoFahrstrasseServiceTest {
 

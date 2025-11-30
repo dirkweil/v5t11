@@ -2,24 +2,25 @@ package de.gedoplan.v5t11.fahrstrassen.webservice;
 
 import de.gedoplan.v5t11.fahrstrassen.entity.Parcours;
 import de.gedoplan.v5t11.fahrstrassen.entity.fahrstrasse.Fahrstrasse;
+import de.gedoplan.v5t11.fahrstrassen.testenvironment.profile.V5T11Test;
 import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
-import de.gedoplan.v5t11.util.test.V5t11TestConfigDirExtension;
 
 import java.util.List;
 
 import jakarta.inject.Inject;
 
-import io.quarkus.test.junit.QuarkusTestExtension;
+import io.quarkus.test.junit.QuarkusTest;
+import io.quarkus.test.junit.TestProfile;
 import org.jboss.logging.Logger;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.jupiter.api.extension.ExtendWith;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-@ExtendWith({ V5t11TestConfigDirExtension.class, QuarkusTestExtension.class })
+@QuarkusTest
+@TestProfile(V5T11Test.class)
 @TestMethodOrder(MethodOrderer.MethodName.class)
 public class FahrstrasseResourceTest {
 

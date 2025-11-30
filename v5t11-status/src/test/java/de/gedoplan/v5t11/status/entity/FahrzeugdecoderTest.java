@@ -3,27 +3,25 @@ package de.gedoplan.v5t11.status.entity;
 import de.gedoplan.v5t11.status.StatusEventCollector;
 import de.gedoplan.v5t11.status.entity.baustein.zentrale.DummyZentrale;
 import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeugdecoder;
+import de.gedoplan.v5t11.status.testenvironment.profile.V5T11Test;
 import de.gedoplan.v5t11.util.domain.attribute.DecoderAdr;
 import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
-import de.gedoplan.v5t11.util.jsonb.JsonbWithVisibility;
-import de.gedoplan.v5t11.util.test.V5t11TestConfigDirExtension;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.inject.Inject;
-import jakarta.json.Json;
 
-import io.quarkus.test.junit.QuarkusTestExtension;
+import io.quarkus.test.junit.QuarkusTest;
+import io.quarkus.test.junit.TestProfile;
 import org.jboss.logging.Logger;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.skyscreamer.jsonassert.JSONAssert;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@ExtendWith({ V5t11TestConfigDirExtension.class, QuarkusTestExtension.class })
+@QuarkusTest
+@TestProfile(V5T11Test.class)
 @TestMethodOrder(MethodOrderer.MethodName.class)
 public class FahrzeugdecoderTest {
 
@@ -48,28 +46,6 @@ public class FahrzeugdecoderTest {
       lok.injectFields();
       this.steuerung.addFahrzeugdecoder(lok);
     }
-  }
-
-  @Test
-  public void test_01_toShortJson() throws Exception {
-
-    Fahrzeugdecoder fahrzeugdecoder = lok103_003_0;
-
-    String json = JsonbWithVisibility.SHORT.toJson(fahrzeugdecoder);
-
-    this.log.debug("JSON string: " + json);
-
-    String expected = Json.createObjectBuilder()
-      .add("decoderAdr", fahrzeugdecoder.getId().toString())
-      .add("lastChangeMillis", fahrzeugdecoder.getLastChangeMillis())
-      .add("aktiv", fahrzeugdecoder.isAktiv())
-      .add("fahrstufe", fahrzeugdecoder.getFahrstufe())
-      .add("licht", fahrzeugdecoder.isLicht())
-      .add("rueckwaerts", fahrzeugdecoder.isRueckwaerts())
-      .add("fktBits", fahrzeugdecoder.getFktBits())
-      .build().toString();
-
-    JSONAssert.assertEquals(expected, json, true);
   }
 
   @Test

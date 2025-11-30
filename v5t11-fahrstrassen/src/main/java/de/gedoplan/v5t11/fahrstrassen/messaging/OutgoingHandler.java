@@ -35,9 +35,12 @@ public class OutgoingHandler {
     send(this.fahrstrasseEmitter, fahrstrasse);
   }
 
-  protected void send(Emitter<String> emitter, Object obj) {
-    String json = JsonbWithVisibility.SHORT.toJson(obj);
-    this.logger.debugf("Send %s: %s", obj, json);
+  private void send(Emitter<String> emitter, Object obj) {
+    send(emitter, JsonbWithVisibility.SHORT.toJson(obj));
+  }
+
+  protected void send(Emitter<String> emitter, String json) {
+    this.logger.debugf("Send %s", json);
     emitter.send(json);
   }
 
