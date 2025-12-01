@@ -136,6 +136,12 @@ public class Fahrzeug extends SingleIdEntity<String> {
    * Die folgenden Methoden dienen dazu, die alte XML-Form (bevor Betriebsnummer ID wurde)
    * noch lesen zu können.
    */
+
+  /*
+   * Das Element decoderName liegt jetzt in fahrzeugdecoder.
+   * Der Getter liefert immer null, damit es im generierten XML nicht vorkommt.
+   * Der Setter speichert den Wert in fahrzeugdecoder.decoderName.
+   */
   @XmlElement(name = "decoderName")
   private String getOldDecoderName() {
     return null;
@@ -148,6 +154,11 @@ public class Fahrzeug extends SingleIdEntity<String> {
     this.fahrzeugdecoder.setDecoderName(decoderName);
   }
 
+  /*
+   * Das Element decoderName hieß noch früher einmal decoder.
+   * Der Getter liefert immer null, damit es im generierten XML nicht vorkommt.
+   * Der Setter speichert den Wert in fahrzeugdecoder.decoderName.
+   */
   @XmlElement(name = "decoder")
   private String getDecoderNameFromOldDecoderElement() {
     return null;
@@ -157,6 +168,11 @@ public class Fahrzeug extends SingleIdEntity<String> {
     setOldDecoderName(decoderName);
   }
 
+  /*
+   * Das Element decoderAdr liegt jetzt in fahrzeugdecoder.
+   * Der Getter liefert immer null, damit es im generierten XML nicht vorkommt.
+   * Der Setter speichert den Wert in fahrzeugdecoder.decoderAdr.
+   */
   @XmlElement(name = "decoderAdr")
   private String getOldDecoderAdr() {
     return null;
@@ -169,6 +185,11 @@ public class Fahrzeug extends SingleIdEntity<String> {
     this.fahrzeugdecoder.setDecoderAdr(DecoderAdr.fromString(decoderAdrString));
   }
 
+  /*
+   * Das Element decoderAdr hieß noch früher einmal id.
+   * Der Getter liefert immer null, damit es im generierten XML nicht vorkommt.
+   * Der Setter speichert den Wert in fahrzeugdecoder.decoderName.
+   */
   @XmlElement(name = "id")
   private String getDecoderAdrFromOldIdElement() {
     return null;
@@ -178,25 +199,22 @@ public class Fahrzeug extends SingleIdEntity<String> {
     setOldDecoderAdr(decoderAdrString);
   }
 
+  /*
+   * Die Elemente funktion und konfiguration liegen jetzt
+   * in fahrzeugdecoder.
+   * Listenelemente haben keinen Setter. Daher werden die
+   * alten Werte in transiente Attribute angenommen und
+   * in afterUnmarshal umgespeichert.
+   * Bei einer Serialisierung sind die Werte null und tauchen
+   * somit nicht im generierten XML auf.
+   */
   @XmlElement(name = "funktion")
-  private List<FahrzeugFunktion> getOldFunktionen() {
-    if (this.fahrzeugdecoder == null) {
-      this.fahrzeugdecoder = createFahrzeugdecoder();
-    }
-    return this.fahrzeugdecoder.getFunktionen();
-  }
+  @Transient
+  private List<FahrzeugFunktion> oldFunktionen;
 
   @XmlElement(name = "konfiguration")
-  private List<FahrzeugKonfiguration> getOldKonfigurationen() {
-    if (this.fahrzeugdecoder == null) {
-      this.fahrzeugdecoder = createFahrzeugdecoder();
-    }
-    return this.fahrzeugdecoder.getKonfigurationen();
-  }
-
-  private Fahrzeugdecoder createFahrzeugdecoder() {
-    return new Fahrzeugdecoder(null, null, new ArrayList<>(), new ArrayList<>());
-  }
+  @Transient
+  private List<FahrzeugKonfiguration> oldKonfigurationen;
 
   private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
     if (this.fahrzeugTyp == null) {
@@ -207,6 +225,30 @@ public class Fahrzeug extends SingleIdEntity<String> {
             ? FahrzeugTyp.SONSTIGES
             : FahrzeugTyp.LOK;
     }
+
+    if (this.oldFunktionen != null) {
+      if (this.fahrzeugdecoder == null) {
+        this.fahrzeugdecoder = createFahrzeugdecoder();
+      }
+      if (this.fahrzeugdecoder.getFunktionen().isEmpty()) {
+        this.fahrzeugdecoder.getFunktionen().addAll(oldFunktionen);
+      }
+      this.oldFunktionen = null;
+    }
+
+    if (this.oldKonfigurationen != null) {
+      if (this.fahrzeugdecoder == null) {
+        this.fahrzeugdecoder = createFahrzeugdecoder();
+      }
+      if (this.fahrzeugdecoder.getKonfigurationen().isEmpty()) {
+        this.fahrzeugdecoder.getKonfigurationen().addAll(oldKonfigurationen);
+      }
+      this.oldKonfigurationen = null;
+    }
+  }
+
+  private Fahrzeugdecoder createFahrzeugdecoder() {
+    return new Fahrzeugdecoder(null, null, new ArrayList<>(), new ArrayList<>());
   }
 
 }
