@@ -107,7 +107,7 @@
       -->
     <h:outputScript target="body">
       let fahrzeugControlSocket = new WebSocket("ws://" + window.location.host +
-          "/jakarta.faces.push/fahrzeugdecoder-control");
+          "/jakarta.faces.push/fahrzeug-control");
       fahrzeugControlSocket.onmessage = function (event) {
         updateFahrzeug();
       }
