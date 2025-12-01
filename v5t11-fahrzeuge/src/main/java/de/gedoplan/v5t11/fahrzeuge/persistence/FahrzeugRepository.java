@@ -27,9 +27,9 @@ public class FahrzeugRepository extends SingleIdEntityRepository<String, Fahrzeu
     return findMulti("select x from Fahrzeug x where x.zugFahrzeug is null order by x.betriebsnummer");
   }
 
-  public List<Fahrzeug> findByDecoderId(DecoderAdr decoderAdr) {
+  public List<Fahrzeug> findByDecoderAdr(DecoderAdr decoderAdr) {
     TypedQuery<Fahrzeug> query = this.entityManager
-      .createQuery("select x from Fahrzeug x where x.decoderId=?1", Fahrzeug.class)
+      .createQuery("select x from Fahrzeug x where x.fahrzeugdecoder.decoderAdr=?1", Fahrzeug.class)
       .setParameter(1, decoderAdr);
     return findMulti(query);
   }

@@ -44,7 +44,7 @@ public class StatusUpdater {
   void fahrzeugReceived(@ObservesAsync @Received Fahrzeugdecoder receivedObject) {
     if (receivedObject.getDecoderAdr() != null) {
       this.fahrzeugRepository
-        .findByDecoderId(receivedObject.getDecoderAdr())
+        .findByDecoderAdr(receivedObject.getDecoderAdr())
         .forEach(fahrzeug -> copyStatus(fahrzeug, receivedObject));
     } else {
       this.logger.warnf("Fahrzeug ohne id und decoderId empfangen - wird ignoriert: %s", receivedObject);
