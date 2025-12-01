@@ -14,7 +14,7 @@
             <p:graphicImage name="#{fahrzeugListPresenter.getImageOfCurrentFahrzeug()}" height="50px"
                             style="vertical-align: middle; margin-left: 20px; margin-right: 20px;"/>
             <h:outputText
-                value="#{fahrzeugListPresenter.currentFahrzeug.decoderAdr.adresse}@#{fahrzeugListPresenter.currentFahrzeug.decoderAdr.systemTyp}"
+                value="#{fahrzeugListPresenter.currentFahrzeug.fahrzeugdecoder.decoderAdr.adresse}@#{fahrzeugListPresenter.currentFahrzeug.fahrzeugdecoder.decoderAdr.systemTyp}"
                 id="id" style="vertical-align: middle;"/>
           </f:facet>
           <f:facet name="right">
@@ -27,7 +27,7 @@
           </f:facet>
         </p:toolbar>
 
-        <p:dataTable value="#{fahrzeugFunctionPresenter.currentFahrzeug.funktionen}" var="funktion"
+        <p:dataTable value="#{fahrzeugFunctionPresenter.currentFahrzeug.fahrzeugdecoder.funktionen}" var="funktion"
                      sortBy="#{funktion.gruppe}" id="funktionen">
           <p:column headerText="Funktionsgruppe" sortBy="#{funktion.gruppe}" width="200">
             <p:selectOneMenu value="#{funktion.gruppe}" style="width: 90%" id="gruppe">

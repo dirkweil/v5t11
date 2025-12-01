@@ -15,20 +15,23 @@
                             style="vertical-align: middle; margin-left: 20px; margin-right: 20px;"/>
 
             <p:outputLabel for="@next" value="Decoder"/>
-            <p:inputText value="#{fahrzeugListPresenter.currentFahrzeug.decoderName}" id="decoderName"/>
+            <p:inputText value="#{fahrzeugListPresenter.currentFahrzeug.fahrzeugdecoder.decoderName}" id="decoderName"/>
 
             <p:outputLabel for="@next" value="Systemtyp"/>
-            <p:selectOneMenu value="#{fahrzeugListPresenter.currentFahrzeug.decoderAdr.systemTyp}" id="systemTyp">
+            <p:selectOneMenu value="#{fahrzeugListPresenter.currentFahrzeug.fahrzeugdecoder.decoderAdr.systemTyp}"
+                             id="systemTyp">
               <f:selectItems value="#{fahrzeugListPresenter.systemTypen}"/>
               <f:ajax event="change" execute="@this" render="adrInfo"/>
             </p:selectOneMenu>
 
             <p:outputLabel for="@next" value="Adresse"/>
-            <p:inputText value="#{fahrzeugListPresenter.currentFahrzeug.decoderAdr.adresse}" size="5" id="adresse"
+            <p:inputText value="#{fahrzeugListPresenter.currentFahrzeug.fahrzeugdecoder.decoderAdr.adresse}" size="5"
+                         id="adresse"
                          required="true">
               <f:ajax event="change" execute="@this" render="adrInfo"/>
             </p:inputText>
-            <h:outputText value="#{fahrzeugListPresenter.currentFahrzeug.decoderAdr.adrInfo}" id="adrInfo"/>
+            <h:outputText value="#{fahrzeugListPresenter.currentFahrzeug.fahrzeugdecoder.decoderAdr.adrInfo}"
+                          id="adrInfo"/>
 
           </f:facet>
           <f:facet name="right">
@@ -45,7 +48,7 @@
           </f:facet>
         </p:toolbar>
 
-        <p:dataTable value="#{fahrzeugProgramPresenter.currentFahrzeug.konfigurationen}"
+        <p:dataTable value="#{fahrzeugProgramPresenter.currentFahrzeug.fahrzeugdecoder.konfigurationen}"
                      var="konfiguration"
                      sortBy="#{konfiguration.nr}"
                      rowStyleClass="topAligned"
@@ -62,8 +65,9 @@
                              update="konfigurationen"/>
           </p:column>
 
-          <p:column headerText="#{fahrzeugProgramPresenter.currentFahrzeug.decoderAdr.systemTyp.konfigWertBezeichnung}"
-                    sortBy="#{konfiguration.nr}" width="60">
+          <p:column
+              headerText="#{fahrzeugProgramPresenter.currentFahrzeug.fahrzeugdecoder.decoderAdr.systemTyp.konfigWertBezeichnung}"
+              sortBy="#{konfiguration.nr}" width="60">
             <p:inputText value="#{konfiguration.nr}" readonly="#{!empty konfiguration.nr}" style="width: 100%" id="nr"/>
             <p:message for="nr"/>
           </p:column>
