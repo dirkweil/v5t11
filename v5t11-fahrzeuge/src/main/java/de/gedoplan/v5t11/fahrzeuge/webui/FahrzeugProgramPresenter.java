@@ -134,7 +134,7 @@ public class FahrzeugProgramPresenter implements Serializable {
 
   private void readKonfigurationen(List<FahrzeugKonfiguration> konfigurationen) {
     List<Integer> keys = konfigurationen.stream().map(FahrzeugKonfiguration::getNr).toList();
-    Map<Integer, Integer> result = this.statusGateway.getFahrzeugConfig(getCurrentFahrzeug().getFahrzeugdecoder().getDecoderAdr().getSystemTyp(), keys);
+    Map<Integer, Integer> result = this.statusGateway.getFahrzeugdecoderConfig(getCurrentFahrzeug().getFahrzeugdecoder().getDecoderAdr().getSystemTyp(), keys);
     konfigurationen.forEach(k -> {
       Integer ist = result.get(k.getNr());
       if (ist != null && ist < 0) {
@@ -152,7 +152,7 @@ public class FahrzeugProgramPresenter implements Serializable {
 
   private void writeKonfigurationen(List<FahrzeugKonfiguration> konfigurationen) {
     Map<Integer, Integer> nrSollMap = konfigurationen.stream().collect(Collectors.toMap(FahrzeugKonfiguration::getNr, FahrzeugKonfiguration::getSoll));
-    this.statusGateway.setFahrzeugConfig(getCurrentFahrzeug().getFahrzeugdecoder().getDecoderAdr().getSystemTyp(), nrSollMap);
+    this.statusGateway.setFahrzeugdecoderConfig(getCurrentFahrzeug().getFahrzeugdecoder().getDecoderAdr().getSystemTyp(), nrSollMap);
     konfigurationen.forEach(k -> k.setIst(k.getSoll()));
   }
 

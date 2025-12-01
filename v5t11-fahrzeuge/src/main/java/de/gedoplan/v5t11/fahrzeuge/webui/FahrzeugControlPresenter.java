@@ -50,7 +50,7 @@ public class FahrzeugControlPresenter implements Serializable {
   }
 
   public void setLokAktiv(boolean aktiv) {
-    this.statusGateway.changeFahrzeug(this.fahrzeugListPresenter.getCurrentFahrzeug().getFahrzeugdecoder().getDecoderAdr(), aktiv, null, null, null, null);
+    this.statusGateway.changeFahrzeugdecoder(this.fahrzeugListPresenter.getCurrentFahrzeug().getFahrzeugdecoder().getDecoderAdr(), aktiv, null, null, null, null);
   }
 
   public boolean isLokRueckwaerts() {
@@ -58,7 +58,7 @@ public class FahrzeugControlPresenter implements Serializable {
   }
 
   public void setLokRueckwaerts(boolean rueckwaerts) {
-    this.statusGateway.changeFahrzeug(this.fahrzeugListPresenter.getCurrentFahrzeug().getFahrzeugdecoder().getDecoderAdr(), null, null, null, null, rueckwaerts);
+    this.statusGateway.changeFahrzeugdecoder(this.fahrzeugListPresenter.getCurrentFahrzeug().getFahrzeugdecoder().getDecoderAdr(), null, null, null, null, rueckwaerts);
   }
 
   public int getLokFahrstufe() {
@@ -66,7 +66,7 @@ public class FahrzeugControlPresenter implements Serializable {
   }
 
   public void setLokFahrstufe(int fahrstufe) {
-    this.statusGateway.changeFahrzeug(this.fahrzeugListPresenter.getCurrentFahrzeug().getFahrzeugdecoder().getDecoderAdr(), null, fahrstufe, null, null, null);
+    this.statusGateway.changeFahrzeugdecoder(this.fahrzeugListPresenter.getCurrentFahrzeug().getFahrzeugdecoder().getDecoderAdr(), null, fahrstufe, null, null, null);
   }
 
   public int getLokMaxFahrstufe() {
@@ -123,7 +123,8 @@ public class FahrzeugControlPresenter implements Serializable {
         fktBits |= this.fahrzeugFunktion.getWert();
       }
 
-      FahrzeugControlPresenter.this.statusGateway.changeFahrzeug(FahrzeugControlPresenter.this.fahrzeugListPresenter.getCurrentFahrzeug().getFahrzeugdecoder().getDecoderAdr(), null, null, fktBits,
+      FahrzeugControlPresenter.this.statusGateway.changeFahrzeugdecoder(FahrzeugControlPresenter.this.fahrzeugListPresenter.getCurrentFahrzeug().getFahrzeugdecoder().getDecoderAdr(), null, null,
+        fktBits,
         null, null);
     }
 
@@ -152,7 +153,8 @@ public class FahrzeugControlPresenter implements Serializable {
 
     @Override
     public void setAktiv(boolean aktiv) {
-      FahrzeugControlPresenter.this.statusGateway.changeFahrzeug(FahrzeugControlPresenter.this.fahrzeugListPresenter.getCurrentFahrzeug().getFahrzeugdecoder().getDecoderAdr(), null, null, null, aktiv,
+      FahrzeugControlPresenter.this.statusGateway.changeFahrzeugdecoder(FahrzeugControlPresenter.this.fahrzeugListPresenter.getCurrentFahrzeug().getFahrzeugdecoder().getDecoderAdr(), null, null, null,
+        aktiv,
         null);
     }
 

@@ -22,9 +22,9 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 public interface StatusGateway extends Serializable {
   // Fahrzeuge
   @PUT
-  @Path("fahrzeug/{id}")
+  @Path("fahrzeugdecoder/{id}")
   @Consumes(MediaType.MEDIA_TYPE_WILDCARD)
-  public void changeFahrzeug(
+  public void changeFahrzeugdecoder(
     @PathParam("id") DecoderAdr id,
     @QueryParam("aktiv") Boolean aktiv,
     @QueryParam("fahrstufe") Integer fahrstufe,
@@ -34,13 +34,13 @@ public interface StatusGateway extends Serializable {
 
   @GET
   @Produces(MediaType.APPLICATION_JSON)
-  @Path("fahrzeug/config/{systemTyp}")
-  public Map<Integer, Integer> getFahrzeugConfig(@PathParam("systemTyp") SystemTyp systemTyp, @QueryParam("key") List<Integer> keys);
+  @Path("fahrzeugdecoder/config/{systemTyp}")
+  public Map<Integer, Integer> getFahrzeugdecoderConfig(@PathParam("systemTyp") SystemTyp systemTyp, @QueryParam("key") List<Integer> keys);
 
   @PUT
   @Consumes(MediaType.APPLICATION_JSON)
-  @Path("fahrzeug/config/{systemTyp}")
-  public void setFahrzeugConfig(@PathParam("systemTyp") SystemTyp systemTyp, Map<Integer, Integer> fahrzeugConfigParameters);
+  @Path("fahrzeugdecoder/config/{systemTyp}")
+  public void setFahrzeugdecoderConfig(@PathParam("systemTyp") SystemTyp systemTyp, Map<Integer, Integer> fahrzeugConfigParameters);
 
   // Lokcontroller
   @PUT

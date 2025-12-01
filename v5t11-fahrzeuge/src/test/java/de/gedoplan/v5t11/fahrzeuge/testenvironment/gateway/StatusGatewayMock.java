@@ -20,17 +20,17 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 public class StatusGatewayMock implements StatusGateway {
 
   @Override
-  public void changeFahrzeug(DecoderAdr id, Boolean aktiv, Integer fahrstufe, Integer fktBits, Boolean licht, Boolean rueckwaerts) {
+  public void changeFahrzeugdecoder(DecoderAdr id, Boolean aktiv, Integer fahrstufe, Integer fktBits, Boolean licht, Boolean rueckwaerts) {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public Map<Integer, Integer> getFahrzeugConfig(SystemTyp systemTyp, List<Integer> keys) {
+  public Map<Integer, Integer> getFahrzeugdecoderConfig(SystemTyp systemTyp, List<Integer> keys) {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public void setFahrzeugConfig(SystemTyp systemTyp, Map<Integer, Integer> fahrzeugConfigParameters) {
+  public void setFahrzeugdecoderConfig(SystemTyp systemTyp, Map<Integer, Integer> fahrzeugConfigParameters) {
     throw new UnsupportedOperationException();
   }
 
