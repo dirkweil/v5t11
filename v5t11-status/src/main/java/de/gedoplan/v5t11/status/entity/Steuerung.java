@@ -371,27 +371,24 @@ public class Steuerung implements Serializable {
     this.autoSkripte.forEach(as -> as.linkSteuerungsObjekte(this));
   }
 
-  public void assignLokcontroller(String lokcontrollerId, DecoderAdr fahrzeugId, int hornBits) {
+  public void assignLokcontroller(String lokcontrollerId, DecoderAdr decoderAdr, int hornBits) {
     Lokcontroller lokcontroller = getLokcontroller(lokcontrollerId);
     if (lokcontroller == null) {
       throw new IllegalArgumentException("Lokcontroller nicht gefunden: " + lokcontrollerId);
     }
 
-    Fahrzeugdecoder lok = null;
-    if (fahrzeugId != null) {
-      lok = getFahrzeugdecoder(fahrzeugId);
-      if (lok == null) {
-        throw new IllegalArgumentException("Lok nicht gefunden: " + fahrzeugId);
-      }
+    Fahrzeugdecoder fahrzeugdecoder = null;
+    if (decoderAdr != null) {
+      fahrzeugdecoder = getOrCreateFahrzeugdecoder(decoderAdr);
 
       for (Lokcontroller lc : getLokcontroller()) {
-        if (!lc.equals(lokcontroller) && lok.equals(lc.getLok())) {
-          lc.setLok(null, 0);
+        if (!lc.equals(lokcontroller) && fahrzeugdecoder.equals(lc.getFahrzeugdecoder())) {
+          lc.setFahrzeugdecoder(null, 0);
         }
       }
     }
 
-    lokcontroller.setLok(lok, hornBits);
+    lokcontroller.setFahrzeugdecoder(fahrzeugdecoder, hornBits);
   }
 
   private void registerAdressen(Baustein baustein) {

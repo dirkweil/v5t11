@@ -29,28 +29,25 @@ import lombok.NoArgsConstructor;
 @JsonbNillable
 public abstract class Lokcontroller extends Baustein implements Encoder {
 
-  /**
-   * Zugewiesene Lok oder <code>null</code>.
-   */
   @Getter
-  protected Fahrzeugdecoder lok;
+  protected Fahrzeugdecoder fahrzeugdecoder;
 
   protected Lokcontroller(int byteAnzahl) {
     super(byteAnzahl);
   }
 
   @JsonbShort
-  public DecoderAdr getLokId() {
-    return this.lok != null ? this.lok.getId() : null;
+  public DecoderAdr getDecoderAdr() {
+    return this.fahrzeugdecoder != null ? this.fahrzeugdecoder.getDecoderAdr() : null;
   }
 
   /**
-   * Lok zuweisen.
+   * Fahrzeugdecoder zuweisen.
    *
-   * @param lok Lok
+   * @param fahrzeugdecoder Fahrzeugdecoder
    * @param hornBits Bits für das Signalhorn
    */
-  public abstract void setLok(Fahrzeugdecoder lok, int hornBits);
+  public abstract void setFahrzeugdecoder(Fahrzeugdecoder fahrzeugdecoder, int hornBits);
 
   @Override
   public String getLabelPrefix() {
