@@ -387,6 +387,7 @@ public class DbInitService {
 
   @Transactional
   public void loadFahrzeuge(Path path) {
+    logger.debugf("Fahrzeuge aus %s importieren", path);
     File dir = path.toFile();
     if (dir.exists() && dir.isDirectory()) {
       for (File xmlFile : dir.listFiles((f, n) -> n.endsWith(".xml"))) {
@@ -401,9 +402,10 @@ public class DbInitService {
 
       if (this.fahrzeugRepository.findById(fahrzeug.getId()).isEmpty()) {
         this.fahrzeugRepository.persist(fahrzeug);
-        logger.debugf("%s aus %s importiert", fahrzeug.toString(true), xmlFile);
+        logger.debugf("Fahrzeug %s aus %s importiert", fahrzeug.getBetriebsnummer(), xmlFile);
+      } else {
+        logger.debugf("Fahrzeug %s existiert bereits", fahrzeug.getBetriebsnummer(), xmlFile);
       }
-
     } catch (JAXBException e) {
       logger.warnf("Datei %s enthält keine gültige Fahrzeugdefinition", xmlFile);
     } catch (FileNotFoundException e) {
