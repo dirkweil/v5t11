@@ -7,37 +7,113 @@ _v5t11_ nutzt _Kafka_ als Message Broker.
 Messaging wird genutzt, um Zustandsänderungen den anderen Teilservices mitzuteilen.
 Jedes Topic mit Ausnahme von `navigation` hat genau einen Publisher, d. h. die verteilten Daten haben eine "Heimathafen".
 +
-Channels und Topics heißen gleich mit Ausnahme von `navigation`. Hier werden `navigation-out` und `navigation-in` für die beiden Übertragungsrichtungen verwendet.
+Channels und Topics heißen gleich mit Ausnahme von `navigation`.
+Hier werden `navigation-out` und `navigation-in` für die beiden Übertragungsrichtungen verwendet.
 
 . Topics
 +
+[cols="1,2,1,1,3"]
 |===
-|Topic|Beschreibung|`v5t11-status`|`v5t11-fahrstrassen`|`v5t11-fahrzeuge`|`v5t11-leitstand`
+|Topic|Beschreibung|Publisher|Consumer|Beispiel-Daten
 
-|`status`
-|Aktualisierung der Daten aus der Steuerungszentrale (`Zentrale`, `Weiche`, `Signal`, `Gleis`). Auch `Fahrzeug`-Daten werden gesendet, allerdings nur die der Zentrale bekannten Daten (technische Abstraktionsebene).
-|Publisher
-|Consumer
-|Consumer
-|Consumer
+.6+|`status`
+|Aktualisierung der Daten aus der Steuerungszentrale. Je nach konkretem Typ `Fahrzeugdecoder`, `Gleis`, `Signal`, `Weiche` und `Zentrale` wird ein Objekt mit einem der u. a. Keys versendet.
+.6+|`v5t11-status`
+|
+|
+
+|`decoder`
+|`v5t11-fahrzeuge`
+a|....
+{
+  "decoder": {
+    "aktiv": false,
+    "decoderAdr": "1103@DCC",
+    "fahrstufe": 0,
+    "fktBits": 0,
+    "lastChangeMillis": 0,
+    "licht": false,
+    "rueckwaerts": false
+  }
+}
+....
+
+
+|`gleis`
+|`v5t11-fahrstrassen` +
+`v5t11-stellwerk`
+a|....
+{
+  "gleis": {
+    "key": "1@test",
+    "lastChangeMillis": 0,
+    "besetzt": false
+  }
+}
+....
+
+|`signal`
+|`v5t11-fahrstrassen` +
+`v5t11-stellwerk`
+a|....
+{
+  "signal": {
+    "key": "P2@test",
+    "lastChangeMillis": 0,
+    "stellung": "H",
+    "typ": "HS"
+  }
+}
+....
+
+|`weiche`
+|`v5t11-fahrstrassen` +
+`v5t11-stellwerk`
+a|....
+{
+  "weiche": {
+    "key": "10@test",
+    "lastChangeMillis": 0,
+    "stellung": "G"
+  }
+}
+....
+
+|`zentrale`
+|`v5t11-stellwerk`
+a|....
+{
+  "zentrale": {
+    "gleisspannung": false,
+    "kurzschluss": false
+  }
+}
+....
 
 |`navigation`
 |Menü-Punkte für die Navigation in der Web-Anwendung
-4+|Publisher (Channel `navigation-out`) +
-Consumer (Channel `navigation-in`)
+|alle (Channel `navigation-out`)
+|alle (Channel `navigation-in`)
+|
 
 |`fahrstrasse`
 |Aktualisierung von Fahrstrassen
-|
-|Publisher
-|
-|Consumer
+|`v5t11-fahrstrassen`
+|`v5t11-stellwerk`
+a|....
+{
+  "key": "11-W1-1-W3-S@show",
+  "reservierungsTyp": "U",
+  "teilFreigabeAnzahl": 0
+}
+....
 
 |`fahrzeug`
 |Neu-Definition von Fahrzeugen
+|`v5t11-fahrzeuge`
 |
-|
-|Publisher
-|
+a|....
+....
 
 |===
+
