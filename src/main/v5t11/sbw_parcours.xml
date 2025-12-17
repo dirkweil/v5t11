@@ -1257,7 +1257,15 @@
     <Fahrstrasse ende="8b" />
   </AutoFahrstrasse>
 
-  <AutoFahrstrasse bereich="SBf" trigger="1009">
+  <AutoFahrstrasse bereich="SBf" trigger="1010">
+    <Fahrstrasse ende="1007"/>
+  </AutoFahrstrasse>
+
+  <AutoFahrstrasse bereich="SBf" trigger="2007">
+    <Fahrstrasse ende="9e"/>
+  </AutoFahrstrasse>
+
+  <AutoFahrstrasse bereich="SBf" trigger="1002">
     <Fahrstrasse ende="1b" />
     <Fahrstrasse ende="2b" />
     <Fahrstrasse ende="3b" />
@@ -1268,16 +1276,15 @@
     <Fahrstrasse ende="8b" />
   </AutoFahrstrasse>
 
-  <AutoFahrstrasse bereich="SBf" trigger="1010">
-    <Fahrstrasse ende="1007"/>
-  </AutoFahrstrasse>
-
-  <AutoFahrstrasse bereich="SBf" trigger="1002">
-    <Fahrstrasse ende="1009"/>
-  </AutoFahrstrasse>
-
   <AutoFahrstrasse bereich="NBf" trigger="201">
-    <Fahrstrasse ende="1009" endeBereich="SBf"/>
+    <Fahrstrasse ende="1b" endeBereich="SBf" />
+    <Fahrstrasse ende="2b" endeBereich="SBf" />
+    <Fahrstrasse ende="3b" endeBereich="SBf" />
+    <Fahrstrasse ende="4b" endeBereich="SBf" />
+    <Fahrstrasse ende="5b" endeBereich="SBf" />
+    <Fahrstrasse ende="6b" endeBereich="SBf" />
+    <Fahrstrasse ende="7b" endeBereich="SBf" />
+    <Fahrstrasse ende="8b" endeBereich="SBf" />
   </AutoFahrstrasse>
 
 </Parcours>
