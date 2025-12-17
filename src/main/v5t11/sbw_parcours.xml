@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Parcours>
-  <!-- Fahrstrassen im Bereich SBf --> 
+  <!-- Fahrstrassen im Bereich SBf -->
   <Fahrstrasse bereich="SBf" zaehlrichtung="true" umkehrbar="true">
     <Gleis name="1001" />
     <Weiche name="1003" stellung="GERADE" />
@@ -49,7 +49,7 @@
   <Fahrstrasse bereich="SBf" zaehlrichtung="true" umkehrbar="true">
     <Gleis name="1009" />
     <Weiche name="1" bereich="SBf" stellung="ABZWEIGEND" />
-    <Gleis name="W1" bereich="SBf"/>
+    <Gleis name="W1" bereich="SBf" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="SBf" zaehlrichtung="false" umkehrbar="false">
@@ -62,7 +62,7 @@
     <Gleis name="1011" />
   </Fahrstrasse>
 
-  <!-- Fahrstrassen im Bereich SBf --> 
+  <!-- Fahrstrassen im Bereich SBf -->
   <Fahrstrasse bereich="SBf" zaehlrichtung="true" umkehrbar="true">
     <Gleis name="2002" />
     <Gleis name="W2003" />
@@ -1236,18 +1236,16 @@
     <Gleis name="W31" />
   </Fahrstrasse>
 
-<!--
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleis name="507" />
-    <Gleis name="3002" bereich="S30" />
+    <Gleis name="1002" bereich="SBf" />
   </Fahrstrasse>
 
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleis name="506" />
-    <Gleis name="3001" bereich="S30" />
+    <Gleis name="1001" bereich="SBf" />
   </Fahrstrasse>
--->
-<!--
+
   <AutoFahrstrasse bereich="SBf" trigger="9a">
     <Fahrstrasse ende="1b" />
     <Fahrstrasse ende="2b" />
@@ -1260,27 +1258,26 @@
   </AutoFahrstrasse>
 
   <AutoFahrstrasse bereich="SBf" trigger="1009">
-    <Fahrstrasse ende="1b" bereich="SBf"/>
-    <Fahrstrasse ende="2b" bereich="SBf"/>
-    <Fahrstrasse ende="3b" bereich="SBf"/>
-    <Fahrstrasse ende="4b" bereich="SBf"/>
-    <Fahrstrasse ende="5b" bereich="SBf"/>
-    <Fahrstrasse ende="6b" bereich="SBf"/>
-    <Fahrstrasse ende="7b" bereich="SBf"/>
-    <Fahrstrasse ende="8b" bereich="SBf"/>
+    <Fahrstrasse ende="1b" />
+    <Fahrstrasse ende="2b" />
+    <Fahrstrasse ende="3b" />
+    <Fahrstrasse ende="4b" />
+    <Fahrstrasse ende="5b" />
+    <Fahrstrasse ende="6b" />
+    <Fahrstrasse ende="7b" />
+    <Fahrstrasse ende="8b" />
   </AutoFahrstrasse>
 
   <AutoFahrstrasse bereich="SBf" trigger="1010">
     <Fahrstrasse ende="1007"/>
   </AutoFahrstrasse>
 
-  <AutoFahrstrasse bereich="SBf" trigger="1007">
+  <AutoFahrstrasse bereich="SBf" trigger="1002">
     <Fahrstrasse ende="1009"/>
   </AutoFahrstrasse>
 
-  <AutoFahrstrasse bereich="SBf" trigger="201">
-    <Fahrstrasse ende="9a" />
+  <AutoFahrstrasse bereich="NBf" trigger="201">
+    <Fahrstrasse ende="1009" endeBereich="SBf"/>
   </AutoFahrstrasse>
--->
 
 </Parcours>
