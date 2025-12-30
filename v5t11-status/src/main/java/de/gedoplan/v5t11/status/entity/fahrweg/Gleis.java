@@ -5,6 +5,7 @@ import de.gedoplan.v5t11.status.entity.baustein.Besetztmelder;
 import de.gedoplan.v5t11.util.cdi.Changed;
 import de.gedoplan.v5t11.util.domain.entity.fahrweg.AbstractGleis;
 
+import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.xml.bind.Unmarshaller;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -30,14 +31,17 @@ public class Gleis extends AbstractGleis {
   /**
    * Besetztmelder, der den Gleis überwacht.
    */
+  @JsonbTransient
   private Besetztmelder besetztmelder;
 
   /**
    * Anschluss am Besetztmelder (0, 1, ...)
    */
   @XmlAttribute(name = "idx")
+  @JsonbTransient
   private int anschluss;
 
+  @JsonbTransient
   private Logger log = Logger.getLogger(getClass());
 
   /**
