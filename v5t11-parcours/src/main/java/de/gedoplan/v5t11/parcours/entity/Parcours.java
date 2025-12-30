@@ -8,7 +8,10 @@ import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenFilter;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
 import de.gedoplan.v5t11.util.domain.entity.Bereichselement;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -17,10 +20,9 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
-import org.jboss.logging.Logger;
-
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
+import org.jboss.logging.Logger;
 
 import lombok.Getter;
 
@@ -158,19 +160,6 @@ public class Parcours {
     }
 
     this.logger.debugf("# CombiFahrstrassen: %d", combiAnzahl);
-  }
-
-  /**
-   * Fahrstrassen entfernen, wenn sie mit einem nicht als Start oder Ende erlaubten Weichengleis starten bzw. enden.
-   */
-  public void removeUnerlaubteFahrstrassen() {
-    Set<Fahrstrasse> ungueltigeFahrstrassen = this.fahrstrassen.stream()
-      .filter(fs -> !fs.getStart().isStartErlaubt() || !fs.getEnde().isEndeErlaubt())
-      .collect(Collectors.toSet());
-    this.fahrstrassen.removeAll(ungueltigeFahrstrassen);
-    mapStartToFahrstrassenRemove(ungueltigeFahrstrassen);
-
-    this.logger.debugf("# Ungültige Fahrstrassen: %d", ungueltigeFahrstrassen.size());
   }
 
   /**

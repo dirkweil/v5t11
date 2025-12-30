@@ -35,21 +35,13 @@ public class ParcoursProducer {
 
     // Parcours aus XML lesen
     Parcours parcours = configService.readXmlConfig("_parcours.xml", Parcours.class);
-    this.logger.infof("a) %d", parcours.getFahrstrassen().size());
-    this.logger.infof("b) %d", parcours.getFahrstrassen().stream().filter(fs -> !fs.isCombi()).count());
-    this.logger.infof("c) %d", parcours.getFahrstrassen().stream().filter(fs -> fs.isUmkehrbar()).count());
     parcours.injectFields();
     parcours.addPersistentEntries();
 
     parcours.completeFahrstrassen();
-    this.logger.infof("d) %d", parcours.getFahrstrassen().stream().filter(fs -> !fs.isCombi()).count());
-    parcours.removeUnerlaubteFahrstrassen();
-    this.logger.infof("e) %d", parcours.getFahrstrassen().stream().filter(fs -> !fs.isCombi()).count());
     parcours.adjustLangsamfahrt();
-    this.logger.infof("f) %d", parcours.getFahrstrassen().stream().filter(fs -> !fs.isCombi()).count());
     parcours.injectFields();
     parcours.addPersistentEntries();
-    this.logger.infof("z) %d", parcours.getFahrstrassen().stream().filter(fs -> !fs.isCombi()).count());
 
     return parcours;
   }
