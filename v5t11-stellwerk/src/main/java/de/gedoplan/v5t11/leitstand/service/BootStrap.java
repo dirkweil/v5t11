@@ -34,7 +34,7 @@ public class BootStrap {
     log.infof("db: %s", getDbUrl(dataSource));
     log.infof("kafka: %s", kafkaUrl);
     log.infof("statusRestUrl: %s", configService.getStatusRestUrl());
-    log.infof("fahrstrassenRestUrl: %s", configService.getFahrstrassenRestUrl());
+    log.infof("parcoursRestUrl: %s", configService.getParcoursRestUrl());
     log.infof("bereiche: %s", leitstand.getBereiche().stream().collect(Collectors.joining(",")));
 
   }

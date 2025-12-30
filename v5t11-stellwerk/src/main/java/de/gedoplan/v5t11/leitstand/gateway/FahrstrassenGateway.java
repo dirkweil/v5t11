@@ -18,7 +18,7 @@ import jakarta.ws.rs.core.MediaType;
 
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
-@RegisterRestClient(configKey = "v5t11.fahrstrassen")
+@RegisterRestClient(configKey = "v5t11.parcours")
 public interface FahrstrassenGateway {
 
   @GET

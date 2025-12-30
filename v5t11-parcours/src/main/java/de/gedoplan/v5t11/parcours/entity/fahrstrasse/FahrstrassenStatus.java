@@ -1,0 +1,48 @@
+package de.gedoplan.v5t11.parcours.entity.fahrstrasse;
+
+import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
+import de.gedoplan.v5t11.util.domain.entity.Bereichselement;
+import de.gedoplan.v5t11.util.jsonb.JsonbShort;
+
+import jakarta.persistence.Cacheable;
+import jakarta.persistence.Convert;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
+
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Entity
+@Table(name = FahrstrassenStatus.TABLE_NAME)
+@Cacheable
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.NONE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class FahrstrassenStatus extends Bereichselement {
+
+  public static final String TABLE_NAME = "PA_STATUS";
+
+  /**
+   * Falls reserviert, Typ der Reservierung, sonst <code>null</code>.
+   */
+  @Getter(onMethod_ = @JsonbShort)
+  @Setter(onMethod_ = @JsonbShort)
+  @Convert(converter = FahrstrassenReservierungsTyp.Adapter4Jpa.class)
+  private FahrstrassenReservierungsTyp reservierungsTyp = FahrstrassenReservierungsTyp.UNRESERVIERT;
+
+  /**
+   * Anzahl der bereits freigegebenen Elemente.
+   */
+  @Getter(onMethod_ = @JsonbShort)
+  @Setter(onMethod_ = @JsonbShort)
+  private int teilFreigabeAnzahl = 0;
+
+  public FahrstrassenStatus(String bereich, String name) {
+    super(bereich, name);
+  }
+}

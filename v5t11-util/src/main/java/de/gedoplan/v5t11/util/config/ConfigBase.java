@@ -52,7 +52,7 @@ public abstract class ConfigBase {
 
   public static final String PROPERTY_STATUS_REST_URL = "v5t11.status/mp-rest/url";
 
-  public static final String PROPERTY_FAHRSTRASSEN_REST_URL = "v5t11.fahrstrassen/mp-rest/url";
+  public static final String PROPERTY_PARCOURS_REST_URL = "v5t11.parcours/mp-rest/url";
 
   @Inject
   @ConfigProperty(name = PROPERTY_CONFIG_DIR)
@@ -110,9 +110,9 @@ public abstract class ConfigBase {
   String statusRestUrl;
 
   @Inject
-  @ConfigProperty(name = PROPERTY_FAHRSTRASSEN_REST_URL)
+  @ConfigProperty(name = PROPERTY_PARCOURS_REST_URL)
   @Getter
-  String fahrstrassenRestUrl;
+  String parcoursRestUrl;
 
   /**
    * Veränderungs-Zeit der XML-Konfigurationsdatei ermitteln.
