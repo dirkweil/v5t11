@@ -1,22 +1,24 @@
 package de.gedoplan.v5t11.fahrzeuge.entity.fahrweg;
 
+import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import de.gedoplan.v5t11.util.domain.entity.fahrweg.geraet.AbstractWeiche;
 
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.persistence.Cacheable;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 
 import lombok.NoArgsConstructor;
 
-@XmlAccessorType(XmlAccessType.NONE)
+@Entity
+@Table(name = Weiche.TABLE_NAME)
+@Cacheable(true)
 @NoArgsConstructor
-public class Weiche extends AbstractWeiche implements StatusUpdateable<Weiche> {
+public class Weiche extends AbstractWeiche {
 
-  public Weiche(String bereich, String name) {
-    super(bereich, name);
-  }
+  public static final String TABLE_NAME = "FZ_WEICHE";
 
-  public synchronized void copyStatus(Weiche other) {
-    setStellung(other.getStellung());
+  public Weiche(BereichselementId id) {
+    super(id);
   }
 
 }

@@ -1,5 +1,7 @@
 package de.gedoplan.v5t11.fahrzeuge.messaging;
 
+import de.gedoplan.v5t11.fahrzeuge.entity.fahrweg.Gleis;
+import de.gedoplan.v5t11.fahrzeuge.entity.fahrweg.Weiche;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeugdecoder;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.cdi.Received;
@@ -42,6 +44,8 @@ public class IncomingHandler {
       String typeAsString = matcher.group("type");
       Class<?> type = switch (typeAsString) {
         case "decoder" -> Fahrzeugdecoder.class;
+        case "gleis" -> Gleis.class;
+        case "weiche" -> Weiche.class;
         default -> null;
       };
 

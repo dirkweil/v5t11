@@ -1,22 +1,34 @@
 package de.gedoplan.v5t11.fahrzeuge.entity.fahrweg;
 
+import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import de.gedoplan.v5t11.util.domain.entity.fahrweg.AbstractGleis;
 
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.persistence.Cacheable;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@XmlAccessorType(XmlAccessType.NONE)
+@Entity
+@Table(name = Gleis.TABLE_NAME)
+@Cacheable(true)
 @NoArgsConstructor
-public class Gleis extends AbstractGleis implements StatusUpdateable<Gleis> {
+public class Gleis extends AbstractGleis {
 
-  public Gleis(String bereich, String name) {
-    super(bereich, name);
-  }
+  public static final String TABLE_NAME = "FZ_GLEIS";
 
-  public synchronized void copyStatus(Gleis other) {
-    setBesetzt(other.isBesetzt());
+  @Getter
+  @Setter
+  private int laenge;
+
+  @Getter
+  @Setter
+  private boolean verdeckt;
+
+  public Gleis(BereichselementId id) {
+    super(id);
   }
 
 }

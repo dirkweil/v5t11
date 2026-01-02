@@ -21,7 +21,8 @@ public class BootStrap {
     ConfigService configService,
     DataSource dataSource,
     @ConfigProperty(name = "kafka.bootstrap.servers", defaultValue = "(dev service; see url above)") String kafkaUrl,
-    DbInitService dbInitService,
+    FahrzeugeInitService fahrzeugeInitService,
+    ParcoursInitService parcoursInitService,
     JoinService joinService,
     NavigationPresenter navigationPresenter) {
     log.infof("app: %s:%s", configService.getArtifactId(), configService.getVersion());
@@ -31,10 +32,10 @@ public class BootStrap {
     log.infof("db: %s", getDbUrl(dataSource));
     log.infof("kafka: %s", kafkaUrl);
     log.infof("statusRestUrl: %s", configService.getStatusRestUrl());
+    log.infof("parcoursRestUrl: %s", configService.getParcoursRestUrl());
 
-    configService.getFahrzeugeInitPath().ifPresent(dbInitService::loadFahrzeuge);
-
-    //    dbInitService.fillDb();
+    configService.getFahrzeugeInitPath().ifPresent(fahrzeugeInitService::loadFahrzeuge);
+    parcoursInitService.loadParcours();
 
     joinService.joinMyself();
   }
