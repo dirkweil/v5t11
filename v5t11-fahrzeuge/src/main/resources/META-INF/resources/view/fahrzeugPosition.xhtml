@@ -28,11 +28,22 @@
         </p:toolbar>
 
         <h:panelGrid columns="2">
-          <p:outputLabel for="@next" value="Beschreibung"/>
-          <p:inputText value="#{fahrzeugListPresenter.currentFahrzeug.beschreibung}" size="60" id="beschreibung"/>
+          <p:outputLabel for="@next" value="Gleis:"/>
+          <p:selectOneMenu id="gleis" value="#{fahrzeugPositionPresenter.currentFahrzeug.gleis}"
+                           converter="#{fahrzeugPositionPresenter.gleisConverter}" style="width:125px">
+            <f:selectItem itemLabel="unbekannt" itemValue="#{null}"/>
+            <f:selectItems value="#{fahrzeugPositionPresenter.gleise}"
+                           var="gleis" itemLabel="#{gleis.id.toString()}" itemValue="#{gleis}"/>
+          </p:selectOneMenu>
 
-          <p:outputLabel for="@next" value="Länge [mm]"/>
-          <p:inputText value="#{fahrzeugListPresenter.currentFahrzeug.laenge}" size="60" id="laenge"/>
+          <p:outputLabel for="@next" value="Position [mm]:"/>
+          <p:inputText value="#{fahrzeugListPresenter.currentFahrzeug.gleisPosition}" id="gleisPosition"/>
+
+          <p:outputLabel for="@next" value="Richtung:"/>
+          <p:selectBooleanButton id="richtung" value="#{fahrzeugListPresenter.currentFahrzeug.gleisZaehlrichtung}"
+                                 onLabel="in Zählrichtung vorwärts"
+                                 offLabel="in Zählrichtung rückwärts">
+          </p:selectBooleanButton>
 
         </h:panelGrid>
       </h:panelGrid>

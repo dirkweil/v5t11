@@ -2,6 +2,7 @@ package de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug;
 
 import de.gedoplan.baselibs.persistence.entity.SingleIdEntity;
 import de.gedoplan.baselibs.utils.inject.InjectionUtil;
+import de.gedoplan.v5t11.fahrzeuge.entity.fahrweg.Gleis;
 import de.gedoplan.v5t11.util.domain.attribute.DecoderAdr;
 import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 import de.gedoplan.v5t11.util.jsonb.JsonbShort;
@@ -13,6 +14,7 @@ import java.util.List;
 import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.Access;
 import jakarta.persistence.AccessType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -92,6 +94,14 @@ public class Fahrzeug extends SingleIdEntity<String> {
   @Setter
   private String beschreibung;
 
+  /**
+   * Länge des Fahrzeugs in mm.
+   */
+  @Getter
+  @Setter
+  @JsonbTransient
+  private int laenge;
+
   @Lob
   @Getter
   @Setter
@@ -103,23 +113,57 @@ public class Fahrzeug extends SingleIdEntity<String> {
   @Setter
   private Fahrzeugdecoder fahrzeugdecoder;
 
+  /**
+   * Gleis, auf dem sich das Fahrzeug befindet.
+   * <code>null</code> bedeutet "unbekannt".
+   */
+  @Getter
+  @Setter
+  @XmlTransient
+  @JsonbTransient
+  @ManyToOne
+  private Gleis gleis;
+
+  /**
+   * Position auf dem Gleis.
+   * Gemessen in mm vom Beginn (in Zählrichtung).
+   */
+  @Getter
+  @Setter
+  @XmlTransient
+  @JsonbTransient
+  @Column(name = "GLEIS_POSITION")
+  private int gleisPosition;
+
+  /**
+   * Ist das Fahrzeug in Zählrichtung auf dem Gleis?
+   * Ein Fahrzeug ist in Zählrichtung, wenn es bei Vorwärtsfahrt in Zählrichtung fährt.
+   */
+  @Getter
+  @Setter
+  @XmlTransient
+  @JsonbTransient
+  @Column(name = "GLEIS_ZAEHLRICHTUNG")
+  private boolean gleisZaehlrichtung;
+
   public Fahrzeug(String betriebsnummer) {
     this.betriebsnummer = betriebsnummer;
   }
 
-  public Fahrzeug(String betriebsnummer, FahrzeugTyp fahrzeugTyp, String beschreibung, String decoderName, DecoderAdr decoderAdr, List<FahrzeugFunktion> funktionen,
+  public Fahrzeug(String betriebsnummer, FahrzeugTyp fahrzeugTyp, String beschreibung, int laenge, String decoderName, DecoderAdr decoderAdr, List<FahrzeugFunktion> funktionen,
     List<FahrzeugKonfiguration> konfigurationen) {
     this.betriebsnummer = betriebsnummer;
     this.fahrzeugTyp = fahrzeugTyp;
     this.beschreibung = beschreibung;
+    this.laenge = laenge;
     this.fahrzeugdecoder = new Fahrzeugdecoder(decoderName, decoderAdr, funktionen, konfigurationen);
   }
 
   @Builder
-  public Fahrzeug(String betriebsnummer, FahrzeugTyp fahrzeugTyp, String beschreibung, String decoderName, @NotNull SystemTyp systemTyp, int adresse,
+  public Fahrzeug(String betriebsnummer, FahrzeugTyp fahrzeugTyp, String beschreibung, int laenge, String decoderName, @NotNull SystemTyp systemTyp, int adresse,
     @Singular("funktion") List<FahrzeugFunktion> funktionen,
     @Singular("konfiguration") List<FahrzeugKonfiguration> konfigurationen) {
-    this(betriebsnummer, fahrzeugTyp, beschreibung, decoderName, new DecoderAdr(systemTyp, adresse), funktionen, konfigurationen);
+    this(betriebsnummer, fahrzeugTyp, beschreibung, laenge, decoderName, new DecoderAdr(systemTyp, adresse), funktionen, konfigurationen);
   }
 
   @Override

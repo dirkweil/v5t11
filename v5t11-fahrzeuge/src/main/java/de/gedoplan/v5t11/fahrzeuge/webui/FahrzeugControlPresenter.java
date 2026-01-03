@@ -1,10 +1,12 @@
 package de.gedoplan.v5t11.fahrzeuge.webui;
 
+import de.gedoplan.v5t11.fahrzeuge.entity.fahrweg.Gleis;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.FahrzeugFunktion;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe;
 import de.gedoplan.v5t11.fahrzeuge.gateway.StatusGateway;
 import de.gedoplan.v5t11.fahrzeuge.persistence.FahrzeugRepository;
+import de.gedoplan.v5t11.fahrzeuge.persistence.GleisRepository;
 
 import java.io.Serializable;
 import java.text.Collator;
@@ -30,6 +32,9 @@ public class FahrzeugControlPresenter implements Serializable {
 
   @Inject
   FahrzeugRepository fahrzeugRepository;
+
+  @Inject
+  GleisRepository gleisRepository;
 
   @Inject
   @RestClient
@@ -71,6 +76,19 @@ public class FahrzeugControlPresenter implements Serializable {
 
   public int getLokMaxFahrstufe() {
     return this.fahrzeugListPresenter.getCurrentFahrzeug().getFahrzeugdecoder().getDecoderAdr().getSystemTyp().getMaxFahrstufe();
+  }
+
+  public String getPositionsbeschreibung() {
+    Fahrzeug fahrzeug = this.fahrzeugListPresenter.getCurrentFahrzeug();
+    Gleis gleis = fahrzeug.getGleis();
+    if (gleis == null) {
+      return "unbekannt";
+    }
+
+    return String.format("%s, %d mm, in Zählrichtung %s",
+      gleis.getId(),
+      fahrzeug.getGleisPosition(),
+      fahrzeug.isGleisZaehlrichtung() ? "vorwärts" : "rückwärts");
   }
 
   public List<FahrzeugFunktionsGruppe> getCurrentFunktionsGruppen() {

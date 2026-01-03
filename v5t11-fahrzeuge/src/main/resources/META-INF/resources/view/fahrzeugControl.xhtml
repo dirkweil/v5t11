@@ -34,6 +34,9 @@
             <p:menuitem value="Basisdaten" icon="pi pi-list" title="Basisdaten bearbeiten"
                         action="editBasics"
                         ajax="false"/>
+            <p:menuitem value="Position" icon="pi pi-map-marker" title="Fahrzeug-Ort bearbeiten"
+                        action="editPosition"
+                        ajax="false"/>
             <p:menuitem value="Zugbildung" icon="pi pi-link" title="Zug bearbeiten"
                         action="editTraktion"
                         ajax="false"/>
@@ -84,6 +87,9 @@
           </p:slider>
           <h:panelGroup/>
         </h:panelGrid>
+
+        <p:outputLabel for="fzPos" value="Position:"/>
+        <h:outputText id="fzPos" value="#{fahrzeugControlPresenter.positionsbeschreibung}"/>
 
         <c:forEach items="#{fahrzeugControlPresenter.currentFunktionsGruppen}" var="lfcg">
           <p:outputLabel value="#{lfcg.name}:"/>

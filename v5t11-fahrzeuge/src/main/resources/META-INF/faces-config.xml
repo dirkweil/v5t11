@@ -27,6 +27,12 @@
     </navigation-case>
 
     <navigation-case>
+      <from-outcome>editPosition</from-outcome>
+      <to-view-id>/view/fahrzeugPosition.xhtml</to-view-id>
+      <redirect/>
+    </navigation-case>
+
+    <navigation-case>
       <from-outcome>editTraktion</from-outcome>
       <to-view-id>/view/fahrzeugTraktion.xhtml</to-view-id>
       <redirect/>
@@ -53,6 +59,16 @@
 
   <navigation-rule>
     <from-view-id>/view/fahrzeugBasics.xhtml</from-view-id>
+
+    <navigation-case>
+      <from-outcome>finished</from-outcome>
+      <to-view-id>/view/fahrzeugControl.xhtml</to-view-id>
+      <redirect/>
+    </navigation-case>
+  </navigation-rule>
+
+  <navigation-rule>
+    <from-view-id>/view/fahrzeugPosition.xhtml</from-view-id>
 
     <navigation-case>
       <from-outcome>finished</from-outcome>
