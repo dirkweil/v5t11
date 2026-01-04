@@ -29,11 +29,11 @@
 
         <h:panelGrid columns="2">
           <p:outputLabel for="@next" value="Gleis:"/>
-          <p:selectOneMenu id="gleis" value="#{fahrzeugPositionPresenter.currentFahrzeug.gleis}"
-                           converter="#{fahrzeugPositionPresenter.gleisConverter}" style="width:125px">
+          <p:selectOneMenu id="gleis" value="#{fahrzeugPositionPresenter.currentFahrzeug.gleisId}"
+                           converter="#{fahrzeugPositionPresenter.bereichselementIdConverter}" style="width:125px">
             <f:selectItem itemLabel="unbekannt" itemValue="#{null}"/>
-            <f:selectItems value="#{fahrzeugPositionPresenter.gleise}"
-                           var="gleis" itemLabel="#{gleis.id.toString()}" itemValue="#{gleis}"/>
+            <f:selectItems value="#{fahrzeugPositionPresenter.gleisIds}"
+                           var="id" itemLabel="#{id.toString()}" itemValue="#{id}"/>
           </p:selectOneMenu>
 
           <p:outputLabel for="@next" value="Position [mm]:"/>

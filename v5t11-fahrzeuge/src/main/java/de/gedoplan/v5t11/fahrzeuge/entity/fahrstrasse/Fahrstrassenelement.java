@@ -16,7 +16,6 @@ import jakarta.persistence.Access;
 import jakarta.persistence.AccessType;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Embeddable;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Transient;
 
 import lombok.Getter;
@@ -56,12 +55,6 @@ public class Fahrstrassenelement implements Cloneable {
   @Getter
   @Setter
   protected String stellung;
-
-  @ManyToOne
-  private Gleis gleis;
-
-  @ManyToOne
-  private Weiche weiche;
 
   @JsonbShort
   public void setKey(BereichselementId id) {
@@ -121,8 +114,9 @@ public class Fahrstrassenelement implements Cloneable {
   }
 
   private void associateGleis() {
-    this.gleis = this.gleisRepository.findById(id).orElse(guessGleis(id));
-    this.gleisRepository.persist(this.gleis);
+    if (this.gleisRepository.findById(id).isEmpty()) {
+      this.gleisRepository.persist(guessGleis(id));
+    }
   }
 
   private Gleis guessGleis(BereichselementId id) {
@@ -135,7 +129,8 @@ public class Fahrstrassenelement implements Cloneable {
   }
 
   private void associateWeiche() {
-    this.weiche = this.weicheRepository.findById(id).orElse(new Weiche(id));
-    this.weicheRepository.persist(this.weiche);
+    if (this.weicheRepository.findById(id).isEmpty()) {
+      this.weicheRepository.persist(new Weiche(id));
+    }
   }
 }

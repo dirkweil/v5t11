@@ -6,12 +6,9 @@ import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeugdecoder;
 import de.gedoplan.v5t11.fahrzeuge.messaging.IncomingHandler;
 import de.gedoplan.v5t11.fahrzeuge.persistence.FahrzeugRepository;
-import de.gedoplan.v5t11.fahrzeuge.persistence.GleisRepository;
-import de.gedoplan.v5t11.fahrzeuge.persistence.WeicheRepository;
 import de.gedoplan.v5t11.util.cdi.Changed;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.cdi.Received;
-import de.gedoplan.v5t11.util.domain.entity.Fahrwegelement;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.ObservesAsync;
@@ -33,10 +30,7 @@ import org.jboss.logging.Logger;
 public class StatusUpdater {
 
   @Inject
-  GleisRepository gleisRepository;
-
-  @Inject
-  WeicheRepository weicheRepository;
+  ParcoursService parcoursService;
 
   @Inject
   FahrzeugRepository fahrzeugRepository;
@@ -68,9 +62,7 @@ public class StatusUpdater {
    * @param receivedObject Empfangenes Objekt mit dem neuen Status.
    */
   void gleisReceived(@ObservesAsync @Received Gleis receivedObject) {
-    this.gleisRepository
-      .findById(receivedObject.getId())
-      .ifPresent(gleis -> copyStatus(gleis, receivedObject));
+    this.parcoursService.update(receivedObject);
   }
 
   /**
@@ -79,26 +71,12 @@ public class StatusUpdater {
    * @param receivedObject Empfangenes Objekt mit dem neuen Status.
    */
   void weicheReceived(@ObservesAsync @Received Weiche receivedObject) {
-    this.weicheRepository
-      .findById(receivedObject.getId())
-      .ifPresent(weiche -> copyStatus(weiche, receivedObject));
+    this.parcoursService.update(receivedObject);
   }
 
   private void copyStatus(Fahrzeug to, Fahrzeugdecoder from) {
     if (to != null) {
       if (to.getFahrzeugdecoder().copyStatus(from)) {
-        if (this.logger.isDebugEnabled()) {
-          this.logger.debug(to);
-        }
-
-        this.eventFirer.fire(to, Changed.Literal.INSTANCE);
-      }
-    }
-  }
-
-  private void copyStatus(Fahrwegelement to, Fahrwegelement from) {
-    if (to != null) {
-      if (to.copyStatus(from)) {
         if (this.logger.isDebugEnabled()) {
           this.logger.debug(to);
         }

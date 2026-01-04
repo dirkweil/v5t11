@@ -2,13 +2,11 @@ package de.gedoplan.v5t11.fahrzeuge.webui;
 
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrweg.Gleis;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug;
-import de.gedoplan.v5t11.fahrzeuge.persistence.GleisRepository;
+import de.gedoplan.v5t11.fahrzeuge.service.ParcoursService;
 import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.List;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.component.UIComponent;
@@ -29,14 +27,14 @@ public class FahrzeugPositionPresenter implements Serializable {
   FahrzeugListPresenter fahrzeugListPresenter;
 
   @Inject
-  GleisRepository gleisRepository;
+  ParcoursService parcoursService;
 
-  private SortedMap<BereichselementId, Gleis> gleise = new TreeMap<>();
+  @Getter
+  private List<BereichselementId> gleisIds;
 
   @PostConstruct
   void init() {
-    this.gleise.clear();
-    this.gleisRepository.findAll().forEach(g -> this.gleise.put(g.getId(), g));
+    this.gleisIds = this.parcoursService.getGleise().stream().map(Gleis::getId).toList();
   }
 
   public Fahrzeug getCurrentFahrzeug() {
@@ -47,24 +45,20 @@ public class FahrzeugPositionPresenter implements Serializable {
     return this.fahrzeugListPresenter.saveCurrentFahrzeug();
   }
 
-  public Collection<Gleis> getGleise() {
-    return this.gleise.values();
-  }
-
-  public class GleisConverter implements Converter<Gleis> {
+  public static class BereichselementIdConverter implements Converter<BereichselementId> {
 
     @Override
-    public Gleis getAsObject(FacesContext context, UIComponent component, String value) throws ConverterException {
-      return value == null ? null : gleise.get(BereichselementId.fromString(value));
+    public BereichselementId getAsObject(FacesContext context, UIComponent component, String value) throws ConverterException {
+      return value == null ? null : BereichselementId.fromString(value);
     }
 
     @Override
-    public String getAsString(FacesContext context, UIComponent component, Gleis value) throws ConverterException {
-      return value == null ? null : value.getId().toString();
+    public String getAsString(FacesContext context, UIComponent component, BereichselementId value) throws ConverterException {
+      return value == null ? null : value.toString();
     }
   }
 
   @Getter
-  private GleisConverter gleisConverter = new GleisConverter();
+  private BereichselementIdConverter bereichselementIdConverter = new BereichselementIdConverter();
 
 }

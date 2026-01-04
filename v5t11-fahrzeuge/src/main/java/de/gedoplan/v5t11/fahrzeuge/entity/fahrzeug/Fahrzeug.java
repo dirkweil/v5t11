@@ -2,7 +2,7 @@ package de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug;
 
 import de.gedoplan.baselibs.persistence.entity.SingleIdEntity;
 import de.gedoplan.baselibs.utils.inject.InjectionUtil;
-import de.gedoplan.v5t11.fahrzeuge.entity.fahrweg.Gleis;
+import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import de.gedoplan.v5t11.util.domain.attribute.DecoderAdr;
 import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 import de.gedoplan.v5t11.util.jsonb.JsonbShort;
@@ -14,6 +14,7 @@ import java.util.List;
 import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.Access;
 import jakarta.persistence.AccessType;
+import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -114,15 +115,16 @@ public class Fahrzeug extends SingleIdEntity<String> {
   private Fahrzeugdecoder fahrzeugdecoder;
 
   /**
-   * Gleis, auf dem sich das Fahrzeug befindet.
+   * Id des Gleises, auf dem sich das Fahrzeug befindet.
    * <code>null</code> bedeutet "unbekannt".
    */
   @Getter
   @Setter
   @XmlTransient
   @JsonbTransient
-  @ManyToOne
-  private Gleis gleis;
+  @AttributeOverride(name = "bereich", column = @Column(name = "GLEIS_BEREICH"))
+  @AttributeOverride(name = "name", column = @Column(name = "GLEIS_NAME"))
+  private BereichselementId gleisId;
 
   /**
    * Position auf dem Gleis.
