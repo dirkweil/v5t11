@@ -139,4 +139,12 @@ public class ParcoursService {
   public Collection<Gleis> getGleise() {
     return this.gleise.values();
   }
+
+  @Transactional
+  public void saveGleis(BereichselementId id) {
+    Gleis gleis = this.gleise.get(id);
+    if (gleis != null) {
+      this.gleisRepository.merge(gleis);
+    }
+  }
 }

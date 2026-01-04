@@ -15,6 +15,12 @@
       <to-view-id>/view/fahrzeugCreate.xhtml</to-view-id>
       <redirect/>
     </navigation-case>
+
+    <navigation-case>
+      <from-outcome>gleisParameter</from-outcome>
+      <to-view-id>/view/gleisParameter.xhtml</to-view-id>
+      <redirect/>
+    </navigation-case>
   </navigation-rule>
 
   <navigation-rule>
