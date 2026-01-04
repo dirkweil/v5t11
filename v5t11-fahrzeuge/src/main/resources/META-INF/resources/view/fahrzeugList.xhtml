@@ -38,18 +38,21 @@
 
   <ui:define name="extra">
     <h:form prependId="false">
-      <h:panelGroup id="controlPanel" layout="block">
+      <h:panelGroup id="extraPanel" layout="block">
         <h:panelGroup layout="block" styleClass="controlPanel">
           <p:outputLabel style="grid-column: 1;" value="Filter: " for="fahrzeugTyp"/>
-          <p:selectManyCheckbox id="fahrzeugTyp" style="grid-column: 3;" value="#{fahrzeugListPresenter.filter}">
+          <p:selectManyCheckbox id="fahrzeugTyp" style="grid-column: 3/-1;" value="#{fahrzeugListPresenter.filter}">
             <f:selectItems value="#{fahrzeugListPresenter.fahrzeugTypen}"
                            var="t" itemValue="${t}" itemLabel="${t.bezeichnung}"/>
             <p:ajax update="form"/>
           </p:selectManyCheckbox>
 
-          <p:outputLabel style="grid-column: 3;" value="... TODO: Besseres Layout ..."/>
-
           <p:commandButton style="grid-column: 3;" value="Neues Fahrzeug" icon="pi pi-plus-circle"
+                           action="create" ajax="false"/>
+
+          <h:panelGroup layout="block" style="height: 5rem;"/>
+
+          <p:commandButton style="grid-column: 3;" value="Gleisparameter" icon="pi pi-sliders-h"
                            action="create" ajax="false"/>
         </h:panelGroup>
       </h:panelGroup>
