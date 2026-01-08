@@ -53,7 +53,7 @@ public class FahrstrasseResourceTest {
     this.log.debug("----- test_02_getFahrstrassenIds -----");
 
     List<String> fahrstrassenIds = this.fahrstrasseResource.getFahrstrassenIds(null, null, null, null, null);
-    assertThat("Anzahl Fahrstrassen", fahrstrassenIds.size(), is(52));
+    assertThat("Anzahl Fahrstrassen", fahrstrassenIds.size(), is(194));
 
     fahrstrassenIds.forEach(this.log::debug);
   }
@@ -64,7 +64,7 @@ public class FahrstrasseResourceTest {
     this.log.debug("----- test_03_getFahrstrassenIdsFromStart -----");
 
     List<String> fahrstrassenIds = this.fahrstrasseResource.getFahrstrassenIds(BEREICH, START_NAME, null, null, null);
-    assertThat("Anzahl Fahrstrassen", fahrstrassenIds.size(), is(4));
+    assertThat("Anzahl Fahrstrassen", fahrstrassenIds.size(), is(6));
 
     fahrstrassenIds.forEach(this.log::debug);
   }

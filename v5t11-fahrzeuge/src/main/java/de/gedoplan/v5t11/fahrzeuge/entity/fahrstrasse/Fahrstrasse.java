@@ -61,7 +61,12 @@ public class Fahrstrasse extends Bereichselement {
 
   @JsonbTransient
   public Fahrstrassenelement getStart() {
-    return this.elemente.get(0);
+    return this.elemente.getFirst();
+  }
+
+  @JsonbTransient
+  public Fahrstrassenelement getEnde() {
+    return this.elemente.getLast();
   }
 
   public Fahrstrasse createUmkehrung() {
@@ -87,4 +92,5 @@ public class Fahrstrasse extends Bereichselement {
     InjectionUtil.injectFields(this);
     this.elemente.forEach(Fahrstrassenelement::injectFields);
   }
+
 }

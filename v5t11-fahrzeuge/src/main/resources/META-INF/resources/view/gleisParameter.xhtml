@@ -47,6 +47,17 @@
           </p:cellEditor>
         </p:column>
 
+        <p:column headerText="Mess-Gleis" style="width: 5rem; text-align: center;">
+          <p:cellEditor>
+            <f:facet name="output">
+              <p:selectBooleanCheckbox value="#{gleis.messGleis}" disabled="true"/>
+            </f:facet>
+            <f:facet name="input">
+              <p:selectBooleanCheckbox value="#{gleis.messGleis}"/>
+            </f:facet>
+          </p:cellEditor>
+        </p:column>
+
         <p:column style="width:4rem">
           <p:rowEditor editTitle="Gleis bearbeiten" cancelTitle="abbrechen" saveTitle="speichern"/>
         </p:column>

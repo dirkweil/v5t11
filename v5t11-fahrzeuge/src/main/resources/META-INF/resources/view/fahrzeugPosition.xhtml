@@ -33,7 +33,7 @@
                            converter="#{fahrzeugPositionPresenter.bereichselementIdConverter}" style="width:125px">
             <f:selectItem itemLabel="unbekannt" itemValue="#{null}"/>
             <f:selectItems value="#{fahrzeugPositionPresenter.gleisIds}"
-                           var="id" itemLabel="#{id.toString()}" itemValue="#{id}"/>
+                           var="gleis" itemLabel="#{gleis.toString()}" itemValue="#{gleis}"/>
           </p:selectOneMenu>
 
           <p:outputLabel for="@next" value="Position [mm]:"/>

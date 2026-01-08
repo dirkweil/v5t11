@@ -129,13 +129,14 @@ public class SystemControlPresenter implements Serializable {
   }
 
   public boolean isGleisBesetzt() {
-    return this.gleis != null ? this.gleis.isBesetzt() : false;
+    return this.gleis != null && this.gleis.isBesetzt();
   }
 
   public void setGleisBesetzt(boolean besetzt) {
     if (this.gleis != null) {
-      this.gleis.setBesetzt(besetzt);
-      this.eventFirer.fire(this.gleis, Changed.Literal.INSTANCE);
+      if (this.gleis.changeBesetzt(besetzt)) {
+        this.eventFirer.fire(this.gleis, Changed.Literal.INSTANCE);
+      }
     }
   }
 

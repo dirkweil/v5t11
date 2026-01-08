@@ -16,6 +16,7 @@ import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenelementTyp;
 import de.gedoplan.v5t11.util.domain.entity.Fahrwegelement;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.SortedMap;
@@ -146,5 +147,36 @@ public class ParcoursService {
     if (gleis != null) {
       this.gleisRepository.merge(gleis);
     }
+  }
+
+  public List<Fahrstrasse> findFahrstrassen(Gleis start) {
+    if (start == null) {
+      return List.of();
+    }
+    return this.fahrstrassen
+      .values()
+      .stream()
+      .filter(fs -> fs.getStart().getId().equals(start.getId()))
+      .toList();
+  }
+
+  public Gleis findGleisVor(Gleis gleis) {
+    return findFahrstrassen(gleis)
+      .stream()
+      .filter(fs -> !fs.getStart().isZaehlrichtung())
+      .map(fs -> fs.getEnde().getId())
+      .findAny()
+      .flatMap(this::findGleisById)
+      .orElse(null);
+  }
+
+  public Gleis findGleisNach(Gleis gleis) {
+    return findFahrstrassen(gleis)
+      .stream()
+      .filter(fs -> fs.getStart().isZaehlrichtung())
+      .map(fs -> fs.getEnde().getId())
+      .findAny()
+      .flatMap(this::findGleisById)
+      .orElse(null);
   }
 }

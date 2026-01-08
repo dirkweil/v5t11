@@ -51,15 +51,24 @@ public abstract class AbstractGleis extends Fahrwegelement {
 
   @Override
   public boolean copyStatus(Fahrwegelement other) {
-    if (other instanceof AbstractGleis) {
-      AbstractGleis source = (AbstractGleis) other;
-      if (this.besetzt != source.besetzt) {
-        this.besetzt = source.besetzt;
-        this.lastChangeMillis = source.lastChangeMillis;
-        return true;
-      }
+    if (other instanceof AbstractGleis source) {
+      return changeBesetzt(source.besetzt);
     }
     return false;
+  }
+
+  public boolean changeBesetzt(boolean besetzt, long changeMillis) {
+    if (this.besetzt != besetzt) {
+      this.besetzt = besetzt;
+      this.lastChangeMillis = changeMillis;
+      return true;
+    }
+
+    return false;
+  }
+
+  public boolean changeBesetzt(boolean besetzt) {
+    return changeBesetzt(besetzt, System.currentTimeMillis());
   }
 
 }

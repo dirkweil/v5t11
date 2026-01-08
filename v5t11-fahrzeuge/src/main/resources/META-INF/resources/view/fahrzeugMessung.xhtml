@@ -1,0 +1,96 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/templates/fahrzeugManagement.xhtml">
+  <ui:define name="content">
+    <h:form id="fahrzeugdecoder-messung">
+      <h:panelGrid columns="1" style="width: 100%">
+        <p:toolbar>
+          <f:facet name="left">
+            <h:outputText value="#{fahrzeugListPresenter.currentFahrzeug.betriebsnummer}"
+                          style="font-size: 30px; vertical-align: middle;"/>
+            <p:graphicImage name="#{fahrzeugListPresenter.getImageOfCurrentFahrzeug()}" height="50px"
+                            style="vertical-align: middle; margin-left: 20px; margin-right: 20px;"/>
+            <h:outputText
+                value="#{fahrzeugListPresenter.currentFahrzeug.fahrzeugdecoder.decoderAdr.adresse}@#{fahrzeugListPresenter.currentFahrzeug.fahrzeugdecoder.decoderAdr.systemTyp}"
+                id="id" style="vertical-align: middle;"/>
+          </f:facet>
+          <f:facet name="right">
+            <p:commandButton value="Speichern" icon="pi pi-save"
+                             action="#{fahrzeugListPresenter.saveCurrentFahrzeug()}"
+                             ajax="false"/>
+
+            <span class="ui-separator"> <span class="ui-icon pi pi-ellipsis-v"/></span>
+            <p:commandButton value="zurück" icon="pi pi-times" action="finished" ajax="false" immediate="true"/>
+          </f:facet>
+        </p:toolbar>
+
+        <h:panelGrid columns="2">
+          <p:outputLabel for="@next" value="Messgleis:"/>
+          <p:selectOneMenu id="messgleis" value="#{fahrzeugMessungPresenter.messGleis}"
+                           converter="#{fahrzeugMessungPresenter.gleisConverter}" style="width:125px">
+            <f:selectItems value="#{fahrzeugMessungPresenter.gleise}"
+                           var="gleis" itemLabel="#{gleis.id.toString()}" itemValue="#{gleis}"/>
+            <p:ajax update="@form"/>
+          </p:selectOneMenu>
+
+          <p:outputLabel for="@next" value="Länge [mm]:"/>
+          <h:outputText id="laenge" value="#{fahrzeugMessungPresenter.messGleis.laenge}"/>
+
+          <p:outputLabel for="@next" value="Gleis links:"/>
+          <h:outputText id="gleisLinks" value="#{fahrzeugMessungPresenter.linksGleis.id}"/>
+
+          <p:outputLabel for="@next" value="Gleis rechts:"/>
+          <h:outputText id="gleisRechts" value="#{fahrzeugMessungPresenter.rechtsGleis.id}"/>
+
+        </h:panelGrid>
+
+        <p:commandButton value="Höchstgeschwindigkeit messen"
+                         action="#{fahrzeugMessungPresenter.selectHoechstgeschwindigkeitMessen()}"/>
+        <p:commandButton value="Geschwindigkeitsprofil erstellen"
+                         action="#{fahrzeugMessungPresenter.selectGeschwindigkeitsprofileErstellen()}"/>
+      </h:panelGrid>
+    </h:form>
+
+    <h:panelGroup layout="block" style="width: 100%; height: 100%;">
+      <p:inputTextarea value="#{fahrzeugMessungPresenter.protokoll}" rows="30" readonly="true"
+                       style="width: 100%; height: 100%"/>
+    </h:panelGroup>
+
+    <h:form id="fahrzeug-messung-confirm">
+      <p:dialog
+          header="#{fahrzeugMessungPresenter.selectedAktionsBeschreibung}"
+          showEffect="fade" modal="true" widgetVar="fahrzeugMessungConfirm">
+        <h:panelGrid columns="1">
+          <h:outputText value="#{fahrzeugMessungPresenter.selectedAktionsAnleitung}"/>
+
+          <h:panelGroup>
+            <p:commandButton value="ok" icon="pi pi-check"
+                             actionListener="#{fahrzeugMessungPresenter.execSelectedAktion()}"
+                             process="@form"/>
+            <p:commandButton value="abbrechen" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+                             onclick="PF('fahrzeugMessungConfirm').hide()"/>
+          </h:panelGroup>
+        </h:panelGrid>
+      </p:dialog>
+
+    </h:form>
+
+    <p:remoteCommand name="updateAll" update="@all"/>
+    <!--
+      Das JSF-Tag funktioniert mit Quarkus/MyFaces nicht. Daher JS-Workaround.
+      <f:websocket channel="fahrzeugdecoder-control" onmessage="updateFahrzeug"/>
+      -->
+    <h:outputScript target="body">
+      let fahrzeugControlSocket = new WebSocket("ws://" + window.location.host +
+          "/jakarta.faces.push/fahrzeug-control");
+      fahrzeugControlSocket.onmessage = function (event) {
+        updateAll();
+      }
+    </h:outputScript>
+
+  </ui:define>
+</ui:composition>
+</html>

@@ -122,9 +122,6 @@ public class Fahrstrassenelement implements Cloneable {
   private Gleis guessGleis(BereichselementId id) {
     Gleis gleis = new Gleis(id);
     gleis.setVerdeckt(id.getBereich().equals("SBf"));
-    if (id.getName().startsWith("W")) {
-      gleis.setLaenge(104);
-    }
     return gleis;
   }
 

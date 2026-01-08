@@ -20,6 +20,10 @@ public class PushService extends AbstractPushService {
     send(getEventName(fahrzeug));
   }
 
+  public void somethingChanged() {
+    send("all");
+  }
+
   // Wo wird der Event-Name benutzt?
   public String getEventName(Fahrzeug fahrzeug) {
     return "_" + fahrzeug.getBetriebsnummer();

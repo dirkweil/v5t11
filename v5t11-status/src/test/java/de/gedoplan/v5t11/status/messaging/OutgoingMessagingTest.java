@@ -77,6 +77,7 @@ public class OutgoingMessagingTest {
   public void testGleisJson() throws Exception {
 
     Gleis gleis = this.steuerung.getGleis("test", "1");
+    gleis.changeBesetzt(true);
 
     this.outgoingHandler.publish(gleis);
     String json = this.outgoingHandler.getJson();

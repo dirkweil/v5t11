@@ -57,77 +57,30 @@
     </navigation-case>
 
     <navigation-case>
+      <from-outcome>messung</from-outcome>
+      <to-view-id>/view/fahrzeugMessung.xhtml</to-view-id>
+      <redirect/>
+    </navigation-case>
+
+    <navigation-case>
       <from-outcome>remove</from-outcome>
       <to-view-id>/view/fahrzeugRemoveConfirm.xhtml</to-view-id>
       <redirect/>
     </navigation-case>
-  </navigation-rule>
 
-  <navigation-rule>
-    <from-view-id>/view/fahrzeugBasics.xhtml</from-view-id>
-
-    <navigation-case>
-      <from-outcome>finished</from-outcome>
-      <to-view-id>/view/fahrzeugControl.xhtml</to-view-id>
-      <redirect/>
-    </navigation-case>
-  </navigation-rule>
-
-  <navigation-rule>
-    <from-view-id>/view/fahrzeugPosition.xhtml</from-view-id>
-
-    <navigation-case>
-      <from-outcome>finished</from-outcome>
-      <to-view-id>/view/fahrzeugControl.xhtml</to-view-id>
-      <redirect/>
-    </navigation-case>
-  </navigation-rule>
-
-  <navigation-rule>
-    <from-view-id>/view/fahrzeugTraktion.xhtml</from-view-id>
-
-    <navigation-case>
-      <from-outcome>finished</from-outcome>
-      <to-view-id>/view/fahrzeugControl.xhtml</to-view-id>
-      <redirect/>
-    </navigation-case>
-  </navigation-rule>
-
-  <navigation-rule>
-    <from-view-id>/view/fahrzeugFunction.xhtml</from-view-id>
-
-    <navigation-case>
-      <from-outcome>finished</from-outcome>
-      <to-view-id>/view/fahrzeugControl.xhtml</to-view-id>
-      <redirect/>
-    </navigation-case>
-  </navigation-rule>
-
-  <navigation-rule>
-    <from-view-id>/view/fahrzeugProgram.xhtml</from-view-id>
-
-    <navigation-case>
-      <from-outcome>finished</from-outcome>
-      <to-view-id>/view/fahrzeugControl.xhtml</to-view-id>
-      <redirect/>
-    </navigation-case>
-  </navigation-rule>
-
-  <navigation-rule>
-    <from-view-id>/view/fahrzeugCreate.xhtml</from-view-id>
-
-    <navigation-case>
-      <from-outcome>inserted</from-outcome>
-      <to-view-id>/view/fahrzeugControl.xhtml</to-view-id>
-      <redirect/>
-    </navigation-case>
-  </navigation-rule>
-
-  <navigation-rule>
-    <from-view-id>/view/fahrzeug*</from-view-id>
     <navigation-case>
       <from-outcome>finished</from-outcome>
       <to-view-id>/view/fahrzeugList.xhtml</to-view-id>
+      <redirect/>
+    </navigation-case>
+  </navigation-rule>
+
+  <navigation-rule>
+    <from-view-id>/view/*</from-view-id>
+
+    <navigation-case>
+      <from-outcome>finished</from-outcome>
+      <to-view-id>/view/fahrzeugControl.xhtml</to-view-id>
       <redirect/>
     </navigation-case>
   </navigation-rule>

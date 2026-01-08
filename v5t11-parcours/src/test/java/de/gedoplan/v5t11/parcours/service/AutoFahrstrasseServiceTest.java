@@ -91,8 +91,9 @@ public class AutoFahrstrasseServiceTest {
     assertEquals(FahrstrassenReservierungsTyp.UNRESERVIERT, fahrstrasse3.getReservierungsTyp());
 
     // Trigger besetzen und dies melden
-    trigger.setBesetzt(true);
-    this.eventFirer.fire(trigger, Changed.Literal.INSTANCE);
+    if (trigger.changeBesetzt(true)) {
+      this.eventFirer.fire(trigger, Changed.Literal.INSTANCE);
+    }
 
     // Nun muss 1. Fahrstrasse reserviert sein, die beiden anderen nicht
     assertEquals(FahrstrassenReservierungsTyp.ZUGFAHRT, fahrstrasse1.getReservierungsTyp());
@@ -100,8 +101,9 @@ public class AutoFahrstrasseServiceTest {
     assertEquals(FahrstrassenReservierungsTyp.UNRESERVIERT, fahrstrasse3.getReservierungsTyp());
 
     // Grundzustand wieder herstellen
-    trigger.setBesetzt(false);
-    fahrstrasse1.freigeben(null);
+    if (trigger.changeBesetzt(false)) {
+      fahrstrasse1.freigeben(null);
+    }
   }
 
   @Test
@@ -127,11 +129,12 @@ public class AutoFahrstrasseServiceTest {
 
     // Gleis 1 besetzen (ist Teil der ersten zugeordneten Fahrstrasse)
     Gleis gleis1 = this.gleisRepository.findByBereichAndName(BEREICH, "1").get();
-    gleis1.setBesetzt(true);
+    gleis1.changeBesetzt(true);
 
     // Trigger besetzen und dies melden
-    trigger.setBesetzt(true);
-    this.eventFirer.fire(trigger, Changed.Literal.INSTANCE);
+    if (trigger.changeBesetzt(true)) {
+      this.eventFirer.fire(trigger, Changed.Literal.INSTANCE);
+    }
 
     // Nun muss 2. Fahrstrasse reserviert sein, die anderen nicht
     assertEquals(FahrstrassenReservierungsTyp.UNRESERVIERT, fahrstrasse1.getReservierungsTyp());
@@ -139,8 +142,8 @@ public class AutoFahrstrasseServiceTest {
     assertEquals(FahrstrassenReservierungsTyp.UNRESERVIERT, fahrstrasse3.getReservierungsTyp());
 
     // Grundzustand wieder herstellen
-    trigger.setBesetzt(false);
-    gleis1.setBesetzt(false);
+    trigger.changeBesetzt(false);
+    gleis1.changeBesetzt(false);
     fahrstrasse2.freigeben(null);
   }
 
@@ -167,10 +170,10 @@ public class AutoFahrstrasseServiceTest {
 
     // Gleis 11 besetzen (ist Teil der ersten beiden zugeordneten Fahrstrasse)
     Gleis gleis11 = this.gleisRepository.findByBereichAndName(BEREICH, "11").get();
-    gleis11.setBesetzt(true);
+    gleis11.changeBesetzt(true);
 
     // Trigger besetzen und dies melden
-    trigger.setBesetzt(true);
+    trigger.changeBesetzt(true);
     this.eventFirer.fire(trigger, Changed.Literal.INSTANCE);
 
     // Nun muss 3. Fahrstrasse reserviert sein, die anderen nicht
@@ -179,8 +182,8 @@ public class AutoFahrstrasseServiceTest {
     assertEquals(FahrstrassenReservierungsTyp.ZUGFAHRT, fahrstrasse3.getReservierungsTyp());
 
     // Grundzustand wieder herstellen
-    trigger.setBesetzt(false);
-    gleis11.setBesetzt(false);
+    trigger.changeBesetzt(false);
+    gleis11.changeBesetzt(false);
     fahrstrasse3.freigeben(null);
   }
 

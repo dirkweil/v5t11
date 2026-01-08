@@ -29,7 +29,7 @@ import lombok.NoArgsConstructor;
 @Getter
 public class Gleis extends AbstractGleis {
   /**
-   * Besetztmelder, der den Gleis überwacht.
+   * Besetztmelder, der das Gleis überwacht.
    */
   @JsonbTransient
   private Besetztmelder besetztmelder;
@@ -87,9 +87,8 @@ public class Gleis extends AbstractGleis {
       if (currentTimeMillis - this.lastChangeMillis < 1000) {
         this.log.warn(this + ": Schnelle Statuswechsel");
       }
-      this.lastChangeMillis = currentTimeMillis;
 
-      setBesetzt(neu);
+      changeBesetzt(neu, currentTimeMillis);
       this.eventFirer.fire(this, Changed.Literal.INSTANCE);
     }
   }
