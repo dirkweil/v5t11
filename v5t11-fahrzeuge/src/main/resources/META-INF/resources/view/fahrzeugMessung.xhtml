@@ -55,7 +55,7 @@
     </h:form>
 
     <h:panelGroup layout="block" style="width: 100%; height: 100%;">
-      <p:inputTextarea value="#{fahrzeugMessungPresenter.protokoll}" rows="30" readonly="true"
+      <p:inputTextarea id="protokoll" value="#{fahrzeugMessungPresenter.protokoll}" rows="30" readonly="true"
                        style="width: 100%; height: 100%"/>
     </h:panelGroup>
 
@@ -78,7 +78,7 @@
 
     </h:form>
 
-    <p:remoteCommand name="updateAll" update="@all"/>
+    <p:remoteCommand name="updateProtokoll" update=":protokoll"/>
     <!--
       Das JSF-Tag funktioniert mit Quarkus/MyFaces nicht. Daher JS-Workaround.
       <f:websocket channel="fahrzeugdecoder-control" onmessage="updateFahrzeug"/>
@@ -87,7 +87,7 @@
       let fahrzeugControlSocket = new WebSocket("ws://" + window.location.host +
           "/jakarta.faces.push/fahrzeug-control");
       fahrzeugControlSocket.onmessage = function (event) {
-        updateAll();
+        updateProtokoll();
       }
     </h:outputScript>
 
