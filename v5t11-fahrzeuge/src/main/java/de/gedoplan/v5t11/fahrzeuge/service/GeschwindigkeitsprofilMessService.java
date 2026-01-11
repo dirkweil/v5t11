@@ -37,7 +37,7 @@ public class GeschwindigkeitsprofilMessService {
 
   @AllArgsConstructor
   private static enum Status {
-    START("Fahrzeug fährt mit Fahrstufe %d"),
+    START("Messung beginnt für %s"),
     VON_LINKS_VOR("Fahrzeug fährt von links auf Messgleis zu"),
     VON_RECHTS_VOR("Fahrzeug fährt von rechts auf Messgleis zu"),
     VON_LINKS_AUF("Fahrzeug fährt auf Messgleis nach rechts"),
@@ -207,13 +207,16 @@ public class GeschwindigkeitsprofilMessService {
   }
 
   private void auslauf() {
-    this.fahrstufe = this.fahrzeug.getFahrzeugdecoder().getDecoderAdr().getSystemTyp().getMaxFahrstufe();
+    this.planFahrstufe = this.fahrzeug.getFahrzeugdecoder().getDecoderAdr().getSystemTyp().getMaxFahrstufe();
+    if (this.rueckwaerts) {
+      this.planFahrstufe = -this.planFahrstufe;
+    }
     steuereFahrzeug();
     changeStatus(Status.AUSLAUF);
   }
 
   private void stop() {
-    this.fahrstufe = 0;
+    this.planFahrstufe = 0;
     steuereFahrzeug();
     changeStatus(Status.BEENDET);
     this.feedbackConsumer = null;
@@ -221,7 +224,7 @@ public class GeschwindigkeitsprofilMessService {
 
   private void changeStatus(Status status) {
     this.status = status;
-    this.feedbackConsumer.accept(String.format(Locale.GERMAN, status.description, this.fahrzeug.getFahrzeugdecoder().getFahrstufe()));
+    this.feedbackConsumer.accept(String.format(Locale.GERMAN, status.description, this.fahrstufenBeschreibung));
   }
 
   private void startStopWatch(Gleis gleis) {
