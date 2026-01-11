@@ -71,6 +71,7 @@ public class GeschwindigkeitsprofilMessService {
   private int planFahrstufe;
   private int fahrstufe;
   private boolean rueckwaerts;
+  private String fahrstufenBeschreibung;
 
   private long startMillis;
 
@@ -112,18 +113,7 @@ public class GeschwindigkeitsprofilMessService {
     }
 
     // TODO Nur für erste Tests
-    this.messPlan.remove(0);
-    this.messPlan.remove(0);
-    this.messPlan.remove(0);
-    this.messPlan.remove(0);
-    this.messPlan.remove(0);
-    this.messPlan.remove(0);
-    this.messPlan.remove(0);
-    this.messPlan.remove(0);
-    this.messPlan.remove(0);
-    this.messPlan.remove(0);
-    this.messPlan.remove(0);
-    this.messPlan.remove(0);
+    this.messPlan = this.messPlan.subList(12, 16);
 
     this.logger.debugf("Messplan: %s", messPlan);
     if (messPlan.isEmpty()) {
@@ -136,14 +126,15 @@ public class GeschwindigkeitsprofilMessService {
 
   private void start() {
     this.planFahrstufe = this.messPlan.remove(0);
-    this.fahrstufe = Math.abs(planFahrstufe);
-    this.rueckwaerts = planFahrstufe < 0;
     steuereFahrzeug();
     changeStatus(Status.START);
   }
 
   private void steuereFahrzeug() {
-    this.logger.debugf("fahrstufe %d %s setzen", this.fahrstufe, this.rueckwaerts ? "rückwärts" : "vorwärts");
+    this.fahrstufe = Math.abs(planFahrstufe);
+    this.rueckwaerts = planFahrstufe < 0;
+    this.fahrstufenBeschreibung = String.format("Fahrstufe %d %s", this.fahrstufe, this.rueckwaerts ? "rückwärts" : "vorwärts");
+    this.logger.debug(this.fahrstufenBeschreibung);
     try {
       this.statusGateway.changeFahrzeugdecoder(
         this.fahrzeug.getFahrzeugdecoder().getDecoderAdr(),
@@ -216,7 +207,7 @@ public class GeschwindigkeitsprofilMessService {
   }
 
   private void auslauf() {
-    this.fahrstufe = this.fahrzeug.getFahrzeugdecoder().getDecoderAdr().getSystemTyp().getMaxFahrstufe() / 2;
+    this.fahrstufe = this.fahrzeug.getFahrzeugdecoder().getDecoderAdr().getSystemTyp().getMaxFahrstufe();
     steuereFahrzeug();
     changeStatus(Status.AUSLAUF);
   }
