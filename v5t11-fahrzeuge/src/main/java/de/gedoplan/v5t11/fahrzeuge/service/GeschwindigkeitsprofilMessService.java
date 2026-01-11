@@ -4,12 +4,14 @@ import de.gedoplan.v5t11.fahrzeuge.entity.fahrweg.Gleis;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug;
 import de.gedoplan.v5t11.fahrzeuge.gateway.StatusGateway;
 import de.gedoplan.v5t11.util.cdi.Changed;
+import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.function.Consumer;
 
+import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.ObservesAsync;
 import jakarta.inject.Inject;
@@ -40,17 +42,27 @@ public class GeschwindigkeitsprofilMessService {
     VON_RECHTS_VOR("Fahrzeug fährt von rechts auf Messgleis zu"),
     VON_LINKS_AUF("Fahrzeug fährt auf Messgleis nach rechts"),
     VON_RECHTS_AUF("Fahrzeug fährt auf Messgleis nach links"),
-    PAUSE("Fahrzeug stoppt"),
-    BEENDET("Messung beendet");
+    AUSLAUF("Fahrzeug fährt zum Umkehrgleis"),
+    BEENDET("Messung beendet"),
+    FEHLER("Messung fehlgeschlagen (s. Server-Log)");
 
     @Getter
     private String description;
   }
 
   private Fahrzeug fahrzeug;
+
+  @Getter
+  private Gleis linkesUmkehrGleis;
+  @Getter
+  private Gleis linkesAnschlussGleis;
+  @Getter
   private Gleis messGleis;
-  private Gleis linksGleis;
-  private Gleis rechtsGleis;
+  @Getter
+  private Gleis rechtesAnschlussGleis;
+  @Getter
+  private Gleis rechtesUmkehrGleis;
+
   private Status status;
   private Consumer<String> feedbackConsumer;
 
@@ -62,24 +74,27 @@ public class GeschwindigkeitsprofilMessService {
 
   private long startMillis;
 
-  public void start(Fahrzeug fahrzeug, Gleis messGleis, Consumer<String> feedbackConsumer) {
+  @PostConstruct
+  void init() {
+    this.messGleis = this.parcoursService.findGleisById(new BereichselementId("HBf", "506")).get();
+    this.linkesUmkehrGleis = this.parcoursService.findGleisById(new BereichselementId("HBf", "6")).get();
+    this.linkesAnschlussGleis = this.parcoursService.findGleisVor(messGleis);
+    this.rechtesAnschlussGleis = this.parcoursService.findGleisNach(messGleis);
+    this.rechtesUmkehrGleis = this.parcoursService.findGleisById(new BereichselementId("SBf", "1004")).get();
+  }
+
+  public void start(Fahrzeug fahrzeug, Consumer<String> feedbackConsumer) {
 
     this.fahrzeug = fahrzeug;
-    this.messGleis = messGleis;
-    this.linksGleis = this.parcoursService.findGleisVor(messGleis);
-    this.rechtsGleis = this.parcoursService.findGleisNach(messGleis);
     this.feedbackConsumer = feedbackConsumer;
 
-    this.logger.debugf("Geschwindigkeitsprofilmessung für %s auf %s-%s-%s",
+    this.logger.debugf("Geschwindigkeitsprofilmessung für %s auf %s-%s-%s-%s-%s",
       fahrzeug.getBetriebsnummer(),
-      messGleis,
-      linksGleis,
-      rechtsGleis);
-
-    if (linksGleis == null || rechtsGleis == null) {
-      feedbackConsumer.accept("Messgleis ist nicht in andere Gleise eingebettet");
-      return;
-    }
+      linkesUmkehrGleis.getId(),
+      linkesAnschlussGleis.getId(),
+      messGleis.getId(),
+      rechtesAnschlussGleis.getId(),
+      rechtesUmkehrGleis.getId());
 
     int maxFahrstufe = this.fahrzeug.getFahrzeugdecoder().getDecoderAdr().getSystemTyp().getMaxFahrstufe();
     int schrittweite = Math.max(5, maxFahrstufe / 12);
@@ -96,6 +111,20 @@ public class GeschwindigkeitsprofilMessService {
       this.messPlan.add(-high * faktor);
     }
 
+    // TODO Nur für erste Tests
+    this.messPlan.remove(0);
+    this.messPlan.remove(0);
+    this.messPlan.remove(0);
+    this.messPlan.remove(0);
+    this.messPlan.remove(0);
+    this.messPlan.remove(0);
+    this.messPlan.remove(0);
+    this.messPlan.remove(0);
+    this.messPlan.remove(0);
+    this.messPlan.remove(0);
+    this.messPlan.remove(0);
+    this.messPlan.remove(0);
+
     this.logger.debugf("Messplan: %s", messPlan);
     if (messPlan.isEmpty()) {
       feedbackConsumer.accept("Messplan ist leer");
@@ -109,82 +138,92 @@ public class GeschwindigkeitsprofilMessService {
     this.planFahrstufe = this.messPlan.remove(0);
     this.fahrstufe = Math.abs(planFahrstufe);
     this.rueckwaerts = planFahrstufe < 0;
-    this.statusGateway.changeFahrzeugdecoder(
-      this.fahrzeug.getFahrzeugdecoder().getDecoderAdr(),
-      true,
-      this.fahrstufe,
-      0,
-      false,
-      this.rueckwaerts
-    );
+    steuereFahrzeug();
     changeStatus(Status.START);
+  }
+
+  private void steuereFahrzeug() {
+    this.logger.debugf("fahrstufe %d %s setzen", this.fahrstufe, this.rueckwaerts ? "rückwärts" : "vorwärts");
+    try {
+      this.statusGateway.changeFahrzeugdecoder(
+        this.fahrzeug.getFahrzeugdecoder().getDecoderAdr(),
+        true,
+        this.fahrstufe,
+        0,
+        false,
+        this.rueckwaerts
+      );
+    } catch (Exception e) {
+      this.logger.error("Kann Fahrzeug nicht steuern", e);
+      changeStatus(Status.BEENDET);
+    }
   }
 
   void gleisChanged(@ObservesAsync @Changed Gleis gleis) {
     if (gleis.isBesetzt()) {
       switch (this.status) {
       case START -> {
-        if (gleis.equals(this.linksGleis)) {
+        if (gleis.equals(this.linkesAnschlussGleis)) {
+          this.logger.debugf("Fahrzeug hat linkes Anschlussgleis %s erreicht", gleis.getId());
           changeStatus(Status.VON_LINKS_VOR);
-        } else if (gleis.equals(this.rechtsGleis)) {
+        } else if (gleis.equals(this.rechtesAnschlussGleis)) {
+          this.logger.debugf("Fahrzeug hat rechtes Anschlussgleis %s erreicht", gleis.getId());
           changeStatus(Status.VON_RECHTS_VOR);
         }
       }
       case VON_LINKS_VOR -> {
         if (gleis.equals(this.messGleis)) {
           startStopWatch(gleis);
+          this.logger.debugf("Fahrzeug hat Messgleis %s erreicht", gleis.getId());
           changeStatus(Status.VON_LINKS_AUF);
         }
       }
       case VON_RECHTS_VOR -> {
         if (gleis.equals(this.messGleis)) {
           startStopWatch(gleis);
+          this.logger.debugf("Fahrzeug hat Messgleis %s erreicht", gleis.getId());
           changeStatus(Status.VON_RECHTS_AUF);
         }
       }
       case VON_LINKS_AUF -> {
-        if (gleis.equals(this.rechtsGleis)) {
+        if (gleis.equals(this.rechtesAnschlussGleis)) {
           stopStopWatch(gleis);
-          pause();
+          this.logger.debugf("Fahrzeug hat rechtes Anschlussgleis %s erreicht", gleis.getId());
+          auslauf();
         }
       }
       case VON_RECHTS_AUF -> {
-        if (gleis.equals(this.linksGleis)) {
+        if (gleis.equals(this.linkesAnschlussGleis)) {
           stopStopWatch(gleis);
-          pause();
+          this.logger.debugf("Fahrzeug hat linkes Anschlussgleis %s erreicht", gleis.getId());
+          auslauf();
         }
       }
-      default -> {
+      case AUSLAUF -> {
+        if (gleis.equals(this.linkesUmkehrGleis) || gleis.equals(this.rechtesUmkehrGleis)) {
+          this.logger.debugf("Fahrzeug hat Umkehrgleis %s erreicht", gleis.getId());
+          if (this.messPlan.isEmpty()) {
+            stop();
+          } else {
+            start();
+          }
+        }
+      }
+      case null, default -> {
       }
       }
     }
   }
 
-  private void pause() {
-    this.statusGateway.changeFahrzeugdecoder(
-      this.fahrzeug.getFahrzeugdecoder().getDecoderAdr(),
-      true,
-      0,
-      0,
-      false,
-      this.rueckwaerts
-    );
-    changeStatus(Status.PAUSE);
-
-    try {
-      Thread.sleep(5000);
-    } catch (InterruptedException e) {
-      // ignore
-    }
-
-    if (this.messPlan.isEmpty()) {
-      stop();
-    } else {
-      changeStatus(Status.START);
-    }
+  private void auslauf() {
+    this.fahrstufe = this.fahrzeug.getFahrzeugdecoder().getDecoderAdr().getSystemTyp().getMaxFahrstufe() / 2;
+    steuereFahrzeug();
+    changeStatus(Status.AUSLAUF);
   }
 
   private void stop() {
+    this.fahrstufe = 0;
+    steuereFahrzeug();
     changeStatus(Status.BEENDET);
     this.feedbackConsumer = null;
   }

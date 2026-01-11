@@ -123,7 +123,8 @@ public class FahrzeugMessungPresenter implements Serializable {
   }
 
   public void selectGeschwindigkeitsprofileErstellen() {
-    setSelectedAktion("Geschwindigkeitsprofil erstellen", "Messgleis und angrenzende Gleise räumen. Fahrzeug so aufstellen, dass es in Richtung Messgleis fahren wird.", this::geschwindigkeitsprofileErstellen);
+    setSelectedAktion("Geschwindigkeitsprofil erstellen", "Messgleis und angrenzende Gleise räumen. Fahrzeug so aufstellen, dass es in Richtung Messgleis fahren wird.",
+      this::geschwindigkeitsprofileErstellen);
   }
 
   private void setSelectedAktion(String beschreibung, String anleitung, Runnable aktion) {
@@ -160,7 +161,7 @@ public class FahrzeugMessungPresenter implements Serializable {
 
   private void geschwindigkeitsprofileErstellen() {
     this.protokoll = new StringBuilder();
-    this.geschwindigkeitsprofilMessService.start(getCurrentFahrzeug(), this.messGleis, this::feedbackConsumer);
+    this.geschwindigkeitsprofilMessService.start(getCurrentFahrzeug(), this::feedbackConsumer);
   }
 
   @Getter
