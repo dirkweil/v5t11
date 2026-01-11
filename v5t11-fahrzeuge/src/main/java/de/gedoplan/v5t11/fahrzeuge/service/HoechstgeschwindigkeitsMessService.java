@@ -100,6 +100,7 @@ public class HoechstgeschwindigkeitsMessService {
           stopStopWatch(gleis);
         }
       }
+      default -> {}
       }
     }
   }

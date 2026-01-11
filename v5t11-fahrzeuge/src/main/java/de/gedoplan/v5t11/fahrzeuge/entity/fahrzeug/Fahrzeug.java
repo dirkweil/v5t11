@@ -1,21 +1,24 @@
 package de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import de.gedoplan.baselibs.persistence.entity.SingleIdEntity;
 import de.gedoplan.baselibs.utils.inject.InjectionUtil;
 import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import de.gedoplan.v5t11.util.domain.attribute.DecoderAdr;
 import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 import de.gedoplan.v5t11.util.jsonb.JsonbShort;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
 import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.Access;
 import jakarta.persistence.AccessType;
 import jakarta.persistence.AttributeOverride;
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -35,7 +38,6 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlTransient;
-
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -52,6 +54,7 @@ import lombok.Singular;
 public class Fahrzeug extends SingleIdEntity<String> {
 
   public static final String TABLE_NAME = "FZ_FAHRZEUG";
+  public static final String TABLE_NAME_GESCHWINDIGKEIT = "FZ_FAHRZEUG_GESCHWINDIGKEIT";
 
   @Getter(onMethod_ = @JsonbShort)
   @Setter
@@ -113,6 +116,17 @@ public class Fahrzeug extends SingleIdEntity<String> {
   @Getter(onMethod_ = @JsonbShort)
   @Setter
   private Fahrzeugdecoder fahrzeugdecoder;
+
+  /**
+   * Geschwindigkeitsprofil.
+   * Pro Fahrstufe ein Wert in µm/s.
+   * Positive Keys gelten für Vorwärtsfahrt, negative für Rückwärtsfahrt.
+   */
+  @Getter
+  @JsonbTransient
+  @ElementCollection
+  @CollectionTable(name = Fahrzeug.TABLE_NAME_GESCHWINDIGKEIT)
+  private Map<Integer, Long> geschwindigkeit = new HashMap<>();
 
   /**
    * Id des Gleises, auf dem sich das Fahrzeug befindet.

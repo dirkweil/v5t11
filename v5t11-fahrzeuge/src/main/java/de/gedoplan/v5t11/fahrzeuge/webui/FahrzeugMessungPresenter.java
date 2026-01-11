@@ -2,6 +2,7 @@ package de.gedoplan.v5t11.fahrzeuge.webui;
 
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrweg.Gleis;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug;
+import de.gedoplan.v5t11.fahrzeuge.service.GeschwindigkeitsprofilMessService;
 import de.gedoplan.v5t11.fahrzeuge.service.HoechstgeschwindigkeitsMessService;
 import de.gedoplan.v5t11.fahrzeuge.service.ParcoursService;
 import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
@@ -37,6 +38,9 @@ public class FahrzeugMessungPresenter implements Serializable {
 
   @Inject
   HoechstgeschwindigkeitsMessService hoechstgeschwindigkeitsMessService;
+
+  @Inject
+  GeschwindigkeitsprofilMessService geschwindigkeitsprofilMessService;
 
   @Inject
   PushService pushService;
@@ -119,7 +123,7 @@ public class FahrzeugMessungPresenter implements Serializable {
   }
 
   public void selectGeschwindigkeitsprofileErstellen() {
-    setSelectedAktion("Geschwindigkeitsprofile erstellen", "TBD", this::geschwindigkeitsprofileErstellen);
+    setSelectedAktion("Geschwindigkeitsprofil erstellen", "Messgleis und angrenzende Gleise räumen. Fahrzeug so aufstellen, dass es in Richtung Messgleis fahren wird.", this::geschwindigkeitsprofileErstellen);
   }
 
   private void setSelectedAktion(String beschreibung, String anleitung, Runnable aktion) {
@@ -155,7 +159,8 @@ public class FahrzeugMessungPresenter implements Serializable {
   }
 
   private void geschwindigkeitsprofileErstellen() {
-    this.logger.debug("geschwindigkeitsprofileErstellen");
+    this.protokoll = new StringBuilder();
+    this.geschwindigkeitsprofilMessService.start(getCurrentFahrzeug(), this.messGleis, this::feedbackConsumer);
   }
 
   @Getter
