@@ -5,7 +5,7 @@
 
 <ui:composition template="/WEB-INF/templates/fahrzeugManagement.xhtml">
   <ui:define name="content">
-    <h:form id="fahrzeugdecoder-messung">
+    <h:form id="fahrzeug-messung">
       <h:panelGrid columns="1" style="width: 100%">
         <p:toolbar>
           <f:facet name="left">
@@ -48,15 +48,22 @@
         </h:panelGrid>
 
         <p:commandButton value="Höchstgeschwindigkeit messen"
-                         action="#{fahrzeugMessungPresenter.selectHoechstgeschwindigkeitMessen()}"/>
+                         action="#{fahrzeugMessungPresenter.selectHoechstgeschwindigkeitMessen()}"
+                         disabled="#{fahrzeugMessungPresenter.aktiv}"
+                         ajax="false"/>
         <p:commandButton value="Geschwindigkeitsprofil erstellen"
-                         action="#{fahrzeugMessungPresenter.selectGeschwindigkeitsprofileErstellen()}"/>
+                         action="#{fahrzeugMessungPresenter.selectGeschwindigkeitsprofileErstellen()}"
+                         disabled="#{fahrzeugMessungPresenter.aktiv}"
+                         ajax="false"/>
+        <p:commandButton value="Messung abbrechen"
+                         action="#{fahrzeugMessungPresenter.messungAbbrechen()}"
+                         disabled="#{!fahrzeugMessungPresenter.aktiv}"
+                         ajax="false"/>
       </h:panelGrid>
     </h:form>
 
-    <h:panelGroup layout="block" style="width: 100%; height: 100%;">
-      <p:inputTextarea id="protokoll" value="#{fahrzeugMessungPresenter.protokoll}" rows="30" readonly="true"
-                       style="width: 100%; height: 100%"/>
+    <h:panelGroup id="protokoll" layout="block" style="width: 100%; height: 100%;">
+      <h:outputText value="#{fahrzeugMessungPresenter.statusDescription}"/>
     </h:panelGroup>
 
     <h:form id="fahrzeug-messung-confirm">

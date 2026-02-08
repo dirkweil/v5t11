@@ -10,7 +10,7 @@ Bis dahin und während der Entwicklungszeit werden die einzelnen Dienste über P
 |`31080`
 |
 
-|`fahrstrassen`
+|`parcours`
 |`31180`
 |
 

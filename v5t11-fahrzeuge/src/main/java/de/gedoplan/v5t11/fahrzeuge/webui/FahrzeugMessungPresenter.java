@@ -1,16 +1,18 @@
 package de.gedoplan.v5t11.fahrzeuge.webui;
 
-import de.gedoplan.v5t11.fahrzeuge.entity.fahrweg.Gleis;
-import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug;
-import de.gedoplan.v5t11.fahrzeuge.service.GeschwindigkeitsprofilMessService;
-import de.gedoplan.v5t11.fahrzeuge.service.HoechstgeschwindigkeitsMessService;
-import de.gedoplan.v5t11.fahrzeuge.service.ParcoursService;
-import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
-
 import java.io.Serializable;
 import java.util.List;
 
+import org.jboss.logging.Logger;
+import org.primefaces.PrimeFaces;
+
+import de.gedoplan.v5t11.fahrzeuge.entity.fahrweg.Gleis;
+import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug;
+import de.gedoplan.v5t11.fahrzeuge.service.GeschwindigkeitsMessService;
+import de.gedoplan.v5t11.fahrzeuge.service.ParcoursService;
+import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
@@ -19,10 +21,6 @@ import jakarta.faces.convert.ConverterException;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
-
-import org.jboss.logging.Logger;
-import org.primefaces.PrimeFaces;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -37,10 +35,7 @@ public class FahrzeugMessungPresenter implements Serializable {
   ParcoursService parcoursService;
 
   @Inject
-  HoechstgeschwindigkeitsMessService hoechstgeschwindigkeitsMessService;
-
-  @Inject
-  GeschwindigkeitsprofilMessService geschwindigkeitsprofilMessService;
+  GeschwindigkeitsMessService geschwindigkeitsMessService;
 
   @Inject
   PushService pushService;
@@ -62,6 +57,13 @@ public class FahrzeugMessungPresenter implements Serializable {
 
     this.messGleis = this.gleise.isEmpty() ? null : this.gleise.getFirst();
     setEinUndAusfahrtsgleis();
+
+    this.geschwindigkeitsMessService.attachObserver(this::refresh);
+  }
+
+  @PreDestroy
+  void cleanup() {
+    this.geschwindigkeitsMessService.detachObserver();
   }
 
   public Fahrzeug getCurrentFahrzeug() {
@@ -127,6 +129,10 @@ public class FahrzeugMessungPresenter implements Serializable {
       this::geschwindigkeitsprofileErstellen);
   }
 
+  public void messungAbbrechen() {
+    this.geschwindigkeitsMessService.abbrechen();
+  }
+
   private void setSelectedAktion(String beschreibung, String anleitung, Runnable aktion) {
     this.selectedAktionsBeschreibung = beschreibung;
     this.selectedAktionsAnleitung = anleitung;
@@ -154,23 +160,23 @@ public class FahrzeugMessungPresenter implements Serializable {
     PrimeFaces.current().ajax().update(":messages");
   }
 
-  private void hoechstgeschwindigkeitMessen() {
-    this.protokoll = new StringBuilder();
-    this.hoechstgeschwindigkeitsMessService.start(getCurrentFahrzeug(), this.messGleis, this::feedbackConsumer);
+    private void hoechstgeschwindigkeitMessen() {
+    this.geschwindigkeitsMessService.startHoechstgeschwindigkeitsMessung(getCurrentFahrzeug());
   }
 
   private void geschwindigkeitsprofileErstellen() {
-    this.protokoll = new StringBuilder();
-    this.geschwindigkeitsprofilMessService.start(getCurrentFahrzeug(), this::feedbackConsumer);
+    this.geschwindigkeitsMessService.startProfilMessung(getCurrentFahrzeug());
   }
 
-  @Getter
-  private StringBuilder protokoll;
+  public boolean isAktiv() {
+    return this.geschwindigkeitsMessService.isAktiv();
+  }
 
-  private void feedbackConsumer(String feedback) {
-    protokoll.append(feedback);
-    protokoll.append("\n");
+  public String getStatusDescription() {
+    return this.geschwindigkeitsMessService.getStatusDescription();
+  }
 
+  private void refresh() {
     this.pushService.somethingChanged();
   }
 

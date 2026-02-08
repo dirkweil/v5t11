@@ -40,7 +40,7 @@ a|....
 
 
 |`gleis`
-|`v5t11-fahrstrassen` +
+|`v5t11-parcours` +
 `v5t11-stellwerk`
 a|....
 {
@@ -53,7 +53,7 @@ a|....
 ....
 
 |`signal`
-|`v5t11-fahrstrassen` +
+|`v5t11-parcours` +
 `v5t11-stellwerk`
 a|....
 {
@@ -67,7 +67,7 @@ a|....
 ....
 
 |`weiche`
-|`v5t11-fahrstrassen` +
+|`v5t11-parcours` +
 `v5t11-stellwerk`
 a|....
 {
@@ -98,7 +98,7 @@ a|....
 
 |`fahrstrasse`
 |Aktualisierung von Fahrstrassen
-|`v5t11-fahrstrassen`
+|`v5t11-parcours`
 |`v5t11-stellwerk`
 a|....
 {

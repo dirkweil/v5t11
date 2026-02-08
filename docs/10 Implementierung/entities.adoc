@@ -1,0 +1,66 @@
+= Entities in _v5t11_
+
+Fachdaten haben in _v5t11_ einen sie definierenden Service ("Primary") und werden nach Bedarf in weiteren Services ("Secondary") als Kopien mit ggf. modifizierter Datenstruktur gehalten.
+
+Im folgenden sind die Haupt-Entities beschrieben:
+
+[%autowidth]
+|===
+|Entity |Primary +
+Secondaries |Ablage |Beschreibung
+
+.3+|`Gleis`
+|`v5t11-status`
+|Memory
+a|* Key: `_name_@_bereich_`
+* wesentliches Attribut: `besetzt`
+* wird aus `__xyz___sx.xml` initialisiert
+* Änderungen führen zu Messages im Topic `status`
+
+|`v5t11-fahrstrassen`
+|DB
+a|* wird beim Einlesen des Parcours angelegt, wenn nötig
+* Messages im Topic `status` führen zu Statusänderungen
+
+|`v5t11-stellwerk`
+|DB
+a|* wird beim Einlesen des Gleisplans angelegt, wenn nötig
+* Messages im Topic `status` führen zu Statusänderungen
+
+.3+|`Signal`
+|`v5t11-status`
+|Memory
+a|* Key: `_name_@_bereich_`
+* wesentliches Attribut: `stellung`
+* wird aus `__xyz___sx.xml` initialisiert
+* Änderungen führen zu Messages im Topic `status`
+
+|`v5t11-fahrstrassen`
+|DB
+a|* wird beim Einlesen des Parcours angelegt, wenn nötig
+* Messages im Topic `status` führen zu Statusänderungen
+
+|`v5t11-stellwerk`
+|DB
+a|* wird beim Einlesen des Gleisplans angelegt, wenn nötig
+* Messages im Topic `status` führen zu Statusänderungen
+
+.3+|`Weiche`
+|`v5t11-status`
+|Memory
+a|* Key: `_name_@_bereich_`
+* wesentliches Attribut: `stellung`
+* wird aus `__xyz___sx.xml` initialisiert
+* Änderungen führen zu Messages im Topic `status`
+
+|`v5t11-fahrstrassen`
+|DB
+a|* wird beim Einlesen des Parcours angelegt, wenn nötig
+* Messages im Topic `status` führen zu Statusänderungen
+
+|`v5t11-stellwerk`
+|DB
+a|* wird beim Einlesen des Gleisplans angelegt, wenn nötig
+* Messages im Topic `status` führen zu Statusänderungen
+
+|===
