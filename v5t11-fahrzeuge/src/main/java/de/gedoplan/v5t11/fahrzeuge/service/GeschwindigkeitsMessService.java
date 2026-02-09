@@ -135,7 +135,7 @@ public class GeschwindigkeitsMessService {
     }
 
     // TODO Nur für erste Tests
-    this.messPlan = this.messPlan.subList(12, 16);
+    // this.messPlan = this.messPlan.subList(12, 16);
 
     start("Geschwindigkeitsprofilmessung");
   }
