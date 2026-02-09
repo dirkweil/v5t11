@@ -1,6 +1,7 @@
 package de.gedoplan.v5t11.fahrzeuge.webui;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.jboss.logging.Logger;
@@ -21,6 +22,7 @@ import jakarta.faces.convert.ConverterException;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -49,16 +51,18 @@ public class FahrzeugMessungPresenter implements Serializable {
   @PostConstruct
   void init() {
     this.gleise = this.parcoursService
-      .getGleise()
-      .stream()
-      .filter(g -> g.getLaenge() > 0)
-      .filter(Gleis::isMessGleis)
-      .toList();
+        .getGleise()
+        .stream()
+        .filter(g -> g.getLaenge() > 0)
+        .filter(Gleis::isMessGleis)
+        .toList();
 
     this.messGleis = this.gleise.isEmpty() ? null : this.gleise.getFirst();
     setEinUndAusfahrtsgleis();
 
-    this.geschwindigkeitsMessService.attachObserver(this::refresh);
+    refreshGeschwindigkeiten();
+
+    this.geschwindigkeitsMessService.attachObserver(this::updateUI);
   }
 
   @PreDestroy
@@ -121,12 +125,12 @@ public class FahrzeugMessungPresenter implements Serializable {
 
   public void selectHoechstgeschwindigkeitMessen() {
     setSelectedAktion("Höchstgeschwindigkeit messen", "Messgleis und angrenzende Gleise räumen. Dann Fahrzeug das Messgleis mit Höchstgeschwindigkeit durchfahren lassen.",
-      this::hoechstgeschwindigkeitMessen);
+        this::hoechstgeschwindigkeitMessen);
   }
 
   public void selectGeschwindigkeitsprofileErstellen() {
     setSelectedAktion("Geschwindigkeitsprofil erstellen", "Messgleis und angrenzende Gleise räumen. Fahrzeug so aufstellen, dass es in Richtung Messgleis fahren wird.",
-      this::geschwindigkeitsprofileErstellen);
+        this::geschwindigkeitsprofileErstellen);
   }
 
   public void messungAbbrechen() {
@@ -160,7 +164,7 @@ public class FahrzeugMessungPresenter implements Serializable {
     PrimeFaces.current().ajax().update(":messages");
   }
 
-    private void hoechstgeschwindigkeitMessen() {
+  private void hoechstgeschwindigkeitMessen() {
     this.geschwindigkeitsMessService.startHoechstgeschwindigkeitsMessung(getCurrentFahrzeug());
   }
 
@@ -176,8 +180,35 @@ public class FahrzeugMessungPresenter implements Serializable {
     return this.geschwindigkeitsMessService.getStatusDescription();
   }
 
-  private void refresh() {
+  private void updateUI() {
+    refreshGeschwindigkeiten();
     this.pushService.somethingChanged();
   }
+
+  private void refreshGeschwindigkeiten() {
+    this.geschwindigkeiten = this.geschwindigkeitsMessService
+        .getGeschwindigkeit()
+        .keySet()
+        .stream()
+        .mapToInt(i -> Math.abs(i))
+        .sorted()
+        .distinct()
+        .mapToObj(fahrstufe -> new GeschwindigkeitsEntry(
+            fahrstufe,
+            this.geschwindigkeitsMessService.getGeschwindigkeit().get(fahrstufe),
+            this.geschwindigkeitsMessService.getGeschwindigkeit().get(-fahrstufe)))
+        .toList();
+  }
+
+  @AllArgsConstructor
+  @Getter
+  public static class GeschwindigkeitsEntry {
+    private int fahrstufe;
+    private Long vorwaerts;
+    private Long rueckwaerts;
+  }
+
+  @Getter
+  private List<GeschwindigkeitsEntry> geschwindigkeiten = new ArrayList<>();
 
 }

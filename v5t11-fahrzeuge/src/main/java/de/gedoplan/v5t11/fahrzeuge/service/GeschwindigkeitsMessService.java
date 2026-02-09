@@ -12,7 +12,6 @@ import org.jboss.logging.Logger;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrweg.Gleis;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug;
 import de.gedoplan.v5t11.fahrzeuge.gateway.StatusGateway;
-import de.gedoplan.v5t11.fahrzeuge.persistence.FahrstrasseRepository;
 import de.gedoplan.v5t11.fahrzeuge.persistence.FahrzeugRepository;
 import de.gedoplan.v5t11.util.cdi.Changed;
 import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
@@ -83,6 +82,7 @@ public class GeschwindigkeitsMessService {
 
   @PostConstruct
   void init() {
+    // TODO Messstrecke konfigurierbar?
     this.messGleis = this.parcoursService.findGleisById(new BereichselementId("HBf", "506")).get();
     this.linkesUmkehrGleis = this.parcoursService.findGleisById(new BereichselementId("HBf", "6")).get();
     this.linkesAnschlussGleis = this.parcoursService.findGleisVor(messGleis);
@@ -98,24 +98,12 @@ public class GeschwindigkeitsMessService {
 
   public void detachObserver() {
     this.observer = null;
-    this.logger.debug("View dettached");
+    this.logger.debug("View detached");
   }
 
   public void startHoechstgeschwindigkeitsMessung(Fahrzeug fahrzeug) {
-    if (isAktiv()) {
-      this.logger.errorf("Mess-Service ist bereits im Status %s", this.status.name());
-      return;
-    }
 
     this.fahrzeug = this.fahrzeugRepository.findById(fahrzeug.getId()).get();
-
-    this.logger.debugf("Höchstgeschwindigkeitsmessung für %s auf %s-%s-%s-%s-%s",
-        fahrzeug.getBetriebsnummer(),
-        linkesUmkehrGleis.getId(),
-        linkesAnschlussGleis.getId(),
-        messGleis.getId(),
-        rechtesAnschlussGleis.getId(),
-        rechtesUmkehrGleis.getId());
 
     int maxFahrstufe = this.fahrzeug.getFahrzeugdecoder().getDecoderAdr().getSystemTyp().getMaxFahrstufe();
     int faktor = this.fahrzeug.getFahrzeugdecoder().isRueckwaerts() ? -1 : 1;
@@ -124,33 +112,12 @@ public class GeschwindigkeitsMessService {
     this.messPlan.add(maxFahrstufe * faktor);
     this.messPlan.add(-maxFahrstufe * faktor);
 
-    this.logger.debugf("Messplan: %s", messPlan);
-    if (messPlan.isEmpty()) {
-      this.statusDescription = "Messplan ist leer";
-      if (this.observer != null) {
-        this.observer.run();
-      }
-      return;
-    }
-
-    start();
+    start("Höchstgeschwindigkeitsmessung");
   }
 
   public void startProfilMessung(Fahrzeug fahrzeug) {
-    if (isAktiv()) {
-      this.logger.errorf("Mess-Service ist bereits im Status %s", this.status.name());
-      return;
-    }
 
     this.fahrzeug = this.fahrzeugRepository.findById(fahrzeug.getId()).get();
-
-    this.logger.debugf("Geschwindigkeitsprofilmessung für %s auf %s-%s-%s-%s-%s",
-        fahrzeug.getBetriebsnummer(),
-        linkesUmkehrGleis.getId(),
-        linkesAnschlussGleis.getId(),
-        messGleis.getId(),
-        rechtesAnschlussGleis.getId(),
-        rechtesUmkehrGleis.getId());
 
     int maxFahrstufe = this.fahrzeug.getFahrzeugdecoder().getDecoderAdr().getSystemTyp().getMaxFahrstufe();
     int schrittweite = Math.max(5, maxFahrstufe / 12);
@@ -170,6 +137,24 @@ public class GeschwindigkeitsMessService {
     // TODO Nur für erste Tests
     this.messPlan = this.messPlan.subList(12, 16);
 
+    start("Geschwindigkeitsprofilmessung");
+  }
+
+  private void start(String name) {
+    if (isAktiv()) {
+      this.logger.errorf("Mess-Service ist bereits im Status %s", this.status.name());
+      return;
+    }
+
+    this.logger.debugf("%s für %s auf %s-%s-%s-%s-%s",
+        name,
+        fahrzeug.getBetriebsnummer(),
+        linkesUmkehrGleis.getId(),
+        linkesAnschlussGleis.getId(),
+        messGleis.getId(),
+        rechtesAnschlussGleis.getId(),
+        rechtesUmkehrGleis.getId());
+
     this.logger.debugf("Messplan: %s", messPlan);
     if (messPlan.isEmpty()) {
       this.statusDescription = "Messplan ist leer";
@@ -178,6 +163,8 @@ public class GeschwindigkeitsMessService {
       }
       return;
     }
+
+    this.geschwindigkeit.clear();
 
     start();
   }
@@ -311,7 +298,7 @@ public class GeschwindigkeitsMessService {
     long messMillis = stopMillis - this.startMillis;
 
     // Modellgeschwindigkeit in µm/s
-    long modellGeschwindigkeit = this.messGleis.getLaenge() * 1000L / messMillis;
+    long modellGeschwindigkeit = this.messGleis.getLaenge() * 1000L * 1000L / messMillis;
 
     // Realgeschwindigkeit in km/h
     long realGeschwindigkeit = modellGeschwindigkeit * 160L * 60L * 60L / 1000L / 1000L;
