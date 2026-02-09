@@ -211,4 +211,15 @@ public class FahrzeugMessungPresenter implements Serializable {
   @Getter
   private List<GeschwindigkeitsEntry> geschwindigkeiten = new ArrayList<>();
 
+  public Long convertModellZuRealGeschwindigkeit(Long modellMicromProS) {
+    return modellMicromProS != null
+        ? this.geschwindigkeitsMessService.convertModellZuRealGeschwindigkeit(modellMicromProS)
+        : null;
+    
+  }
+
+  public String save() {
+    this.geschwindigkeitsMessService.save();
+    return "finished";
+  }
 }

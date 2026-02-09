@@ -17,7 +17,7 @@
               id="id" style="vertical-align: middle;" />
           </f:facet>
           <f:facet name="right">
-            <p:commandButton value="Speichern" icon="pi pi-save" action="#{fahrzeugListPresenter.saveCurrentFahrzeug()}"
+            <p:commandButton value="Speichern" icon="pi pi-save" action="#{fahrzeugMessungPresenter.save()}"
               ajax="false" />
 
             <span class="ui-separator"> <span class="ui-icon pi pi-ellipsis-v" /></span>
@@ -64,21 +64,27 @@
       <h:outputText value="Status: #{fahrzeugMessungPresenter.statusDescription}" />
     </h:panelGroup>
 
-    <h:panelGroup id="messung-werte" layout="block" style="width: 500px">
+    <h:panelGroup id="messung-werte" layout="block">
       <p:dataTable var="v" value="#{fahrzeugMessungPresenter.geschwindigkeiten}">
-        <p:column headerText="Fahrstufe" style="text-align:center">
+        <p:column headerText="Fahrstufe" style="text-align:center; width: 150px;">
           <h:outputText value="#{v.fahrstufe}" />
         </p:column>
 
-        <p:column headerText="vorwärts" style="text-align:center">
+        <p:column headerText="vorwärts" style="text-align:center; width: 250px;">
           <h:outputText value="#{v.vorwaerts}">
             <f:convertNumber locale="de" pattern="#,##0 µm/s" />
           </h:outputText>
+          <h:outputText value="#{fahrzeugMessungPresenter.convertModellZuRealGeschwindigkeit(v.vorwaerts)}">
+            <f:convertNumber locale="de" pattern=" (#,##0 km/h)" />
+          </h:outputText>
         </p:column>
 
-        <p:column headerText="rückwärts" style="text-align:center">
+        <p:column headerText="rückwärts" style="text-align:center; width: 250px;">
           <h:outputText value="#{v.rueckwaerts}">
             <f:convertNumber locale="de" pattern="#,##0 µm/s" />
+          </h:outputText>
+          <h:outputText value="#{fahrzeugMessungPresenter.convertModellZuRealGeschwindigkeit(v.rueckwaerts)}">
+            <f:convertNumber locale="de" pattern=" (#,##0 km/h)" />
           </h:outputText>
         </p:column>
       </p:dataTable>

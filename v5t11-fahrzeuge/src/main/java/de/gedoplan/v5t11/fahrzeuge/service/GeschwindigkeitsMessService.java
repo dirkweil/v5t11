@@ -1,11 +1,13 @@
 package de.gedoplan.v5t11.fahrzeuge.service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.TreeMap;
 
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logging.Logger;
 
@@ -19,6 +21,7 @@ import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.ObservesAsync;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -40,9 +43,14 @@ public class GeschwindigkeitsMessService {
 
   @AllArgsConstructor
   private static enum Status {
-    START("Messung beginnt für %s"), VON_LINKS_VOR("Fahrzeug fährt von links auf Messgleis zu"), VON_RECHTS_VOR("Fahrzeug fährt von rechts auf Messgleis zu"), VON_LINKS_AUF(
-        "Fahrzeug fährt auf Messgleis nach rechts"), VON_RECHTS_AUF(
-            "Fahrzeug fährt auf Messgleis nach links"), AUSLAUF("Fahrzeug fährt zum Umkehrgleis"), BEENDET("Messung beendet"), FEHLER("Messung fehlgeschlagen (s. Server-Log)");
+    START("Messung beginnt für %s"), 
+    VON_LINKS_VOR("Fahrzeug fährt mit %s von links auf Messgleis zu"), 
+    VON_RECHTS_VOR("Fahrzeug fährt mit %s von rechts auf Messgleis zu"), 
+    VON_LINKS_AUF("Fahrzeug fährt mit %s auf Messgleis nach rechts"), 
+    VON_RECHTS_AUF("Fahrzeug fährt mit %s auf Messgleis nach links"), 
+    AUSLAUF("Fahrzeug fährt mit %s zum Umkehrgleis"), 
+    BEENDET("Messung beendet"), 
+    FEHLER("Messung fehlgeschlagen (s. Server-Log)");
 
     @Getter
     private String description;
@@ -78,7 +86,9 @@ public class GeschwindigkeitsMessService {
   private long startMillis;
 
   @Getter
-  private Map<Integer, Long> geschwindigkeit = new HashMap<>();
+  private Map<Integer, Long> geschwindigkeit = new TreeMap<>();
+
+  private boolean profilMessung;
 
   @PostConstruct
   void init() {
@@ -112,7 +122,17 @@ public class GeschwindigkeitsMessService {
     this.messPlan.add(maxFahrstufe * faktor);
     this.messPlan.add(-maxFahrstufe * faktor);
 
-    start("Höchstgeschwindigkeitsmessung");
+    this.profilMessung = false;
+
+    this.geschwindigkeit.clear();
+
+    if (isSimulation()) {
+      this.geschwindigkeit.put(maxFahrstufe, this.v100_v.get(maxFahrstufe));
+      this.geschwindigkeit.put(-maxFahrstufe, this.v100_v.get(-maxFahrstufe));
+      changeStatus(Status.BEENDET);
+    } else {
+      start("Höchstgeschwindigkeitsmessung");
+    }
   }
 
   public void startProfilMessung(Fahrzeug fahrzeug) {
@@ -134,10 +154,18 @@ public class GeschwindigkeitsMessService {
       this.messPlan.add(-high * faktor);
     }
 
-    // TODO Nur für erste Tests
-    // this.messPlan = this.messPlan.subList(12, 16);
+    this.profilMessung = true;
 
-    start("Geschwindigkeitsprofilmessung");
+    this.geschwindigkeit.clear();
+    this.geschwindigkeit.put(0, 0L);
+
+    if (isSimulation()) {
+      this.geschwindigkeit.putAll(this.v100_v);
+      changeStatus(Status.BEENDET);
+    } else {
+      start("Geschwindigkeitsprofilmessung");
+    }
+
   }
 
   private void start(String name) {
@@ -163,8 +191,6 @@ public class GeschwindigkeitsMessService {
       }
       return;
     }
-
-    this.geschwindigkeit.clear();
 
     start();
   }
@@ -301,9 +327,9 @@ public class GeschwindigkeitsMessService {
     long modellGeschwindigkeit = this.messGleis.getLaenge() * 1000L * 1000L / messMillis;
 
     // Realgeschwindigkeit in km/h
-    long realGeschwindigkeit = modellGeschwindigkeit * 160L * 60L * 60L / 1000L / 1000L;
+    long realGeschwindigkeit = convertModellZuRealGeschwindigkeit(modellGeschwindigkeit);
 
-    this.logger.debugf("Zeit: %,d ms, Geschwindigkeit: %,d µm/s ≙ %,d km/h", messMillis, modellGeschwindigkeit, realGeschwindigkeit);
+    this.logger.debugf("Zeit: %,d ms, Geschwindigkeit: %,d µm/s ≙ %f km/h", messMillis, modellGeschwindigkeit, realGeschwindigkeit);
 
     this.geschwindigkeit.put(this.planFahrstufe, modellGeschwindigkeit);
 
@@ -311,5 +337,92 @@ public class GeschwindigkeitsMessService {
       this.observer.run();
     }
   }
+
+  // TODO Magic number
+  long anlagenMassstab = 160;
+
+  public long convertModellZuRealGeschwindigkeit(long modellMicromProS) {
+    long sProH = 60L * 60L;
+    long micromProKm = 1000L * 1000L * 1000L;
+    return modellMicromProS * anlagenMassstab * sProH / micromProKm;
+  }
+
+  @Transactional
+  public void save() {
+    this.fahrzeug = this.fahrzeugRepository.findById(this.fahrzeug.getId()).get();
+
+    if (!this.profilMessung) {
+      saveHoechstgeschwindigkeit();
+    } else {
+      saveGeschwindigkeitsprofil();
+    }
+  }
+
+  private void saveHoechstgeschwindigkeit() {
+    this.fahrzeug.getGeschwindigkeit().putAll(this.geschwindigkeit);
+  }
+
+  private void saveGeschwindigkeitsprofil() {
+    this.fahrzeug.getGeschwindigkeit().clear();
+    this.fahrzeug.getGeschwindigkeit().putAll(this.geschwindigkeit);
+    
+    Entry<Integer, Long> low = null;
+    for (Entry<Integer, Long> high : this.geschwindigkeit.entrySet()) {
+      if (low != null) {
+        int fsLow = low.getKey();
+        int fsHigh = high.getKey();
+        int fsDiff = fsHigh - fsLow;
+        long vLow = low.getValue();
+        long vHigh = high.getValue();
+        long vDiff = vHigh - vLow;
+        this.logger.debugf("Interpolation: %d/%d -> %d,%d", fsLow, vLow, fsHigh, vHigh);
+        for (int fs = fsLow + 1; fs < fsHigh; ++fs) {
+          long v = vLow + vDiff/fsDiff*(fs-fsLow);
+          this.logger.debugf("  %d/%d", fs, v);
+          this.fahrzeug.getGeschwindigkeit().put(fs, v);
+        }
+      }
+
+      low = high;
+
+    }
+  }
+
+  @ConfigProperty(name = "v5t11.host")
+  String v5t11Host;
+
+  private boolean isSimulation() {
+    return !("mbahn".equals(this.v5t11Host));
+  }
+
+  private final Map<Integer, Long> v100_v = Map.ofEntries(
+      Map.entry(-1, 3216L),
+      Map.entry(-10, 7191L),
+      Map.entry(-20, 13060L),
+      Map.entry(-30, 18673L),
+      Map.entry(-40, 25719L),
+      Map.entry(-50, 32057L),
+      Map.entry(-60, 50765L),
+      Map.entry(-70, 56105L),
+      Map.entry(-80, 65196L),
+      Map.entry(-90, 74289L),
+      Map.entry(-100, 101147L),
+      Map.entry(-110, 115482L),
+      Map.entry(-120, 146806L),
+      Map.entry(-127, 182817L),
+      Map.entry(1, 3057L),
+      Map.entry(10, 7087L),
+      Map.entry(20, 12857L),
+      Map.entry(30, 18308L),
+      Map.entry(40, 25198L),
+      Map.entry(50, 31396L),
+      Map.entry(60, 49539L),
+      Map.entry(70, 55000L),
+      Map.entry(80, 64065L),
+      Map.entry(90, 73115L),
+      Map.entry(100, 100018L),
+      Map.entry(110, 113820L),
+      Map.entry(120, 143893L),
+      Map.entry(127, 160076L));
 
 }
