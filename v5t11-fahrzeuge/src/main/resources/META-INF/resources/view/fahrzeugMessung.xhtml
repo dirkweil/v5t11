@@ -4,7 +4,7 @@
 
 <ui:composition template="/WEB-INF/templates/fahrzeugManagement.xhtml">
   <ui:define name="content">
-    <h:form id="fahrzeug-messung">
+    <h:form id="messung-control">
       <h:panelGrid columns="1" style="width: 100%">
         <p:toolbar>
           <f:facet name="left">
@@ -60,11 +60,11 @@
       </h:panelGrid>
     </h:form>
 
-    <h:panelGroup id="protokoll" layout="block" style="width: 100%;">
+    <h:panelGroup id="messung-status" layout="block" style="width: 100%;">
       <h:outputText value="Status: #{fahrzeugMessungPresenter.statusDescription}" />
     </h:panelGroup>
 
-    <h:panelGroup id="messwerte" layout="block" style="width: 500px">
+    <h:panelGroup id="messung-werte" layout="block" style="width: 500px">
       <p:dataTable var="v" value="#{fahrzeugMessungPresenter.geschwindigkeiten}">
         <p:column headerText="Fahrstufe" style="text-align:center">
           <h:outputText value="#{v.fahrstufe}" />
@@ -101,7 +101,7 @@
 
     </h:form>
 
-    <p:remoteCommand name="updateFahrzeugMessung" update=":fahrzeug-messung" />
+    <p:remoteCommand name="updateFahrzeugMessung" update=":messung-control :messung-status :messung-werte" />
     <!--
       Das JSF-Tag funktioniert mit Quarkus/MyFaces nicht. Daher JS-Workaround.
       <f:websocket channel="fahrzeugdecoder-control" onmessage="updateFahrzeug"/>
