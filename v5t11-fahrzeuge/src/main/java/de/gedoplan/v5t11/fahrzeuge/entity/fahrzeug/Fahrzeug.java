@@ -124,7 +124,7 @@ public class Fahrzeug extends SingleIdEntity<String> {
    */
   @Getter
   @JsonbTransient
-  @ElementCollection
+  @ElementCollection(fetch = FetchType.EAGER)
   @CollectionTable(name = Fahrzeug.TABLE_NAME_GESCHWINDIGKEIT)
   private Map<Integer, Long> geschwindigkeit = new HashMap<>();
 

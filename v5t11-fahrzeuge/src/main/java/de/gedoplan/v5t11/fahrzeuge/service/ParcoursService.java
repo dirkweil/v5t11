@@ -164,6 +164,7 @@ public class ParcoursService {
     return findFahrstrassen(gleis)
       .stream()
       .filter(fs -> !fs.getStart().isZaehlrichtung())
+      .filter(this::weichenstellungKorrekt)
       .map(fs -> fs.getEnde().getId())
       .findAny()
       .flatMap(this::findGleisById)
@@ -174,9 +175,23 @@ public class ParcoursService {
     return findFahrstrassen(gleis)
       .stream()
       .filter(fs -> fs.getStart().isZaehlrichtung())
+      .filter(this::weichenstellungKorrekt)
       .map(fs -> fs.getEnde().getId())
       .findAny()
       .flatMap(this::findGleisById)
       .orElse(null);
+  }
+
+  private boolean weichenstellungKorrekt(Fahrstrasse fahrstrasse) {
+    for (Fahrstrassenelement fse: fahrstrasse.getElemente()) {
+      if (fse.getTyp() == FahrstrassenelementTyp.WEICHE) {
+        Weiche weiche = this.weichen.get(fse.getId());
+        if (weiche.getStellung() != fse.getWeichenstellung()) {
+          return false;
+        }
+      }
+    }
+
+    return true;
   }
 }

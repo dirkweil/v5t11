@@ -35,14 +35,8 @@ public class GleisMessService {
 
   @AllArgsConstructor
   private static enum Status {
-    START("Messung beginnt für %s"), 
-    VON_LINKS_VOR("Fahrzeug fährt mit %s von links auf Messgleis zu"), 
-    VON_RECHTS_VOR("Fahrzeug fährt mit %s von rechts auf Messgleis zu"), 
-    VON_LINKS_AUF("Fahrzeug fährt mit %s auf Messgleis nach rechts"), 
-    VON_RECHTS_AUF("Fahrzeug fährt mit %s auf Messgleis nach links"), 
-    AUSLAUF("Fahrzeug fährt mit %s zum Umkehrgleis"), 
-    BEENDET("Messung beendet"), 
-    FEHLER("Messung fehlgeschlagen (s. Server-Log)");
+    START("Messung beginnt"), MESSUNG_IN_ZAEHLRICHTUNG("Fahrzeug fährt auf Gleis %s in Zählrichtung"), MESSUNG_GEGEN_ZAEHLRICHTUNG("Fahrzeug fährt auf Gleis %s entgegen der Zählrichtung"), BEENDET(
+        "Messung beendet"), FEHLER("Messung fehlgeschlagen (s. Server-Log)");
 
     @Getter
     private String description;
@@ -75,14 +69,17 @@ public class GleisMessService {
 
   public void startLaengenMessung(Fahrzeug fahrzeug) {
 
-    if (isSimulation()) {
-      this.gleise.clear();
-      this.gleise.addAll(parcoursService.getGleise().stream().filter(g -> g.getBereich().equals("NBf")).toList());
-      this.gleise.forEach(g -> g.setLaenge(1234));
-      changeStatus(Status.BEENDET);
-    } else {
-      start("Gleislängenmessung");
-    }
+    this.fahrzeug = this.fahrzeugRepository.findById(fahrzeug.getId()).get();
+
+    this.gleise.clear();
+
+    // if (isSimulation()) {
+    //   this.gleise.addAll(parcoursService.getGleise().stream().filter(g -> g.getBereich().equals("NBf")).toList());
+    //   this.gleise.forEach(g -> g.setLaenge(1234));
+    //   changeStatus(Status.BEENDET);
+    // } else {
+    start("Gleislängenmessung");
+    // }
   }
 
   private void start(String name) {
@@ -113,7 +110,65 @@ public class GleisMessService {
     }
   }
 
+  private Gleis gleis;
+  private Gleis gleisNach;
+  private Gleis gleisVor;
+
   void gleisChanged(@ObservesAsync @Changed Gleis gleis) {
+    if (gleis.isBesetzt()) {
+      switch (this.status) {
+      case START -> {
+        this.gleis = gleis;
+        this.gleisNach = this.parcoursService.findGleisNach(gleis);
+        this.gleisVor = this.parcoursService.findGleisVor(gleis);
+
+        this.logger.debugf("Gleis %s belegt; gleisNach: %s; gleisVor: %s",
+            this.gleis.getId(),
+            this.gleisNach != null ? this.gleisNach.getId() : null,
+            this.gleisVor != null ? this.gleisVor.getId() : null);
+
+        boolean vonLinks = this.gleisVor != null && this.gleisVor.isBesetzt();
+        boolean vonRechts = this.gleisNach != null && this.gleisNach.isBesetzt();
+        if (vonLinks && !vonRechts) {
+          this.logger.debugf("Messung von %s mit Fahrt in Zählrichtung", this.gleis.getId());
+          startStopWatch(gleis);
+          changeStatus(Status.MESSUNG_IN_ZAEHLRICHTUNG);
+        } else if (vonRechts && !vonLinks) {
+          this.logger.debugf("Messung von %s mit Fahrt gegen Zählrichtung", this.gleis.getId());
+          startStopWatch(gleis);
+          changeStatus(Status.MESSUNG_GEGEN_ZAEHLRICHTUNG);
+        } else {
+          this.logger.warn("Gleise vor und nach sind nicht oder beide belegt; keine Messung");
+        }
+      }
+
+      case MESSUNG_IN_ZAEHLRICHTUNG -> {
+        if (gleis.equals(this.gleisNach)) {
+          stopStopWatch(gleis);
+
+          changeStatus(Status.START);
+          gleisChanged(gleis);
+        }
+      }
+
+      case MESSUNG_GEGEN_ZAEHLRICHTUNG -> {
+        if (gleis.equals(this.gleisVor)) {
+          stopStopWatch(gleis);
+
+          changeStatus(Status.START);
+          gleisChanged(gleis);
+        }
+      }
+      }
+
+    } else {
+      if (gleis.equals(this.gleis)) {
+        if (this.status == Status.MESSUNG_IN_ZAEHLRICHTUNG || this.status == Status.MESSUNG_GEGEN_ZAEHLRICHTUNG) {
+          this.logger.warnf("Gleis %s ist wieder frei ohne Übergang auf angrenzende Gleise; Messung neu starten", gleis.getId());
+          changeStatus(Status.START);
+        }
+      }
+    }
   }
 
   private void changeStatus(Status status) {
@@ -135,4 +190,33 @@ public class GleisMessService {
     return !("mbahn".equals(this.v5t11Host));
   }
 
+  private void startStopWatch(Gleis gleis) {
+    this.startMillis = gleis.getLastChangeMillis();
+  }
+
+  private void stopStopWatch(Gleis gleis) {
+    long stopMillis = gleis.getLastChangeMillis();
+    long t = stopMillis - this.startMillis;
+
+    int fahrstufe = this.fahrzeug.getFahrzeugdecoder().getFahrstufe();
+    if (this.fahrzeug.getFahrzeugdecoder().isRueckwaerts()) {
+      fahrstufe = -fahrstufe;
+    }
+    Long v = this.fahrzeug.getGeschwindigkeit().get(fahrstufe);
+    if (v == null || v == 0) {
+      logger.errorf("Fahrzeug %s hat für Fahrstufe %d keine Geschwindigkeit > 0", this.fahrzeug.getBetriebsnummer(), v);
+    } else {
+      long s = v * t / 1_000_000L;
+      logger.debugf("Gleis %s in %d ms mit %d µm/s durchfahren; Strecke: %d mm", this.gleis.getId(), t, v, s);
+
+      this.gleis.setLaenge((int) s);
+      this.gleise.remove(this.gleis);
+      this.gleise.add(this.gleis);
+
+      if (this.observer != null) {
+        this.observer.run();
+      }
+
+    }
+  }
 }
