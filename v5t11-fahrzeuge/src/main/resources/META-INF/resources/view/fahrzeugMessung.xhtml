@@ -27,12 +27,7 @@
 
         <h:panelGrid columns="2">
           <p:outputLabel for="@next" value="Messgleis:" />
-          <p:selectOneMenu id="messgleis" value="#{fahrzeugMessungPresenter.messGleis}"
-            converter="#{fahrzeugMessungPresenter.gleisConverter}" style="width:125px">
-            <f:selectItems value="#{fahrzeugMessungPresenter.gleise}" var="gleis" itemLabel="#{gleis.id.toString()}"
-              itemValue="#{gleis}" />
-            <p:ajax update="@form" />
-          </p:selectOneMenu>
+          <h:outputText id="messgleis" value="#{fahrzeugMessungPresenter.messGleis.id}" />
 
           <p:outputLabel for="@next" value="Länge [mm]:" />
           <h:outputText id="laenge" value="#{fahrzeugMessungPresenter.messGleis.laenge}" />

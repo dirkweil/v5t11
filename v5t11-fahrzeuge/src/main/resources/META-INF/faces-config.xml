@@ -57,8 +57,14 @@
     </navigation-case>
 
     <navigation-case>
-      <from-outcome>messung</from-outcome>
+      <from-outcome>fahrzeugMessung</from-outcome>
       <to-view-id>/view/fahrzeugMessung.xhtml</to-view-id>
+      <redirect/>
+    </navigation-case>
+
+    <navigation-case>
+      <from-outcome>gleisMessung</from-outcome>
+      <to-view-id>/view/gleisMessung.xhtml</to-view-id>
       <redirect/>
     </navigation-case>
 

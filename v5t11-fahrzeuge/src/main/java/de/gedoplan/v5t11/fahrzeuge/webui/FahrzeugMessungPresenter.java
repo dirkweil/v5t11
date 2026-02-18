@@ -42,24 +42,11 @@ public class FahrzeugMessungPresenter implements Serializable {
   @Inject
   PushService pushService;
 
-  @Getter
-  private List<Gleis> gleise;
-
   @Inject
   Logger logger;
 
   @PostConstruct
   void init() {
-    this.gleise = this.parcoursService
-        .getGleise()
-        .stream()
-        .filter(g -> g.getLaenge() > 0)
-        .filter(Gleis::isMessGleis)
-        .toList();
-
-    this.messGleis = this.gleise.isEmpty() ? null : this.gleise.getFirst();
-    setEinUndAusfahrtsgleis();
-
     refreshGeschwindigkeiten();
 
     this.geschwindigkeitsMessService.attachObserver(this::updateUI);
@@ -78,41 +65,16 @@ public class FahrzeugMessungPresenter implements Serializable {
     return this.fahrzeugListPresenter.saveCurrentFahrzeug();
   }
 
-  public class GleisConverter implements Converter<Gleis> {
-
-    @Override
-    public Gleis getAsObject(FacesContext context, UIComponent component, String value) throws ConverterException {
-      return value == null ? null : parcoursService.findGleisById(BereichselementId.fromString(value)).orElse(null);
-    }
-
-    @Override
-    public String getAsString(FacesContext context, UIComponent component, Gleis value) throws ConverterException {
-      return value == null ? null : value.getId().toString();
-    }
+  public Gleis getMessGleis() {
+    return this.geschwindigkeitsMessService.getMessGleis();
   }
 
-  @Getter
-  private GleisConverter gleisConverter = new GleisConverter();
-
-  @Getter
-  private Gleis messGleis;
-
-  public void setMessGleis(Gleis messGleis) {
-    this.messGleis = messGleis;
-    setEinUndAusfahrtsgleis();
+  public Gleis getLinksGleis() {
+    return this.geschwindigkeitsMessService.getLinkesAnschlussGleis();
   }
 
-  @Getter
-  @Setter
-  private Gleis linksGleis;
-
-  @Getter
-  @Setter
-  private Gleis rechtsGleis;
-
-  private void setEinUndAusfahrtsgleis() {
-    this.linksGleis = this.parcoursService.findGleisVor(this.messGleis);
-    this.rechtsGleis = this.parcoursService.findGleisNach(this.messGleis);
+  public Gleis getRechtsGleis() {
+    return this.geschwindigkeitsMessService.getRechtesAnschlussGleis();
   }
 
   private Runnable selectedAktion;

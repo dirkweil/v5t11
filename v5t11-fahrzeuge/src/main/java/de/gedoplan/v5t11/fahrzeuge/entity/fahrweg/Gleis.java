@@ -21,15 +21,11 @@ public class Gleis extends AbstractGleis {
 
   @Getter
   @Setter
-  private int laenge;
+  private Integer laenge;
 
   @Getter
   @Setter
   private boolean verdeckt;
-
-  @Getter
-  @Setter
-  private boolean messGleis;
 
   public Gleis(BereichselementId id) {
     super(id);

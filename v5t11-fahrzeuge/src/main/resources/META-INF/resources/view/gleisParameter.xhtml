@@ -8,9 +8,24 @@
   <ui:param name="title" value="Gleis-Parameter"/>
 
   <ui:define name="content">
-    <h2>Gleis-Parameter</h2>
-
     <h:form id="form">
+      <p:toolbar>
+        <f:facet name="left">
+          <h2>Gleis-Parameter</h2>
+        </f:facet>
+
+        <f:facet name="right">
+          <p:commandButton value="messen" icon="pi pi-stopwatch" action="messung" ajax="false" immediate="true"/>
+
+          <span class="ui-separator">
+            <span class="ui-icon pi pi-ellipsis-v"/>
+          </span>
+
+          <p:commandButton value="speichern" icon="pi pi-save" action="#{gleisParameterPresenter.save()}" ajax="false" />
+          <p:commandButton value="zurück" icon="pi pi-times" action="finished" ajax="false" immediate="true"/>
+        </f:facet>
+      </p:toolbar>
+
       <p:dataTable id="gleise" var="gleis" value="#{gleisParameterPresenter.gleise}"
                    editable="true"
                    style="margin-bottom:20px; width: min-content">
@@ -43,17 +58,6 @@
             </f:facet>
             <f:facet name="input">
               <p:selectBooleanCheckbox value="#{gleis.verdeckt}"/>
-            </f:facet>
-          </p:cellEditor>
-        </p:column>
-
-        <p:column headerText="Mess-Gleis" style="width: 5rem; text-align: center;">
-          <p:cellEditor>
-            <f:facet name="output">
-              <p:selectBooleanCheckbox value="#{gleis.messGleis}" disabled="true"/>
-            </f:facet>
-            <f:facet name="input">
-              <p:selectBooleanCheckbox value="#{gleis.messGleis}"/>
             </f:facet>
           </p:cellEditor>
         </p:column>
