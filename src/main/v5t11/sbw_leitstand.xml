@@ -200,12 +200,10 @@
       <Gleis lage="W,O" name="2002" bereich="SBf" anzahl="2"/>
       <Gleis lage="W,SO" name="2002" bereich="SBf"/>
       <Leer anzahl="4" />
-      <Gleis lage="W,O" name="HBf" bereich="SBf" label="true"/>
+      <Gleis lage="W,O" name="506" bereich="HBf" label="true"/>
       <Gleis lage="W,O" name="1001" bereich="SBf" label="true"/>
       <Weiche lage="W|SW,O" name="1003" bereich="SBf"/>
       <Gleis lage="W,NO" name="1004" bereich="SBf" />
-      <Leer/>
-      <Gleis lage="S,N" name="NBf" bereich="SBf" label="true"/>
     </Zeile>
     <Zeile>
       <Leer anzahl="2" />
@@ -216,7 +214,7 @@
       <Leer anzahl="4" />
       <Gleis lage="NW,S" name="2002" bereich="SBf"/>
       <Leer anzahl="3" />
-      <Gleis lage="W,O" name="HBf" bereich="SBf" label="true"/>
+      <Gleis lage="W,O" name="507" bereich="HBf" label="true"/>
       <Gleis lage="W,NO" name="1002" bereich="SBf" label="true"/>
     </Zeile>
     <Zeile>
@@ -245,7 +243,7 @@
       <Leer anzahl="5" />
       <Gleis lage="SW,N" name="2002" bereich="SBf"/>
       <Leer anzahl="1" />
-      <Gleis lage="O,W" name="HBf" bereich="SBf" label="true"/>
+      <Gleis lage="O,W" name="407" bereich="HBf" label="true"/>
       <Gleis lage="O,W" name="2006" bereich="SBf" label="true"/>
       <Weiche lage="NO,SW|W" name="2005" bereich="SBf"/>
       <Leer />
@@ -260,7 +258,7 @@
       <Gleis lage="W,O" name="2002" bereich="SBf"/>
       <Gleis lage="W,NO" name="2002" bereich="SBf"/>
       <Leer anzahl="2" />
-      <Gleis lage="O,W" name="HBf" bereich="SBf" label="true"/>
+      <Gleis lage="O,W" name="406" bereich="HBf" label="true"/>
       <Gleis lage="NO,W" name="2007" bereich="SBf" label="true"/>
       <Leer anzahl="2"/>
       <Gleis lage="SW,N" name="2001" bereich="SBf"/>
@@ -277,21 +275,29 @@
 
   <Stellwerk bereich="NBf">
     <Zeile>
-      <Gleis lage="NW,SO" name="102" bereich="NBf" label="true"/>
-      <Gleis lage="NW,SO" name="11" bereich="NBf" label="true"/>
+      <Gleis lage="NW,SO" name="505" bereich="HBf" label="true"/>
+      <Leer anzahl="14"/>
+      <Gleis lage="SW,N" name="1007" bereich="SBf" label="true"/>
     </Zeile>
     <Zeile>
       <Leer anzahl="1"/>
+      <Gleis lage="NW,SO" name="102" bereich="NBf" label="true"/>
+      <Gleis lage="NW,SO" name="11" bereich="NBf" label="true"/>
+      <Leer anzahl="11"/>
+      <Weiche lage="SW|W,NO" name="1006" bereich="SBf"/>
+    </Zeile>
+    <Zeile>
+      <Leer anzahl="2"/>
       <Weiche lage="NW,SO|O" name="1" bereich="NBf"/>
       <Weiche lage="NW|W,O" name="4" bereich="NBf"/>
       <Gleis lage="W,O" name="1" bereich="NBf" anzahl="3"/>
       <Gleis lage="W,O" name="1" bereich="NBf" label="true"/>
       <Gleis lage="W,O" name="1" bereich="NBf" anzahl="4"/>
       <Weiche lage="W|SW,O" name="7" bereich="NBf"/>
-      <Gleis lage="W,O" name="201" bereich="NBf" label="true"/>
+      <Gleis lage="W,NO" name="201" bereich="NBf" label="true"/>
     </Zeile>
     <Zeile>
-      <Leer anzahl="2"/>
+      <Leer anzahl="3"/>
       <Weiche lage="NW,SO|O" name="2" bereich="NBf"/>
       <Gleis lage="W,O" name="2" bereich="NBf" anzahl="3"/>
       <Gleis lage="W,O" name="2" bereich="NBf" label="true"/>
@@ -299,7 +305,7 @@
       <Weiche lage="SW|W,NO" name="6" bereich="NBf"/>
     </Zeile>
     <Zeile>
-      <Leer anzahl="1"/>
+      <Leer anzahl="2"/>
       <Gleis lage="W,O" name="13" bereich="NBf" label="true"/>
       <Gleis lage="W,O" name="13" bereich="NBf"/>
       <Weiche lage="W|NW,O" name="3" bereich="NBf"/>
@@ -311,7 +317,7 @@
       <Gleis lage="W,O" name="23" bereich="NBf" label="true"/>
     </Zeile>
     <Zeile>
-      <Leer anzahl="2"/>
+      <Leer anzahl="3"/>
       <Gleis lage="W,O" name="4" bereich="NBf" anzahl="4"/>
       <Gleis lage="W,O" name="4" bereich="NBf" label="true"/>
       <Gleis lage="W,O" name="4" bereich="NBf"/>
@@ -513,13 +519,13 @@
     </Zeile>
     <Zeile>
       <Leer anzahl="1"/>
-      <Gleis lage="S,N" name="406" bereich="HBf"/>
-      <Gleis lage="S,N" name="407" bereich="HBf"/>
+      <Gleis lage="S,N" name="2007" bereich="SBf" label="true"/>
+      <Gleis lage="S,N" name="2006" bereich="SBf" label="true"/>
       <Leer anzahl="21"/>
-      <Gleis lage="N,S" name="507" bereich="HBf"/>
-      <Gleis lage="N,S" name="506" bereich="HBf"/>
+      <Gleis lage="N,S" name="1002" bereich="SBf" label="true"/>
+      <Gleis lage="N,S" name="1001" bereich="SBf" label="true"/>
       <Leer anzahl="3"/>
-      <Gleis lage="NW,SO" name="505" bereich="HBf"/>
+      <Gleis lage="NW,SO" name="102" bereich="NBf" label="true"/>
     </Zeile>
   </Stellwerk>
 
