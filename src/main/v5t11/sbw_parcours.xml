@@ -62,7 +62,6 @@
     <Gleis name="1011" />
   </Fahrstrasse>
 
-  <!-- Fahrstrassen im Bereich SBf -->
   <Fahrstrasse bereich="SBf" zaehlrichtung="true" umkehrbar="true">
     <Gleis name="2002" />
     <Gleis name="W2003" />
@@ -102,7 +101,6 @@
     <Gleis name="2007" />
   </Fahrstrasse>
 
-  <!-- Fahrstrassen im Bereich SBf -->
   <Fahrstrasse bereich="SBf" zaehlrichtung="true" umkehrbar="true">
     <Gleis name="305" />
     <Weiche name="1" stellung="ABZWEIGEND" />
@@ -488,6 +486,7 @@
     <Gleis name="201" />
   </Fahrstrasse>
 
+  <!-- Fahrstrasse(n) zwischen NBf und SBf -->
   <!-- TODO Kombination mit anderen FS-Anteilen funktioniert nicht - Bereichsüberschreitung? -->
   <Fahrstrasse bereich="SBf" zaehlrichtung="true" umkehrbar="true">
     <Gleis name="201" bereich="NBf" />
@@ -1121,7 +1120,6 @@
     <Gleis name="W25" />
   </Fahrstrasse>
 
-  <!-- Hier geht's weiter -->
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleis name="W22" />
     <Weiche name="22" stellung="GERADE" />
@@ -1244,6 +1242,35 @@
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleis name="506" />
     <Gleis name="1001" bereich="SBf" />
+  </Fahrstrasse>
+
+  <!-- Fahrstrasse(n) zwischen HBf und SBf -->
+  <!-- TODO Kombination mit anderen FS-Anteilen funktioniert nicht - Bereichsüberschreitung? -->
+  <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
+    <Gleis name="507" bereich="HBf" />
+    <Gleis name="1002" bereich="SBf" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
+    <Gleis name="506" bereich="HBf" />
+    <Gleis name="1001" bereich="SBf" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="SBf" zaehlrichtung="true" umkehrbar="true">
+    <Gleis name="2006" bereich="SBf" />
+    <Gleis name="407" bereich="HBf" />
+  </Fahrstrasse>
+
+  <Fahrstrasse bereich="SBf" zaehlrichtung="true" umkehrbar="true">
+    <Gleis name="2007" bereich="SBf" />
+    <Gleis name="406" bereich="HBf" />
+  </Fahrstrasse>
+
+  <!-- Fahrstrasse(n) zwischen HBf und NBf -->
+  <!-- TODO Kombination mit anderen FS-Anteilen funktioniert nicht - Bereichsüberschreitung? -->
+  <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
+    <Gleis name="505" bereich="HBf" />
+    <Gleis name="102" bereich="NBf" />
   </Fahrstrasse>
 
   <AutoFahrstrasse bereich="SBf" trigger="9a">
