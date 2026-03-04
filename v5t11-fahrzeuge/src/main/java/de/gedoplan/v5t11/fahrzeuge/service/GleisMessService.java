@@ -97,9 +97,10 @@ public class GleisMessService {
       return;
     }
 
-    this.logger.debugf("%s mit %s",
+    this.logger.debugf("%s mit %s (Fahrstufe %d)",
         name,
-        fahrzeug.getBetriebsnummer());
+        this.fahrzeug.getBetriebsnummer(),
+        getGerichteteFahrstufe(this.fahrzeug));
 
     start();
   }
@@ -219,10 +220,7 @@ public class GleisMessService {
     long stopMillis = gleis.getLastChangeMillis();
     long t = stopMillis - this.startMillis;
 
-    int fahrstufe = this.fahrzeug.getFahrzeugdecoder().getFahrstufe();
-    if (this.fahrzeug.getFahrzeugdecoder().isRueckwaerts()) {
-      fahrstufe = -fahrstufe;
-    }
+    int fahrstufe = getGerichteteFahrstufe(this.fahrzeug);
     Long v = this.fahrzeug.getGeschwindigkeit().get(fahrstufe);
     if (v == null || v == 0) {
       logger.errorf("Fahrzeug %s hat für Fahrstufe %d keine Geschwindigkeit > 0", this.fahrzeug.getBetriebsnummer(), v);
@@ -241,12 +239,21 @@ public class GleisMessService {
     }
   }
 
+  private int getGerichteteFahrstufe(Fahrzeug fahrzeug) {
+    int fahrstufe = fahrzeug.getFahrzeugdecoder().getFahrstufe();
+    if (fahrzeug.getFahrzeugdecoder().isRueckwaerts()) {
+      fahrstufe = -fahrstufe;
+    }
+    return fahrstufe;
+  }
+
   void fahrzeugChanged(@ObservesAsync Fahrzeug fahrzeug) {
     if (fahrzeug.equals(this.fahrzeug)) {
-      if (fahrzeug.getFahrzeugdecoder().getFahrstufe() != this.fahrzeug.getFahrzeugdecoder().getFahrstufe()
-      || fahrzeug.getFahrzeugdecoder().isRueckwaerts() != this.fahrzeug.getFahrzeugdecoder().isRueckwaerts()) {
+      int oldFs = getGerichteteFahrstufe(this.fahrzeug);
+      int newFs = getGerichteteFahrstufe(fahrzeug);
+      if (oldFs != newFs) {
         if (this.status == Status.MESSUNG_IN_ZAEHLRICHTUNG || this.status == Status.MESSUNG_GEGEN_ZAEHLRICHTUNG) {
-          this.logger.warn("Fahrzeuggeschwindigkeit oder -richtung geändert; keine Messung");
+          this.logger.warnf("Fahrzeuggeschwindigkeit oder -richtung geändert (%d -> %d); keine Messung", oldFs, newFs);
           changeStatus(Status.KEINE_MESSUNG_FAHRZEUG);
 
           this.fahrzeug = fahrzeug;
