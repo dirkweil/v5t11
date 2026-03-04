@@ -1,5 +1,6 @@
 package de.gedoplan.v5t11.fahrzeuge.service;
 
+import java.util.Locale;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -11,7 +12,9 @@ import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug;
 import de.gedoplan.v5t11.fahrzeuge.persistence.FahrzeugRepository;
 import de.gedoplan.v5t11.fahrzeuge.persistence.GleisRepository;
 import de.gedoplan.v5t11.util.cdi.Changed;
+import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.Observes;
 import jakarta.enterprise.event.ObservesAsync;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -35,8 +38,14 @@ public class GleisMessService {
 
   @AllArgsConstructor
   private static enum Status {
-    START("Messung beginnt"), MESSUNG_IN_ZAEHLRICHTUNG("Fahrzeug fährt auf Gleis %s in Zählrichtung"), MESSUNG_GEGEN_ZAEHLRICHTUNG("Fahrzeug fährt auf Gleis %s entgegen der Zählrichtung"), BEENDET(
-        "Messung beendet"), FEHLER("Messung fehlgeschlagen (s. Server-Log)");
+    START("Messung beginnt"),
+    MESSUNG_IN_ZAEHLRICHTUNG("Fahrzeug fährt auf Gleis %s in Zählrichtung"),
+    MESSUNG_GEGEN_ZAEHLRICHTUNG("Fahrzeug fährt auf Gleis %s entgegen der Zählrichtung"),
+    KEINE_MESSUNG_GLEIS("Keine Messung für Gleis %s, da Stumpfgleis"),
+    KEINE_MESSUNG_BELEGT("Keine Messung für Gleis %s, da nächstes Gleis bereits belegt"),
+    KEINE_MESSUNG_FAHRZEUG("Keine Messung für Gleis %s, da Änderung der Fahrzeuggeschwindigkeit oder -richtung"),
+    BEENDET("Messung beendet"),
+    FEHLER("Messung fehlgeschlagen (s. Server-Log)");
 
     @Getter
     private String description;
@@ -117,7 +126,7 @@ public class GleisMessService {
   void gleisChanged(@ObservesAsync @Changed Gleis gleis) {
     if (gleis.isBesetzt()) {
       switch (this.status) {
-      case START -> {
+      case START, KEINE_MESSUNG_BELEGT, KEINE_MESSUNG_FAHRZEUG, KEINE_MESSUNG_GLEIS -> {
         this.gleis = gleis;
         this.gleisNach = this.parcoursService.findGleisNach(gleis);
         this.gleisVor = this.parcoursService.findGleisVor(gleis);
@@ -127,8 +136,14 @@ public class GleisMessService {
             this.gleisNach != null ? this.gleisNach.getId() : null,
             this.gleisVor != null ? this.gleisVor.getId() : null);
 
-        boolean vonLinks = this.gleisVor != null && this.gleisVor.isBesetzt();
-        boolean vonRechts = this.gleisNach != null && this.gleisNach.isBesetzt();
+        if (this.gleisVor == null || this.gleisNach == null) {
+          this.logger.warnf("Messung von Stumpfgleis %s nicht möglich", this.gleis.getId());
+          changeStatus(Status.KEINE_MESSUNG_GLEIS);
+          return;
+        }
+
+        boolean vonLinks = this.gleisVor.isBesetzt();
+        boolean vonRechts = this.gleisNach.isBesetzt();
         if (vonLinks && !vonRechts) {
           this.logger.debugf("Messung von %s mit Fahrt in Zählrichtung", this.gleis.getId());
           startStopWatch(gleis);
@@ -139,6 +154,7 @@ public class GleisMessService {
           changeStatus(Status.MESSUNG_GEGEN_ZAEHLRICHTUNG);
         } else {
           this.logger.warn("Gleise vor und nach sind nicht oder beide belegt; keine Messung");
+          changeStatus(Status.KEINE_MESSUNG_BELEGT);
         }
       }
 
@@ -159,6 +175,9 @@ public class GleisMessService {
           gleisChanged(gleis);
         }
       }
+
+      default -> {
+      }
       }
 
     } else {
@@ -173,6 +192,8 @@ public class GleisMessService {
 
   private void changeStatus(Status status) {
     this.status = status;
+    String gleisDescription = this.gleis != null ? this.gleis.getKey().toString() : null;
+    this.statusDescription = String.format(Locale.GERMAN, status.description, gleisDescription);
     if (this.observer != null) {
       this.observer.run();
     }
@@ -217,6 +238,18 @@ public class GleisMessService {
         this.observer.run();
       }
 
+    }
+  }
+
+  void fahrzeugChanged(@ObservesAsync Fahrzeug fahrzeug) {
+    if (fahrzeug.equals(this.fahrzeug)) {
+      if (fahrzeug.getFahrzeugdecoder().getFahrstufe() != this.fahrzeug.getFahrzeugdecoder().getFahrstufe()
+      || fahrzeug.getFahrzeugdecoder().isRueckwaerts() != this.fahrzeug.getFahrzeugdecoder().isRueckwaerts()) {
+        if (this.status == Status.MESSUNG_IN_ZAEHLRICHTUNG || this.status == Status.MESSUNG_GEGEN_ZAEHLRICHTUNG) {
+          this.logger.warn("Fahrzeuggeschwindigkeit oder -richtung geändert; keine Messung");
+          changeStatus(Status.KEINE_MESSUNG_FAHRZEUG);
+        }
+      }
     }
   }
 }
