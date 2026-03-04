@@ -248,6 +248,8 @@ public class GleisMessService {
         if (this.status == Status.MESSUNG_IN_ZAEHLRICHTUNG || this.status == Status.MESSUNG_GEGEN_ZAEHLRICHTUNG) {
           this.logger.warn("Fahrzeuggeschwindigkeit oder -richtung geändert; keine Messung");
           changeStatus(Status.KEINE_MESSUNG_FAHRZEUG);
+
+          this.fahrzeug = fahrzeug;
         }
       }
     }
