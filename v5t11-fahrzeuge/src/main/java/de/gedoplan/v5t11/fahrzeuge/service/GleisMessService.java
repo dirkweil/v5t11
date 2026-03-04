@@ -1,6 +1,7 @@
 package de.gedoplan.v5t11.fahrzeuge.service;
 
 import java.util.Locale;
+import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -51,7 +52,11 @@ public class GleisMessService {
     private String description;
   }
 
-  private Fahrzeug fahrzeug;
+  // private Fahrzeug fahrzeug;
+  private String fahrzeugId;
+  private String fahrzeugBetriebsnummer;
+  private Map<Integer,Long> fahrzeugGeschwindigkeit;
+
 
   private Status status;
 
@@ -78,7 +83,14 @@ public class GleisMessService {
 
   public void startLaengenMessung(Fahrzeug fahrzeug) {
 
-    this.fahrzeug = this.fahrzeugRepository.findById(fahrzeug.getId()).get();
+    this.fahrzeugId = fahrzeug.getId();
+    if (this.fahrzeugRepository.findById(fahrzeug.getId()).isEmpty()) {
+      this.logger.warnf("Fahrzeug %s nicht gefunden", this.fahrzeugId);
+      return;
+    }
+    
+    this.fahrzeugBetriebsnummer = fahrzeug.getBetriebsnummer();
+    this.fahrzeugGeschwindigkeit = fahrzeug.getGeschwindigkeit();
 
     this.gleise.clear();
 
@@ -99,8 +111,8 @@ public class GleisMessService {
 
     this.logger.debugf("%s mit %s (Fahrstufe %d)",
         name,
-        this.fahrzeug.getBetriebsnummer(),
-        getGerichteteFahrstufe(this.fahrzeug));
+        this.fahrzeugBetriebsnummer,
+        getGerichteteFahrstufe());
 
     start();
   }
@@ -179,7 +191,7 @@ public class GleisMessService {
 
       case null -> {
       }
-      
+
       default -> {
       }
       }
@@ -223,10 +235,10 @@ public class GleisMessService {
     long stopMillis = gleis.getLastChangeMillis();
     long t = stopMillis - this.startMillis;
 
-    int fahrstufe = getGerichteteFahrstufe(this.fahrzeug);
-    Long v = this.fahrzeug.getGeschwindigkeit().get(fahrstufe);
+    int fahrstufe = getGerichteteFahrstufe();
+    Long v = this.fahrzeugGeschwindigkeit.get(fahrstufe);
     if (v == null || v == 0) {
-      logger.errorf("Fahrzeug %s hat für Fahrstufe %d keine Geschwindigkeit > 0", this.fahrzeug.getBetriebsnummer(), v);
+      logger.errorf("Fahrzeug %s hat für Fahrstufe %d keine Geschwindigkeit > 0", this.fahrzeugBetriebsnummer, v);
     } else {
       long s = v * t / 1_000_000L;
       logger.debugf("Gleis %s in %d ms mit %d µm/s durchfahren; Strecke: %d mm", this.gleis.getId(), t, v, s);
@@ -242,6 +254,10 @@ public class GleisMessService {
     }
   }
 
+  private int getGerichteteFahrstufe() {
+    return getGerichteteFahrstufe(this.fahrzeugRepository.findById(this.fahrzeugId).get());
+  }
+
   private int getGerichteteFahrstufe(Fahrzeug fahrzeug) {
     int fahrstufe = fahrzeug.getFahrzeugdecoder().getFahrstufe();
     if (fahrzeug.getFahrzeugdecoder().isRueckwaerts()) {
@@ -251,16 +267,14 @@ public class GleisMessService {
   }
 
   void fahrzeugChanged(@ObservesAsync Fahrzeug fahrzeug) {
-    if (fahrzeug.equals(this.fahrzeug)) {
-      int oldFs = getGerichteteFahrstufe(this.fahrzeug);
+    if (fahrzeug.getId().equals(this.fahrzeugId)) {
+      int oldFs = getGerichteteFahrstufe();
       int newFs = getGerichteteFahrstufe(fahrzeug);
       if (oldFs != newFs) {
         this.logger.debugf("Fahrstufe geändert (%d -> %d)", oldFs, newFs);
         if (this.status == Status.MESSUNG_IN_ZAEHLRICHTUNG || this.status == Status.MESSUNG_GEGEN_ZAEHLRICHTUNG) {
           this.logger.warnf("Keine Messung wegen Fahrstufenänderung", oldFs, newFs);
           changeStatus(Status.KEINE_MESSUNG_FAHRZEUG);
-
-          this.fahrzeug = fahrzeug;
         }
       }
     }
