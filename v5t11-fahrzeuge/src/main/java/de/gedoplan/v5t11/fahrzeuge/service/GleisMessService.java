@@ -177,6 +177,9 @@ public class GleisMessService {
         }
       }
 
+      case null -> {
+      }
+      
       default -> {
       }
       }
@@ -252,8 +255,9 @@ public class GleisMessService {
       int oldFs = getGerichteteFahrstufe(this.fahrzeug);
       int newFs = getGerichteteFahrstufe(fahrzeug);
       if (oldFs != newFs) {
+        this.logger.debugf("Fahrstufe geändert (%d -> %d)", oldFs, newFs);
         if (this.status == Status.MESSUNG_IN_ZAEHLRICHTUNG || this.status == Status.MESSUNG_GEGEN_ZAEHLRICHTUNG) {
-          this.logger.warnf("Fahrzeuggeschwindigkeit oder -richtung geändert (%d -> %d); keine Messung", oldFs, newFs);
+          this.logger.warnf("Keine Messung wegen Fahrstufenänderung", oldFs, newFs);
           changeStatus(Status.KEINE_MESSUNG_FAHRZEUG);
 
           this.fahrzeug = fahrzeug;
