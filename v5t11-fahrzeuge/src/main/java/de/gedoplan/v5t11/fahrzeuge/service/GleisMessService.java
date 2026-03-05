@@ -13,9 +13,7 @@ import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug;
 import de.gedoplan.v5t11.fahrzeuge.persistence.FahrzeugRepository;
 import de.gedoplan.v5t11.fahrzeuge.persistence.GleisRepository;
 import de.gedoplan.v5t11.util.cdi.Changed;
-import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.event.Observes;
 import jakarta.enterprise.event.ObservesAsync;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -24,6 +22,9 @@ import lombok.Getter;
 
 @ApplicationScoped
 public class GleisMessService {
+
+  // Minimale Fahrzeit; darunter keine valide Messung
+  private static final long MIN_T = 500L;
 
   @Inject
   ParcoursService parcoursService;
@@ -55,8 +56,7 @@ public class GleisMessService {
   // private Fahrzeug fahrzeug;
   private String fahrzeugId;
   private String fahrzeugBetriebsnummer;
-  private Map<Integer,Long> fahrzeugGeschwindigkeit;
-
+  private Map<Integer, Long> fahrzeugGeschwindigkeit;
 
   private Status status;
 
@@ -88,7 +88,7 @@ public class GleisMessService {
       this.logger.warnf("Fahrzeug %s nicht gefunden", this.fahrzeugId);
       return;
     }
-    
+
     this.fahrzeugBetriebsnummer = fahrzeug.getBetriebsnummer();
     this.fahrzeugGeschwindigkeit = fahrzeug.getGeschwindigkeit();
 
@@ -235,23 +235,29 @@ public class GleisMessService {
     long stopMillis = gleis.getLastChangeMillis();
     long t = stopMillis - this.startMillis;
 
+    if (t < MIN_T) {
+      logger.warnf("Gleis %s in %d ms durchfahren; keine valide Messung", this.gleis.getId(), t);
+      changeStatus(Status.KEINE_MESSUNG_BELEGT);
+      return;
+    }
+
     int fahrstufe = getGerichteteFahrstufe();
     Long v = this.fahrzeugGeschwindigkeit.get(fahrstufe);
     if (v == null || v == 0) {
       logger.errorf("Fahrzeug %s hat für Fahrstufe %d keine Geschwindigkeit > 0", this.fahrzeugBetriebsnummer, v);
-    } else {
-      long s = v * t / 1_000_000L;
-      logger.debugf("Gleis %s in %d ms mit %d µm/s durchfahren; Strecke: %d mm", this.gleis.getId(), t, v, s);
-
-      this.gleis.setLaenge((int) s);
-      this.gleise.remove(this.gleis);
-      this.gleise.add(this.gleis);
-
-      if (this.observer != null) {
-        this.observer.run();
-      }
-
+      changeStatus(Status.START);
+      return;
     }
+
+    long s = v * t / 1_000_000L;
+    logger.debugf("Gleis %s in %d ms mit %d µm/s durchfahren; Strecke: %d mm", this.gleis.getId(), t, v, s);
+
+    this.gleis.setLaenge((int) s);
+    this.gleise.remove(this.gleis);
+    this.gleise.add(this.gleis);
+
+    changeStatus(Status.START);
+
   }
 
   private int getGerichteteFahrstufe() {
