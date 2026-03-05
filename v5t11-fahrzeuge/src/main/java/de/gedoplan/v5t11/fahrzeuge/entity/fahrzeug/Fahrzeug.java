@@ -224,6 +224,7 @@ public class Fahrzeug extends SingleIdEntity<String> {
     return null;
   }
 
+  @SuppressWarnings("unused")
   private void setDecoderNameFromOldDecoderElement(String decoderName) {
     setOldDecoderName(decoderName);
   }
@@ -255,6 +256,7 @@ public class Fahrzeug extends SingleIdEntity<String> {
     return null;
   }
 
+  @SuppressWarnings("unused")
   private void setDecoderAdrFromOldIdElement(String decoderAdrString) {
     setOldDecoderAdr(decoderAdrString);
   }
@@ -276,6 +278,7 @@ public class Fahrzeug extends SingleIdEntity<String> {
   @Transient
   private List<FahrzeugKonfiguration> oldKonfigurationen;
 
+  @SuppressWarnings("unused")
   private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
     if (this.fahrzeugTyp == null) {
       this.fahrzeugTyp =

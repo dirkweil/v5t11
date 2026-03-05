@@ -2,7 +2,6 @@ package de.gedoplan.v5t11.fahrzeuge.webui;
 
 import java.io.Serializable;
 import java.util.SortedSet;
-import java.util.TreeSet;
 
 import org.jboss.logging.Logger;
 import org.primefaces.PrimeFaces;

@@ -11,20 +11,15 @@ import de.gedoplan.v5t11.fahrzeuge.entity.fahrweg.Gleis;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug;
 import de.gedoplan.v5t11.fahrzeuge.service.GeschwindigkeitsMessService;
 import de.gedoplan.v5t11.fahrzeuge.service.ParcoursService;
-import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import jakarta.faces.application.FacesMessage;
-import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
-import jakarta.faces.convert.Converter;
-import jakarta.faces.convert.ConverterException;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 
 @Named
 @ViewScoped
