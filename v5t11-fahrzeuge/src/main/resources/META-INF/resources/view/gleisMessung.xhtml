@@ -33,7 +33,7 @@
           <p:commandButton value="Gleislängen messen" action="#{gleisMessungPresenter.selectGleislaengenMessen()}"
             disabled="#{gleisMessungPresenter.aktiv}" ajax="false" />
 
-          <p:commandButton value="Messung abbrechen" action="#{gleisMessungPresenter.messungAbbrechen()}"
+          <p:commandButton value="Messung beenden" action="#{gleisMessungPresenter.messungAbbrechen()}"
             disabled="#{!gleisMessungPresenter.aktiv}" ajax="false" />
 
           <h:outputText value="Status: #{gleisMessungPresenter.statusDescription}" style="font-weight: bold;" />
