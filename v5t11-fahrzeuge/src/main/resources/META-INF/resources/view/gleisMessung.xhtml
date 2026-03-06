@@ -42,18 +42,36 @@
     </h:form>
 
     <h:panelGroup id="messung-werte" layout="block" style="width: min-content;">
-      <p:dataTable var="gleis" value="#{gleisMessungPresenter.gleise}">
+      <p:dataTable var="messung" value="#{gleisMessungPresenter.messungen}">
         <p:column headerText="Bereich" style="width: 5rem;">
-          <h:outputText value="#{gleis.bereich}" />
+          <h:outputText value="#{messung.key.bereich}" />
         </p:column>
 
         <p:column headerText="Name" style="width: 5rem;">
-          <h:outputText value="#{gleis.name}" />
+          <h:outputText value="#{messung.key.name}" />
         </p:column>
 
-        <p:column headerText="Länge [mm]" style="width: 7rem; text-align: right;">
-          <h:outputText value="#{gleis.laenge}" />
+        <p:column headerText="Länge bisher" style="width: 7rem; text-align: right;">
+          <h:outputText value="#{messung.key.laenge}">
+            <f:convertNumber locale="de" pattern="#,##0 mm" />
+          </h:outputText>
         </p:column>
+
+        <p:column headerText="Länge neu" style="width: 7rem; text-align: right;">
+          <h:outputText value="#{messung.value}">
+            <f:convertNumber locale="de" pattern="#,##0 mm" />
+          </h:outputText>
+        </p:column>
+
+        <p:column width="40">
+          <f:facet name="header">
+            <p:commandButton icon="pi pi-sort-alt-slash" title="Alle Messungen für bereits gemessene Gleise entfernen"
+              style="width: 100%" action="#{gleisMessungPresenter.removeOverrides()}" update="messung-werte" />
+          </f:facet>
+          <p:commandButton icon="pi pi-trash" title="Messung löschen" style="width: 100%"
+            action="#{gleisMessungPresenter.removeMessung(messung.key)}" immediate="true" update="messung-werte" />
+        </p:column>
+
       </p:dataTable>
     </h:panelGroup>
 

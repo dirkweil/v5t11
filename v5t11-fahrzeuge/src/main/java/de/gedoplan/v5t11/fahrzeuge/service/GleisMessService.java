@@ -1,8 +1,11 @@
 package de.gedoplan.v5t11.fahrzeuge.service;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.SortedMap;
 import java.util.SortedSet;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
@@ -13,6 +16,7 @@ import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug;
 import de.gedoplan.v5t11.fahrzeuge.persistence.FahrzeugRepository;
 import de.gedoplan.v5t11.fahrzeuge.persistence.GleisRepository;
 import de.gedoplan.v5t11.util.cdi.Changed;
+import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.ObservesAsync;
 import jakarta.inject.Inject;
@@ -68,7 +72,7 @@ public class GleisMessService {
   private long startMillis;
 
   @Getter
-  private SortedSet<Gleis> gleise = new TreeSet<>();
+  private SortedMap<Gleis, Integer> messungen = new TreeMap<>();
 
   public void attachObserver(Runnable observer) {
     // TODO mehrere Observer? ggf. ausschliessen?
@@ -92,15 +96,20 @@ public class GleisMessService {
     this.fahrzeugBetriebsnummer = fahrzeug.getBetriebsnummer();
     this.fahrzeugGeschwindigkeit = fahrzeug.getGeschwindigkeit();
 
-    this.gleise.clear();
+    this.messungen.clear();
 
-    // if (isSimulation()) {
-    //   this.gleise.addAll(parcoursService.getGleise().stream().filter(g -> g.getBereich().equals("NBf")).toList());
-    //   this.gleise.forEach(g -> g.setLaenge(1234));
-    //   changeStatus(Status.BEENDET);
-    // } else {
+    if (isSimulation()) {
+      this.parcoursService
+          .getGleise()
+          .stream()
+          .filter(g -> g.getBereich().equals("NBf"))
+          .forEach(g -> this.messungen.put(g, 1234));
+
+      changeStatus(Status.BEENDET);
+      return;
+    }
+
     start("Gleislängenmessung");
-    // }
   }
 
   private void start(String name) {
@@ -173,19 +182,17 @@ public class GleisMessService {
 
       case MESSUNG_IN_ZAEHLRICHTUNG -> {
         if (gleis.equals(this.gleisNach)) {
-          stopStopWatch(gleis);
-
-          changeStatus(Status.START);
-          gleisChanged(gleis);
+          if (stopStopWatch(gleis)) {
+            gleisChanged(gleis);
+          }
         }
       }
 
       case MESSUNG_GEGEN_ZAEHLRICHTUNG -> {
         if (gleis.equals(this.gleisVor)) {
-          stopStopWatch(gleis);
-
-          changeStatus(Status.START);
-          gleisChanged(gleis);
+          if (stopStopWatch(gleis)) {
+            gleisChanged(gleis);
+          }
         }
       }
 
@@ -217,7 +224,19 @@ public class GleisMessService {
 
   @Transactional
   public void save() {
-    this.gleise.forEach(g1 -> this.gleisRepository.findById(g1.getId()).ifPresent(g2 -> g2.setLaenge(g1.getLaenge())));
+    this.messungen
+        .entrySet()
+        .forEach(e -> {
+          BereichselementId gleisId = e.getKey().getId();
+          Integer neueLaenge = e.getValue();
+          this.logger.debugf("gleisId: %s, neueLaenge: %d", gleisId, neueLaenge);
+
+          this.parcoursService.findGleisById(gleisId).ifPresent(g -> {
+            this.logger.debug("  ... setze neue Länge");
+            g.setLaenge(neueLaenge);
+            this.parcoursService.saveGleis(gleisId);
+          });
+        });
   }
 
   @ConfigProperty(name = "v5t11.host")
@@ -231,14 +250,19 @@ public class GleisMessService {
     this.startMillis = gleis.getLastChangeMillis();
   }
 
-  private void stopStopWatch(Gleis gleis) {
+  /**
+   * Verstrichene Zeit messen und Gleislänge ermitteln.
+   * @param gleis befahrenes Gleis nach dem gemessenen Gleis
+   * @return true, wenn Messung plausibel und neu befahrenes Gleis direkt in weitere Messung einbezogen werden kann
+   */
+  private boolean stopStopWatch(Gleis gleis) {
     long stopMillis = gleis.getLastChangeMillis();
     long t = stopMillis - this.startMillis;
 
     if (t < MIN_T) {
       logger.warnf("Gleis %s in %d ms durchfahren; keine valide Messung", this.gleis.getId(), t);
       changeStatus(Status.KEINE_MESSUNG_BELEGT);
-      return;
+      return false;
     }
 
     int fahrstufe = getGerichteteFahrstufe();
@@ -246,18 +270,16 @@ public class GleisMessService {
     if (v == null || v == 0) {
       logger.errorf("Fahrzeug %s hat für Fahrstufe %d keine Geschwindigkeit > 0", this.fahrzeugBetriebsnummer, v);
       changeStatus(Status.START);
-      return;
+      return true;
     }
 
     long s = v * t / 1_000_000L;
     logger.debugf("Gleis %s in %d ms mit %d µm/s durchfahren; Strecke: %d mm", this.gleis.getId(), t, v, s);
 
-    this.gleis.setLaenge((int) s);
-    this.gleise.remove(this.gleis);
-    this.gleise.add(this.gleis);
+    this.messungen.putIfAbsent(this.gleis, (int) s);
 
     changeStatus(Status.START);
-
+    return true;
   }
 
   private int getGerichteteFahrstufe() {
@@ -284,5 +306,21 @@ public class GleisMessService {
         }
       }
     }
+  }
+
+  public void removeMessung(Gleis gleis) {
+    this.logger.debugf("Messung für Gleis %s entfernen", gleis.getId());
+    this.messungen.remove(gleis);
+  }
+
+  public void removeOverrides() {
+    List<Gleis> zuLoeschen = this.messungen
+    .entrySet()
+    .stream()
+    .filter(e -> e.getKey().getLaenge() != null)
+    .map(e -> e.getKey())
+    .toList();
+    
+    zuLoeschen.forEach(this::removeMessung);
   }
 }
