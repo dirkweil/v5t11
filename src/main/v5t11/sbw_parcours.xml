@@ -102,12 +102,6 @@
   </Fahrstrasse>
 
   <Fahrstrasse bereich="SBf" zaehlrichtung="true" umkehrbar="true">
-    <Gleis name="305" />
-    <Weiche name="1" stellung="ABZWEIGEND" />
-    <Gleis name="W1" />
-  </Fahrstrasse>
-
-  <Fahrstrasse bereich="SBf" zaehlrichtung="true" umkehrbar="true">
     <Gleis name="W1" />
     <Gleis name="W2" />
   </Fahrstrasse>
