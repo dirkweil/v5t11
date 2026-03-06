@@ -4,9 +4,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.SortedMap;
-import java.util.SortedSet;
 import java.util.TreeMap;
-import java.util.TreeSet;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.logging.Logger;
@@ -181,7 +179,10 @@ public class GleisMessService {
       }
 
       case MESSUNG_IN_ZAEHLRICHTUNG -> {
-        if (gleis.equals(this.gleisNach)) {
+        if (gleis.equals(this.gleisVor) && getElapsedMillis(gleis) < MIN_T) {
+          logger.warnf("Gleis %s vor %s nahezu gleichzeitig belegt; keine valide Messung", gleis.getId(), this.gleis.getId());
+          changeStatus(Status.KEINE_MESSUNG_BELEGT);
+        } else if (gleis.equals(this.gleisNach)) {
           if (stopStopWatch(gleis)) {
             gleisChanged(gleis);
           }
@@ -189,7 +190,10 @@ public class GleisMessService {
       }
 
       case MESSUNG_GEGEN_ZAEHLRICHTUNG -> {
-        if (gleis.equals(this.gleisVor)) {
+        if (gleis.equals(this.gleisNach) && getElapsedMillis(gleis) < MIN_T) {
+          logger.warnf("Gleis %s nach %s nahezu gleichzeitig belegt; keine valide Messung", gleis.getId(), this.gleis.getId());
+          changeStatus(Status.KEINE_MESSUNG_BELEGT);
+        } else if (gleis.equals(this.gleisVor)) {
           if (stopStopWatch(gleis)) {
             gleisChanged(gleis);
           }
@@ -256,8 +260,7 @@ public class GleisMessService {
    * @return true, wenn Messung plausibel und neu befahrenes Gleis direkt in weitere Messung einbezogen werden kann
    */
   private boolean stopStopWatch(Gleis gleis) {
-    long stopMillis = gleis.getLastChangeMillis();
-    long t = stopMillis - this.startMillis;
+    long t = getElapsedMillis(gleis);
 
     if (t < MIN_T) {
       logger.warnf("Gleis %s in %d ms durchfahren; keine valide Messung", this.gleis.getId(), t);
@@ -282,6 +285,12 @@ public class GleisMessService {
     return true;
   }
 
+  private long getElapsedMillis(Gleis gleis) {
+    long stopMillis = gleis.getLastChangeMillis();
+    long t = stopMillis - this.startMillis;
+    return t;
+  }
+
   private int getGerichteteFahrstufe() {
     return getGerichteteFahrstufe(this.fahrzeugRepository.findById(this.fahrzeugId).get());
   }
@@ -299,9 +308,8 @@ public class GleisMessService {
       int oldFs = getGerichteteFahrstufe();
       int newFs = getGerichteteFahrstufe(fahrzeug);
       if (oldFs != newFs) {
-        this.logger.debugf("Fahrstufe geändert (%d -> %d)", oldFs, newFs);
         if (this.status == Status.MESSUNG_IN_ZAEHLRICHTUNG || this.status == Status.MESSUNG_GEGEN_ZAEHLRICHTUNG) {
-          this.logger.warnf("Keine Messung wegen Fahrstufenänderung", oldFs, newFs);
+          this.logger.warnf("Keine Messung wegen Fahrstufenänderung (%d -> %d)", oldFs, newFs);
           changeStatus(Status.KEINE_MESSUNG_FAHRZEUG);
         }
       }
@@ -315,12 +323,12 @@ public class GleisMessService {
 
   public void removeOverrides() {
     List<Gleis> zuLoeschen = this.messungen
-    .entrySet()
-    .stream()
-    .filter(e -> e.getKey().getLaenge() != null)
-    .map(e -> e.getKey())
-    .toList();
-    
+        .entrySet()
+        .stream()
+        .filter(e -> e.getKey().getLaenge() != null)
+        .map(e -> e.getKey())
+        .toList();
+
     zuLoeschen.forEach(this::removeMessung);
   }
 }
