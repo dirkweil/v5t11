@@ -59,7 +59,7 @@
       <h:outputText value="Status: #{fahrzeugMessungPresenter.statusDescription}" />
     </h:panelGroup>
 
-    <h:panelGroup id="messung-werte" layout="block">
+    <h:panelGroup id="messung-werte" layout="block" style="width: min-content;">
       <p:dataTable var="v" value="#{fahrzeugMessungPresenter.geschwindigkeiten}">
         <p:column headerText="Fahrstufe" style="text-align:center; width: 150px;">
           <h:outputText value="#{v.fahrstufe}" />
@@ -74,6 +74,11 @@
           </h:outputText>
         </p:column>
 
+        <p:column width="40">
+          <p:commandButton icon="pi pi-trash" title="Messung löschen" style="width: 100%"
+            action="#{fahrzeugMessungPresenter.removeMessung(v.fahrstufe)}" immediate="true" update="messung-werte" />
+        </p:column>
+
         <p:column headerText="rückwärts" style="text-align:center; width: 250px;">
           <h:outputText value="#{v.rueckwaerts}">
             <f:convertNumber locale="de" pattern="#,##0 µm/s" />
@@ -81,6 +86,11 @@
           <h:outputText value="#{fahrzeugMessungPresenter.convertModellZuRealGeschwindigkeit(v.rueckwaerts)}">
             <f:convertNumber locale="de" pattern=" (#,##0 km/h)" />
           </h:outputText>
+        </p:column>
+
+        <p:column width="40">
+          <p:commandButton icon="pi pi-trash" title="Messung löschen" style="width: 100%"
+            action="#{fahrzeugMessungPresenter.removeMessung(-v.fahrstufe)}" immediate="true" update="messung-werte" />
         </p:column>
       </p:dataTable>
     </h:panelGroup>

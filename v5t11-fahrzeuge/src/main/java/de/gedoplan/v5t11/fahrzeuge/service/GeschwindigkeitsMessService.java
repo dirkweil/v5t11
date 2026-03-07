@@ -452,4 +452,9 @@ public class GeschwindigkeitsMessService {
       Map.entry(120, 143893L),
       Map.entry(127, 160076L));
 
+  public void removeMessung(int fahrstufe) {
+    this.logger.debugf("Messung für Fahrstufe %d entfernen", fahrstufe);
+    this.geschwindigkeit.remove(fahrstufe);
+  }
+
 }

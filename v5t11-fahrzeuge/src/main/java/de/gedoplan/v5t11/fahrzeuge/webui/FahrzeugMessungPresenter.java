@@ -81,12 +81,12 @@ public class FahrzeugMessungPresenter implements Serializable {
   private String selectedAktionsAnleitung = "XXX";
 
   public void selectHoechstgeschwindigkeitMessen() {
-    setSelectedAktion("Höchstgeschwindigkeit messen", "Messgleis und angrenzende Gleise räumen. Dann Fahrzeug das Messgleis mit Höchstgeschwindigkeit durchfahren lassen.",
+    setSelectedAktion("Höchstgeschwindigkeit messen", "Messgleis und angrenzende Gleise räumen. Fahrzeug auf einem der Umkehrgleise so aufstellen, dass es in Richtung Messgleis fahren wird.",
         this::hoechstgeschwindigkeitMessen);
   }
 
   public void selectGeschwindigkeitsprofileErstellen() {
-    setSelectedAktion("Geschwindigkeitsprofil erstellen", "Messgleis und angrenzende Gleise räumen. Fahrzeug so aufstellen, dass es in Richtung Messgleis fahren wird.",
+    setSelectedAktion("Geschwindigkeitsprofil erstellen", "Messgleis und angrenzende Gleise räumen. Fahrzeug auf einem der Umkehrgleise so aufstellen, dass es in Richtung Messgleis fahren wird.",
         this::geschwindigkeitsprofileErstellen);
   }
 
@@ -172,11 +172,17 @@ public class FahrzeugMessungPresenter implements Serializable {
     return modellMicromProS != null
         ? this.geschwindigkeitsMessService.convertModellZuRealGeschwindigkeit(modellMicromProS)
         : null;
-    
+
   }
 
   public String save() {
     this.geschwindigkeitsMessService.save();
     return "finished";
   }
+
+  public void removeMessung(int fahrstufe) {
+    this.geschwindigkeitsMessService.removeMessung(fahrstufe);
+    refreshGeschwindigkeiten();
+  }
+
 }
