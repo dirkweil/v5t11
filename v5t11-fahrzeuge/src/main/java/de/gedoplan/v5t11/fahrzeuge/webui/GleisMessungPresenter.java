@@ -2,7 +2,6 @@ package de.gedoplan.v5t11.fahrzeuge.webui;
 
 import java.io.Serializable;
 import java.util.SortedMap;
-import java.util.SortedSet;
 
 import org.jboss.logging.Logger;
 import org.primefaces.PrimeFaces;
@@ -11,7 +10,6 @@ import de.gedoplan.v5t11.fahrzeuge.entity.fahrweg.Gleis;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug;
 import de.gedoplan.v5t11.fahrzeuge.service.GleisMessService;
 import de.gedoplan.v5t11.fahrzeuge.service.ParcoursService;
-import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import jakarta.faces.application.FacesMessage;
@@ -130,4 +128,5 @@ public class GleisMessungPresenter implements Serializable {
     this.gleisMessService.save();
     return "finished";
   }
+
 }
