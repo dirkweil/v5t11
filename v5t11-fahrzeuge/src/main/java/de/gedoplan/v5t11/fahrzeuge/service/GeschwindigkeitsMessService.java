@@ -28,6 +28,9 @@ import lombok.Getter;
 @ApplicationScoped
 public class GeschwindigkeitsMessService {
 
+  // Minimale Fahrzeit; darunter keine valide Messung
+  private static final long MIN_T = 500L;
+
   @Inject
   ParcoursService parcoursService;
 
@@ -43,13 +46,13 @@ public class GeschwindigkeitsMessService {
 
   @AllArgsConstructor
   private static enum Status {
-    START("Messung beginnt für %s"), 
-    VON_LINKS_VOR("Fahrzeug fährt mit %s von links auf Messgleis zu"), 
-    VON_RECHTS_VOR("Fahrzeug fährt mit %s von rechts auf Messgleis zu"), 
-    VON_LINKS_AUF("Fahrzeug fährt mit %s auf Messgleis nach rechts"), 
-    VON_RECHTS_AUF("Fahrzeug fährt mit %s auf Messgleis nach links"), 
-    AUSLAUF("Fahrzeug fährt mit %s zum Umkehrgleis"), 
-    BEENDET("Messung beendet"), 
+    START("Messung beginnt für %s"),
+    VON_LINKS_VOR("Fahrzeug fährt mit %s von links auf Messgleis zu"),
+    VON_RECHTS_VOR("Fahrzeug fährt mit %s von rechts auf Messgleis zu"),
+    VON_LINKS_AUF("Fahrzeug fährt mit %s auf Messgleis nach rechts"),
+    VON_RECHTS_AUF("Fahrzeug fährt mit %s auf Messgleis nach links"),
+    AUSLAUF("Fahrzeug fährt mit %s zum Umkehrgleis"),
+    BEENDET("Messung beendet"),
     FEHLER("Messung fehlgeschlagen (s. Server-Log)");
 
     @Getter
@@ -228,7 +231,7 @@ public class GeschwindigkeitsMessService {
           true,
           this.fahrstufe,
           0,
-          false,
+          true,
           this.rueckwaerts);
     } catch (Exception e) {
       this.logger.error("Kann Fahrzeug nicht steuern", e);
@@ -237,6 +240,15 @@ public class GeschwindigkeitsMessService {
   }
 
   void gleisChanged(@ObservesAsync @Changed Gleis gleis) {
+    if (this.logger.isDebugEnabled()) {
+      if (gleis.equals(this.linkesUmkehrGleis)
+          || gleis.equals(this.linkesAnschlussGleis)
+          || gleis.equals(this.messGleis)
+          || gleis.equals(this.rechtesAnschlussGleis)
+          || gleis.equals(this.rechtesUmkehrGleis)) {
+        this.logger.debugf("Gleis %s: %s", gleis.getId(), gleis.isBesetzt() ? "frei -> besetzt" : "besetzt -> frei");
+      }
+    }
     if (gleis.isBesetzt()) {
       switch (this.status) {
       case START -> {
@@ -267,6 +279,11 @@ public class GeschwindigkeitsMessService {
           stopStopWatch(gleis);
           this.logger.debugf("Fahrzeug hat rechtes Anschlussgleis %s erreicht", gleis.getId());
           auslauf();
+        } else if (gleis.equals(this.rechtesUmkehrGleis)) {
+          this.logger.debugf("Fahrzeug hat rechtes Umkehrgleis %s vor dem rechten Anschlussgleis %s erreicht; keine valide Messung",
+              gleis.getId(), this.rechtesAnschlussGleis.getId());
+          changeStatus(Status.AUSLAUF);
+          gleisChanged(gleis);
         }
       }
       case VON_RECHTS_AUF -> {
@@ -274,6 +291,11 @@ public class GeschwindigkeitsMessService {
           stopStopWatch(gleis);
           this.logger.debugf("Fahrzeug hat linkes Anschlussgleis %s erreicht", gleis.getId());
           auslauf();
+        } else if (gleis.equals(this.linkesUmkehrGleis)) {
+          this.logger.debugf("Fahrzeug hat linkes Umkehrgleis %s vor dem linken Anschlussgleis %s erreicht; keine valide Messung",
+              gleis.getId(), this.linkesAnschlussGleis.getId());
+          changeStatus(Status.AUSLAUF);
+          gleisChanged(gleis);
         }
       }
       case AUSLAUF -> {
@@ -323,15 +345,20 @@ public class GeschwindigkeitsMessService {
     long stopMillis = gleis.getLastChangeMillis();
     long messMillis = stopMillis - this.startMillis;
 
-    // Modellgeschwindigkeit in µm/s
-    long modellGeschwindigkeit = this.messGleis.getLaenge() * 1000L * 1000L / messMillis;
+    if (messMillis < MIN_T) {
+      logger.warnf("Gleis %s in %d ms durchfahren; keine valide Messung", this.messGleis.getId(), messMillis);
+    } else {
 
-    // Realgeschwindigkeit in km/h
-    long realGeschwindigkeit = convertModellZuRealGeschwindigkeit(modellGeschwindigkeit);
+      // Modellgeschwindigkeit in µm/s
+      long modellGeschwindigkeit = this.messGleis.getLaenge() * 1000L * 1000L / messMillis;
 
-    this.logger.debugf("Zeit: %,d ms, Geschwindigkeit: %,d µm/s ≙ %f km/h", messMillis, modellGeschwindigkeit, realGeschwindigkeit);
+      // Realgeschwindigkeit in km/h
+      long realGeschwindigkeit = convertModellZuRealGeschwindigkeit(modellGeschwindigkeit);
 
-    this.geschwindigkeit.put(this.planFahrstufe, modellGeschwindigkeit);
+      this.logger.debugf("Zeit: %,d ms, Geschwindigkeit: %,d µm/s ≙ %f km/h", messMillis, modellGeschwindigkeit, realGeschwindigkeit);
+
+      this.geschwindigkeit.put(this.planFahrstufe, modellGeschwindigkeit);
+    }
 
     if (this.observer != null) {
       this.observer.run();
@@ -365,7 +392,7 @@ public class GeschwindigkeitsMessService {
   private void saveGeschwindigkeitsprofil() {
     this.fahrzeug.getGeschwindigkeit().clear();
     this.fahrzeug.getGeschwindigkeit().putAll(this.geschwindigkeit);
-    
+
     Entry<Integer, Long> low = null;
     for (Entry<Integer, Long> high : this.geschwindigkeit.entrySet()) {
       if (low != null) {
@@ -377,7 +404,7 @@ public class GeschwindigkeitsMessService {
         long vDiff = vHigh - vLow;
         this.logger.debugf("Interpolation: %d/%d -> %d,%d", fsLow, vLow, fsHigh, vHigh);
         for (int fs = fsLow + 1; fs < fsHigh; ++fs) {
-          long v = vLow + vDiff/fsDiff*(fs-fsLow);
+          long v = vLow + vDiff / fsDiff * (fs - fsLow);
           this.logger.debugf("  %d/%d", fs, v);
           this.fahrzeug.getGeschwindigkeit().put(fs, v);
         }
