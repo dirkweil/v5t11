@@ -301,9 +301,13 @@ public class GeschwindigkeitsMessService {
       case AUSLAUF -> {
         if (gleis.equals(this.linkesUmkehrGleis) || gleis.equals(this.rechtesUmkehrGleis)) {
           this.logger.debugf("Fahrzeug hat Umkehrgleis %s erreicht", gleis.getId());
-          if (this.messPlan.isEmpty()) {
-            stop();
-          } else {
+          stop();
+          if (!this.messPlan.isEmpty()) {
+            try {
+              Thread.sleep(5000);
+            } catch (InterruptedException e) {
+              // ignore
+            }
             start();
           }
         }
