@@ -5,7 +5,7 @@
 
 <ui:composition template="/WEB-INF/templates/fahrzeugManagement.xhtml">
   <ui:define name="content">
-    <h:form id="fahrzeugdecoder-config">
+    <h:form id="fahrzeug-config">
       <h:panelGrid columns="1">
         <p:toolbar>
           <f:facet name="left">
@@ -128,7 +128,7 @@
       </h:panelGrid>
     </h:form>
 
-    <h:form id="fahrzeugdecoder-read-write-confirm">
+    <h:form id="fahrzeug-read-write-confirm">
       <p:dialog
           header="#{fahrzeugProgramPresenter.selectedAktionsBeschreibung}"
           showEffect="fade" modal="true" widgetVar="fahrzeugReadWriteConfirm">
