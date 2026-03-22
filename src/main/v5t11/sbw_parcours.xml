@@ -1003,7 +1003,7 @@
 
   <Fahrstrasse bereich="HBf" zaehlrichtung="true">
     <Gleis name="6" />
-    <Signal name="N21-25" stellung="FAHRT" />
+    <Signal name="N6" stellung="FAHRT" />
     <Weiche name="24" stellung="GERADE" />
     <Weiche name="22" stellung="GERADE" schutz="true" />
     <Gleis name="W24" />
@@ -1013,7 +1013,7 @@
     <Gleis name="W24" />
     <Weiche name="24" stellung="GERADE" />
     <Weiche name="22" stellung="GERADE" schutz="true" />
-    <Signal name="N21-25" schutz="true" />
+    <Signal name="N6" schutz="true" />
     <Gleis name="6" />
   </Fahrstrasse>
 
