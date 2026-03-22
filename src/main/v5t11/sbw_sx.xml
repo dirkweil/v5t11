@@ -63,7 +63,6 @@
     </SXBM1>
 
     <SXBM1 id="BM-2003-8" adr="50" einbauOrt="SBf Einfahrt">
-      <Gleis idx="0" bereich="SBf" name="1002" />
       <Gleis idx="1" bereich="SBf" name="W3" />
       <Gleis idx="2" bereich="SBf" name="W5" />
       <Gleis idx="3" bereich="SBf" name="W7" />
@@ -72,7 +71,6 @@
       <Gleis idx="5" bereich="SBf" name="1007" />
       <Gleis idx="5" bereich="SBf" name="W1008" />
       <Gleis idx="6" bereich="SBf" name="1004" />
-      <Gleis idx="7" bereich="SBf" name="W1003" />
     </SXBM1>
 
     <SXBM1 id="BM-2014-2" adr="51" einbauOrt="SBf Einfahrt">
@@ -80,7 +78,6 @@
       <Gleis idx="1" bereich="SBf" name="W1" />
       <Gleis idx="1" bereich="SBf" name="W2" />
       <Gleis idx="2" bereich="SBf" name="101" />
-      <Gleis idx="4" bereich="SBf" name="1001" />
       <Gleis idx="5" bereich="SBf" name="1009" />
       <Gleis idx="6" bereich="SBf" name="105" />
       <Gleis idx="7" bereich="SBf" name="W4" />
@@ -181,6 +178,9 @@
       <Gleis idx="0" bereich="HBf" name="505" />
       <Gleis idx="1" bereich="HBf" name="506" />
       <Gleis idx="2" bereich="HBf" name="507" />
+      <Gleis idx="3" bereich="SBf" name="W1003" />
+      <Gleis idx="4" bereich="SBf" name="1001" />
+      <Gleis idx="5" bereich="SBf" name="1002" />
     </Muet8i>
 
   </Besetztmelder>
