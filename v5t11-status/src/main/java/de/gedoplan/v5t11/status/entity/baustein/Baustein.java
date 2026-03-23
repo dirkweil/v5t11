@@ -3,6 +3,7 @@ package de.gedoplan.v5t11.status.entity.baustein;
 import de.gedoplan.baselibs.persistence.entity.SingleIdEntity;
 import de.gedoplan.baselibs.utils.util.ClassUtil;
 import de.gedoplan.v5t11.status.entity.Steuerung;
+import de.gedoplan.v5t11.status.entity.UpdateMode;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.jsonb.JsonbShort;
 
@@ -132,14 +133,14 @@ public abstract class Baustein extends SingleIdEntity<String> implements Compara
    * @param wert Wert
    */
   public void setWert(long wert) {
-    setWert(wert, true);
+    setWert(wert, UpdateMode.INTERFACE);
   }
 
-  protected void setWert(long wert, boolean updateInterface) {
+  public void setWert(long wert, UpdateMode updateMode) {
     long old = this.wert;
     this.wert = wert;
-    if (old != this.wert) {
-      if (updateInterface) {
+    if (updateMode == UpdateMode.FORCE || old != this.wert) {
+      if (updateMode == UpdateMode.INTERFACE || updateMode == UpdateMode.FORCE) {
         List<Integer> adressen = getAdressen();
         for (int offset = 0; offset < this.byteAnzahl; ++offset) {
           this.steuerung.setSX1Kanal(adressen.get(offset), (byte) (wert & 0b11111111L));

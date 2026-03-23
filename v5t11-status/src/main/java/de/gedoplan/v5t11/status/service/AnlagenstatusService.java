@@ -3,6 +3,7 @@ package de.gedoplan.v5t11.status.service;
 import org.jboss.logging.Logger;
 
 import de.gedoplan.v5t11.status.entity.Steuerung;
+import de.gedoplan.v5t11.status.entity.UpdateMode;
 import de.gedoplan.v5t11.status.entity.baustein.Connected;
 import de.gedoplan.v5t11.status.entity.baustein.Disconnected;
 import de.gedoplan.v5t11.status.entity.baustein.Zentrale;
@@ -44,7 +45,7 @@ public class AnlagenstatusService {
           Weiche weiche = this.steuerung.getWeiche(w.getBereich(), w.getName());
           if (weiche != null) {
             this.logger.debugf("%s -> %s", weiche.toString(true), w.getStellung());
-            weiche.setStellung(w.getStellung());
+            weiche.setStellung(w.getStellung(), UpdateMode.FORCE);
           }
         });
 

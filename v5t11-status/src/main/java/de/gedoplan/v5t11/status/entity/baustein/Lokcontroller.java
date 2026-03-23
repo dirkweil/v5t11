@@ -2,6 +2,7 @@ package de.gedoplan.v5t11.status.entity.baustein;
 
 import de.gedoplan.baselibs.utils.inject.InjectionUtil;
 import de.gedoplan.v5t11.status.entity.Kanal;
+import de.gedoplan.v5t11.status.entity.UpdateMode;
 import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeugdecoder;
 import de.gedoplan.v5t11.util.domain.attribute.DecoderAdr;
 import de.gedoplan.v5t11.util.jsonb.JsonbShort;
@@ -84,7 +85,7 @@ public abstract class Lokcontroller extends Baustein implements Encoder {
   }
 
   @Override
-  protected void setWert(long wert, boolean updateInterface) {
+  public void setWert(long wert, UpdateMode updateMode) {
     // Wert kann nur im Objekt gesetzt werden; ein Update über das Interface ist nicht möglich
     this.wert = wert;
   }
