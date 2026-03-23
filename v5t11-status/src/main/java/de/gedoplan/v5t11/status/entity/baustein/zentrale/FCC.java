@@ -165,6 +165,7 @@ public class FCC extends Zentrale {
     while (!this.terminationRequested) {
       try {
         openPort();
+        clearSX2BusSlots();
         this.portPhaser.arriveAndDeregister();
 
         syncStatus();
@@ -203,6 +204,8 @@ public class FCC extends Zentrale {
     }
 
     closePort();
+    clearSX2BusSlots();
+
   }
 
   @Override
@@ -469,6 +472,14 @@ public class FCC extends Zentrale {
 
   private AtomicReferenceArray<Fahrzeugdecoder> sx2BusSlot = new AtomicReferenceArray<>(BUSEXT_MAX_IDX + 1);
 
+  private void clearSX2BusSlots() {
+    for (int idx = 0; idx < BUSEXT_MAX_IDX; ++idx) {
+      sx2BusSlot.set(idx, null);
+      this.log.debugf("SX2-Bus-Slot %d: null", idx);
+      sx2Abmelden(idx);
+    }
+  }
+
   @Override
   public void decoderChanged(Fahrzeugdecoder fahrzeugdecoder) {
     if (fahrzeugdecoder.getId().getSystemTyp() == SystemTyp.SX1) {
@@ -534,7 +545,7 @@ public class FCC extends Zentrale {
 
     // Slot freigeben
     this.sx2BusSlot.set(idx, null);
-    this.log.debugf("SX2-Bus-Slot %d: null", idx, fahrzeugdecoder.toString(true));
+    this.log.debugf("SX2-Bus-Slot %d: null", idx);
   }
 
   /**
