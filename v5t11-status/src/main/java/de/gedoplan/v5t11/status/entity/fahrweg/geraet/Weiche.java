@@ -39,6 +39,10 @@ public class Weiche extends AbstractWeiche implements FunktionsdecoderGeraet {
   @Transient
   private boolean invertiert;
 
+  @Getter(onMethod_ = @JsonbTransient)
+  @Transient
+  private boolean stellungsSicher;
+
   /**
    * Konstruktor.
    */
@@ -149,8 +153,9 @@ public class Weiche extends AbstractWeiche implements FunktionsdecoderGeraet {
    */
   @SuppressWarnings("unused")
   private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
-    if (parent instanceof Funktionsdecoder) {
-      this.funktionsdecoderZuordnung.setFunktionsdecoder((Funktionsdecoder) parent);
+    if (parent instanceof Funktionsdecoder funktionsdecoder) {
+      this.funktionsdecoderZuordnung.setFunktionsdecoder(funktionsdecoder);
+      this.stellungsSicher = funktionsdecoder.isStellungsSicher();
     } else {
       throw new IllegalArgumentException("Illegal parent " + parent);
     }

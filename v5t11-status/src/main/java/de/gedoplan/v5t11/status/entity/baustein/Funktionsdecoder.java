@@ -75,4 +75,16 @@ public abstract class Funktionsdecoder extends Baustein implements Decoder {
     InjectionUtil.injectFields(this);
     this.geraete.forEach(FunktionsdecoderGeraet::injectFields);
   }
+
+  /**
+   * Erzwingt der Decoder die Stellungen der angeschlossenen Geräte?
+   * 
+   * Magnetartikeldecoder erzwingen die Stellungen nicht, da die Magnetspulen i.A. nur kurz angesteuert werden.
+   * Servodecoder erzwingen die Stellungen (bzw. eine manuelle Fehlstellung ist nahezu ausgeschlossen).
+   * 
+   * @return <code>true</code>, falls stellungssicher
+   */
+  public boolean isStellungsSicher() {
+    return false;
+  }
 }

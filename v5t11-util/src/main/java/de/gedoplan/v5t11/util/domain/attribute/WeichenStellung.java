@@ -28,6 +28,13 @@ public enum WeichenStellung {
     this.string = string;
   }
 
+  public WeichenStellung getAndereStellung() {
+    return switch (this) {
+      case GERADE -> ABZWEIGEND;
+      case ABZWEIGEND -> GERADE;
+    };
+  }
+
   @Override
   public String toString() {
     return this.string;

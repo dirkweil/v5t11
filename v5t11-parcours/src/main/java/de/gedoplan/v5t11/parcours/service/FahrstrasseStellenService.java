@@ -11,6 +11,7 @@ import de.gedoplan.v5t11.parcours.gateway.StatusGateway;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
 import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
+import de.gedoplan.v5t11.util.misc.Delay;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -85,7 +86,7 @@ public class FahrstrasseStellenService {
       this.log.error("Kann " + signal + " nicht stellen", e);
     }
 
-    delay();
+    Delay.delay(250);
   }
 
   private void weichenStellen(Fahrstrasse fahrstrasse, boolean schutz) {
@@ -110,14 +111,7 @@ public class FahrstrasseStellenService {
     } catch (Exception e) {
       this.log.error("Kann " + weiche + " nicht stellen", e);
     }
-    delay();
-  }
-
-  private static void delay() {
-    try {
-      Thread.sleep(250);
-    } catch (InterruptedException e) {
-    }
+    Delay.delay(250);
   }
 
   /**

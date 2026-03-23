@@ -20,4 +20,9 @@ public class SD8 extends Funktionsdecoder {
   public SD8() {
     super(1);
   }
+
+  @Override
+  public boolean isStellungsSicher() {
+    return true;
+  }
 }

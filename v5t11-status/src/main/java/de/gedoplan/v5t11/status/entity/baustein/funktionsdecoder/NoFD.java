@@ -10,7 +10,7 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 /**
  * Funktionsdecoder.
  * <p>
- * Objekte dieser Klasse repräsentieren Decoder vom Typ WD-Miba
+ * Objekte dieser Klasse repräsentieren Dummy-Decoder, d. h. Decoder ohne Funktion.
  *
  * @author dw
  */

@@ -9,7 +9,7 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 /**
  * Funktionsdecoder.
  * <p>
- * Objekte dieser Klasse repräsentieren Encoder vom Typ SX-FD-1.
+ * Objekte dieser Klasse repräsentieren Encoder vom Typ SXSD-1.
  *
  * @author dw
  */
@@ -18,5 +18,10 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 public class SXSD1 extends Funktionsdecoder {
   public SXSD1() {
     super(2);
+  }
+
+  @Override
+  public boolean isStellungsSicher() {
+    return true;
   }
 }
