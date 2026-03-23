@@ -39,55 +39,67 @@ public class AnlagenstatusService {
 
   void onConnect(@ObservesAsync @Connected Zentrale zentrale) {
     this.logger.debug("***** Connected *****");
-    // Gleisprotokoll (z. B. SX1+SX2+DCC) einstellen
-    zentrale.setGleisProtokoll();
+
+    zentrale.initialize();
 
     // Weichenstellungen wiederherstellen (erst andere Stellung, dann richtige Stellung)
     this.logger.debug("Nicht stellungssichere Weichen auf letzte bekannte Stellung stellen");
-    this.weicheRepository
-        .findAll()
-        .forEach(w -> {
-          Weiche weiche = this.steuerung.getWeiche(w.getBereich(), w.getName());
-          if (weiche != null) {
-            if (!weiche.isStellungsSicher()) {
-              this.logger.debugf("  %s %s", weiche.toString(true), w.getStellung());
-              weiche.setStellung(w.getStellung().getAndereStellung());
-              delay();
+    try {
+      this.weicheRepository
+          .findAll()
+          .forEach(w -> {
+            Weiche weiche = this.steuerung.getWeiche(w.getBereich(), w.getName());
+            if (weiche != null) {
+              if (!weiche.isStellungsSicher()) {
+                this.logger.debugf("  %s %s", weiche.toString(true), w.getStellung());
+                weiche.setStellung(w.getStellung().getAndereStellung());
+                delay();
+              }
             }
-          }
-        });
-    this.weicheRepository
-        .findAll()
-        .forEach(w -> {
-          Weiche weiche = this.steuerung.getWeiche(w.getBereich(), w.getName());
-          if (weiche != null) {
-            if (!weiche.isStellungsSicher()) {
-              weiche.setStellung(w.getStellung());
-              delay();
+          });
+      this.weicheRepository
+          .findAll()
+          .forEach(w -> {
+            Weiche weiche = this.steuerung.getWeiche(w.getBereich(), w.getName());
+            if (weiche != null) {
+              if (!weiche.isStellungsSicher()) {
+                weiche.setStellung(w.getStellung());
+                delay();
+              }
             }
-          }
-        });
+          });
+    } catch (Exception e) {
+      this.logger.error("Fehler beim Weichenstellen", e);
+    }
 
     // Alle Autoskripte einmal ausführen
-    this.autoSkriptService.executeAll();
+    try {
+      this.autoSkriptService.executeAll();
+    } catch (Exception e) {
+      this.logger.error("Fehler beim Ausführen der Autoskripte", e);
+    }
 
     // Fahrzeugdecoder wiederherstellen
     this.logger.debug("Fahrzeugdecoder auf letzten bekannten Stand bringen (aber Fahrstufe 0)");
-    this.fahrzeugdecoderRepository
-        .findAll()
-        .stream()
-        .filter(fzd -> fzd.getDecoderAdr().isAdresseValid())
-        .forEach(fzd -> {
-          Fahrzeugdecoder fahrzeugdecoder = this.steuerung.getOrCreateFahrzeugdecoder(fzd.getId());
-          fahrzeugdecoder.setAktiv(fzd.isAktiv());
-          fahrzeugdecoder.setFktBits(fzd.getFktBits());
-          fahrzeugdecoder.setLicht(fzd.isLicht());
-          fahrzeugdecoder.setRueckwaerts(fzd.isRueckwaerts());
-          this.logger.debugf("  %s", fahrzeugdecoder);
+    try {
+      this.fahrzeugdecoderRepository
+          .findAll()
+          .stream()
+          .filter(fzd -> fzd.getDecoderAdr().isAdresseValid())
+          .forEach(fzd -> {
+            Fahrzeugdecoder fahrzeugdecoder = this.steuerung.getOrCreateFahrzeugdecoder(fzd.getId());
+            fahrzeugdecoder.setAktiv(fzd.isAktiv());
+            fahrzeugdecoder.setFktBits(fzd.getFktBits());
+            fahrzeugdecoder.setLicht(fzd.isLicht());
+            fahrzeugdecoder.setRueckwaerts(fzd.isRueckwaerts());
+            this.logger.debugf("  %s", fahrzeugdecoder);
 
-          // Falls nötig, Decoder in Zentrale an/abmelden
-          this.steuerung.getZentrale().decoderChanged(fahrzeugdecoder);
-        });
+            // Falls nötig, Decoder in Zentrale an/abmelden
+            this.steuerung.getZentrale().decoderChanged(fahrzeugdecoder);
+          });
+    } catch (Exception e) {
+      this.logger.error("Fehler beim Setzen der Fahrzeugdecoder", e);
+    }
   }
 
   private void delay() {
@@ -101,25 +113,33 @@ public class AnlagenstatusService {
     this.logger.debug("***** Disconnected *****");
 
     this.logger.debug("Stellungen der nicht stellungssicheren Weichen speichern");
-    this.steuerung
-        .getWeichen()
-        .stream()
-        .filter(w -> !w.isStellungsSicher())
-        .forEach(w -> {
-          this.logger.debugf("  %s %s", w.toString(true), w.getStellung());
-          this.weicheRepository.merge(w);
-        });
+    try {
+      this.steuerung
+          .getWeichen()
+          .stream()
+          .filter(w -> !w.isStellungsSicher())
+          .forEach(w -> {
+            this.logger.debugf("  %s %s", w.toString(true), w.getStellung());
+            this.weicheRepository.merge(w);
+          });
+    } catch (Exception e) {
+      this.logger.error("Fehler beim Speichern der Weichen", e);
+    }
 
     this.logger.debug("Zustand der bekannten Fahrzeugdecoder speichern");
-    this.fahrzeugdecoderRepository.removeAll();
-    this.steuerung
-        .getFahrzeugdecoder()
-        .stream()
-        .filter(fzd -> fzd.getDecoderAdr().isAdresseValid())
-        .forEach(fzd -> {
-          this.logger.debugf("  %s", fzd);
-          this.fahrzeugdecoderRepository.persist(fzd);
-        });
+    try {
+      this.fahrzeugdecoderRepository.removeAll();
+      this.steuerung
+          .getFahrzeugdecoder()
+          .stream()
+          .filter(fzd -> fzd.getDecoderAdr().isAdresseValid())
+          .forEach(fzd -> {
+            this.logger.debugf("  %s", fzd);
+            this.fahrzeugdecoderRepository.persist(fzd);
+          });
+    } catch (Exception e) {
+      this.logger.error("Fehler beim Speichern der Fahrzeugdecoder", e);
+    }
   }
 
 }
