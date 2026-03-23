@@ -71,6 +71,7 @@ public class AnlagenstatusService {
 
   @Transactional
   void onKanalChange(@Observes @Changed Kanal kanal) {
+    this.logger.debugf("Kanal@%d: value=0b%s", kanal.getAdresse(), Integer.toBinaryString(kanal.getWert()));
     this.kanalRepository.merge(kanal);
   }
 
