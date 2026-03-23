@@ -124,6 +124,9 @@ public class SxLokControl extends Lokcontroller {
     }
 
     if (this.fahrzeugdecoder != null) {
+      // Q&D: Fahrzeugdecode neu von Steuerung holen (wg. Disconnect/Connect)
+      this.fahrzeugdecoder = this.steuerung.getFahrzeugdecoder(this.fahrzeugdecoder.getId());
+
       long thisWert = this.wert ^ this.invertMask;
       boolean licht = (thisWert & MASK_LICHT) != 0;
       boolean rueckwaerts = (thisWert & MASK_RICHTUNG) != 0;
