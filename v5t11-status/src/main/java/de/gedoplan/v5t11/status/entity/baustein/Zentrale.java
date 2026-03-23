@@ -251,11 +251,11 @@ public abstract class Zentrale implements Closeable {
   }
 
   /**
-   * Gleisprotokoll einstellen.
-   * <p>
-   * Derzeit wird stets mit SX1+SX2+DCC gefahren. Das könnte ggf. in Zukunft konfigurierbar gemacht werden.
+   * Zentrale initialisieren.
+   * 
+   * Hier können die Grundeinstellungen o.ä. gemacht werden, die nach einem Connect notwendig sind.
    */
-  public abstract void setGleisProtokoll();
+  public abstract void initialize();
 
   /**
    * Ist dies Echtbetrieb?

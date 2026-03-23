@@ -474,7 +474,11 @@ public class FCC extends Zentrale {
     for (int idx = 0; idx <=BUSEXT_MAX_IDX; ++idx) {
       sx2BusSlot.set(idx, null);
       this.log.debugf("SX2-Bus-Slot %d: null", idx);
+      try {
       sx2Abmelden(idx);
+      } catch (Exception e) {
+        // ignore
+      }
     }
   }
 
@@ -661,7 +665,11 @@ public class FCC extends Zentrale {
   }
 
   @Override
-  public void setGleisProtokoll() {
+  public void initialize() {
+    /*
+     * Gleisprotokoll einstellen.
+     * Derzeit wird stets mit SX1+SX2+DCC gefahren. Das könnte ggf. in Zukunft konfigurierbar gemacht werden.
+     */
     int soll = 0x04;
     while (true) {
       awaitSync();
@@ -681,7 +689,7 @@ public class FCC extends Zentrale {
       delay(250);
     }
 
-    // Q&D - besser separate Methode oder diese Methode sinnvoll benennen
+    // SX2-Bus-Slots leeren (inkl. Abmeldung aller Loks)
     clearSX2BusSlots();
   }
 

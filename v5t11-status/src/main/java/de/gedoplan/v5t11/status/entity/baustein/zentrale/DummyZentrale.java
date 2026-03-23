@@ -81,7 +81,7 @@ public class DummyZentrale extends Zentrale {
   }
 
   @Override
-  public void setGleisProtokoll() {
+  public void initialize() {
   }
 
   @Override
