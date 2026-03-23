@@ -6,6 +6,7 @@ import de.gedoplan.v5t11.status.entity.Steuerung;
 import de.gedoplan.v5t11.status.entity.baustein.Connected;
 import de.gedoplan.v5t11.status.entity.baustein.Disconnected;
 import de.gedoplan.v5t11.status.entity.baustein.Zentrale;
+import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
 import de.gedoplan.v5t11.status.persistence.WeicheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.ObservesAsync;
@@ -28,7 +29,6 @@ public class AnlagenstatusService {
   WeicheRepository weicheRepository;
 
   public void init() {
-    this.logger.debug("Initiale Kanalwerte aus DB holen (nicht mehr ...)");
   }
 
   void onConnect(@ObservesAsync @Connected Zentrale zentrale) {
@@ -36,7 +36,19 @@ public class AnlagenstatusService {
     // Gleisprotokoll (z. B. SX1+SX2+DCC) einstellen
     zentrale.setGleisProtokoll();
 
-    // Alle Autoskripte einmal ausführen
+    // Weichenstellungen wiederherstellen
+    this.logger.debug("Bekannte Weichenstellungen wiederherstellen");
+    this.weicheRepository
+        .findAll()
+        .forEach(w -> {
+          Weiche weiche = this.steuerung.getWeiche(w.getBereich(), w.getName());
+          if (weiche != null) {
+            this.logger.debugf("%s -> %s", weiche.toString(true), w.getStellung());
+            weiche.setStellung(w.getStellung());
+          }
+        });
+
+        // Alle Autoskripte einmal ausführen
     this.autoSkriptService.executeAll();
   }
 
