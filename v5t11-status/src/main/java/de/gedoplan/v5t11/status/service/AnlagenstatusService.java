@@ -66,6 +66,8 @@ public class AnlagenstatusService {
     this.logger.debug("Fahrzeugdecoder auf letzten bekannten Stand bringen (aber Fahrstufe 0)");
     this.fahrzeugdecoderRepository
         .findAll()
+        .stream()
+        .filter(fzd -> fzd.getDecoderAdr().isAdresseValid())
         .forEach(fzd -> {
           Fahrzeugdecoder fahrzeugdecoder = this.steuerung.getOrCreateFahrzeugdecoder(fzd.getId());
           fahrzeugdecoder.setAktiv(fzd.isAktiv());
@@ -73,6 +75,9 @@ public class AnlagenstatusService {
           fahrzeugdecoder.setLicht(fzd.isLicht());
           fahrzeugdecoder.setRueckwaerts(fzd.isRueckwaerts());
           this.logger.debugf("  %s", fahrzeugdecoder);
+
+          // Falls nötig, Decoder in Zentrale an/abmelden
+          this.steuerung.getZentrale().decoderChanged(fahrzeugdecoder);
         });
   }
 
@@ -100,6 +105,8 @@ public class AnlagenstatusService {
     this.fahrzeugdecoderRepository.removeAll();
     this.steuerung
         .getFahrzeugdecoder()
+        .stream()
+        .filter(fzd -> fzd.getDecoderAdr().isAdresseValid())
         .forEach(fzd -> {
           this.logger.debugf("  %s", fzd);
           this.fahrzeugdecoderRepository.persist(fzd);

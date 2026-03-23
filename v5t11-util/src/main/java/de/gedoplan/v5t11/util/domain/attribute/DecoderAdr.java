@@ -42,7 +42,7 @@ public class DecoderAdr implements Serializable, Comparable<DecoderAdr> {
   private int adresse;
 
   @AssertTrue(message = "Ungültige Adresse")
-  boolean isAdresseValid() {
+  public boolean isAdresseValid() {
     if (this.systemTyp == null) {
       return true;
     }

@@ -16,6 +16,7 @@ import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -40,6 +41,7 @@ public class Fahrzeugdecoder extends SingleIdEntity<DecoderAdr> {
   @Getter(onMethod_ = @JsonbShort)
   @Setter(onMethod_ = @JsonbShort)
   @EmbeddedId
+  @Valid
   private DecoderAdr decoderAdr;
 
   // Decoder ist aktiv, d. h. in der Zentrale angemeldet
