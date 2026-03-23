@@ -76,7 +76,7 @@ public class SxLokControl extends Lokcontroller {
   @Override
   public void setFahrzeugdecoder(Fahrzeugdecoder fzd, int hornBits) {
 
-    this.logger.debugf("SxLokControl@%d steuert %s", this.getAdresse(), fzd.toString(true));
+    this.logger.debugf("SxLokControl@%d: %s", this.getAdresse(), fzd);
 
     if (!Objects.equals(fzd, this.fahrzeugdecoder)) {
 
@@ -143,5 +143,8 @@ public class SxLokControl extends Lokcontroller {
         this.fahrzeugdecoder.setFktBits(fktBits);
       }
     }
+
+    this.logger.debugf("SxLokControl@%d: %s", this.getAdresse(), this.fahrzeugdecoder);
+
   }
 }
