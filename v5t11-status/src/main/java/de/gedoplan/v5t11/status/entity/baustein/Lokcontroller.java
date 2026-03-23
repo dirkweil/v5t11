@@ -1,19 +1,17 @@
 package de.gedoplan.v5t11.status.entity.baustein;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.gedoplan.baselibs.utils.inject.InjectionUtil;
 import de.gedoplan.v5t11.status.entity.Kanal;
 import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeugdecoder;
 import de.gedoplan.v5t11.util.domain.attribute.DecoderAdr;
 import de.gedoplan.v5t11.util.jsonb.JsonbShort;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import jakarta.json.bind.annotation.JsonbNillable;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
-
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

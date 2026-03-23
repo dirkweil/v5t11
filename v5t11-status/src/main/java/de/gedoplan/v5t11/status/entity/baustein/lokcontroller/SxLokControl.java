@@ -8,6 +8,8 @@ import de.gedoplan.v5t11.util.cdi.EventFirer;
 
 import java.util.Objects;
 
+import org.jboss.logging.Logger;
+
 import jakarta.inject.Inject;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -60,6 +62,10 @@ public class SxLokControl extends Lokcontroller {
   @Inject
   Steuerung steuerung;
 
+  @Inject
+  Logger logger;
+
+
   public SxLokControl() {
     super(1);
   }
@@ -68,15 +74,18 @@ public class SxLokControl extends Lokcontroller {
    * {@inheritDoc}
    */
   @Override
-  public void setFahrzeugdecoder(Fahrzeugdecoder lok, int hornBits) {
-    if (!Objects.equals(lok, this.fahrzeugdecoder)) {
+  public void setFahrzeugdecoder(Fahrzeugdecoder fzd, int hornBits) {
+
+    this.logger.debugf("SxLokControl@%d steuert %s", this.getAdresse(), fzd.toString(true));
+
+    if (!Objects.equals(fzd, this.fahrzeugdecoder)) {
 
       // Falls bisher zugeordneter Decoder Fahrstufe 0 hat, inaktiv setzen
       if (this.fahrzeugdecoder != null && this.fahrzeugdecoder.getFahrstufe() == 0) {
         this.fahrzeugdecoder.setAktiv(false);
       }
 
-      this.fahrzeugdecoder = lok;
+      this.fahrzeugdecoder = fzd;
 
       // Falls nun neuer Decoder zugeordnet, ...
       if (this.fahrzeugdecoder != null) {
