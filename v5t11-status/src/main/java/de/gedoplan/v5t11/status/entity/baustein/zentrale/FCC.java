@@ -165,7 +165,6 @@ public class FCC extends Zentrale {
     while (!this.terminationRequested) {
       try {
         openPort();
-        clearSX2BusSlots();
         this.portPhaser.arriveAndDeregister();
 
         syncStatus();
@@ -204,7 +203,6 @@ public class FCC extends Zentrale {
     }
 
     closePort();
-    clearSX2BusSlots();
 
   }
 
@@ -473,7 +471,7 @@ public class FCC extends Zentrale {
   private AtomicReferenceArray<Fahrzeugdecoder> sx2BusSlot = new AtomicReferenceArray<>(BUSEXT_MAX_IDX + 1);
 
   private void clearSX2BusSlots() {
-    for (int idx = 0; idx < BUSEXT_MAX_IDX; ++idx) {
+    for (int idx = 0; idx <=BUSEXT_MAX_IDX; ++idx) {
       sx2BusSlot.set(idx, null);
       this.log.debugf("SX2-Bus-Slot %d: null", idx);
       sx2Abmelden(idx);
@@ -669,7 +667,7 @@ public class FCC extends Zentrale {
       awaitSync();
       int ist = getSX1Kanal(110) & 0x0F;
       if (ist == soll) {
-        return;
+        break;
       }
 
       this.log.warnf("Gleisprotokoll 0x%02x ist falsch - schrittweise Umstellung auf 0x%02x", ist, soll);
@@ -682,6 +680,9 @@ public class FCC extends Zentrale {
 
       delay(250);
     }
+
+    // Q&D - besser separate Methode oder diese Methode sinnvoll benennen
+    clearSX2BusSlots();
   }
 
   @Override
