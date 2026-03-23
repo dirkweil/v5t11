@@ -7,13 +7,15 @@ import de.gedoplan.v5t11.status.entity.baustein.Funktionsdecoder;
 import de.gedoplan.v5t11.util.cdi.Changed;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
 import de.gedoplan.v5t11.util.domain.entity.fahrweg.geraet.AbstractWeiche;
-
 import jakarta.json.bind.annotation.JsonbTransient;
+import jakarta.persistence.Cacheable;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import jakarta.xml.bind.Unmarshaller;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
-
 import lombok.Getter;
 
 /**
@@ -21,13 +23,20 @@ import lombok.Getter;
  *
  * @author dw
  */
+@Entity
+@Table(name = Weiche.TABLE_NAME)
+@Cacheable(true)
 @XmlAccessorType(XmlAccessType.NONE)
 public class Weiche extends AbstractWeiche implements FunktionsdecoderGeraet {
 
+  public static final String TABLE_NAME = "ST_WEICHE";
+
   @Getter(onMethod_ = @JsonbTransient)
+  @Transient
   private FunktionsdecoderZuordnung funktionsdecoderZuordnung;
 
   @XmlAttribute
+  @Transient
   private boolean invertiert;
 
   /**
