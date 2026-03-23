@@ -1,23 +1,14 @@
 package de.gedoplan.v5t11.status.service;
 
-import de.gedoplan.v5t11.status.entity.Kanal;
+import org.jboss.logging.Logger;
+
 import de.gedoplan.v5t11.status.entity.Steuerung;
 import de.gedoplan.v5t11.status.entity.baustein.Connected;
 import de.gedoplan.v5t11.status.entity.baustein.Disconnected;
 import de.gedoplan.v5t11.status.entity.baustein.Zentrale;
-import de.gedoplan.v5t11.status.persistence.KanalRepository;
-import de.gedoplan.v5t11.util.cdi.Changed;
-
-import java.util.HashMap;
-import java.util.Map;
-
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.event.Observes;
 import jakarta.enterprise.event.ObservesAsync;
 import jakarta.inject.Inject;
-import jakarta.transaction.Transactional;
-
-import org.jboss.logging.Logger;
 
 @ApplicationScoped
 public class AnlagenstatusService {
@@ -29,20 +20,10 @@ public class AnlagenstatusService {
   AutoSkriptService autoSkriptService;
 
   @Inject
-  KanalRepository kanalRepository;
-
-  @Inject
   Logger logger;
 
-  private Map<Integer, Integer> initialeKanalwerte = new HashMap<>();
-
   public void init() {
-    this.logger.debug("Initiale Kanalwerte aus DB holen");
-    this.kanalRepository
-        .findAll()
-        .stream()
-        .peek(logger::debug)
-        .forEach(k -> initialeKanalwerte.put(k.getAdresse(), k.getWert()));
+    this.logger.debug("Initiale Kanalwerte aus DB holen (nicht mehr ...)");
   }
 
   void onConnect(@ObservesAsync @Connected Zentrale zentrale) {
@@ -50,29 +31,16 @@ public class AnlagenstatusService {
     // Gleisprotokoll (z. B. SX1+SX2+DCC) einstellen
     zentrale.setGleisProtokoll();
 
-    // Alle Bausteine auf den uns bekannten Status setzen
-    this.steuerung
-        .getBausteinAdressen()
-        .forEach(adr -> {
-          Integer value = this.initialeKanalwerte.get(adr);
-          if (value != null) {
-            this.logger.debugf("Baustein@%d auf 0b%s setzen", adr, Integer.toBinaryString(value));
-            zentrale.setSX1Kanal(adr, value);
-          }
-        });
-
     // Alle Autoskripte einmal ausführen
     this.autoSkriptService.executeAll();
   }
 
   void onDisconnect(@ObservesAsync @Disconnected Zentrale zentrale) {
     this.logger.debug("***** Disconnected *****");
-  }
 
-  @Transactional
-  void onKanalChange(@Observes @Changed Kanal kanal) {
-    this.logger.debugf("Kanal@%d: value=0b%s", kanal.getAdresse(), Integer.toBinaryString(kanal.getWert()));
-    this.kanalRepository.merge(kanal);
+    this.steuerung
+        .getWeichen()
+        .forEach(w -> this.logger.debugf("Weichenstellung merken: %s %s", w.toString(true), w.getStellung()));
   }
 
 }

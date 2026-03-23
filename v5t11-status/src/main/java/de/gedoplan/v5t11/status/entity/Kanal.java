@@ -2,23 +2,14 @@ package de.gedoplan.v5t11.status.entity;
 
 import de.gedoplan.baselibs.persistence.entity.SingleIdEntity;
 import de.gedoplan.v5t11.util.jsonb.JsonbShort;
-
-import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
-
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@Entity
-@Table(name = Kanal.TABLE_NAME)
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Kanal extends SingleIdEntity<Integer> {
 
   public static final String TABLE_NAME = "ST_KANAL";
