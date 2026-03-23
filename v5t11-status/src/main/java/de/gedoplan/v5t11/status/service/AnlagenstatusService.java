@@ -42,7 +42,7 @@ public class AnlagenstatusService {
     // Gleisprotokoll (z. B. SX1+SX2+DCC) einstellen
     zentrale.setGleisProtokoll();
 
-    // Weichenstellungen wiederherstellen
+    // Weichenstellungen wiederherstellen (erst andere Stellung, dann richtige Stellung)
     this.logger.debug("Nicht stellungssichere Weichen auf letzte bekannte Stellung stellen");
     this.weicheRepository
         .findAll()
@@ -53,6 +53,15 @@ public class AnlagenstatusService {
               this.logger.debugf("  %s %s", weiche.toString(true), w.getStellung());
               weiche.setStellung(w.getStellung().getAndereStellung());
               delay();
+            }
+          }
+        });
+    this.weicheRepository
+        .findAll()
+        .forEach(w -> {
+          Weiche weiche = this.steuerung.getWeiche(w.getBereich(), w.getName());
+          if (weiche != null) {
+            if (!weiche.isStellungsSicher()) {
               weiche.setStellung(w.getStellung());
               delay();
             }
