@@ -10,10 +10,12 @@ import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.domain.attribute.DecoderAdr;
 import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 import de.gedoplan.v5t11.util.jsonb.JsonbShort;
-
 import jakarta.inject.Inject;
 import jakarta.json.bind.annotation.JsonbTransient;
-
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,14 +26,20 @@ import lombok.Setter;
  *
  * @author dw
  */
+@Entity
+@Table(name = Fahrzeugdecoder.TABLE_NAME)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Fahrzeugdecoder extends SingleIdEntity<DecoderAdr> {
 
+  public static final String TABLE_NAME = "ST_FAHRZEUGDECODER";
+
+  @Transient
   @Inject
   EventFirer eventFirer;
 
   @Getter(onMethod_ = @JsonbShort)
   @Setter(onMethod_ = @JsonbShort)
+  @EmbeddedId
   private DecoderAdr decoderAdr;
 
   // Decoder ist aktiv, d. h. in der Zentrale angemeldet

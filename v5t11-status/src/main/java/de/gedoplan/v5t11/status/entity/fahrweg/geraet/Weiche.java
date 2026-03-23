@@ -8,7 +8,6 @@ import de.gedoplan.v5t11.util.cdi.Changed;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
 import de.gedoplan.v5t11.util.domain.entity.fahrweg.geraet.AbstractWeiche;
 import jakarta.json.bind.annotation.JsonbTransient;
-import jakarta.persistence.Cacheable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
@@ -25,7 +24,6 @@ import lombok.Getter;
  */
 @Entity
 @Table(name = Weiche.TABLE_NAME)
-@Cacheable(true)
 @XmlAccessorType(XmlAccessType.NONE)
 public class Weiche extends AbstractWeiche implements FunktionsdecoderGeraet {
 
