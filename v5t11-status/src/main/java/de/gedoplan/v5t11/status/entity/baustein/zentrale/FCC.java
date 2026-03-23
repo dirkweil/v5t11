@@ -261,11 +261,11 @@ public class FCC extends Zentrale {
     for (int idx = 0; idx <= BUSEXT_MAX_IDX; ++idx) {
       int offset = BUSEXT_OFFSET(idx);
       if (blockDaten[offset + BUSEXT_OFFSET_FORMAT] != blockDatenAlt[offset + BUSEXT_OFFSET_FORMAT]
-        || blockDaten[offset + BUSEXT_OFFSET_ADR_HIGH] != blockDatenAlt[offset + BUSEXT_OFFSET_ADR_HIGH]
-        || blockDaten[offset + BUSEXT_OFFSET_ADR_LOW_LICHT] != blockDatenAlt[offset + BUSEXT_OFFSET_ADR_LOW_LICHT]
-        || blockDaten[offset + BUSEXT_OFFSET_RUECKWAERTS_FAHRSTUFE] != blockDatenAlt[offset + BUSEXT_OFFSET_RUECKWAERTS_FAHRSTUFE]
-        || blockDaten[offset + BUSEXT_OFFSET_FUNKTION_1_8] != blockDatenAlt[offset + BUSEXT_OFFSET_FUNKTION_1_8]
-        || blockDaten[offset + BUSEXT_OFFSET_FUNKTION_9_16] != blockDatenAlt[offset + BUSEXT_OFFSET_FUNKTION_9_16]) {
+          || blockDaten[offset + BUSEXT_OFFSET_ADR_HIGH] != blockDatenAlt[offset + BUSEXT_OFFSET_ADR_HIGH]
+          || blockDaten[offset + BUSEXT_OFFSET_ADR_LOW_LICHT] != blockDatenAlt[offset + BUSEXT_OFFSET_ADR_LOW_LICHT]
+          || blockDaten[offset + BUSEXT_OFFSET_RUECKWAERTS_FAHRSTUFE] != blockDatenAlt[offset + BUSEXT_OFFSET_RUECKWAERTS_FAHRSTUFE]
+          || blockDaten[offset + BUSEXT_OFFSET_FUNKTION_1_8] != blockDatenAlt[offset + BUSEXT_OFFSET_FUNKTION_1_8]
+          || blockDaten[offset + BUSEXT_OFFSET_FUNKTION_9_16] != blockDatenAlt[offset + BUSEXT_OFFSET_FUNKTION_9_16]) {
         SystemTyp systemTyp = decodeSystemTyp(blockDaten[offset + BUSEXT_OFFSET_ADR_LOW_LICHT], blockDaten[offset + BUSEXT_OFFSET_FORMAT]);
         if (systemTyp != null) {
           this.eventFirer.fire(new SX2Kanal(
@@ -276,7 +276,7 @@ public class FCC extends Zentrale {
               decodeRueckwaerts(blockDaten[offset + BUSEXT_OFFSET_RUECKWAERTS_FAHRSTUFE]),
               decodeFahrstufe(systemTyp, blockDaten[offset + BUSEXT_OFFSET_RUECKWAERTS_FAHRSTUFE]),
               decodeFunktionsstatus(blockDaten[offset + BUSEXT_OFFSET_FUNKTION_9_16], blockDaten[offset + BUSEXT_OFFSET_FUNKTION_1_8])),
-            Changed.Literal.INSTANCE);
+              Changed.Literal.INSTANCE);
         }
       }
     }
@@ -285,10 +285,10 @@ public class FCC extends Zentrale {
   private static SystemTyp decodeSystemTyp(byte codeHigh, byte codeLow) {
     int meldeCode = ((codeLow & 0x0f) | ((codeHigh & 0x01) << 4));
     return switch (meldeCode) {
-      case 0x00 -> null;
-      case 0x04, 0x14 -> SystemTyp.SX2;
-      case 0x05, 0x07, 0x15, 0x17 -> SystemTyp.DCC;
-      default -> throw new IllegalArgumentException(String.format("Ungültiger Meldecode: 0x%02x", meldeCode));
+    case 0x00 -> null;
+    case 0x04, 0x14 -> SystemTyp.SX2;
+    case 0x05, 0x07, 0x15, 0x17 -> SystemTyp.DCC;
+    default -> throw new IllegalArgumentException(String.format("Ungültiger Meldecode: 0x%02x", meldeCode));
     };
   }
 
@@ -305,9 +305,9 @@ public class FCC extends Zentrale {
   private static int decodeAdresse(SystemTyp systemTyp, byte adrHigh, byte adrLow) {
     int adr = Byte.toUnsignedInt(adrHigh) << 6 | (Byte.toUnsignedInt(adrLow) & 0b1111_1100) >>> 2;
     return switch (systemTyp) {
-      case SX1 -> throw new IllegalArgumentException("Ungültiger Systemtyp: " + systemTyp);
-      case SX2 -> ((adr & 0b0011_1111_1000_0000) >>> 7) * 100 + (adr & 0b0111_1111);
-      default -> adr;
+    case SX1 -> throw new IllegalArgumentException("Ungültiger Systemtyp: " + systemTyp);
+    case SX2 -> ((adr & 0b0011_1111_1000_0000) >>> 7) * 100 + (adr & 0b0111_1111);
+    default -> adr;
     };
 
   }
@@ -517,6 +517,7 @@ public class FCC extends Zentrale {
 
       idx = sx2Anmelden(fahrzeugdecoder);
       this.sx2BusSlot.set(idx, fahrzeugdecoder);
+      this.log.debugf("SX2-Bus-Slot %d: %s", idx, fahrzeugdecoder.toString(true));
     }
 
     // Decoder ist nun angemeldet
@@ -533,6 +534,7 @@ public class FCC extends Zentrale {
 
     // Slot freigeben
     this.sx2BusSlot.set(idx, null);
+    this.log.debugf("SX2-Bus-Slot %d: null", idx, fahrzeugdecoder.toString(true));
   }
 
   /**
@@ -572,19 +574,19 @@ public class FCC extends Zentrale {
 
   private static byte[] encodeAdresse(SystemTyp systemTyp, int adresse) {
     return switch (systemTyp) {
-      case SX1 -> throw new IllegalArgumentException("Ungültiger Systemtyp: " + systemTyp);
+    case SX1 -> throw new IllegalArgumentException("Ungültiger Systemtyp: " + systemTyp);
 
-      case SX2 -> {
-        int hunderter = adresse / 100;
-        int einer = adresse % 100;
-        int sx2Wert = (hunderter << 9) | (einer << 2);
-        yield new byte[] { (byte) (sx2Wert & 0xff), (byte) ((sx2Wert >> 8) & 0xff) };
-      }
+    case SX2 -> {
+      int hunderter = adresse / 100;
+      int einer = adresse % 100;
+      int sx2Wert = (hunderter << 9) | (einer << 2);
+      yield new byte[] { (byte) (sx2Wert & 0xff), (byte) ((sx2Wert >> 8) & 0xff) };
+    }
 
-      default -> {
-        int dccWert = adresse << 2;
-        yield new byte[] { (byte) (dccWert & 0xff), (byte) ((dccWert >> 8) & 0xff) };
-      }
+    default -> {
+      int dccWert = adresse << 2;
+      yield new byte[] { (byte) (dccWert & 0xff), (byte) ((dccWert >> 8) & 0xff) };
+    }
     };
   }
 
@@ -620,12 +622,12 @@ public class FCC extends Zentrale {
 
       if (this.log.isDebugEnabled()) {
         this.log.debug(String.format(
-          "Fahrzeugdaten setzen: idx=%d, fahrstufe=%d, rückwärts=%b, licht=%b, f=0x%04x",
-          idx,
-          fahrstufe,
-          rueckwaerts,
-          licht,
-          funktionStatus));
+            "Fahrzeugdaten setzen: idx=%d, fahrstufe=%d, rückwärts=%b, licht=%b, f=0x%04x",
+            idx,
+            fahrstufe,
+            rueckwaerts,
+            licht,
+            funktionStatus));
       }
 
       byte[] antwort = new byte[1];
@@ -676,8 +678,8 @@ public class FCC extends Zentrale {
     setGleisspannung(false);
     try {
       return fahrzeugConfigParameterKeys
-        .stream()
-        .collect(Collectors.toMap(key -> key, key -> readFahrzeugdecoderConfig(systemTyp, key)));
+          .stream()
+          .collect(Collectors.toMap(key -> key, key -> readFahrzeugdecoderConfig(systemTyp, key)));
     } finally {
       stopProgMode();
     }
@@ -689,13 +691,13 @@ public class FCC extends Zentrale {
     }
 
     return switch (systemTyp) {
-      case SX1 -> switch (key) {
-        case 1 -> readSX1FahrzeugdecoderConfigBasis();
-        case 2 -> readSX1FahrzeugdecoderConfigErweitert();
-        default -> -1;
-      };
-      case SX2 -> readSX2orDCCFahrzeugdecoderConfig(key, (byte) 0xc2);
-      case DCC -> readSX2orDCCFahrzeugdecoderConfig(key, (byte) 0xc6);
+    case SX1 -> switch (key) {
+    case 1 -> readSX1FahrzeugdecoderConfigBasis();
+    case 2 -> readSX1FahrzeugdecoderConfigErweitert();
+    default -> -1;
+    };
+    case SX2 -> readSX2orDCCFahrzeugdecoderConfig(key, (byte) 0xc2);
+    case DCC -> readSX2orDCCFahrzeugdecoderConfig(key, (byte) 0xc6);
     };
   }
 
@@ -736,10 +738,10 @@ public class FCC extends Zentrale {
     setGleisspannung(false);
     try {
       fahrzeugConfigParameters
-        .entrySet()
-        .stream()
-        .filter(entry -> entry.getValue() >= 0)
-        .forEach(entry -> writeFahrzeugdecoderConfig(systemTyp, entry.getKey(), entry.getValue()));
+          .entrySet()
+          .stream()
+          .filter(entry -> entry.getValue() >= 0)
+          .forEach(entry -> writeFahrzeugdecoderConfig(systemTyp, entry.getKey(), entry.getValue()));
     } finally {
       stopProgMode();
     }
