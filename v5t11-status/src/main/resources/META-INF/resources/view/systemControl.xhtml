@@ -12,6 +12,17 @@
 
       <p:fieldset legend="Allgemein">
         <h:panelGrid columns="2">
+          <p:outputLabel for="verbindung" value="Anlagenverbindung:"/>
+          <h:panelGroup id="verbindung">
+            <p:selectBooleanButton id="connected" value="#{systemControlPresenter.zentraleConnected}"
+                                   onLabel="#{systemControlPresenter.zentralePort}"
+                                   offLabel="nicht verbunden" 
+                                   disabled="#{systemControlPresenter.zentraleEchtbetrieb}"
+                                   style="width:240px">
+              <p:ajax/>
+            </p:selectBooleanButton>
+          </h:panelGroup>
+
           <p:outputLabel for="gleisspannung" value="Gleisspannung: "/>
           <p:selectBooleanButton id="gleisspannung" value="#{systemControlPresenter.gleisspannung}" onLabel="an"
                                  offLabel="aus" style="width:60px">
@@ -36,7 +47,7 @@
               <p:ajax event="itemSelect" update="gleis"/>
             </p:selectOneMenu>
             <p:selectBooleanButton id="gleisBesetzt" value="#{systemControlPresenter.gleisBesetzt}" onLabel="besetzt"
-                                   offLabel="frei" disabled="#{systemControlPresenter.zentraleVerbunden}"
+                                   offLabel="frei" disabled="#{systemControlPresenter.zentraleEchtbetrieb}"
                                    style="width:120px">
               <p:ajax/>
             </p:selectBooleanButton>

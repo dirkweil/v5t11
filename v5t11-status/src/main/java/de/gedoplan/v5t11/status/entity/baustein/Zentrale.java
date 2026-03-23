@@ -61,6 +61,9 @@ public abstract class Zentrale implements Closeable {
   @Getter(onMethod_ = @JsonbShort)
   protected boolean kurzschluss;
 
+  @Getter
+  protected boolean connected;
+
   // Zentrale, Kanal, SX2Kanal
   @Inject
   protected EventFirer eventFirer;
@@ -92,6 +95,7 @@ public abstract class Zentrale implements Closeable {
         openSerialPort();
       }
 
+      this.connected = true;
       this.eventFirer.fire(this, Connected.Literal.INSTANCE);
     } catch (Exception e) {
       try {
@@ -160,8 +164,8 @@ public abstract class Zentrale implements Closeable {
       } catch (Exception e) {
         // ignore
       }
+      this.in = null;
     }
-    this.in = null;
 
     if (this.out != null) {
       try {
@@ -169,8 +173,8 @@ public abstract class Zentrale implements Closeable {
       } catch (Exception e) {
         // ignore
       }
+      this.out = null;
     }
-    this.out = null;
 
     if (this.device != null) {
       try {
@@ -188,10 +192,13 @@ public abstract class Zentrale implements Closeable {
       } catch (Exception e) {
         // ignore
       }
-    }
-    this.device = null;
 
-    this.eventFirer.fire(this, Disconnected.Literal.INSTANCE);
+      this.connected = false;
+      this.eventFirer.fire(this, Disconnected.Literal.INSTANCE);
+
+      this.device = null;
+    }
+
 
   }
 
@@ -250,7 +257,12 @@ public abstract class Zentrale implements Closeable {
    */
   public abstract void setGleisProtokoll();
 
-  public boolean isVerbunden() {
+  /**
+   * Ist dies Echtbetrieb?
+   * Wenn ein Port konfiguriert ist, ist es Echtbetrieb, sonst nur Entwickungsbetrieb ohne echte Steuerung.
+   * @return Echtbetrieb
+   */
+  public boolean isEchtbetrieb() {
     return this.portName != null && !"none".equals(this.portName);
   }
 

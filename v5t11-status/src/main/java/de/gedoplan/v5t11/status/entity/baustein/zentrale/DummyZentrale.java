@@ -1,6 +1,8 @@
 package de.gedoplan.v5t11.status.entity.baustein.zentrale;
 
 import de.gedoplan.v5t11.status.entity.Kanal;
+import de.gedoplan.v5t11.status.entity.baustein.Connected;
+import de.gedoplan.v5t11.status.entity.baustein.Disconnected;
 import de.gedoplan.v5t11.status.entity.baustein.Zentrale;
 import de.gedoplan.v5t11.util.cdi.Changed;
 import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
@@ -40,10 +42,14 @@ public class DummyZentrale extends Zentrale {
 
   @Override
   public void open(ExecutorService executorService) {
+    this.connected = true;
+    this.eventFirer.fire(this, Connected.Literal.INSTANCE);
   }
 
   @Override
   public void close() {
+    this.connected = false;
+    this.eventFirer.fire(this, Disconnected.Literal.INSTANCE);
   }
 
   @Override
@@ -81,8 +87,8 @@ public class DummyZentrale extends Zentrale {
   @Override
   public Map<Integer, Integer> readFahrzeugdecoderConfig(SystemTyp systemTyp, Collection<Integer> fahrzeugConfigParameterKeys) {
     return fahrzeugConfigParameterKeys
-      .stream()
-      .collect(Collectors.toMap(key -> key, key -> null));
+        .stream()
+        .collect(Collectors.toMap(key -> key, key -> null));
   }
 
   @Override

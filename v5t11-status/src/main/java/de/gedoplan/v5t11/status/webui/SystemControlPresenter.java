@@ -140,8 +140,27 @@ public class SystemControlPresenter implements Serializable {
     }
   }
 
-  public boolean isZentraleVerbunden() {
-    return this.steuerung.getZentrale().isVerbunden();
+  public boolean isZentraleEchtbetrieb() {
+    return this.steuerung.getZentrale().isEchtbetrieb();
+  }
+
+  public boolean isZentraleConnected() {
+    return this.steuerung.getZentrale().isConnected();
+  }
+
+  public void setZentraleConnected(boolean connected) {
+    if (!isZentraleEchtbetrieb()) {
+      if (connected) {
+        this.steuerung.getZentrale().open(null);
+      } else {
+        this.steuerung.getZentrale().close();
+        ;
+      }
+    }
+  }
+
+  public String getZentralePort() {
+    return isZentraleEchtbetrieb() ? this.steuerung.getZentrale().getPortName() : "Dummyport";
   }
 
   public Collection<Weiche> getWeichen() {
