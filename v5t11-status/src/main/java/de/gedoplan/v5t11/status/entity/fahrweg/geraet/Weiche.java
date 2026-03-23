@@ -3,7 +3,6 @@
  */
 package de.gedoplan.v5t11.status.entity.fahrweg.geraet;
 
-import de.gedoplan.v5t11.status.entity.UpdateMode;
 import de.gedoplan.v5t11.status.entity.baustein.Funktionsdecoder;
 import de.gedoplan.v5t11.util.cdi.Changed;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
@@ -54,19 +53,19 @@ public class Weiche extends AbstractWeiche implements FunktionsdecoderGeraet {
    */
   @Override
   public void setStellung(WeichenStellung stellung) {
-    setStellung(stellung, UpdateMode.INTERFACE);
+    setStellung(stellung, true);
   }
 
-  public void setStellung(WeichenStellung stellung, UpdateMode updateMode) {
-    if (updateMode == UpdateMode.FORCE || getStellung() != stellung) {
+  protected void setStellung(WeichenStellung stellung, boolean updateInterface) {
+    if (getStellung() != stellung) {
       this.lastChangeMillis = System.currentTimeMillis();
       super.setStellung(stellung);
 
-      if (updateMode == UpdateMode.INTERFACE || updateMode == UpdateMode.FORCE) {
+      if (updateInterface) {
         long fdWert = this.funktionsdecoderZuordnung.getFunktionsdecoder().getWert();
         fdWert &= (~this.funktionsdecoderZuordnung.getBitMaskeAnschluss());
         fdWert |= getWertForStellung(stellung) << this.funktionsdecoderZuordnung.getAnschluss();
-        this.funktionsdecoderZuordnung.getFunktionsdecoder().setWert(fdWert, updateMode);
+        this.funktionsdecoderZuordnung.getFunktionsdecoder().setWert(fdWert);
       }
 
       this.eventFirer.fire(this, Changed.Literal.INSTANCE);
@@ -115,7 +114,7 @@ public class Weiche extends AbstractWeiche implements FunktionsdecoderGeraet {
   public void adjustStatus() {
     setStellung(
       getStellungForWert((this.funktionsdecoderZuordnung.getFunktionsdecoder().getWert() & this.funktionsdecoderZuordnung.getBitMaskeAnschluss()) >>> this.funktionsdecoderZuordnung.getAnschluss()),
-      UpdateMode.GERAET);
+      false);
   }
 
   @Override
