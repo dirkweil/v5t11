@@ -1,0 +1,18 @@
+= Konfiguration 3-teiliger Nahverkehrszug (Silberlinge mit beige-blauem Steuerwagen)
+
+* Lichtleisten: ESU 50708
+
+* Gemeinsame Adresse 4300@DCC
+** CV17=208
+** CV18=204
+** CV29=34
+
+* Waggons 1-2
+** Betriebsnummern 50 80 22-34 134-3 und 50 80 22-34 135-1 +
+(auf beiden Modellen ist 50 80 22-34 134-3 aufgedruckt)
+** Eine Lichtleiste im Waggon 1 (LEDs 1-7), +
+abgetrennter Teil der Lichtleiste im Waggon 2 (LEDs 8-11)
+
+* Waggon 3
+** Betriebsnummer 50 80 82-34 186-0
+** Eine Lichtleiste
