@@ -738,6 +738,7 @@
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleis name="W10" />
     <Weiche name="10" stellung="ABZWEIGEND" />
+    <Signal name="23'" stellung="HALT" schutz="true" />
     <Gleis name="W12" />
   </Fahrstrasse>
 
@@ -760,6 +761,7 @@
   <Fahrstrasse bereich="HBf" zaehlrichtung="true" umkehrbar="true">
     <Gleis name="W11" />
     <Weiche name="11" stellung="ABZWEIGEND" />
+    <Signal name="23'" stellung="HALT" schutz="true" />
     <Weiche name="14" stellung="ABZWEIGEND" />
     <Gleis name="W14" />
   </Fahrstrasse>
