@@ -1,22 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <fahrzeug>
-    <betriebsnummer>31516 und 42328</betriebsnummer>
+    <betriebsnummer>PW-NV1-3</betriebsnummer>
     <fahrzeugTyp>WAGEN</fahrzeugTyp>
-    <beschreibung>Nahverkehrswagen 31516 und 42328 (Silberlinge), Wagen 1 und 2 von 3</beschreibung>
+    <beschreibung>Nahverkehrswagen 96379 (Silberling, Steuerwagen), Wagen 3 des 3-teiligen NV1</beschreibung>
     <laenge>0</laenge>
     <fahrzeugdecoder>
         <decoderName>ESU50708</decoderName>
         <decoderAdr>4200@DCC</decoderAdr>
-        <funktion maske="1" wert="1">
+        <funktion maske="4" wert="4">
             <gruppe>IB</gruppe>
-            <beschreibung>Innenbeleuchtung Wagen 1</beschreibung>
-            <impuls>false</impuls>
-            <horn>false</horn>
-            <fader>false</fader>
-        </funktion>
-        <funktion maske="2" wert="2">
-            <gruppe>IB</gruppe>
-            <beschreibung>Innenbeleuchtung Wagen 2</beschreibung>
+            <beschreibung>Innenbeleuchtung</beschreibung>
             <impuls>false</impuls>
             <horn>false</horn>
             <fader>false</fader>
@@ -30,7 +23,7 @@
         <konfiguration nr="19" soll="0">
             <beschreibung>Verbundadresse</beschreibung>
         </konfiguration>
-        <konfiguration nr="29" soll="34">
+        <konfiguration nr="29" soll="35">
             <beschreibung>Konfigurationsregister
       Bit 0: Richtung umkehren
       Bit 1: 28/126 Fahrstufen (statt 14)
@@ -38,19 +31,19 @@
       Bit 5: Lange Lokadresse nach CV17/18
     </beschreibung>
         </konfiguration>
-        <konfiguration nr="33" soll="0">
+        <konfiguration nr="33" soll="4">
             <beschreibung>Funktionsmapping F0 vorwärts</beschreibung>
         </konfiguration>
-        <konfiguration nr="34" soll="0">
+        <konfiguration nr="34" soll="2">
             <beschreibung>Funktionsmapping F0 rückwärts</beschreibung>
         </konfiguration>
-        <konfiguration nr="35" soll="56">
+        <konfiguration nr="35" soll="0">
             <beschreibung>Funktionsmapping F1 vorwärts</beschreibung>
         </konfiguration>
-        <konfiguration nr="36" soll="192">
+        <konfiguration nr="36" soll="0">
             <beschreibung>Funktionsmapping F2</beschreibung>
         </konfiguration>
-        <konfiguration nr="37" soll="0">
+        <konfiguration nr="37" soll="24">
             <beschreibung>Funktionsmapping F3</beschreibung>
         </konfiguration>
         <konfiguration nr="38" soll="0">
@@ -80,7 +73,7 @@
         <konfiguration nr="46" soll="0">
             <beschreibung>Funktionsmapping F12</beschreibung>
         </konfiguration>
-        <konfiguration nr="47" soll="56">
+        <konfiguration nr="47" soll="0">
             <beschreibung>Funktionsmapping F1 rückwärts</beschreibung>
         </konfiguration>
         <konfiguration nr="59" soll="0">
@@ -104,10 +97,10 @@
         <konfiguration nr="113" soll="0">
             <beschreibung>Ausgangskonfiguration Spitzenlicht</beschreibung>
         </konfiguration>
-        <konfiguration nr="114" soll="0">
+        <konfiguration nr="114" soll="15">
             <beschreibung>Ausgangskonfiguration Schlusslicht</beschreibung>
         </konfiguration>
-        <konfiguration nr="115" soll="0">
+        <konfiguration nr="115" soll="15">
             <beschreibung>Ausgangskonfiguration AUX1</beschreibung>
         </konfiguration>
         <konfiguration nr="116" soll="84">
@@ -116,13 +109,13 @@
         <konfiguration nr="117" soll="84">
             <beschreibung>Ausgangskonfiguration LED 4-5</beschreibung>
         </konfiguration>
-        <konfiguration nr="118" soll="212">
+        <konfiguration nr="118" soll="0">
             <beschreibung>Ausgangskonfiguration LED 6-7</beschreibung>
         </konfiguration>
-        <konfiguration nr="119" soll="84">
+        <konfiguration nr="119" soll="0">
             <beschreibung>Ausgangskonfiguration LED 8-9</beschreibung>
         </konfiguration>
-        <konfiguration nr="120" soll="84">
+        <konfiguration nr="120" soll="0">
             <beschreibung>Ausgangskonfiguration LED 10-11</beschreibung>
         </konfiguration>
         <konfiguration nr="129" soll="0">

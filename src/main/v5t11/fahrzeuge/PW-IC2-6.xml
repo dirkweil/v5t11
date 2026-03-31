@@ -1,22 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <fahrzeug>
-    <betriebsnummer>51 80 22-90 217-5 und 51 80 22-90 218-3</betriebsnummer>
+    <betriebsnummer>PW-IC2-6</betriebsnummer>
     <fahrzeugTyp>WAGEN</fahrzeugTyp>
-    <beschreibung>Schnellzugwagen, beige-blau, 2. Klasse, Wagen 3 und 4 von 6</beschreibung>
+    <beschreibung>Schnellzugwagen, beige-blau, Gepäck, Wagen 6 des 6-teiligen IC2</beschreibung>
     <laenge>0</laenge>
     <fahrzeugdecoder>
         <decoderName>Decoderwerk 60201</decoderName>
         <decoderAdr>4100@DCC</decoderAdr>
-        <funktion maske="8" wert="8">
+        <funktion maske="32" wert="32">
             <gruppe>IB</gruppe>
-            <beschreibung>Innenbeleuchtung Wagen 4</beschreibung>
-            <impuls>false</impuls>
-            <horn>false</horn>
-            <fader>false</fader>
-        </funktion>
-        <funktion maske="4" wert="4">
-            <gruppe>IB</gruppe>
-            <beschreibung>Innenbeleuchtung Wagen 3</beschreibung>
+            <beschreibung>Innenbeleuchtung Wagen 6</beschreibung>
             <impuls>false</impuls>
             <horn>false</horn>
             <fader>false</fader>
@@ -35,7 +28,10 @@
       Bit 5: Lange Lokadresse nach CV17/18
     </beschreibung>
         </konfiguration>
-        <konfiguration nr="120" soll="3">
+        <konfiguration nr="49" soll="32">
+            <beschreibung>MD Konfiguration</beschreibung>
+        </konfiguration>
+        <konfiguration nr="120" soll="6">
             <beschreibung>A1 Schaltbefehlszuordnung</beschreibung>
         </konfiguration>
         <konfiguration nr="121" soll="190">
@@ -50,7 +46,7 @@
         <konfiguration nr="124" soll="5">
             <beschreibung>A1 Zeitwert für Sonderfunktion</beschreibung>
         </konfiguration>
-        <konfiguration nr="125" soll="4">
+        <konfiguration nr="125" soll="0">
             <beschreibung>A2 Schaltbefehlszuordnung</beschreibung>
         </konfiguration>
         <konfiguration nr="126" soll="190">
@@ -59,7 +55,7 @@
         <konfiguration nr="127" soll="0">
             <beschreibung>A2 Bedingung</beschreibung>
         </konfiguration>
-        <konfiguration nr="128" soll="10">
+        <konfiguration nr="128" soll="0">
             <beschreibung>A2 Sonderfunktion</beschreibung>
         </konfiguration>
         <konfiguration nr="129" soll="5">

@@ -7,12 +7,12 @@
 ** CV18=104
 ** CV29=34
 
-* Waggons 1-2
+* PW-NV1-1+2: Waggons 1-2
 ** Betriebsnummern 31516 und 42328
 ** Eine Lichtleiste im Waggon 1 (LEDs 1-7), +
 abgetrennter Teil der Lichtleiste im Waggon 2 (LEDs 8-11)
 
-* Waggon 3
+* PW-NV1-3: Waggon 3
 ** Betriebsnummer 96379
 ** Eine Lichtleiste
 ** Spitzen- und Rücklicht mit umgekehrter Fahrtrichtung angeschlossen

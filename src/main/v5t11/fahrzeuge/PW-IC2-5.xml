@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <fahrzeug>
-    <betriebsnummer>51 80 22-90 219-1</betriebsnummer>
+    <betriebsnummer>PW-IC2-5</betriebsnummer>
     <fahrzeugTyp>WAGEN</fahrzeugTyp>
-    <beschreibung>Schnellzugwagen, beige-blau, 2. Klasse, Wagen 5 von 6</beschreibung>
+    <beschreibung>Schnellzugwagen, beige-blau, 2. Klasse, Wagen 5 des 6-teiligen IC2</beschreibung>
     <laenge>0</laenge>
     <fahrzeugdecoder>
         <decoderName>Decoderwerk 60201</decoderName>

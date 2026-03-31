@@ -1,19 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <fahrzeug>
-    <betriebsnummer>50 80 22-34 134-3 und 50 80 22-34 135-1</betriebsnummer>
+    <betriebsnummer>PW-NV1-1+2</betriebsnummer>
     <fahrzeugTyp>WAGEN</fahrzeugTyp>
-    <beschreibung>Nahverkehrswagen (Silberlinge), Wagen 1 und 2 von 3</beschreibung>
+    <beschreibung>Nahverkehrswagen 31516 und 42328 (Silberlinge), Wagen 1 und 2 des 3-teiligen NV1</beschreibung>
     <laenge>0</laenge>
     <fahrzeugdecoder>
         <decoderName>ESU50708</decoderName>
-        <decoderAdr>4300@DCC</decoderAdr>
-        <funktion maske="2" wert="2">
-            <gruppe>IB</gruppe>
-            <beschreibung>Innenbeleuchtung Wagen 2</beschreibung>
-            <impuls>false</impuls>
-            <horn>false</horn>
-            <fader>false</fader>
-        </funktion>
+        <decoderAdr>4200@DCC</decoderAdr>
         <funktion maske="1" wert="1">
             <gruppe>IB</gruppe>
             <beschreibung>Innenbeleuchtung Wagen 1</beschreibung>
@@ -21,13 +14,23 @@
             <horn>false</horn>
             <fader>false</fader>
         </funktion>
+        <funktion maske="2" wert="2">
+            <gruppe>IB</gruppe>
+            <beschreibung>Innenbeleuchtung Wagen 2</beschreibung>
+            <impuls>false</impuls>
+            <horn>false</horn>
+            <fader>false</fader>
+        </funktion>
         <konfiguration nr="17" soll="208">
             <beschreibung>Höherwertiger Teil der langen Adresse</beschreibung>
         </konfiguration>
-        <konfiguration nr="18" soll="204">
+        <konfiguration nr="18" soll="104">
             <beschreibung>Niederwertiger Teil der langen Adresse</beschreibung>
         </konfiguration>
-        <konfiguration nr="29" soll="35">
+        <konfiguration nr="19" soll="0">
+            <beschreibung>Verbundadresse</beschreibung>
+        </konfiguration>
+        <konfiguration nr="29" soll="34">
             <beschreibung>Konfigurationsregister
       Bit 0: Richtung umkehren
       Bit 1: 28/126 Fahrstufen (statt 14)
@@ -107,19 +110,19 @@
         <konfiguration nr="115" soll="0">
             <beschreibung>Ausgangskonfiguration AUX1</beschreibung>
         </konfiguration>
-        <konfiguration nr="116" soll="82">
+        <konfiguration nr="116" soll="84">
             <beschreibung>Ausgangskonfiguration LED 1-3</beschreibung>
         </konfiguration>
-        <konfiguration nr="117" soll="82">
+        <konfiguration nr="117" soll="84">
             <beschreibung>Ausgangskonfiguration LED 4-5</beschreibung>
         </konfiguration>
-        <konfiguration nr="118" soll="84">
+        <konfiguration nr="118" soll="212">
             <beschreibung>Ausgangskonfiguration LED 6-7</beschreibung>
         </konfiguration>
-        <konfiguration nr="119" soll="82">
+        <konfiguration nr="119" soll="84">
             <beschreibung>Ausgangskonfiguration LED 8-9</beschreibung>
         </konfiguration>
-        <konfiguration nr="120" soll="82">
+        <konfiguration nr="120" soll="84">
             <beschreibung>Ausgangskonfiguration LED 10-11</beschreibung>
         </konfiguration>
         <konfiguration nr="129" soll="0">

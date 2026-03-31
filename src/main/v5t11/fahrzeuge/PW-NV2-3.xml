@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <fahrzeug>
-    <betriebsnummer>96379</betriebsnummer>
+    <betriebsnummer>PW-NV2-3</betriebsnummer>
     <fahrzeugTyp>WAGEN</fahrzeugTyp>
-    <beschreibung>Nahverkehrswagen 96379 (Silberling, Steuerwagen), Wagen 3 von 3</beschreibung>
+    <beschreibung>Nahverkehrswagen (Silberling), Steuerwagen mit beige-blauer Front, Wagen 3 des 3-teiligen NV2</beschreibung>
     <laenge>0</laenge>
     <fahrzeugdecoder>
         <decoderName>ESU50708</decoderName>
-        <decoderAdr>4200@DCC</decoderAdr>
+        <decoderAdr>4300@DCC</decoderAdr>
         <funktion maske="4" wert="4">
             <gruppe>IB</gruppe>
-            <beschreibung>Innenbeleuchtung</beschreibung>
+            <beschreibung>Innenbeleuchtung Wagen 3</beschreibung>
             <impuls>false</impuls>
             <horn>false</horn>
             <fader>false</fader>
@@ -17,11 +17,8 @@
         <konfiguration nr="17" soll="208">
             <beschreibung>Höherwertiger Teil der langen Adresse</beschreibung>
         </konfiguration>
-        <konfiguration nr="18" soll="104">
+        <konfiguration nr="18" soll="204">
             <beschreibung>Niederwertiger Teil der langen Adresse</beschreibung>
-        </konfiguration>
-        <konfiguration nr="19" soll="0">
-            <beschreibung>Verbundadresse</beschreibung>
         </konfiguration>
         <konfiguration nr="29" soll="35">
             <beschreibung>Konfigurationsregister
@@ -31,7 +28,7 @@
       Bit 5: Lange Lokadresse nach CV17/18
     </beschreibung>
         </konfiguration>
-        <konfiguration nr="33" soll="4">
+        <konfiguration nr="33" soll="33">
             <beschreibung>Funktionsmapping F0 vorwärts</beschreibung>
         </konfiguration>
         <konfiguration nr="34" soll="2">
@@ -94,13 +91,13 @@
         <konfiguration nr="112" soll="16">
             <beschreibung>Blinkdauer in 65 ms</beschreibung>
         </konfiguration>
-        <konfiguration nr="113" soll="0">
+        <konfiguration nr="113" soll="15">
             <beschreibung>Ausgangskonfiguration Spitzenlicht</beschreibung>
         </konfiguration>
         <konfiguration nr="114" soll="15">
             <beschreibung>Ausgangskonfiguration Schlusslicht</beschreibung>
         </konfiguration>
-        <konfiguration nr="115" soll="15">
+        <konfiguration nr="115" soll="0">
             <beschreibung>Ausgangskonfiguration AUX1</beschreibung>
         </konfiguration>
         <konfiguration nr="116" soll="84">
@@ -109,7 +106,7 @@
         <konfiguration nr="117" soll="84">
             <beschreibung>Ausgangskonfiguration LED 4-5</beschreibung>
         </konfiguration>
-        <konfiguration nr="118" soll="0">
+        <konfiguration nr="118" soll="15">
             <beschreibung>Ausgangskonfiguration LED 6-7</beschreibung>
         </konfiguration>
         <konfiguration nr="119" soll="0">

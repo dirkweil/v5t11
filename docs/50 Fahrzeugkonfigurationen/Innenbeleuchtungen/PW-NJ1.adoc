@@ -1,0 +1,36 @@
+= Konfiguration Nachtzug mit 5 Personenwagen und 3 Autotransportern
+
+* Lichtleisten: ESU 50708
+
+* Gemeinsame Adresse 4400@DCC
+** CV17=208
+** CV18=104
+** CV29=34
+
+* PW-NJ1-1+2: Waggons 1-2
+** Betriebsnummern 61 80 71-41 856-9 (beide Modelle)
+** Eine Lichtleiste im Waggon 1 (LEDs 1-7), +
+abgetrennter Teil der Lichtleiste im Waggon 2 (LEDs 8-11)
+** Beleuchtung im Wagen 1:
+*** 2 Abteile: LED 1-3
+*** Abteil: LED 4-5
+*** Gang: LED 6-7
+** Beleuchtung im Wagen 2:
+*** 2 Abteile: LED 8-9
+*** Gang: LED 10-11
+
+* PW-NJ1-3+4+5: Waggon 3-5
+** Betriebsnummern 61 80 75-71 405-4, 61 81 75-71 464-0, 61 85 50-70 118-8
+** Eine Lichtleiste im Wagen 4 (LEDs 1-5), +
+abgetrennter Teil der Lichtleiste im Waggon 3 (LEDs 6-9), +
+abgetrennter Teil der Lichtleiste im Waggon 5 (LEDs 10-11)
+** Beleuchtung im Wagen 3:
+*** 2 Abteile: LED 6-7
+*** Gang: LED 8-9
+** Beleuchtung im Wagen 4:
+*** Toilette: Spitzenlicht
+*** Gang: Schlusslicht
+*** Abteil: LED 1-3
+*** Abteil: LED 4-5
+** Beleuchtung im Wagen 5:
+*** Abteile: LED 10-11

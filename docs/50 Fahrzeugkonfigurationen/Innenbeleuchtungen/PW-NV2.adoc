@@ -7,12 +7,11 @@
 ** CV18=204
 ** CV29=34
 
-* Waggons 1-2
-** Betriebsnummern 50 80 22-34 134-3 und 50 80 22-34 135-1 +
-(auf beiden Modellen ist 50 80 22-34 134-3 aufgedruckt)
+* PW-NV2-1+2: Waggons 1-2
+** Betriebsnummern 50 80 22-34 134-3 (auf beiden Modellen)
 ** Eine Lichtleiste im Waggon 1 (LEDs 1-7), +
 abgetrennter Teil der Lichtleiste im Waggon 2 (LEDs 8-11)
 
-* Waggon 3
+* PW-NV2-3: Waggon 3
 ** Betriebsnummer 50 80 82-34 186-0
 ** Eine Lichtleiste
