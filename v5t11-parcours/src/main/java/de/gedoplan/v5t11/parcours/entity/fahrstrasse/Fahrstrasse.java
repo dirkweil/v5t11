@@ -660,6 +660,9 @@ public class Fahrstrasse extends Bereichselement {
 
       if (neueTeilFreigabeAnzahl >= this.elemente.size()) {
         fahrstrassenStatus.setReservierungsTyp(FahrstrassenReservierungsTyp.UNRESERVIERT);
+
+        // Q&D: Teilweise bleiben FS-Referenzen in Elementen stehen, obwohl die FS freigegeben ist; daher hier alle Referenzen löschen
+        this.elemente.forEach(fse -> fse.reservieren(null));
       }
 
       fahrstrassenStatus.setTeilFreigabeAnzahl(neueTeilFreigabeAnzahl);
