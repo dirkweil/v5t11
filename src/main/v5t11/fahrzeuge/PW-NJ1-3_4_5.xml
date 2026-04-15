@@ -7,6 +7,27 @@
     <fahrzeugdecoder>
         <decoderName>ESU50708</decoderName>
         <decoderAdr>4400@DCC</decoderAdr>
+        <funktion maske="16" wert="16">
+            <gruppe>IB</gruppe>
+            <beschreibung>Innenbeleuchtung Wagen 5</beschreibung>
+            <impuls>false</impuls>
+            <horn>false</horn>
+            <fader>false</fader>
+        </funktion>
+        <funktion maske="8" wert="8">
+            <gruppe>IB</gruppe>
+            <beschreibung>Innenbeleuchtung Wagen 4</beschreibung>
+            <impuls>false</impuls>
+            <horn>false</horn>
+            <fader>false</fader>
+        </funktion>
+        <funktion maske="4" wert="4">
+            <gruppe>IB</gruppe>
+            <beschreibung>Innenbeleuchtung Wagen 3</beschreibung>
+            <impuls>false</impuls>
+            <horn>false</horn>
+            <fader>false</fader>
+        </funktion>
         <konfiguration nr="17" soll="209">
             <beschreibung>Höherwertiger Teil der langen Adresse</beschreibung>
         </konfiguration>

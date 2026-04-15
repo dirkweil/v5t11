@@ -6,7 +6,21 @@
     <laenge>0</laenge>
     <fahrzeugdecoder>
         <decoderName>ESU50708</decoderName>
-        <decoderAdr>4401@DCC</decoderAdr>
+        <decoderAdr>4400@DCC</decoderAdr>
+        <funktion maske="34" wert="34">
+            <gruppe>IB</gruppe>
+            <beschreibung>Innenbeleuchtung Wagen 2</beschreibung>
+            <impuls>false</impuls>
+            <horn>false</horn>
+            <fader>false</fader>
+        </funktion>
+        <funktion maske="1" wert="1">
+            <gruppe>IB</gruppe>
+            <beschreibung>Innenbeleuchtung Wagen 1</beschreibung>
+            <impuls>false</impuls>
+            <horn>false</horn>
+            <fader>false</fader>
+        </funktion>
         <konfiguration nr="17" soll="209">
             <beschreibung>Höherwertiger Teil der langen Adresse</beschreibung>
         </konfiguration>
