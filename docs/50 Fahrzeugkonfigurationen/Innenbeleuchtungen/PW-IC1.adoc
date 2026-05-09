@@ -1,0 +1,50 @@
+= Konfiguration Reisezugwaggons 7-teiliger Schnellzug
+
+* Gemeinsame Adresse 4000@DCC
+** CV17=231
+** CV18=15
+** CV29=34
+
+* PW-IC1-1+2: Waggons 1-3
+** Betriebsnummern:
+*** 61 80 19-80 138-8 (Abteilwagen 1. Klasse)
+*** 61 80 18-90 050-5 (Großraumwagen 1. Klasse)
+*** 51 80 88-73 322-4 (Restaurant)
+** Eine Lichtleiste Decoderwerk 60501 im Waggon 2, +
+abgetrennter Teil der Lichtleiste im Waggon 3 an A2 mit Vorwiderstand 1k8, +
+Rest einer ESU-Lichtleiste in Waggon 1 an A4 (ohne Widerstand)
+** Funktionszuordnung F1, F2 und F3, Dimmwert 100, Sonderfunktion Neon:
+*** CV120=1, CV125=2
+*** CV121=CV126=190
+*** CV123=CV128=10
+
+* PW-IC1-3+4: Waggons 3-4
+** Betriebsnummern 51 80 22-90 217-5 (auf beiden Modellen)
+** Eine Lichtleiste im Waggon 3,
++
+abgetrennter Teil der Lichtleiste im Waggon 4, angeschlossen an A2
+** Funktionszuordnung F3 und F4, Dimmwert 190, Sonderfunktion Neon:
+*** CV120=3, CV125=4
+*** CV121=CV126=190
+*** CV123=CV128=10
+
+* PW-IC1-5: Waggon 5
+** Betriebsnummer 80 22-90 217-5 (wie Waggons 3 und 4)
+** Funktionszuordnung F5, Dimmwert 190, Sonderfunktion Neon:
+*** CV120=5
+*** CV121=CV126=190
+*** CV123=CV128=10
+
+* PW-IC1-6: Waggon 6
+** Betriebsnummer 51 80 95-92 002-2
+** Wagenschlusslicht an A2 des Decoders angeschlossen
+** Funktionszuordnung F0 und F6, Dimmwert 190,
++
+Sonderfunktion A1 Neon, A2 Ein/Ausblenden:
+
+*** CV49=32
+*** CV120=6
+*** CV121=CV126=190
+*** CV123=10
+*** CV128=0
+
