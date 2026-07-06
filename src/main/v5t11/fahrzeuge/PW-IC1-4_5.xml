@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<fahrzeug>
+    <betriebsnummer>PW-IC1-4+5</betriebsnummer>
+    <fahrzeugTyp>WAGEN</fahrzeugTyp>
+    <beschreibung>Schnellzugwagen, beige-blau, 1. Klasse, Wagen 1 und 2 des 6-teiligen IC2</beschreibung>
+    <laenge>0</laenge>
+    <fahrzeugdecoder>
+        <decoderName>Decoderwerk 60201</decoderName>
+        <decoderAdr>4000@DCC</decoderAdr>
+        <funktion maske="16" wert="16">
+            <gruppe>IB</gruppe>
+            <beschreibung>Innenbeleuchtung Wagen 5</beschreibung>
+            <impuls>false</impuls>
+            <horn>false</horn>
+            <fader>false</fader>
+        </funktion>
+        <funktion maske="8" wert="8">
+            <gruppe>IB</gruppe>
+            <beschreibung>Innenbeleuchtung Wagen 4</beschreibung>
+            <impuls>false</impuls>
+            <horn>false</horn>
+            <fader>false</fader>
+        </funktion>
+        <konfiguration nr="17" soll="207">
+            <beschreibung>Höherwertiger Teil der langen Adresse</beschreibung>
+        </konfiguration>
+        <konfiguration nr="18" soll="160">
+            <beschreibung>Niederwertiger Teil der langen Adresse</beschreibung>
+        </konfiguration>
+        <konfiguration nr="29" soll="34">
+            <beschreibung>Konfigurationsregister
+      Bit 0: Richtung umkehren
+      Bit 1: 28/126 Fahrstufen (statt 14)
+      Bit 2: Analogbetrieb erlaubt
+      Bit 5: Lange Lokadresse nach CV17/18
+    </beschreibung>
+        </konfiguration>
+        <konfiguration nr="120" soll="4">
+            <beschreibung>A1 Schaltbefehlszuordnung</beschreibung>
+        </konfiguration>
+        <konfiguration nr="121" soll="190">
+            <beschreibung>A1 Dimmwert</beschreibung>
+        </konfiguration>
+        <konfiguration nr="122" soll="0">
+            <beschreibung>A1 Bedingung</beschreibung>
+        </konfiguration>
+        <konfiguration nr="123" soll="0">
+            <beschreibung>A1 Sonderfunktion</beschreibung>
+        </konfiguration>
+        <konfiguration nr="124" soll="5">
+            <beschreibung>A1 Zeitwert für Sonderfunktion</beschreibung>
+        </konfiguration>
+        <konfiguration nr="125" soll="5">
+            <beschreibung>A2 Schaltbefehlszuordnung</beschreibung>
+        </konfiguration>
+        <konfiguration nr="126" soll="190">
+            <beschreibung>A2 Dimmwert</beschreibung>
+        </konfiguration>
+        <konfiguration nr="127" soll="0">
+            <beschreibung>A2 Bedingung</beschreibung>
+        </konfiguration>
+        <konfiguration nr="128" soll="0">
+            <beschreibung>A2 Sonderfunktion</beschreibung>
+        </konfiguration>
+        <konfiguration nr="129" soll="5">
+            <beschreibung>A2 Zeitwert für Sonderfunktion</beschreibung>
+        </konfiguration>
+    </fahrzeugdecoder>
+    <geschwindigkeit/>
+</fahrzeug>

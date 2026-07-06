@@ -1,22 +1,29 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <fahrzeug>
-    <betriebsnummer>PW-IC1-6+7</betriebsnummer>
+    <betriebsnummer>PW-IC1-1+2+3</betriebsnummer>
     <fahrzeugTyp>WAGEN</fahrzeugTyp>
-    <beschreibung>Schnellzugwagen, beige-blau, 2. Klasse, Wagen 6 und 7 des 7-teiligen IC1</beschreibung>
+    <beschreibung>Schnellzugwagen, beige-weinrot, 1. Klasse, Wagen 1 bis 3 7-teiligen IC1</beschreibung>
     <laenge>0</laenge>
     <fahrzeugdecoder>
         <decoderName>Decoderwerk 60501</decoderName>
         <decoderAdr>4000@DCC</decoderAdr>
-        <funktion maske="32" wert="32">
+        <funktion maske="4" wert="4">
             <gruppe>IB</gruppe>
-            <beschreibung>Innenbeleuchtung Wagen 6</beschreibung>
+            <beschreibung>Innenbeleuchtung Wagen 3</beschreibung>
             <impuls>false</impuls>
             <horn>false</horn>
             <fader>false</fader>
         </funktion>
-        <funktion maske="64" wert="64">
+        <funktion maske="1" wert="1">
             <gruppe>IB</gruppe>
-            <beschreibung>Innenbeleuchtung Wagen 7</beschreibung>
+            <beschreibung>Innenbeleuchtung Wagen 1</beschreibung>
+            <impuls>false</impuls>
+            <horn>false</horn>
+            <fader>false</fader>
+        </funktion>
+        <funktion maske="2" wert="2">
+            <gruppe>IB</gruppe>
+            <beschreibung>Innenbeleuchtung Wagen 2</beschreibung>
             <impuls>false</impuls>
             <horn>false</horn>
             <fader>false</fader>
@@ -35,13 +42,13 @@
         Bit 5: Lange Lokadresse nach CV17/18
       </beschreibung>
         </konfiguration>
-        <konfiguration nr="120" soll="6">
+        <konfiguration nr="120" soll="64">
             <beschreibung>A1 Schaltbefehlszuordnung</beschreibung>
         </konfiguration>
-        <konfiguration nr="121" soll="20">
+        <konfiguration nr="121" soll="100">
             <beschreibung>A1 Dimmwert</beschreibung>
         </konfiguration>
-        <konfiguration nr="122" soll="1">
+        <konfiguration nr="122" soll="0">
             <beschreibung>A1 Bedingung</beschreibung>
         </konfiguration>
         <konfiguration nr="123" soll="0">
@@ -50,13 +57,13 @@
         <konfiguration nr="124" soll="5">
             <beschreibung>A1 Zeitwert für Sonderfunktion</beschreibung>
         </konfiguration>
-        <konfiguration nr="125" soll="64">
+        <konfiguration nr="125" soll="3">
             <beschreibung>A2 Schaltbefehlszuordnung</beschreibung>
         </konfiguration>
-        <konfiguration nr="126" soll="100">
+        <konfiguration nr="126" soll="30">
             <beschreibung>A2 Dimmwert</beschreibung>
         </konfiguration>
-        <konfiguration nr="127" soll="2">
+        <konfiguration nr="127" soll="0">
             <beschreibung>A2 Bedingung</beschreibung>
         </konfiguration>
         <konfiguration nr="128" soll="0">
@@ -80,10 +87,10 @@
         <konfiguration nr="134" soll="5">
             <beschreibung>A3 Zeitwert für Sonderfunktion</beschreibung>
         </konfiguration>
-        <konfiguration nr="135" soll="0">
+        <konfiguration nr="135" soll="1">
             <beschreibung>A4 Schaltbefehlszuordnung</beschreibung>
         </konfiguration>
-        <konfiguration nr="136" soll="50">
+        <konfiguration nr="136" soll="7">
             <beschreibung>A4 Dimmwert</beschreibung>
         </konfiguration>
         <konfiguration nr="137" soll="0">
@@ -95,7 +102,7 @@
         <konfiguration nr="139" soll="5">
             <beschreibung>A4 Zeitwert für Sonderfunktion</beschreibung>
         </konfiguration>
-        <konfiguration nr="140" soll="7">
+        <konfiguration nr="140" soll="2">
             <beschreibung>RGB1 Schaltbefehlszuordnung</beschreibung>
         </konfiguration>
         <konfiguration nr="141" soll="0">
@@ -107,7 +114,7 @@
         <konfiguration nr="143" soll="0">
             <beschreibung>Blau1 Dimmwert</beschreibung>
         </konfiguration>
-        <konfiguration nr="144" soll="20">
+        <konfiguration nr="144" soll="10">
             <beschreibung>Weiß1 Dimmwert</beschreibung>
         </konfiguration>
         <konfiguration nr="145" soll="0">
@@ -155,7 +162,7 @@
         <konfiguration nr="163" soll="0">
             <beschreibung>Blau3Dimmwert</beschreibung>
         </konfiguration>
-        <konfiguration nr="164" soll="70">
+        <konfiguration nr="164" soll="228">
             <beschreibung>Weiß3Dimmwert</beschreibung>
         </konfiguration>
         <konfiguration nr="165" soll="0">
@@ -179,7 +186,7 @@
         <konfiguration nr="173" soll="0">
             <beschreibung>Blau4Dimmwert</beschreibung>
         </konfiguration>
-        <konfiguration nr="174" soll="40">
+        <konfiguration nr="174" soll="228">
             <beschreibung>Weiß4Dimmwert</beschreibung>
         </konfiguration>
         <konfiguration nr="175" soll="0">
@@ -203,7 +210,7 @@
         <konfiguration nr="183" soll="0">
             <beschreibung>Blau5Dimmwert</beschreibung>
         </konfiguration>
-        <konfiguration nr="184" soll="10">
+        <konfiguration nr="184" soll="228">
             <beschreibung>Weiß5Dimmwert</beschreibung>
         </konfiguration>
         <konfiguration nr="185" soll="0">
