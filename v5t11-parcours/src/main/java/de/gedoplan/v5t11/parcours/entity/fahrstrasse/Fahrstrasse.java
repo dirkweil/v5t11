@@ -42,6 +42,7 @@ import jakarta.xml.bind.annotation.XmlElements;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 import lombok.Getter;
+import org.jboss.logging.Logger;
 
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
@@ -63,6 +64,9 @@ public class Fahrstrasse extends Bereichselement {
 
   @Inject
   TransactionChecker transactionChecker;
+
+  @Inject
+  Logger logger;
 
   /**
    * In Zählrichtung orientiert?
@@ -561,8 +565,12 @@ public class Fahrstrasse extends Bereichselement {
         Fahrstrassenelement element = this.elemente.get(index);
         ReservierbaresFahrwegelement fahrwegelement = element.getFahrwegelement();
 
-        if (!element.isSchutz() && fahrwegelement.getReserviertefahrstrasseId() != null) {
-          return false;
+        if (!element.isSchutz()) {
+          BereichselementId reserviertefahrstrasseId = fahrwegelement.getReserviertefahrstrasseId();
+          if (reserviertefahrstrasseId != null) {
+            this.logger.debugf("%s\n  isFrei=false, da %s reserviert in %s", this, element, reserviertefahrstrasseId);
+            return false;
+          }
         }
 
         if (!includeStart && index == 0) {
@@ -573,7 +581,8 @@ public class Fahrstrasse extends Bereichselement {
           continue;
         }
 
-        if (fahrwegelement instanceof Gleis && ((Gleis) fahrwegelement).isBesetzt()) {
+        if (fahrwegelement instanceof Gleis gleis && gleis.isBesetzt()) {
+          this.logger.debugf("%s\n  isFrei=false, da %s belegt", this, gleis);
           return false;
         }
       }

@@ -1,1 +1,1 @@
-mvn -Dv5t11.configDir=../src/main/v5t11/ -Dv5t11.anlage=sbw quarkus:dev -Ddebug=31105
+mvn -Dv5t11.configDir=../src/main/v5t11/ -Dv5t11.anlage=sbw quarkus:dev -Ddebug=31105 -DdebugHost=0.0.0.0
