@@ -59,7 +59,7 @@ public class FahrstrasseMonitor {
         .filter(fe -> fe instanceof FahrstrassenGleis)
         .map(fe -> ((FahrstrassenGleis) fe).getFahrwegelement())
         .forEach(g -> this.log.debugf("  %s: besetzt=%s, durchfahren=%s",
-                g.toString(true), g.isBesetzt(), g.isDurchfahren()));
+          g.toString(true), g.isBesetzt(), g.isDurchfahren()));
     }
 
     Gleis grenze = null;
