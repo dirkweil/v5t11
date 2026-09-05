@@ -11,7 +11,19 @@
 ** Betriebsnummern 50 80 22-34 134-3 (auf beiden Modellen)
 ** Eine Lichtleiste im Waggon 1 (LEDs 1-7), +
 abgetrennter Teil der Lichtleiste im Waggon 2 (LEDs 8-11)
+** Innenbeleuchtung Waggon 1 wird mit F1 geschaltet
+*** Funktionszuordnung: CV35=56, CV47=56 (LED-Gruppen A(LED 1-3), B(LED 4-5), C(LED 6-7))
+*** Ausgangskonfiguration: CV116=82, CV117=82, CV118=84 (Neonlampensimulation mit Helligkeit 2 bzw. 4)
+** Innenbeleuchtung Waggon 2 wird mit F2 geschaltet
+*** Funktionszuordnung: CV36=192 (LED-Gruppen D(LED 8-9), E(LED 10-11))
+*** Ausgangskonfiguration: CV118=84, CV119=82 (Neonlampensimulation mit Helligkeit 2 bzw. 4)
 
 * PW-NV2-3: Waggon 3
 ** Betriebsnummer 50 80 82-34 186-0
-** Eine Lichtleiste
+** Eine Lichtleiste gekürzt (LEDs 1-5)
+** Innenbeleuchtung Waggon 3 wird mit F3 geschaltet
+*** Funktionszuordnung: CV37=24 (LED-Gruppen A(LED 1-3), B(LED 4-5))
+*** Ausgangskonfiguration: CV116=84, CV117=84 (Neonlampensimulation mit Helligkeit 4)
+** Spitzen/Rücklicht Waggon 3 wird mit F0 geschaltet
+*** Funktionszuordnung: CV33=33 (Spitzenlicht, LED-Gruppe C(?)), CV34=2 (Rücklicht)
+*** Ausgangskonfiguration: CV113=15, CV114=15 (Langsam auf/abblenden mit Helligkeit 7)
