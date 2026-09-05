@@ -43,7 +43,7 @@ public class FahrstrasseMonitor {
       return;
     }
 
-    this.log.debugf("Freigabecheck für %s", fahrstrasseId);
+    this.log.debugf("Freigabecheck für %s", fahrstrasse.toString(true));
 
     /*
      * Im reservierten Teil der Fahrstrasse das Gleis suchen, das noch nicht durchfahren wurde,
@@ -58,7 +58,8 @@ public class FahrstrasseMonitor {
         .mapToObj(i -> fahrstrasse.getElemente().get(i))
         .filter(fe -> fe instanceof FahrstrassenGleis)
         .map(fe -> ((FahrstrassenGleis) fe).getFahrwegelement())
-        .forEach(g -> this.log.debugf("  %s: besetzt=%s, durchfahren=%s", g, g.isBesetzt(), g.isDurchfahren()));
+        .forEach(g -> this.log.debugf("  %s: besetzt=%s, durchfahren=%s",
+                g.toString(true), g.isBesetzt(), g.isDurchfahren()));
     }
 
     Gleis grenze = null;
@@ -82,7 +83,7 @@ public class FahrstrasseMonitor {
      */
     boolean totalFreigabe = fahrstrasse.isKomplettBesetzt(idxGrenze) || fahrstrasse.isNurGleise(idxGrenze + 1);
 
-    this.log.debugf("  grenze=%s, totalFreigabe=%s", grenze, totalFreigabe);
+    this.log.debugf("  grenze=%s, totalFreigabe=%s", grenze.toString(true), totalFreigabe);
 
     fahrstrasse.freigeben(totalFreigabe ? null : grenze);
   }

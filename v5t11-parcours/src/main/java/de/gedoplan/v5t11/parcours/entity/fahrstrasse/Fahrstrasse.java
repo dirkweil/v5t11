@@ -568,7 +568,8 @@ public class Fahrstrasse extends Bereichselement {
         if (!element.isSchutz()) {
           BereichselementId reserviertefahrstrasseId = fahrwegelement.getReserviertefahrstrasseId();
           if (reserviertefahrstrasseId != null) {
-            this.logger.debugf("%s\n  isFrei=false, da %s reserviert in %s", this, element, reserviertefahrstrasseId);
+            this.logger.debugf("%s\n  isFrei=false, da %s reserviert in %s",
+                    this.toString(true), element.toString(true), reserviertefahrstrasseId);
             return false;
           }
         }
@@ -582,7 +583,8 @@ public class Fahrstrasse extends Bereichselement {
         }
 
         if (fahrwegelement instanceof Gleis gleis && gleis.isBesetzt()) {
-          this.logger.debugf("%s\n  isFrei=false, da %s belegt", this, gleis);
+          this.logger.debugf("%s\n  isFrei=false, da %s belegt",
+                  this.toString(true), gleis.toString(true));
           return false;
         }
       }
