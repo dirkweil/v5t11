@@ -6,7 +6,7 @@
   <parent>
     <groupId>de.gedoplan</groupId>
     <artifactId>build-master</artifactId>
-    <version>2023.5.1</version>
+    <version>2026.6.3</version>
   </parent>
 
   <artifactId>v5t11</artifactId>
@@ -15,7 +15,9 @@
   <packaging>pom</packaging>
 
   <properties>
-    <java.code.version>21</java.code.version>
+    <java.code.version>25</java.code.version>
+
+    <lombok.version>1.18.48</lombok.version>
 
     <myfaces-quarkus.version>4.1.1</myfaces-quarkus.version>
 
@@ -63,6 +65,21 @@
     </pluginManagement>
 
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <inherited>true</inherited>
+        <configuration>
+          <annotationProcessorPaths combine.children="append">
+            <path>
+              <groupId>org.projectlombok</groupId>
+              <artifactId>lombok</artifactId>
+              <version>${lombok.version}</version>
+            </path>
+          </annotationProcessorPaths>
+        </configuration>
+      </plugin>
+
       <!-- Set log manager for tests -->
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
@@ -94,7 +111,7 @@
       <dependency>
         <groupId>org.projectlombok</groupId>
         <artifactId>lombok</artifactId>
-        <version>1.18.42</version>
+        <version>${lombok.version}</version>
       </dependency>
 
       <dependency>
