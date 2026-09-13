@@ -13,8 +13,7 @@ spec:
         name: v5t11-redpanda
     spec:
       containers:
-        - image: docker.redpanda.com/vectorized/redpanda:latest
-          imagePullPolicy: IfNotPresent
+        - image: docker.redpanda.com/redpandadata/redpanda:v26.2.2
           name: v5t11-redpanda
           args:
             - redpanda
@@ -46,7 +45,7 @@ spec:
     - metadata:
         name: v5t11-redpanda
       spec:
-        accessModes: [ "ReadWriteOnce" ]
+        accessModes: [ "ReadWriteOncePod"]
         resources:
           requests:
             storage: 10M
