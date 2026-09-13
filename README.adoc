@@ -31,7 +31,7 @@ Aktuell befindet sich v5t11 im Umbau auf reaktiv gekoppelte Microservices. Dazu 
 * Anbindung der Zentrale über USB
 * JSF-GUI für Ad-hoc-Steuerung oder Debugging
 
-|v5t11-fahrstrassen
+|v5t11-parcours
 |
 * Erstellung eines Gesamt-Parcours durch Kombination der konfigurierten Fahrstraßen
 * Ermittelung verfügbarer und freier Fahrstraßen von a nach b
@@ -47,10 +47,9 @@ Aktuell befindet sich v5t11 im Umbau auf reaktiv gekoppelte Microservices. Dazu 
 |
 * JSF-GUI für Fahrzeugauswahl, Konfiguration und Steuerung
 
-|v5t11-leitstand
+|v5t11-stellwerk
 |
 * Visualisierung des Anlagen- und Fahrzeugzustandes
-* GUI für Anlagenbedienung
 |
-* Swing-GUI (!)
+* JSF-GUI für Anlagenbedienung
 |===
