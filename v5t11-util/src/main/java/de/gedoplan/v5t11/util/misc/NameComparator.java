@@ -16,18 +16,24 @@ public class NameComparator {
       return -1;
     }
 
-    try {
-      long diff = formatter.parse(name1).longValue() - formatter.parse(name2).longValue();
-      if (diff < 0) {
-        return -1;
+    if (isNumeric(name1) && isNumeric(name2)) {
+      try {
+        long diff = formatter.parse(name1).longValue() - formatter.parse(name2).longValue();
+        if (diff < 0) {
+          return -1;
+        }
+        if (diff > 0) {
+          return 1;
+        }
+      } catch (ParseException | NumberFormatException e) {
+        // ignore
       }
-      if (diff > 0) {
-        return 1;
-      }
-    } catch (ParseException e) {
-      // ignore
     }
 
     return collator.compare(name1, name2);
+  }
+
+  private static boolean isNumeric(String s) {
+    return !s.isEmpty() && s.chars().allMatch(Character::isDigit);
   }
 }
