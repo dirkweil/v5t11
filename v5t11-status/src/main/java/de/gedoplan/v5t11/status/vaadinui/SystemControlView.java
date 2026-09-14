@@ -230,6 +230,7 @@ public class SystemControlView extends VerticalLayout {
     });
 
     this.weichenStellungField = new RadioButtonGroup<>();
+    this.weichenStellungField.addClassName("toggle-buttons");
     this.weichenStellungField.setItems(WeichenStellung.values());
     this.weichenStellungField.addValueChangeListener(event -> {
       if (event.isFromClient() && this.weiche != null && event.getValue() != null) {
@@ -246,6 +247,7 @@ public class SystemControlView extends VerticalLayout {
     });
 
     this.signalStellungField = new RadioButtonGroup<>();
+    this.signalStellungField.addClassName("toggle-buttons");
     this.signalStellungField.addValueChangeListener(event -> {
       if (event.isFromClient() && this.signal != null && event.getValue() != null) {
         this.signal.setStellung(event.getValue());

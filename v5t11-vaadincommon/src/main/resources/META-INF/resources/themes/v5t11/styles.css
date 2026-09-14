@@ -1,0 +1,47 @@
+/*
+ * Stellt eine RadioButtonGroup als Reihe verbundener, horizontaler Toggle-Buttons dar
+ * (Pendant zu PrimeFaces' p:selectOneButton aus der JSF-Vorlage).
+ * Anwendung: radioButtonGroup.addClassName("toggle-buttons")
+ *
+ * Das <label> von vaadin-radio-button trägt kein part="label" (nur slot="label"), daher wird es hier als normales
+ * Light-DOM-Element angesprochen statt über ::part(label). Der Radio-Kreis ("radio") ist dagegen ein echtes
+ * Shadow-Part und wird über ::part(radio) ausgeblendet.
+ */
+.toggle-buttons vaadin-radio-button {
+  margin: 0;
+}
+
+.toggle-buttons vaadin-radio-button::part(radio) {
+  display: none;
+}
+
+.toggle-buttons vaadin-radio-button label {
+  padding: var(--lumo-space-xs) var(--lumo-space-m);
+  margin-inline-start: -1px;
+  border: 1px solid var(--lumo-contrast-30pct);
+  border-radius: 0;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.toggle-buttons vaadin-radio-button:first-of-type label {
+  margin-inline-start: 0;
+  border-start-start-radius: var(--lumo-border-radius-m);
+  border-end-start-radius: var(--lumo-border-radius-m);
+}
+
+.toggle-buttons vaadin-radio-button:last-of-type label {
+  border-start-end-radius: var(--lumo-border-radius-m);
+  border-end-end-radius: var(--lumo-border-radius-m);
+}
+
+.toggle-buttons vaadin-radio-button[checked] label {
+  background-color: var(--lumo-primary-color);
+  color: var(--lumo-primary-contrast-color);
+  border-color: var(--lumo-primary-color);
+}
+
+.toggle-buttons vaadin-radio-button[disabled] label {
+  opacity: var(--lumo-disabled-text-opacity, 0.4);
+  cursor: default;
+}

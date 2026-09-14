@@ -10,3 +10,7 @@ In dieser Phase wurde SystemControl zu Vaadin migriert.
 - Die Gesamtanwendung kann fehlerfrei gebaut werden.
 - Die neue View ui/system-control wird korrekt angezeigt, muss aber im Design noch überarbeitet werden, um die bestehende SystemControl-Seite möglichst gut zu ersetzen.
 
+## Fix des Display-Problems für weichen- und Signalstellungen:
+- Geht in Vaadin mit CSS
+- Viele lange Iteration mit dem Agenten, um die richtigen Stile zu finden.
+- Plan siehe plan-fix-stellungsbuttons.md
