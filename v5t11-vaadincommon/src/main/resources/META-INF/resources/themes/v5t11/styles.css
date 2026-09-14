@@ -47,35 +47,35 @@
 }
 
 /*
- * Stellt eine Gruppe von Checkboxen als unabhängige (nicht verbundene) Toggle-Buttons dar
- * (Pendant zu PrimeFaces' p:selectBooleanButton, z. B. Lok-Funktionen Licht/F1..F16).
- * Anwendung: layout.addClassName("toggle-buttons") auf dem Container der Checkboxen.
+ * Stellt eine einzelne Checkbox als Toggle-Button dar (Pendant zu PrimeFaces'
+ * p:selectBooleanButton, z. B. Lok-Funktionen, Gleisspannung, aktiv/rückwärts, besetzt).
+ * Anwendung: checkbox.addClassName("toggle-buttons") direkt auf der Checkbox.
  *
  * Anders als <vaadin-radio-button> hat <vaadin-checkbox> für Box UND Label echte Shadow Parts
  * (part="checkbox", part="label"), daher funktioniert ::part() hier direkt.
  */
-.toggle-buttons vaadin-checkbox {
+vaadin-checkbox.toggle-buttons {
   margin: 0;
 }
 
-.toggle-buttons vaadin-checkbox::part(checkbox) {
+vaadin-checkbox.toggle-buttons::part(checkbox) {
   display: none;
 }
 
-.toggle-buttons vaadin-checkbox::part(label) {
+vaadin-checkbox.toggle-buttons::part(label) {
   padding: var(--lumo-space-xs) var(--lumo-space-m);
   border: 1px solid var(--lumo-contrast-30pct);
   border-radius: var(--lumo-border-radius-m);
   cursor: pointer;
 }
 
-.toggle-buttons vaadin-checkbox[checked]::part(label) {
+vaadin-checkbox.toggle-buttons[checked]::part(label) {
   background-color: var(--lumo-primary-color);
   color: var(--lumo-primary-contrast-color);
   border-color: var(--lumo-primary-color);
 }
 
-.toggle-buttons vaadin-checkbox[disabled]::part(label) {
+vaadin-checkbox.toggle-buttons[disabled]::part(label) {
   opacity: var(--lumo-disabled-text-opacity, 0.4);
   cursor: default;
 }

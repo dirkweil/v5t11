@@ -151,8 +151,10 @@ public class SystemControlView extends VerticalLayout {
       }
     });
 
-    this.gleisspannungField = new Checkbox("an");
+    this.gleisspannungField = new Checkbox("aus");
+    this.gleisspannungField.addClassName("toggle-buttons");
     this.gleisspannungField.addValueChangeListener(event -> {
+      this.gleisspannungField.setLabel(event.getValue() ? "an" : "aus");
       if (event.isFromClient()) {
         this.steuerung.getZentrale().setGleisspannung(event.getValue());
       }
@@ -212,8 +214,10 @@ public class SystemControlView extends VerticalLayout {
       }
     });
 
-    this.gleisBesetztField = new Checkbox("besetzt");
+    this.gleisBesetztField = new Checkbox("frei");
+    this.gleisBesetztField.addClassName("toggle-buttons");
     this.gleisBesetztField.addValueChangeListener(event -> {
+      this.gleisBesetztField.setLabel(event.getValue() ? "besetzt" : "frei");
       if (event.isFromClient() && this.gleis != null) {
         if (this.gleis.changeBesetzt(event.getValue())) {
           this.eventFirer.fire(this.gleis, Changed.Literal.INSTANCE);
@@ -361,8 +365,10 @@ public class SystemControlView extends VerticalLayout {
       }
     });
 
-    this.lokAktivField = new Checkbox("Aktiv");
+    this.lokAktivField = new Checkbox("inaktiv");
+    this.lokAktivField.addClassName("toggle-buttons");
     this.lokAktivField.addValueChangeListener(event -> {
+      this.lokAktivField.setLabel(event.getValue() ? "aktiv" : "inaktiv");
       if (event.isFromClient() && this.lok != null) {
         this.lok.setAktiv(event.getValue());
       }
@@ -385,14 +391,17 @@ public class SystemControlView extends VerticalLayout {
       }
     });
 
-    this.lokRueckwaertsField = new Checkbox("Rückwärts");
+    this.lokRueckwaertsField = new Checkbox("vorwärts");
+    this.lokRueckwaertsField.addClassName("toggle-buttons");
     this.lokRueckwaertsField.addValueChangeListener(event -> {
+      this.lokRueckwaertsField.setLabel(event.getValue() ? "rückwärts" : "vorwärts");
       if (event.isFromClient() && this.lok != null) {
         this.lok.setRueckwaerts(event.getValue());
       }
     });
 
     this.lokLichtField = new Checkbox("Licht");
+    this.lokLichtField.addClassName("toggle-buttons");
     this.lokLichtField.addValueChangeListener(event -> {
       if (event.isFromClient() && this.lok != null) {
         this.lok.setLicht(event.getValue());
@@ -400,12 +409,12 @@ public class SystemControlView extends VerticalLayout {
     });
 
     FlexLayout funktionenLayout = new FlexLayout();
-    funktionenLayout.addClassName("toggle-buttons");
     funktionenLayout.getStyle().set("flex-wrap", "wrap").set("gap", "0.5rem");
     funktionenLayout.add(this.lokLichtField);
     for (int nr = 0; nr < 16; nr++) {
       int mask = 1 << nr;
       Checkbox funktionField = new Checkbox("F" + (nr + 1));
+      funktionField.addClassName("toggle-buttons");
       funktionField.addValueChangeListener(event -> {
         if (event.isFromClient() && this.lok != null) {
           int fktBits = this.lok.getFktBits();
