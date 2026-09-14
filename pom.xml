@@ -28,7 +28,7 @@
     <quarkus-primefaces.version>3.12.5</quarkus-primefaces.version>
 
     <!-- Vaadin Flow: schrittweise Ablösung des JSF/PrimeFaces-GUI, siehe docs/10 Implementierung/webui.adoc -->
-    <vaadin.version>24.6.7</vaadin.version>
+    <vaadin.version>25.2.7</vaadin.version>
   </properties>
 
   <repositories>

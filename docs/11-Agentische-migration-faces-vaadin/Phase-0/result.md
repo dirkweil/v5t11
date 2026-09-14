@@ -15,3 +15,10 @@ In dieser Phase wurde die bestehende Faces-Anwendung analysiert und die Anforder
 - Die Faces-Views werden scheinbar von Vaadin verdeckt, d.h. die JSF-Seiten werden nicht mehr angezeigt.
 - Das REST API rs/* funktioniert weiterhin.
 - Vaadin erzeugt Frontend-Code in src/main/frontend, der nicht versioniert werden sollte. Daher wurde die .gitignore entsprechend angepasst.
+
+## Anpassungen nach Ausführung des ersten Plans:
+- Probeweise wurde das Mapping des Faces-Servlets auf /view/* geändert, um zu prüfen, ob die Faces-Seiten dann wieder angezeigt werden. Ergebnis: Nein!
+- Dann wurde mit einem zusätzlichen Vaadin-Servlet unter /ui/* gearbeitet, um die Faces-Seiten wieder sichtbar zu machen. Ergebnis: Funktioniert!
+- Für die zusätzliche Vaadin-View wurde ein Menü-Eintrag in der NavigationPresenter-Klasse erstellt.
+- Die von Vaadin generierten Frontend-Dateien wurden in die .gitignore aufgenommen, um sie nicht zu versionieren.
+- Der JNA-Fehler beim Start von v5t11-status wurde durch ein Update der Quarkus-Vaadin-Extension auf Version 25.2.7 behoben.
