@@ -67,6 +67,18 @@
       <version>3.0.0-SNAPSHOT</version>
     </dependency>
 
+    <!-- Vaadin-Pilot (Phase 0 der JSF->Vaadin-Migration, siehe /home/dw/.claude/plans/functional-singing-canyon.md) -->
+    <dependency>
+      <groupId>de.gedoplan</groupId>
+      <artifactId>v5t11-vaadincommon</artifactId>
+      <version>3.0.0-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.vaadin</groupId>
+      <artifactId>vaadin-quarkus-extension</artifactId>
+    </dependency>
+
     <dependency>
       <groupId>de.gedoplan</groupId>
       <artifactId>v5t11-util</artifactId>

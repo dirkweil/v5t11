@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ConcurrentSkipListMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -77,6 +78,20 @@ public class NavigationPresenter extends AbstractPushService {
   Instance<List<NavigationItem>> myNavigationItems;
 
   private AtomicBoolean menuChanged = new AtomicBoolean();
+
+  /**
+   * Wird von nicht-JSF-Frontends (z. B. Vaadin) genutzt, um sich über Menüänderungen benachrichtigen zu lassen, ohne
+   * den PrimeFaces-spezifischen Websocket-Push in Anspruch nehmen zu müssen.
+   */
+  private final List<Runnable> menuChangeListeners = new CopyOnWriteArrayList<>();
+
+  public void addMenuChangeListener(Runnable listener) {
+    this.menuChangeListeners.add(listener);
+  }
+
+  public void removeMenuChangeListener(Runnable listener) {
+    this.menuChangeListeners.remove(listener);
+  }
 
   // NavigationItem
   @Inject
@@ -173,6 +188,7 @@ public class NavigationPresenter extends AbstractPushService {
 
     if (this.menuChanged.compareAndSet(true, false)) {
       send("menuRefresh");
+      this.menuChangeListeners.forEach(Runnable::run);
     }
   }
 

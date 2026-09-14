@@ -17,3 +17,5 @@ ObjectStore/
 *.iml
 .vscode/
 .sdkmanrc
+**/frontend/generated/
+**/frontend/index.html
