@@ -59,7 +59,7 @@
         <konfiguration nr="127" soll="0">
             <beschreibung>A2 Bedingung</beschreibung>
         </konfiguration>
-        <konfiguration nr="128" soll="10">
+        <konfiguration nr="128" soll="0">
             <beschreibung>A2 Sonderfunktion</beschreibung>
         </konfiguration>
         <konfiguration nr="129" soll="5">
@@ -113,7 +113,7 @@
         <konfiguration nr="145" soll="0">
             <beschreibung>RGB1 Bedingung</beschreibung>
         </konfiguration>
-        <konfiguration nr="146" soll="10">
+        <konfiguration nr="146" soll="0">
             <beschreibung>RGB1 Sonderfunktion</beschreibung>
         </konfiguration>
         <konfiguration nr="147" soll="5">

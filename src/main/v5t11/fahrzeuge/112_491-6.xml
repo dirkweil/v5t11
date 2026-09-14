@@ -1,138 +1,140 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <fahrzeug>
-  <betriebsnummer>112 491-6</betriebsnummer>
-  <fahrzeugTyp>LOK</fahrzeugTyp>
-  <beschreibung>Schnellzuglok</beschreibung>
-  <decoderName>Zimo MX648</decoderName>
-  <decoderAdr>1112@DCC</decoderAdr>
-  <funktion maske="1" wert="1">
-    <gruppe>FG</gruppe>
-    <beschreibung>Motor</beschreibung>
-    <impuls>false</impuls>
-    <horn>false</horn>
-    <fader>false</fader>
-  </funktion>
-  <funktion maske="2" wert="2">
-    <gruppe>BG</gruppe>
-    <beschreibung>Pfeife lang</beschreibung>
-    <impuls>true</impuls>
-    <horn>false</horn>
-    <fader>false</fader>
-  </funktion>
-  <funktion maske="4" wert="4">
-    <gruppe>BA</gruppe>
-    <beschreibung>Schaffnerpfiff</beschreibung>
-    <impuls>true</impuls>
-    <horn>false</horn>
-    <fader>false</fader>
-  </funktion>
-  <funktion maske="8" wert="8">
-    <gruppe>BG</gruppe>
-    <beschreibung>Kompressor</beschreibung>
-    <impuls>true</impuls>
-    <horn>false</horn>
-    <fader>false</fader>
-  </funktion>
-  <funktion maske="16" wert="16">
-    <gruppe>BG</gruppe>
-    <beschreibung>Ankuppeln</beschreibung>
-    <impuls>true</impuls>
-    <horn>false</horn>
-    <fader>false</fader>
-  </funktion>
-  <funktion maske="32" wert="32">
-    <gruppe>AF</gruppe>
-    <beschreibung>Direktsteuerung</beschreibung>
-    <impuls>false</impuls>
-    <horn>false</horn>
-    <fader>false</fader>
-  </funktion>
-  <funktion maske="64" wert="64">
-    <gruppe>BA</gruppe>
-    <beschreibung>???</beschreibung>
-    <impuls>true</impuls>
-    <horn>false</horn>
-    <fader>false</fader>
-  </funktion>
-  <funktion maske="128" wert="128">
-    <gruppe>BG</gruppe>
-    <beschreibung>Sanden</beschreibung>
-    <impuls>true</impuls>
-    <horn>false</horn>
-    <fader>false</fader>
-  </funktion>
-  <funktion maske="256" wert="256">
-    <gruppe>AF</gruppe>
-    <beschreibung>Rangiergang</beschreibung>
-    <impuls>false</impuls>
-    <horn>false</horn>
-    <fader>false</fader>
-  </funktion>
-  <funktion maske="512" wert="512">
-    <gruppe>AF</gruppe>
-    <beschreibung>Geräusche ausblenden</beschreibung>
-    <impuls>false</impuls>
-    <horn>false</horn>
-    <fader>true</fader>
-  </funktion>
-  <funktion maske="4096" wert="4096">
-    <gruppe>BG</gruppe>
-    <beschreibung>Pfeife kurz</beschreibung>
-    <impuls>true</impuls>
-    <horn>true</horn>
-    <fader>false</fader>
-  </funktion>
-  <funktion maske="8192" wert="8192">
-    <gruppe>BG</gruppe>
-    <beschreibung>Kurvenquietschen</beschreibung>
-    <impuls>true</impuls>
-    <horn>false</horn>
-    <fader>false</fader>
-  </funktion>
-  <funktion maske="3072" wert="0">
-    <gruppe>FL</gruppe>
-    <beschreibung>beidseitig</beschreibung>
-    <impuls>false</impuls>
-    <horn>false</horn>
-    <fader>false</fader>
-  </funktion>
-  <funktion maske="3072" wert="1024">
-    <gruppe>FL</gruppe>
-    <beschreibung>nur Seite 1</beschreibung>
-    <impuls>false</impuls>
-    <horn>false</horn>
-    <fader>false</fader>
-  </funktion>
-  <funktion maske="3072" wert="2048">
-    <gruppe>FL</gruppe>
-    <beschreibung>nur Seite 2</beschreibung>
-    <impuls>false</impuls>
-    <horn>false</horn>
-    <fader>false</fader>
-  </funktion>
-  <konfiguration nr="2" soll="10">
-    <beschreibung>Motorspannung in Fahrstufe 1 (siehe auch CV 29,Bit 4)</beschreibung>
-  </konfiguration>
-  <konfiguration nr="3" soll="10">
-    <beschreibung>Anfahrverzögerung</beschreibung>
-  </konfiguration>
-  <konfiguration nr="4" soll="7">
-    <beschreibung>Bremsverzögerung</beschreibung>
-  </konfiguration>
-  <konfiguration nr="5" soll="210">
-    <beschreibung>Motorspannung in höchster Fahrstufe, max 252 (siehe auch CV 29,Bit 4)</beschreibung>
-  </konfiguration>
-  <konfiguration nr="6" soll="1">
-    <beschreibung>Motorspannung in mittlerer Fahrstufe (siehe auch CV 29,Bit 4)</beschreibung>
-  </konfiguration>
-  <konfiguration nr="17" soll="196">
-    <beschreibung>Höherwertiger Teil der langen Adresse</beschreibung>
-  </konfiguration>
-  <konfiguration nr="18" soll="88">
-    <beschreibung>Niederwertiger Teil der langen Adresse</beschreibung>
-  </konfiguration>
-  <konfiguration nr="29" soll="46">
-    <beschreibung>Konfigurationsregister
+    <betriebsnummer>112 491-6</betriebsnummer>
+    <fahrzeugTyp>LOK</fahrzeugTyp>
+    <beschreibung>Schnellzuglok</beschreibung>
+    <laenge>0</laenge>
+    <fahrzeugdecoder>
+        <decoderName>Zimo MX648</decoderName>
+        <decoderAdr>1112@DCC</decoderAdr>
+        <funktion maske="1" wert="1">
+            <gruppe>FG</gruppe>
+            <beschreibung>Motor</beschreibung>
+            <impuls>false</impuls>
+            <horn>false</horn>
+            <fader>false</fader>
+        </funktion>
+        <funktion maske="2" wert="2">
+            <gruppe>BG</gruppe>
+            <beschreibung>Pfeife lang</beschreibung>
+            <impuls>true</impuls>
+            <horn>false</horn>
+            <fader>false</fader>
+        </funktion>
+        <funktion maske="4" wert="4">
+            <gruppe>BA</gruppe>
+            <beschreibung>Schaffnerpfiff</beschreibung>
+            <impuls>true</impuls>
+            <horn>false</horn>
+            <fader>false</fader>
+        </funktion>
+        <funktion maske="8" wert="8">
+            <gruppe>BG</gruppe>
+            <beschreibung>Kompressor</beschreibung>
+            <impuls>true</impuls>
+            <horn>false</horn>
+            <fader>false</fader>
+        </funktion>
+        <funktion maske="16" wert="16">
+            <gruppe>BG</gruppe>
+            <beschreibung>Ankuppeln</beschreibung>
+            <impuls>true</impuls>
+            <horn>false</horn>
+            <fader>false</fader>
+        </funktion>
+        <funktion maske="32" wert="32">
+            <gruppe>AF</gruppe>
+            <beschreibung>Direktsteuerung</beschreibung>
+            <impuls>false</impuls>
+            <horn>false</horn>
+            <fader>false</fader>
+        </funktion>
+        <funktion maske="64" wert="64">
+            <gruppe>BA</gruppe>
+            <beschreibung>???</beschreibung>
+            <impuls>true</impuls>
+            <horn>false</horn>
+            <fader>false</fader>
+        </funktion>
+        <funktion maske="128" wert="128">
+            <gruppe>BG</gruppe>
+            <beschreibung>Sanden</beschreibung>
+            <impuls>true</impuls>
+            <horn>false</horn>
+            <fader>false</fader>
+        </funktion>
+        <funktion maske="256" wert="256">
+            <gruppe>AF</gruppe>
+            <beschreibung>Rangiergang</beschreibung>
+            <impuls>false</impuls>
+            <horn>false</horn>
+            <fader>false</fader>
+        </funktion>
+        <funktion maske="512" wert="512">
+            <gruppe>AF</gruppe>
+            <beschreibung>Geräusche ausblenden</beschreibung>
+            <impuls>false</impuls>
+            <horn>false</horn>
+            <fader>true</fader>
+        </funktion>
+        <funktion maske="4096" wert="4096">
+            <gruppe>BG</gruppe>
+            <beschreibung>Pfeife kurz</beschreibung>
+            <impuls>true</impuls>
+            <horn>true</horn>
+            <fader>false</fader>
+        </funktion>
+        <funktion maske="8192" wert="8192">
+            <gruppe>BG</gruppe>
+            <beschreibung>Kurvenquietschen</beschreibung>
+            <impuls>true</impuls>
+            <horn>false</horn>
+            <fader>false</fader>
+        </funktion>
+        <funktion maske="3072" wert="0">
+            <gruppe>FL</gruppe>
+            <beschreibung>beidseitig</beschreibung>
+            <impuls>false</impuls>
+            <horn>false</horn>
+            <fader>false</fader>
+        </funktion>
+        <funktion maske="3072" wert="1024">
+            <gruppe>FL</gruppe>
+            <beschreibung>nur Seite 1</beschreibung>
+            <impuls>false</impuls>
+            <horn>false</horn>
+            <fader>false</fader>
+        </funktion>
+        <funktion maske="3072" wert="2048">
+            <gruppe>FL</gruppe>
+            <beschreibung>nur Seite 2</beschreibung>
+            <impuls>false</impuls>
+            <horn>false</horn>
+            <fader>false</fader>
+        </funktion>
+        <konfiguration nr="2" soll="10">
+            <beschreibung>Motorspannung in Fahrstufe 1 (siehe auch CV 29,Bit 4)</beschreibung>
+        </konfiguration>
+        <konfiguration nr="3" soll="10">
+            <beschreibung>Anfahrverzögerung</beschreibung>
+        </konfiguration>
+        <konfiguration nr="4" soll="7">
+            <beschreibung>Bremsverzögerung</beschreibung>
+        </konfiguration>
+        <konfiguration nr="5" soll="140">
+            <beschreibung>Motorspannung in höchster Fahrstufe, max 252 (siehe auch CV 29,Bit 4)</beschreibung>
+        </konfiguration>
+        <konfiguration nr="6" soll="1">
+            <beschreibung>Motorspannung in mittlerer Fahrstufe (siehe auch CV 29,Bit 4)</beschreibung>
+        </konfiguration>
+        <konfiguration nr="17" soll="196">
+            <beschreibung>Höherwertiger Teil der langen Adresse</beschreibung>
+        </konfiguration>
+        <konfiguration nr="18" soll="88">
+            <beschreibung>Niederwertiger Teil der langen Adresse</beschreibung>
+        </konfiguration>
+        <konfiguration nr="29" soll="46">
+            <beschreibung>Konfigurationsregister
       Bit 0: Richtung umkehren
       Bit 1: 28/126 Fahrstufen (statt 14)
       Bit 2: Analogbetrieb erlaubt
@@ -140,104 +142,1095 @@
       Bit 4: Motorkennlinie nach CV 67 bis 94 (statt interpoliert nach CV 2, 5 und 6)
       Bit 5: Lange Lokadresse nach CV17/18
     </beschreibung>
-  </konfiguration>
-  <konfiguration nr="60" soll="60">
-    <beschreibung>Helligkeit der Stirnbeleuchtung</beschreibung>
-  </konfiguration>
-  <konfiguration nr="66" soll="0">
-    <beschreibung>Geschwindigkeitsanpassung vorwärts (0=keine Anpassung, 1-127=verringern, 129-255=vergrößern)</beschreibung>
-  </konfiguration>
-  <konfiguration nr="67" soll="4">
-    <beschreibung>Motorspannung für Fahrstufe 1/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
-  </konfiguration>
-  <konfiguration nr="68" soll="7">
-    <beschreibung>Motorspannung für Fahrstufe 2/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
-  </konfiguration>
-  <konfiguration nr="69" soll="10">
-    <beschreibung>Motorspannung für Fahrstufe 3/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
-  </konfiguration>
-  <konfiguration nr="70" soll="13">
-    <beschreibung>Motorspannung für Fahrstufe 4/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
-  </konfiguration>
-  <konfiguration nr="71" soll="16">
-    <beschreibung>Motorspannung für Fahrstufe 5/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
-  </konfiguration>
-  <konfiguration nr="72" soll="20">
-    <beschreibung>Motorspannung für Fahrstufe 6/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
-  </konfiguration>
-  <konfiguration nr="73" soll="24">
-    <beschreibung>Motorspannung für Fahrstufe 7/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
-  </konfiguration>
-  <konfiguration nr="74" soll="28">
-    <beschreibung>Motorspannung für Fahrstufe 8/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
-  </konfiguration>
-  <konfiguration nr="75" soll="32">
-    <beschreibung>Motorspannung für Fahrstufe 9/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
-  </konfiguration>
-  <konfiguration nr="76" soll="36">
-    <beschreibung>Motorspannung für Fahrstufe 10/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
-  </konfiguration>
-  <konfiguration nr="77" soll="42">
-    <beschreibung>Motorspannung für Fahrstufe 11/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
-  </konfiguration>
-  <konfiguration nr="78" soll="48">
-    <beschreibung>Motorspannung für Fahrstufe 12/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
-  </konfiguration>
-  <konfiguration nr="79" soll="54">
-    <beschreibung>Motorspannung für Fahrstufe 13/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
-  </konfiguration>
-  <konfiguration nr="80" soll="60">
-    <beschreibung>Motorspannung für Fahrstufe 14/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
-  </konfiguration>
-  <konfiguration nr="81" soll="68">
-    <beschreibung>Motorspannung für Fahrstufe 15/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
-  </konfiguration>
-  <konfiguration nr="82" soll="76">
-    <beschreibung>Motorspannung für Fahrstufe 16/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
-  </konfiguration>
-  <konfiguration nr="83" soll="84">
-    <beschreibung>Motorspannung für Fahrstufe 17/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
-  </konfiguration>
-  <konfiguration nr="84" soll="92">
-    <beschreibung>Motorspannung für Fahrstufe 18/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
-  </konfiguration>
-  <konfiguration nr="85" soll="102">
-    <beschreibung>Motorspannung für Fahrstufe 19/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
-  </konfiguration>
-  <konfiguration nr="86" soll="112">
-    <beschreibung>Motorspannung für Fahrstufe 20/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
-  </konfiguration>
-  <konfiguration nr="87" soll="124">
-    <beschreibung>Motorspannung für Fahrstufe 21/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
-  </konfiguration>
-  <konfiguration nr="88" soll="136">
-    <beschreibung>Motorspannung für Fahrstufe 22/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
-  </konfiguration>
-  <konfiguration nr="89" soll="152">
-    <beschreibung>Motorspannung für Fahrstufe 23/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
-  </konfiguration>
-  <konfiguration nr="90" soll="168">
-    <beschreibung>Motorspannung für Fahrstufe 24/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
-  </konfiguration>
-  <konfiguration nr="91" soll="188">
-    <beschreibung>Motorspannung für Fahrstufe 25/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
-  </konfiguration>
-  <konfiguration nr="92" soll="208">
-    <beschreibung>Motorspannung für Fahrstufe 26/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
-  </konfiguration>
-  <konfiguration nr="93" soll="230">
-    <beschreibung>Motorspannung für Fahrstufe 27/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
-  </konfiguration>
-  <konfiguration nr="94" soll="252">
-    <beschreibung>Motorspannung für Fahrstufe 28/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
-  </konfiguration>
-  <konfiguration nr="95" soll="0">
-    <beschreibung>Geschwindigkeitsanpassung rückwärts (0=keine Anpassung, 1-127=verringern, 129-255=vergrößern)</beschreibung>
-  </konfiguration>
-  <konfiguration nr="266" soll="56">
-    <beschreibung>Lautstärke</beschreibung>
-  </konfiguration>
-  <konfiguration nr="287" soll="60">
-    <beschreibung>Bremssoundschwelle (je größer der Wert, umso früher wird beim Bremsen das Bremsgeräusch gestartet)</beschreibung>
-  </konfiguration>
+        </konfiguration>
+        <konfiguration nr="60" soll="60">
+            <beschreibung>Helligkeit der Stirnbeleuchtung</beschreibung>
+        </konfiguration>
+        <konfiguration nr="66" soll="0">
+            <beschreibung>Geschwindigkeitsanpassung vorwärts (0=keine Anpassung, 1-127=verringern, 129-255=vergrößern)</beschreibung>
+        </konfiguration>
+        <konfiguration nr="67" soll="4">
+            <beschreibung>Motorspannung für Fahrstufe 1/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
+        </konfiguration>
+        <konfiguration nr="68" soll="7">
+            <beschreibung>Motorspannung für Fahrstufe 2/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
+        </konfiguration>
+        <konfiguration nr="69" soll="10">
+            <beschreibung>Motorspannung für Fahrstufe 3/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
+        </konfiguration>
+        <konfiguration nr="70" soll="13">
+            <beschreibung>Motorspannung für Fahrstufe 4/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
+        </konfiguration>
+        <konfiguration nr="71" soll="16">
+            <beschreibung>Motorspannung für Fahrstufe 5/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
+        </konfiguration>
+        <konfiguration nr="72" soll="20">
+            <beschreibung>Motorspannung für Fahrstufe 6/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
+        </konfiguration>
+        <konfiguration nr="73" soll="24">
+            <beschreibung>Motorspannung für Fahrstufe 7/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
+        </konfiguration>
+        <konfiguration nr="74" soll="28">
+            <beschreibung>Motorspannung für Fahrstufe 8/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
+        </konfiguration>
+        <konfiguration nr="75" soll="32">
+            <beschreibung>Motorspannung für Fahrstufe 9/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
+        </konfiguration>
+        <konfiguration nr="76" soll="36">
+            <beschreibung>Motorspannung für Fahrstufe 10/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
+        </konfiguration>
+        <konfiguration nr="77" soll="42">
+            <beschreibung>Motorspannung für Fahrstufe 11/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
+        </konfiguration>
+        <konfiguration nr="78" soll="48">
+            <beschreibung>Motorspannung für Fahrstufe 12/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
+        </konfiguration>
+        <konfiguration nr="79" soll="54">
+            <beschreibung>Motorspannung für Fahrstufe 13/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
+        </konfiguration>
+        <konfiguration nr="80" soll="60">
+            <beschreibung>Motorspannung für Fahrstufe 14/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
+        </konfiguration>
+        <konfiguration nr="81" soll="68">
+            <beschreibung>Motorspannung für Fahrstufe 15/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
+        </konfiguration>
+        <konfiguration nr="82" soll="76">
+            <beschreibung>Motorspannung für Fahrstufe 16/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
+        </konfiguration>
+        <konfiguration nr="83" soll="84">
+            <beschreibung>Motorspannung für Fahrstufe 17/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
+        </konfiguration>
+        <konfiguration nr="84" soll="92">
+            <beschreibung>Motorspannung für Fahrstufe 18/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
+        </konfiguration>
+        <konfiguration nr="85" soll="102">
+            <beschreibung>Motorspannung für Fahrstufe 19/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
+        </konfiguration>
+        <konfiguration nr="86" soll="112">
+            <beschreibung>Motorspannung für Fahrstufe 20/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
+        </konfiguration>
+        <konfiguration nr="87" soll="124">
+            <beschreibung>Motorspannung für Fahrstufe 21/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
+        </konfiguration>
+        <konfiguration nr="88" soll="136">
+            <beschreibung>Motorspannung für Fahrstufe 22/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
+        </konfiguration>
+        <konfiguration nr="89" soll="152">
+            <beschreibung>Motorspannung für Fahrstufe 23/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
+        </konfiguration>
+        <konfiguration nr="90" soll="168">
+            <beschreibung>Motorspannung für Fahrstufe 24/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
+        </konfiguration>
+        <konfiguration nr="91" soll="188">
+            <beschreibung>Motorspannung für Fahrstufe 25/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
+        </konfiguration>
+        <konfiguration nr="92" soll="208">
+            <beschreibung>Motorspannung für Fahrstufe 26/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
+        </konfiguration>
+        <konfiguration nr="93" soll="230">
+            <beschreibung>Motorspannung für Fahrstufe 27/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
+        </konfiguration>
+        <konfiguration nr="94" soll="252">
+            <beschreibung>Motorspannung für Fahrstufe 28/28 (nur aktiv wenn CV 29, Bit 4 gesetzt)</beschreibung>
+        </konfiguration>
+        <konfiguration nr="95" soll="0">
+            <beschreibung>Geschwindigkeitsanpassung rückwärts (0=keine Anpassung, 1-127=verringern, 129-255=vergrößern)</beschreibung>
+        </konfiguration>
+        <konfiguration nr="266" soll="56">
+            <beschreibung>Lautstärke</beschreibung>
+        </konfiguration>
+        <konfiguration nr="287" soll="60">
+            <beschreibung>Bremssoundschwelle (je größer der Wert, umso früher wird beim Bremsen das Bremsgeräusch gestartet)</beschreibung>
+        </konfiguration>
+    </fahrzeugdecoder>
+    <geschwindigkeit>
+        <entry>
+            <key>0</key>
+            <value>0</value>
+        </entry>
+        <entry>
+            <key>-1</key>
+            <value>669</value>
+        </entry>
+        <entry>
+            <key>1</key>
+            <value>3205</value>
+        </entry>
+        <entry>
+            <key>-2</key>
+            <value>1335</value>
+        </entry>
+        <entry>
+            <key>-3</key>
+            <value>2001</value>
+        </entry>
+        <entry>
+            <key>2</key>
+            <value>3704</value>
+        </entry>
+        <entry>
+            <key>-4</key>
+            <value>2667</value>
+        </entry>
+        <entry>
+            <key>3</key>
+            <value>4203</value>
+        </entry>
+        <entry>
+            <key>-5</key>
+            <value>3333</value>
+        </entry>
+        <entry>
+            <key>4</key>
+            <value>4702</value>
+        </entry>
+        <entry>
+            <key>-6</key>
+            <value>3999</value>
+        </entry>
+        <entry>
+            <key>5</key>
+            <value>5201</value>
+        </entry>
+        <entry>
+            <key>-7</key>
+            <value>4665</value>
+        </entry>
+        <entry>
+            <key>6</key>
+            <value>5700</value>
+        </entry>
+        <entry>
+            <key>-8</key>
+            <value>5331</value>
+        </entry>
+        <entry>
+            <key>7</key>
+            <value>6199</value>
+        </entry>
+        <entry>
+            <key>-9</key>
+            <value>5997</value>
+        </entry>
+        <entry>
+            <key>8</key>
+            <value>6698</value>
+        </entry>
+        <entry>
+            <key>-10</key>
+            <value>6663</value>
+        </entry>
+        <entry>
+            <key>9</key>
+            <value>7197</value>
+        </entry>
+        <entry>
+            <key>10</key>
+            <value>7699</value>
+        </entry>
+        <entry>
+            <key>-11</key>
+            <value>7329</value>
+        </entry>
+        <entry>
+            <key>-12</key>
+            <value>7995</value>
+        </entry>
+        <entry>
+            <key>11</key>
+            <value>8335</value>
+        </entry>
+        <entry>
+            <key>-13</key>
+            <value>8661</value>
+        </entry>
+        <entry>
+            <key>12</key>
+            <value>8971</value>
+        </entry>
+        <entry>
+            <key>-14</key>
+            <value>9327</value>
+        </entry>
+        <entry>
+            <key>13</key>
+            <value>9607</value>
+        </entry>
+        <entry>
+            <key>-15</key>
+            <value>9993</value>
+        </entry>
+        <entry>
+            <key>14</key>
+            <value>10243</value>
+        </entry>
+        <entry>
+            <key>-16</key>
+            <value>10659</value>
+        </entry>
+        <entry>
+            <key>15</key>
+            <value>10879</value>
+        </entry>
+        <entry>
+            <key>-17</key>
+            <value>11325</value>
+        </entry>
+        <entry>
+            <key>16</key>
+            <value>11515</value>
+        </entry>
+        <entry>
+            <key>-18</key>
+            <value>11991</value>
+        </entry>
+        <entry>
+            <key>17</key>
+            <value>12151</value>
+        </entry>
+        <entry>
+            <key>-19</key>
+            <value>12657</value>
+        </entry>
+        <entry>
+            <key>18</key>
+            <value>12787</value>
+        </entry>
+        <entry>
+            <key>-20</key>
+            <value>13323</value>
+        </entry>
+        <entry>
+            <key>19</key>
+            <value>13423</value>
+        </entry>
+        <entry>
+            <key>20</key>
+            <value>14063</value>
+        </entry>
+        <entry>
+            <key>-21</key>
+            <value>14275</value>
+        </entry>
+        <entry>
+            <key>-22</key>
+            <value>15225</value>
+        </entry>
+        <entry>
+            <key>21</key>
+            <value>14981</value>
+        </entry>
+        <entry>
+            <key>-23</key>
+            <value>16175</value>
+        </entry>
+        <entry>
+            <key>22</key>
+            <value>15899</value>
+        </entry>
+        <entry>
+            <key>-24</key>
+            <value>17125</value>
+        </entry>
+        <entry>
+            <key>23</key>
+            <value>16817</value>
+        </entry>
+        <entry>
+            <key>-25</key>
+            <value>18075</value>
+        </entry>
+        <entry>
+            <key>24</key>
+            <value>17735</value>
+        </entry>
+        <entry>
+            <key>-26</key>
+            <value>19025</value>
+        </entry>
+        <entry>
+            <key>25</key>
+            <value>18653</value>
+        </entry>
+        <entry>
+            <key>-27</key>
+            <value>19975</value>
+        </entry>
+        <entry>
+            <key>26</key>
+            <value>19571</value>
+        </entry>
+        <entry>
+            <key>-28</key>
+            <value>20925</value>
+        </entry>
+        <entry>
+            <key>27</key>
+            <value>20489</value>
+        </entry>
+        <entry>
+            <key>-29</key>
+            <value>21875</value>
+        </entry>
+        <entry>
+            <key>28</key>
+            <value>21407</value>
+        </entry>
+        <entry>
+            <key>-30</key>
+            <value>22825</value>
+        </entry>
+        <entry>
+            <key>29</key>
+            <value>22325</value>
+        </entry>
+        <entry>
+            <key>30</key>
+            <value>23252</value>
+        </entry>
+        <entry>
+            <key>-31</key>
+            <value>23912</value>
+        </entry>
+        <entry>
+            <key>-32</key>
+            <value>24998</value>
+        </entry>
+        <entry>
+            <key>31</key>
+            <value>24282</value>
+        </entry>
+        <entry>
+            <key>-33</key>
+            <value>26084</value>
+        </entry>
+        <entry>
+            <key>32</key>
+            <value>25312</value>
+        </entry>
+        <entry>
+            <key>-34</key>
+            <value>27170</value>
+        </entry>
+        <entry>
+            <key>33</key>
+            <value>26342</value>
+        </entry>
+        <entry>
+            <key>-35</key>
+            <value>28256</value>
+        </entry>
+        <entry>
+            <key>34</key>
+            <value>27372</value>
+        </entry>
+        <entry>
+            <key>-36</key>
+            <value>29342</value>
+        </entry>
+        <entry>
+            <key>35</key>
+            <value>28402</value>
+        </entry>
+        <entry>
+            <key>-37</key>
+            <value>30428</value>
+        </entry>
+        <entry>
+            <key>36</key>
+            <value>29432</value>
+        </entry>
+        <entry>
+            <key>-38</key>
+            <value>31514</value>
+        </entry>
+        <entry>
+            <key>37</key>
+            <value>30462</value>
+        </entry>
+        <entry>
+            <key>-39</key>
+            <value>32600</value>
+        </entry>
+        <entry>
+            <key>38</key>
+            <value>31492</value>
+        </entry>
+        <entry>
+            <key>-40</key>
+            <value>33686</value>
+        </entry>
+        <entry>
+            <key>39</key>
+            <value>32522</value>
+        </entry>
+        <entry>
+            <key>40</key>
+            <value>33561</value>
+        </entry>
+        <entry>
+            <key>-41</key>
+            <value>34997</value>
+        </entry>
+        <entry>
+            <key>-42</key>
+            <value>36306</value>
+        </entry>
+        <entry>
+            <key>41</key>
+            <value>35117</value>
+        </entry>
+        <entry>
+            <key>-43</key>
+            <value>37615</value>
+        </entry>
+        <entry>
+            <key>42</key>
+            <value>36673</value>
+        </entry>
+        <entry>
+            <key>-44</key>
+            <value>38924</value>
+        </entry>
+        <entry>
+            <key>43</key>
+            <value>38229</value>
+        </entry>
+        <entry>
+            <key>-45</key>
+            <value>40233</value>
+        </entry>
+        <entry>
+            <key>44</key>
+            <value>39785</value>
+        </entry>
+        <entry>
+            <key>-46</key>
+            <value>41542</value>
+        </entry>
+        <entry>
+            <key>45</key>
+            <value>41341</value>
+        </entry>
+        <entry>
+            <key>-47</key>
+            <value>42851</value>
+        </entry>
+        <entry>
+            <key>46</key>
+            <value>42897</value>
+        </entry>
+        <entry>
+            <key>-48</key>
+            <value>44160</value>
+        </entry>
+        <entry>
+            <key>47</key>
+            <value>44453</value>
+        </entry>
+        <entry>
+            <key>-49</key>
+            <value>45469</value>
+        </entry>
+        <entry>
+            <key>48</key>
+            <value>46009</value>
+        </entry>
+        <entry>
+            <key>-50</key>
+            <value>46778</value>
+        </entry>
+        <entry>
+            <key>49</key>
+            <value>47565</value>
+        </entry>
+        <entry>
+            <key>-51</key>
+            <value>48334</value>
+        </entry>
+        <entry>
+            <key>50</key>
+            <value>49121</value>
+        </entry>
+        <entry>
+            <key>-52</key>
+            <value>49884</value>
+        </entry>
+        <entry>
+            <key>51</key>
+            <value>50677</value>
+        </entry>
+        <entry>
+            <key>-53</key>
+            <value>51434</value>
+        </entry>
+        <entry>
+            <key>52</key>
+            <value>52233</value>
+        </entry>
+        <entry>
+            <key>-54</key>
+            <value>52984</value>
+        </entry>
+        <entry>
+            <key>53</key>
+            <value>53789</value>
+        </entry>
+        <entry>
+            <key>-55</key>
+            <value>54534</value>
+        </entry>
+        <entry>
+            <key>54</key>
+            <value>55345</value>
+        </entry>
+        <entry>
+            <key>-56</key>
+            <value>56084</value>
+        </entry>
+        <entry>
+            <key>55</key>
+            <value>56901</value>
+        </entry>
+        <entry>
+            <key>-57</key>
+            <value>57634</value>
+        </entry>
+        <entry>
+            <key>56</key>
+            <value>58457</value>
+        </entry>
+        <entry>
+            <key>-58</key>
+            <value>59184</value>
+        </entry>
+        <entry>
+            <key>57</key>
+            <value>60013</value>
+        </entry>
+        <entry>
+            <key>-59</key>
+            <value>60734</value>
+        </entry>
+        <entry>
+            <key>58</key>
+            <value>61569</value>
+        </entry>
+        <entry>
+            <key>-60</key>
+            <value>62284</value>
+        </entry>
+        <entry>
+            <key>59</key>
+            <value>63125</value>
+        </entry>
+        <entry>
+            <key>60</key>
+            <value>64695</value>
+        </entry>
+        <entry>
+            <key>-61</key>
+            <value>64570</value>
+        </entry>
+        <entry>
+            <key>-62</key>
+            <value>66856</value>
+        </entry>
+        <entry>
+            <key>61</key>
+            <value>66788</value>
+        </entry>
+        <entry>
+            <key>-63</key>
+            <value>69142</value>
+        </entry>
+        <entry>
+            <key>62</key>
+            <value>68881</value>
+        </entry>
+        <entry>
+            <key>-64</key>
+            <value>71428</value>
+        </entry>
+        <entry>
+            <key>63</key>
+            <value>70974</value>
+        </entry>
+        <entry>
+            <key>-65</key>
+            <value>73714</value>
+        </entry>
+        <entry>
+            <key>64</key>
+            <value>73067</value>
+        </entry>
+        <entry>
+            <key>-66</key>
+            <value>76000</value>
+        </entry>
+        <entry>
+            <key>65</key>
+            <value>75160</value>
+        </entry>
+        <entry>
+            <key>-67</key>
+            <value>78286</value>
+        </entry>
+        <entry>
+            <key>66</key>
+            <value>77253</value>
+        </entry>
+        <entry>
+            <key>-68</key>
+            <value>80572</value>
+        </entry>
+        <entry>
+            <key>67</key>
+            <value>79346</value>
+        </entry>
+        <entry>
+            <key>-69</key>
+            <value>82858</value>
+        </entry>
+        <entry>
+            <key>68</key>
+            <value>81439</value>
+        </entry>
+        <entry>
+            <key>-70</key>
+            <value>85144</value>
+        </entry>
+        <entry>
+            <key>69</key>
+            <value>83532</value>
+        </entry>
+        <entry>
+            <key>70</key>
+            <value>85633</value>
+        </entry>
+        <entry>
+            <key>-71</key>
+            <value>87692</value>
+        </entry>
+        <entry>
+            <key>-72</key>
+            <value>90236</value>
+        </entry>
+        <entry>
+            <key>71</key>
+            <value>88288</value>
+        </entry>
+        <entry>
+            <key>-73</key>
+            <value>92780</value>
+        </entry>
+        <entry>
+            <key>72</key>
+            <value>90943</value>
+        </entry>
+        <entry>
+            <key>-74</key>
+            <value>95324</value>
+        </entry>
+        <entry>
+            <key>73</key>
+            <value>93598</value>
+        </entry>
+        <entry>
+            <key>-75</key>
+            <value>97868</value>
+        </entry>
+        <entry>
+            <key>74</key>
+            <value>96253</value>
+        </entry>
+        <entry>
+            <key>-76</key>
+            <value>100412</value>
+        </entry>
+        <entry>
+            <key>75</key>
+            <value>98908</value>
+        </entry>
+        <entry>
+            <key>-77</key>
+            <value>102956</value>
+        </entry>
+        <entry>
+            <key>76</key>
+            <value>101563</value>
+        </entry>
+        <entry>
+            <key>-78</key>
+            <value>105500</value>
+        </entry>
+        <entry>
+            <key>77</key>
+            <value>104218</value>
+        </entry>
+        <entry>
+            <key>-79</key>
+            <value>108044</value>
+        </entry>
+        <entry>
+            <key>78</key>
+            <value>106873</value>
+        </entry>
+        <entry>
+            <key>-80</key>
+            <value>110588</value>
+        </entry>
+        <entry>
+            <key>79</key>
+            <value>109528</value>
+        </entry>
+        <entry>
+            <key>80</key>
+            <value>112192</value>
+        </entry>
+        <entry>
+            <key>-81</key>
+            <value>113472</value>
+        </entry>
+        <entry>
+            <key>-82</key>
+            <value>116356</value>
+        </entry>
+        <entry>
+            <key>81</key>
+            <value>115488</value>
+        </entry>
+        <entry>
+            <key>-83</key>
+            <value>119240</value>
+        </entry>
+        <entry>
+            <key>82</key>
+            <value>118784</value>
+        </entry>
+        <entry>
+            <key>-84</key>
+            <value>122124</value>
+        </entry>
+        <entry>
+            <key>83</key>
+            <value>122080</value>
+        </entry>
+        <entry>
+            <key>-85</key>
+            <value>125008</value>
+        </entry>
+        <entry>
+            <key>84</key>
+            <value>125376</value>
+        </entry>
+        <entry>
+            <key>-86</key>
+            <value>127892</value>
+        </entry>
+        <entry>
+            <key>85</key>
+            <value>128672</value>
+        </entry>
+        <entry>
+            <key>-87</key>
+            <value>130776</value>
+        </entry>
+        <entry>
+            <key>86</key>
+            <value>131968</value>
+        </entry>
+        <entry>
+            <key>-88</key>
+            <value>133660</value>
+        </entry>
+        <entry>
+            <key>87</key>
+            <value>135264</value>
+        </entry>
+        <entry>
+            <key>-89</key>
+            <value>136544</value>
+        </entry>
+        <entry>
+            <key>88</key>
+            <value>138560</value>
+        </entry>
+        <entry>
+            <key>-90</key>
+            <value>139428</value>
+        </entry>
+        <entry>
+            <key>89</key>
+            <value>141856</value>
+        </entry>
+        <entry>
+            <key>90</key>
+            <value>145157</value>
+        </entry>
+        <entry>
+            <key>-91</key>
+            <value>142881</value>
+        </entry>
+        <entry>
+            <key>-92</key>
+            <value>146325</value>
+        </entry>
+        <entry>
+            <key>91</key>
+            <value>148375</value>
+        </entry>
+        <entry>
+            <key>-93</key>
+            <value>149769</value>
+        </entry>
+        <entry>
+            <key>92</key>
+            <value>151593</value>
+        </entry>
+        <entry>
+            <key>-94</key>
+            <value>153213</value>
+        </entry>
+        <entry>
+            <key>93</key>
+            <value>154811</value>
+        </entry>
+        <entry>
+            <key>-95</key>
+            <value>156657</value>
+        </entry>
+        <entry>
+            <key>94</key>
+            <value>158029</value>
+        </entry>
+        <entry>
+            <key>-96</key>
+            <value>160101</value>
+        </entry>
+        <entry>
+            <key>95</key>
+            <value>161247</value>
+        </entry>
+        <entry>
+            <key>-97</key>
+            <value>163545</value>
+        </entry>
+        <entry>
+            <key>96</key>
+            <value>164465</value>
+        </entry>
+        <entry>
+            <key>-98</key>
+            <value>166989</value>
+        </entry>
+        <entry>
+            <key>97</key>
+            <value>167683</value>
+        </entry>
+        <entry>
+            <key>-99</key>
+            <value>170433</value>
+        </entry>
+        <entry>
+            <key>98</key>
+            <value>170901</value>
+        </entry>
+        <entry>
+            <key>-100</key>
+            <value>173877</value>
+        </entry>
+        <entry>
+            <key>99</key>
+            <value>174119</value>
+        </entry>
+        <entry>
+            <key>100</key>
+            <value>177342</value>
+        </entry>
+        <entry>
+            <key>-101</key>
+            <value>177890</value>
+        </entry>
+        <entry>
+            <key>-102</key>
+            <value>181896</value>
+        </entry>
+        <entry>
+            <key>101</key>
+            <value>180786</value>
+        </entry>
+        <entry>
+            <key>-103</key>
+            <value>185902</value>
+        </entry>
+        <entry>
+            <key>102</key>
+            <value>184230</value>
+        </entry>
+        <entry>
+            <key>-104</key>
+            <value>189908</value>
+        </entry>
+        <entry>
+            <key>103</key>
+            <value>187674</value>
+        </entry>
+        <entry>
+            <key>-105</key>
+            <value>193914</value>
+        </entry>
+        <entry>
+            <key>104</key>
+            <value>191118</value>
+        </entry>
+        <entry>
+            <key>-106</key>
+            <value>197920</value>
+        </entry>
+        <entry>
+            <key>105</key>
+            <value>194562</value>
+        </entry>
+        <entry>
+            <key>-107</key>
+            <value>201926</value>
+        </entry>
+        <entry>
+            <key>106</key>
+            <value>198006</value>
+        </entry>
+        <entry>
+            <key>-108</key>
+            <value>205932</value>
+        </entry>
+        <entry>
+            <key>107</key>
+            <value>201450</value>
+        </entry>
+        <entry>
+            <key>-109</key>
+            <value>209938</value>
+        </entry>
+        <entry>
+            <key>108</key>
+            <value>204894</value>
+        </entry>
+        <entry>
+            <key>-110</key>
+            <value>213944</value>
+        </entry>
+        <entry>
+            <key>109</key>
+            <value>208338</value>
+        </entry>
+        <entry>
+            <key>110</key>
+            <value>211790</value>
+        </entry>
+        <entry>
+            <key>-111</key>
+            <value>216453</value>
+        </entry>
+        <entry>
+            <key>-112</key>
+            <value>218961</value>
+        </entry>
+        <entry>
+            <key>111</key>
+            <value>214775</value>
+        </entry>
+        <entry>
+            <key>-113</key>
+            <value>221469</value>
+        </entry>
+        <entry>
+            <key>112</key>
+            <value>217760</value>
+        </entry>
+        <entry>
+            <key>-114</key>
+            <value>223977</value>
+        </entry>
+        <entry>
+            <key>113</key>
+            <value>220745</value>
+        </entry>
+        <entry>
+            <key>-115</key>
+            <value>226485</value>
+        </entry>
+        <entry>
+            <key>114</key>
+            <value>223730</value>
+        </entry>
+        <entry>
+            <key>-116</key>
+            <value>228993</value>
+        </entry>
+        <entry>
+            <key>115</key>
+            <value>226715</value>
+        </entry>
+        <entry>
+            <key>-117</key>
+            <value>231501</value>
+        </entry>
+        <entry>
+            <key>116</key>
+            <value>229700</value>
+        </entry>
+        <entry>
+            <key>-118</key>
+            <value>234009</value>
+        </entry>
+        <entry>
+            <key>117</key>
+            <value>232685</value>
+        </entry>
+        <entry>
+            <key>-119</key>
+            <value>236517</value>
+        </entry>
+        <entry>
+            <key>118</key>
+            <value>235670</value>
+        </entry>
+        <entry>
+            <key>-120</key>
+            <value>239025</value>
+        </entry>
+        <entry>
+            <key>119</key>
+            <value>238655</value>
+        </entry>
+        <entry>
+            <key>120</key>
+            <value>241646</value>
+        </entry>
+        <entry>
+            <key>-121</key>
+            <value>241722</value>
+        </entry>
+        <entry>
+            <key>-122</key>
+            <value>244416</value>
+        </entry>
+        <entry>
+            <key>-123</key>
+            <value>247110</value>
+        </entry>
+        <entry>
+            <key>-124</key>
+            <value>249804</value>
+        </entry>
+        <entry>
+            <key>-125</key>
+            <value>252498</value>
+        </entry>
+        <entry>
+            <key>-126</key>
+            <value>255192</value>
+        </entry>
+    </geschwindigkeit>
 </fahrzeug>
