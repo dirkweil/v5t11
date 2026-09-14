@@ -20,10 +20,10 @@ import com.vaadin.flow.component.DetachEvent;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.combobox.ComboBox;
-import com.vaadin.flow.component.html.H3;
+import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.html.FieldSet;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
-import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -129,11 +129,20 @@ public class SystemControlView extends VerticalLayout {
     }));
   }
 
+  // ---------- Layout-Helfer ----------
+
+  private FormLayout newLabelledFormLayout() {
+    FormLayout form = new FormLayout();
+    form.setResponsiveSteps(new FormLayout.ResponsiveStep("0", 1));
+    form.setLabelWidth("160px");
+    return form;
+  }
+
   // ---------- Allgemein ----------
 
-  private VerticalLayout buildAllgemeinSection() {
-    VerticalLayout section = new VerticalLayout();
-    section.add(new H3("Allgemein"));
+  private FieldSet buildAllgemeinSection() {
+    FieldSet fieldset = new FieldSet();
+    fieldset.setLegendText("Allgemein");
 
     this.connectedField = new Checkbox("Verbunden");
     this.connectedField.addValueChangeListener(event -> {
@@ -142,20 +151,21 @@ public class SystemControlView extends VerticalLayout {
       }
     });
 
-    this.gleisspannungField = new Checkbox("Gleisspannung");
+    this.gleisspannungField = new Checkbox("an");
     this.gleisspannungField.addValueChangeListener(event -> {
       if (event.isFromClient()) {
         this.steuerung.getZentrale().setGleisspannung(event.getValue());
       }
     });
 
-    HorizontalLayout row = new HorizontalLayout(this.connectedField, this.gleisspannungField);
-    row.setAlignItems(FlexComponent.Alignment.BASELINE);
-    section.add(row);
+    FormLayout form = newLabelledFormLayout();
+    form.addFormItem(this.connectedField, "Anlagenverbindung:");
+    form.addFormItem(this.gleisspannungField, "Gleisspannung:");
+    fieldset.add(form);
 
     refreshZentrale();
 
-    return section;
+    return fieldset;
   }
 
   private void setZentraleConnected(boolean connected) {
@@ -181,11 +191,11 @@ public class SystemControlView extends VerticalLayout {
 
   // ---------- Fahrweg ----------
 
-  private VerticalLayout buildFahrwegSection() {
-    VerticalLayout section = new VerticalLayout();
-    section.add(new H3("Fahrweg"));
+  private FieldSet buildFahrwegSection() {
+    FieldSet fieldset = new FieldSet();
+    fieldset.setLegendText("Fahrweg");
 
-    this.bereichField = new ComboBox<>("Bereich");
+    this.bereichField = new ComboBox<>();
     this.bereichField.setItems(this.steuerung.getBereiche());
     this.bereichField.setValue(this.bereich);
     this.bereichField.addValueChangeListener(event -> {
@@ -194,7 +204,7 @@ public class SystemControlView extends VerticalLayout {
       }
     });
 
-    this.gleisField = new ComboBox<>("Gleis");
+    this.gleisField = new ComboBox<>();
     this.gleisField.setItemLabelGenerator(Gleis::getName);
     this.gleisField.addValueChangeListener(event -> {
       if (event.isFromClient()) {
@@ -211,7 +221,7 @@ public class SystemControlView extends VerticalLayout {
       }
     });
 
-    this.weicheField = new ComboBox<>("Weiche");
+    this.weicheField = new ComboBox<>();
     this.weicheField.setItemLabelGenerator(Weiche::getName);
     this.weicheField.addValueChangeListener(event -> {
       if (event.isFromClient()) {
@@ -220,7 +230,6 @@ public class SystemControlView extends VerticalLayout {
     });
 
     this.weichenStellungField = new RadioButtonGroup<>();
-    this.weichenStellungField.setLabel("Stellung");
     this.weichenStellungField.setItems(WeichenStellung.values());
     this.weichenStellungField.addValueChangeListener(event -> {
       if (event.isFromClient() && this.weiche != null && event.getValue() != null) {
@@ -228,7 +237,7 @@ public class SystemControlView extends VerticalLayout {
       }
     });
 
-    this.signalField = new ComboBox<>("Signal");
+    this.signalField = new ComboBox<>();
     this.signalField.setItemLabelGenerator(Signal::getName);
     this.signalField.addValueChangeListener(event -> {
       if (event.isFromClient()) {
@@ -237,7 +246,6 @@ public class SystemControlView extends VerticalLayout {
     });
 
     this.signalStellungField = new RadioButtonGroup<>();
-    this.signalStellungField.setLabel("Stellung");
     this.signalStellungField.addValueChangeListener(event -> {
       if (event.isFromClient() && this.signal != null && event.getValue() != null) {
         this.signal.setStellung(event.getValue());
@@ -255,12 +263,14 @@ public class SystemControlView extends VerticalLayout {
     populateWeicheField();
     populateSignalField();
 
-    section.add(this.bereichField);
-    section.add(new HorizontalLayout(this.gleisField, this.gleisBesetztField));
-    section.add(new HorizontalLayout(this.weicheField, this.weichenStellungField));
-    section.add(new HorizontalLayout(this.signalField, this.signalStellungField, alleSignaleHaltButton));
+    FormLayout form = newLabelledFormLayout();
+    form.addFormItem(this.bereichField, "Bereich:");
+    form.addFormItem(new HorizontalLayout(this.gleisField, this.gleisBesetztField), "Gleis:");
+    form.addFormItem(new HorizontalLayout(this.weicheField, this.weichenStellungField), "Weiche:");
+    form.addFormItem(new HorizontalLayout(this.signalField, this.signalStellungField, alleSignaleHaltButton), "Signal:");
+    fieldset.add(form);
 
-    return section;
+    return fieldset;
   }
 
   private void resetBereich() {
@@ -334,11 +344,11 @@ public class SystemControlView extends VerticalLayout {
 
   // ---------- Lok ----------
 
-  private VerticalLayout buildLokSection() {
-    VerticalLayout section = new VerticalLayout();
-    section.add(new H3("Lok"));
+  private FieldSet buildLokSection() {
+    FieldSet fieldset = new FieldSet();
+    fieldset.setLegendText("Lok");
 
-    this.lokField = new ComboBox<>("Lok");
+    this.lokField = new ComboBox<>();
     this.lokField.setItemLabelGenerator(this::formatLokLabel);
     this.lokField.setAllowCustomValue(true);
     this.lokField.setItems(this.steuerung.getFahrzeugdecoder());
@@ -356,7 +366,7 @@ public class SystemControlView extends VerticalLayout {
       }
     });
 
-    this.lokFahrstufeField = new IntegerField("Fahrstufe");
+    this.lokFahrstufeField = new IntegerField();
     this.lokFahrstufeField.setStepButtonsVisible(true);
     this.lokFahrstufeField.setMin(0);
     this.lokFahrstufeField.addValueChangeListener(event -> {
@@ -389,6 +399,7 @@ public class SystemControlView extends VerticalLayout {
 
     FlexLayout funktionenLayout = new FlexLayout();
     funktionenLayout.getStyle().set("flex-wrap", "wrap").set("gap", "0.5rem");
+    funktionenLayout.add(this.lokLichtField);
     for (int nr = 0; nr < 16; nr++) {
       int mask = 1 << nr;
       Checkbox funktionField = new Checkbox("F" + (nr + 1));
@@ -402,13 +413,15 @@ public class SystemControlView extends VerticalLayout {
       funktionenLayout.add(funktionField);
     }
 
-    section.add(this.lokField);
-    section.add(new HorizontalLayout(this.lokAktivField, this.lokFahrstufeField, this.lokRueckwaertsField, this.lokLichtField));
-    section.add(funktionenLayout);
+    FormLayout form = newLabelledFormLayout();
+    form.addFormItem(new HorizontalLayout(this.lokField, this.lokAktivField), "Lok:");
+    form.addFormItem(new HorizontalLayout(this.lokFahrstufeField, this.lokRueckwaertsField), "Fahrstufe:");
+    form.addFormItem(funktionenLayout, "Funktionen:");
+    fieldset.add(form);
 
     resetLok();
 
-    return section;
+    return fieldset;
   }
 
   private void resetLok() {
