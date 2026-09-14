@@ -144,7 +144,8 @@ public class SystemControlView extends VerticalLayout {
     FieldSet fieldset = new FieldSet();
     fieldset.setLegendText("Allgemein");
 
-    this.connectedField = new Checkbox("Verbunden");
+    this.connectedField = new Checkbox("nicht verbunden");
+    this.connectedField.addClassName("toggle-buttons");
     this.connectedField.addValueChangeListener(event -> {
       if (event.isFromClient()) {
         setZentraleConnected(event.getValue());
@@ -185,9 +186,10 @@ public class SystemControlView extends VerticalLayout {
   private void refreshZentrale() {
     Zentrale zentrale = this.steuerung.getZentrale();
     boolean echtbetrieb = zentrale.isEchtbetrieb();
-    this.connectedField.setValue(zentrale.isConnected());
+    boolean connected = zentrale.isConnected();
+    this.connectedField.setValue(connected);
     this.connectedField.setEnabled(!echtbetrieb);
-    this.connectedField.setLabel("Verbunden (" + (echtbetrieb ? zentrale.getPortName() : "Dummyport") + ")");
+    this.connectedField.setLabel(connected ? (echtbetrieb ? zentrale.getPortName() : "Dummyport") : "nicht verbunden");
     this.gleisspannungField.setValue(zentrale.isGleisspannung());
   }
 
