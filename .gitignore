@@ -19,3 +19,5 @@ ObjectStore/
 .sdkmanrc
 **/frontend/generated/
 **/frontend/index.html
+node_modules/
+vite.generated.ts
