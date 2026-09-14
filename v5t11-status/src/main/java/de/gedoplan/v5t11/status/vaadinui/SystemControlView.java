@@ -400,6 +400,7 @@ public class SystemControlView extends VerticalLayout {
     });
 
     FlexLayout funktionenLayout = new FlexLayout();
+    funktionenLayout.addClassName("toggle-buttons");
     funktionenLayout.getStyle().set("flex-wrap", "wrap").set("gap", "0.5rem");
     funktionenLayout.add(this.lokLichtField);
     for (int nr = 0; nr < 16; nr++) {
