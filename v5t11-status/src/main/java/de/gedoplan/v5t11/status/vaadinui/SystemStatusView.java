@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
  * Nutzt bewusst denselben {@link SystemStatusPresenter} wie die bestehende JSF-Seite, statt die (dünne)
  * Anzeigelogik zu duplizieren - der Presenter selbst kennt keine JSF-Spezifika.
  */
-@Route(value = "ui/system-status", layout = MainLayout.class)
+@Route(value = "system-status", layout = MainLayout.class)
 @PageTitle("System-Status - v5t11")
 public class SystemStatusView extends VerticalLayout {
 

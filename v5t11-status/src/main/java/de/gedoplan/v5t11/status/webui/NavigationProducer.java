@@ -35,9 +35,10 @@ public class NavigationProducer {
   @ApplicationScoped
   List<NavigationItem> getStatusNavigationItem() {
     return List.of(
-      new NavigationItem("System-Status", "Steuerung", this.urlPrefix + "view/systemStatus.xhtml", "pi pi-info-circle", 810),
-      new NavigationItem("System-Control", "Steuerung", this.urlPrefix + "view/systemControl.xhtml", "pi pi-play", 820),
-      new NavigationItem("Baustein-Programmierung", "Steuerung", this.urlPrefix + "view/bausteinProgrammierung.xhtml", "pi pi-box", 830)
+      new NavigationItem("System-Status (alt)", "Steuerung", this.urlPrefix + "view/systemStatus.xhtml", "pi pi-info-circle", 810),
+      new NavigationItem("System-Control (alt)", "Steuerung", this.urlPrefix + "view/systemControl.xhtml", "pi pi-play", 820),
+      new NavigationItem("Baustein-Programmierung (alt)", "Steuerung", this.urlPrefix + "view/bausteinProgrammierung.xhtml", "pi pi-box", 830),
+      new NavigationItem("System-Status", "Steuerung", this.urlPrefix + "ui/system-status", "pi pi-info-circle", 805)
     );
   }
 
