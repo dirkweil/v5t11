@@ -1,0 +1,4 @@
+- Die Microservices nuzten eine gemeinsame Datenbank, die im Kubernetes läuft. Keine neue Instanz starten!
+- Die Microservices nuzten einen gemeinsamen Kafka-Broker, der im Kubernetes läuft. Keine neue Instanz starten!
+- Keine Anwendungen im Dev Mode starten, sondern Nutzer darum bitten.
+- Code nicht committen, sondern Nutzer darum bitten.
