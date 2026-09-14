@@ -26,6 +26,9 @@
     <quarkus.platform.version>3.39.3</quarkus.platform.version>
 
     <quarkus-primefaces.version>3.12.5</quarkus-primefaces.version>
+
+    <!-- Vaadin Flow: schrittweise Ablösung des JSF/PrimeFaces-GUI, siehe docs/10 Implementierung/webui.adoc -->
+    <vaadin.version>24.6.7</vaadin.version>
   </properties>
 
   <repositories>
@@ -139,6 +142,20 @@
         <version>${quarkus-primefaces.version}</version>
       </dependency>
 
+      <dependency>
+        <groupId>com.vaadin</groupId>
+        <artifactId>vaadin-bom</artifactId>
+        <version>${vaadin.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>com.vaadin</groupId>
+        <artifactId>vaadin-quarkus-extension</artifactId>
+        <version>${vaadin.version}</version>
+      </dependency>
+
     </dependencies>
   </dependencyManagement>
 
@@ -149,6 +166,7 @@
     <module>v5t11-status</module>
     <module>v5t11-stellwerk</module>
     <module>v5t11-util</module>
+    <module>v5t11-vaadincommon</module>
   </modules>
 
 </project>
