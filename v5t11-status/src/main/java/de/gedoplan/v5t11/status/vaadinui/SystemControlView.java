@@ -143,6 +143,7 @@ public class SystemControlView extends VerticalLayout {
   private FieldSet buildAllgemeinSection() {
     FieldSet fieldset = new FieldSet();
     fieldset.setLegendText("Allgemein");
+    fieldset.setWidthFull();
 
     this.connectedField = new Checkbox("nicht verbunden");
     this.connectedField.addClassName("toggle-buttons");
@@ -198,6 +199,7 @@ public class SystemControlView extends VerticalLayout {
   private FieldSet buildFahrwegSection() {
     FieldSet fieldset = new FieldSet();
     fieldset.setLegendText("Fahrweg");
+    fieldset.setWidthFull();
 
     this.bereichField = new ComboBox<>();
     this.bereichField.setItems(this.steuerung.getBereiche());
@@ -355,6 +357,7 @@ public class SystemControlView extends VerticalLayout {
   private FieldSet buildLokSection() {
     FieldSet fieldset = new FieldSet();
     fieldset.setLegendText("Lok");
+    fieldset.setWidthFull();
 
     this.lokField = new ComboBox<>();
     this.lokField.setItemLabelGenerator(this::formatLokLabel);
