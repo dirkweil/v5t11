@@ -47,4 +47,9 @@
     <welcome-file>index.xhtml</welcome-file>
   </welcome-file-list>
 
+  <!-- Only use a cookie for session tracking, never append jsessionid to URLs -->
+  <session-config>
+    <tracking-mode>COOKIE</tracking-mode>
+  </session-config>
+
 </web-app>
