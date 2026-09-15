@@ -73,7 +73,7 @@ public class SystemControlView extends VerticalLayout {
   private Gleis gleis;
   private Weiche weiche;
   private Signal signal;
-  private Fahrzeugdecoder lok;
+  private Fahrzeugdecoder fahrzeug;
 
   private Checkbox connectedField;
   private Checkbox gleisspannungField;
@@ -84,13 +84,13 @@ public class SystemControlView extends VerticalLayout {
   private RadioButtonGroup<WeichenStellung> weichenStellungField;
   private ComboBox<Signal> signalField;
   private RadioButtonGroup<SignalStellung> signalStellungField;
-  private ComboBox<Fahrzeugdecoder> lokField;
-  private Checkbox lokAktivField;
-  private IntegerSlider lokFahrstufeField;
-  private Span lokFahrstufeValueField;
-  private Checkbox lokRueckwaertsField;
-  private Checkbox lokLichtField;
-  private final List<Checkbox> lokFunktionFields = new ArrayList<>();
+  private ComboBox<Fahrzeugdecoder> fahrzeugField;
+  private Checkbox fahrzeugAktivField;
+  private IntegerSlider fahrzeugFahrstufeField;
+  private Span fahrzeugFahrstufeValueField;
+  private Checkbox fahrzeugRueckwaertsField;
+  private Checkbox fahrzeugLichtField;
+  private final List<Checkbox> fahrzeugFunktionFields = new ArrayList<>();
 
   @PostConstruct
   void init() {
@@ -101,7 +101,7 @@ public class SystemControlView extends VerticalLayout {
 
     add(buildAllgemeinSection());
     add(buildFahrwegSection());
-    add(buildLokSection());
+    add(buildFahrzeugSection());
   }
 
   @Override
@@ -126,8 +126,8 @@ public class SystemControlView extends VerticalLayout {
         refreshWeiche();
       } else if (changed != null && changed == this.signal) {
         refreshSignal();
-      } else if (changed != null && changed == this.lok) {
-        refreshLok();
+      } else if (changed != null && changed == this.fahrzeug) {
+        refreshFahrzeug();
       }
     }));
   }
@@ -363,116 +363,116 @@ public class SystemControlView extends VerticalLayout {
     this.signalStellungField.setEnabled(this.signal != null);
   }
 
-  // ---------- Lok ----------
+  // ---------- Fahrzeug ----------
 
-  private FieldSet buildLokSection() {
+  private FieldSet buildFahrzeugSection() {
     FieldSet fieldset = new FieldSet();
-    fieldset.setLegendText("Lok");
+    fieldset.setLegendText("Fahrzeug");
     fieldset.setWidthFull();
 
-    this.lokField = new ComboBox<>();
-    this.lokField.setItemLabelGenerator(this::formatLokLabel);
-    this.lokField.setAllowCustomValue(true);
-    this.lokField.setItems(this.steuerung.getFahrzeugdecoder());
-    this.lokField.addCustomValueSetListener(event -> selectLokByText(event.getDetail()));
-    this.lokField.addValueChangeListener(event -> {
+    this.fahrzeugField = new ComboBox<>();
+    this.fahrzeugField.setItemLabelGenerator(this::formatFahrzeugLabel);
+    this.fahrzeugField.setAllowCustomValue(true);
+    this.fahrzeugField.setItems(this.steuerung.getFahrzeugdecoder());
+    this.fahrzeugField.addCustomValueSetListener(event -> selectFahrzeugByText(event.getDetail()));
+    this.fahrzeugField.addValueChangeListener(event -> {
       if (event.isFromClient() && event.getValue() != null) {
-        selectLok(event.getValue());
+        selectFahrzeug(event.getValue());
       }
     });
 
-    this.lokAktivField = new Checkbox("inaktiv");
-    this.lokAktivField.addClassName("toggle-buttons");
-    this.lokAktivField.addValueChangeListener(event -> {
-      this.lokAktivField.setLabel(event.getValue() ? "aktiv" : "inaktiv");
-      if (event.isFromClient() && this.lok != null) {
-        this.lok.setAktiv(event.getValue());
+    this.fahrzeugAktivField = new Checkbox("inaktiv");
+    this.fahrzeugAktivField.addClassName("toggle-buttons");
+    this.fahrzeugAktivField.addValueChangeListener(event -> {
+      this.fahrzeugAktivField.setLabel(event.getValue() ? "aktiv" : "inaktiv");
+      if (event.isFromClient() && this.fahrzeug != null) {
+        this.fahrzeug.setAktiv(event.getValue());
       }
     });
 
-    this.lokFahrstufeField = new IntegerSlider();
-    this.lokFahrstufeField.setMin(0);
-    this.lokFahrstufeValueField = new Span("0");
-    this.lokFahrstufeValueField.getStyle().set("width", "3em").set("flex", "0 0 auto");
-    this.lokFahrstufeField.addValueChangeListener(event -> {
-      this.lokFahrstufeValueField.setText(String.valueOf(event.getValue() != null ? event.getValue() : 0));
-      if (event.isFromClient() && this.lok != null && event.getValue() != null) {
+    this.fahrzeugFahrstufeField = new IntegerSlider();
+    this.fahrzeugFahrstufeField.setMin(0);
+    this.fahrzeugFahrstufeValueField = new Span("0");
+    this.fahrzeugFahrstufeValueField.getStyle().set("width", "3em").set("flex", "0 0 auto");
+    this.fahrzeugFahrstufeField.addValueChangeListener(event -> {
+      this.fahrzeugFahrstufeValueField.setText(String.valueOf(event.getValue() != null ? event.getValue() : 0));
+      if (event.isFromClient() && this.fahrzeug != null && event.getValue() != null) {
         int fahrstufe = event.getValue();
-        int max = this.lok.getId().getSystemTyp().getMaxFahrstufe();
+        int max = this.fahrzeug.getId().getSystemTyp().getMaxFahrstufe();
         if (fahrstufe >= 0 && fahrstufe <= max) {
-          this.lok.setFahrstufe(fahrstufe);
+          this.fahrzeug.setFahrstufe(fahrstufe);
         } else {
           Notification notification = Notification.show("ungültige Fahrstufe: " + fahrstufe, 3000, Notification.Position.BOTTOM_START);
           notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-          this.lokFahrstufeField.setValue(this.lok.getFahrstufe());
+          this.fahrzeugFahrstufeField.setValue(this.fahrzeug.getFahrstufe());
         }
       }
     });
 
-    this.lokRueckwaertsField = new Checkbox("vorwärts");
-    this.lokRueckwaertsField.addClassName("toggle-buttons");
-    this.lokRueckwaertsField.addValueChangeListener(event -> {
-      this.lokRueckwaertsField.setLabel(event.getValue() ? "rückwärts" : "vorwärts");
-      if (event.isFromClient() && this.lok != null) {
-        this.lok.setRueckwaerts(event.getValue());
+    this.fahrzeugRueckwaertsField = new Checkbox("vorwärts");
+    this.fahrzeugRueckwaertsField.addClassName("toggle-buttons");
+    this.fahrzeugRueckwaertsField.addValueChangeListener(event -> {
+      this.fahrzeugRueckwaertsField.setLabel(event.getValue() ? "rückwärts" : "vorwärts");
+      if (event.isFromClient() && this.fahrzeug != null) {
+        this.fahrzeug.setRueckwaerts(event.getValue());
       }
     });
 
-    this.lokLichtField = new Checkbox("Licht");
-    this.lokLichtField.addClassName("toggle-buttons");
-    this.lokLichtField.addValueChangeListener(event -> {
-      if (event.isFromClient() && this.lok != null) {
-        this.lok.setLicht(event.getValue());
+    this.fahrzeugLichtField = new Checkbox("Licht");
+    this.fahrzeugLichtField.addClassName("toggle-buttons");
+    this.fahrzeugLichtField.addValueChangeListener(event -> {
+      if (event.isFromClient() && this.fahrzeug != null) {
+        this.fahrzeug.setLicht(event.getValue());
       }
     });
 
     FlexLayout funktionenLayout = new FlexLayout();
     funktionenLayout.getStyle().set("flex-wrap", "wrap").set("gap", "0.5rem");
     funktionenLayout.setAlignItems(FlexComponent.Alignment.CENTER);
-    funktionenLayout.add(this.lokLichtField);
+    funktionenLayout.add(this.fahrzeugLichtField);
     for (int nr = 0; nr < 16; nr++) {
       int mask = 1 << nr;
       Checkbox funktionField = new Checkbox(String.valueOf(nr + 1));
       funktionField.addClassName("toggle-buttons");
       funktionField.addClassName("toggle-buttons-fn");
       funktionField.addValueChangeListener(event -> {
-        if (event.isFromClient() && this.lok != null) {
-          int fktBits = this.lok.getFktBits();
-          this.lok.setFktBits(event.getValue() ? (fktBits | mask) : (fktBits & ~mask));
+        if (event.isFromClient() && this.fahrzeug != null) {
+          int fktBits = this.fahrzeug.getFktBits();
+          this.fahrzeug.setFktBits(event.getValue() ? (fktBits | mask) : (fktBits & ~mask));
         }
       });
-      this.lokFunktionFields.add(funktionField);
+      this.fahrzeugFunktionFields.add(funktionField);
       funktionenLayout.add(funktionField);
     }
 
     FormLayout form = newLabelledFormLayout();
-    HorizontalLayout lokLayout = new HorizontalLayout(this.lokField, this.lokAktivField);
-    lokLayout.setAlignItems(FlexComponent.Alignment.CENTER);
-    form.addFormItem(lokLayout, "Lok:");
-    HorizontalLayout fahrstufeLayout = new HorizontalLayout(this.lokFahrstufeValueField, this.lokFahrstufeField, this.lokRueckwaertsField);
+    HorizontalLayout fahrzeugLayout = new HorizontalLayout(this.fahrzeugField, this.fahrzeugAktivField);
+    fahrzeugLayout.setAlignItems(FlexComponent.Alignment.CENTER);
+    form.addFormItem(fahrzeugLayout, "Fahrzeug:");
+    HorizontalLayout fahrstufeLayout = new HorizontalLayout(this.fahrzeugFahrstufeValueField, this.fahrzeugFahrstufeField, this.fahrzeugRueckwaertsField);
     fahrstufeLayout.setAlignItems(FlexComponent.Alignment.CENTER);
     form.addFormItem(fahrstufeLayout, "Fahrstufe:");
     form.addFormItem(funktionenLayout, "Funktionen:");
     fieldset.add(form);
 
-    resetLok();
+    resetFahrzeug();
 
     return fieldset;
   }
 
-  private void resetLok() {
-    Collection<Fahrzeugdecoder> loks = this.steuerung.getFahrzeugdecoder();
-    this.lok = loks.isEmpty() ? null : loks.iterator().next();
-    this.lokField.setValue(this.lok);
-    refreshLok();
+  private void resetFahrzeug() {
+    Collection<Fahrzeugdecoder> fahrzeuge = this.steuerung.getFahrzeugdecoder();
+    this.fahrzeug = fahrzeuge.isEmpty() ? null : fahrzeuge.iterator().next();
+    this.fahrzeugField.setValue(this.fahrzeug);
+    refreshFahrzeug();
   }
 
-  private void selectLok(Fahrzeugdecoder lok) {
-    this.lok = lok;
-    refreshLok();
+  private void selectFahrzeug(Fahrzeugdecoder fahrzeug) {
+    this.fahrzeug = fahrzeug;
+    refreshFahrzeug();
   }
 
-  private void selectLokByText(String text) {
+  private void selectFahrzeugByText(String text) {
     if (text == null || text.isBlank()) {
       return;
     }
@@ -490,30 +490,30 @@ public class SystemControlView extends VerticalLayout {
         this.steuerung.addFahrzeugdecoder(found);
       }
 
-      this.lok = found;
-      this.lokField.setItems(this.steuerung.getFahrzeugdecoder());
-      this.lokField.setValue(this.lok);
-      refreshLok();
+      this.fahrzeug = found;
+      this.fahrzeugField.setItems(this.steuerung.getFahrzeugdecoder());
+      this.fahrzeugField.setValue(this.fahrzeug);
+      refreshFahrzeug();
     } catch (RuntimeException e) {
-      Notification notification = Notification.show("ungültige Lok-Adresse: " + text, 3000, Notification.Position.BOTTOM_START);
+      Notification notification = Notification.show("ungültige Fahrzeug-Adresse: " + text, 3000, Notification.Position.BOTTOM_START);
       notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
     }
   }
 
-  private String formatLokLabel(Fahrzeugdecoder lok) {
-    return lok.getId().getAdresse() + "@" + lok.getId().getSystemTyp();
+  private String formatFahrzeugLabel(Fahrzeugdecoder fahrzeug) {
+    return fahrzeug.getId().getAdresse() + "@" + fahrzeug.getId().getSystemTyp();
   }
 
-  private void refreshLok() {
-    this.lokAktivField.setValue(this.lok != null && this.lok.isAktiv());
-    this.lokFahrstufeField.setValue(this.lok != null ? this.lok.getFahrstufe() : 0);
-    this.lokFahrstufeField.setMax(this.lok != null ? this.lok.getId().getSystemTyp().getMaxFahrstufe() : 31);
-    this.lokRueckwaertsField.setValue(this.lok != null && this.lok.isRueckwaerts());
-    this.lokLichtField.setValue(this.lok != null && this.lok.isLicht());
+  private void refreshFahrzeug() {
+    this.fahrzeugAktivField.setValue(this.fahrzeug != null && this.fahrzeug.isAktiv());
+    this.fahrzeugFahrstufeField.setValue(this.fahrzeug != null ? this.fahrzeug.getFahrstufe() : 0);
+    this.fahrzeugFahrstufeField.setMax(this.fahrzeug != null ? this.fahrzeug.getId().getSystemTyp().getMaxFahrstufe() : 31);
+    this.fahrzeugRueckwaertsField.setValue(this.fahrzeug != null && this.fahrzeug.isRueckwaerts());
+    this.fahrzeugLichtField.setValue(this.fahrzeug != null && this.fahrzeug.isLicht());
 
-    int fktBits = this.lok != null ? this.lok.getFktBits() : 0;
-    for (int nr = 0; nr < this.lokFunktionFields.size(); nr++) {
-      this.lokFunktionFields.get(nr).setValue((fktBits & (1 << nr)) != 0);
+    int fktBits = this.fahrzeug != null ? this.fahrzeug.getFktBits() : 0;
+    for (int nr = 0; nr < this.fahrzeugFunktionFields.size(); nr++) {
+      this.fahrzeugFunktionFields.get(nr).setValue((fktBits & (1 << nr)) != 0);
     }
   }
 }
