@@ -278,9 +278,17 @@ public class SystemControlView extends VerticalLayout {
 
     FormLayout form = newLabelledFormLayout();
     form.addFormItem(this.bereichField, "Bereich:");
-    form.addFormItem(new HorizontalLayout(this.gleisField, this.gleisBesetztField), "Gleis:");
-    form.addFormItem(new HorizontalLayout(this.weicheField, this.weichenStellungField), "Weiche:");
-    form.addFormItem(new HorizontalLayout(this.signalField, this.signalStellungField, alleSignaleHaltButton), "Signal:");
+    HorizontalLayout gleisLayout = new HorizontalLayout(this.gleisField, this.gleisBesetztField);
+    gleisLayout.setAlignItems(FlexComponent.Alignment.CENTER);
+    form.addFormItem(gleisLayout, "Gleis:");
+
+    HorizontalLayout weicheLayout = new HorizontalLayout(this.weicheField, this.weichenStellungField);
+    weicheLayout.setAlignItems(FlexComponent.Alignment.CENTER);
+    form.addFormItem(weicheLayout, "Weiche:");
+
+    HorizontalLayout signalLayout = new HorizontalLayout(this.signalField, this.signalStellungField, alleSignaleHaltButton);
+    signalLayout.setAlignItems(FlexComponent.Alignment.CENTER);
+    form.addFormItem(signalLayout, "Signal:");
     fieldset.add(form);
 
     return fieldset;
@@ -420,6 +428,7 @@ public class SystemControlView extends VerticalLayout {
 
     FlexLayout funktionenLayout = new FlexLayout();
     funktionenLayout.getStyle().set("flex-wrap", "wrap").set("gap", "0.5rem");
+    funktionenLayout.setAlignItems(FlexComponent.Alignment.CENTER);
     funktionenLayout.add(this.lokLichtField);
     for (int nr = 0; nr < 16; nr++) {
       int mask = 1 << nr;
@@ -436,7 +445,9 @@ public class SystemControlView extends VerticalLayout {
     }
 
     FormLayout form = newLabelledFormLayout();
-    form.addFormItem(new HorizontalLayout(this.lokField, this.lokAktivField), "Lok:");
+    HorizontalLayout lokLayout = new HorizontalLayout(this.lokField, this.lokAktivField);
+    lokLayout.setAlignItems(FlexComponent.Alignment.CENTER);
+    form.addFormItem(lokLayout, "Lok:");
     HorizontalLayout fahrstufeLayout = new HorizontalLayout(this.lokFahrstufeValueField, this.lokFahrstufeField, this.lokRueckwaertsField);
     fahrstufeLayout.setAlignItems(FlexComponent.Alignment.CENTER);
     form.addFormItem(fahrstufeLayout, "Fahrstufe:");
