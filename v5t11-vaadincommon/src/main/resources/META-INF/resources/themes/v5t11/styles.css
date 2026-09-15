@@ -1,4 +1,16 @@
 /*
+ * Natives <fieldset> hat standardmäßig box-sizing: content-box UND einen browserseitigen
+ * margin-inline (i. d. R. 2px links/rechts), wodurch setWidthFull() (width: 100%) zusammen mit
+ * Border/Padding/Margin über die verfügbare Breite hinausragt und einen horizontalen Scrollbalken
+ * erzeugt. box-sizing: border-box bezieht Border/Padding in die 100% ein; margin: 0 entfernt den
+ * zusätzlichen (von box-sizing nicht erfassten) Rand.
+ */
+fieldset {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+/*
  * Stellt eine RadioButtonGroup als Reihe verbundener, horizontaler Toggle-Buttons dar
  * (Pendant zu PrimeFaces' p:selectOneButton aus der JSF-Vorlage).
  * Anwendung: radioButtonGroup.addClassName("toggle-buttons")
