@@ -11,6 +11,32 @@ fieldset {
 }
 
 /*
+ * Hebt die obersten Kategorie-Einträge im Navigationsmenü (VaadinNavigationMenu) fett und mit
+ * grauem Hintergrund hervor. Die dafür offiziell vorgesehenen CSS-Custom-Properties
+ * (--vaadin-side-nav-item-font-weight/-background) werden von der intern geladenen
+ * Lumo-Stylesheet-Regel der Komponente überschrieben und kommen nicht an; ::part() mit
+ * !important ist der zuverlässige Weg, um Shadow-DOM-Teile von außen zu übersteuern.
+ * Anwendung: sideNavItem.addClassName("nav-category")
+ */
+vaadin-side-nav-item.nav-category::part(content) {
+  font-weight: bold !important;
+  background-color: var(--lumo-contrast-10pct) !important;
+}
+
+/*
+ * Stellt disabled gemeldete Menüeinträge (VaadinNavigationMenu) grau statt normal dar. Diese
+ * Einträge bekommen bewusst keinen path (siehe VaadinNavigationMenu.rebuild()), sind also schon
+ * dadurch nicht navigierbar; hier nur noch die optische Kennzeichnung per Klasse statt über das
+ * disabled-Attribut der Komponente (das wird von vaadin-side-nav-item bei Geschwister-Änderungen
+ * selbst wieder zurückgesetzt).
+ * Anwendung: sideNavItem.addClassName("nav-item-disabled")
+ */
+vaadin-side-nav-item.nav-item-disabled::part(link) {
+  color: var(--lumo-disabled-text-color) !important;
+  cursor: default !important;
+}
+
+/*
  * Stellt eine RadioButtonGroup als Reihe verbundener, horizontaler Toggle-Buttons dar
  * (Pendant zu PrimeFaces' p:selectOneButton aus der JSF-Vorlage).
  * Anwendung: radioButtonGroup.addClassName("toggle-buttons")
