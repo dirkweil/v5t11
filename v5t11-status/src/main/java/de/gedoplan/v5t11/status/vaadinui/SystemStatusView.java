@@ -20,11 +20,11 @@ import jakarta.inject.Inject;
 import java.util.stream.Collectors;
 
 /**
- * Vaadin-Pendant zu {@code view/systemStatus.xhtml} / {@code SystemStatusPresenter}. Pilot-View der Phase 0 der
+ * Vaadin-Pendant zum inzwischen abgelösten {@code view/systemStatus.xhtml}. Pilot-View der Phase 0 der
  * JSF->Vaadin-Migration (siehe /home/dw/.claude/plans/functional-singing-canyon.md).
  * <p>
- * Nutzt bewusst denselben {@link SystemStatusPresenter} wie die bestehende JSF-Seite, statt die (dünne)
- * Anzeigelogik zu duplizieren - der Presenter selbst kennt keine JSF-Spezifika.
+ * Nutzt bewusst weiterhin denselben {@link SystemStatusPresenter} wie die ehemalige JSF-Seite, statt die (dünne)
+ * Anzeigelogik zu duplizieren - der Presenter selbst kennt keine JSF-Spezifika und bleibt daher erhalten.
  */
 @Route(value = "system-status", layout = MainLayout.class)
 @PageTitle("System-Status - v5t11")
