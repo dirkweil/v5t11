@@ -45,14 +45,14 @@ import jakarta.annotation.PostConstruct;
 import jakarta.inject.Inject;
 
 /**
- * Vaadin-Pendant zu {@code view/systemControl.xhtml} / {@code SystemControlPresenter}. Anders als bei
- * {@code SystemStatusView} wird der bestehende {@code SystemControlPresenter} NICHT wiederverwendet, da er
- * {@code @SessionScoped} ist und direkt {@code FacesContext}/{@code FacesMessage} nutzt (JSF-spezifisch). Diese View
+ * Vaadin-Pendant zum inzwischen abgelösten {@code view/systemControl.xhtml} / {@code SystemControlPresenter}. Anders
+ * als bei {@code SystemStatusView} wurde der ehemalige {@code SystemControlPresenter} NICHT wiederverwendet, da er
+ * {@code @SessionScoped} war und direkt {@code FacesContext}/{@code FacesMessage} nutzte (JSF-spezifisch). Diese View
  * ruft stattdessen dieselben Fachklassen ({@link Steuerung}, {@link Zentrale}, {@link Gleis}, {@link Weiche},
  * {@link Signal}, {@link Fahrzeugdecoder}) direkt auf, mit View-lokalem statt sessionweitem Auswahl-State.
  * <p>
- * Verhalten wird bewusst 1:1 vom JSF-Original übernommen: keine Confirm-Dialoge, jede Aktion wirkt sofort. Der
- * bestehende {@code SystemControlPresenter}/{@code systemControl.xhtml} bleiben unverändert (Rollback-Pfad).
+ * Verhalten wurde bewusst 1:1 vom JSF-Original übernommen: keine Confirm-Dialoge, jede Aktion wirkt sofort. Nach
+ * erfolgreichem Cutover wurden {@code SystemControlPresenter} und {@code systemControl.xhtml} gelöscht.
  */
 @Route(value = "system-control", layout = MainLayout.class)
 @PageTitle("System-Control - v5t11")
