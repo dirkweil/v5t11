@@ -37,6 +37,16 @@ vaadin-side-nav-item.nav-item-disabled::part(link) {
 }
 
 /*
+ * Entfernt die automatische Einrückung der Menüeinträge unter ihrer Kategorie. Lumo rückt jede
+ * Verschachtelungsebene per --vaadin-side-nav-child-indent (Default --lumo-space-l) ein; damit
+ * die Einträge auf derselben linken Position wie die Kategorie-Zeile beginnen, wird das
+ * resultierende padding-inline-start direkt über ::part(link) zurückgesetzt.
+ */
+vaadin-side-nav-item.nav-category > vaadin-side-nav-item::part(link) {
+  padding-inline-start: var(--lumo-space-s) !important;
+}
+
+/*
  * Stellt eine RadioButtonGroup als Reihe verbundener, horizontaler Toggle-Buttons dar
  * (Pendant zu PrimeFaces' p:selectOneButton aus der JSF-Vorlage).
  * Anwendung: radioButtonGroup.addClassName("toggle-buttons")
