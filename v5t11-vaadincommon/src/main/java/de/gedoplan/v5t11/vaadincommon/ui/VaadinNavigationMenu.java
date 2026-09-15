@@ -4,6 +4,7 @@ import de.gedoplan.v5t11.util.jsf.NavigationPresenter;
 
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.DetachEvent;
+import com.vaadin.flow.component.icon.FontIcon;
 import com.vaadin.flow.component.sidenav.SideNav;
 import com.vaadin.flow.component.sidenav.SideNavItem;
 
@@ -72,6 +73,7 @@ public class VaadinNavigationMenu extends SideNav {
       } else {
         item = new SideNavItem(navigationItem.getName(), navigationItem.getUrl());
       }
+      item.setPrefixComponent(new FontIcon(navigationItem.getIcon().split(" ")));
       category.addItem(item);
     });
   }
