@@ -432,8 +432,9 @@ public class SystemControlView extends VerticalLayout {
     funktionenLayout.add(this.lokLichtField);
     for (int nr = 0; nr < 16; nr++) {
       int mask = 1 << nr;
-      Checkbox funktionField = new Checkbox("F" + (nr + 1));
+      Checkbox funktionField = new Checkbox(String.valueOf(nr + 1));
       funktionField.addClassName("toggle-buttons");
+      funktionField.addClassName("toggle-buttons-fn");
       funktionField.addValueChangeListener(event -> {
         if (event.isFromClient() && this.lok != null) {
           int fktBits = this.lok.getFktBits();
