@@ -1,10 +1,10 @@
 package de.gedoplan.v5t11.status.vaadinui;
 
+import de.gedoplan.v5t11.status.entity.Steuerung;
 import de.gedoplan.v5t11.status.entity.fahrweg.Gleis;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
 import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeugdecoder;
-import de.gedoplan.v5t11.status.webui.SystemStatusPresenter;
 import de.gedoplan.v5t11.vaadincommon.ui.MainLayout;
 
 import com.vaadin.flow.component.grid.Grid;
@@ -23,15 +23,15 @@ import java.util.stream.Collectors;
  * Vaadin-Pendant zum inzwischen abgelösten {@code view/systemStatus.xhtml}. Pilot-View der Phase 0 der
  * JSF->Vaadin-Migration (siehe /home/dw/.claude/plans/functional-singing-canyon.md).
  * <p>
- * Nutzt bewusst weiterhin denselben {@link SystemStatusPresenter} wie die ehemalige JSF-Seite, statt die (dünne)
- * Anzeigelogik zu duplizieren - der Presenter selbst kennt keine JSF-Spezifika und bleibt daher erhalten.
+ * Ruft wie {@code SystemControlView} die Fachklasse {@link Steuerung} direkt auf. Der frühere
+ * {@code SystemStatusPresenter} war nur ein reiner Delegations-Layer ohne eigene Logik und wurde entfernt.
  */
 @Route(value = "system-status", layout = MainLayout.class)
 @PageTitle("System-Status - v5t11")
 public class SystemStatusView extends VerticalLayout {
 
   @Inject
-  SystemStatusPresenter systemStatusPresenter;
+  Steuerung steuerung;
 
   @PostConstruct
   void init() {
@@ -50,7 +50,7 @@ public class SystemStatusView extends VerticalLayout {
   }
 
   private Span zentraleTab() {
-    return new Span("Gleisspannung: " + this.systemStatusPresenter.getZentrale().isGleisspannung());
+    return new Span("Gleisspannung: " + this.steuerung.getZentrale().isGleisspannung());
   }
 
   private Grid<Fahrzeugdecoder> loksTab() {
@@ -59,7 +59,7 @@ public class SystemStatusView extends VerticalLayout {
     grid.addColumn(lok -> lok.getFahrstufe() + " (max. " + lok.getId().getSystemTyp().getMaxFahrstufe() + ")").setHeader("Fahrstufe");
     grid.addColumn(lok -> lok.isRueckwaerts()).setHeader("rückwärts");
     grid.addColumn(lok -> lok.isLicht()).setHeader("Licht");
-    grid.setItems(this.systemStatusPresenter.getLoks());
+    grid.setItems(this.steuerung.getFahrzeugdecoder());
     grid.setSizeFull();
     return grid;
   }
@@ -69,8 +69,8 @@ public class SystemStatusView extends VerticalLayout {
     grid.addColumn(weiche -> weiche.getBereich() + "/" + weiche.getName()).setHeader("Weiche");
     grid.addColumn(weiche -> weiche.getFunktionsdecoderZuordnung()).setHeader("Adresse");
     grid.addColumn(weiche -> weiche.getStellung().toString()).setHeader("Stellung");
-    grid.setItems(this.systemStatusPresenter.getBereiche().stream()
-      .flatMap(bereich -> this.systemStatusPresenter.getWeichen(bereich).stream())
+    grid.setItems(this.steuerung.getBereiche().stream()
+      .flatMap(bereich -> this.steuerung.getWeichen(bereich).stream())
       .collect(Collectors.toList()));
     grid.setSizeFull();
     return grid;
@@ -81,8 +81,8 @@ public class SystemStatusView extends VerticalLayout {
     grid.addColumn(signal -> signal.getBereich() + "/" + signal.getName()).setHeader("Signal");
     grid.addColumn(signal -> signal.getFunktionsdecoderZuordnung()).setHeader("Adresse");
     grid.addColumn(signal -> signal.getStellung().toString()).setHeader("Stellung");
-    grid.setItems(this.systemStatusPresenter.getBereiche().stream()
-      .flatMap(bereich -> this.systemStatusPresenter.getSignale(bereich).stream())
+    grid.setItems(this.steuerung.getBereiche().stream()
+      .flatMap(bereich -> this.steuerung.getSignale(bereich).stream())
       .collect(Collectors.toList()));
     grid.setSizeFull();
     return grid;
@@ -93,8 +93,8 @@ public class SystemStatusView extends VerticalLayout {
     grid.addColumn(gleis -> gleis.getBereich() + "/" + gleis.getName()).setHeader("Gleis");
     grid.addColumn(gleis -> gleis.getBesetztmelder().getAdresse() + "/" + gleis.getAnschluss()).setHeader("Adresse");
     grid.addColumn(gleis -> gleis.isBesetzt()).setHeader("besetzt");
-    grid.setItems(this.systemStatusPresenter.getBereiche().stream()
-      .flatMap(bereich -> this.systemStatusPresenter.getGleise(bereich).stream())
+    grid.setItems(this.steuerung.getBereiche().stream()
+      .flatMap(bereich -> this.steuerung.getGleise(bereich).stream())
       .collect(Collectors.toList()));
     grid.setSizeFull();
     return grid;
