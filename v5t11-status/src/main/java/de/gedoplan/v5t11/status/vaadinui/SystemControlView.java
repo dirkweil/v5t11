@@ -22,13 +22,15 @@ import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.FieldSet;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
-import com.vaadin.flow.component.textfield.IntegerField;
+import com.vaadin.flow.component.slider.IntegerSlider;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
@@ -84,7 +86,8 @@ public class SystemControlView extends VerticalLayout {
   private RadioButtonGroup<SignalStellung> signalStellungField;
   private ComboBox<Fahrzeugdecoder> lokField;
   private Checkbox lokAktivField;
-  private IntegerField lokFahrstufeField;
+  private IntegerSlider lokFahrstufeField;
+  private Span lokFahrstufeValueField;
   private Checkbox lokRueckwaertsField;
   private Checkbox lokLichtField;
   private final List<Checkbox> lokFunktionFields = new ArrayList<>();
@@ -379,10 +382,12 @@ public class SystemControlView extends VerticalLayout {
       }
     });
 
-    this.lokFahrstufeField = new IntegerField();
-    this.lokFahrstufeField.setStepButtonsVisible(true);
+    this.lokFahrstufeField = new IntegerSlider();
     this.lokFahrstufeField.setMin(0);
+    this.lokFahrstufeValueField = new Span("0");
+    this.lokFahrstufeValueField.getStyle().set("width", "3em").set("flex", "0 0 auto");
     this.lokFahrstufeField.addValueChangeListener(event -> {
+      this.lokFahrstufeValueField.setText(String.valueOf(event.getValue() != null ? event.getValue() : 0));
       if (event.isFromClient() && this.lok != null && event.getValue() != null) {
         int fahrstufe = event.getValue();
         int max = this.lok.getId().getSystemTyp().getMaxFahrstufe();
@@ -432,7 +437,9 @@ public class SystemControlView extends VerticalLayout {
 
     FormLayout form = newLabelledFormLayout();
     form.addFormItem(new HorizontalLayout(this.lokField, this.lokAktivField), "Lok:");
-    form.addFormItem(new HorizontalLayout(this.lokFahrstufeField, this.lokRueckwaertsField), "Fahrstufe:");
+    HorizontalLayout fahrstufeLayout = new HorizontalLayout(this.lokFahrstufeValueField, this.lokFahrstufeField, this.lokRueckwaertsField);
+    fahrstufeLayout.setAlignItems(FlexComponent.Alignment.CENTER);
+    form.addFormItem(fahrstufeLayout, "Fahrstufe:");
     form.addFormItem(funktionenLayout, "Funktionen:");
     fieldset.add(form);
 
