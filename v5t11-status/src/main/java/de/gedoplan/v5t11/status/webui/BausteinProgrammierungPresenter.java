@@ -8,7 +8,7 @@ import de.gedoplan.v5t11.status.entity.baustein.Konfigurierbar;
 import de.gedoplan.v5t11.status.service.BausteinConfigurationService;
 import de.gedoplan.v5t11.status.service.ConfigurationAdapter;
 import de.gedoplan.v5t11.status.service.ConfigurationRuntimeService;
-import de.gedoplan.v5t11.status.service.Current;
+import de.gedoplan.v5t11.status.service.CurrentBausteinHolder;
 import de.gedoplan.v5t11.status.service.Programmierfamilie;
 
 import java.io.Serializable;
@@ -20,7 +20,6 @@ import java.util.stream.Stream;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.enterprise.inject.Instance;
-import jakarta.enterprise.inject.Produces;
 import jakarta.enterprise.inject.spi.CDI;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
@@ -49,6 +48,9 @@ public class BausteinProgrammierungPresenter implements Serializable {
   @Inject
   Logger log;
 
+  @Inject
+  CurrentBausteinHolder currentBausteinHolder;
+
   // @PostConstruct
   // void postConstruct() {
   // if (this.log.isDebugEnabled()) {
@@ -70,12 +72,14 @@ public class BausteinProgrammierungPresenter implements Serializable {
   private List<Baustein> neueBausteine;
 
   /**
-   * Aktueller Baustein.
+   * Aktueller Baustein. Wird über {@link CurrentBausteinHolder} verwaltet, da dieselbe CDI-Produktionsstelle für
+   * {@code @Current Baustein} auch von der neuen {@code BausteinProgrammierungView} (Vaadin) genutzt wird.
+   *
+   * @return Aktueller Baustein
    */
-  @Produces
-  @Current
-  @Getter
-  Baustein currentBaustein;
+  public Baustein getCurrentBaustein() {
+    return this.currentBausteinHolder.getCurrentBaustein();
+  }
 
   @Getter
   private ConfigurationRuntimeService configurationRuntimeService;
@@ -103,19 +107,19 @@ public class BausteinProgrammierungPresenter implements Serializable {
   public String selectBaustein(Baustein baustein) {
     this.steuerung.getZentrale().setGleisspannung(false);
 
-    this.currentBaustein = baustein;
-    if (this.currentBaustein == null) {
+    this.currentBausteinHolder.setCurrentBaustein(baustein);
+    if (baustein == null) {
       return null;
     }
 
     // Bus-Nr aus Adresse entnehmen
-    int adr = this.currentBaustein.getAdresse();
+    int adr = baustein.getAdresse();
     this.busNr = Kanal.toBusNr(adr);
 
     // Bus-Nr ist fixiert, wenn der Baustein bereits eine Adresse hat
     this.busNrFixed = adr != 0;
 
-    Class<?> bausteinClass = ClassUtil.getProxiedClass(this.currentBaustein.getClass());
+    Class<?> bausteinClass = ClassUtil.getProxiedClass(baustein.getClass());
     try {
       // "Injektion" des passenden ConfigurationRuntimeService per API
       Class<?> programmierfamilie = bausteinClass.getAnnotation(Konfigurierbar.class).programmierFamilie();
@@ -145,11 +149,11 @@ public class BausteinProgrammierungPresenter implements Serializable {
   }
 
   public String getOpenProgModeMessage() {
-    return this.currentBaustein == null ? null : this.configurationRuntimeService.getOpenProgModeMessage();
+    return getCurrentBaustein() == null ? null : this.configurationRuntimeService.getOpenProgModeMessage();
   }
 
   public String getCloseProgModeMessage() {
-    return this.currentBaustein == null ? null : this.configurationRuntimeService.getCloseProgModeMessage();
+    return getCurrentBaustein() == null ? null : this.configurationRuntimeService.getCloseProgModeMessage();
   }
 
   /**
@@ -159,7 +163,7 @@ public class BausteinProgrammierungPresenter implements Serializable {
    * @return Outcome
    */
   public String edit() {
-    if (this.currentBaustein != null) {
+    if (getCurrentBaustein() != null) {
 
       this.busNrFixed = true;
       this.configurationRuntimeService.setBusNr(this.busNr);
