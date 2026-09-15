@@ -26,7 +26,6 @@ public class VaadinNavigationMenu extends SideNav {
 
   public VaadinNavigationMenu(NavigationPresenter navigationPresenter) {
     this.navigationPresenter = navigationPresenter;
-    setLabel("Navigation");
     rebuild();
   }
 
@@ -52,17 +51,28 @@ public class VaadinNavigationMenu extends SideNav {
 
     Map<String, SideNavItem> categories = new TreeMap<>();
     this.navigationPresenter.getNavigationItems().forEach((navigationItem, state) -> {
-      if (state.isDisabled()) {
-        return;
-      }
-
       SideNavItem category = categories.computeIfAbsent(navigationItem.getCategory(), label -> {
         SideNavItem categoryItem = new SideNavItem(label);
+        categoryItem.setExpanded(true);
+        categoryItem.addClassName("nav-category");
         addItem(categoryItem);
         return categoryItem;
       });
 
-      category.addItem(new SideNavItem(navigationItem.getName(), navigationItem.getUrl()));
+      SideNavItem item;
+      if (state.isDisabled()) {
+        // setEnabled(false) funktioniert hier nicht: vaadin-side-nav-item erzwingt bei jeder
+        // Änderung der Kinderzahl des Eltern-Items (_itemsCount) den disabled-Zustand aller Kinder
+        // auf den des (nie disabled) Eltern-Items zurück (vaadin-side-nav-item.js#updated:
+        // "Ensure all the child items are disabled"). Stattdessen bewusst kein Pfad setzen: ohne
+        // path ist der Eintrag weder navigierbar noch fokussierbar; die graue Darstellung kommt
+        // über die CSS-Klasse "nav-item-disabled".
+        item = new SideNavItem(navigationItem.getName());
+        item.addClassName("nav-item-disabled");
+      } else {
+        item = new SideNavItem(navigationItem.getName(), navigationItem.getUrl());
+      }
+      category.addItem(item);
     });
   }
 }
