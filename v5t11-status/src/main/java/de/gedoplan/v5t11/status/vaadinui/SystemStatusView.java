@@ -41,7 +41,7 @@ public class SystemStatusView extends VerticalLayout {
     tabSheet.setSizeFull();
 
     tabSheet.add("Zentrale", zentraleTab());
-    tabSheet.add("Loks", loksTab());
+    tabSheet.add("Fahrzeuge", fahrzeugeTab());
     tabSheet.add("Weichen", weichenTab());
     tabSheet.add("Signale", signaleTab());
     tabSheet.add("Gleise", gleiseTab());
@@ -53,12 +53,12 @@ public class SystemStatusView extends VerticalLayout {
     return new Span("Gleisspannung: " + this.steuerung.getZentrale().isGleisspannung());
   }
 
-  private Grid<Fahrzeugdecoder> loksTab() {
+  private Grid<Fahrzeugdecoder> fahrzeugeTab() {
     Grid<Fahrzeugdecoder> grid = new Grid<>();
-    grid.addColumn(lok -> lok.getId()).setHeader("Lok");
-    grid.addColumn(lok -> lok.getFahrstufe() + " (max. " + lok.getId().getSystemTyp().getMaxFahrstufe() + ")").setHeader("Fahrstufe");
-    grid.addColumn(lok -> lok.isRueckwaerts()).setHeader("rückwärts");
-    grid.addColumn(lok -> lok.isLicht()).setHeader("Licht");
+    grid.addColumn(fahrzeug -> fahrzeug.getId()).setHeader("Fahrzeug");
+    grid.addColumn(fahrzeug -> fahrzeug.getFahrstufe() + " (max. " + fahrzeug.getId().getSystemTyp().getMaxFahrstufe() + ")").setHeader("Fahrstufe");
+    grid.addColumn(fahrzeug -> fahrzeug.isRueckwaerts()).setHeader("rückwärts");
+    grid.addColumn(fahrzeug -> fahrzeug.isLicht()).setHeader("Licht");
     grid.setItems(this.steuerung.getFahrzeugdecoder());
     grid.setSizeFull();
     return grid;
