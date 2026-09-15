@@ -91,3 +91,16 @@ vaadin-checkbox.toggle-buttons[disabled]::part(label) {
   opacity: var(--lumo-disabled-text-opacity, 0.4);
   cursor: default;
 }
+
+/*
+ * Erzwingt eine einheitliche Breite für Toggle-Buttons mit kurzen, unterschiedlich langen
+ * Zifferntexten (z. B. Lok-Funktionen "1".."16"), damit sie nicht je nach Ziffernanzahl
+ * unterschiedlich breit erscheinen. Anwendung zusätzlich zu "toggle-buttons".
+ *
+ * Lumo setzt [part="label"] intern auf display: flex (ohne justify-content), daher richtet
+ * sich der Text ohne justify-content: center trotz min-width nicht mittig aus.
+ */
+vaadin-checkbox.toggle-buttons-fn::part(label) {
+  min-width: 1.5rem;
+  justify-content: center;
+}
