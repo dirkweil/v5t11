@@ -60,6 +60,7 @@ public class SystemStatusView extends VerticalLayout {
     grid.addColumn(lok -> lok.isRueckwaerts()).setHeader("rückwärts");
     grid.addColumn(lok -> lok.isLicht()).setHeader("Licht");
     grid.setItems(this.systemStatusPresenter.getLoks());
+    grid.setSizeFull();
     return grid;
   }
 
@@ -71,6 +72,7 @@ public class SystemStatusView extends VerticalLayout {
     grid.setItems(this.systemStatusPresenter.getBereiche().stream()
       .flatMap(bereich -> this.systemStatusPresenter.getWeichen(bereich).stream())
       .collect(Collectors.toList()));
+    grid.setSizeFull();
     return grid;
   }
 
@@ -82,6 +84,7 @@ public class SystemStatusView extends VerticalLayout {
     grid.setItems(this.systemStatusPresenter.getBereiche().stream()
       .flatMap(bereich -> this.systemStatusPresenter.getSignale(bereich).stream())
       .collect(Collectors.toList()));
+    grid.setSizeFull();
     return grid;
   }
 
@@ -93,6 +96,7 @@ public class SystemStatusView extends VerticalLayout {
     grid.setItems(this.systemStatusPresenter.getBereiche().stream()
       .flatMap(bereich -> this.systemStatusPresenter.getGleise(bereich).stream())
       .collect(Collectors.toList()));
+    grid.setSizeFull();
     return grid;
   }
 }
