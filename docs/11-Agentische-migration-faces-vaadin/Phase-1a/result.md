@@ -18,3 +18,9 @@ In dieser Phase wurde SystemControl zu Vaadin migriert.
 ## Fix des Display-Problems für diverse Checkboxen:
 - Die Checkboxen konnten relativ unproblematisch durch ToggleButtons ersetzt werden.
 - Plan siehe plan-fix-checkboxen.md
+
+## Diverse weitere Display-Verbesserungen:
+- Slider für Fahrstufe.
+- Rahmen um Fieldsets bis zum rechten Rand.
+- Buttons mittig beschriftet und ganzflächig anklickbar.
+- Plan siehe plan-fix-diverse-display-verbesserungen.md
