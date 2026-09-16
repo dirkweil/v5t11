@@ -12,11 +12,9 @@ import lombok.Setter;
 
 /**
  * Hält den aktuell zur Programmierung ausgewählten {@link Baustein} und stellt ihn via {@link Current} für CDI
- * bereit. Ausgelagert aus {@code BausteinProgrammierungPresenter} (JSF), damit sowohl das alte JSF-Menü als auch die
- * neue {@code BausteinProgrammierungView} (Vaadin) dieselbe, einzige CDI-Produktionsstelle für {@code @Current
- * Baustein} nutzen – zwei konkurrierende {@code @Produces}-Stellen für denselben Typ/Qualifier wären eine
- * CDI-Mehrdeutigkeit, die von den elf {@code XxxRuntimeService}-Konstruktoren (Parameter {@code @Current Baustein})
- * benötigte Injektion würde sonst fehlschlagen, sobald beide Präsentationsschichten koexistieren.
+ * bereit. Alleinige CDI-Produktionsstelle für {@code @Current Baustein}, genutzt von
+ * {@code BausteinProgrammierungView} (Vaadin) sowie den elf {@code XxxRuntimeService}-Konstruktoren (Parameter
+ * {@code @Current Baustein}).
  */
 @SessionScoped
 public class CurrentBausteinHolder implements Serializable {

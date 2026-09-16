@@ -35,7 +35,6 @@ public class NavigationProducer {
   @ApplicationScoped
   List<NavigationItem> getStatusNavigationItem() {
     return List.of(
-      new NavigationItem("Baustein-Programmierung (alt)", "Steuerung", this.urlPrefix + "view/bausteinProgrammierung.xhtml", "pi pi-box", 830),
       new NavigationItem("Baustein-Programmierung", "Steuerung", this.urlPrefix + "ui/baustein-programmierung", "pi pi-box", 825),
       new NavigationItem("System-Status", "Steuerung", this.urlPrefix + "ui/system-status", "pi pi-info-circle", 805),
       new NavigationItem("System-Control", "Steuerung", this.urlPrefix + "ui/system-control", "pi pi-play", 815)
