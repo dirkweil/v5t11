@@ -13,6 +13,6 @@ import jakarta.servlet.annotation.WebServlet;
  * {@code @Route}-Werte sind relativ zu diesem Präfix anzugeben, z. B. {@code @Route("system-status")} für
  * {@code /ui/system-status}.
  */
-@WebServlet(urlPatterns = "/ui/*", name = "V5t11VaadinServlet", asyncSupported = true)
+@WebServlet(urlPatterns = "/ui/*", name = "V5t11VaadinServlet", asyncSupported = true, loadOnStartup = 1)
 public class V5t11VaadinServlet extends QuarkusVaadinServlet {
 }
