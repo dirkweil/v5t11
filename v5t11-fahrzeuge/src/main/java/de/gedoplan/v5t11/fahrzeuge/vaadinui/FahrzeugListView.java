@@ -209,7 +209,7 @@ public class FahrzeugListView extends VerticalLayout {
 
   private void navigateToControl(Fahrzeug fahrzeug) {
     this.fahrzeugListPresenter.setCurrentFahrzeug(fahrzeug);
-    getUI().ifPresent(ui -> ui.getPage().setLocation("/view/fahrzeugControl.xhtml"));
+    getUI().ifPresent(ui -> ui.getPage().setLocation("/ui/fahrzeug-control"));
   }
 
   private String getImage(Fahrzeug fahrzeug) {
