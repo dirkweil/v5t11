@@ -7,7 +7,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Consumer;
 
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.event.ObservesAsync;
+import jakarta.enterprise.event.Observes;
+import jakarta.enterprise.event.TransactionPhase;
 
 /**
  * Verteilt dieselben {@code @Changed}-CDI-Events (gefeuert über {@link de.gedoplan.v5t11.util.cdi.EventFirer},
@@ -15,13 +16,19 @@ import jakarta.enterprise.event.ObservesAsync;
  * (nicht per Full-Page-Reload) über {@code UI.access(...)} aktualisieren können. Pendant zu
  * {@code v5t11-status/.../webui/VaadinChangePushBroadcaster.java} aus Phase 1a – eigene Klasse, da jeder Service ein
  * eigenes Deployment/CDI-Environment ist.
+ * <p>
+ * Bewusst {@code @Observes(during = AFTER_SUCCESS)} statt {@code @ObservesAsync}: {@code EventFirer.fire(...)} feuert
+ * das Event noch innerhalb der Transaktion des Aufrufers (z. B. {@code StatusUpdater}), bevor sie committet ist. Ein
+ * transaktionaler Observer wird garantiert erst nach erfolgreichem Commit benachrichtigt, ein
+ * {@code @ObservesAsync}-Observer dagegen potenziell schon vorher (Race Condition bei nachfolgendem Neuladen aus der
+ * DB).
  */
 @ApplicationScoped
 public class VaadinChangePushBroadcaster {
 
   private final List<Consumer<Object>> listeners = new CopyOnWriteArrayList<>();
 
-  void onChanged(@ObservesAsync @Changed Object changed) {
+  void onChanged(@Observes(during = TransactionPhase.AFTER_SUCCESS) @Changed Object changed) {
     this.listeners.forEach(listener -> listener.accept(changed));
   }
 
