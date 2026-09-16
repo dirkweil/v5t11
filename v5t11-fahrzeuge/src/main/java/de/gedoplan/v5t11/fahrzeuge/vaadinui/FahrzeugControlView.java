@@ -191,6 +191,7 @@ public class FahrzeugControlView extends VerticalLayout implements HasDynamicTit
     LokControllerPresenter.LokcontrollerAdapter adapter = this.lokControllerPresenter.getLokcontrollerAdapter(this.fahrzeug, lokcontrollerNr);
 
     Checkbox checkbox = new Checkbox(label);
+    checkbox.addClassName("toggle-buttons");
     checkbox.setValue(adapter.isAssigned());
     checkbox.addValueChangeListener(event -> {
       if (event.isFromClient()) {
@@ -319,8 +320,10 @@ public class FahrzeugControlView extends VerticalLayout implements HasDynamicTit
     form.setResponsiveSteps(new FormLayout.ResponsiveStep("0", 1));
     form.setWidthFull();
 
-    this.aktivField = new Checkbox();
+    this.aktivField = new Checkbox("inaktiv");
+    this.aktivField.addClassName("toggle-buttons");
     this.aktivField.addValueChangeListener(event -> {
+      this.aktivField.setLabel(event.getValue() ? "aktiv" : "inaktiv");
       if (event.isFromClient()) {
         this.statusGateway.changeFahrzeugdecoder(decoderAdr(), event.getValue(), null, null, null, null);
       }
@@ -346,8 +349,10 @@ public class FahrzeugControlView extends VerticalLayout implements HasDynamicTit
         }
       }
     });
-    this.rueckwaertsField = new Checkbox("rückwärts");
+    this.rueckwaertsField = new Checkbox("vorwärts");
+    this.rueckwaertsField.addClassName("toggle-buttons");
     this.rueckwaertsField.addValueChangeListener(event -> {
+      this.rueckwaertsField.setLabel(event.getValue() ? "rückwärts" : "vorwärts");
       if (event.isFromClient()) {
         this.statusGateway.changeFahrzeugdecoder(decoderAdr(), null, null, null, null, event.getValue());
       }
@@ -375,6 +380,7 @@ public class FahrzeugControlView extends VerticalLayout implements HasDynamicTit
 
       if (gruppe == FahrzeugFunktionsGruppe.FL) {
         this.lichtCheckbox = new Checkbox("Licht");
+        this.lichtCheckbox.addClassName("toggle-buttons");
         this.lichtCheckbox.addValueChangeListener(event -> {
           if (event.isFromClient()) {
             this.statusGateway.changeFahrzeugdecoder(decoderAdr(), null, null, null, event.getValue(), null);
@@ -385,6 +391,7 @@ public class FahrzeugControlView extends VerticalLayout implements HasDynamicTit
 
       for (FahrzeugFunktion funktion : funktionenOfGruppe(gruppe)) {
         Checkbox checkbox = new Checkbox(funktion.getBeschreibung());
+        checkbox.addClassName("toggle-buttons");
         checkbox.addValueChangeListener(event -> {
           if (event.isFromClient()) {
             toggleFunktion(funktion, event.getValue());
@@ -431,9 +438,11 @@ public class FahrzeugControlView extends VerticalLayout implements HasDynamicTit
 
     Fahrzeugdecoder decoder = this.fahrzeug.getFahrzeugdecoder();
     this.aktivField.setValue(decoder.isAktiv());
+    this.aktivField.setLabel(decoder.isAktiv() ? "aktiv" : "inaktiv");
     this.fahrstufeField.setValue(decoder.getFahrstufe());
     this.fahrstufeValueField.setText(String.valueOf(decoder.getFahrstufe()));
     this.rueckwaertsField.setValue(decoder.isRueckwaerts());
+    this.rueckwaertsField.setLabel(decoder.isRueckwaerts() ? "rückwärts" : "vorwärts");
     this.positionField.setText(getPositionsbeschreibung());
     refreshFunktionen();
   }
