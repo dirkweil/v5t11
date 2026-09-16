@@ -8,18 +8,17 @@ import de.gedoplan.v5t11.fahrzeuge.webui.FahrzeugListPresenter;
 import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 import de.gedoplan.v5t11.vaadincommon.ui.MainLayout;
 
+import com.vaadin.flow.component.AttachEvent;
+import com.vaadin.flow.component.DetachEvent;
 import com.vaadin.flow.component.checkbox.CheckboxGroup;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
-import com.vaadin.flow.component.orderedlayout.FlexComponent;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.IntegerField;
@@ -58,6 +57,8 @@ public class FahrzeugListView extends VerticalLayout {
   FahrzeugListPresenter fahrzeugListPresenter;
 
   private Div tileContainer;
+  private VerticalLayout extraContent;
+  private MainLayout mainLayout;
   private List<Fahrzeug> fahrzeuge;
   private Set<FahrzeugTyp> currentFilter = Set.of(FahrzeugTyp.LOK);
 
@@ -80,10 +81,7 @@ public class FahrzeugListView extends VerticalLayout {
     Button createButton = new Button("Neues Fahrzeug", event -> openCreateDialog());
     createButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
-    HorizontalLayout toolbar = new HorizontalLayout(new H2("Fahrzeug-Management"), filter, createButton);
-    toolbar.setWidthFull();
-    toolbar.setAlignItems(FlexComponent.Alignment.CENTER);
-    toolbar.setJustifyContentMode(FlexComponent.JustifyContentMode.BETWEEN);
+    this.extraContent = new VerticalLayout(filter, createButton);
 
     this.tileContainer = new Div();
     this.tileContainer.getStyle()
@@ -92,9 +90,20 @@ public class FahrzeugListView extends VerticalLayout {
       .set("gap", "1rem")
       .set("width", "100%");
 
-    add(toolbar, this.tileContainer);
+    add(this.tileContainer);
 
     refreshTiles();
+  }
+
+  @Override
+  protected void onAttach(AttachEvent attachEvent) {
+    this.mainLayout = (MainLayout) getParent().orElseThrow();
+    this.mainLayout.setExtraContent(this.extraContent);
+  }
+
+  @Override
+  protected void onDetach(DetachEvent detachEvent) {
+    this.mainLayout.setExtraContent();
   }
 
   private void refreshTiles() {
