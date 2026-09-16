@@ -28,7 +28,8 @@ public class NavigationProducer {
   @ApplicationScoped
   List<NavigationItem> getFahrzeugManagementNavigationItem() {
     return List.of(
-      new NavigationItem("Fahrzeug-Management", "Fahrzeuge", this.urlPrefix + "view/fahrzeugList.xhtml", "pi pi-th-large", 210)
+      new NavigationItem("Fahrzeug-Management (alt)", "Fahrzeuge", this.urlPrefix + "view/fahrzeugList.xhtml", "pi pi-th-large", 210),
+      new NavigationItem("Fahrzeug-Management", "Fahrzeuge", this.urlPrefix + "ui/fahrzeug-list", "pi pi-th-large", 205)
     );
   }
 }
