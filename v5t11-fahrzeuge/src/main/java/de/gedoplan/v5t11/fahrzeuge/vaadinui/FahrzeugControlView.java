@@ -235,6 +235,7 @@ public class FahrzeugControlView extends VerticalLayout implements HasDynamicTit
   }
 
   private void navigateToJsf(String path) {
+    this.fahrzeugListPresenter.setCurrentFahrzeug(this.fahrzeug);
     getUI().ifPresent(ui -> ui.getPage().setLocation(path));
   }
 
@@ -422,8 +423,11 @@ public class FahrzeugControlView extends VerticalLayout implements HasDynamicTit
   }
 
   private void refreshAll() {
+    // Kein fahrzeugListPresenter.setCurrentFahrzeug(...) hier: dieser Pfad wird auch vom Push-Handler
+    // (onChanged) aus ui.access(...) heraus aufgerufen, ohne aktiven @SessionScoped-Kontext. Die Bridge wird
+    // stattdessen direkt vor jeder Navigation gesetzt (siehe navigateToJsf/saveFahrzeug), wo garantiert ein
+    // echter Request/Klick vorliegt.
     this.fahrzeug = this.fahrzeugRepository.findById(this.fahrzeug.getId()).get();
-    this.fahrzeugListPresenter.setCurrentFahrzeug(this.fahrzeug);
 
     Fahrzeugdecoder decoder = this.fahrzeug.getFahrzeugdecoder();
     this.aktivField.setValue(decoder.isAktiv());
