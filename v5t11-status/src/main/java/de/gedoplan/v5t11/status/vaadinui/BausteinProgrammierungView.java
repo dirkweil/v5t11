@@ -29,19 +29,23 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.FieldSet;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.TabSheet;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -395,13 +399,31 @@ public class BausteinProgrammierungView extends VerticalLayout {
     ConfigurationFormFields.addIntRow(headerForm, "Abschaltzeit (in 100 ms, 0=nie):", c.getAbschaltZeit());
     layout.add(headerForm);
 
+    // Servo-Werte sind langsam zu lesen (siehe SD8RuntimeService.getRuntimeValues()) und werden daher, wie im
+    // alten JSF (p:tabView dynamic="true"), erst beim erstmaligen Öffnen des jeweiligen Tabs gelesen/aufgebaut.
     TabSheet tabSheet = new TabSheet();
+    Map<Tab, Div> servoPanels = new LinkedHashMap<>();
+    Map<Tab, ServoConfiguration> servoByTab = new LinkedHashMap<>();
     for (ServoConfiguration servo : c.getServoConfiguration()) {
-      tabSheet.add("Servo " + servo.getServoNummer(), buildServoForm(servo, sd8Service));
+      Div panel = new Div();
+      Tab tab = tabSheet.add("Servo " + servo.getServoNummer(), panel);
+      servoPanels.put(tab, panel);
+      servoByTab.put(tab, servo);
     }
+
+    tabSheet.addSelectedChangeListener(event -> loadServoPanel(event.getSelectedTab(), servoPanels, servoByTab, sd8Service));
+    loadServoPanel(tabSheet.getSelectedTab(), servoPanels, servoByTab, sd8Service);
+
     layout.add(tabSheet);
 
     return layout;
+  }
+
+  private void loadServoPanel(Tab tab, Map<Tab, Div> servoPanels, Map<Tab, ServoConfiguration> servoByTab, SD8RuntimeService sd8Service) {
+    Div panel = servoPanels.get(tab);
+    if (panel != null && panel.getComponentCount() == 0) {
+      panel.add(buildServoForm(servoByTab.get(tab), sd8Service));
+    }
   }
 
   private FormLayout buildServoForm(ServoConfiguration servo, SD8RuntimeService sd8Service) {
