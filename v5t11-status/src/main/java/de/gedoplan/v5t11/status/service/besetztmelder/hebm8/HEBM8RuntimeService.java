@@ -70,7 +70,9 @@ public class HEBM8RuntimeService extends ConfigurationRuntimeService {
 
   @Override
   public String getCloseProgModeMessage() {
-    return "Programmiertaster am Baustein so lange drücken, bis die LED aufleuchtet!";
+    return this.programmed
+      ? "Programmiertaster am Baustein so lange drücken, bis die LED aufleuchtet!"
+      : "Programmiertaster am Baustein bitte NICHT drücken!";
   }
 
   @Override

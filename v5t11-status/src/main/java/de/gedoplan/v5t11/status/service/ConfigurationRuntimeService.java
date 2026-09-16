@@ -35,6 +35,8 @@ public abstract class ConfigurationRuntimeService implements Serializable {
 
   protected Baustein baustein;
 
+  protected boolean programmed;
+
   private Map<Integer, Integer> savedKanalWerte = new HashMap<>();
 
   protected Logger log = Logger.getLogger(getClass());
@@ -61,6 +63,7 @@ public abstract class ConfigurationRuntimeService implements Serializable {
   public void program() {
     setRuntimeValues();
     this.bausteinConfigurationService.save(getConfiguration().istConfiguration);
+    this.programmed = true;
   }
 
   public void saveProgKanalWerte() {
