@@ -69,12 +69,13 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 /**
  * Vaadin-Pendant zu {@code view/fahrzeugControl.xhtml} + {@code FahrzeugControlPresenter}, inkl. der einfachen,
  * zuvor zurückgestellten Menüpunkte "Basisdaten" ({@code fahrzeugBasics.xhtml}), "Position"
- * ({@code fahrzeugPosition.xhtml}) und "Löschen" ({@code fahrzeugRemoveConfirm.xhtml}) sowie des Menüpunkts
- * "Funktionen" (eigene Route {@link FahrzeugFunctionView}, Pendant zu {@code fahrzeugFunction.xhtml}). Teil der
+ * ({@code fahrzeugPosition.xhtml}) und "Löschen" ({@code fahrzeugRemoveConfirm.xhtml}) sowie der Menüpunkte
+ * "Funktionen" (eigene Route {@link FahrzeugFunctionView}, Pendant zu {@code fahrzeugFunction.xhtml}) und
+ * "Zugbildung" (eigene Route {@link FahrzeugTraktionView}, Pendant zu {@code fahrzeugTraktion.xhtml}). Teil der
  * Phase-2-Migration von v5t11-fahrzeuge (siehe /home/dw/.claude/plans/functional-singing-canyon.md).
  * <p>
- * Die übrigen Menüpunkte (Zugbildung/Programmierung/Geschwindigkeiten/Gleislängen) bleiben bewusst Cross-Links auf
- * die weiterhin-JSF-Views – deren "zurück" führt auf das unveränderte alte fahrzeugControl.xhtml zurück, ein
+ * Die übrigen Menüpunkte (Programmierung/Geschwindigkeiten/Gleislängen) bleiben bewusst Cross-Links auf die
+ * weiterhin-JSF-Views – deren "zurück" führt auf das unveränderte alte fahrzeugControl.xhtml zurück, ein
  * akzeptierter Bruch für die Übergangszeit.
  * <p>
  * Steuerungsaktionen (Aktiv/Fahrstufe/Rückwärts/Funktionen) mutieren nie lokal, sondern rufen ausschließlich
@@ -214,7 +215,7 @@ public class FahrzeugControlView extends VerticalLayout implements HasDynamicTit
     SubMenu subMenu = bearbeiten.getSubMenu();
     subMenu.addItem("Basisdaten", event -> openBasicsDialog());
     subMenu.addItem("Position", event -> openPositionDialog());
-    subMenu.addItem("Zugbildung", event -> navigateToJsf("/view/fahrzeugTraktion.xhtml"));
+    subMenu.addItem("Zugbildung", event -> navigateToTraktion());
     subMenu.addItem("Funktionen", event -> navigateToFunction());
     subMenu.addItem("Programmierung", event -> navigateToJsf("/view/fahrzeugProgram.xhtml"));
     subMenu.addItem("Geschwindigkeiten", event -> navigateToJsf("/view/fahrzeugMessung.xhtml"));
@@ -250,6 +251,11 @@ public class FahrzeugControlView extends VerticalLayout implements HasDynamicTit
   private void navigateToFunction() {
     this.fahrzeugListPresenter.setCurrentFahrzeug(this.fahrzeug);
     getUI().ifPresent(ui -> ui.getPage().setLocation("/ui/fahrzeug-function"));
+  }
+
+  private void navigateToTraktion() {
+    this.fahrzeugListPresenter.setCurrentFahrzeug(this.fahrzeug);
+    getUI().ifPresent(ui -> ui.getPage().setLocation("/ui/fahrzeug-traktion"));
   }
 
   private void navigateToList() {

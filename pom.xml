@@ -156,6 +156,13 @@
         <version>${vaadin.version}</version>
       </dependency>
 
+      <!-- Vaadin-Add-on: PickList-Äquivalent für die Zugbildung (v5t11-fahrzeuge, fahrzeugTraktion) -->
+      <dependency>
+        <groupId>com.flowingcode.vaadin.addons</groupId>
+        <artifactId>twincolgrid</artifactId>
+        <version>4.0.1</version>
+      </dependency>
+
     </dependencies>
   </dependencyManagement>
 
