@@ -171,8 +171,8 @@ public class FahrzeugControlView extends VerticalLayout implements HasDynamicTit
     HorizontalLayout left = new HorizontalLayout(betriebsnummer, image, decoderAdrText);
     left.setAlignItems(FlexComponent.Alignment.CENTER);
 
-    Checkbox lokControl1 = buildLokControlCheckbox(0, "Lok-Control 1");
-    Checkbox lokControl2 = buildLokControlCheckbox(1, "Lok-Control 2");
+    Checkbox lokControl1 = buildLokControlCheckbox(0, "1");
+    Checkbox lokControl2 = buildLokControlCheckbox(1, "2");
 
     Button backButton = new Button("zurück", event -> navigateToList());
 
