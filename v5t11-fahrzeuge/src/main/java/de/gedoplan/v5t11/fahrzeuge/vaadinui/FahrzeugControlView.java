@@ -5,9 +5,11 @@ import de.gedoplan.baselibs.utils.xml.XmlConverter;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.FahrzeugFunktion;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe;
+import de.gedoplan.v5t11.fahrzeuge.entity.fahrweg.Gleis;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeugdecoder;
 import de.gedoplan.v5t11.fahrzeuge.gateway.StatusGateway;
 import de.gedoplan.v5t11.fahrzeuge.persistence.FahrzeugRepository;
+import de.gedoplan.v5t11.fahrzeuge.service.ParcoursService;
 import de.gedoplan.v5t11.fahrzeuge.webui.FahrzeugListPresenter;
 import de.gedoplan.v5t11.fahrzeuge.webui.LokControllerPresenter;
 import de.gedoplan.v5t11.fahrzeuge.webui.VaadinChangePushBroadcaster;
@@ -21,6 +23,7 @@ import com.vaadin.flow.component.DetachEvent;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.Checkbox;
+import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.contextmenu.SubMenu;
@@ -64,14 +67,14 @@ import java.util.stream.Stream;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 /**
- * Vaadin-Pendant zu {@code view/fahrzeugControl.xhtml} + {@code FahrzeugControlPresenter}, inkl. der beiden
- * einfachen, zuvor zurückgestellten Menüpunkte "Basisdaten" ({@code fahrzeugBasics.xhtml}) und "Löschen"
- * ({@code fahrzeugRemoveConfirm.xhtml}). Teil der Phase-2-Migration von v5t11-fahrzeuge (siehe
- * /home/dw/.claude/plans/functional-singing-canyon.md).
+ * Vaadin-Pendant zu {@code view/fahrzeugControl.xhtml} + {@code FahrzeugControlPresenter}, inkl. der einfachen,
+ * zuvor zurückgestellten Menüpunkte "Basisdaten" ({@code fahrzeugBasics.xhtml}), "Position"
+ * ({@code fahrzeugPosition.xhtml}) und "Löschen" ({@code fahrzeugRemoveConfirm.xhtml}). Teil der
+ * Phase-2-Migration von v5t11-fahrzeuge (siehe /home/dw/.claude/plans/functional-singing-canyon.md).
  * <p>
- * Die übrigen Menüpunkte (Position/Zugbildung/Funktionen/Programmierung/Geschwindigkeiten/Gleislängen) bleiben
- * bewusst Cross-Links auf die weiterhin-JSF-Views – deren "zurück" führt auf das unveränderte alte
- * fahrzeugControl.xhtml zurück, ein akzeptierter Bruch für die Übergangszeit.
+ * Die übrigen Menüpunkte (Zugbildung/Funktionen/Programmierung/Geschwindigkeiten/Gleislängen) bleiben bewusst
+ * Cross-Links auf die weiterhin-JSF-Views – deren "zurück" führt auf das unveränderte alte fahrzeugControl.xhtml
+ * zurück, ein akzeptierter Bruch für die Übergangszeit.
  * <p>
  * Steuerungsaktionen (Aktiv/Fahrstufe/Rückwärts/Funktionen) mutieren nie lokal, sondern rufen ausschließlich
  * {@link StatusGateway#changeFahrzeugdecoder} auf; die tatsächliche Aktualisierung kommt asynchron über Kafka
@@ -98,6 +101,9 @@ public class FahrzeugControlView extends VerticalLayout implements HasDynamicTit
 
   @Inject
   LokControllerPresenter lokControllerPresenter;
+
+  @Inject
+  ParcoursService parcoursService;
 
   @Inject
   VaadinChangePushBroadcaster pushBroadcaster;
@@ -206,7 +212,7 @@ public class FahrzeugControlView extends VerticalLayout implements HasDynamicTit
     MenuItem bearbeiten = menuBar.addItem("bearbeiten");
     SubMenu subMenu = bearbeiten.getSubMenu();
     subMenu.addItem("Basisdaten", event -> openBasicsDialog());
-    subMenu.addItem("Position", event -> navigateToJsf("/view/fahrzeugPosition.xhtml"));
+    subMenu.addItem("Position", event -> openPositionDialog());
     subMenu.addItem("Zugbildung", event -> navigateToJsf("/view/fahrzeugTraktion.xhtml"));
     subMenu.addItem("Funktionen", event -> navigateToJsf("/view/fahrzeugFunction.xhtml"));
     subMenu.addItem("Programmierung", event -> navigateToJsf("/view/fahrzeugProgram.xhtml"));
@@ -264,6 +270,50 @@ public class FahrzeugControlView extends VerticalLayout implements HasDynamicTit
     Button saveButton = new Button("speichern", event -> {
       this.fahrzeug.setBeschreibung(beschreibungField.getValue());
       this.fahrzeug.setLaenge(laengeField.getValue() == null ? 0 : laengeField.getValue());
+      if (saveFahrzeug()) {
+        dialog.close();
+      }
+    });
+    saveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+    Button cancelButton = new Button("abbrechen", event -> dialog.close());
+    dialog.getFooter().add(cancelButton, saveButton);
+
+    dialog.open();
+  }
+
+  // ---------- Position-Dialog ----------
+
+  private void openPositionDialog() {
+    Dialog dialog = new Dialog();
+    dialog.setHeaderTitle("Position bearbeiten");
+
+    ComboBox<Gleis> gleisField = new ComboBox<>("Gleis");
+    gleisField.setItems(this.parcoursService.getGleise());
+    gleisField.setItemLabelGenerator(gleis -> gleis.getId().toString());
+    gleisField.setClearButtonVisible(true);
+    if (this.fahrzeug.getGleisId() != null) {
+      gleisField.setValue(this.parcoursService.findGleisById(this.fahrzeug.getGleisId()).orElse(null));
+    }
+
+    IntegerField positionField = new IntegerField("Position [mm]");
+    positionField.setValue(this.fahrzeug.getGleisPosition());
+
+    Checkbox richtungField = new Checkbox();
+    richtungField.addClassName("toggle-buttons");
+    richtungField.setValue(this.fahrzeug.isGleisZaehlrichtung());
+    richtungField.setLabel(richtungField.getValue() ? "in Zählrichtung vorwärts" : "in Zählrichtung rückwärts");
+    richtungField.addValueChangeListener(
+      event -> richtungField.setLabel(event.getValue() ? "in Zählrichtung vorwärts" : "in Zählrichtung rückwärts"));
+
+    VerticalLayout formLayout = new VerticalLayout(gleisField, positionField, richtungField);
+    formLayout.setPadding(false);
+    dialog.add(formLayout);
+
+    Button saveButton = new Button("speichern", event -> {
+      Gleis gleis = gleisField.getValue();
+      this.fahrzeug.setGleisId(gleis == null ? null : gleis.getId());
+      this.fahrzeug.setGleisPosition(positionField.getValue() == null ? 0 : positionField.getValue());
+      this.fahrzeug.setGleisZaehlrichtung(richtungField.getValue());
       if (saveFahrzeug()) {
         dialog.close();
       }
