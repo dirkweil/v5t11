@@ -73,11 +73,11 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
  * "Funktionen" (eigene Route {@link FahrzeugFunctionView}, Pendant zu {@code fahrzeugFunction.xhtml}) und
  * "Zugbildung" (eigene Route {@link FahrzeugTraktionView}, Pendant zu {@code fahrzeugTraktion.xhtml}). Teil der
  * Phase-2-Migration von v5t11-fahrzeuge (siehe /home/dw/.claude/plans/functional-singing-canyon.md).
- * "Gleislängen" (eigene Route {@link GleisMessungView}, Pendant zu {@code gleisMessung.xhtml}).
+ * "Gleislängen" (eigene Route {@link GleisMessungView}, Pendant zu {@code gleisMessung.xhtml}) und
+ * "Geschwindigkeiten" (eigene Route {@link FahrzeugMessungView}, Pendant zu {@code fahrzeugMessung.xhtml}).
  * <p>
- * Die übrigen Menüpunkte (Programmierung/Geschwindigkeiten) bleiben bewusst Cross-Links auf die weiterhin-JSF-Views
- * – deren "zurück" führt auf das unveränderte alte fahrzeugControl.xhtml zurück, ein akzeptierter Bruch für die
- * Übergangszeit.
+ * Nur der Menüpunkt "Programmierung" bleibt bewusst ein Cross-Link auf die weiterhin-JSF-View – deren "zurück"
+ * führt auf das unveränderte alte fahrzeugControl.xhtml zurück, ein akzeptierter Bruch für die Übergangszeit.
  * <p>
  * Steuerungsaktionen (Aktiv/Fahrstufe/Rückwärts/Funktionen) mutieren nie lokal, sondern rufen ausschließlich
  * {@link StatusGateway#changeFahrzeugdecoder} auf; die tatsächliche Aktualisierung kommt asynchron über Kafka
@@ -219,7 +219,7 @@ public class FahrzeugControlView extends VerticalLayout implements HasDynamicTit
     subMenu.addItem("Zugbildung", event -> navigateToTraktion());
     subMenu.addItem("Funktionen", event -> navigateToFunction());
     subMenu.addItem("Programmierung", event -> navigateToJsf("/view/fahrzeugProgram.xhtml"));
-    subMenu.addItem("Geschwindigkeiten", event -> navigateToJsf("/view/fahrzeugMessung.xhtml"));
+    subMenu.addItem("Geschwindigkeiten", event -> navigateToFahrzeugMessung());
     subMenu.addItem("Gleislängen", event -> navigateToGleisMessung());
     subMenu.addSeparator();
     subMenu.addComponent(buildExportAnchor());
@@ -262,6 +262,11 @@ public class FahrzeugControlView extends VerticalLayout implements HasDynamicTit
   private void navigateToGleisMessung() {
     this.fahrzeugListPresenter.setCurrentFahrzeug(this.fahrzeug);
     getUI().ifPresent(ui -> ui.getPage().setLocation("/ui/gleis-messung"));
+  }
+
+  private void navigateToFahrzeugMessung() {
+    this.fahrzeugListPresenter.setCurrentFahrzeug(this.fahrzeug);
+    getUI().ifPresent(ui -> ui.getPage().setLocation("/ui/fahrzeug-messung"));
   }
 
   private void navigateToList() {
