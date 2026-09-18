@@ -202,10 +202,7 @@ public class GleisMessungView extends VerticalLayout {
     this.grid.addColumn(gleis -> formatLaenge(this.gleisMessService.getMessungen().get(gleis))).setHeader("Länge neu")
       .setTextAlign(ColumnTextAlign.END).setWidth("7rem").setFlexGrow(0);
 
-    Button removeAllButton = new Button(VaadinIcon.ERASER.create(), event -> removeOverrides());
-    removeAllButton.addThemeVariants(ButtonVariant.LUMO_SMALL);
-    removeAllButton.getElement().setAttribute("title", "Alle Messungen für bereits gemessene Gleise entfernen");
-    this.grid.addComponentColumn(this::buildRemoveButton).setHeader(removeAllButton).setWidth("60px").setFlexGrow(0);
+    this.grid.addComponentColumn(this::buildRemoveButton).setWidth("60px").setFlexGrow(0);
 
     return this.grid;
   }
@@ -218,11 +215,6 @@ public class GleisMessungView extends VerticalLayout {
 
   private void removeMessung(Gleis gleis) {
     this.gleisMessService.removeMessung(gleis);
-    refreshGrid();
-  }
-
-  private void removeOverrides() {
-    this.gleisMessService.removeOverrides();
     refreshGrid();
   }
 
