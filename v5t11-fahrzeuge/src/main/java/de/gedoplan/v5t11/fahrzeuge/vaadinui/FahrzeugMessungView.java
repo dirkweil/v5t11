@@ -238,10 +238,10 @@ public class FahrzeugMessungView extends VerticalLayout {
       .setTextAlign(ColumnTextAlign.CENTER).setWidth("150px").setFlexGrow(0);
     this.grid.addColumn(entry -> formatGeschwindigkeit(entry.vorwaerts())).setHeader("vorwärts")
       .setTextAlign(ColumnTextAlign.CENTER).setWidth("250px").setFlexGrow(0);
-    this.grid.addComponentColumn(entry -> buildRemoveButton(entry.fahrstufe())).setWidth("40px").setFlexGrow(0);
+    this.grid.addComponentColumn(entry -> buildRemoveButton(entry.fahrstufe())).setWidth("60px").setFlexGrow(0);
     this.grid.addColumn(entry -> formatGeschwindigkeit(entry.rueckwaerts())).setHeader("rückwärts")
       .setTextAlign(ColumnTextAlign.CENTER).setWidth("250px").setFlexGrow(0);
-    this.grid.addComponentColumn(entry -> buildRemoveButton(-entry.fahrstufe())).setWidth("40px").setFlexGrow(0);
+    this.grid.addComponentColumn(entry -> buildRemoveButton(-entry.fahrstufe())).setWidth("60px").setFlexGrow(0);
 
     return this.grid;
   }
