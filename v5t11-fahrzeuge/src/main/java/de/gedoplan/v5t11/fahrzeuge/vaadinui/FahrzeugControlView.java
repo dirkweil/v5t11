@@ -73,10 +73,11 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
  * "Funktionen" (eigene Route {@link FahrzeugFunctionView}, Pendant zu {@code fahrzeugFunction.xhtml}) und
  * "Zugbildung" (eigene Route {@link FahrzeugTraktionView}, Pendant zu {@code fahrzeugTraktion.xhtml}). Teil der
  * Phase-2-Migration von v5t11-fahrzeuge (siehe /home/dw/.claude/plans/functional-singing-canyon.md).
+ * "Gleislängen" (eigene Route {@link GleisMessungView}, Pendant zu {@code gleisMessung.xhtml}).
  * <p>
- * Die übrigen Menüpunkte (Programmierung/Geschwindigkeiten/Gleislängen) bleiben bewusst Cross-Links auf die
- * weiterhin-JSF-Views – deren "zurück" führt auf das unveränderte alte fahrzeugControl.xhtml zurück, ein
- * akzeptierter Bruch für die Übergangszeit.
+ * Die übrigen Menüpunkte (Programmierung/Geschwindigkeiten) bleiben bewusst Cross-Links auf die weiterhin-JSF-Views
+ * – deren "zurück" führt auf das unveränderte alte fahrzeugControl.xhtml zurück, ein akzeptierter Bruch für die
+ * Übergangszeit.
  * <p>
  * Steuerungsaktionen (Aktiv/Fahrstufe/Rückwärts/Funktionen) mutieren nie lokal, sondern rufen ausschließlich
  * {@link StatusGateway#changeFahrzeugdecoder} auf; die tatsächliche Aktualisierung kommt asynchron über Kafka
@@ -219,7 +220,7 @@ public class FahrzeugControlView extends VerticalLayout implements HasDynamicTit
     subMenu.addItem("Funktionen", event -> navigateToFunction());
     subMenu.addItem("Programmierung", event -> navigateToJsf("/view/fahrzeugProgram.xhtml"));
     subMenu.addItem("Geschwindigkeiten", event -> navigateToJsf("/view/fahrzeugMessung.xhtml"));
-    subMenu.addItem("Gleislängen", event -> navigateToJsf("/view/gleisMessung.xhtml"));
+    subMenu.addItem("Gleislängen", event -> navigateToGleisMessung());
     subMenu.addSeparator();
     subMenu.addComponent(buildExportAnchor());
     subMenu.addSeparator();
@@ -256,6 +257,11 @@ public class FahrzeugControlView extends VerticalLayout implements HasDynamicTit
   private void navigateToTraktion() {
     this.fahrzeugListPresenter.setCurrentFahrzeug(this.fahrzeug);
     getUI().ifPresent(ui -> ui.getPage().setLocation("/ui/fahrzeug-traktion"));
+  }
+
+  private void navigateToGleisMessung() {
+    this.fahrzeugListPresenter.setCurrentFahrzeug(this.fahrzeug);
+    getUI().ifPresent(ui -> ui.getPage().setLocation("/ui/gleis-messung"));
   }
 
   private void navigateToList() {
