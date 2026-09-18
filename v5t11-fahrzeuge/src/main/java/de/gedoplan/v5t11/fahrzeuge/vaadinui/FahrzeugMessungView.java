@@ -1,6 +1,7 @@
 package de.gedoplan.v5t11.fahrzeuge.vaadinui;
 
 import de.gedoplan.baselibs.utils.util.ResourceUtil;
+import de.gedoplan.v5t11.fahrzeuge.entity.fahrweg.Gleis;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug;
 import de.gedoplan.v5t11.fahrzeuge.persistence.FahrzeugRepository;
 import de.gedoplan.v5t11.fahrzeuge.service.GeschwindigkeitsMessService;
@@ -153,12 +154,17 @@ public class FahrzeugMessungView extends VerticalLayout {
     FormLayout form = new FormLayout();
     form.setResponsiveSteps(new FormLayout.ResponsiveStep("0", 2));
 
-    form.addFormItem(new Span(String.valueOf(this.geschwindigkeitsMessService.getMessGleis().getId())), "Messgleis:");
-    form.addFormItem(new Span(formatLaenge(this.geschwindigkeitsMessService.getMessGleis().getLaenge())), "Länge:");
-    form.addFormItem(new Span(String.valueOf(this.geschwindigkeitsMessService.getLinkesAnschlussGleis().getId())), "Gleis links:");
-    form.addFormItem(new Span(String.valueOf(this.geschwindigkeitsMessService.getRechtesAnschlussGleis().getId())), "Gleis rechts:");
+    Gleis messGleis = this.geschwindigkeitsMessService.getMessGleis();
+    form.addFormItem(new Span(gleisLabel(messGleis)), "Messgleis:");
+    form.addFormItem(new Span(messGleis == null ? "" : formatLaenge(messGleis.getLaenge())), "Länge:");
+    form.addFormItem(new Span(gleisLabel(this.geschwindigkeitsMessService.getLinkesAnschlussGleis())), "Gleis links:");
+    form.addFormItem(new Span(gleisLabel(this.geschwindigkeitsMessService.getRechtesAnschlussGleis())), "Gleis rechts:");
 
     return form;
+  }
+
+  private String gleisLabel(Gleis gleis) {
+    return gleis == null ? "" : String.valueOf(gleis.getId());
   }
 
   private String formatLaenge(Integer laenge) {
