@@ -63,12 +63,6 @@
     </navigation-case>
 
     <navigation-case>
-      <from-outcome>gleisMessung</from-outcome>
-      <to-view-id>/view/gleisMessung.xhtml</to-view-id>
-      <redirect/>
-    </navigation-case>
-
-    <navigation-case>
       <from-outcome>remove</from-outcome>
       <to-view-id>/view/fahrzeugRemoveConfirm.xhtml</to-view-id>
       <redirect/>
