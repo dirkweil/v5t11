@@ -73,7 +73,7 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
  * "Funktionen" (eigene Route {@link FahrzeugFunctionView}, Pendant zu {@code fahrzeugFunction.xhtml}) und
  * "Zugbildung" (eigene Route {@link FahrzeugTraktionView}, Pendant zu {@code fahrzeugTraktion.xhtml}). Teil der
  * Phase-2-Migration von v5t11-fahrzeuge (siehe /home/dw/.claude/plans/functional-singing-canyon.md).
- * "Gleislängen" (eigene Route {@link GleisMessungView}, Pendant zu {@code gleisMessung.xhtml}) und
+ * "Gleislängen" (eigene Route {@link GleisMessungView}, Pendant zur inzwischen gelöschten {@code gleisMessung.xhtml}) und
  * "Geschwindigkeiten" (eigene Route {@link FahrzeugMessungView}, Pendant zu {@code fahrzeugMessung.xhtml}).
  * <p>
  * Nur der Menüpunkt "Programmierung" bleibt bewusst ein Cross-Link auf die weiterhin-JSF-View – deren "zurück"

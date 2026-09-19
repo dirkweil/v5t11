@@ -33,15 +33,16 @@ import jakarta.inject.Inject;
 import java.util.Locale;
 
 /**
- * Vaadin-Pendant zu {@code view/gleisMessung.xhtml} + {@code GleisMessungPresenter}. Teil der Phase-2-Migration von
- * v5t11-fahrzeuge (siehe /home/dw/.claude/plans/functional-singing-canyon.md).
+ * Vaadin-Pendant zur ehemaligen {@code view/gleisMessung.xhtml} + {@code GleisMessungPresenter} (beide nach
+ * erfolgreicher Migration gelöscht). Teil der Phase-2-Migration von v5t11-fahrzeuge (siehe
+ * /home/dw/.claude/plans/functional-singing-canyon.md).
  * <p>
  * {@link GleisMessService} benachrichtigt Interessenten nicht über {@link
  * de.gedoplan.v5t11.fahrzeuge.webui.VaadinChangePushBroadcaster}, sondern über einen eigenen Single-Slot-Observer
  * ({@code attachObserver(Runnable)}/{@code detachObserver()}), an den sich diese View analog zu {@code
  * FahrzeugControlView}s {@code onAttach}/{@code onDetach}-Pattern direkt anmeldet. Der Observer liefert kein
  * Änderungsobjekt, daher liest {@link #refreshAll()} alle Anzeigewerte frisch aus den Service-Gettern.
- * {@code GleisMessService} selbst bleibt unverändert (Rollback-Pfad ist die alte {@code gleisMessung.xhtml}).
+ * {@code GleisMessService} selbst bleibt unverändert.
  */
 @Route(value = "gleis-messung", layout = MainLayout.class)
 @PageTitle("Gleislängen - v5t11")
