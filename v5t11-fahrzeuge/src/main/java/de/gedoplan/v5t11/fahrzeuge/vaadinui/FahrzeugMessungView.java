@@ -35,8 +35,9 @@ import java.util.Locale;
 import java.util.List;
 
 /**
- * Vaadin-Pendant zu {@code view/fahrzeugMessung.xhtml} + {@code FahrzeugMessungPresenter}. Teil der
- * Phase-2-Migration von v5t11-fahrzeuge (siehe /home/dw/.claude/plans/functional-singing-canyon.md).
+ * Vaadin-Pendant zur ehemaligen {@code view/fahrzeugMessung.xhtml} + {@code FahrzeugMessungPresenter} (beide nach
+ * erfolgreicher Migration gelöscht). Teil der Phase-2-Migration von v5t11-fahrzeuge (siehe
+ * /home/dw/.claude/plans/functional-singing-canyon.md).
  * <p>
  * {@link GeschwindigkeitsMessService} benachrichtigt Interessenten nicht über {@link
  * de.gedoplan.v5t11.fahrzeuge.webui.VaadinChangePushBroadcaster}, sondern über einen eigenen
@@ -44,8 +45,7 @@ import java.util.List;
  * zu {@code FahrzeugControlView}s {@code onAttach}/{@code onDetach}-Pattern direkt anmeldet (siehe {@link
  * GleisMessungView}, gleiches Muster). Der Observer liefert kein Änderungsobjekt, daher liest {@link #refreshAll()}
  * alle Anzeigewerte frisch aus den Service-Gettern. {@code GeschwindigkeitsMessService} selbst bleibt unverändert
- * inkl. seiner {@code Thread.sleep(5000)}-Wartezeit im Event-Handler-Thread (Rollback-Pfad ist die alte
- * {@code fahrzeugMessung.xhtml}).
+ * inkl. seiner {@code Thread.sleep(5000)}-Wartezeit im Event-Handler-Thread.
  */
 @Route(value = "fahrzeug-messung", layout = MainLayout.class)
 @PageTitle("Geschwindigkeiten - v5t11")
