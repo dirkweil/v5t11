@@ -1,10 +1,13 @@
 package de.gedoplan.v5t11.fahrzeuge.vaadinui;
 
 import de.gedoplan.baselibs.utils.util.ResourceUtil;
+import de.gedoplan.baselibs.utils.xml.XmlConverter;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.FahrzeugTyp;
+import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeugdecoder;
 import de.gedoplan.v5t11.fahrzeuge.persistence.FahrzeugRepository;
 import de.gedoplan.v5t11.fahrzeuge.webui.FahrzeugListPresenter;
+import de.gedoplan.v5t11.util.domain.attribute.DecoderAdr;
 import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 import de.gedoplan.v5t11.vaadincommon.ui.MainLayout;
 
@@ -23,14 +26,21 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.component.upload.Upload;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.streams.UploadHandler;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.inject.Inject;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -40,8 +50,9 @@ import java.util.Set;
  * <p>
  * Bearbeiten ("Basisdaten") und Löschen sind bewusst nicht Teil dieser View: sie hängen im JSF-Original nicht an
  * fahrzeugList, sondern am "bearbeiten"-Menü von fahrzeugControl.xhtml, das erst in einem späteren Schritt migriert
- * wird. Der XML-Import beim Anlegen (PrimeFaces-Upload) ist ebenfalls bewusst (Nutzer-Entscheidung) nicht
- * nachgebaut.
+ * wird. Der XML-Import beim Anlegen (Pendant zu {@code FahrzeugCreatePresenter#handleFileUpload}) ist über
+ * {@link Upload}/{@link UploadHandler#inMemory} nachgebaut und nutzt wie der bestehende Export in
+ * {@link FahrzeugControlView} {@link XmlConverter}.
  */
 @Route(value = "fahrzeug-list", layout = MainLayout.class)
 @PageTitle("Fahrzeug-Management - v5t11")
@@ -163,12 +174,37 @@ public class FahrzeugListView extends VerticalLayout {
     IntegerField adresseField = new IntegerField("Adresse");
     adresseField.setValue(3);
 
-    VerticalLayout formLayout = new VerticalLayout(betriebsnummerField, fahrzeugTypField, systemTypField, adresseField);
+    Fahrzeug[] importedHolder = new Fahrzeug[1];
+
+    Span importHint = new Span("Fahrzeug aus XML-Datei importieren (optional):");
+
+    Upload upload = new Upload();
+    upload.setAcceptedFileTypes(".xml", "text/xml", "application/xml");
+    upload.setMaxFiles(1);
+    upload.setMaxFileSize(100_000);
+    upload.setUploadButton(new Button("XML importieren"));
+    upload.setUploadHandler(UploadHandler.inMemory((metadata, data) -> {
+      try (Reader reader = new InputStreamReader(new ByteArrayInputStream(data), StandardCharsets.UTF_8)) {
+        Fahrzeug imported = XmlConverter.fromXml(Fahrzeug.class, reader);
+        importedHolder[0] = imported;
+        betriebsnummerField.setValue(imported.getBetriebsnummer() == null ? "" : imported.getBetriebsnummer());
+        fahrzeugTypField.setValue(imported.getFahrzeugTyp());
+        systemTypField.setValue(imported.getFahrzeugdecoder().getDecoderAdr().getSystemTyp());
+        adresseField.setValue(imported.getFahrzeugdecoder().getDecoderAdr().getAdresse());
+      } catch (Exception e) {
+        Notification.show("Upload fehlgeschlagen").addThemeVariants(NotificationVariant.LUMO_ERROR);
+      }
+      upload.clearFileList();
+    }));
+    upload.addFileRejectedListener(event -> Notification.show(event.getErrorMessage()).addThemeVariants(NotificationVariant.LUMO_ERROR));
+
+    VerticalLayout formLayout =
+      new VerticalLayout(importHint, upload, betriebsnummerField, fahrzeugTypField, systemTypField, adresseField);
     formLayout.setPadding(false);
     dialog.add(formLayout);
 
     Button saveButton = new Button("speichern", event -> {
-      if (createFahrzeug(betriebsnummerField.getValue(), fahrzeugTypField.getValue(), systemTypField.getValue(), adresseField.getValue())) {
+      if (createFahrzeug(importedHolder[0], betriebsnummerField.getValue(), fahrzeugTypField.getValue(), systemTypField.getValue(), adresseField.getValue())) {
         dialog.close();
       }
     });
@@ -179,18 +215,31 @@ public class FahrzeugListView extends VerticalLayout {
     dialog.open();
   }
 
-  private boolean createFahrzeug(String betriebsnummer, FahrzeugTyp fahrzeugTyp, SystemTyp systemTyp, Integer adresse) {
+  private boolean createFahrzeug(Fahrzeug imported, String betriebsnummer, FahrzeugTyp fahrzeugTyp, SystemTyp systemTyp, Integer adresse) {
     if (this.fahrzeuge.stream().anyMatch(f -> f.getBetriebsnummer().equals(betriebsnummer))) {
       Notification.show("Betriebsnummer bereits vergeben").addThemeVariants(NotificationVariant.LUMO_ERROR);
       return false;
     }
 
-    Fahrzeug fahrzeug = Fahrzeug.builder()
-      .betriebsnummer(betriebsnummer)
-      .fahrzeugTyp(fahrzeugTyp)
-      .systemTyp(systemTyp)
-      .adresse(adresse == null ? 0 : adresse)
-      .build();
+    Fahrzeug fahrzeug;
+    if (imported == null) {
+      fahrzeug = Fahrzeug.builder()
+        .betriebsnummer(betriebsnummer)
+        .fahrzeugTyp(fahrzeugTyp)
+        .systemTyp(systemTyp)
+        .adresse(adresse == null ? 0 : adresse)
+        .build();
+    } else {
+      fahrzeug = imported;
+      fahrzeug.setBetriebsnummer(betriebsnummer);
+      fahrzeug.setFahrzeugTyp(fahrzeugTyp);
+      if (fahrzeug.getFahrzeugdecoder() == null) {
+        fahrzeug.setFahrzeugdecoder(new Fahrzeugdecoder(null, new DecoderAdr(systemTyp, adresse == null ? 0 : adresse), new ArrayList<>(), new ArrayList<>()));
+      } else {
+        fahrzeug.getFahrzeugdecoder().getDecoderAdr().setSystemTyp(systemTyp);
+        fahrzeug.getFahrzeugdecoder().getDecoderAdr().setAdresse(adresse == null ? 0 : adresse);
+      }
+    }
 
     Set<ConstraintViolation<Fahrzeug>> violations = this.validator.validate(fahrzeug);
     if (!violations.isEmpty()) {
