@@ -15,7 +15,34 @@
   - Einige Fix-Schleifen brachten keinen Erfolg. Erst eine Exception ("Kontext nicht aktiv") brachte die Erkenntnis, warum die Änderungsevents nicht korrekt verarbeitet wurden.
 
 ## Migration fahrzeug-traktion
-- Der Agent kannte die Vaadin-Extension, die analog zu p:picklist funktioniert, nicht. Nach Hinweis auf die Extension konnte er die View korrekt umsetzen.
+- Der Agent kannte die Vaadin-Extension, die analog zu p:picklist funktioniert, nicht. Nach Hinweis auf die Extension konnte er die View korrekt umsetzen:
+  - das TwinColGrid soll vertical den verfügbaren Platz nutzen
+  - die Einträge in der linken liste ("Verfügbare Fahrzeuge") sollen nach Betriebsnummer sortiert sein
+  - Die Header "Betriebsnummer" mir der Checkbox zum Selektieren aller Einträge entfallen in beiden Listen
+  - die Einträge rechts ("Angehängte Fahrzeuge") können nicht in ihrer Reihenfolge verändert werden
+
+## Migration fahrzeug-function
+- Die View wurde erst mit einigen Iterationen korrekt umgesetzt. Folgende Prompts führten zu einer korrekten Umsetzung:
+  fahrzeug-funktionen passt so nicht; folgende Änderungen sind nötig:
+  - die Checkboxen der 16 Bits erlauben keine Eingabe; bei Click sollten sie wechseln zwischen
+    - Häkchen für "an"
+    - "x" für "aus"
+    - leer für "undefiniert"
+  - Die Werte der Checkboxen korrespondieren mit den Bits der Attribute "maske" und "wert" von FahrzeugFunktion:
+    - "an": Maskenbit=1, Wertbit=1
+    - "aus": Maskenbit=1, Wertbit=0
+    - "undefiniert": Maskenbit=0, Wertbit=0
+  - Die Eingabeelemente für Funktionsgruppe sind Comboboxen
+  - Die Eingabeelemente für Funktionsbeschreibung sind Textfelder
+  - Die Funktionstabelle muss kompakt, aber lesbar sein; ein Screenshot aus der alten Anwendung folgt
+  
+  - die Anzeige der Bit-Checkboxen soll so sein:
+    - "an": wie normale Checkbox im "an"-Zustand (weißer Haken auf blauem Hintergrund)
+    - "aus": wie an, jedoch "x" statt Haken
+    - "undefiniert": wie normale Checkbox im "aus"-Zustand (ist bereits so implementiert)
+  - jeweils nach 4 Bits soll eine kleine Lücke sein, um die Nibbles optisch zu trennen
+  - die Checkboxen für "Eigenschaften" sollen vertikal näher zusammen sein
+  - statt des "Neu"-Buttons soll im Header der Tabelle über den Lösch-Buttons ein Button mit einem Icon für "Hinzufügen" sein (vergleiche Image vom letzten Prompt: Button mit "Plus"-Icon)
 
 ## Migration *-messung
 - Die Umsetzung gelang nicht wirklich, da der Ausgangscode deutliche Schwächen enthält (Q&D-Implementierung; NPEs können auftreten etc.)
