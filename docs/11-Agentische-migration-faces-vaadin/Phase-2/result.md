@@ -46,3 +46,27 @@
 
 ## Migration *-messung
 - Die Umsetzung gelang nicht wirklich, da der Ausgangscode deutliche Schwächen enthält (Q&D-Implementierung; NPEs können auftreten etc.)
+
+## Migration fahrzeug-program
+- Dem Agenten wurde dieser Prompt gegeben und ein Screenshot der Tabelle des alten Dialogs gegeben. Damit gelang die Umsetzung sofort.
+  - für den Aufbau der View füge ich hier noch einen Screenshot an.
+
+  - Die Buttons im Header haben die folgenden Bedeutungen:
+    - "+": Fügt eine neue Zeile in die Tabelle der Programmierparameter ein
+    - Upload: Programmiert alle Parameter in das Fahrzeug
+    - "<": Übernimmt alle Ist-Werte in die entsprechenden Sollwerte
+    - Download: Liest alle Parameter aus dem Fahrzeug
+    
+  - Die Buttons in den einzelnen Tabellenzeilen haben die folgenden Bedeutungen:
+    - Löschen: Löscht die Zeile
+    - Upload: Programmiert den Parameter dieser Zeile in das Fahrzeug
+    - "<": Übernimmt den Ist-Wert dieser Zeile in den Sollwert
+    - Download: Liest den Parameter dieser Zeile aus dem Fahrzeug
+    
+  - Die Felder für die Beschreibung können mehrzeilige Texte aufnehmen
+
+## Migration XML-Export
+- kleiner Fix: Menüpunkt wurde nicht konsistent dargestellt und der Download erfolgte ohne Dateiauswahl.
+
+## Migration XML-Import
+- Der Prompt "Bei der aus fahrzeug-list über den Button "Neues Fahrzeug" erreichbaren Funktionalität fehlt noch der XML-Import." reichte für eine korrekte Umsetzung. Der Agent baute die Funktionalität korrekt ein, inkl. Dateiauswahl und Upload-Button.
