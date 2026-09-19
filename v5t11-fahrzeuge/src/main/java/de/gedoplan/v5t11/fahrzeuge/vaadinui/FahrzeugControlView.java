@@ -222,7 +222,7 @@ public class FahrzeugControlView extends VerticalLayout implements HasDynamicTit
     subMenu.addItem("Geschwindigkeiten", event -> navigateToFahrzeugMessung());
     subMenu.addItem("Gleislängen", event -> navigateToGleisMessung());
     subMenu.addSeparator();
-    subMenu.addComponent(buildExportAnchor());
+    subMenu.addItem(buildExportAnchor(), event -> { });
     subMenu.addSeparator();
     subMenu.addItem("Löschen", event -> openRemoveConfirmDialog());
     return menuBar;
@@ -237,7 +237,10 @@ public class FahrzeugControlView extends VerticalLayout implements HasDynamicTit
         return new ByteArrayInputStream(new byte[0]);
       }
     });
-    return new Anchor(resource, "Export");
+    Anchor anchor = new Anchor(resource, "Export");
+    anchor.getStyle().set("color", "inherit").set("text-decoration", "none");
+    anchor.setDownload(true);
+    return anchor;
   }
 
   private String exportFilename(Fahrzeug fahrzeug) {
