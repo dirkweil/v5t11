@@ -73,12 +73,11 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
  * "Funktionen" (eigene Route {@link FahrzeugFunctionView}, Pendant zu {@code fahrzeugFunction.xhtml}) und
  * "Zugbildung" (eigene Route {@link FahrzeugTraktionView}, Pendant zu {@code fahrzeugTraktion.xhtml}). Teil der
  * Phase-2-Migration von v5t11-fahrzeuge (siehe /home/dw/.claude/plans/functional-singing-canyon.md).
- * "Gleislängen" (eigene Route {@link GleisMessungView}, Pendant zur inzwischen gelöschten {@code gleisMessung.xhtml}) und
+ * "Gleislängen" (eigene Route {@link GleisMessungView}, Pendant zur inzwischen gelöschten {@code gleisMessung.xhtml}),
  * "Geschwindigkeiten" (eigene Route {@link FahrzeugMessungView}, Pendant zur inzwischen gelöschten
- * {@code fahrzeugMessung.xhtml}).
- * <p>
- * Nur der Menüpunkt "Programmierung" bleibt bewusst ein Cross-Link auf die weiterhin-JSF-View – deren "zurück"
- * führt auf das unveränderte alte fahrzeugControl.xhtml zurück, ein akzeptierter Bruch für die Übergangszeit.
+ * {@code fahrzeugMessung.xhtml}) sowie "Programmierung" (eigene Route {@link FahrzeugProgramView}, Pendant zu
+ * {@code fahrzeugProgram.xhtml}/{@code FahrzeugProgramPresenter}) — damit ist die JSF→Vaadin-Migration von
+ * v5t11-fahrzeuge vollständig abgeschlossen.
  * <p>
  * Steuerungsaktionen (Aktiv/Fahrstufe/Rückwärts/Funktionen) mutieren nie lokal, sondern rufen ausschließlich
  * {@link StatusGateway#changeFahrzeugdecoder} auf; die tatsächliche Aktualisierung kommt asynchron über Kafka
@@ -219,7 +218,7 @@ public class FahrzeugControlView extends VerticalLayout implements HasDynamicTit
     subMenu.addItem("Position", event -> openPositionDialog());
     subMenu.addItem("Zugbildung", event -> navigateToTraktion());
     subMenu.addItem("Funktionen", event -> navigateToFunction());
-    subMenu.addItem("Programmierung", event -> navigateToJsf("/view/fahrzeugProgram.xhtml"));
+    subMenu.addItem("Programmierung", event -> navigateToProgram());
     subMenu.addItem("Geschwindigkeiten", event -> navigateToFahrzeugMessung());
     subMenu.addItem("Gleislängen", event -> navigateToGleisMessung());
     subMenu.addSeparator();
@@ -245,9 +244,9 @@ public class FahrzeugControlView extends VerticalLayout implements HasDynamicTit
     return fahrzeug.getBetriebsnummer().replaceAll("[^a-zA-Z0-9-]", "_") + ".xml";
   }
 
-  private void navigateToJsf(String path) {
+  private void navigateToProgram() {
     this.fahrzeugListPresenter.setCurrentFahrzeug(this.fahrzeug);
-    getUI().ifPresent(ui -> ui.getPage().setLocation(path));
+    getUI().ifPresent(ui -> ui.getPage().setLocation("/ui/fahrzeug-program"));
   }
 
   private void navigateToFunction() {
