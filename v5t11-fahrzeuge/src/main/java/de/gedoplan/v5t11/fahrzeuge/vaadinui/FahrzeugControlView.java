@@ -395,6 +395,7 @@ public class FahrzeugControlView extends VerticalLayout implements HasDynamicTit
     FormLayout form = new FormLayout();
     form.setResponsiveSteps(new FormLayout.ResponsiveStep("0", 1));
     form.setWidthFull();
+    form.setLabelWidth("160px");
 
     this.aktivField = new Checkbox("inaktiv");
     this.aktivField.addClassName("toggle-buttons");
