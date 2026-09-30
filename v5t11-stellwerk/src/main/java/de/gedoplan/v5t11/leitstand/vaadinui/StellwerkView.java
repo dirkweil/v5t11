@@ -22,7 +22,6 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.DetachEvent;
-import com.vaadin.flow.component.dependency.JavaScript;
 import com.vaadin.flow.component.dependency.StyleSheet;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -54,12 +53,20 @@ import java.util.function.Consumer;
  * (gleis-/weichen-/signalElemente), sodass ein {@code @Changed}-Event für ein Objekt außerhalb dieses Bereichs
  * einfach keine Treffer liefert (reproduziert {@code PushService.getStellwerksBereich()}-Gruppierung implizit).
  * <p>
+ * {@code stellwerk-draw.js} wird bewusst NICHT über {@code @JavaScript}/{@code @JsModule} eingebunden: Diese
+ * Annotationen werden von Vaadins Frontend-Build (Vite) als ES-Modul-Import behandelt und beim Produktions-Build
+ * aufgelöst - das schlägt fehl, weil die Datei eine reine Klassenpfad-Ressource unter {@code META-INF/resources}
+ * ist (kein {@code frontend/}-Verzeichnis, kein npm-Paket). Stattdessen wird sie wie im JSF-Original als
+ * gewöhnliches {@code <script src="...">} zur Laufzeit über {@link com.vaadin.flow.component.page.Page#addJavaScript}
+ * geladen (gleicher Mechanismus wie {@code stellwerk.js} bisher über {@code h:outputScript}) - das ist der Grund,
+ * warum {@code @StyleSheet("stellwerk.css")} unten weiterhin unverändert funktioniert: Style-Sheets werden von
+ * Vaadin grundsätzlich als Laufzeit-URL behandelt, nicht gebündelt.
+ * <p>
  * Die eigentliche Interaktionslogik (Fahrstraßen-Reservierung, Weichen-/Signalstellung) folgt in Teilschritt 3d.
  */
 @Route(value = "stellwerk", layout = MainLayout.class)
 @PageTitle("Stellwerk - v5t11")
 @StyleSheet("stellwerk.css")
-@JavaScript("stellwerk-draw.js")
 public class StellwerkView extends VerticalLayout implements HasUrlParameter<String> {
 
   @Inject
@@ -102,6 +109,7 @@ public class StellwerkView extends VerticalLayout implements HasUrlParameter<Str
   @Override
   protected void onAttach(AttachEvent attachEvent) {
     super.onAttach(attachEvent);
+    attachEvent.getUI().getPage().addJavaScript("stellwerk-draw.js");
     this.pushBroadcaster.addListener(this.changeListener);
     redrawAll();
   }
