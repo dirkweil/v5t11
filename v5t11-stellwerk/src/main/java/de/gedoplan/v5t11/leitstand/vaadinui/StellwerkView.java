@@ -43,9 +43,15 @@ import java.util.function.Consumer;
  * JSF->Vaadin-Migration, siehe {@code docs/11-Agentische-migration-faces-vaadin/Phase-3/plan.md}).
  * <p>
  * Anders als {@code StellwerkSessionHolder} (JSF, {@code @SessionScoped}, ein mutable {@code stellwerk}-Feld pro
- * HTTP-Session) hält diese View den aufgelösten {@link Stellwerk} als eigenes, view-lokales Feld – Vaadin-Routen
- * werden pro Navigation neu instanziiert, sodass mehrere gleichzeitig offene Bereiche (auch innerhalb derselben
- * Session) einander nicht überschreiben können (gleiches Prinzip wie schon bei {@code SystemControlView}, Phase 1a).
+ * HTTP-Session) hält diese View den aufgelösten {@link Stellwerk} als eigenes, view-lokales Feld. <b>Achtung:</b> Bei
+ * einer Client-seitigen SPA-Navigation zwischen zwei Bereichen (z. B. "HBf" -> "NBf", beides derselbe Routen-Typ
+ * {@code StellwerkView}) instanziiert Vaadin KEINE neue View, sondern wiederverwendet die bereits aktive Instanz
+ * ({@code AbstractNavigationStateRenderer.getRouteTarget()} findet sie über die aktive Router-Target-Chain) und ruft
+ * nur {@link #setParameter} erneut auf - {@link #onAttach} feuert dabei NICHT erneut (die Komponente wird nie
+ * detached). Jeglicher Bereichswechsel-Code muss daher in {@link #setParameter} laufen, nicht in {@link #onAttach}
+ * (das feuert nur beim allerersten Attach bzw. nach einem vollen Browser-Reload) - und alle Felder, die pro Bereich
+ * neu aufgebaut werden (hier: die drei Index-Maps in {@link #buildIndex}), müssen bei jedem Aufruf explizit geleert
+ * werden, da sie sonst über mehrere Bereichswechsel hinweg auf derselben Instanz akkumulieren.
  * <p>
  * Teilschritt 3c: Zeichnen/Push. {@code stellwerk-draw.js} (unverändert aus {@code stellwerk.js} übernommen) wird
  * über {@code executeJs} statt über einen rohen WebSocket angestoßen. Die Bereichsfilterung braucht dafür keinen
@@ -53,14 +59,31 @@ import java.util.function.Consumer;
  * (gleis-/weichen-/signalElemente), sodass ein {@code @Changed}-Event für ein Objekt außerhalb dieses Bereichs
  * einfach keine Treffer liefert (reproduziert {@code PushService.getStellwerksBereich()}-Gruppierung implizit).
  * <p>
- * {@code stellwerk-draw.js} wird bewusst NICHT über {@code @JavaScript}/{@code @JsModule} eingebunden: Diese
- * Annotationen werden von Vaadins Frontend-Build (Vite) als ES-Modul-Import behandelt und beim Produktions-Build
- * aufgelöst - das schlägt fehl, weil die Datei eine reine Klassenpfad-Ressource unter {@code META-INF/resources}
- * ist (kein {@code frontend/}-Verzeichnis, kein npm-Paket). Stattdessen wird sie wie im JSF-Original als
- * gewöhnliches {@code <script src="...">} zur Laufzeit über {@link com.vaadin.flow.component.page.Page#addJavaScript}
- * geladen (gleicher Mechanismus wie {@code stellwerk.js} bisher über {@code h:outputScript}) - das ist der Grund,
- * warum {@code @StyleSheet("stellwerk.css")} unten weiterhin unverändert funktioniert: Style-Sheets werden von
- * Vaadin grundsätzlich als Laufzeit-URL behandelt, nicht gebündelt.
+ * Drei Anläufe waren nötig, um {@code stellwerk-draw.js} zuverlässig zu laden (jeweils per Live-Test widerlegt, nicht
+ * nur durch Code-Review - für zukünftige JS-Interop-Arbeiten im Projekt relevant):
+ * <ol>
+ * <li>{@code @JavaScript("stellwerk-draw.js")} - kompiliert und läuft in {@code clean compile}, scheitert aber am
+ * Produktions-Build ({@code mvn package}/{@code quarkus:build}): Vaadins Frontend-Build (Vite) behandelt
+ * {@code @JavaScript}/{@code @JsModule} als ES-Modul-Import und versucht, ihn zu bündeln - scheitert, weil die Datei
+ * eine reine Klassenpfad-Ressource unter {@code META-INF/resources} ist (kein {@code frontend/}-Verzeichnis, kein
+ * npm-Paket).
+ * <li>{@code Page.addJavaScript("stellwerk-draw.js")} (später mit {@code context://}-Präfix) - kompiliert und
+ * baut, aber 404 zur Laufzeit: eine unpräfigierte relative URL löst gegen die SPA-Basis-URL auf ({@code
+ * V5t11VaadinServlet} läuft unter {@code /ui/*}), nicht gegen den Context-Root. Mit {@code context://}-Präfix
+ * behoben - ABER nur beim Browser-Reload; bei SPA-Navigation blieb das Zeichnen aus ({@code ReferenceError: drawAll
+ * is not defined}), da Vaadins Dependency-Lade-Reihenfolge-Garantie ({@code LoadMode.EAGER}) laut Javadoc nur für den
+ * initialen Seitenaufbau gilt.
+ * <li><b>Eigentliche Ursache dieses zweiten Symptoms</b> (erst nach dem dritten Fix-Versuch erkannt): Das Skript
+ * wurde in {@link #onAttach} geladen/angestoßen - und genau das feuert bei einem Bereichswechsel per Klick gar nicht
+ * (s.o., Instanz-Wiederverwendung). Der zwischenzeitliche Umbau auf ein selbst erzeugtes, in einem
+ * {@code window}-Promise gecachtes {@code <script>}-Element (statt {@code Page.addJavaScript}) war zwar robuster
+ * gegenüber Lade-Reihenfolge-Problemen, behob das eigentliche Problem aber nicht, solange der Aufruf weiterhin in
+ * {@code onAttach} stand.
+ * </ol>
+ * <b>Endgültige Lösung:</b> Laden (idempotent, Promise-gecacht in {@code window}, siehe {@link #ENSURE_DRAW_JS_LOADED})
+ * und initiales Zeichnen (siehe {@link #redrawAll}) werden in {@link #setParameter} angestoßen, nicht in
+ * {@link #onAttach} - {@link #setParameter} feuert garantiert bei jeder Navigation, unabhängig von
+ * Instanz-Wiederverwendung.
  * <p>
  * Die eigentliche Interaktionslogik (Fahrstraßen-Reservierung, Weichen-/Signalstellung) folgt in Teilschritt 3d.
  */
@@ -68,6 +91,24 @@ import java.util.function.Consumer;
 @PageTitle("Stellwerk - v5t11")
 @StyleSheet("stellwerk.css")
 public class StellwerkView extends VerticalLayout implements HasUrlParameter<String> {
+
+  /**
+   * Lädt {@code stellwerk-draw.js} genau einmal pro Browser-Tab (Promise in {@code window} gecacht, überlebt
+   * SPA-Navigationen) und cached das Ergebnis. Jeder Zeichenaufruf (siehe {@link #redraw}) wartet über
+   * {@code window.stellwerkDrawJsPromise.then(...)} auf dieses Promise, statt sich auf Vaadins eigene
+   * Dependency-Lade-Reihenfolge zu verlassen (siehe Klassen-Javadoc).
+   */
+  private static final String ENSURE_DRAW_JS_LOADED = """
+    if (!window.stellwerkDrawJsPromise) {
+      window.stellwerkDrawJsPromise = new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        script.src = '/stellwerk-draw.js';
+        script.onload = resolve;
+        script.onerror = reject;
+        document.head.appendChild(script);
+      });
+    }
+    """;
 
   @Inject
   Leitstand leitstand;
@@ -104,14 +145,16 @@ public class StellwerkView extends VerticalLayout implements HasUrlParameter<Str
 
     removeAll();
     add(buildGrid());
+
+    // Bewusst hier und nicht in onAttach() - siehe Klassen-Javadoc (Instanz-Wiederverwendung bei SPA-Navigation).
+    getElement().executeJs(ENSURE_DRAW_JS_LOADED);
+    redrawAll();
   }
 
   @Override
   protected void onAttach(AttachEvent attachEvent) {
     super.onAttach(attachEvent);
-    attachEvent.getUI().getPage().addJavaScript("stellwerk-draw.js");
     this.pushBroadcaster.addListener(this.changeListener);
-    redrawAll();
   }
 
   @Override
@@ -147,6 +190,13 @@ public class StellwerkView extends VerticalLayout implements HasUrlParameter<Str
    * einen Bereichs statt über {@code leitstand.getStellwerke()} (alle Bereiche).
    */
   private void buildIndex() {
+    // Muss bei jedem Aufruf geleert werden: setParameter() (und damit buildIndex()) kann bei einer
+    // SPA-Navigation zwischen zwei Bereichen mehrfach auf derselben View-Instanz laufen (siehe Kommentar in
+    // setParameter()) - ohne clear() würden sich Einträge früher besuchter Bereiche unbegrenzt ansammeln.
+    this.gleisElemente.clear();
+    this.weichenElemente.clear();
+    this.signalElemente.clear();
+
     this.stellwerk
       .getZeilen()
       .stream()
@@ -216,6 +266,6 @@ public class StellwerkView extends VerticalLayout implements HasUrlParameter<Str
     }
 
     JsonArray drawCommands = this.drawCommandBuilder.createDrawCommands(elemente);
-    getElement().executeJs("drawAll(JSON.parse($0))", drawCommands.toString());
+    getElement().executeJs("window.stellwerkDrawJsPromise.then(() => drawAll(JSON.parse($0)))", drawCommands.toString());
   }
 }
