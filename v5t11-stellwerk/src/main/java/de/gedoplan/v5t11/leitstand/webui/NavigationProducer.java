@@ -10,6 +10,7 @@ import jakarta.enterprise.context.Dependent;
 import jakarta.enterprise.inject.Produces;
 import jakarta.inject.Inject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Dependent
@@ -31,10 +32,11 @@ public class NavigationProducer {
   @Produces
   @ApplicationScoped
   List<NavigationItem> getHbfNavigationItem() {
-    return this.leitstand
-      .getBereiche()
-      .stream()
-      .map(b -> new NavigationItem(b, "Stellwerk", this.urlPrefix + "view/stellwerk.xhtml?bereich=" + b, "pi pi-map", 0))
-      .toList();
+    List<NavigationItem> items = new ArrayList<>();
+    for (String bereich : this.leitstand.getBereiche()) {
+      items.add(new NavigationItem(bereich + " (alt)", "Stellwerk", this.urlPrefix + "view/stellwerk.xhtml?bereich=" + bereich, "pi pi-map", 0));
+      items.add(new NavigationItem(bereich, "Stellwerk", this.urlPrefix + "ui/stellwerk/" + bereich, "pi pi-map", -1));
+    }
+    return items;
   }
 }
