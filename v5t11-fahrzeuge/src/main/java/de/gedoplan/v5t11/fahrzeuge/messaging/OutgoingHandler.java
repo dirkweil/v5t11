@@ -1,7 +1,7 @@
 package de.gedoplan.v5t11.fahrzeuge.messaging;
 
 import de.gedoplan.v5t11.fahrzeuge.service.EventDispatcher;
-import de.gedoplan.v5t11.util.jsf.NavigationItem;
+import de.gedoplan.v5t11.vaadincommon.navigation.NavigationItem;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithVisibility;
 
 import jakarta.enterprise.context.ApplicationScoped;

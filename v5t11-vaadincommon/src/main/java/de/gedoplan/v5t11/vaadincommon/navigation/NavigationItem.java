@@ -1,12 +1,8 @@
-package de.gedoplan.v5t11.util.jsf;
+package de.gedoplan.v5t11.vaadincommon.navigation;
 
 import de.gedoplan.v5t11.util.jsonb.JsonbShort;
 
 import java.io.Serializable;
-
-import org.primefaces.model.menu.DefaultMenuItem;
-import org.primefaces.model.menu.DefaultMenuItem.Builder;
-import org.primefaces.model.menu.MenuItem;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,19 +29,6 @@ public class NavigationItem implements Comparable<NavigationItem>, Serializable 
     this.url = url;
     this.icon = icon != null ? icon : "fa fa-circle";
     this.order = order;
-  }
-
-  public MenuItem toMenuItem(boolean disabled) {
-    Builder builder = DefaultMenuItem.builder()
-      .value(this.name)
-      .icon(this.icon)
-      .disabled(disabled)
-      .ajax(false);
-    if (this.url != null) {
-      builder.url(this.url);
-    }
-    return builder
-      .build();
   }
 
   @Override

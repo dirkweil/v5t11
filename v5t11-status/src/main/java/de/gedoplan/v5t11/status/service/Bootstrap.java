@@ -1,7 +1,7 @@
 package de.gedoplan.v5t11.status.service;
 
 import de.gedoplan.v5t11.status.entity.Steuerung;
-import de.gedoplan.v5t11.util.jsf.NavigationPresenter;
+import de.gedoplan.v5t11.vaadincommon.navigation.NavigationPresenter;
 
 import java.sql.Connection;
 import java.sql.SQLException;

@@ -1,7 +1,7 @@
 package de.gedoplan.v5t11.status.webservice;
 
-import de.gedoplan.v5t11.util.jsf.NavigationItem;
-import de.gedoplan.v5t11.util.jsf.NavigationPresenter;
+import de.gedoplan.v5t11.vaadincommon.navigation.NavigationItem;
+import de.gedoplan.v5t11.vaadincommon.navigation.NavigationPresenter;
 
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
@@ -14,13 +14,6 @@ public class MenuResource {
 
   @Inject
   NavigationPresenter navigationPresenter;
-
-  @GET
-  @Path("newItem")
-  public void newItem() {
-    this.navigationPresenter.registerNavigationItem(new NavigationItem("Websocket", "MyFaces", "http://localhost:8280/socket.xhtml", "fa fa-arrows", 310), false, false);
-    this.navigationPresenter.registerNavigationItem(new NavigationItem("Table", "MyFaces", "http://localhost:8280/table.xhtml", "fa fa-table", 320), false, false);
-  }
 
   @GET
   @Path("newSubmenu")

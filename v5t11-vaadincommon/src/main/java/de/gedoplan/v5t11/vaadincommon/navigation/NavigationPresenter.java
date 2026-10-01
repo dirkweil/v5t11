@@ -1,6 +1,7 @@
-package de.gedoplan.v5t11.util.jsf;
+package de.gedoplan.v5t11.vaadincommon.navigation;
 
 import de.gedoplan.v5t11.util.cdi.EventFirer;
+import de.gedoplan.v5t11.vaadincommon.push.AbstractPushService;
 
 import io.quarkus.runtime.StartupEvent;
 
@@ -8,25 +9,19 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import org.primefaces.model.menu.DefaultMenuModel;
-import org.primefaces.model.menu.DefaultSubMenu;
-
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Observes;
 import jakarta.enterprise.inject.Instance;
 import jakarta.inject.Inject;
-import jakarta.inject.Named;
 import jakarta.websocket.OnClose;
 import jakarta.websocket.OnError;
 import jakarta.websocket.OnOpen;
 import jakarta.websocket.Session;
 import jakarta.websocket.server.ServerEndpoint;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -54,7 +49,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
  *
  * @author dw
  */
-@Named
 @ServerEndpoint("/jakarta.faces.push/menu-refresh")
 @ApplicationScoped
 public class NavigationPresenter extends AbstractPushService {
@@ -80,8 +74,8 @@ public class NavigationPresenter extends AbstractPushService {
   private AtomicBoolean menuChanged = new AtomicBoolean();
 
   /**
-   * Wird von nicht-JSF-Frontends (z. B. Vaadin) genutzt, um sich über Menüänderungen benachrichtigen zu lassen, ohne
-   * den PrimeFaces-spezifischen Websocket-Push in Anspruch nehmen zu müssen.
+   * Wird von Vaadin-Frontends genutzt, um sich über Menüänderungen benachrichtigen zu lassen, ohne den
+   * Websocket-Push in Anspruch nehmen zu müssen.
    */
   private final List<Runnable> menuChangeListeners = new CopyOnWriteArrayList<>();
 
@@ -109,7 +103,7 @@ public class NavigationPresenter extends AbstractPushService {
       .flatMap(List::stream)
       .forEach(ni -> registerNavigationItem(ni, true, true));
 
-    registerNavigationItem(new NavigationItem("home", "Allgemein", "/index.xhtml", "pi pi-home", 910), true, false);
+    registerNavigationItem(new NavigationItem("home", "Allgemein", "/home", "pi pi-home", 910), true, false);
 
     this.scheduler.scheduleAtFixedRate(this::heartBeat, HEARTBEAT_MILLIS / 3, HEARTBEAT_MILLIS, TimeUnit.MILLISECONDS);
 
@@ -194,23 +188,6 @@ public class NavigationPresenter extends AbstractPushService {
 
   public void heartBeat(NavigationItem navigationItem) {
     registerNavigationItem(navigationItem, false, false);
-  }
-
-  public DefaultMenuModel getMenuModel() {
-    DefaultMenuModel menuModel = new DefaultMenuModel();
-    Map<String, DefaultSubMenu> submenus = new HashMap<>();
-    this.navigationItems.forEach((navigationItem, navigationItemState) -> {
-      // Submenu zu Kategorie holen; bei Bedarf erzeugen
-      DefaultSubMenu submenu = submenus.computeIfAbsent(navigationItem.getCategory(), category -> {
-        DefaultSubMenu sm = DefaultSubMenu.builder().label(category).build();
-        menuModel.getElements().add(sm);
-        return sm;
-      });
-
-      // MenuItem hinzufügen
-      submenu.getElements().add(navigationItem.toMenuItem(navigationItemState.disabled));
-    });
-    return menuModel;
   }
 
   @OnOpen

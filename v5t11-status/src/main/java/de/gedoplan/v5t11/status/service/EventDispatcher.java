@@ -10,7 +10,7 @@ import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
 import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeugdecoder;
 import de.gedoplan.v5t11.status.messaging.OutgoingHandler;
 import de.gedoplan.v5t11.util.cdi.Changed;
-import de.gedoplan.v5t11.util.jsf.NavigationItem;
+import de.gedoplan.v5t11.vaadincommon.navigation.NavigationItem;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Observes;

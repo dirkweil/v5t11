@@ -2,7 +2,7 @@ package de.gedoplan.v5t11.leitstand.webui;
 
 import de.gedoplan.v5t11.leitstand.entity.Leitstand;
 import de.gedoplan.v5t11.leitstand.service.ConfigService;
-import de.gedoplan.v5t11.util.jsf.NavigationItem;
+import de.gedoplan.v5t11.vaadincommon.navigation.NavigationItem;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;

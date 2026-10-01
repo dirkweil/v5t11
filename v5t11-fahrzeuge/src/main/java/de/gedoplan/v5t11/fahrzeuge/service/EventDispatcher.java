@@ -1,7 +1,7 @@
 package de.gedoplan.v5t11.fahrzeuge.service;
 
 import de.gedoplan.v5t11.fahrzeuge.messaging.OutgoingHandler;
-import de.gedoplan.v5t11.util.jsf.NavigationItem;
+import de.gedoplan.v5t11.vaadincommon.navigation.NavigationItem;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Observes;

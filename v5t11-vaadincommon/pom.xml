@@ -43,17 +43,6 @@
       <version>3.0.0-SNAPSHOT</version>
     </dependency>
 
-    <!--
-      Solange die Menü-Föderation (NavigationPresenter/NavigationItem) noch in v5t11-jsfcommon lebt, wird sie von hier
-      aus wiederverwendet statt dupliziert. Sobald v5t11-jsfcommon in der Abschluss-Cleanup-Phase entfällt, zieht diese
-      Klasse (bzw. ihre Nachfolgerin) nach v5t11-util oder bleibt dauerhaft hier.
-    -->
-    <dependency>
-      <groupId>de.gedoplan</groupId>
-      <artifactId>v5t11-jsfcommon</artifactId>
-      <version>3.0.0-SNAPSHOT</version>
-    </dependency>
-
     <dependency>
       <groupId>com.vaadin</groupId>
       <artifactId>vaadin-quarkus-extension</artifactId>

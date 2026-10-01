@@ -19,13 +19,9 @@
 
     <lombok.version>1.18.48</lombok.version>
 
-    <myfaces-quarkus.version>4.1.1</myfaces-quarkus.version>
-
     <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
     <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
     <quarkus.platform.version>3.39.3</quarkus.platform.version>
-
-    <quarkus-primefaces.version>3.12.5</quarkus-primefaces.version>
 
     <!-- Vaadin Flow: schrittweise Ablösung des JSF/PrimeFaces-GUI, siehe docs/10 Implementierung/webui.adoc -->
     <vaadin.version>25.2.7</vaadin.version>
@@ -126,23 +122,6 @@
       </dependency>
 
       <dependency>
-        <groupId>org.apache.myfaces.core.extensions.quarkus</groupId>
-        <artifactId>myfaces-quarkus</artifactId>
-        <version>${myfaces-quarkus.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>io.quarkiverse.primefaces</groupId>
-        <artifactId>quarkus-primefaces</artifactId>
-        <version>${quarkus-primefaces.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>io.quarkiverse.primefaces</groupId>
-        <artifactId>quarkus-primefaces-extensions</artifactId>
-        <version>${quarkus-primefaces.version}</version>
-      </dependency>
-
-      <dependency>
         <groupId>com.vaadin</groupId>
         <artifactId>vaadin-bom</artifactId>
         <version>${vaadin.version}</version>
@@ -169,7 +148,6 @@
   <modules>
     <module>v5t11-parcours</module>
     <module>v5t11-fahrzeuge</module>
-    <module>v5t11-jsfcommon</module>
     <module>v5t11-status</module>
     <module>v5t11-stellwerk</module>
     <module>v5t11-util</module>

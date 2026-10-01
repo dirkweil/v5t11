@@ -5,8 +5,8 @@ import de.gedoplan.v5t11.fahrzeuge.entity.fahrweg.Weiche;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeugdecoder;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.cdi.Received;
-import de.gedoplan.v5t11.util.jsf.NavigationItem;
-import de.gedoplan.v5t11.util.jsf.NavigationPresenter;
+import de.gedoplan.v5t11.vaadincommon.navigation.NavigationItem;
+import de.gedoplan.v5t11.vaadincommon.navigation.NavigationPresenter;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithVisibility;
 
 import java.util.regex.Matcher;

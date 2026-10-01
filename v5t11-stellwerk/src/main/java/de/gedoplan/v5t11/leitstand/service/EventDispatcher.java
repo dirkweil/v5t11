@@ -1,7 +1,7 @@
 package de.gedoplan.v5t11.leitstand.service;
 
 import de.gedoplan.v5t11.leitstand.messaging.OutgoingHandler;
-import de.gedoplan.v5t11.util.jsf.NavigationItem;
+import de.gedoplan.v5t11.vaadincommon.navigation.NavigationItem;
 
 import org.jboss.logging.Logger;
 

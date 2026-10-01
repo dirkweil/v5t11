@@ -8,9 +8,8 @@ import com.vaadin.flow.component.page.Push;
 import com.vaadin.flow.theme.lumo.Lumo;
 
 /**
- * Aktiviert Vaadin-Server-Push für alle v5t11-Services mit Vaadin-GUI. Ersetzt {@code AbstractPushService} aus
- * v5t11-jsfcommon für neue (Vaadin-)Views, z. B. für den Live-Refresh des Navigationsmenüs
- * ({@link VaadinNavigationMenu}).
+ * Aktiviert Vaadin-Server-Push für alle v5t11-Services mit Vaadin-GUI, z. B. für den Live-Refresh des
+ * Navigationsmenüs ({@link VaadinNavigationMenu}).
  * <p>
  * Seit Vaadin 25 wird KEIN Theme mehr automatisch angewendet, wenn {@code @Theme} fehlt (Javadoc von
  * {@code @NoTheme}: "Omitting Theme has the same effect as using this annotation") — Lumo muss daher explizit per

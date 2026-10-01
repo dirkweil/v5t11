@@ -3,8 +3,8 @@ package de.gedoplan.v5t11.status.messaging;
 import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeugdecoder;
 import de.gedoplan.v5t11.util.cdi.EventFirer;
 import de.gedoplan.v5t11.util.cdi.Received;
-import de.gedoplan.v5t11.util.jsf.NavigationItem;
-import de.gedoplan.v5t11.util.jsf.NavigationPresenter;
+import de.gedoplan.v5t11.vaadincommon.navigation.NavigationItem;
+import de.gedoplan.v5t11.vaadincommon.navigation.NavigationPresenter;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithVisibility;
 
 import jakarta.enterprise.context.ApplicationScoped;

@@ -1,7 +1,7 @@
 package de.gedoplan.v5t11.fahrzeuge.webui;
 
 import de.gedoplan.v5t11.fahrzeuge.service.ConfigService;
-import de.gedoplan.v5t11.util.jsf.NavigationItem;
+import de.gedoplan.v5t11.vaadincommon.navigation.NavigationItem;
 
 import java.util.List;
 

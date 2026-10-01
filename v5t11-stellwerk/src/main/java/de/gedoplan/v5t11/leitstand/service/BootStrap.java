@@ -1,7 +1,7 @@
 package de.gedoplan.v5t11.leitstand.service;
 
 import de.gedoplan.v5t11.leitstand.entity.Leitstand;
-import de.gedoplan.v5t11.util.jsf.NavigationPresenter;
+import de.gedoplan.v5t11.vaadincommon.navigation.NavigationPresenter;
 
 import java.sql.Connection;
 import java.sql.SQLException;

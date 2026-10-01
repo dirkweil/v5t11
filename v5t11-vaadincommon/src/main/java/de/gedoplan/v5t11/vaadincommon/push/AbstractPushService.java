@@ -1,4 +1,4 @@
-package de.gedoplan.v5t11.util.jsf;
+package de.gedoplan.v5t11.vaadincommon.push;
 
 import de.gedoplan.baselibs.utils.util.ClassUtil;
 

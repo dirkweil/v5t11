@@ -44,24 +44,9 @@
   <dependencies>
     <!-- Main dependencies -->
 
-    <!--
-      myfaces-quarkus früh einbinden, da sonst Resource Bundles fehlen
-      und Web-Zugriffe hängen (vermutlich Classpath-Konflikte mit JEE und WildFly)
-    -->
-    <dependency>
-      <groupId>org.apache.myfaces.core.extensions.quarkus</groupId>
-      <artifactId>myfaces-quarkus</artifactId>
-    </dependency>
-
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>de.gedoplan</groupId>
-      <artifactId>v5t11-jsfcommon</artifactId>
-      <version>3.0.0-SNAPSHOT</version>
     </dependency>
 
     <dependency>

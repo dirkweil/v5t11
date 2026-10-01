@@ -1,6 +1,6 @@
 package de.gedoplan.v5t11.vaadincommon.ui;
 
-import de.gedoplan.v5t11.util.jsf.NavigationPresenter;
+import de.gedoplan.v5t11.vaadincommon.navigation.NavigationPresenter;
 
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.DetachEvent;
@@ -12,12 +12,10 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /**
- * Vaadin-Pendant zu {@code NavigationPresenter#getMenuModel()} aus v5t11-jsfcommon.
+ * Rendert das global föderierte Navigationsmenü als Vaadin {@link SideNav}.
  * <p>
- * Nutzt bewusst dieselbe {@link NavigationPresenter}-Instanz (und damit dieselbe, bereits über CDI-Events/Messaging
- * föderierte Menüpunkt-Liste) wie das bestehende JSF-Menü, statt die Föderationslogik zu duplizieren. Nur Rendering
- * (Vaadin {@link SideNav} statt PrimeFaces {@code p:menu}) und Live-Refresh-Transport (Vaadin-Push statt rohem
- * Websocket-JS) sind neu.
+ * Nutzt die {@link NavigationPresenter}-Instanz (und damit die über CDI-Events/Messaging föderierte
+ * Menüpunkt-Liste), live aktualisiert über Vaadin-Push statt rohem Websocket-JS.
  */
 public class VaadinNavigationMenu extends SideNav {
 

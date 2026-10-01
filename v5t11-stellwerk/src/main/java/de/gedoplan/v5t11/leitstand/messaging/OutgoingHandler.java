@@ -1,6 +1,6 @@
 package de.gedoplan.v5t11.leitstand.messaging;
 
-import de.gedoplan.v5t11.util.jsf.NavigationItem;
+import de.gedoplan.v5t11.vaadincommon.navigation.NavigationItem;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithVisibility;
 
 import jakarta.enterprise.context.ApplicationScoped;

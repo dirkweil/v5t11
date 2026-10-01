@@ -1,6 +1,6 @@
 package de.gedoplan.v5t11.vaadincommon.ui;
 
-import de.gedoplan.v5t11.util.jsf.NavigationPresenter;
+import de.gedoplan.v5t11.vaadincommon.navigation.NavigationPresenter;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.applayout.AppLayout;
@@ -12,8 +12,7 @@ import jakarta.annotation.PostConstruct;
 import jakarta.inject.Inject;
 
 /**
- * Gemeinsames Layout für alle Vaadin-Views der v5t11-Services, Pendant zum bisherigen Facelets-Template
- * {@code WEB-INF/templates/v5t11.xhtml} aus v5t11-jsfcommon.
+ * Gemeinsames Layout für alle Vaadin-Views der v5t11-Services.
  */
 public class MainLayout extends AppLayout {
 

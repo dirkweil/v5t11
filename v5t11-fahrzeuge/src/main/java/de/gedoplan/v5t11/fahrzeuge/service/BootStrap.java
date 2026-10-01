@@ -1,6 +1,6 @@
 package de.gedoplan.v5t11.fahrzeuge.service;
 
-import de.gedoplan.v5t11.util.jsf.NavigationPresenter;
+import de.gedoplan.v5t11.vaadincommon.navigation.NavigationPresenter;
 
 import java.sql.Connection;
 import java.sql.SQLException;

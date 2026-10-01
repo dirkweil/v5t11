@@ -6,7 +6,7 @@ import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Signal;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
 import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeugdecoder;
 import de.gedoplan.v5t11.util.cdi.Changed;
-import de.gedoplan.v5t11.util.jsf.AbstractPushService;
+import de.gedoplan.v5t11.vaadincommon.push.AbstractPushService;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.ObservesAsync;
