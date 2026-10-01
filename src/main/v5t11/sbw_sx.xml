@@ -259,7 +259,7 @@
     </SD8>
 
     <SXSD1 id="FD-2010-2" adr="1080" einbauOrt="HBf unter EG">
-      <HauptsignalRtGnGe idx="2" bereich="HBf" name="A" /> <!-- nicht angeschlossen -->
+      <HauptsignalRtGnGe idx="0" bereich="HBf" name="A" /> <!-- nicht angeschlossen -->
       <Vorsignal idx="4" bereich="HBf" name="n,r" /> <!-- nicht angeschlossen -->
       <Hauptsperrsignal idx="2" bereich="HBf" name="R3" />
       <Hauptsperrsignal idx="12" bereich="HBf" name="R4" />
