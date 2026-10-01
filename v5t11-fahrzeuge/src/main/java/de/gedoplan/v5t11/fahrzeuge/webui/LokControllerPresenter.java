@@ -7,7 +7,6 @@ import de.gedoplan.v5t11.util.domain.attribute.DecoderAdr;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.inject.Named;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logging.Logger;
@@ -21,7 +20,6 @@ import lombok.AllArgsConstructor;
  * Mittelfristig werden die Lokcontroller durch selbstentwickelte mobile Geräte
  * ersetzt.
  */
-@Named
 @ApplicationScoped
 public class LokControllerPresenter {
 

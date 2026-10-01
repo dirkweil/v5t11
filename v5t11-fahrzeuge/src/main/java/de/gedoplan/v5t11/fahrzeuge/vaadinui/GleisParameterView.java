@@ -107,6 +107,6 @@ public class GleisParameterView extends VerticalLayout {
   }
 
   private void navigateBack() {
-    getUI().ifPresent(ui -> ui.getPage().setLocation("/view/fahrzeugList.xhtml"));
+    getUI().ifPresent(ui -> ui.getPage().setLocation("/ui/fahrzeug-list"));
   }
 }
