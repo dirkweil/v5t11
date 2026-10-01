@@ -29,6 +29,11 @@ public class MainLayout extends AppLayout {
 
     addToNavbar(new DrawerToggle(), title);
 
+    // Lumos Standardbreite (16em) reicht für Navigation + setExtraContent(...)-Inhalte nicht immer aus - z. B.
+    // passt StellwerkViews Control-Panel mit vier nebeneinander stehenden Signal-Stellung-Toggle-Buttons
+    // ("H"/"F"/"L"/"R") darin sonst nicht in eine Zeile und bricht um.
+    getStyle().set("--vaadin-app-layout-drawer-width", "22em");
+
     this.extraArea = new Div();
     addToDrawer(new VaadinNavigationMenu(this.navigationPresenter), this.extraArea);
   }

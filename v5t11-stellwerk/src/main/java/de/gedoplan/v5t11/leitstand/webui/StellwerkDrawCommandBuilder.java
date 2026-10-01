@@ -24,6 +24,7 @@ import jakarta.json.JsonObjectBuilder;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Function;
 
 /**
  * Baut die Zeichenbefehle (JSON, ein Objekt pro {@link StellwerkElement}) für {@code stellwerk-draw.js} auf – aus
@@ -31,14 +32,23 @@ import java.util.List;
  * (Teilschritt 3c), fachlich unverändert, aber framework-neutral (kein {@code PushService}/WebSocket-Bezug mehr).
  * {@code PushService} selbst bleibt bis zur Löschung in 3e unangetastet (Rollback-Pfad).
  * <p>
- * Das Fahrstraßen-Vorschlags-Overlay (Attribute {@code f="V"}/{@code f="A"}, bisher über das session-keyed
- * {@code StellwerkVorschlagService} bezogen) ist hier bewusst noch nicht abgebildet – das entsprechende
- * Auswahl-/Vorschlagszustand lebt erst ab Teilschritt 3d als Feld auf {@code StellwerkView} und wird dann hier
- * ergänzt. Der Zustand "Gleis ist Teil einer bereits reservierten Fahrstrasse" ({@code f} = Reservierungstyp)
- * benötigt dagegen keinen Session-Bezug und ist bereits vollständig portiert.
+ * Das Fahrstraßen-Vorschlags-Overlay (Attribute {@code f="V"}/{@code f="A"}, im Original über das session-keyed
+ * {@code StellwerkVorschlagService} bezogen) wird seit Teilschritt 3d über den {@code vorschlagResolver}-Parameter von
+ * {@link #createDrawCommands} abgebildet: Der Auswahl-/Vorschlagszustand lebt view-lokal auf {@code StellwerkView}
+ * (kein Session-Keying mehr nötig, da jede View-Instanz ohnehin genau einer Browser-Session entspricht). Der Zustand
+ * "Gleis ist Teil einer bereits reservierten Fahrstrasse" ({@code f} = Reservierungstyp) braucht dagegen nach wie vor
+ * keinen Session-/View-Bezug und hat Vorrang vor dem Vorschlags-Overlay (siehe {@link #addFahrstrasse}).
  */
 @ApplicationScoped
 public class StellwerkDrawCommandBuilder {
+
+  /**
+   * Ergebnis eines {@code vorschlagResolver} (siehe {@link #createDrawCommands}): {@code typ} ist {@code "V"}
+   * (aktuell angewählter Vorschlag) oder {@code "A"} (Alternative), {@code zaehlrichtung} identisch zur gleichnamigen
+   * Eigenschaft von {@link de.gedoplan.v5t11.leitstand.entity.fahrstrasse.Fahrstrassenelement}.
+   */
+  public record FahrstrassenVorschlag(String typ, boolean zaehlrichtung) {
+  }
 
   public static final List<String> FARBEN_SPERR_SH0 = List.of("r");
   public static final List<String> FARBEN_SPERR_SH1 = List.of("w");
@@ -66,16 +76,19 @@ public class StellwerkDrawCommandBuilder {
   /**
    * Zeichenbefehle für mehrere Stellwerkselemente auf einmal erzeugen (ein Redraw-Batch). Die aktuell reservierten
    * Fahrstrassen werden dabei nur einmal für den ganzen Batch ermittelt, nicht pro Element.
+   *
+   * @param vorschlagResolver liefert für ein Gleis das Fahrstraßen-Vorschlags-Overlay (oder {@code null}, falls
+   *          keines gilt) – view-lokaler Zustand, siehe Klassen-Javadoc.
    */
-  public JsonArray createDrawCommands(Collection<StellwerkElement> elemente) {
+  public JsonArray createDrawCommands(Collection<StellwerkElement> elemente, Function<Gleis, FahrstrassenVorschlag> vorschlagResolver) {
     List<Fahrstrasse> reservierteFahrstrassen = this.fahrstrassenManager.getReservierteFahrstrassen();
 
     JsonArrayBuilder builder = Json.createArrayBuilder();
-    elemente.forEach(element -> builder.add(createDrawCommand(element, reservierteFahrstrassen)));
+    elemente.forEach(element -> builder.add(createDrawCommand(element, reservierteFahrstrassen, vorschlagResolver)));
     return builder.build();
   }
 
-  private JsonObject createDrawCommand(StellwerkElement element, List<Fahrstrasse> reservierteFahrstrassen) {
+  private JsonObject createDrawCommand(StellwerkElement element, List<Fahrstrasse> reservierteFahrstrassen, Function<Gleis, FahrstrassenVorschlag> vorschlagResolver) {
     JsonObjectBuilder builder = Json.createObjectBuilder();
     builder.add(ATTR_UIID, element.getUiId());
 
@@ -126,7 +139,7 @@ public class StellwerkDrawCommandBuilder {
     if (gleis != null) {
       builder.add(ATTR_GLEIS_BESETZT, gleis.isBesetzt());
 
-      addFahrstrasse(gleis, builder, reservierteFahrstrassen);
+      addFahrstrasse(gleis, builder, reservierteFahrstrassen, vorschlagResolver);
     }
 
     if (aktiveRichtungen != null) {
@@ -149,7 +162,7 @@ public class StellwerkDrawCommandBuilder {
     return builder.build();
   }
 
-  private void addFahrstrasse(Gleis gleis, JsonObjectBuilder builder, List<Fahrstrasse> reservierteFahrstrassen) {
+  private void addFahrstrasse(Gleis gleis, JsonObjectBuilder builder, List<Fahrstrasse> reservierteFahrstrassen, Function<Gleis, FahrstrassenVorschlag> vorschlagResolver) {
     Fahrstrassenelement fahrstrassenelement = null;
     String fahrstrassenTyp = null;
 
@@ -164,6 +177,16 @@ public class StellwerkDrawCommandBuilder {
     if (fahrstrassenTyp != null) {
       builder.add(ATTR_FAHRSTRASSEN_TYP, fahrstrassenTyp);
       builder.add(ATTR_FAHRSTRASSEN_ZAEHLRICHTUNG, fahrstrassenelement.isZaehlrichtung());
+      return;
+    }
+
+    // Keine reservierte Fahrstrasse auf diesem Gleis - Vorschlags-Overlay prüfen (hat niedrigere Prioriät).
+    if (vorschlagResolver != null) {
+      FahrstrassenVorschlag vorschlag = vorschlagResolver.apply(gleis);
+      if (vorschlag != null) {
+        builder.add(ATTR_FAHRSTRASSEN_TYP, vorschlag.typ());
+        builder.add(ATTR_FAHRSTRASSEN_ZAEHLRICHTUNG, vorschlag.zaehlrichtung());
+      }
     }
   }
 
