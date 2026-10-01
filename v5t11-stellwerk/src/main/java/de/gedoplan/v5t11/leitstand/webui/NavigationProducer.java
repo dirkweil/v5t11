@@ -34,8 +34,7 @@ public class NavigationProducer {
   List<NavigationItem> getHbfNavigationItem() {
     List<NavigationItem> items = new ArrayList<>();
     for (String bereich : this.leitstand.getBereiche()) {
-      items.add(new NavigationItem(bereich + " (alt)", "Stellwerk", this.urlPrefix + "view/stellwerk.xhtml?bereich=" + bereich, "pi pi-map", 0));
-      items.add(new NavigationItem(bereich, "Stellwerk", this.urlPrefix + "ui/stellwerk/" + bereich, "pi pi-map", -1));
+      items.add(new NavigationItem(bereich, "Stellwerk", this.urlPrefix + "ui/stellwerk/" + bereich, "pi pi-map", 0));
     }
     return items;
   }
