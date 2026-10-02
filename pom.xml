@@ -89,6 +89,22 @@
           </systemPropertyVariables>
         </configuration>
       </plugin>
+
+      <!-- Clean generated files (Vaadin) -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-clean-plugin</artifactId>
+        <configuration>
+          <filesets>
+            <fileset>
+              <directory>${project.basedir}/src/main/bundles</directory>
+            </fileset>
+            <fileset>
+              <directory>${project.basedir}/src/main/frontend/generated</directory>
+            </fileset>
+          </filesets>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 
