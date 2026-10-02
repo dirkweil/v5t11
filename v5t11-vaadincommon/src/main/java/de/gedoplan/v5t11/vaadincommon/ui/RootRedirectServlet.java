@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * Leitet Browser-Navigation auf den Context-Root ("/") auf {@code /ui/home} (und damit auf
- * {@link WelcomeView}) um. Das url-pattern "" ist ein exakter Context-Root-Match und kollidiert daher
+ * {@link HomeView}) um. Das url-pattern "" ist ein exakter Context-Root-Match und kollidiert daher
  * nicht mit dem auf "/ui/*" beschränkten {@link V5t11VaadinServlet}.
  */
 @WebServlet(urlPatterns = "")

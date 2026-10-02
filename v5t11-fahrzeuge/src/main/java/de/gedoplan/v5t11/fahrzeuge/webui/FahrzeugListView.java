@@ -1,4 +1,4 @@
-package de.gedoplan.v5t11.fahrzeuge.vaadinui;
+package de.gedoplan.v5t11.fahrzeuge.webui;
 
 import de.gedoplan.baselibs.utils.util.ResourceUtil;
 import de.gedoplan.baselibs.utils.xml.XmlConverter;
@@ -6,7 +6,6 @@ import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.FahrzeugTyp;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeugdecoder;
 import de.gedoplan.v5t11.fahrzeuge.persistence.FahrzeugRepository;
-import de.gedoplan.v5t11.fahrzeuge.webui.FahrzeugListPresenter;
 import de.gedoplan.v5t11.util.domain.attribute.DecoderAdr;
 import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 import de.gedoplan.v5t11.vaadincommon.ui.MainLayout;
@@ -65,7 +64,7 @@ public class FahrzeugListView extends VerticalLayout {
   Validator validator;
 
   @Inject
-  FahrzeugListPresenter fahrzeugListPresenter;
+  CurrentFahrzeugHolder currentFahrzeugHolder;
 
   private Div tileContainer;
   private VerticalLayout extraContent;
@@ -257,7 +256,7 @@ public class FahrzeugListView extends VerticalLayout {
   }
 
   private void navigateToControl(Fahrzeug fahrzeug) {
-    this.fahrzeugListPresenter.setCurrentFahrzeug(fahrzeug);
+    this.currentFahrzeugHolder.setCurrentFahrzeug(fahrzeug);
     getUI().ifPresent(ui -> ui.getPage().setLocation("/ui/fahrzeug-control"));
   }
 

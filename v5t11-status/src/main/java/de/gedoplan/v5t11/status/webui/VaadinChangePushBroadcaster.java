@@ -10,9 +10,8 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.ObservesAsync;
 
 /**
- * Verteilt dieselben {@code @Changed}-CDI-Events (gefeuert über {@link de.gedoplan.v5t11.util.cdi.EventFirer}, bisher
- * konsumiert von {@link PushService} für den rohen JSF-Websocket-Push) an Vaadin-Views, damit diese gezielt (nicht
- * per Full-Page-Reload) über {@code UI.access(...)} aktualisieren können.
+ * Verteilt dieselben {@code @Changed}-CDI-Events (gefeuert über {@link de.gedoplan.v5t11.util.cdi.EventFirer}) an
+ * Vaadin-Views, damit diese gezielt (nicht per Full-Page-Reload) über {@code UI.access(...)} aktualisieren können.
  * <p>
  * Registrierung/Deregistrierung folgt demselben Muster wie
  * {@code NavigationPresenter#addMenuChangeListener}/{@code VaadinNavigationMenu}.

@@ -1,4 +1,4 @@
-package de.gedoplan.v5t11.status.vaadinui;
+package de.gedoplan.v5t11.status.webui;
 
 import de.gedoplan.baselibs.utils.util.ClassUtil;
 import de.gedoplan.v5t11.status.entity.Kanal;

@@ -1,11 +1,10 @@
-package de.gedoplan.v5t11.fahrzeuge.vaadinui;
+package de.gedoplan.v5t11.fahrzeuge.webui;
 
 import de.gedoplan.baselibs.utils.util.ResourceUtil;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrweg.Gleis;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug;
 import de.gedoplan.v5t11.fahrzeuge.persistence.FahrzeugRepository;
 import de.gedoplan.v5t11.fahrzeuge.service.GleisMessService;
-import de.gedoplan.v5t11.fahrzeuge.webui.FahrzeugListPresenter;
 import de.gedoplan.v5t11.vaadincommon.ui.MainLayout;
 
 import com.vaadin.flow.component.AttachEvent;
@@ -52,7 +51,7 @@ public class GleisMessungView extends VerticalLayout {
   FahrzeugRepository fahrzeugRepository;
 
   @Inject
-  FahrzeugListPresenter fahrzeugListPresenter;
+  CurrentFahrzeugHolder currentFahrzeugHolder;
 
   @Inject
   GleisMessService gleisMessService;
@@ -78,10 +77,10 @@ public class GleisMessungView extends VerticalLayout {
   }
 
   private Fahrzeug getRefreshedFahrzeug() {
-    Fahrzeug current = this.fahrzeugListPresenter.getCurrentFahrzeug();
+    Fahrzeug current = this.currentFahrzeugHolder.getCurrentFahrzeug();
     if (!this.fahrzeugRepository.isAttached(current)) {
       current = this.fahrzeugRepository.findById(current.getId()).get();
-      this.fahrzeugListPresenter.setCurrentFahrzeug(current);
+      this.currentFahrzeugHolder.setCurrentFahrzeug(current);
     }
     return current;
   }

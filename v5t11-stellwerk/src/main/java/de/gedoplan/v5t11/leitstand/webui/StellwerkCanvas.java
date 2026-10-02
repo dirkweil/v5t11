@@ -1,4 +1,4 @@
-package de.gedoplan.v5t11.leitstand.vaadinui;
+package de.gedoplan.v5t11.leitstand.webui;
 
 import de.gedoplan.v5t11.leitstand.entity.stellwerk.StellwerkElement;
 

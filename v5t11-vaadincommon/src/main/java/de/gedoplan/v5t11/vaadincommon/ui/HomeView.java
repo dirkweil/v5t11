@@ -16,5 +16,5 @@ import com.vaadin.flow.router.Route;
  */
 @Route(value = "home", layout = MainLayout.class)
 @PageTitle("v5t11")
-public class WelcomeView extends VerticalLayout {
+public class HomeView extends VerticalLayout {
 }

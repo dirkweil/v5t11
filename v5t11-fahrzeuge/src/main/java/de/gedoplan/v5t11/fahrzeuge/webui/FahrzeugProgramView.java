@@ -1,11 +1,10 @@
-package de.gedoplan.v5t11.fahrzeuge.vaadinui;
+package de.gedoplan.v5t11.fahrzeuge.webui;
 
 import de.gedoplan.baselibs.utils.util.ResourceUtil;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.FahrzeugKonfiguration;
 import de.gedoplan.v5t11.fahrzeuge.gateway.StatusGateway;
 import de.gedoplan.v5t11.fahrzeuge.persistence.FahrzeugRepository;
-import de.gedoplan.v5t11.fahrzeuge.webui.FahrzeugListPresenter;
 import de.gedoplan.v5t11.util.domain.attribute.DecoderAdr;
 import de.gedoplan.v5t11.util.domain.attribute.SystemTyp;
 import de.gedoplan.v5t11.vaadincommon.ui.MainLayout;
@@ -80,7 +79,7 @@ public class FahrzeugProgramView extends VerticalLayout {
   Validator validator;
 
   @Inject
-  FahrzeugListPresenter fahrzeugListPresenter;
+  CurrentFahrzeugHolder currentFahrzeugHolder;
 
   @Inject
   Logger log;
@@ -111,10 +110,10 @@ public class FahrzeugProgramView extends VerticalLayout {
   }
 
   private Fahrzeug getRefreshedFahrzeug() {
-    Fahrzeug current = this.fahrzeugListPresenter.getCurrentFahrzeug();
+    Fahrzeug current = this.currentFahrzeugHolder.getCurrentFahrzeug();
     if (!this.fahrzeugRepository.isAttached(current)) {
       current = this.fahrzeugRepository.findById(current.getId()).get();
-      this.fahrzeugListPresenter.setCurrentFahrzeug(current);
+      this.currentFahrzeugHolder.setCurrentFahrzeug(current);
     }
     return current;
   }
@@ -449,7 +448,7 @@ public class FahrzeugProgramView extends VerticalLayout {
     list.sort(Comparator.comparing(FahrzeugKonfiguration::getNr));
 
     this.fahrzeug = this.fahrzeugRepository.merge(this.fahrzeug);
-    this.fahrzeugListPresenter.setCurrentFahrzeug(this.fahrzeug);
+    this.currentFahrzeugHolder.setCurrentFahrzeug(this.fahrzeug);
     refreshGridItems();
   }
 

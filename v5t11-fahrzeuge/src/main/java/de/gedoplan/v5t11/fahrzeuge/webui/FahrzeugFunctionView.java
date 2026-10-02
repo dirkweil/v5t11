@@ -1,11 +1,10 @@
-package de.gedoplan.v5t11.fahrzeuge.vaadinui;
+package de.gedoplan.v5t11.fahrzeuge.webui;
 
 import de.gedoplan.baselibs.utils.util.ResourceUtil;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeug;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.FahrzeugFunktion;
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.FahrzeugFunktion.FahrzeugFunktionsGruppe;
 import de.gedoplan.v5t11.fahrzeuge.persistence.FahrzeugRepository;
-import de.gedoplan.v5t11.fahrzeuge.webui.FahrzeugListPresenter;
 import de.gedoplan.v5t11.vaadincommon.ui.MainLayout;
 
 import com.vaadin.flow.component.button.Button;
@@ -59,7 +58,7 @@ public class FahrzeugFunctionView extends VerticalLayout {
   Validator validator;
 
   @Inject
-  FahrzeugListPresenter fahrzeugListPresenter;
+  CurrentFahrzeugHolder currentFahrzeugHolder;
 
   private Fahrzeug fahrzeug;
   private Grid<FahrzeugFunktion> grid;
@@ -75,10 +74,10 @@ public class FahrzeugFunctionView extends VerticalLayout {
   }
 
   private Fahrzeug getRefreshedFahrzeug() {
-    Fahrzeug current = this.fahrzeugListPresenter.getCurrentFahrzeug();
+    Fahrzeug current = this.currentFahrzeugHolder.getCurrentFahrzeug();
     if (!this.fahrzeugRepository.isAttached(current)) {
       current = this.fahrzeugRepository.findById(current.getId()).get();
-      this.fahrzeugListPresenter.setCurrentFahrzeug(current);
+      this.currentFahrzeugHolder.setCurrentFahrzeug(current);
     }
     return current;
   }
@@ -306,7 +305,7 @@ public class FahrzeugFunctionView extends VerticalLayout {
     }
 
     this.fahrzeug = this.fahrzeugRepository.merge(this.fahrzeug);
-    this.fahrzeugListPresenter.setCurrentFahrzeug(this.fahrzeug);
+    this.currentFahrzeugHolder.setCurrentFahrzeug(this.fahrzeug);
 
     navigateToControl();
   }

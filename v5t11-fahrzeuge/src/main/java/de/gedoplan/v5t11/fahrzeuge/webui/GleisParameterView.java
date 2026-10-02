@@ -1,4 +1,4 @@
-package de.gedoplan.v5t11.fahrzeuge.vaadinui;
+package de.gedoplan.v5t11.fahrzeuge.webui;
 
 import de.gedoplan.v5t11.fahrzeuge.entity.fahrweg.Gleis;
 import de.gedoplan.v5t11.fahrzeuge.service.ParcoursService;

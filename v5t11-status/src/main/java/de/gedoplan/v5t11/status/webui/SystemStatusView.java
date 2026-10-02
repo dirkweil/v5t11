@@ -1,4 +1,4 @@
-package de.gedoplan.v5t11.status.vaadinui;
+package de.gedoplan.v5t11.status.webui;
 
 import de.gedoplan.v5t11.status.entity.Steuerung;
 import de.gedoplan.v5t11.status.entity.fahrweg.Gleis;

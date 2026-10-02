@@ -1,4 +1,4 @@
-package de.gedoplan.v5t11.fahrzeuge.vaadinui;
+package de.gedoplan.v5t11.fahrzeuge.webui;
 
 import de.gedoplan.baselibs.utils.util.ResourceUtil;
 import de.gedoplan.baselibs.utils.xml.XmlConverter;
@@ -10,9 +10,6 @@ import de.gedoplan.v5t11.fahrzeuge.entity.fahrzeug.Fahrzeugdecoder;
 import de.gedoplan.v5t11.fahrzeuge.gateway.StatusGateway;
 import de.gedoplan.v5t11.fahrzeuge.persistence.FahrzeugRepository;
 import de.gedoplan.v5t11.fahrzeuge.service.ParcoursService;
-import de.gedoplan.v5t11.fahrzeuge.webui.FahrzeugListPresenter;
-import de.gedoplan.v5t11.fahrzeuge.webui.LokControllerPresenter;
-import de.gedoplan.v5t11.fahrzeuge.webui.VaadinChangePushBroadcaster;
 import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import de.gedoplan.v5t11.util.domain.attribute.DecoderAdr;
 import de.gedoplan.v5t11.vaadincommon.ui.MainLayout;
@@ -100,7 +97,7 @@ public class FahrzeugControlView extends VerticalLayout implements HasDynamicTit
   Validator validator;
 
   @Inject
-  FahrzeugListPresenter fahrzeugListPresenter;
+  CurrentFahrzeugHolder currentFahrzeugHolder;
 
   @Inject
   LokControllerPresenter lokControllerPresenter;
@@ -158,10 +155,10 @@ public class FahrzeugControlView extends VerticalLayout implements HasDynamicTit
   }
 
   private Fahrzeug getRefreshedFahrzeug() {
-    Fahrzeug current = this.fahrzeugListPresenter.getCurrentFahrzeug();
+    Fahrzeug current = this.currentFahrzeugHolder.getCurrentFahrzeug();
     if (!this.fahrzeugRepository.isAttached(current)) {
       current = this.fahrzeugRepository.findById(current.getId()).get();
-      this.fahrzeugListPresenter.setCurrentFahrzeug(current);
+      this.currentFahrzeugHolder.setCurrentFahrzeug(current);
     }
     return current;
   }
@@ -248,27 +245,27 @@ public class FahrzeugControlView extends VerticalLayout implements HasDynamicTit
   }
 
   private void navigateToProgram() {
-    this.fahrzeugListPresenter.setCurrentFahrzeug(this.fahrzeug);
+    this.currentFahrzeugHolder.setCurrentFahrzeug(this.fahrzeug);
     getUI().ifPresent(ui -> ui.getPage().setLocation("/ui/fahrzeug-program"));
   }
 
   private void navigateToFunction() {
-    this.fahrzeugListPresenter.setCurrentFahrzeug(this.fahrzeug);
+    this.currentFahrzeugHolder.setCurrentFahrzeug(this.fahrzeug);
     getUI().ifPresent(ui -> ui.getPage().setLocation("/ui/fahrzeug-function"));
   }
 
   private void navigateToTraktion() {
-    this.fahrzeugListPresenter.setCurrentFahrzeug(this.fahrzeug);
+    this.currentFahrzeugHolder.setCurrentFahrzeug(this.fahrzeug);
     getUI().ifPresent(ui -> ui.getPage().setLocation("/ui/fahrzeug-traktion"));
   }
 
   private void navigateToGleisMessung() {
-    this.fahrzeugListPresenter.setCurrentFahrzeug(this.fahrzeug);
+    this.currentFahrzeugHolder.setCurrentFahrzeug(this.fahrzeug);
     getUI().ifPresent(ui -> ui.getPage().setLocation("/ui/gleis-messung"));
   }
 
   private void navigateToFahrzeugMessung() {
-    this.fahrzeugListPresenter.setCurrentFahrzeug(this.fahrzeug);
+    this.currentFahrzeugHolder.setCurrentFahrzeug(this.fahrzeug);
     getUI().ifPresent(ui -> ui.getPage().setLocation("/ui/fahrzeug-messung"));
   }
 
@@ -368,7 +365,7 @@ public class FahrzeugControlView extends VerticalLayout implements HasDynamicTit
     }
 
     this.fahrzeug = this.fahrzeugRepository.merge(this.fahrzeug);
-    this.fahrzeugListPresenter.setCurrentFahrzeug(this.fahrzeug);
+    this.currentFahrzeugHolder.setCurrentFahrzeug(this.fahrzeug);
     refreshAll();
     return true;
   }
@@ -507,7 +504,7 @@ public class FahrzeugControlView extends VerticalLayout implements HasDynamicTit
   }
 
   private void refreshAll() {
-    // Kein fahrzeugListPresenter.setCurrentFahrzeug(...) hier: dieser Pfad wird auch vom Push-Handler
+    // Kein currentFahrzeugHolder.setCurrentFahrzeug(...) hier: dieser Pfad wird auch vom Push-Handler
     // (onChanged) aus ui.access(...) heraus aufgerufen, ohne aktiven @SessionScoped-Kontext. Die Bridge wird
     // stattdessen direkt vor jeder Navigation gesetzt (siehe navigateToJsf/saveFahrzeug), wo garantiert ein
     // echter Request/Klick vorliegt.

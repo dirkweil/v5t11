@@ -16,7 +16,7 @@ import lombok.Setter;
  * selbst durch die Navigation zu reichen.
  */
 @SessionScoped
-public class FahrzeugListPresenter implements Serializable {
+public class CurrentFahrzeugHolder implements Serializable {
 
   @Getter
   @Setter
