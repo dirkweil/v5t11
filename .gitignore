@@ -21,3 +21,4 @@ ObjectStore/
 **/frontend/index.html
 node_modules/
 vite.generated.ts
+**/src/main/bundles/
