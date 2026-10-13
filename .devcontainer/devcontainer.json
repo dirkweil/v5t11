@@ -1,0 +1,29 @@
+{
+	"name": "Claude Dev Container Example",
+	"image": "docker.gedoplan.de/dev-tools/coding-agent:2026-10-11",
+//	IntelliJ+WSL in native mode mounts project in /wsl.localhost/Ubuntu/home/...
+//  Using localWorkspaceFolder does not work when opening a project with a Windows path
+	"workspaceMount": "source=${localWorkspaceFolder},target=${localWorkspaceFolder},type=bind",
+	"workspaceFolder": "${localWorkspaceFolder}",
+//	If application is also run in container, forward port to view
+//	"forwardPorts": [8080],
+	"mounts": [
+		// Claude config
+		{
+			"source": "${localEnv:HOME}${localEnv:USERPROFILE}/.claude",
+			"target": "/home/node/.claude",
+			"type": "bind"
+		}
+	],
+	"customizations": {
+		// IntelliJ+Claude integration does not work in native mode yet
+		"jetbrains": {
+			"settings": {},
+			"plugins" : ["com.anthropic.code.plugin"]
+		},
+		"vscode": {
+			"settings": {},
+			"extensions": ["anthropic.claude-code"]
+		}
+	}
+}
