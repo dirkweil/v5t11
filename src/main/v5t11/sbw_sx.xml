@@ -237,8 +237,8 @@
       <Hauptsperrsignal idx="0" bereich="HBf" name="P6" />
       <Hauptsperrsignal idx="2" bereich="HBf" name="P7" />
       <Hauptsperrsignal idx="4" bereich="HBf" name="P9" />
-      <Sperrsignal idx="6" bereich="HBf" name="404" /> <!-- nicht angeschlossen -->
-      <HauptsignalRtGn idx="7" bereich="HBf" name="Sbk2" />
+      <Sperrsignal idx="6" bereich="HBf" name="406" /> 
+      <HauptsignalRtGn idx="7" bereich="HBf" name="Sbk2" /> <!-- nur für Vorsignale an P3-10 -->
       <Hauptsperrsignal idx="8" bereich="HBf" name="P10" />
       <Hauptsperrsignal idx="10" bereich="HBf" name="P4" />
       <Hauptsperrsignal idx="12" bereich="HBf" name="P3" />
@@ -267,7 +267,6 @@
     </SXSD1>
 
     <WDMiba3 id="FD-2019-3" adr="1073" einbauOrt="HBf unter EG">
-      <Sperrsignal idx="0" bereich="HBf" name="406" invertiert="true" /> <!-- nicht angeschlossen -->
       <Sperrsignal idx="2" bereich="HBf" name="24'" invertiert="true" />
       <Sperrsignal idx="3" bereich="HBf" name="22'" invertiert="true" />
       <Sperrsignal idx="4" bereich="HBf" name="23'" invertiert="true" />
@@ -324,6 +323,7 @@
       <Hauptsperrsignal bereich="HBf" name="N21-25" />
       <Sperrsignal bereich="HBf" name="21" />
       <Sperrsignal bereich="HBf" name="25" />
+      <Sperrsignal bereich="HBf" name="404" />
 
       <!-- Die folgenden Geräte kommen noch an einen echten FD -->
       <Sperrsignal bereich="HBf" name="W30" />
