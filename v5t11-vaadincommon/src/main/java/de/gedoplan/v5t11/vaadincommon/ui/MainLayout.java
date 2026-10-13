@@ -7,6 +7,7 @@ import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.router.RouterLink;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.inject.Inject;
@@ -23,7 +24,10 @@ public class MainLayout extends AppLayout {
 
   @PostConstruct
   void init() {
-    H1 title = new H1("v5t11");
+    RouterLink homeLink = new RouterLink("v5t11", HomeView.class);
+    homeLink.getStyle().set("color", "inherit").set("text-decoration", "none");
+
+    H1 title = new H1(homeLink);
     title.getStyle().set("font-size", "var(--lumo-font-size-l)").set("margin", "0");
 
     addToNavbar(new DrawerToggle(), title);

@@ -103,8 +103,6 @@ public class NavigationPresenter extends AbstractPushService {
       .flatMap(List::stream)
       .forEach(ni -> registerNavigationItem(ni, true, true));
 
-    registerNavigationItem(new NavigationItem("home", "Allgemein", "/home", "pi pi-home", 910), true, false);
-
     this.scheduler.scheduleAtFixedRate(this::heartBeat, HEARTBEAT_MILLIS / 3, HEARTBEAT_MILLIS, TimeUnit.MILLISECONDS);
 
     this.logger.debug("Started scheduler");
