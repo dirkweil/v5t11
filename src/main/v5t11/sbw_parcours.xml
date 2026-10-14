@@ -521,7 +521,7 @@
     <Gleis name="406" />
   </Fahrstrasse>
 
-  <Fahrstrasse bereich="HBf" zaehlrichtung="true" start-vorsignal="n,r">
+  <Fahrstrasse bereich="HBf" zaehlrichtung="true" start-vorsignal="n,r[A]">
     <Gleis name="407" />
     <Signal name="A" stellung="FAHRT" />
     <Gleis name="W2" />
