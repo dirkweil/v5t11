@@ -476,14 +476,14 @@ public class Fahrstrasse extends Bereichselement {
 
     if (this.startVorsignalName != null) {
       Signal signal = new Signal(this.startVorsignalBereich, this.startVorsignalName);
-      if (this.signalRepository.findById(signal.getId()) == null) {
+      if (this.signalRepository.findById(signal.getId()).isEmpty()) {
         this.signalRepository.persist(signal);
       }
     }
 
     if (this.zielHauptsignalName != null) {
       Signal signal = new Signal(this.zielHauptsignalBereich, this.zielHauptsignalName);
-      if (this.signalRepository.findById(signal.getId()) == null) {
+      if (this.signalRepository.findById(signal.getId()).isEmpty()) {
         this.signalRepository.persist(signal);
       }
     }

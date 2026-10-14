@@ -1,5 +1,19 @@
 package de.gedoplan.v5t11.parcours.service;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+
+import org.eclipse.microprofile.rest.client.inject.RestClient;
+import org.jboss.logging.Logger;
+
+import com.google.common.collect.ListMultimap;
+import com.google.common.collect.MultimapBuilder;
+
 import de.gedoplan.v5t11.parcours.entity.Parcours;
 import de.gedoplan.v5t11.parcours.entity.fahrstrasse.Fahrstrasse;
 import de.gedoplan.v5t11.parcours.entity.fahrstrasse.FahrstrassenGleis;
@@ -16,22 +30,10 @@ import de.gedoplan.v5t11.util.cdi.Changed;
 import de.gedoplan.v5t11.util.cdi.Created;
 import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import de.gedoplan.v5t11.util.domain.attribute.SignalStellung;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Observes;
-import jakarta.enterprise.event.ObservesAsync;
+import jakarta.enterprise.event.TransactionPhase;
 import jakarta.inject.Inject;
-
-import com.google.common.collect.ListMultimap;
-import com.google.common.collect.MultimapBuilder;
-import org.eclipse.microprofile.rest.client.inject.RestClient;
-import org.jboss.logging.Logger;
 
 /**
  * Vorsignal-Automatik.
@@ -55,21 +57,26 @@ public class VorsignalService {
   @Inject
   Logger logger;
 
+  // Pattern für Vorsignalnamen mit Mast-Hauptsignal, z. B. "n,r[A]" -> "A"
+  private static final Pattern pattern = Pattern.compile(".*\\[(?<hauptsignal>.*)\\]");
+
   // Abbildung beteiligte weiche -> Vorsignalregel
-  private ListMultimap<BereichselementId, VorsignalRegel> weiche2Regel = MultimapBuilder.hashKeys().arrayListValues().build();
+  private ListMultimap<BereichselementId, VorsignalRegel> weiche2Regel = MultimapBuilder.hashKeys().arrayListValues()
+      .build();
 
   // Abbildung beteiligtes Haupt- oder Sperr-Siganl -> Vorsignalregel
-  private ListMultimap<BereichselementId, VorsignalRegel> signal2Regel = MultimapBuilder.hashKeys().arrayListValues().build();
+  private ListMultimap<BereichselementId, VorsignalRegel> signal2Regel = MultimapBuilder.hashKeys().arrayListValues()
+      .build();
 
   // Aus Fahrstrassen Vorsignalregeln ableiten
   void init(@Observes @Created Parcours parcours) {
     // Pro Fahrstraße mit Start-Vorsignal eine Vorsignalregel erstellen
     List<VorsignalRegel> vorsignalRegeln = parcours.getFahrstrassen()
-      .stream()
-      .filter(fs -> fs.getStartVorsignalName() != null)
-      .map(this::createVorsignalRegel)
-      .filter(Objects::nonNull)
-      .collect(Collectors.toList());
+        .stream()
+        .filter(fs -> fs.getStartVorsignalName() != null)
+        .map(this::createVorsignalRegel)
+        .filter(Objects::nonNull)
+        .collect(Collectors.toList());
 
     /*
      * Es können nun Regeln in der Liste sein, die einander enthalten, d. h. der Fahrweg der einen ist Teil der anderen.
@@ -89,7 +96,8 @@ public class VorsignalService {
       VorsignalRegel a = vorsignalRegeln.get(i);
       VorsignalRegel b = vorsignalRegeln.get(i + 1);
 
-      if (a.vorsignalId.equals(b.vorsignalId) && a.id.getBereich().equals(b.id.getBereich()) && b.id.getName().startsWith(a.id.getName())) {
+      if (a.vorsignalId.equals(b.vorsignalId) && a.id.getBereich().equals(b.id.getBereich())
+          && b.id.getName().startsWith(a.id.getName())) {
         // this.logger.tracef(">>>>>>>>>>>>>>>> %s", a);
         // this.logger.tracef(" ist Präfix von %s", b);
 
@@ -109,32 +117,48 @@ public class VorsignalService {
 
     // Nun ist die Liste "präfixfrei", d. h. für jeden Fahrweg gibt es nur eine Vorsignalregel, die ihn umfasst
 
+    // Beteiligte Weichen und Signale für schnellen Lookup in entsprechende Maps eintragen
     vorsignalRegeln.forEach(vsr -> {
-      // Beteiligte Weichen und Signale für schnellen Lookup in entsprechende Maps eintragen
       vsr.fahrstrassenWeichen.forEach(w -> this.weiche2Regel.put(w.getId(), vsr));
       vsr.sperrSignalIds.forEach(s -> this.signal2Regel.put(s, vsr));
       this.signal2Regel.put(vsr.vorsignalId, vsr);
       if (vsr.zielHauptsignalId != null) {
         this.signal2Regel.put(vsr.zielHauptsignalId, vsr);
       }
-
-      this.logger.trace(vsr);
-
-      // Regel initial einmal ausführen
-      vsr.execute();
+      if (vsr.mastHauptsignalId != null) {
+        this.signal2Regel.put(vsr.mastHauptsignalId, vsr);
+      }
     });
 
+    // Alle Vorsignale initial dunkel stellen
+    vorsignalRegeln.stream()
+      .map(vsr -> vsr.vorsignalId)
+      .distinct()
+      .forEach(vorsignalId -> {
+        this.signalRepository
+          .findById(vorsignalId)
+          .ifPresent(vorsignal -> {
+            try {
+              this.statusGateway.signalStellen(vorsignalId.getBereich(), vorsignalId.getName(), SignalStellung.DUNKEL);
+            } catch (Exception e) {
+              this.logger.errorf(e, "Kann Vorsignal %s nicht auf DUNKEL stellen", vorsignalId);
+            }
+          });
+        });
+
+    // Alle Vorsignalregeln initial einmal ausführen
+    vorsignalRegeln.forEach(VorsignalRegel::execute);
   }
 
   // Bei Weichen-Änderung davon betroffene Regeln ausführen
-  void weicheChanged(@ObservesAsync @Changed Weiche weiche) {
+  void weicheChanged(@Observes(during = TransactionPhase.AFTER_SUCCESS) @Changed Weiche weiche) {
     List<VorsignalRegel> vorsignalregeln = this.weiche2Regel.get(weiche.getId());
     this.logger.tracef("Change von %s", weiche);
     vorsignalregeln.forEach(VorsignalRegel::execute);
   }
 
   // Bei Signal-Änderung davon betroffene Regeln ausführen
-  void signalChanged(@ObservesAsync @Changed Signal signal) {
+  void signalChanged(@Observes(during = TransactionPhase.AFTER_SUCCESS) @Changed Signal signal) {
     List<VorsignalRegel> vorsignalregeln = this.signal2Regel.get(signal.getId());
     this.logger.tracef("Change von %s", signal);
     vorsignalregeln.forEach(VorsignalRegel::execute);
@@ -168,12 +192,37 @@ public class VorsignalService {
       }
     }
 
-    // Ziel- und Startsignal übernehmen
+    // Ziel-Hauptsignal übernehmen; falls nicht gefunden, wird die Regel nicht erstellt
     if (fahrstrasse.getZielHauptsignalName() != null) {
-      vorsignalRegel.zielHauptsignalId = new BereichselementId(fahrstrasse.getZielHauptsignalBereich(), fahrstrasse.getZielHauptsignalName());
+      vorsignalRegel.zielHauptsignalId = new BereichselementId(fahrstrasse.getZielHauptsignalBereich(),
+          fahrstrasse.getZielHauptsignalName());
+      if (this.signalRepository.findById(vorsignalRegel.zielHauptsignalId).isEmpty()) {
+        this.logger.warnf("Ziel-Hauptsignal %s der Fahrstraße %s nicht gefunden", vorsignalRegel.zielHauptsignalId,
+            fahrstrasse.getId());
+        return null;
+      }
     }
 
-    vorsignalRegel.vorsignalId = new BereichselementId(fahrstrasse.getStartVorsignalBereich(), fahrstrasse.getStartVorsignalName());
+    // Start-Vorsignal übernehmen; falls nicht gefunden, wird die Regel nicht erstellt
+    vorsignalRegel.vorsignalId = new BereichselementId(fahrstrasse.getStartVorsignalBereich(),
+        fahrstrasse.getStartVorsignalName());
+    if (this.signalRepository.findById(vorsignalRegel.vorsignalId).isEmpty()) {
+      this.logger.warnf("Start-Vorsignal %s der Fahrstraße %s nicht gefunden", vorsignalRegel.vorsignalId,
+          fahrstrasse.getId());
+      return null;
+    }
+
+    // Mast-Hauptsignal aus Vorsignalnamen entnehmen, falls vorhanden; falls nicht gefunden, wird die Regel ohne Mast-Hauptsignal erstellt
+    Matcher matcher = pattern.matcher(fahrstrasse.getStartVorsignalName());
+    if (matcher.matches()) {
+      vorsignalRegel.mastHauptsignalId = new BereichselementId(fahrstrasse.getStartVorsignalBereich(),
+          matcher.group("hauptsignal"));
+      if (this.signalRepository.findById(vorsignalRegel.mastHauptsignalId).isEmpty()) {
+        this.logger.warnf("Mast-Hauptsignal %s des Start-Vorsignals %s der Fahrstraße %s nicht gefunden",
+            vorsignalRegel.mastHauptsignalId, vorsignalRegel.vorsignalId, fahrstrasse.getId());
+        vorsignalRegel.mastHauptsignalId = null;
+      }
+    }
 
     return vorsignalRegel;
   }
@@ -184,7 +233,8 @@ public class VorsignalService {
    * - als Ausführungsbedingung die beteiligten Weichen mit ihren jeweiligen Stellungen,
    * - zur Berechnung der Vorsignalstellung die Liste der betroffenen Sperrsignale,
    * - das Ziel-Hauptsignal, falls vorhanden,
-   * - das betroffene Vorsignal.
+   * - das betroffene Vorsignal,
+   * - das Hauptsignal, an dessen Mast das Vorsignal hängt; <code>null</code>, falls separat aufgestelltes Vorsignal.
    *
    * @author dw
    */
@@ -194,45 +244,49 @@ public class VorsignalService {
     private List<BereichselementId> sperrSignalIds = new ArrayList<>();
     private BereichselementId zielHauptsignalId;
     private BereichselementId vorsignalId;
+    private BereichselementId mastHauptsignalId;
 
     @Override
     public String toString() {
       return "VorsignalRegel{"
-        + this.vorsignalId
-        + " -> " + this.zielHauptsignalId
-        + ", id=" + this.id
-        + ", weichen=" + this.fahrstrassenWeichen.stream().map(x -> x.getId() + ":" + x.getStellung()).collect(Collectors.joining(","))
-        + ", signale=" + this.sperrSignalIds.stream().map(x -> x.toString()).collect(Collectors.joining(","))
-        + "}";
+          + this.vorsignalId + " -> " + this.zielHauptsignalId
+          + ", id=" + this.id
+          + ", weichen="
+          + this.fahrstrassenWeichen.stream().map(x -> x.getId() + ":" + x.getStellung())
+              .collect(Collectors.joining(","))
+          + ", signale=" + this.sperrSignalIds.stream().map(x -> x.toString()).collect(Collectors.joining(","))
+          + ", mastHauptsignal=" + this.mastHauptsignalId
+          + "}";
     }
 
     // Regel ausführen.
     private void execute() {
-      if (!weichestellungenPassen()) {
-        VorsignalService.this.logger.tracef("  kein Match: %s", this);
-        return;
+      try {
+        // Wenn die Weichen nicht in den gewünschten Stellungen stehen, wird die Regel nicht ausgeführt
+        if (!weichestellungenPassen()) {
+          VorsignalService.this.logger.tracef("%s: kein Match", this);
+          return;
+        }
+
+        SignalStellung vorsignalStellung = getVorsignalStellung();
+
+        VorsignalService.this.signalRepository
+            .findById(this.vorsignalId)
+            .ifPresent(vorsignal -> {
+              if (vorsignal.getStellung() == vorsignalStellung) {
+                VorsignalService.this.logger.tracef("%s: Vorsignal %s hat schon Stellung %s", this, this.vorsignalId,
+                    vorsignalStellung);
+                return;
+              }
+
+              VorsignalService.this.logger.debugf("%s: Vorsignal %s auf %s stellen", this, this.vorsignalId,
+                  vorsignalStellung);
+              VorsignalService.this.statusGateway.signalStellen(this.vorsignalId.getBereich(),
+                  this.vorsignalId.getName(), vorsignalStellung);
+            });
+      } catch (Exception e) {
+        VorsignalService.this.logger.errorf(e, "%s: Fehler bei Ausführung", this);
       }
-
-      SignalStellung vorsignalStellung = getVorsignalStellung();
-
-      VorsignalService.this.signalRepository
-        .findById(this.vorsignalId)
-        .ifPresentOrElse(vorsignal -> {
-            if (vorsignal.getStellung() == vorsignalStellung) {
-              VorsignalService.this.logger.tracef("  bereits richtige Stellung: %s", this);
-              return;
-            }
-
-            VorsignalService.this.logger.debugf("Vorsignal %s auf %s stellen", this.vorsignalId, vorsignalStellung);
-            VorsignalService.this.logger.tracef("  wegen %s", this.toString());
-
-            try {
-              VorsignalService.this.statusGateway.signalStellen(this.vorsignalId.getBereich(), this.vorsignalId.getName(), vorsignalStellung);
-            } catch (Exception e) {
-              VorsignalService.this.logger.errorf(e, "Kann Vorsignal %s nicht auf %s stellen", this.vorsignalId, vorsignalStellung);
-            }
-          },
-          () -> VorsignalService.this.logger.tracef("  kein Vorsignal: %s", this));
     }
 
     // Prüfen, ob alle Weichen in den gewünschten Stellungen stehen
@@ -248,6 +302,15 @@ public class VorsignalService {
 
     // Vorsignalstellung berechnen
     private SignalStellung getVorsignalStellung() {
+      // Sollte ein am Mast befindliches Hauptsignal HALT oder RANGIERFAHRT anzeigen, DUNKEL
+      if (this.mastHauptsignalId != null) {
+        Signal mastHauptsignal = VorsignalService.this.signalRepository.findById(this.mastHauptsignalId).get();
+        if (mastHauptsignal.getStellung() == SignalStellung.HALT
+            || mastHauptsignal.getStellung() == SignalStellung.RANGIERFAHRT) {
+          return SignalStellung.DUNKEL;
+        }
+      }
+
       // Sollte ein im Weg liegendes Sperrsignal HALT anzeigen, HALT
       for (BereichselementId sperrSignalId : this.sperrSignalIds) {
         Signal sperrSignal = VorsignalService.this.signalRepository.findById(sperrSignalId).get();
