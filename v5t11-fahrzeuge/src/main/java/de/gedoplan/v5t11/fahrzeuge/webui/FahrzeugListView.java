@@ -22,6 +22,7 @@ import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.page.WebStorage;
 import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.component.textfield.TextField;
@@ -42,6 +43,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Vaadin-Pendant zu {@code view/fahrzeugList.xhtml} + {@code view/fahrzeugCreate.xhtml}. Teil der Phase-2-Migration
@@ -57,6 +60,8 @@ import java.util.Set;
 @PageTitle("Fahrzeug-Management - v5t11")
 public class FahrzeugListView extends VerticalLayout {
 
+  private static final String FILTER_STORAGE_KEY = "fahrzeugList.filter";
+
   @Inject
   FahrzeugRepository fahrzeugRepository;
 
@@ -71,6 +76,7 @@ public class FahrzeugListView extends VerticalLayout {
   private MainLayout mainLayout;
   private List<Fahrzeug> fahrzeuge;
   private Set<FahrzeugTyp> currentFilter = Set.of(FahrzeugTyp.LOK);
+  private CheckboxGroup<FahrzeugTyp> filter;
 
   @PostConstruct
   void init() {
@@ -78,20 +84,22 @@ public class FahrzeugListView extends VerticalLayout {
 
     this.fahrzeuge = this.fahrzeugRepository.findAllSortedByBetriebsnummer();
 
-    CheckboxGroup<FahrzeugTyp> filter = new CheckboxGroup<>();
-    filter.setLabel("Filter");
-    filter.setItems(FahrzeugTyp.values());
-    filter.setItemLabelGenerator(FahrzeugTyp::getBezeichnung);
-    filter.setValue(this.currentFilter);
-    filter.addValueChangeListener(event -> {
+    this.filter = new CheckboxGroup<>();
+    this.filter.setLabel("Filter");
+    this.filter.setItems(FahrzeugTyp.values());
+    this.filter.setItemLabelGenerator(FahrzeugTyp::getBezeichnung);
+    this.filter.setValue(this.currentFilter);
+    this.filter.addValueChangeListener(event -> {
       this.currentFilter = event.getValue();
+      WebStorage.setItem(WebStorage.Storage.SESSION_STORAGE, FILTER_STORAGE_KEY,
+        this.currentFilter.stream().map(Enum::name).collect(Collectors.joining(",")));
       refreshTiles();
     });
 
     Button createButton = new Button("Neues Fahrzeug", event -> openCreateDialog());
     createButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
-    this.extraContent = new VerticalLayout(filter, createButton);
+    this.extraContent = new VerticalLayout(this.filter, createButton);
 
     this.tileContainer = new Div();
     this.tileContainer.getStyle()
@@ -109,6 +117,20 @@ public class FahrzeugListView extends VerticalLayout {
   protected void onAttach(AttachEvent attachEvent) {
     this.mainLayout = (MainLayout) getParent().orElseThrow();
     this.mainLayout.setExtraContent(this.extraContent);
+
+    // Gespeicherten Filter wiederherstellen (Browser-Callback, daher asynchron); setValue löst den Listener aus
+    WebStorage.getItem(WebStorage.Storage.SESSION_STORAGE, FILTER_STORAGE_KEY, value -> {
+      if (value != null) {
+        this.filter.setValue(parseFilter(value));
+      }
+    });
+  }
+
+  private static Set<FahrzeugTyp> parseFilter(String value) {
+    Set<String> names = Stream.of(value.split(",")).collect(Collectors.toSet());
+    return Stream.of(FahrzeugTyp.values())
+      .filter(typ -> names.contains(typ.name()))
+      .collect(Collectors.toSet());
   }
 
   @Override
