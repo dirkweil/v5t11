@@ -493,8 +493,8 @@
       <Gleis lage="S,N" name="406" bereich="HBf" signal="Sbk2" signalPos="W"/>
       <Gleis lage="S,N" name="407" bereich="HBf"/>
       <Leer anzahl="21"/>
-      <Gleis lage="N,S" name="507" bereich="HBf" signal="W30" signalPos="O"/>
-      <Gleis lage="N,S" name="506" bereich="HBf" signal="F" signalPos="O"/>
+      <Gleis lage="N,S" name="507" bereich="HBf"/>
+      <Gleis lage="N,S" name="506" bereich="HBf"/>
       <Weiche lage="NW|N,SO" name="31" bereich="HBf"/>
     </Zeile>
     <Zeile>
@@ -502,8 +502,8 @@
       <Gleis lage="S,N" name="406" bereich="HBf"/>
       <Gleis lage="S,N" name="407" bereich="HBf"/>
       <Leer anzahl="21"/>
-      <Gleis lage="N,S" name="507" bereich="HBf"/>
-      <Gleis lage="N,S" name="506" bereich="HBf"/>
+      <Gleis lage="N,S" name="507" bereich="HBf" signal="W30" signalPos="O"/>
+      <Gleis lage="N,S" name="506" bereich="HBf" signal="F" signalPos="O"/>
       <Leer/>
       <Gleis lage="NW,SO" name="505" bereich="HBf" signal="G" signalPos="NO"/>
     </Zeile>
