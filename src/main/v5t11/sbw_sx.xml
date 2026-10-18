@@ -262,11 +262,13 @@
       <HauptsignalRtGnGe idx="0" bereich="HBf" name="A" /> 
       <Hauptsperrsignal idx="2" bereich="HBf" name="R3" />
       <Vorsignal idx="4" bereich="HBf" name="n,r[A]" />
+      <HauptsignalRtGnGe idx="6" bereich="HBf" name="F" />
       <Hauptsperrsignal idx="12" bereich="HBf" name="R4" />
       <Hauptsperrsignal idx="10" bereich="HBf" name="R5" />
     </SXSD1>
 
     <WDMiba3 id="FD-2019-3" adr="1073" einbauOrt="HBf unter EG">
+      <Sperrsignal idx="0" bereich="HBf" name="W30" invertiert="true" />
       <Sperrsignal idx="2" bereich="HBf" name="24'" invertiert="true" />
       <Sperrsignal idx="3" bereich="HBf" name="22'" invertiert="true" />
       <Sperrsignal idx="4" bereich="HBf" name="23'" invertiert="true" />
@@ -290,7 +292,7 @@
 
     <SXSD1 id="FD-2021-1" adr="1074" einbauOrt="HBf unter WÜSt">
       <Hauptsperrsignal idx="0" bereich="HBf" name="N6" />
-      <Sperrsignal idx="4" bereich="HBf" name="W30" /> <!-- nicht angeschlossen -->
+      <Vorsignal idx="2" bereich="HBf" name="p[F]" />
       <Sperrsignal idx="5" bereich="HBf" name="24" />
       <Sperrsignal idx="6" bereich="HBf" name="23" />
       <Sperrsignal idx="7" bereich="HBf" name="22" />
@@ -324,8 +326,6 @@
       <Vorsignal bereich="HBf" name="p[G]" />
 
       <!-- Die folgenden Geräte kommen noch an einen echten FD -->
-      <HauptsignalRtGnGe bereich="HBf" name="F" /> <!-- nicht angeschlossen -->
-      <Vorsignal bereich="HBf" name="p[F]" /> <!-- nicht angeschlossen -->
     </NoFD>
 
   </Funktionsdecoder>
