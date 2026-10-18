@@ -1,0 +1,55 @@
+= Verdrahtung der Signale der Anlage im Steinbruchweg (sbw)
+
+== Bereich HBf
+
+[cols="1,2,5,4", options="header"]
+|===
+|Signal |Decoder |Anschlüsse |Bemerkungen
+
+|`A`
+|`FD-2010-2` (`SXSD1`)
+a|[start=0]
+. 4-polige Buchse, `sw` an Pin 1 (außen)
+. 1-polige Buchse, `ge` an Pin 4 (innen)
+|
+
+|`F`
+|`FD-2010-2` (`SXSD1`)
+a|[start=6]
+. 4-polige Buchse, `sw` an Pin 1 (außen)
+. 1-polige Buchse, `ge` an Pin 4 (innen)
+|
+
+|`p[F]`
+|`FD-2021-1` (`SXSD1`)
+a|[start=2]
+. 2-polige Buchse, untere LEDs
+. 2-polige Buchse, obere LEDs
+
+jeweils `ge` an Pin 3, `gn` an Pin 4 (innen)
+|
+
+|`n,r[A]`
+|`FD-2021-1` (`SXSD1`)
+a|[start=4]
+. 2-polige Buchse, untere LEDs
+. 2-polige Buchse, obere LEDs
+
+jeweils `ge` an Pin 3, `gn` an Pin 4 (innen)
+|
+
+|`Sbk1`
+|`FD-2010-1` (`SXSD1`)
+a|[start=6]
+. 4-polige Buchse, `sw` an Pin 1 (außen)
+|Das Blocksignal `Sbk1` ist derzeit noch nicht vorhanden. +
+Der Anschluss wird nur für die Vorsignale `sbk1[Px]` verwendet. Sie sind in der Anlagenkonfiguration nicht enthalten, sondern über einen Verteiler direkt mit `Sbk1` verbunden. Der `+`-Anschluss wird jeweils vom Hauptsignal `Px` versorgt, so dass die Vorsignale `dunkel` sind, wenn das Hauptsignal `HP00` oder `SH1` zeigt.
+
+
+|`W30`
+|`FD-2019-3` (`WDMiba3`)
+a|[start=0]
+. 3-polige Buchse, `gn` an Pin `r`
+|invertiert
+
+|===
