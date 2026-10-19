@@ -23,6 +23,8 @@ import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.router.BeforeEnterEvent;
+import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
@@ -45,7 +47,7 @@ import java.util.Locale;
  */
 @Route(value = "gleis-messung", layout = MainLayout.class)
 @PageTitle("Gleislängen - v5t11")
-public class GleisMessungView extends VerticalLayout {
+public class GleisMessungView extends VerticalLayout implements BeforeEnterObserver {
 
   @Inject
   FahrzeugRepository fahrzeugRepository;
@@ -72,12 +74,25 @@ public class GleisMessungView extends VerticalLayout {
     getStyle().set("overflow", "auto");
 
     this.fahrzeug = getRefreshedFahrzeug();
+    if (this.fahrzeug == null) {
+      return;
+    }
 
     add(buildHeader(), buildActionsBar(), buildGrid());
   }
 
+  @Override
+  public void beforeEnter(BeforeEnterEvent event) {
+    if (this.fahrzeug == null) {
+      event.forwardTo(FahrzeugListView.class);
+    }
+  }
+
   private Fahrzeug getRefreshedFahrzeug() {
     Fahrzeug current = this.currentFahrzeugHolder.getCurrentFahrzeug();
+    if (current == null) {
+      return null;
+    }
     if (!this.fahrzeugRepository.isAttached(current)) {
       current = this.fahrzeugRepository.findById(current.getId()).get();
       this.currentFahrzeugHolder.setCurrentFahrzeug(current);

@@ -39,6 +39,8 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.slider.IntegerSlider;
 import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.router.BeforeEnterEvent;
+import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.HasDynamicTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.StreamResource;
@@ -84,7 +86,7 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
  * {@code getId().equals(...)} statt Objektidentität.
  */
 @Route(value = "fahrzeug-control", layout = MainLayout.class)
-public class FahrzeugControlView extends VerticalLayout implements HasDynamicTitle {
+public class FahrzeugControlView extends VerticalLayout implements HasDynamicTitle, BeforeEnterObserver {
 
   @Inject
   FahrzeugRepository fahrzeugRepository;
@@ -126,14 +128,24 @@ public class FahrzeugControlView extends VerticalLayout implements HasDynamicTit
     getStyle().set("overflow", "auto");
 
     this.fahrzeug = getRefreshedFahrzeug();
+    if (this.fahrzeug == null) {
+      return;
+    }
 
     add(buildHeader());
     add(buildSteuerbereich());
   }
 
   @Override
+  public void beforeEnter(BeforeEnterEvent event) {
+    if (this.fahrzeug == null) {
+      event.forwardTo(FahrzeugListView.class);
+    }
+  }
+
+  @Override
   public String getPageTitle() {
-    return this.fahrzeug.getBetriebsnummer() + " - v5t11";
+    return this.fahrzeug == null ? "v5t11" : this.fahrzeug.getBetriebsnummer() + " - v5t11";
   }
 
   @Override
@@ -156,6 +168,9 @@ public class FahrzeugControlView extends VerticalLayout implements HasDynamicTit
 
   private Fahrzeug getRefreshedFahrzeug() {
     Fahrzeug current = this.currentFahrzeugHolder.getCurrentFahrzeug();
+    if (current == null) {
+      return null;
+    }
     if (!this.fahrzeugRepository.isAttached(current)) {
       current = this.fahrzeugRepository.findById(current.getId()).get();
       this.currentFahrzeugHolder.setCurrentFahrzeug(current);

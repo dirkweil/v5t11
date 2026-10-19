@@ -29,6 +29,8 @@ import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.router.BeforeEnterEvent;
+import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
@@ -66,7 +68,7 @@ import org.jboss.logging.Logger;
  */
 @Route(value = "fahrzeug-program", layout = MainLayout.class)
 @PageTitle("Programmierung - v5t11")
-public class FahrzeugProgramView extends VerticalLayout {
+public class FahrzeugProgramView extends VerticalLayout implements BeforeEnterObserver {
 
   @Inject
   FahrzeugRepository fahrzeugRepository;
@@ -101,6 +103,9 @@ public class FahrzeugProgramView extends VerticalLayout {
     getStyle().set("overflow", "auto");
 
     this.fahrzeug = getRefreshedFahrzeug();
+    if (this.fahrzeug == null) {
+      return;
+    }
 
     Grid<FahrzeugKonfiguration> gridComponent = buildGrid();
     HorizontalLayout headerComponent = buildHeader();
@@ -109,8 +114,18 @@ public class FahrzeugProgramView extends VerticalLayout {
     add(headerComponent, gridComponent);
   }
 
+  @Override
+  public void beforeEnter(BeforeEnterEvent event) {
+    if (this.fahrzeug == null) {
+      event.forwardTo(FahrzeugListView.class);
+    }
+  }
+
   private Fahrzeug getRefreshedFahrzeug() {
     Fahrzeug current = this.currentFahrzeugHolder.getCurrentFahrzeug();
+    if (current == null) {
+      return null;
+    }
     if (!this.fahrzeugRepository.isAttached(current)) {
       current = this.fahrzeugRepository.findById(current.getId()).get();
       this.currentFahrzeugHolder.setCurrentFahrzeug(current);
