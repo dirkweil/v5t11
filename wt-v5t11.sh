@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-DIR="/opt/prj/gedoplan/v5t11"
+DIR="${1:-$(pwd)}"
 
 wt.exe -w new \
   new-tab --title "v5t11" \
