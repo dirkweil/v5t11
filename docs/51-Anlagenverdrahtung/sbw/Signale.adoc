@@ -9,31 +9,111 @@
 |`A`
 |`FD-2010-2` (`SXSD1`)
 a|[start=0]
-. 4-polige Buchse, `sw` an Pin 1 (außen)
-. 1-polige Buchse, `ge` an Pin 4 (innen)
+. 4-polige Buchse, +
+`sw` an Pin 1 (außen)
+. 1-polige Buchse, +
+`ge` an Pin 4 (innen)
 |
 
 |`F`
 |`FD-2010-2` (`SXSD1`)
 a|[start=6]
-. 4-polige Buchse, `sw` an Pin 1 (außen)
-. 1-polige Buchse, `ge` an Pin 4 (innen)
-|
+. 4-polige Buchse, +
+`sw` an Pin 1 (außen)
+. 1-polige Buchse, +
+`ge` an Pin 4 (innen)
+a|Verdrahtung mit 4-pol. Telefonkabel:
+
+- `bn` Vcc
+- `ws` rote LED
+- `gn` grüne LED
+- `ge` gelbe LED
+
+|`N6`
+|`FD-2021-1` (`SXSD1`)
+a|[start=0]
+. SX-HSSA-1
+a|Verdrahtung mit 8-pol. LAN-Kabel; +
+Pins:
+[start=1]
+. nicht vorhanden
+. `bl`+`bl/ws` (Vcc), +
+Diode als Verpolungsschutz
+. `or/ws`(rechte rote LED) +
+Vorwiderstand 330 Ω
+. `bn`(gelbe LED) +
+Vorwiderstand 330 Ω
+. `or`(linke rote LED) +
+Vorwiderstand 5,6 kΩ
+. `gn/ws`(weiße LED) +
+Vorwiderstand 330 Ω
+. `gn`(grüne LED) +
+Vorwiderstand 330 Ω
+
+|`N7`
+|`FD-2021-1` (`SXSD1`)
+a|[start=0]
+. SX-HSSA-1
+a|Verdrahtung mit 8-pol. LAN-Kabel; +
+Pins:
+[start=1]
+. nicht vorhanden
+. `bl`+`bl/ws` (Vcc), +
+Diode als Verpolungsschutz
+. `or/ws`(rechte rote LED) +
+Vorwiderstand 1,2 kΩ
+. `bn`(gelbe LED) +
+Vorwiderstand 1,2 kΩ
+. `or`(linke rote LED) +
+Vorwiderstand 1,2 kΩ
+. `gn/ws`(weiße LED) +
+Vorwiderstand 8,2 kΩ
+. `gn`(grüne LED) +
+Vorwiderstand 1,2 kΩ
+
+|`N8`
+|`FD-2021-1` (`SXSD1`)
+a|[start=10]
+. SX-HSSA-1
+a|Verdrahtung s. `N7`
+
+|`N9`
+|`FD-2021-1` (`SXSD1`)
+a|[start=12]
+. SX-HSSA-1
+a|Verdrahtung s. `N7`
+
+|`N10`
+|`FD-2021-1` (`SXSD1`)
+a|[start=14]
+. SX-HSSA-1
+a|Verdrahtung s. `N7`
 
 |`p[F]`
 |`FD-2021-1` (`SXSD1`)
 a|[start=2]
-. 2-polige Buchse, untere LEDs
-. 2-polige Buchse, obere LEDs
+. 2-polige Buchse, +
+untere LEDs
+. 2-polige Buchse, +
+obere LEDs
 
 jeweils `ge` an Pin 3, `gn` an Pin 4 (innen)
-|
+a|Verdrahtung mit 4-pol. Telefonkabel:
+
+- `bn` untere grüne LED (und Vcc über Diode)
+- `ws` untere gelbe LED
+- `gn` obere grüne LED
+- `ge` obere gelbe LED (und Vcc über Diode)
+
+Vorwiderstände jeweils 330 Ω
 
 |`n,r[A]`
 |`FD-2021-1` (`SXSD1`)
 a|[start=4]
-. 2-polige Buchse, untere LEDs
-. 2-polige Buchse, obere LEDs
+. 2-polige Buchse, +
+untere LEDs
+. 2-polige Buchse, +
+obere LEDs
 
 jeweils `ge` an Pin 3, `gn` an Pin 4 (innen)
 |
@@ -41,7 +121,8 @@ jeweils `ge` an Pin 3, `gn` an Pin 4 (innen)
 |`Sbk1`
 |`FD-2010-1` (`SXSD1`)
 a|[start=6]
-. 4-polige Buchse, `sw` an Pin 1 (außen)
+. 4-polige Buchse, +
+`sw` an Pin 1 (außen)
 |Das Blocksignal `Sbk1` ist derzeit noch nicht vorhanden. +
 Der Anschluss wird nur für die Vorsignale `sbk1[Px]` verwendet. Sie sind in der Anlagenkonfiguration nicht enthalten, sondern über einen Verteiler direkt mit `Sbk1` verbunden. Der `+`-Anschluss wird jeweils vom Hauptsignal `Px` versorgt, so dass die Vorsignale `dunkel` sind, wenn das Hauptsignal `HP00` oder `SH1` zeigt.
 
@@ -49,7 +130,8 @@ Der Anschluss wird nur für die Vorsignale `sbk1[Px]` verwendet. Sie sind in der
 |`W30`
 |`FD-2019-3` (`WDMiba3`)
 a|[start=0]
-. 3-polige Buchse, `gn` an Pin `r`
+. 3-polige Buchse, +
+`gn` an Pin `r`
 |invertiert
 
 |===
