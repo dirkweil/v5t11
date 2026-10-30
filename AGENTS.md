@@ -1,3 +1,8 @@
+## Technologien und Frameworks
+- Java 25
+- Maven 3.9.x
+- Quarkus 3.39.x
+
 ## Runtime Environment
 - Die Microservices nutzen eine gemeinsame Datenbank, die im Kubernetes läuft. Keine neue Instanz starten!
 - Die Microservices nutzen einen gemeinsamen Kafka-Broker, der im Kubernetes läuft. Keine neue Instanz starten!

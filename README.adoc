@@ -53,3 +53,17 @@ Aktuell befindet sich v5t11 im Umbau auf reaktiv gekoppelte Microservices. Dazu 
 |
 * JSF-GUI für Anlagenbedienung
 |===
+
+. Implementierung
+
+Derzeit werden diese Technologien und Frameworks genutzt:
+
+- Java 25
+- Maven 3.9.x
+- Quarkus 3.39.x
+
+Die persistenten Daten werden mit Jakarta Persistence gespeichert. Als Datenbank wird eine PostgreSQL-Instanz genutzt, die im Kubernetes läuft.
+
+Für die asynchrone Kommunikation zwischen den Teilanwendungen wird MicroProfile Reactive Messaging genutzt. Als Broker kommt Kafka zum Einsatz, der ebenfalls im Kubernetes läuft.
+
+Weitere Details sind im Verzeichnis docs/10-Implementierung zu finden.
