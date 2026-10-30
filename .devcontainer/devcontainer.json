@@ -1,6 +1,6 @@
 {
 	"name": "GEDOPLAN Coding Agent Container",
-	"image": "docker.gedoplan.de/dev-tools/coding-agent:2026-10-11",
+	"image": "docker.gedoplan.de/dev-tools/coding-agent:2026-10-23",
 //	IntelliJ+WSL in native mode mounts project in /wsl.localhost/Ubuntu/home/...
 //  Using localWorkspaceFolder does not work when opening a project with a Windows path
 	"workspaceMount": "source=${localWorkspaceFolder},target=${localWorkspaceFolder},type=bind",
