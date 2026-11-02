@@ -15,6 +15,7 @@ import de.gedoplan.v5t11.util.cdi.Received;
 import de.gedoplan.v5t11.util.domain.entity.Fahrwegelement;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.Observes;
 import jakarta.enterprise.event.ObservesAsync;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -51,7 +52,7 @@ public class StatusUpdater {
    *
    * @param receivedObject Empfangenes Objekt mit dem neuen Status.
    */
-  void gleisReceived(@ObservesAsync @Received Gleis receivedObject) {
+  void gleisReceived(@Observes @Received Gleis receivedObject) {
     this.gleisRepository
       .findById(receivedObject.getId())
       .ifPresent(gleis -> copyStatus(gleis, receivedObject));
@@ -62,7 +63,7 @@ public class StatusUpdater {
    *
    * @param receivedObject Empfangenes Objekt mit dem neuen Status.
    */
-  void signalReceived(@ObservesAsync @Received Signal receivedObject) {
+  void signalReceived(@Observes @Received Signal receivedObject) {
     this.signalRepository
       .findById(receivedObject.getId())
       .ifPresent(signal -> copyStatus(signal, receivedObject));
@@ -73,7 +74,7 @@ public class StatusUpdater {
    *
    * @param receivedObject Empfangenes Objekt mit dem neuen Status.
    */
-  void weicheReceived(@ObservesAsync @Received Weiche receivedObject) {
+  void weicheReceived(@Observes @Received Weiche receivedObject) {
     this.weicheRepository
       .findById(receivedObject.getId())
       .ifPresent(weiche -> copyStatus(weiche, receivedObject));

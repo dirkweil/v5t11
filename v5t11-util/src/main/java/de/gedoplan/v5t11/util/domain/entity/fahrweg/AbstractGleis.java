@@ -30,7 +30,7 @@ public abstract class AbstractGleis extends Fahrwegelement {
    */
   @Getter(onMethod_ = @JsonbShort)
   @Setter(onMethod_ = @JsonbShort)
-  private boolean besetzt;
+  private volatile boolean besetzt;
 
   /**
    * Ist dies ein Weichen-Gleis?
@@ -57,7 +57,7 @@ public abstract class AbstractGleis extends Fahrwegelement {
     return false;
   }
 
-  public boolean changeBesetzt(boolean besetzt, long changeMillis) {
+  public synchronized boolean changeBesetzt(boolean besetzt, long changeMillis) {
     if (this.besetzt != besetzt) {
       this.besetzt = besetzt;
       this.lastChangeMillis = changeMillis;
