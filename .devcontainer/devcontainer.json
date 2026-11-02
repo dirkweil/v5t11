@@ -11,7 +11,7 @@
 		// Claude config
 		{
 			"source": "${localEnv:HOME}${localEnv:USERPROFILE}/.claude",
-			"target": "/home/node/.claude",
+			"target": "/home/agent/.claude",
 			"type": "bind"
 		}
 	],
