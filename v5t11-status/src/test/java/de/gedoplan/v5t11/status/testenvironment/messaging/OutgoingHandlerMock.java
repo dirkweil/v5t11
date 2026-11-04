@@ -19,7 +19,8 @@ public class OutgoingHandlerMock extends OutgoingHandler {
 
   private String json;
 
-  protected void send(Emitter<String> emitter, String json, Level logLevel) {
+  @Override
+  protected void send(Emitter<String> emitter, String key, String json, Level logLevel) {
     this.json = json;
   }
 

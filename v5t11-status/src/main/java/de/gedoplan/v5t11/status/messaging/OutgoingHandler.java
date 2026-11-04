@@ -9,12 +9,15 @@ import de.gedoplan.v5t11.status.service.EventDispatcher;
 import de.gedoplan.v5t11.vaadincommon.navigation.NavigationItem;
 import de.gedoplan.v5t11.util.jsonb.JsonbWithVisibility;
 
+import io.smallrye.reactive.messaging.kafka.api.OutgoingKafkaRecordMetadata;
+
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Alternative;
 import jakarta.inject.Inject;
 
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
+import org.eclipse.microprofile.reactive.messaging.Message;
 import org.eclipse.microprofile.reactive.messaging.OnOverflow;
 import org.jboss.logging.Logger;
 import org.jboss.logging.Logger.Level;
@@ -47,11 +50,11 @@ public class OutgoingHandler {
   Emitter<String> navigationItemEmitter;
 
   public void publish(Fahrzeugdecoder fahrzeugdecoder) {
-    send(this.statusEmitter, getStatusJson("decoder", fahrzeugdecoder));
+    send(this.statusEmitter, String.valueOf(fahrzeugdecoder.getId()), getStatusJson("decoder", fahrzeugdecoder), Level.DEBUG);
   }
 
   public void publish(Gleis gleis) {
-    send(this.statusEmitter, getStatusJson("gleis", gleis));
+    send(this.statusEmitter, String.valueOf(gleis.getId()), getStatusJson("gleis", gleis), Level.DEBUG);
   }
 
   public void publish(NavigationItem navigationItem) {
@@ -59,24 +62,34 @@ public class OutgoingHandler {
   }
 
   public void publish(Signal signal) {
-    send(this.statusEmitter, getStatusJson("signal", signal));
+    send(this.statusEmitter, String.valueOf(signal.getId()), getStatusJson("signal", signal), Level.DEBUG);
   }
 
   public void publish(Weiche weiche) {
-    send(this.statusEmitter, getStatusJson("weiche", weiche));
+    send(this.statusEmitter, String.valueOf(weiche.getId()), getStatusJson("weiche", weiche), Level.DEBUG);
   }
 
   public void publish(Zentrale zentrale) {
-    send(this.statusEmitter, getStatusJson("zentrale", zentrale));
-  }
-
-  private void send(Emitter<String> emitter, String json) {
-    send(emitter, json, Level.DEBUG);
+    send(this.statusEmitter, "zentrale", getStatusJson("zentrale", zentrale), Level.DEBUG);
   }
 
   protected void send(Emitter<String> emitter, String json, Level logLevel) {
+    send(emitter, null, json, logLevel);
+  }
+
+  /**
+   * Nachricht senden.
+   *
+   * @param key Kafka-Key (kann <code>null</code> sein). Meldungen zum selben Element müssen denselben Key haben, damit sie in
+   *          derselben Partition landen und ihre Reihenfolge erhalten bleibt.
+   */
+  protected void send(Emitter<String> emitter, String key, String json, Level logLevel) {
     this.logger.logf(logLevel, "Send %s", json);
-    emitter.send(json);
+    if (key == null) {
+      emitter.send(json);
+    } else {
+      emitter.send(Message.of(json).addMetadata(OutgoingKafkaRecordMetadata.<String> builder().withKey(key).build()));
+    }
   }
 
   private String getStatusJson(String name, Object value) {
