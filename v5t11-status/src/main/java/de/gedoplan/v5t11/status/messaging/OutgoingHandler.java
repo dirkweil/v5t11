@@ -50,11 +50,11 @@ public class OutgoingHandler {
   Emitter<String> navigationItemEmitter;
 
   public void publish(Fahrzeugdecoder fahrzeugdecoder) {
-    send(this.statusEmitter, String.valueOf(fahrzeugdecoder.getId()), getStatusJson("decoder", fahrzeugdecoder), Level.DEBUG);
+    send(this.statusEmitter, getKey("decoder", fahrzeugdecoder.getId()), getStatusJson("decoder", fahrzeugdecoder), Level.DEBUG);
   }
 
   public void publish(Gleis gleis) {
-    send(this.statusEmitter, String.valueOf(gleis.getId()), getStatusJson("gleis", gleis), Level.DEBUG);
+    send(this.statusEmitter, getKey("gleis", gleis.getId()), getStatusJson("gleis", gleis), Level.DEBUG);
   }
 
   public void publish(NavigationItem navigationItem) {
@@ -62,15 +62,15 @@ public class OutgoingHandler {
   }
 
   public void publish(Signal signal) {
-    send(this.statusEmitter, String.valueOf(signal.getId()), getStatusJson("signal", signal), Level.DEBUG);
+    send(this.statusEmitter, getKey("signal", signal.getId()), getStatusJson("signal", signal), Level.DEBUG);
   }
 
   public void publish(Weiche weiche) {
-    send(this.statusEmitter, String.valueOf(weiche.getId()), getStatusJson("weiche", weiche), Level.DEBUG);
+    send(this.statusEmitter, getKey("weiche", weiche.getId()), getStatusJson("weiche", weiche), Level.DEBUG);
   }
 
   public void publish(Zentrale zentrale) {
-    send(this.statusEmitter, "zentrale", getStatusJson("zentrale", zentrale), Level.DEBUG);
+    send(this.statusEmitter, getKey("zentrale", null), getStatusJson("zentrale", zentrale), Level.DEBUG);
   }
 
   protected void send(Emitter<String> emitter, String json, Level logLevel) {
@@ -90,6 +90,13 @@ public class OutgoingHandler {
     } else {
       emitter.send(Message.of(json).addMetadata(OutgoingKafkaRecordMetadata.<String> builder().withKey(key).build()));
     }
+  }
+
+  /**
+   * Kafka-Key bilden: Typ + Id, weil Namen über Elementtypen hinweg nicht eindeutig sind (Gleis 1 und Signal 1 im selben Bereich).
+   */
+  private static String getKey(String type, Object id) {
+    return id == null ? type : type + ":" + id;
   }
 
   private String getStatusJson(String name, Object value) {
