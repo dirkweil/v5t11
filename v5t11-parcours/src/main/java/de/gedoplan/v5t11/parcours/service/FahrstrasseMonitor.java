@@ -10,6 +10,7 @@ import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Observes;
+import jakarta.enterprise.event.TransactionPhase;
 import jakarta.inject.Inject;
 
 import java.util.stream.IntStream;
@@ -30,7 +31,7 @@ public class FahrstrasseMonitor {
    *
    * @param gleis Gleis
    */
-  void processGleis(@Observes @Changed Gleis gleis) {
+  void processGleis(@Observes(during = TransactionPhase.AFTER_SUCCESS) @Changed Gleis gleis) {
 
     // Wenn Gleis nicht Teil einer Fahrstrasse ist, nichts tun
     BereichselementId fahrstrasseId = gleis.getReserviertefahrstrasseId();
@@ -43,7 +44,8 @@ public class FahrstrasseMonitor {
       return;
     }
 
-    this.log.debugf("Freigabecheck für %s", fahrstrasse.toString(true));
+    this.log.debugf("Freigabecheck für %s wegen %s->%s", fahrstrasse.toString(true), gleis.toString(true),
+        gleis.isBesetzt() ? "besetzt" : "frei");
 
     /*
      * Im reservierten Teil der Fahrstrasse das Gleis suchen, das noch nicht durchfahren wurde,
@@ -55,11 +57,11 @@ public class FahrstrasseMonitor {
     if (this.log.isDebugEnabled()) {
       this.log.debugf("  elementAnzahl=%d, idxGrenze=%d", elementAnzahl, idxGrenze);
       IntStream.range(idxGrenze, elementAnzahl)
-        .mapToObj(i -> fahrstrasse.getElemente().get(i))
-        .filter(fe -> fe instanceof FahrstrassenGleis)
-        .map(fe -> ((FahrstrassenGleis) fe).getFahrwegelement())
-        .forEach(g -> this.log.debugf("  %s: besetzt=%s, durchfahren=%s",
-          g.toString(true), g.isBesetzt(), g.isDurchfahren()));
+          .mapToObj(i -> fahrstrasse.getElemente().get(i))
+          .filter(fe -> fe instanceof FahrstrassenGleis)
+          .map(fe -> ((FahrstrassenGleis) fe).getFahrwegelement())
+          .forEach(g -> this.log.debugf("  %s: besetzt=%s, durchfahren=%s",
+              g.toString(true), g.isBesetzt(), g.isDurchfahren()));
     }
 
     Gleis grenze = null;
@@ -79,9 +81,12 @@ public class FahrstrasseMonitor {
     /*
      * Komplettfreigabe ist möglich,
      * - wenn ab dem ersten nicht durchfahrenen Abschnitt alles besetzt ist
-     * - oder wenn nur noch Gleise folgen.
+     * - oder wenn nur noch Gleise folgen
+     * - oder wenn alle restlichen Gleise frei sind und min. eines durchfahren wurde.
      */
-    boolean totalFreigabe = fahrstrasse.isKomplettBesetzt(idxGrenze) || fahrstrasse.isNurGleise(idxGrenze + 1);
+    boolean totalFreigabe = fahrstrasse.isKomplettBesetzt(idxGrenze)
+        || fahrstrasse.isNurGleise(idxGrenze + 1)
+        || (fahrstrasse.isAlleGleiseFrei(idxGrenze) && fahrstrasse.isMindestensEinGleisDurchfahren(idxGrenze));
 
     this.log.debugf("  grenze=%s, totalFreigabe=%s", grenze.toString(true), totalFreigabe);
 

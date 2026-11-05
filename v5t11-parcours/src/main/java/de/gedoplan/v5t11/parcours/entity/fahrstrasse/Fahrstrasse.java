@@ -124,9 +124,9 @@ public class Fahrstrasse extends Bereichselement {
    * Liste der Fahrstrassenelemente. Beginnt und endet immer mit einem Gleis.
    */
   @XmlElements({
-    @XmlElement(name = "Gleis", type = FahrstrassenGleis.class),
-    @XmlElement(name = "Signal", type = FahrstrassenSignal.class),
-    @XmlElement(name = "Weiche", type = FahrstrassenWeiche.class) })
+      @XmlElement(name = "Gleis", type = FahrstrassenGleis.class),
+      @XmlElement(name = "Signal", type = FahrstrassenSignal.class),
+      @XmlElement(name = "Weiche", type = FahrstrassenWeiche.class) })
   @Getter
   private List<Fahrstrassenelement> elemente = new ArrayList<>();
 
@@ -220,7 +220,8 @@ public class Fahrstrasse extends Bereichselement {
 
     // Erstes und letztes Element müssen FahrstrassenGleise sein
     int count = this.elemente.size();
-    if (count < 2 || !(this.elemente.get(0) instanceof FahrstrassenGleis) || !(this.elemente.get(count - 1) instanceof FahrstrassenGleis)) {
+    if (count < 2 || !(this.elemente.get(0) instanceof FahrstrassenGleis)
+        || !(this.elemente.get(count - 1) instanceof FahrstrassenGleis)) {
       throw new IllegalArgumentException("Fahrstrasse muss min. 2 Elemente haben und mit Gleisen beginnen und enden");
     }
 
@@ -241,12 +242,12 @@ public class Fahrstrasse extends Bereichselement {
    */
   private void createName() {
     setName(this.elemente
-      .stream()
-      .filter(e -> e instanceof FahrstrassenGleis)
-      .map(e -> (FahrstrassenGleis) e)
-      // .filter(g -> !g.isWeichenGleis())
-      .map(g -> g.getBereich().equals(getBereich()) ? g.getName() : g.getBereich() + "." + g.getName())
-      .collect(Collectors.joining("-")));
+        .stream()
+        .filter(e -> e instanceof FahrstrassenGleis)
+        .map(e -> (FahrstrassenGleis) e)
+        // .filter(g -> !g.isWeichenGleis())
+        .map(g -> g.getBereich().equals(getBereich()) ? g.getName() : g.getBereich() + "." + g.getName())
+        .collect(Collectors.joining("-")));
   }
 
   /**
@@ -283,24 +284,24 @@ public class Fahrstrasse extends Bereichselement {
     Fahrstrassenelement linksLast = linkeFahrstrasse.getEnde();
     Fahrstrassenelement rechtsFirst = rechteFahrstrasse.getStart();
     if (!linksLast.equals(rechtsFirst)
-      || linksLast.isZaehlrichtung() != rechtsFirst.isZaehlrichtung()) {
+        || linksLast.isZaehlrichtung() != rechtsFirst.isZaehlrichtung()) {
       return null;
     }
 
     // Wenn Zyklen entstehen würden, nicht kombinieren
     Set<BereichselementId> linkeGleise = linkeFahrstrasse
-      .getElemente()
-      .stream()
-      .filter(e -> e instanceof FahrstrassenGleis)
-      .map(e -> e.getId())
-      .collect(Collectors.toSet());
+        .getElemente()
+        .stream()
+        .filter(e -> e instanceof FahrstrassenGleis)
+        .map(e -> e.getId())
+        .collect(Collectors.toSet());
     boolean zyklus = rechteFahrstrasse
-      .getElemente()
-      .stream()
-      .skip(1)
-      .filter(e -> e instanceof FahrstrassenGleis)
-      .map(e -> e.getId())
-      .anyMatch(linkeGleise::contains);
+        .getElemente()
+        .stream()
+        .skip(1)
+        .filter(e -> e instanceof FahrstrassenGleis)
+        .map(e -> e.getId())
+        .anyMatch(linkeGleise::contains);
     if (zyklus) {
       return null;
     }
@@ -522,8 +523,8 @@ public class Fahrstrasse extends Bereichselement {
   @JsonbTransient
   public FahrstrassenStatus getFahrstrassenStatus() {
     return this.fahrstrassenStatusRepository
-      .findById(getId())
-      .orElseThrow(() -> new IllegalStateException("FahrstrassenStatus nicht vorhanden: " + getId()));
+        .findById(getId())
+        .orElseThrow(() -> new IllegalStateException("FahrstrassenStatus nicht vorhanden: " + getId()));
   }
 
   /**
@@ -569,7 +570,7 @@ public class Fahrstrasse extends Bereichselement {
           BereichselementId reserviertefahrstrasseId = fahrwegelement.getReserviertefahrstrasseId();
           if (reserviertefahrstrasseId != null) {
             this.logger.debugf("%s\n  isFrei=false, da %s reserviert in %s",
-                    this.toString(true), element.toString(true), reserviertefahrstrasseId);
+                this.toString(true), element.toString(true), reserviertefahrstrasseId);
             return false;
           }
         }
@@ -584,7 +585,7 @@ public class Fahrstrasse extends Bereichselement {
 
         if (fahrwegelement instanceof Gleis gleis && gleis.isBesetzt()) {
           this.logger.debugf("%s\n  isFrei=false, da %s belegt",
-                  this.toString(true), gleis.toString(true));
+              this.toString(true), gleis.toString(true));
           return false;
         }
       }
@@ -662,7 +663,8 @@ public class Fahrstrasse extends Bereichselement {
     synchronized (Fahrstrasse.class) {
       while (neueTeilFreigabeAnzahl < this.elemente.size()) {
         Fahrstrassenelement element = this.elemente.get(neueTeilFreigabeAnzahl);
-        if (teilFreigabeEnde != null && element instanceof FahrstrassenGleis && teilFreigabeEnde.equals(element.getFahrwegelement())) {
+        if (teilFreigabeEnde != null && element instanceof FahrstrassenGleis
+            && teilFreigabeEnde.equals(element.getFahrwegelement())) {
           break;
         }
         element.reservieren(null);
@@ -702,7 +704,7 @@ public class Fahrstrasse extends Bereichselement {
     @Nonbinding
     int bisher()
 
-      default 0;
+    default 0;
 
     @Nonbinding
     int neu() default 0;
@@ -780,6 +782,45 @@ public class Fahrstrasse extends Bereichselement {
     return true;
   }
 
+  /**
+   * Sind alle Gleise ab dem übergebenen Index frei?
+   * 
+   * @param startIndex Start-Index
+   * @return alle frei?
+   */
+  public boolean isAlleGleiseFrei(int startIndex) {
+    for (int i = startIndex; i < this.elemente.size(); ++i) {
+      Fahrstrassenelement fe = this.elemente.get(i);
+      if (fe instanceof FahrstrassenGleis fg) {
+        Gleis g = fg.getFahrwegelement();
+        if (g.isBesetzt()) {
+          return false;
+        }
+      }
+    }
+
+    return true;
+  }
+
+  /**
+   * Ist mindstens ein Gleis ab dem übergebenen Index durchfahren?
+   * @param startIndex Start-Index
+   * @return mindestens ein Gleis durchfahren?
+   */
+  public boolean isMindestensEinGleisDurchfahren(int startIndex) {
+    for (int i = 0; i < startIndex; ++i) {
+      Fahrstrassenelement fe = this.elemente.get(i);
+      if (fe instanceof FahrstrassenGleis fg) {
+        Gleis g = fg.getFahrwegelement();
+        if (!g.isDurchfahren()) {
+          return true;
+        }
+      }
+    }
+
+    return false;
+  }
+  
   public void injectFields() {
     InjectionUtil.injectFields(this);
     this.elemente.forEach(Fahrstrassenelement::injectFields);

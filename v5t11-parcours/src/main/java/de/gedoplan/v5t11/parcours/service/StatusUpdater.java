@@ -47,7 +47,7 @@ public class StatusUpdater {
   EventFirer eventFirer;
 
   /**
-   * Aktualisierung eines Gleiss.
+   * Aktualisierung eines Gleises.
    *
    * @param receivedObject Empfangenes Objekt mit dem neuen Status.
    */
