@@ -644,7 +644,7 @@ public class Fahrstrasse extends Bereichselement {
   /**
    * Fahrstrasse komplett oder teilweise freigeben.
    *
-   * @param teilFreigabeEnde <code>null</code> für Komplettfreigabe oder erster Gleis, der nicht freigegeben wird
+   * @param teilFreigabeEnde <code>null</code> für Komplettfreigabe oder erstes Gleis, das nicht freigegeben wird
    * @return <code>true</code>, wenn die Fahrstrasse freigegeben werden konnte
    */
   public boolean freigeben(Gleis teilFreigabeEnde) {
