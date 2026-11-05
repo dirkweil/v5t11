@@ -31,7 +31,7 @@ public class FahrstrasseMonitor {
    *
    * @param gleis Gleis
    */
-  void processGleis(@Observes(during = TransactionPhase.AFTER_SUCCESS) @Changed Gleis gleis) {
+  void processGleis(@Observes @Changed Gleis gleis) {
 
     // Wenn Gleis nicht Teil einer Fahrstrasse ist, nichts tun
     BereichselementId fahrstrasseId = gleis.getReserviertefahrstrasseId();
