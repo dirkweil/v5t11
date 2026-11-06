@@ -370,6 +370,83 @@
       </Skript>
     </AutoSkript>
 
+    <AutoSkript bereich="SBf" beschreibung="weiche10gerade">
+      <Gleis name="W9" />
+      <Weiche name="10" />
+      <Skript sprache="groovy">
+        if (gleisW9.isBesetzt()) {
+        log.debug("weiche10gerade");
+        weiche10.setStellung(GERADE);
+        }
+      </Skript>
+    </AutoSkript>
+
+    <AutoSkript bereich="SBf" beschreibung="weiche11gerade">
+      <Gleis name="W10" />
+      <Weiche name="11" />
+      <Skript sprache="groovy">
+        if (gleisW10.isBesetzt()) {
+        log.debug("weiche11gerade");
+        weiche11.setStellung(GERADE);
+        }
+      </Skript>
+    </AutoSkript>
+
+    <AutoSkript bereich="SBf" beschreibung="weiche12gerade">
+      <Gleis name="W11" />
+      <Weiche name="12" />
+      <Skript sprache="groovy">
+        if (gleisW11.isBesetzt()) {
+        log.debug("weiche12gerade");
+        weiche12.setStellung(GERADE);
+        }
+      </Skript>
+    </AutoSkript>
+
+    <AutoSkript bereich="SBf" beschreibung="weiche13gerade">
+      <Gleis name="W12" />
+      <Weiche name="13" />
+      <Skript sprache="groovy">
+        if (gleisW12.isBesetzt()) {
+        log.debug("weiche13gerade");
+        weiche13.setStellung(GERADE);
+        }
+      </Skript>
+    </AutoSkript>
+
+    <AutoSkript bereich="SBf" beschreibung="weiche14gerade">
+      <Gleis name="W13" />
+      <Weiche name="14" />
+      <Skript sprache="groovy">
+        if (gleisW13.isBesetzt()) {
+        log.debug("weiche14gerade");
+        weiche14.setStellung(GERADE);
+        }
+      </Skript>
+    </AutoSkript>
+
+    <AutoSkript bereich="SBf" beschreibung="weiche15gerade">
+      <Gleis name="W14" />
+      <Weiche name="15" />
+      <Skript sprache="groovy">
+        if (gleisW14.isBesetzt()) {
+        log.debug("weiche15gerade");
+        weiche15.setStellung(GERADE);
+        }
+      </Skript>
+    </AutoSkript>
+
+    <AutoSkript bereich="SBf" beschreibung="weiche16gerade">
+      <Gleis name="W15" />
+      <Weiche name="16" />
+      <Skript sprache="groovy">
+        if (gleisW15.isBesetzt()) {
+        log.debug("weiche16gerade");
+        weiche16.setStellung(GERADE);
+        }
+      </Skript>
+    </AutoSkript>
+    
     <AutoSkript bereich="HBf" beschreibung="Sbk2">
       <Gleis bereich="SBf" name="2007" />
       <Signal name="Sbk2" />
@@ -377,7 +454,7 @@
         if (gleis2007.isBesetzt()) {
         log.debug("Sbk2: HALT");
         signalSbk2.setStellung(HALT);
-        } else {
+        } else {      
         log.debug("Sbk2: FAHRT");
         signalSbk2.setStellung(FAHRT);
         }
