@@ -22,5 +22,5 @@ public class CurrentBausteinHolder implements Serializable {
   @Setter
   @Produces
   @Current
-  private Baustein currentBaustein;
+  Baustein currentBaustein;
 }
