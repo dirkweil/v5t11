@@ -34,6 +34,8 @@ public class AnlagenstatusService {
   @Inject
   FahrzeugdecoderRepository fahrzeugdecoderRepository;
 
+  private volatile boolean shuttingDown;
+
   public void init() {
   }
 
@@ -108,10 +110,30 @@ public class AnlagenstatusService {
     }
   }
 
+  /**
+   * Zustand speichern, bevor beim Herunterfahren die Verbindung zur Zentrale geschlossen wird.
+   * <p>
+   * Der asynchrone {@link #onDisconnect}-Observer käme zu spät, da dann ggf. schon der EntityManager geschlossen ist; er wird
+   * daher nach dem Aufruf dieser Methode übersprungen.
+   */
+  @Transactional
+  public void saveStateOnShutdown() {
+    this.shuttingDown = true;
+    saveState();
+  }
+
   @Transactional
   void onDisconnect(@ObservesAsync @Disconnected Zentrale zentrale) {
-    this.logger.debug("***** Disconnected *****");
+    if (this.shuttingDown) {
+      this.logger.debug("***** Disconnected (Shutdown, Zustand bereits gespeichert) *****");
+      return;
+    }
 
+    this.logger.debug("***** Disconnected *****");
+    saveState();
+  }
+
+  private void saveState() {
     this.logger.debug("Stellungen der nicht stellungssicheren Weichen speichern");
     try {
       this.steuerung

@@ -58,9 +58,12 @@ public class Bootstrap {
     }
   }
 
-  void terminate(@Observes ShutdownEvent shutdownEvent, Steuerung steuerung) {
+  void terminate(@Observes ShutdownEvent shutdownEvent, Steuerung steuerung, AnlagenstatusService anlagenstatusService) {
     // Aktualisierungen stoppen
     scheduler.shutdown();
+
+    // Zustand speichern, solange die DB noch offen ist (der asynchrone Disconnected-Observer käme zu spät)
+    anlagenstatusService.saveStateOnShutdown();
 
     // Verbindung zur Zentrale schließen
     steuerung.close();
