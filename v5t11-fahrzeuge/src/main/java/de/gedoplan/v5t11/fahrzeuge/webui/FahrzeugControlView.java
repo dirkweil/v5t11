@@ -43,7 +43,8 @@ import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.HasDynamicTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.server.StreamResource;
+import com.vaadin.flow.server.streams.DownloadHandler;
+import com.vaadin.flow.server.streams.DownloadResponse;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.inject.Inject;
@@ -241,15 +242,17 @@ public class FahrzeugControlView extends VerticalLayout implements HasDynamicTit
   }
 
   private Anchor buildExportAnchor() {
-    StreamResource resource = new StreamResource(exportFilename(this.fahrzeug), () -> {
+    String filename = exportFilename(this.fahrzeug);
+    DownloadHandler handler = DownloadHandler.fromInputStream(event -> {
+      byte[] xml;
       try {
-        String xml = XmlConverter.toXml(this.fahrzeug);
-        return new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8));
+        xml = XmlConverter.toXml(this.fahrzeug).getBytes(StandardCharsets.UTF_8);
       } catch (Exception e) {
-        return new ByteArrayInputStream(new byte[0]);
+        xml = new byte[0];
       }
-    });
-    Anchor anchor = new Anchor(resource, "Export");
+      return new DownloadResponse(new ByteArrayInputStream(xml), filename, "application/xml", xml.length);
+    }, filename);
+    Anchor anchor = new Anchor(handler, "Export");
     anchor.getStyle().set("color", "inherit").set("text-decoration", "none");
     anchor.setDownload(true);
     return anchor;
