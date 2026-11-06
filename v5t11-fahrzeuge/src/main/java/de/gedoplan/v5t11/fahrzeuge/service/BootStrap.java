@@ -35,7 +35,7 @@ public class BootStrap {
     log.infof("parcoursRestUrl: %s", configService.getParcoursRestUrl());
 
     configService.getFahrzeugeInitPath().ifPresent(fahrzeugeInitService::loadFahrzeuge);
-    parcoursService.loadParcours();
+    parcoursService.loadParcoursWithRetry();
 
     joinService.joinMyself();
   }

@@ -15,18 +15,24 @@ import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenFilter;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenelementTyp;
 import de.gedoplan.v5t11.util.domain.entity.Fahrwegelement;
 
+import java.time.Duration;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+import jakarta.annotation.PreDestroy;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.faulttolerance.Timeout;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logging.Logger;
@@ -53,12 +59,68 @@ public class ParcoursService {
   @Inject
   Logger logger;
 
-  private SortedMap<BereichselementId, Gleis> gleise = new TreeMap<>();
-  private SortedMap<BereichselementId, Weiche> weichen = new TreeMap<>();
-  private SortedMap<BereichselementId, Fahrstrasse> fahrstrassen = new TreeMap<>();
+  @Inject
+  ParcoursService self;
 
+  @ConfigProperty(name = "v5t11.parcours.retry-interval", defaultValue = "10S")
+  Duration retryInterval;
+
+  // Maps werden beim (ggf. wiederholten) Laden komplett ersetzt, nicht verändert, da parallel gelesen wird
+  private volatile SortedMap<BereichselementId, Gleis> gleise = new TreeMap<>();
+  private volatile SortedMap<BereichselementId, Weiche> weichen = new TreeMap<>();
+  private volatile SortedMap<BereichselementId, Fahrstrasse> fahrstrassen = new TreeMap<>();
+
+  private ScheduledExecutorService retryExecutor;
+
+  /**
+   * Parcours laden; bei Fehlschlag parallel zum Betrieb periodisch wiederholen, bis es gelingt.
+   */
+  public void loadParcoursWithRetry() {
+    if (!this.self.loadParcours(true)) {
+      this.logger.warnf("Laden des Parcours wird alle %s wiederholt, bis es gelingt", this.retryInterval);
+      this.retryExecutor = Executors.newSingleThreadScheduledExecutor(r -> {
+        Thread thread = new Thread(r, "parcours-loader");
+        thread.setDaemon(true);
+        return thread;
+      });
+      scheduleRetry();
+    }
+  }
+
+  private void scheduleRetry() {
+    this.retryExecutor.schedule(() -> {
+      boolean success = false;
+      try {
+        success = this.self.loadParcours(false);
+      } catch (Exception e) {
+        this.logger.warn("Wiederholtes Laden des Parcours fehlgeschlagen", e);
+      }
+
+      if (success) {
+        this.logger.info("Parcours geladen");
+        this.retryExecutor.shutdown();
+      } else {
+        scheduleRetry();
+      }
+    }, this.retryInterval.toMillis(), TimeUnit.MILLISECONDS);
+  }
+
+  @PreDestroy
+  void shutdownRetryExecutor() {
+    if (this.retryExecutor != null) {
+      this.retryExecutor.shutdownNow();
+    }
+  }
+
+  /**
+   * Parcours laden.
+   *
+   * @param logStacktrace Stacktrace loggen, wenn das Laden fehlschlägt
+   * @return {@code true}, wenn die Fahrstrassen erfolgreich geladen wurden
+   */
   @Transactional
-  public void loadParcours() {
+  public boolean loadParcours(boolean logStacktrace) {
+    boolean success = false;
     try {
       Set<Fahrstrasse> tmpFs = fetchNonCombiFahrstrassen();
 
@@ -75,18 +137,28 @@ public class ParcoursService {
         .forEach(Fahrstrassenelement::associateFahrwegelement);
 
       tmpFs.forEach(this.fahrstrasseRepository::merge);
+      success = true;
     } catch (Exception e) {
-      this.logger.warn("Laden des Parcours fehlgeschlagen", e);
+      if (logStacktrace) {
+        this.logger.warn("Laden des Parcours fehlgeschlagen", e);
+      } else {
+        this.logger.warnf("Laden des Parcours fehlgeschlagen: %s", e.toString());
+      }
     }
 
-    this.fahrstrassen.clear();
-    this.fahrstrasseRepository.findAll().forEach(fs -> this.fahrstrassen.put(fs.getId(), fs));
+    SortedMap<BereichselementId, Fahrstrasse> newFahrstrassen = new TreeMap<>();
+    this.fahrstrasseRepository.findAll().forEach(fs -> newFahrstrassen.put(fs.getId(), fs));
+    this.fahrstrassen = newFahrstrassen;
 
-    this.gleise.clear();
-    this.gleisRepository.findAll().forEach(g -> this.gleise.put(g.getId(), g));
+    SortedMap<BereichselementId, Gleis> newGleise = new TreeMap<>();
+    this.gleisRepository.findAll().forEach(g -> newGleise.put(g.getId(), g));
+    this.gleise = newGleise;
 
-    this.weichen.clear();
-    this.weicheRepository.findAll().forEach(g -> this.weichen.put(g.getId(), g));
+    SortedMap<BereichselementId, Weiche> newWeichen = new TreeMap<>();
+    this.weicheRepository.findAll().forEach(w -> newWeichen.put(w.getId(), w));
+    this.weichen = newWeichen;
+
+    return success;
   }
 
   private void completeFahrstrassen(Set<Fahrstrasse> fahrstrassen) {
