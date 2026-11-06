@@ -27,10 +27,8 @@ import java.util.List;
 import java.util.function.Function;
 
 /**
- * Baut die Zeichenbefehle (JSON, ein Objekt pro {@link StellwerkElement}) für {@code stellwerk-draw.js} auf – aus
- * {@code PushService.createDrawCommand}/{@code addFahrstrasse}/{@code addRichtungen}/{@code addSignal} extrahiert
- * (Teilschritt 3c), fachlich unverändert, aber framework-neutral (kein {@code PushService}/WebSocket-Bezug mehr).
- * {@code PushService} selbst bleibt bis zur Löschung in 3e unangetastet (Rollback-Pfad).
+ * Baut die Zeichenbefehle (JSON, ein Objekt pro {@link StellwerkElement}) für {@code stellwerk-draw.js} auf.
+ * Framework-neutral, ohne WebSocket-Bezug.
  * <p>
  * Das Fahrstraßen-Vorschlags-Overlay (Attribute {@code f="V"}/{@code f="A"}, im Original über das session-keyed
  * {@code StellwerkVorschlagService} bezogen) wird seit Teilschritt 3d über den {@code vorschlagResolver}-Parameter von

@@ -1,9 +1,9 @@
 package de.gedoplan.v5t11.vaadincommon.navigation;
 
 import de.gedoplan.v5t11.util.cdi.EventFirer;
-import de.gedoplan.v5t11.vaadincommon.push.AbstractPushService;
 
 import io.quarkus.runtime.StartupEvent;
+import org.jboss.logging.Logger;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -15,11 +15,6 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Observes;
 import jakarta.enterprise.inject.Instance;
 import jakarta.inject.Inject;
-import jakarta.websocket.OnClose;
-import jakarta.websocket.OnError;
-import jakarta.websocket.OnOpen;
-import jakarta.websocket.Session;
-import jakarta.websocket.server.ServerEndpoint;
 
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
@@ -49,11 +44,13 @@ import java.util.concurrent.atomic.AtomicBoolean;
  *
  * @author dw
  */
-@ServerEndpoint("/jakarta.faces.push/menu-refresh")
 @ApplicationScoped
-public class NavigationPresenter extends AbstractPushService {
+public class NavigationPresenter {
 
   private static final long HEARTBEAT_MILLIS = 10000L;
+
+  @Inject
+  Logger logger;
 
   /*
     * NavigationItems, die im Menü angezeigt werden sollen. Die Map ist nach den NavigationItems sortiert, damit die
@@ -80,8 +77,7 @@ public class NavigationPresenter extends AbstractPushService {
   private AtomicBoolean menuChanged = new AtomicBoolean();
 
   /**
-   * Wird von Vaadin-Frontends genutzt, um sich über Menüänderungen benachrichtigen zu lassen, ohne den
-   * Websocket-Push in Anspruch nehmen zu müssen.
+   * Wird von Vaadin-Frontends genutzt, um sich über Menüänderungen benachrichtigen zu lassen.
    */
   private final List<Runnable> menuChangeListeners = new CopyOnWriteArrayList<>();
 
@@ -169,9 +165,8 @@ public class NavigationPresenter extends AbstractPushService {
       this.logger.debug(action);
     }
 
-    // Menüänderungen an die Clients pushen
+    // Menüänderungen an die Clients melden
     if (this.menuChanged.compareAndSet(true, false)) {
-      send("menuRefresh");
       this.menuChangeListeners.forEach(Runnable::run);
     }
   }
@@ -205,32 +200,13 @@ public class NavigationPresenter extends AbstractPushService {
       }
     });
 
-    // Menüänderungen an die Clients pushen
+    // Menüänderungen an die Clients melden
     if (this.menuChanged.compareAndSet(true, false)) {
-      send("menuRefresh");
       this.menuChangeListeners.forEach(Runnable::run);
     }
   }
 
   public void heartBeat(NavigationItem navigationItem) {
     registerNavigationItem(navigationItem, false, false);
-  }
-
-  @OnOpen
-  @Override
-  protected void openSession(Session session) {
-    super.openSession(session);
-  }
-
-  @OnClose
-  @Override
-  protected void closeSession(Session session) {
-    super.closeSession(session);
-  }
-
-  @OnError
-  @Override
-  protected void abortSession(Session session, Throwable throwable) {
-    super.abortSession(session, throwable);
   }
 }

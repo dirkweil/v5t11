@@ -29,7 +29,7 @@ Aktuell befindet sich v5t11 im Umbau auf reaktiv gekoppelte Microservices. Dazu 
 |
 * Konfiguration der Anlagenhardware mittels XML-File
 * Anbindung der Zentrale über USB
-* JSF-GUI für Ad-hoc-Steuerung oder Debugging
+* Vaadin-GUI für Ad-hoc-Steuerung oder Debugging
 
 |v5t11-parcours
 |
@@ -45,13 +45,13 @@ Aktuell befindet sich v5t11 im Umbau auf reaktiv gekoppelte Microservices. Dazu 
 * Verwalten und Steuern von Loks und anderen Fahrzeugen mit Decodern
 * Ermittelung der Fahrzeugposition auf der Anlage
 |
-* JSF-GUI für Fahrzeugauswahl, Konfiguration und Steuerung
+* Vaadin-GUI für Fahrzeugauswahl, Konfiguration und Steuerung
 
 |v5t11-stellwerk
 |
 * Visualisierung des Anlagen- und Fahrzeugzustandes
 |
-* JSF-GUI für Anlagenbedienung
+* Vaadin-GUI für Anlagenbedienung
 |===
 
 . Implementierung

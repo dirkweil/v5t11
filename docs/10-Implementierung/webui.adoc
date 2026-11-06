@@ -1,125 +1,32 @@
 = Implementierung des Web-UI
 
-. Komponenten-Bibliothek
+. Technologie
 +
-Das Web UI wird mit JSF erstellt.
-Als Komponenten-Bibliothek ist derzeit Primefaces im Einsatz, was eventuell durch Bootsfaces ersetzt werden soll, da darin ein Canvas-Widget verhanden ist (für die Stellwerke).
+Das Web UI wird mit Vaadin Flow (serverseitiges Java-UI) erstellt.
+Die Views liegen je Service im Paket `webui` und sind als `@Route` mit dem gemeinsamen Layout `MainLayout` aufgebaut.
 +
-Die folgenden Komponenten werden verwendet:
+Das Vorgängersystem auf Basis von JSF/PrimeFaces wurde vollständig abgelöst; die Migrationsunterlagen stehen in `docs/11-Agentische-migration-faces-vaadin`.
+
+. Gemeinsame Bausteine (`v5t11-vaadincommon`)
 +
 |===
-|Primefaces|Besonderheiten|Bootsfaces
+|Klasse|Aufgabe
 
-| `p:ajax`
-|
-|
+|`V5t11VaadinServlet`
+|Vaadin-Servlet unter `/ui/*`; `@Route`-Werte sind relativ zu diesem Präfix anzugeben, z. B. `@Route("system-status")`.
 
-| `p:column`
-|
-|
+|`MainLayout`, `VaadinNavigationMenu`
+|Gemeinsames Layout mit dem föderierten Navigationsmenü.
 
-| `p:commandButton`
-|
-|
+|`NavigationPresenter`
+|Sammelt die Menüeinträge aller Services (Eigeneinträge und per Messaging empfangene Heartbeats) und benachrichtigt die Menüs über `addMenuChangeListener`.
 
-| `p:dataGrid`
-|
-|
-
-| `p:dataTable`
-|
-|
-
-| `p:fieldset`
-|
-|
-
-| `p:graphicImage`
-|
-|
-
-| `p:growl`
-|
-|
-
-| `p:inputText`
-|
-|
-
-| `p:layout`
-|
-|
-
-| `p:layoutUnit`
-|
-|
-
-| `p:menu`
-|
-|
-
-| `p:message`
-|
-|
-
-| `p:outputLabel`
-|
-|
-
-| `p:panel`
-|
-|
-
-| `p:panelGrid`
-|
-|
-
-| `p:remoteCommand`
-|
-|
-
-| `p:row`
-|
-|
-
-| `p:scrollPanel`
-|
-|
-
-| `p:selectBooleanButton`
-|
-|
-
-| `p:selectBooleanCheckbox`
-|
-|
-
-| `p:selectOneButton`
-|
-|
-
-| `p:selectOneMenu`
-|
-|
-
-| `p:slider`
-|
-|
-
-| `p:tab`
-|
-|
-
-| `p:tabView`
-|
-|
-
-| `p:toolbar`
-|
-|
-
-| `p:triStateCheckbox`
-|
-|
-
+|`HomeView`, `RootRedirectServlet`
+|Startseite bzw. Weiterleitung von `/`.
 |===
+
+. Besonderheiten
++
+* Das Stellwerk-Gleisbild wird je Zelle in einem eigenen `<canvas>`-Element gezeichnet (`StellwerkCanvas`). Die Zeichenbefehle erzeugt `StellwerkDrawCommandBuilder`, gezeichnet wird mit `stellwerk-draw.js`.
+* Änderungen an Fachobjekten (`@Changed`-CDI-Events) werden über je einen `VaadinChangePushBroadcaster` pro Service an die Views verteilt, die sich per `UI.access(...)` gezielt aktualisieren.
+* Eigene Styles (z. B. Toggle-Buttons und Stellungsbuttons) liegen im Theme `v5t11` in `v5t11-vaadincommon`.

@@ -11,8 +11,8 @@ import jakarta.enterprise.event.Observes;
 import jakarta.enterprise.event.TransactionPhase;
 
 /**
- * Verteilt dieselben {@code @Changed}-CDI-Events (gefeuert über {@link de.gedoplan.v5t11.util.cdi.EventFirer},
- * bisher konsumiert von {@link PushService} für den rohen JSF-Websocket-Push) an Vaadin-Views, damit diese gezielt
+ * Verteilt die {@code @Changed}-CDI-Events (gefeuert über {@link de.gedoplan.v5t11.util.cdi.EventFirer}) an
+ * Vaadin-Views, damit diese gezielt
  * (nicht per Full-Page-Reload) über {@code UI.access(...)} aktualisieren können. Pendant zu
  * {@code v5t11-status/.../webui/VaadinChangePushBroadcaster.java} aus Phase 1a – eigene Klasse, da jeder Service ein
  * eigenes Deployment/CDI-Environment ist.
