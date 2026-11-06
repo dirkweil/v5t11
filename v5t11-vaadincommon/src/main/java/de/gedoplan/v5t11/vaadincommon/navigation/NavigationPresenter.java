@@ -55,6 +55,11 @@ public class NavigationPresenter extends AbstractPushService {
 
   private static final long HEARTBEAT_MILLIS = 10000L;
 
+  /*
+    * NavigationItems, die im Menü angezeigt werden sollen. Die Map ist nach den NavigationItems sortiert, damit die
+    * Reihenfolge im Menü immer gleich ist.
+    * Achtung: Die URL der NavigationItems kann sich ändern; die aktuelle URL wird im NavigationItemState gespeichert. 
+   */
   @Getter
   private ConcurrentMap<NavigationItem, NavigationItemState> navigationItems = new ConcurrentSkipListMap<>();
 
@@ -65,6 +70,7 @@ public class NavigationPresenter extends AbstractPushService {
     boolean mine;
     public boolean broadcast;
     long lastHeartBeatMillis;
+    String url;
     boolean disabled;
   }
 
@@ -115,11 +121,19 @@ public class NavigationPresenter extends AbstractPushService {
     this.scheduler.shutdown();
   }
 
+  /**
+   * Registriert ein NavigationItem. Falls es bereits existiert, wird es aktualisiert.
+   * 
+   * @param navigationItem NavigationItem
+   * @param mine Eigeneintrag?
+   * @param broadcast als Heartbeat senden?
+   */
   public void registerNavigationItem(NavigationItem navigationItem, boolean mine, boolean broadcast) {
     NavigationItemState navigationItemState = new NavigationItemState();
     navigationItemState.mine = mine;
     navigationItemState.broadcast = broadcast;
     navigationItemState.lastHeartBeatMillis = System.currentTimeMillis();
+    navigationItemState.url = navigationItem.getUrl();
 
     StringBuilder action = new StringBuilder();
 
@@ -135,7 +149,7 @@ public class NavigationPresenter extends AbstractPushService {
 
       action.append("Refresh Fremdeintrag");
 
-      if (existing.disabled) {
+      if (existing.disabled || !existing.url.equals(incoming.url)) {
         this.menuChanged.set(true);
       }
 
@@ -154,11 +168,23 @@ public class NavigationPresenter extends AbstractPushService {
       action.append(navigationItem);
       this.logger.debug(action);
     }
+
+    // Menüänderungen an die Clients pushen
+    if (this.menuChanged.compareAndSet(true, false)) {
+      send("menuRefresh");
+      this.menuChangeListeners.forEach(Runnable::run);
+    }
   }
 
+  /**
+   * Wird regelmäßig aufgerufen, um die Heartbeats der Fremdeinträge zu prüfen und ggf. das Menü zu aktualisieren.
+   * <p>
+   * Außerdem werden die Eigeneinträge als Heartbeat versendet.
+   */
   public void heartBeat() {
     long minRefreshMillis = System.currentTimeMillis() - HEARTBEAT_MILLIS * 2L;
     this.navigationItems.forEach((navigationItem, navigationItemState) -> {
+      // Eigeneinträge als Heartbeat versenden
       if (navigationItemState.mine) {
         if (navigationItemState.broadcast) {
           try {
@@ -168,6 +194,7 @@ public class NavigationPresenter extends AbstractPushService {
           }
         }
       } else {
+        // Fremdeinträge prüfen, ob sie noch aktuell sind
         if (!navigationItemState.disabled && navigationItemState.lastHeartBeatMillis < minRefreshMillis) {
           if (this.logger.isDebugEnabled()) {
             this.logger.debug("Disable " + navigationItem);
@@ -178,6 +205,7 @@ public class NavigationPresenter extends AbstractPushService {
       }
     });
 
+    // Menüänderungen an die Clients pushen
     if (this.menuChanged.compareAndSet(true, false)) {
       send("menuRefresh");
       this.menuChangeListeners.forEach(Runnable::run);

@@ -69,7 +69,7 @@ public class VaadinNavigationMenu extends SideNav {
         item = new SideNavItem(navigationItem.getName());
         item.addClassName("nav-item-disabled");
       } else {
-        item = new SideNavItem(navigationItem.getName(), navigationItem.getUrl());
+        item = new SideNavItem(navigationItem.getName(), state.getUrl());
       }
       item.setPrefixComponent(new FontIcon(navigationItem.getIcon().split(" ")));
       category.addItem(item);
