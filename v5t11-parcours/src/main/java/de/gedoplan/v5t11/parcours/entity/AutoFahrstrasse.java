@@ -19,7 +19,8 @@ import lombok.ToString;
  * <p>
  * Eine AutoFahrstrasse verknüpft ein auslösendes Gleis - den sog. Trigger - mit einer Liste von
  * Fahrstrassen. Ändert sich im Betrieb der Trigger auf besetzt, wird eine der Fahrstrassen reserviert, soweit
- * das möglich ist. Die Fahrstrassen werden in der Reihenfolge der Liste berücksichtigt.
+ * das möglich ist. Die Fahrstrassen werden in der Reihenfolge der Liste berücksichtigt, bei {@code zufaellig=true} in
+ * zufälliger Reihenfolge.
  *
  * @author dw
  */
@@ -35,12 +36,16 @@ public class AutoFahrstrasse extends UUIdEntity {
   @XmlAttribute(name = "trigger", required = true)
   private String triggerName;
 
+  // Wenn true, werden die Fahrstrassen in zufälliger Reihenfolge versucht
+  @XmlAttribute(name = "zufaellig")
+  private boolean zufaellig;
+
   @XmlElement(name = "Fahrstrasse")
   private List<AutoFahrstrassenElement> elemente;
 
   @Override
   public String toString() {
-    StringBuilder builder = new StringBuilder("AutoFahrstrasse{bereich=" + this.triggerBereich + ", trigger=" + this.triggerName + "}");
+    StringBuilder builder = new StringBuilder("AutoFahrstrasse{bereich=" + this.triggerBereich + ", trigger=" + this.triggerName + ", zufaellig=" + this.zufaellig + "}");
     this.elemente.forEach(e -> {
       builder.append("\n  ");
       builder.append(e);

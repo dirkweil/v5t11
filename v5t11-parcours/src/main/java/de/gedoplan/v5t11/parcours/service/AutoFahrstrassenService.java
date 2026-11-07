@@ -10,6 +10,12 @@ import de.gedoplan.v5t11.util.cdi.Created;
 import de.gedoplan.v5t11.util.domain.attribute.BereichselementId;
 import de.gedoplan.v5t11.util.domain.attribute.FahrstrassenReservierungsTyp;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import jakarta.annotation.PostConstruct;
@@ -47,6 +53,12 @@ public class AutoFahrstrassenService {
   @Getter(AccessLevel.PACKAGE) // nur zur Testunterstützung
   private ListMultimap<Gleis, Fahrstrasse> autoFahrstrassen = MultimapBuilder.hashKeys().arrayListValues().build();
 
+  // Trigger, deren Fahrstrassen in zufälliger Reihenfolge versucht werden sollen
+  @Getter(AccessLevel.PACKAGE) // nur zur Testunterstützung
+  private Set<Gleis> zufaelligeTrigger = new HashSet<>();
+
+  Random random = new Random(); // nur für Tests ersetzbar (fester Seed)
+
   @PostConstruct
   void postConstruct() {
     /*
@@ -59,6 +71,10 @@ public class AutoFahrstrassenService {
         .findById(triggerId)
         .ifPresentOrElse(
           trigger -> {
+            if (afs.isZufaellig()) {
+              this.zufaelligeTrigger.add(trigger);
+            }
+
             afs.getElemente().forEach(e -> {
               BereichselementId startId = new BereichselementId(e.getStartBereich(), e.getStartName());
               this.gleisRepository
@@ -89,12 +105,24 @@ public class AutoFahrstrassenService {
 
   /**
    * Bei Änderung eines Triggers auf besetzt, die erste zugehörige und reservierbare Fahrstrasse reservieren.
+   * <p>
+   * Die Fahrstrassen werden in der Reihenfolge der Liste versucht, bei einer zufälligen AutoFahrstrasse in zufälliger Reihenfolge.
    *
    * @param gleis
    */
   void autoReserviere(@Observes @Changed Gleis gleis) {
     if (gleis.isBesetzt()) {
-      for (Fahrstrasse fs : this.autoFahrstrassen.get(gleis)) {
+      // Kopie, da die Multimap-Liste ein Live-View ist und nicht verändert werden darf
+      List<Fahrstrasse> fahrstrassen = new ArrayList<>(this.autoFahrstrassen.get(gleis));
+      if (this.zufaelligeTrigger.contains(gleis)) {
+        Collections.shuffle(fahrstrassen, this.random);
+      }
+
+      if (this.logger.isDebugEnabled()) {
+        this.logger.debugf("AutoFahrstrassen für Trigger %s: %s", gleis.getId(), fahrstrassen.stream().map(Fahrstrasse::getId).collect(Collectors.toList()));
+      }
+
+      for (Fahrstrasse fs : fahrstrassen) {
         if (fs.reservieren(FahrstrassenReservierungsTyp.ZUGFAHRT, false, true)) {
           break;
         }
