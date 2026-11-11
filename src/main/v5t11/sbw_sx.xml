@@ -347,7 +347,7 @@
         if (gleis9d.isBesetzt() || gleis9e.isBesetzt()) {
         log.debug("Polung KS9: links");
         schalterKS9.setStellung(EIN);
-        } else if (gleis9a.isBesetzt() || gleis9b.isBesetzt() || (gleis9c.isBesetzt() && !gleis9d.isBesetzt() && !gleis9e.isBesetzt())) {
+        } else if (gleis9a.isBesetzt() || gleis9b.isBesetzt() || (gleis9c.isBesetzt() &amp;&amp; !gleis9d.isBesetzt() &amp;&amp; !gleis9e.isBesetzt())) {
         log.debug("Polung KS9: rechts");
         schalterKS9.setStellung(AUS);
         }
