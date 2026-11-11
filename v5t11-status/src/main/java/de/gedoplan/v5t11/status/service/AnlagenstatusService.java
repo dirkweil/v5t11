@@ -9,8 +9,6 @@ import de.gedoplan.v5t11.status.entity.baustein.Zentrale;
 import de.gedoplan.v5t11.status.entity.fahrweg.geraet.Weiche;
 import de.gedoplan.v5t11.status.entity.fahrzeug.Fahrzeugdecoder;
 import de.gedoplan.v5t11.status.persistence.FahrzeugdecoderRepository;
-import de.gedoplan.v5t11.status.persistence.WeicheRepository;
-import de.gedoplan.v5t11.util.misc.Delay;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.ObservesAsync;
 import jakarta.inject.Inject;
@@ -29,9 +27,6 @@ public class AnlagenstatusService {
   Logger logger;
 
   @Inject
-  WeicheRepository weicheRepository;
-
-  @Inject
   FahrzeugdecoderRepository fahrzeugdecoderRepository;
 
   private volatile boolean shuttingDown;
@@ -44,35 +39,8 @@ public class AnlagenstatusService {
 
     zentrale.initialize();
 
-    // Weichenstellungen wiederherstellen (erst andere Stellung, dann richtige Stellung)
-    this.logger.debug("Nicht stellungssichere Weichen auf letzte bekannte Stellung stellen");
-    try {
-      this.weicheRepository
-          .findAll()
-          .forEach(w -> {
-            Weiche weiche = this.steuerung.getWeiche(w.getBereich(), w.getName());
-            if (weiche != null) {
-              if (!weiche.isStellungsSicher()) {
-                this.logger.debugf("  %s %s", weiche.toString(true), w.getStellung());
-                weiche.setStellung(w.getStellung().getAndereStellung());
-                delay();
-              }
-            }
-          });
-      this.weicheRepository
-          .findAll()
-          .forEach(w -> {
-            Weiche weiche = this.steuerung.getWeiche(w.getBereich(), w.getName());
-            if (weiche != null) {
-              if (!weiche.isStellungsSicher()) {
-                weiche.setStellung(w.getStellung());
-                delay();
-              }
-            }
-          });
-    } catch (Exception e) {
-      this.logger.error("Fehler beim Weichenstellen", e);
-    }
+    // Magnetartikel-Weichen gelten als nicht gesichert, bis sie das erste Mal gestellt werden
+    this.steuerung.getWeichen().forEach(Weiche::resetStellungGesichert);
 
     // Alle Autoskripte einmal ausführen
     try {
@@ -104,12 +72,6 @@ public class AnlagenstatusService {
     }
   }
 
-  private void delay() {
-    if (this.steuerung.getZentrale().isEchtbetrieb()) {
-      Delay.delay(250);
-    }
-  }
-
   /**
    * Zustand speichern, bevor beim Herunterfahren die Verbindung zur Zentrale geschlossen wird.
    * <p>
@@ -124,6 +86,8 @@ public class AnlagenstatusService {
 
   @Transactional
   void onDisconnect(@ObservesAsync @Disconnected Zentrale zentrale) {
+    this.steuerung.getWeichen().forEach(Weiche::resetStellungGesichert);
+
     if (this.shuttingDown) {
       this.logger.debug("***** Disconnected (Shutdown, Zustand bereits gespeichert) *****");
       return;
@@ -134,20 +98,6 @@ public class AnlagenstatusService {
   }
 
   private void saveState() {
-    this.logger.debug("Stellungen der nicht stellungssicheren Weichen speichern");
-    try {
-      this.steuerung
-          .getWeichen()
-          .stream()
-          .filter(w -> !w.isStellungsSicher())
-          .forEach(w -> {
-            this.logger.debugf("  %s %s", w.toString(true), w.getStellung());
-            this.weicheRepository.merge(w);
-          });
-    } catch (Exception e) {
-      this.logger.error("Fehler beim Speichern der Weichen", e);
-    }
-
     this.logger.debug("Zustand der bekannten Fahrzeugdecoder speichern");
     try {
       this.fahrzeugdecoderRepository.removeAll();

@@ -87,4 +87,13 @@ public abstract class Funktionsdecoder extends Baustein implements Decoder {
   public boolean isStellungsSicher() {
     return false;
   }
+
+  /**
+   * Ist die zugehörige Zentrale im Echtbetrieb?
+   *
+   * @return <code>true</code>, falls Echtbetrieb
+   */
+  public boolean isEchtbetrieb() {
+    return this.steuerung != null && this.steuerung.getZentrale().isEchtbetrieb();
+  }
 }

@@ -7,6 +7,7 @@ import de.gedoplan.v5t11.status.entity.baustein.Funktionsdecoder;
 import de.gedoplan.v5t11.util.cdi.Changed;
 import de.gedoplan.v5t11.util.domain.attribute.WeichenStellung;
 import de.gedoplan.v5t11.util.domain.entity.fahrweg.geraet.AbstractWeiche;
+import de.gedoplan.v5t11.util.misc.Delay;
 import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -37,9 +38,16 @@ public class Weiche extends AbstractWeiche implements FunktionsdecoderGeraet {
   @Transient
   private boolean invertiert;
 
+  /**
+   * Ist die Stellung gesichert, d.h. stimmt die Stellung der Weiche mit der Software-Stellung überein?
+   * <p>
+   * Bei Magnetartikeldecodern ist das nicht sicher, da die Weiche manuell verstellt worden sein könnte, solange die Steuerung
+   * ausgeschaltet war. Sie werden daher beim ersten Stellen "gesichert" (erst andere Stellung, dann Sollstellung).
+   * Servodecoder erzwingen ihre Stellung und sind stets gesichert.
+   */
   @Getter(onMethod_ = @JsonbTransient)
   @Transient
-  private boolean stellungsSicher;
+  private volatile boolean stellungGesichert;
 
   /**
    * Konstruktor.
@@ -55,11 +63,39 @@ public class Weiche extends AbstractWeiche implements FunktionsdecoderGeraet {
    */
   @Override
   public void setStellung(WeichenStellung stellung) {
+    if (!this.stellungGesichert) {
+      synchronized (this) {
+        if (!this.stellungGesichert) {
+          // Erst andere Stellung, kurz warten, dann Sollstellung, damit die Weiche sicher geschaltet wird
+          setStellung(stellung.getAndereStellung(), true, true);
+          if (this.funktionsdecoderZuordnung.getFunktionsdecoder().isEchtbetrieb()) {
+            Delay.delay(250);
+          }
+          setStellung(stellung, true, true);
+          this.stellungGesichert = true;
+          return;
+        }
+      }
+    }
+
     setStellung(stellung, true);
   }
 
+  /**
+   * Stellungssicherheit zurücksetzen, falls der Decoder die Stellung nicht erzwingt.
+   * <p>
+   * Wird bei Verbindungsauf-/abbau aufgerufen, da die Weiche dann manuell verstellt worden sein könnte.
+   */
+  public void resetStellungGesichert() {
+    this.stellungGesichert = this.funktionsdecoderZuordnung.getFunktionsdecoder().isStellungsSicher();
+  }
+
   protected void setStellung(WeichenStellung stellung, boolean updateInterface) {
-    if (getStellung() != stellung) {
+    setStellung(stellung, updateInterface, false);
+  }
+
+  private void setStellung(WeichenStellung stellung, boolean updateInterface, boolean force) {
+    if (force || getStellung() != stellung) {
       this.lastChangeMillis = System.currentTimeMillis();
       super.setStellung(stellung);
 
@@ -153,7 +189,7 @@ public class Weiche extends AbstractWeiche implements FunktionsdecoderGeraet {
   private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
     if (parent instanceof Funktionsdecoder funktionsdecoder) {
       this.funktionsdecoderZuordnung.setFunktionsdecoder(funktionsdecoder);
-      this.stellungsSicher = funktionsdecoder.isStellungsSicher();
+      this.stellungGesichert = funktionsdecoder.isStellungsSicher();
     } else {
       throw new IllegalArgumentException("Illegal parent " + parent);
     }
