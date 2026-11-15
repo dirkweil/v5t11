@@ -79,6 +79,7 @@ public class Fahrzeug extends SingleIdEntity<String> {
   @OrderColumn(name = "fahrzeug_reihenfolge")
   private List<Fahrzeug> gezogeneFahrzeuge = new ArrayList<>();
 
+  @Getter
   @XmlTransient
   @JsonbTransient
   @ManyToOne
