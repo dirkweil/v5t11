@@ -363,7 +363,7 @@
         if (gleis1012.isBesetzt()) {
         log.debug("Polung KS101x: links");
         schalterKS101x.setStellung(EIN);
-        } else if (gleis1010.isBesetzt()) {
+        } else if (gleis1010.isBesetzt() || gleis1011.isBesetzt()) {
         log.debug("Polung KS101x: rechts");
         schalterKS101x.setStellung(AUS);
         }
