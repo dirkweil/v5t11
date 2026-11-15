@@ -120,8 +120,7 @@ public class FahrzeugControlView extends VerticalLayout implements HasDynamicTit
   private Span fahrstufeValueField;
   private Checkbox rueckwaertsField;
   private Span positionField;
-  private Checkbox lichtCheckbox;
-  private final Map<FahrzeugFunktion, Checkbox> funktionCheckboxes = new LinkedHashMap<>();
+  private final Map<String, FunktionenBereich> funktionenBereiche = new LinkedHashMap<>();
 
   @PostConstruct
   void init() {
@@ -162,7 +161,7 @@ public class FahrzeugControlView extends VerticalLayout implements HasDynamicTit
   }
 
   private void onChanged(Object changed) {
-    if (changed instanceof Fahrzeug f && f.getId().equals(this.fahrzeug.getId())) {
+    if (changed instanceof Fahrzeug f && (f.getId().equals(this.fahrzeug.getId()) || this.funktionenBereiche.containsKey(f.getId()))) {
       getUI().ifPresent(ui -> ui.access(this::refreshAll));
     }
   }
@@ -457,68 +456,117 @@ public class FahrzeugControlView extends VerticalLayout implements HasDynamicTit
     this.positionField = new Span();
     form.addFormItem(this.positionField, "Position:");
 
-    buildFunktionenSection(form);
+    FunktionenBereich zugBereich = new FunktionenBereich(this.fahrzeug.getBetriebsnummer(), true);
+    this.funktionenBereiche.put(this.fahrzeug.getId(), zugBereich);
+    zugBereich.build(form, this.fahrzeug);
+
+    for (Fahrzeug gezogenes : this.fahrzeug.getGezogeneFahrzeuge()) {
+      if (gezogenes.getFahrzeugdecoder() == null || gezogenes.getFahrzeugdecoder().getFunktionen().isEmpty()) {
+        continue;
+      }
+      Span heading = new Span(gezogenes.getBetriebsnummer());
+      heading.getStyle().set("font-weight", "bold").set("margin-top", "1rem");
+      form.add(heading);
+      FunktionenBereich bereich = new FunktionenBereich(gezogenes.getBetriebsnummer(), false);
+      this.funktionenBereiche.put(gezogenes.getId(), bereich);
+      bereich.build(form, gezogenes);
+    }
 
     refreshAll();
 
     return form;
   }
 
-  private void buildFunktionenSection(FormLayout form) {
-    for (FahrzeugFunktionsGruppe gruppe : getCurrentFunktionsGruppen()) {
-      FlexLayout row = new FlexLayout();
-      row.getStyle().set("flex-wrap", "wrap").set("gap", "0.5rem");
-      row.setAlignItems(FlexComponent.Alignment.CENTER);
+  /**
+   * Funktionen eines Fahrzeugs (Zugfahrzeug oder gezogenes Fahrzeug). Gesteuert wird jeweils über den Decoder des
+   * betreffenden Fahrzeugs.
+   */
+  private class FunktionenBereich {
+    private final String betriebsnummer;
+    private final boolean mitLicht;
+    private final Map<FahrzeugFunktion, Checkbox> funktionCheckboxes = new LinkedHashMap<>();
+    private Checkbox lichtCheckbox;
 
-      if (gruppe == FahrzeugFunktionsGruppe.FL) {
-        this.lichtCheckbox = new Checkbox("Licht");
-        this.lichtCheckbox.addClassName("toggle-buttons");
-        this.lichtCheckbox.addValueChangeListener(event -> {
-          if (event.isFromClient()) {
-            this.statusGateway.changeFahrzeugdecoder(decoderAdr(), null, null, null, event.getValue(), null);
-          }
-        });
-        row.add(this.lichtCheckbox);
+    FunktionenBereich(String betriebsnummer, boolean mitLicht) {
+      this.betriebsnummer = betriebsnummer;
+      this.mitLicht = mitLicht;
+    }
+
+    void build(FormLayout form, Fahrzeug f) {
+      DecoderAdr adr = f.getFahrzeugdecoder().getDecoderAdr();
+      for (FahrzeugFunktionsGruppe gruppe : gruppen(f)) {
+        FlexLayout row = new FlexLayout();
+        row.getStyle().set("flex-wrap", "wrap").set("gap", "0.5rem");
+        row.setAlignItems(FlexComponent.Alignment.CENTER);
+
+        if (gruppe == FahrzeugFunktionsGruppe.FL && this.mitLicht) {
+          this.lichtCheckbox = new Checkbox("Licht");
+          this.lichtCheckbox.addClassName("toggle-buttons");
+          this.lichtCheckbox.addValueChangeListener(event -> {
+            if (event.isFromClient()) {
+              FahrzeugControlView.this.statusGateway.changeFahrzeugdecoder(adr, null, null, null, event.getValue(), null);
+            }
+          });
+          row.add(this.lichtCheckbox);
+        }
+
+        for (FahrzeugFunktion funktion : funktionenOfGruppe(f, gruppe)) {
+          Checkbox checkbox = new Checkbox(funktion.getBeschreibung());
+          checkbox.addClassName("toggle-buttons");
+          checkbox.addValueChangeListener(event -> {
+            if (event.isFromClient()) {
+              toggleFunktion(f.getId(), adr, funktion, event.getValue());
+            }
+          });
+          this.funktionCheckboxes.put(funktion, checkbox);
+          row.add(checkbox);
+        }
+
+        if (row.getComponentCount() > 0) {
+          form.addFormItem(row, gruppe.getName() + ":");
+        }
       }
+    }
 
-      for (FahrzeugFunktion funktion : funktionenOfGruppe(gruppe)) {
-        Checkbox checkbox = new Checkbox(funktion.getBeschreibung());
-        checkbox.addClassName("toggle-buttons");
-        checkbox.addValueChangeListener(event -> {
-          if (event.isFromClient()) {
-            toggleFunktion(funktion, event.getValue());
-          }
-        });
-        this.funktionCheckboxes.put(funktion, checkbox);
-        row.add(checkbox);
+    void refresh(Fahrzeug f) {
+      Fahrzeugdecoder decoder = f.getFahrzeugdecoder();
+      int fktBits = decoder.getFktBits();
+      if (this.lichtCheckbox != null) {
+        this.lichtCheckbox.setValue(decoder.isLicht());
       }
+      this.funktionCheckboxes.forEach((funktion, checkbox) -> checkbox.setValue((fktBits & funktion.getMaske()) == funktion.getWert()));
+    }
 
-      form.addFormItem(row, gruppe.getName() + ":");
+    private List<FahrzeugFunktionsGruppe> gruppen(Fahrzeug f) {
+      return Stream.concat(
+          this.mitLicht ? Stream.of(FahrzeugFunktionsGruppe.FL) : Stream.<FahrzeugFunktionsGruppe>empty(),
+          f.getFahrzeugdecoder().getFunktionen().stream().map(FahrzeugFunktion::getGruppe))
+        .sorted()
+        .distinct()
+        .collect(Collectors.toList());
     }
   }
 
-  private List<FahrzeugFunktionsGruppe> getCurrentFunktionsGruppen() {
-    return Stream.concat(
-        Stream.of(FahrzeugFunktionsGruppe.FL),
-        this.fahrzeug.getFahrzeugdecoder().getFunktionen().stream().map(FahrzeugFunktion::getGruppe))
-      .sorted()
-      .distinct()
-      .collect(Collectors.toList());
-  }
-
-  private List<FahrzeugFunktion> funktionenOfGruppe(FahrzeugFunktionsGruppe gruppe) {
-    return this.fahrzeug.getFahrzeugdecoder().getFunktionen().stream()
-      .filter(f -> f.getGruppe() == gruppe)
+  private List<FahrzeugFunktion> funktionenOfGruppe(Fahrzeug f, FahrzeugFunktionsGruppe gruppe) {
+    return f.getFahrzeugdecoder().getFunktionen().stream()
+      .filter(fkt -> fkt.getGruppe() == gruppe)
       .sorted(Comparator.comparing(FahrzeugFunktion::getBeschreibung, Collator.getInstance()))
       .collect(Collectors.toList());
   }
 
-  private void toggleFunktion(FahrzeugFunktion funktion, boolean aktiv) {
-    int fktBits = this.fahrzeug.getFahrzeugdecoder().getFktBits() & ~funktion.getMaske();
+  private void toggleFunktion(String fahrzeugId, DecoderAdr adr, FahrzeugFunktion funktion, boolean aktiv) {
+    // aktuellen Stand des betreffenden Fahrzeugs verwenden (nicht den beim Aufbau der View gelesenen)
+    Fahrzeug target = this.fahrzeug.getId().equals(fahrzeugId)
+      ? this.fahrzeug
+      : this.fahrzeug.getGezogeneFahrzeuge().stream().filter(g -> g.getId().equals(fahrzeugId)).findFirst().orElse(null);
+    if (target == null) {
+      return;
+    }
+    int fktBits = target.getFahrzeugdecoder().getFktBits() & ~funktion.getMaske();
     if (aktiv) {
       fktBits |= funktion.getWert();
     }
-    this.statusGateway.changeFahrzeugdecoder(decoderAdr(), null, null, fktBits, null, null);
+    this.statusGateway.changeFahrzeugdecoder(adr, null, null, fktBits, null, null);
   }
 
   private void refreshAll() {
@@ -540,9 +588,17 @@ public class FahrzeugControlView extends VerticalLayout implements HasDynamicTit
   }
 
   private void refreshFunktionen() {
-    int fktBits = this.fahrzeug.getFahrzeugdecoder().getFktBits();
-    this.lichtCheckbox.setValue(this.fahrzeug.getFahrzeugdecoder().isLicht());
-    this.funktionCheckboxes.forEach((funktion, checkbox) -> checkbox.setValue((fktBits & funktion.getMaske()) == funktion.getWert()));
+    refreshFunktionen(this.fahrzeug);
+    for (Fahrzeug gezogenes : this.fahrzeug.getGezogeneFahrzeuge()) {
+      refreshFunktionen(gezogenes);
+    }
+  }
+
+  private void refreshFunktionen(Fahrzeug f) {
+    FunktionenBereich bereich = this.funktionenBereiche.get(f.getId());
+    if (bereich != null) {
+      bereich.refresh(f);
+    }
   }
 
   private String getPositionsbeschreibung() {
