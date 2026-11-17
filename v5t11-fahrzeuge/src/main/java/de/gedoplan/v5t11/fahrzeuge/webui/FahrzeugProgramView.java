@@ -28,7 +28,9 @@ import com.vaadin.flow.component.progressbar.ProgressBar;
 import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.component.textfield.TextArea;
+import com.vaadin.flow.component.textfield.TextAreaVariant;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.component.textfield.TextFieldVariant;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.PageTitle;
@@ -99,8 +101,7 @@ public class FahrzeugProgramView extends VerticalLayout implements BeforeEnterOb
 
   @PostConstruct
   void init() {
-    setSizeFull();
-    getStyle().set("overflow", "auto");
+    setWidthFull();
 
     this.fahrzeug = getRefreshedFahrzeug();
     if (this.fahrzeug == null) {
@@ -145,7 +146,7 @@ public class FahrzeugProgramView extends VerticalLayout implements BeforeEnterOb
 
   private HorizontalLayout buildHeader() {
     Span betriebsnummer = new Span(this.fahrzeug.getBetriebsnummer());
-    betriebsnummer.getStyle().set("font-size", "1.75rem").set("font-weight", "bold");
+    betriebsnummer.getStyle().set("font-size", "1.75rem").set("font-weight", "bold").set("white-space", "nowrap");
 
     Image image = new Image("/" + getImage(this.fahrzeug), this.fahrzeug.getBetriebsnummer());
     image.getStyle().set("max-height", "50px").set("margin", "0 1rem");
@@ -184,6 +185,7 @@ public class FahrzeugProgramView extends VerticalLayout implements BeforeEnterOb
 
     HorizontalLayout left = new HorizontalLayout(betriebsnummer, image, decoderNameField, systemTypField, adresseField, this.adrInfoField);
     left.setAlignItems(FlexComponent.Alignment.CENTER);
+    left.setWrap(true);
 
     Button saveButton = new Button("Speichern", event -> save());
     saveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
@@ -194,6 +196,7 @@ public class FahrzeugProgramView extends VerticalLayout implements BeforeEnterOb
 
     HorizontalLayout header = new HorizontalLayout(left, right);
     header.setWidthFull();
+    header.setWrap(true);
     header.setAlignItems(FlexComponent.Alignment.CENTER);
     header.setJustifyContentMode(FlexComponent.JustifyContentMode.BETWEEN);
 
@@ -224,7 +227,7 @@ public class FahrzeugProgramView extends VerticalLayout implements BeforeEnterOb
     addButton.addThemeVariants(ButtonVariant.LUMO_SMALL);
     removeColumn.setHeader(addButton);
 
-    this.nrColumn = this.grid.addComponentColumn(this::buildNrField).setFlexGrow(0).setWidth("90px");
+    this.nrColumn = this.grid.addComponentColumn(this::buildNrField).setFlexGrow(0).setWidth("80px");
 
     this.grid.addComponentColumn(this::buildBeschreibungField).setFlexGrow(1);
 
@@ -256,6 +259,7 @@ public class FahrzeugProgramView extends VerticalLayout implements BeforeEnterOb
 
   private IntegerField buildNrField(FahrzeugKonfiguration konfiguration) {
     IntegerField field = new IntegerField();
+    field.addThemeVariants(TextFieldVariant.LUMO_SMALL);
     field.setWidthFull();
     field.setMin(1);
     field.setValue(konfiguration.getNr());
@@ -273,6 +277,8 @@ public class FahrzeugProgramView extends VerticalLayout implements BeforeEnterOb
 
   private TextArea buildBeschreibungField(FahrzeugKonfiguration konfiguration) {
     TextArea field = new TextArea();
+    field.addThemeVariants(TextAreaVariant.LUMO_SMALL);
+    field.setMinRows(1);
     field.setWidthFull();
     field.setValue(konfiguration.getBeschreibung() == null ? "" : konfiguration.getBeschreibung());
     field.addValueChangeListener(event -> {
@@ -289,6 +295,7 @@ public class FahrzeugProgramView extends VerticalLayout implements BeforeEnterOb
 
   private IntegerField buildSollField(FahrzeugKonfiguration konfiguration) {
     IntegerField field = new IntegerField();
+    field.addThemeVariants(TextFieldVariant.LUMO_SMALL);
     field.setWidthFull();
     field.setValue(konfiguration.getSoll());
     field.addValueChangeListener(event -> {
@@ -306,6 +313,7 @@ public class FahrzeugProgramView extends VerticalLayout implements BeforeEnterOb
 
   private IntegerField buildIstField(FahrzeugKonfiguration konfiguration) {
     IntegerField field = new IntegerField();
+    field.addThemeVariants(TextFieldVariant.LUMO_SMALL);
     field.setWidthFull();
     field.setReadOnly(true);
     field.setValue(konfiguration.getIst());
