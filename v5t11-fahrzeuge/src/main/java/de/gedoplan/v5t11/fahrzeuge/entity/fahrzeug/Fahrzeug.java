@@ -143,7 +143,7 @@ public class Fahrzeug extends SingleIdEntity<String> {
 
   /**
    * Position auf dem Gleis.
-   * Gemessen in mm vom Beginn (in Zählrichtung).
+   * Gemessen in mm vom Beginn des Gleises (in Zählrichtung) zur Mitte des Fahrzeugs.
    */
   @Getter
   @Setter
