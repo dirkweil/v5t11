@@ -87,6 +87,23 @@ public class Fahrzeug extends SingleIdEntity<String> {
   private Fahrzeug zugFahrzeug;
 
   /**
+   * Ausrichtung des Fahrzeugs im Zug (auch für das Zugfahrzeug selbst).
+   * <p>
+   * Bezugsrichtung ist die Zugrichtung, d. h. die Richtung vom Ende der Kette gezogener Fahrzeuge zum Zugfahrzeug.
+   * <code>true</code> bedeutet, dass die Vorwärtsrichtung des Fahrzeugs entgegen dieser Zugrichtung zeigt.
+   * <p>
+   * Der Standard (alle <code>false</code>) beschreibt ein Zugfahrzeug vorn mit hinten angekuppelten, gleich
+   * ausgerichteten Fahrzeugen. Sind die gezogenen Fahrzeuge vorne am Zugfahrzeug angekuppelt, ist das Flag des
+   * Zugfahrzeugs <code>true</code>.
+   */
+  @Getter
+  @Setter
+  @XmlTransient
+  @JsonbTransient
+  @Column(name = "ZUG_GEGENLAEUFIG")
+  private boolean zugGegenlaeufig;
+
+  /**
    * Typ des Fahrzeugs (Lok, Wagen, ...).
    */
   @Setter

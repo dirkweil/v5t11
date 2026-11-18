@@ -7,9 +7,7 @@ import de.gedoplan.v5t11.util.cdi.Changed;
 import de.gedoplan.v5t11.util.domain.attribute.DecoderAdr;
 
 import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 import java.util.Map;
-import java.util.Set;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Observes;
@@ -20,12 +18,12 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logging.Logger;
 
 /**
- * Synchronisation der Decoderattribute aktiv, rueckwaerts und licht innerhalb eines Zuges.
+ * Synchronisation der Decoderattribute aktiv, rueckwaerts und licht vom Zugfahrzeug zu den gezogenen Fahrzeugen.
  * <p>
- * Ändert sich der Status eines Fahrzeugs (egal ob durch eine Aktion in diesem Service oder durch eine eingehende
- * Meldung), werden die Decoder der anderen Fahrzeuge des Zuges mit abweichender Adresse über v5t11-status
- * nachgezogen. Die Rückmeldung kommt wieder als Meldung zurück; die Synchronisation endet, sobald keine Abweichung
- * mehr besteht.
+ * Ändert sich der Status eines Zugfahrzeugs (egal ob durch eine Aktion in diesem Service oder durch eine eingehende
+ * Meldung), werden die Decoder der gezogenen Fahrzeuge mit abweichender Adresse über v5t11-status nachgezogen.
+ * Änderungen gezogener Fahrzeuge werden nicht weitergegeben. Rückwärts wird anhand von
+ * {@link Fahrzeug#isZugGegenlaeufig()} umgerechnet.
  */
 @ApplicationScoped
 public class ZugSynchronisationService {
@@ -48,31 +46,31 @@ public class ZugSynchronisationService {
       return;
     }
 
-    Fahrzeug zugFahrzeug = fahrzeug.getZugFahrzeug() != null ? fahrzeug.getZugFahrzeug() : fahrzeug;
-
-    Set<Fahrzeug> zug = new LinkedHashSet<>();
-    zug.add(zugFahrzeug);
-    zug.addAll(zugFahrzeug.getGezogeneFahrzeuge());
-    if (zug.size() < 2) {
+    // Synchronisation nur vom Zugfahrzeug zu den gezogenen Fahrzeugen. Änderungen an gezogenen Fahrzeugen werden
+    // nicht weitergegeben; so kann es keine Rückkopplung geben (auch nicht bei gleicher Decoderadresse mehrerer
+    // gezogener Fahrzeuge mit unterschiedlicher Ausrichtung).
+    if (fahrzeug.getZugFahrzeug() != null || fahrzeug.getGezogeneFahrzeuge().isEmpty()) {
       return;
     }
 
-    // Decoder mit gleicher Adresse zählen als einer: pro Adresse nur ein Aufruf
-    Map<DecoderAdr, Fahrzeugdecoder> targets = new LinkedHashMap<>();
-    for (Fahrzeug member : zug) {
+    // Decoder mit gleicher Adresse zählen als einer: pro Adresse nur ein Aufruf. Maßgeblich ist das letzte Fahrzeug
+    // des Zuges mit dieser Adresse (bei inkonsistenter Ausrichtung soll "rückwärts" zu diesem passen).
+    Map<DecoderAdr, Fahrzeug> targets = new LinkedHashMap<>();
+    for (Fahrzeug member : fahrzeug.getGezogeneFahrzeuge()) {
       Fahrzeugdecoder decoder = member.getFahrzeugdecoder();
       if (decoder == null || decoder.getDecoderAdr() == null || decoder.getDecoderAdr().equals(sourceAdr)) {
         continue;
       }
-      if (differs(decoder, source)) {
-        targets.putIfAbsent(decoder.getDecoderAdr(), decoder);
-      }
+      targets.put(decoder.getDecoderAdr(), member);
     }
+    targets.values().removeIf(member -> !differs(member, fahrzeug));
 
-    targets.forEach((adr, decoder) -> {
+    targets.forEach((adr, member) -> {
+      Fahrzeugdecoder decoder = member.getFahrzeugdecoder();
       Boolean aktiv = decoder.isAktiv() != source.isAktiv() ? source.isAktiv() : null;
       Boolean licht = decoder.isLicht() != source.isLicht() ? source.isLicht() : null;
-      Boolean rueckwaerts = decoder.isRueckwaerts() != source.isRueckwaerts() ? source.isRueckwaerts() : null;
+      boolean sollRueckwaerts = sollRueckwaerts(member, fahrzeug);
+      Boolean rueckwaerts = decoder.isRueckwaerts() != sollRueckwaerts ? sollRueckwaerts : null;
       try {
         this.statusGateway.changeFahrzeugdecoder(adr, aktiv, null, null, licht, rueckwaerts);
       } catch (Exception e) {
@@ -81,7 +79,18 @@ public class ZugSynchronisationService {
     });
   }
 
-  private static boolean differs(Fahrzeugdecoder a, Fahrzeugdecoder b) {
-    return a.isAktiv() != b.isAktiv() || a.isLicht() != b.isLicht() || a.isRueckwaerts() != b.isRueckwaerts();
+  /**
+   * Sollwert für "rückwärts" des Zielfahrzeugs: Quellwert, ggf. invertiert, wenn Quelle und Ziel im Zug
+   * unterschiedlich ausgerichtet sind.
+   */
+  private static boolean sollRueckwaerts(Fahrzeug target, Fahrzeug source) {
+    boolean gegenlaeufig = target.isZugGegenlaeufig() != source.isZugGegenlaeufig();
+    return source.getFahrzeugdecoder().isRueckwaerts() != gegenlaeufig;
+  }
+
+  private static boolean differs(Fahrzeug target, Fahrzeug source) {
+    Fahrzeugdecoder a = target.getFahrzeugdecoder();
+    Fahrzeugdecoder b = source.getFahrzeugdecoder();
+    return a.isAktiv() != b.isAktiv() || a.isLicht() != b.isLicht() || a.isRueckwaerts() != sollRueckwaerts(target, source);
   }
 }

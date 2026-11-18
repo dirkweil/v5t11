@@ -8,6 +8,7 @@ import de.gedoplan.v5t11.vaadincommon.ui.MainLayout;
 import com.flowingcode.vaadin.addons.twincolgrid.TwinColGrid;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.grid.GridMultiSelectionModel;
 import com.vaadin.flow.component.grid.GridMultiSelectionModel.SelectAllCheckboxVisibility;
 import com.vaadin.flow.component.html.Image;
@@ -29,8 +30,10 @@ import jakarta.validation.Validator;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -59,6 +62,9 @@ public class FahrzeugTraktionView extends VerticalLayout implements BeforeEnterO
 
   private Fahrzeug fahrzeug;
   private TwinColGrid<Fahrzeug> twinColGrid;
+  private Checkbox zugfahrzeugGegenlaeufigField;
+  // Bearbeitungszustand des Flags je gezogenem Fahrzeug (erst beim Speichern in die Entity übernommen)
+  private final Map<Fahrzeug, Boolean> gegenlaeufig = new HashMap<>();
 
   @PostConstruct
   void init() {
@@ -70,7 +76,7 @@ public class FahrzeugTraktionView extends VerticalLayout implements BeforeEnterO
       return;
     }
 
-    add(buildHeader(), buildTwinColGrid());
+    add(buildHeader(), buildZugfahrzeugGegenlaeufig(), buildTwinColGrid());
     setFlexGrow(1, this.twinColGrid);
   }
 
@@ -128,6 +134,11 @@ public class FahrzeugTraktionView extends VerticalLayout implements BeforeEnterO
 
   // ---------- Zugbildung ----------
 
+  private Checkbox buildZugfahrzeugGegenlaeufig() {
+    this.zugfahrzeugGegenlaeufigField = new Checkbox("Zugfahrzeug gegenläufig im Zug", this.fahrzeug.isZugGegenlaeufig());
+    return this.zugfahrzeugGegenlaeufigField;
+  }
+
   private TwinColGrid<Fahrzeug> buildTwinColGrid() {
     List<Fahrzeug> candidates = new ArrayList<>(this.fahrzeugRepository.findOhneZugFahrzeugSortedByBetriebsnummer());
     candidates.removeIf(f -> f.getId().equals(this.fahrzeug.getId()));
@@ -142,6 +153,11 @@ public class FahrzeugTraktionView extends VerticalLayout implements BeforeEnterO
     this.twinColGrid.setSelectionGridReorderingAllowed(true);
     this.twinColGrid.withDragAndDropSupport();
     this.twinColGrid.setSizeFull();
+    this.twinColGrid.getSelectionGrid().addComponentColumn(f -> {
+      Checkbox checkbox = new Checkbox(this.gegenlaeufig.computeIfAbsent(f, Fahrzeug::isZugGegenlaeufig));
+      checkbox.addValueChangeListener(e -> this.gegenlaeufig.put(f, e.getValue()));
+      return checkbox;
+    }).setHeader("gegenläufig").setFlexGrow(0).setAutoWidth(true);
     this.twinColGrid.forEachGrid(grid -> {
       grid.setSizeFull();
       if (grid.getSelectionModel() instanceof GridMultiSelectionModel<Fahrzeug> multiSelectionModel) {
@@ -155,7 +171,19 @@ public class FahrzeugTraktionView extends VerticalLayout implements BeforeEnterO
   // ---------- Speichern ----------
 
   private void saveFahrzeug() {
-    this.fahrzeug.setGezogeneFahrzeuge(new ArrayList<>(this.twinColGrid.getValue()));
+    Set<Fahrzeug> neu = this.twinColGrid.getValue();
+
+    // Aus dem Zug entfernte Fahrzeuge: Ausrichtung zurücksetzen
+    List<Fahrzeug> entfernte = this.fahrzeug.getGezogeneFahrzeuge().stream()
+      .filter(f -> !neu.contains(f))
+      .toList();
+    entfernte.forEach(f -> f.setZugGegenlaeufig(false));
+
+    this.fahrzeug.setZugGegenlaeufig(!neu.isEmpty() && this.zugfahrzeugGegenlaeufigField.getValue());
+    for (Fahrzeug f : neu) {
+      f.setZugGegenlaeufig(this.gegenlaeufig.getOrDefault(f, f.isZugGegenlaeufig()));
+    }
+    this.fahrzeug.setGezogeneFahrzeuge(new ArrayList<>(neu));
 
     Set<ConstraintViolation<Fahrzeug>> violations = this.validator.validate(this.fahrzeug);
     if (!violations.isEmpty()) {
@@ -164,6 +192,9 @@ public class FahrzeugTraktionView extends VerticalLayout implements BeforeEnterO
       return;
     }
 
+    // Die Relation gezogeneFahrzeuge kaskadiert nicht: geänderte gezogene und entfernte Fahrzeuge einzeln speichern
+    entfernte.forEach(this.fahrzeugRepository::merge);
+    neu.forEach(this.fahrzeugRepository::merge);
     this.fahrzeug = this.fahrzeugRepository.merge(this.fahrzeug);
     this.currentFahrzeugHolder.setCurrentFahrzeug(this.fahrzeug);
 
