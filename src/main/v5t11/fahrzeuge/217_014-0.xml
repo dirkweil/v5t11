@@ -2,7 +2,8 @@
 <fahrzeug>
     <betriebsnummer>217 014-0</betriebsnummer>
     <fahrzeugTyp>LOK</fahrzeugTyp>
-    <laenge>0</laenge>
+    <beschreibung>Diesel-Lok für Personen- und Güterzüge, 1965-2011, 140 km/h</beschreibung>
+    <laenge>102</laenge>
     <fahrzeugdecoder>
         <decoderName>DH14B+Sound</decoderName>
         <decoderAdr>2217@SX2</decoderAdr>

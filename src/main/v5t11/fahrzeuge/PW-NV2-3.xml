@@ -3,7 +3,7 @@
     <betriebsnummer>PW-NV2-3</betriebsnummer>
     <fahrzeugTyp>WAGEN</fahrzeugTyp>
     <beschreibung>Nahverkehrswagen (Silberling), Steuerwagen mit beige-blauer Front, Wagen 3 des 3-teiligen NV2</beschreibung>
-    <laenge>0</laenge>
+    <laenge>165</laenge>
     <fahrzeugdecoder>
         <decoderName>ESU50708</decoderName>
         <decoderAdr>4300@DCC</decoderAdr>

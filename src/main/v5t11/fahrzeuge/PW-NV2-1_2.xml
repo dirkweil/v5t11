@@ -3,7 +3,7 @@
     <betriebsnummer>PW-NV2-1+2</betriebsnummer>
     <fahrzeugTyp>WAGEN</fahrzeugTyp>
     <beschreibung>Nahverkehrswagen (Silberlinge), Wagen 1 und 2 des 3-teiligen NV2</beschreibung>
-    <laenge>0</laenge>
+    <laenge>165</laenge>
     <fahrzeugdecoder>
         <decoderName>ESU50708</decoderName>
         <decoderAdr>4300@DCC</decoderAdr>

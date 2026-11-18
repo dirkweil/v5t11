@@ -3,7 +3,7 @@
     <betriebsnummer>PW-NV1-3</betriebsnummer>
     <fahrzeugTyp>WAGEN</fahrzeugTyp>
     <beschreibung>Nahverkehrswagen 96379 (Silberling, Steuerwagen), Wagen 3 des 3-teiligen NV1</beschreibung>
-    <laenge>0</laenge>
+    <laenge>165</laenge>
     <fahrzeugdecoder>
         <decoderName>ESU50708</decoderName>
         <decoderAdr>4200@DCC</decoderAdr>
