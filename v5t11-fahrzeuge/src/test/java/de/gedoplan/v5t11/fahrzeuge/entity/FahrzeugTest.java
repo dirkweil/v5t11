@@ -51,6 +51,7 @@ public class FahrzeugTest {
         <betriebsnummer>112 491-6</betriebsnummer>
         <fahrzeugTyp>LOK</fahrzeugTyp>
         <beschreibung>Schnellzuglok</beschreibung>
+        <laenge>0</laenge>
         <fahrzeugdecoder>
             <decoderName>Zimo 646</decoderName>
             <decoderAdr>1112@DCC</decoderAdr>
@@ -75,6 +76,7 @@ public class FahrzeugTest {
                 <beschreibung>Niederwertiger Teil der langen Adresse</beschreibung>
             </konfiguration>
         </fahrzeugdecoder>
+        <geschwindigkeit/>
     </fahrzeug>
     """;
 
