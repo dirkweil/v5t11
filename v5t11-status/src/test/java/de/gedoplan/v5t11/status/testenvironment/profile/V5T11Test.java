@@ -27,10 +27,20 @@ public class V5T11Test implements QuarkusTestProfile {
 
   public static final String TEST_CONFIG_FILE = "testConfig/v5t11.properties";
 
+  /**
+   * Konstruktor.
+   * <p>
+   * Setzt das System-Property {@link ConfigBase#PROPERTY_CONFIG_DIR} auf den Test-Config-Ordner.
+   * Dies muss bereits im Konstruktor geschehen, da @{link V5t11ConfigSource} für das Config-Verzeichnis
+   * nur System-Properties oder Environment-Variablen liest.
+   */
+  public V5T11Test() {
+    System.setProperty(ConfigBase.PROPERTY_CONFIG_DIR, getTestConfigDirName());
+  }
+
   @Override
   public Map<String, String> getConfigOverrides() {
     return Map.of(
-      ConfigBase.PROPERTY_CONFIG_DIR, getTestConfigDirName(),
       "quarkus.datasource.db-kind", "h2",
       "quarkus.kafka.devservices.enabled", "false",
       "quarkus.log.category.\"de.gedoplan.v5t11.status.entity.fahrweg.Gleis\".level", "ERROR");
